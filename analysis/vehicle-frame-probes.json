@@ -1,0 +1,1127 @@
+{
+  "method": "Synthetic batches of up to three vehicles above sampled covered cells: upright stationary, quarter-turn X with airborne spin, and quarter-turn Z. Recovered geometry, drive tables and wheel coefficients; explicit registered cells, route index0, default progression context, controls and special timers. Full reconstructed wheel/post-wheel stage order followed by body derivative refresh. Destruction, emission, particles and transition event explicitly inert; traction callback models its effects-disabled cache write. No pose integration, collision response, observed runtime registrations or race equivalence.",
+  "summary": {
+    "resources": 80,
+    "batches": 1220,
+    "vehicles": 3636,
+    "contacts": 7232,
+    "rest": 20,
+    "airSpin": 148,
+    "orientation": 196,
+    "special": 2428,
+    "events": 1220,
+    "emissions": 1391,
+    "particleCalls": 3636,
+    "nativeBasisChecks": 122,
+    "instructionSteps": 18234,
+    "failures": []
+  },
+  "resources": [
+    {
+      "resource": 30,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 30
+    },
+    {
+      "resource": 32,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 4,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 34,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 26
+    },
+    {
+      "resource": 36,
+      "batches": 13,
+      "vehicles": 35,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 24
+    },
+    {
+      "resource": 38,
+      "batches": 39,
+      "vehicles": 117,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 7,
+      "special": 78
+    },
+    {
+      "resource": 40,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 42,
+      "batches": 25,
+      "vehicles": 75,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 50
+    },
+    {
+      "resource": 44,
+      "batches": 20,
+      "vehicles": 60,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 6,
+      "special": 40
+    },
+    {
+      "resource": 46,
+      "batches": 35,
+      "vehicles": 105,
+      "rest": 2,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 70
+    },
+    {
+      "resource": 48,
+      "batches": 28,
+      "vehicles": 82,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 55
+    },
+    {
+      "resource": 50,
+      "batches": 17,
+      "vehicles": 51,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 34
+    },
+    {
+      "resource": 52,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 1,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 30
+    },
+    {
+      "resource": 54,
+      "batches": 23,
+      "vehicles": 69,
+      "rest": 2,
+      "airSpin": 3,
+      "orientation": 4,
+      "special": 46
+    },
+    {
+      "resource": 56,
+      "batches": 10,
+      "vehicles": 30,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 20
+    },
+    {
+      "resource": 58,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 60,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 62,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 4,
+      "special": 4
+    },
+    {
+      "resource": 64,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 4
+    },
+    {
+      "resource": 66,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 68,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 26
+    },
+    {
+      "resource": 70,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 30
+    },
+    {
+      "resource": 72,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 4,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 74,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 26
+    },
+    {
+      "resource": 76,
+      "batches": 13,
+      "vehicles": 35,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 24
+    },
+    {
+      "resource": 78,
+      "batches": 39,
+      "vehicles": 117,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 7,
+      "special": 78
+    },
+    {
+      "resource": 80,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 82,
+      "batches": 25,
+      "vehicles": 75,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 50
+    },
+    {
+      "resource": 84,
+      "batches": 20,
+      "vehicles": 60,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 6,
+      "special": 40
+    },
+    {
+      "resource": 86,
+      "batches": 35,
+      "vehicles": 105,
+      "rest": 2,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 70
+    },
+    {
+      "resource": 88,
+      "batches": 28,
+      "vehicles": 82,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 55
+    },
+    {
+      "resource": 90,
+      "batches": 17,
+      "vehicles": 51,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 34
+    },
+    {
+      "resource": 92,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 1,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 30
+    },
+    {
+      "resource": 94,
+      "batches": 23,
+      "vehicles": 69,
+      "rest": 2,
+      "airSpin": 3,
+      "orientation": 4,
+      "special": 46
+    },
+    {
+      "resource": 96,
+      "batches": 10,
+      "vehicles": 30,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 20
+    },
+    {
+      "resource": 98,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 100,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 102,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 4,
+      "special": 4
+    },
+    {
+      "resource": 104,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 4
+    },
+    {
+      "resource": 106,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 108,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 26
+    },
+    {
+      "resource": 110,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 30
+    },
+    {
+      "resource": 112,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 4,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 114,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 26
+    },
+    {
+      "resource": 116,
+      "batches": 13,
+      "vehicles": 35,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 24
+    },
+    {
+      "resource": 118,
+      "batches": 39,
+      "vehicles": 117,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 7,
+      "special": 78
+    },
+    {
+      "resource": 120,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 122,
+      "batches": 25,
+      "vehicles": 75,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 50
+    },
+    {
+      "resource": 124,
+      "batches": 20,
+      "vehicles": 60,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 6,
+      "special": 40
+    },
+    {
+      "resource": 126,
+      "batches": 35,
+      "vehicles": 105,
+      "rest": 2,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 70
+    },
+    {
+      "resource": 128,
+      "batches": 28,
+      "vehicles": 82,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 55
+    },
+    {
+      "resource": 130,
+      "batches": 17,
+      "vehicles": 51,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 34
+    },
+    {
+      "resource": 132,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 1,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 30
+    },
+    {
+      "resource": 134,
+      "batches": 23,
+      "vehicles": 69,
+      "rest": 2,
+      "airSpin": 3,
+      "orientation": 4,
+      "special": 46
+    },
+    {
+      "resource": 136,
+      "batches": 10,
+      "vehicles": 30,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 20
+    },
+    {
+      "resource": 138,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 140,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 142,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 4,
+      "special": 4
+    },
+    {
+      "resource": 144,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 4
+    },
+    {
+      "resource": 146,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 148,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 26
+    },
+    {
+      "resource": 150,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 30
+    },
+    {
+      "resource": 152,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 4,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 154,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 26
+    },
+    {
+      "resource": 156,
+      "batches": 13,
+      "vehicles": 35,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 24
+    },
+    {
+      "resource": 158,
+      "batches": 39,
+      "vehicles": 117,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 7,
+      "special": 78
+    },
+    {
+      "resource": 160,
+      "batches": 16,
+      "vehicles": 48,
+      "rest": 0,
+      "airSpin": 5,
+      "orientation": 5,
+      "special": 32
+    },
+    {
+      "resource": 162,
+      "batches": 25,
+      "vehicles": 75,
+      "rest": 0,
+      "airSpin": 3,
+      "orientation": 3,
+      "special": 50
+    },
+    {
+      "resource": 164,
+      "batches": 20,
+      "vehicles": 60,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 6,
+      "special": 40
+    },
+    {
+      "resource": 166,
+      "batches": 35,
+      "vehicles": 105,
+      "rest": 2,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 70
+    },
+    {
+      "resource": 168,
+      "batches": 28,
+      "vehicles": 82,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 55
+    },
+    {
+      "resource": 170,
+      "batches": 17,
+      "vehicles": 51,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 34
+    },
+    {
+      "resource": 172,
+      "batches": 15,
+      "vehicles": 45,
+      "rest": 1,
+      "airSpin": 1,
+      "orientation": 2,
+      "special": 30
+    },
+    {
+      "resource": 174,
+      "batches": 23,
+      "vehicles": 69,
+      "rest": 2,
+      "airSpin": 3,
+      "orientation": 4,
+      "special": 46
+    },
+    {
+      "resource": 176,
+      "batches": 10,
+      "vehicles": 30,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 2,
+      "special": 20
+    },
+    {
+      "resource": 178,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 180,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 182,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 2,
+      "orientation": 4,
+      "special": 4
+    },
+    {
+      "resource": 184,
+      "batches": 2,
+      "vehicles": 6,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 4
+    },
+    {
+      "resource": 186,
+      "batches": 1,
+      "vehicles": 3,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 2
+    },
+    {
+      "resource": 188,
+      "batches": 13,
+      "vehicles": 39,
+      "rest": 0,
+      "airSpin": 0,
+      "orientation": 0,
+      "special": 26
+    }
+  ],
+  "samples": [
+    {
+      "resource": 30,
+      "sector": 1,
+      "vehicles": [
+        {
+          "registeredCellRef": 1025,
+          "momentum": [
+            0,
+            0,
+            0
+          ],
+          "angularMomentum": [
+            0,
+            0,
+            0
+          ],
+          "torque": [
+            4128768,
+            0,
+            -589824
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            0
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 1,
+          "specialTimer": 22,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 1049601,
+          "momentum": [
+            0,
+            0,
+            896994
+          ],
+          "angularMomentum": [
+            -650572,
+            6451081,
+            0
+          ],
+          "torque": [
+            4108288,
+            0,
+            1531904
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            896994
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 0,
+          "specialTimer": 0,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 2036993,
+          "momentum": [
+            80000,
+            -2,
+            982123
+          ],
+          "angularMomentum": [
+            31,
+            2560000,
+            157
+          ],
+          "torque": [
+            0,
+            0,
+            0
+          ],
+          "linearVelocity": [
+            80000,
+            -2,
+            982123
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 0,
+          "specialTimer": 40,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": false
+        }
+      ]
+    },
+    {
+      "resource": 30,
+      "sector": 2,
+      "vehicles": [
+        {
+          "registeredCellRef": 1026,
+          "momentum": [
+            0,
+            0,
+            0
+          ],
+          "angularMomentum": [
+            0,
+            0,
+            0
+          ],
+          "torque": [
+            1900544,
+            0,
+            3670016
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            0
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 1,
+          "specialTimer": 22,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 1312770,
+          "momentum": [
+            0,
+            0,
+            917504
+          ],
+          "angularMomentum": [
+            -28672,
+            6728274,
+            0
+          ],
+          "torque": [
+            0,
+            -4456448,
+            0
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            917504
+          ],
+          "airSpinCounter": 30,
+          "specialMode": 0,
+          "specialTimer": 0,
+          "rest": false,
+          "airSpin": true,
+          "orientation": true,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 2562306,
+          "momentum": [
+            120000,
+            -11565,
+            948898
+          ],
+          "angularMomentum": [
+            -222609,
+            1280000,
+            -1079530
+          ],
+          "torque": [
+            0,
+            0,
+            0
+          ],
+          "linearVelocity": [
+            120000,
+            -11565,
+            948898
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 0,
+          "specialTimer": 40,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": false
+        }
+      ]
+    },
+    {
+      "resource": 30,
+      "sector": 3,
+      "vehicles": [
+        {
+          "registeredCellRef": 1027,
+          "momentum": [
+            0,
+            0,
+            0
+          ],
+          "angularMomentum": [
+            0,
+            0,
+            0
+          ],
+          "torque": [
+            -2686976,
+            0,
+            3211264
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            0
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 1,
+          "specialTimer": 22,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 1836035,
+          "momentum": [
+            0,
+            0,
+            882445
+          ],
+          "angularMomentum": [
+            -1120035,
+            7945030,
+            0
+          ],
+          "torque": [
+            4394816,
+            0,
+            -68669
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            882445
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 0,
+          "specialTimer": 0,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 3609859,
+          "momentum": [
+            57438,
+            -1,
+            982126
+          ],
+          "angularMomentum": [
+            -445280,
+            -584320,
+            -1550376
+          ],
+          "torque": [
+            0,
+            0,
+            0
+          ],
+          "linearVelocity": [
+            57438,
+            -1,
+            982126
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 0,
+          "specialTimer": 40,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": false
+        }
+      ]
+    },
+    {
+      "resource": 30,
+      "sector": 4,
+      "vehicles": [
+        {
+          "registeredCellRef": 1028,
+          "momentum": [
+            0,
+            0,
+            0
+          ],
+          "angularMomentum": [
+            0,
+            0,
+            0
+          ],
+          "torque": [
+            -4194304,
+            0,
+            524288
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            0
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 1,
+          "specialTimer": 22,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 465412,
+          "momentum": [
+            0,
+            0,
+            917504
+          ],
+          "angularMomentum": [
+            -28672,
+            6728274,
+            0
+          ],
+          "torque": [
+            0,
+            -4456448,
+            0
+          ],
+          "linearVelocity": [
+            0,
+            0,
+            917504
+          ],
+          "airSpinCounter": 30,
+          "specialMode": 0,
+          "specialTimer": 0,
+          "rest": false,
+          "airSpin": true,
+          "orientation": true,
+          "specialApplied": true
+        },
+        {
+          "registeredCellRef": 992004,
+          "momentum": [
+            80000,
+            -1,
+            1013324
+          ],
+          "angularMomentum": [
+            -236452,
+            0,
+            -2159374
+          ],
+          "torque": [
+            0,
+            0,
+            0
+          ],
+          "linearVelocity": [
+            80000,
+            -1,
+            1013324
+          ],
+          "airSpinCounter": 0,
+          "specialMode": 0,
+          "specialTimer": 40,
+          "rest": false,
+          "airSpin": false,
+          "orientation": false,
+          "specialApplied": false
+        }
+      ]
+    }
+  ]
+}

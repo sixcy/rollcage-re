@@ -1,6 +1,6 @@
 # Recovered wheel arithmetic
 
-This stage extends the shared body arithmetic with wheel probes, hit-result conversion, suspension impulses, slip correction and wheel spin. It applies to the selected Redux 1.3.8.0 executable. Descriptive names are inferred from static code. The native terrain/model query and its candidate lists are retained as evidence but are not yet ported, so the reconstructed contact pipeline requires a supplied hit result. It is not a complete drivable vehicle simulation.
+This stage extends the shared body arithmetic with wheel probes, hit-result conversion, suspension impulses, slip correction and wheel spin. It applies to the selected Redux 1.3.8.0 executable. Descriptive names are inferred from static code. Terrain/model queries and candidate acceptance are now connected using recovered vehicle geometry; see [connected contacts](vehicle-contacts.md). Complete vehicle frame scheduling and response remain open.
 
 `src/wheel-physics.mjs` contains the reference implementation. `src/fixed-integer.mjs` now also contains the native overflow-aware vector length and signed-short matrix transform. Source units and fixed-point scales are preserved; physical unit conversions have not been established.
 
@@ -34,7 +34,7 @@ The ray origin is `(bodyPosition + leverArm) >> 8`. Probe direction is the trans
 
 Four added fixtures cover first-side success, successful retry, partial contact and two failed attempts, including flag and stale-cache behavior. Installed-data probes check 364 synthetic bodies with alternating remembered sides: 246 contact the first side, 79 succeed on retry and 39 miss both, totaling 1,928 additional rays. These side-stage checks are fixtures/corpus probes; the independent x86 comparison currently covers the terrain query and suspension, not this wrapper.
 
-The installed-data probe now supplies `readTerrainSurface` as its metadata resolver. It resolves the cell packet's index into the GFXM `+0x110` sixteen-byte table, retaining category and grip reduction from descriptor `+12`. Across those side attempts, 989 final contact surfaces resolve with bounded references. See `docs/model-collision.md` for layouts and all-active-cell validation. The complete drive-capacity stage and its special-state surface override remain open; resolving a reduction value does not yet reconstruct the full wheel drive update.
+The installed-data probe now supplies `readTerrainSurface` as its metadata resolver. It resolves the cell packet's index into the GFXM `+0x110` sixteen-byte table, retaining category and grip reduction from descriptor `+12`. Across those side attempts, 989 final contact surfaces resolve with bounded references. See `docs/model-collision.md` for layouts and all-active-cell validation. Common capacity preparation and the registered-cell special surface classifier are now ported in `src/wheel-drive.mjs`; see [drive preparation](wheel-drive.md). The complete wheel drive update remains open.
 
 ## Suspension
 
@@ -62,7 +62,7 @@ Complete REA records are under `analysis/scene/results`, with the checkpoint led
 | `0x488d20`, `0x4890a0` | `145-wheel-contact-velocity.json`, `146-wheel-probe-transform.json`, `153-wheel-velocity-assembly.json`: probe/contact-point transforms and velocities. |
 | `0x41c720`, `0x41c870` | `140-wheel-traction.json`, `144-wheel-traction-assembly.json`, `147-wheel-force-application.json`: traction and spin. |
 | `0x41c9c0`, `0x4334b0` | `149-vector-length-q16.json`, `152-vector-length-assembly.json`, `154-vector-matrix-transform.json`: primitive arithmetic. |
-| `0x424ff0`, `0x423ab0` | `150-terrain-contact-query.json`, `151-model-contact-query.json`: terrain and placed-model queries. Terrain's zero-radius path is now ported, with assembly in result `168`; model hits remain open. |
+| `0x424ff0`, `0x423ab0` | `150-terrain-contact-query.json`, `151-model-contact-query.json`: terrain and placed-model queries. Both zero-radius paths are now ported; see `docs/model-queries.md` for model evidence and checks. |
 | `0x4287f0`, `0x4286e0` | `155-contact-candidate-build.json`, `156-spatial-node-select.json`: broad-phase candidate generation and spatial-grid lookup. |
 
 All 36 focused tests pass, including six wheel tests covering buffer bounds, short-coordinate wrapping, angular point velocity, probe scale, suspension clamp/torque/tangent projection, inactive contacts, balanced wheel impulses, grip transitions and spin reversal/time scaling.
@@ -73,4 +73,4 @@ All 36 focused tests pass, including six wheel tests covering buffer bounds, sho
 
 The candidate stage and zero-radius terrain query are connected by `tools/probe-terrain-wheel-contacts.mjs`. Its synthetic placements exercise 14,544 wheel rays on all 80 level packs, including 364 successful comparisons with retained x86 instructions, plus the side-attempt probes described above. Terrain query details and limitations are in `docs/collision-data.md`.
 
-The subsequent model query port adds `queryPlacedModelRay` and `selectWheelHits`, with original yaw, class/tag filtering, model fractions and shared-buffer selector behavior; see `docs/model-queries.md`. The queries still take supplied model candidate lists, and breakable hits require a state/effect handler. Connect per-frame model candidate generation and actual vehicle configuration next, then drive capacity and frame/event orchestration. The full suite now has 85 passing tests.
+The subsequent model query port adds `queryPlacedModelRay` and `selectWheelHits`, with original yaw, class/tag filtering, model fractions and shared-buffer selector behavior; see `docs/model-queries.md`. `src/vehicle-contacts.mjs` supplies candidates and the original wheel layout/radius, connects both queries to side preparation and resolves surface metadata. Its installed-data probe covers 7,188 synthetic body states and 1,044 model contacts across all 80 levels; breakable effects remain explicitly inert. [The connected wheel path](wheel-frame.md) adds steering preparation, the drive caller with explicit effect hooks and traction-force application. [The vehicle frame stage](vehicle-frame.md) adds post-wheel assists and derivative refresh. Collision response and complete race/event orchestration remain open. The suite has 112 passing tests.

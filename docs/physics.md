@@ -2,7 +2,7 @@
 
 This is a JavaScript reference reconstruction of shared rigid-body arithmetic in Rollcage Redux.exe 1.3.8.0, SHA-256 `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`. Source declarations and descriptive names are inferred. Evidence is static Ghidra output and original PE bytes; the original game has not been executed for comparison.
 
-`src/fixed-integer.mjs` implements the recovered signed fixed-point operations. `src/body-physics.mjs` implements initial body configuration, force application, derived velocity/inertia state and fractional-frame position/orientation advancement. This is shared arithmetic used by vehicles and other physical objects. The wheel solver, contact detection, collision event queue, collision response, input, race scheduling and complete vehicle behavior remain to be reconstructed.
+`src/fixed-integer.mjs` implements the recovered signed fixed-point operations. `src/body-physics.mjs` implements initial body configuration, force application, derived velocity/inertia state and fractional-frame position/orientation advancement. This is shared arithmetic used by vehicles and other physical objects. The [connected wheel path](wheel-frame.md) adds contacts, suspension, drive and traction forces. The [event components](collision-events.md) and [response dispatcher](collision-response.md) add native queue ordering, acceptance callbacks, frame clocks, pose wrappers, static/pair/sliding responses and spatial body lists. Complete collision generation, body preparation, input, race scheduling and complete vehicle behavior remain to be reconstructed.
 
 ## State layout
 
@@ -65,6 +65,6 @@ The focused suite has 30 passing tests, including signed rounding/wrapping, nati
 
 ## Remaining simulation work
 
-`0x47ab30` orchestrates vehicle force stages, including `0x41d680`, `0x488910`, `0x488370` and `0x41c080`. Retained results `115` through `119` expose the call chain and some wheel/contact/drive calculations, but those stages are not ported yet. `0x4749e0` manages collision events; `0x474bb0` dispatches collision response rather than being the simple advancement routine its request filename originally suggested.
+`0x47ab30` orchestrates vehicle force stages, including `0x41d680`, `0x488910`, `0x488370` and `0x41c080`. These stages are ported and connected through `src/vehicle-frame.mjs`, including post-wheel assists and physical-body derivative refresh; see [vehicle frame notes](vehicle-frame.md). The queue and event-loop portion of `0x4749e0`, advancement wrappers, full numeric response dispatch and runtime spatial lists are also reconstructed separately. Remaining boundaries include ordinary body preparation `0x47a8e0`, the flag0x2000 scripted-motion interpreter `0x476550`, collision generation, candidate grouping/refresh, contact-cache mapping and object lifecycle/effect implementations.
 
 The constructor stores callback `0x41e080`, but Ghidra does not recognize a containing function there. Result `090` confirms decoded code, and `097` retains the initial bytes. Its observed object-type and relative-motion handling makes it a collision-callback candidate, not an established per-frame update. A later pass must recover its boundary and remaining body before porting it. No native analysis repair or original executable change was made.

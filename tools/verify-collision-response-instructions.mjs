@@ -1,0 +1,24 @@
+import {writeFile} from 'node:fs/promises';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {readInstructionEvidence} from './lib/instruction-evidence.mjs';
+import {collisionPointVelocity,resolveStaticContact,prepareStaticContact,advectCollisionContact} from '../src/collision-response.mjs';
+const {evidence,instructions}=await readInstructionEvidence(['312-static-contact-impulse-assembly.json','313-contact-point-velocity-assembly.json','314-contact-vector-scale-assembly.json','315-contact-inertia-transform-assembly.json','316-contact-quaternion-product-assembly.json','256-wheel-cross-assembly.json','220-wheel-drive-dot-assembly.json','217-wheel-capacity-curve-assembly.json','317-contact-relative-point-assembly.json','318-contact-advect-assembly.json']);
+const machine=new BoundedX86(instructions);let seed=0x447dd0ab,instructionSteps=0,checks=0,applied=0,angularImpulses=0;
+const random=limit=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)%limit;},put=(bytes,p,vector)=>vector.forEach((value,index)=>bytes.writeInt32LE(value,p+index*4));
+function encode(bytes,p,body){for(const [values,offset]of [[body.position,0x34],[body.momentum,0x40],[body.angularMomentum,0x4c],[body.quaternion,0x58],[body.linearVelocity,0x68],[body.quaternionDerivative,0x8c],[body.angularVelocity,0xb8],[body.worldInverseInertia,0xe4]])put(bytes,p+offset,values);bytes.writeInt32LE(body.inverseMass,p+0xac);bytes.writeInt32LE(body.coefficient7c,p+0xb0);bytes[p+0x10c]=body.collisionCount10c;}
+function call(entry,args=[]){machine.entry=entry;machine.r.ECX=0x10000;machine.r.EDX=0x6000;machine.r.ESP=0x9000;machine.bytes.writeUInt32LE(0xffffffff,0x9000);args.forEach((value,index)=>machine.bytes.writeInt32LE(value,0x9004+index*4));instructionSteps+=machine.run();checks++;}
+const fixtures=5000,normals=[[65536,0,0],[-65536,0,0],[0,65536,0],[0,0,-65536],[46340,46340,0],[0,-46340,46340]];
+for(let fixture=0;fixture<fixtures;fixture++) {
+ machine.reset();const bytes=machine.bytes,body={position:[0,1,2].map(()=>random(0xffffffff)|0),momentum:[0,1,2].map(()=>random(0xffffffff)|0),angularMomentum:[0,1,2].map(()=>random(0xffffffff)|0),quaternion:[0,1,2,3].map(()=>random(131073)-65536),linearVelocity:[0,1,2].map(()=>random(8000001)-4000000),quaternionDerivative:[0,1,2,3].map(()=>random(0xffffffff)|0),angularVelocity:[0,1,2].map(()=>random(131073)-65536),worldInverseInertia:[21671,1024,-500,1024,17762,1536,-500,1536,31930],inverseMass:[32768,65536,98304,131072][random(4)],coefficient7c:[0,32768,65536][random(3)],collisionCount10c:[0,1,2,5,127,128,255][random(7)]};
+ const contact={point:[0,1,2].map(()=>random(80*65536)-40*65536),normal:normals[random(normals.length)].slice(),scalar:random(0xffffffff)|0};bytes.fill(0xa5,0x10000,0x10180);encode(bytes,0x10000,body);bytes.fill(0xa5,0x6000,0x6050);put(bytes,0x6020,contact.point);put(bytes,0x602c,contact.normal);bytes.writeInt32LE(contact.scalar,0x603c);
+ const expectedBody=Buffer.from(bytes.subarray(0x10000,0x10180)),expectedContact=Buffer.from(bytes.subarray(0x6000,0x6050));
+ const velocity=collisionPointVelocity(body,contact);call(0x47a4f0,[0x7000]);if(velocity.some((value,index)=>bytes.readInt32LE(0x7000+index*4)!==value))throw Error(`Point velocity differs at ${fixture}.`);
+ const result=resolveStaticContact(body,contact,velocity);call(0x447dd0,[0x7000]);encode(expectedBody,0,body);
+ if(!bytes.subarray(0x10000,0x10180).equals(expectedBody)||!bytes.subarray(0x6000,0x6050).equals(expectedContact))throw Error(`Static response differs at ${fixture}: ${JSON.stringify({result,body,contact})}`);
+ if(result.applied){applied++;if(body.collisionCount10c>1&&body.collisionCount10c<128)angularImpulses++;}
+ // Unit conversion must clear low bytes even for wrapped negative differences.
+ prepareStaticContact(body,contact);call(0x475890);put(expectedContact,0x20,contact.point);expectedContact.writeInt32LE(contact.scalar,0x3c);if(!bytes.subarray(0x6000,0x6050).equals(expectedContact))throw Error('Contact relative conversion differs.');
+ const delta=random(0xffffffff)|0;advectCollisionContact(body,contact,delta);call(0x475290,[delta]);put(expectedContact,0x20,contact.point);if(!bytes.subarray(0x6000,0x6050).equals(expectedContact))throw Error('Contact advection differs.');
+}
+const report={method:'Bounded interpretation of static normal impulse, point velocity, vector/cross/dot/inertia/quaternion math, relative contact conversion and advection. Compares all 384 body bytes and 80 contact bytes on signed and oblique-normal fixtures, signed-byte angular gate and off-diagonal inertia. No helper stubs or original process execution. Does not cover event-class dispatch or body-pair response.',evidence:evidence.map(item=>item.evidence_id),instructions:instructions.length,fixtures,checks,applied,angularImpulses,instructionSteps,matched:true};
+await writeFile('analysis/collision-response-instruction-check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));

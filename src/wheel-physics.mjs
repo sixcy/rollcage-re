@@ -113,8 +113,9 @@ export function advanceWheelSpin(wheel,driveInput,contactDot,{timeScaleActive=fa
  return spin;
 }
 // FUN_0041c720's grip arithmetic; skid sound/particle bookkeeping is excluded.
-export function solveWheelTraction(wheel,slip,capacity,surfaceReduction,driveInput=0,timeOptions={}) {
- const measuredSpeed=vectorLengthQ16(slip),reduction=Math.max(surfaceReduction,0);
+export function solveWheelTraction(wheel,slip,capacity,surfaceReduction,driveInput=0,timeOptions={},onMeasuredSlip) {
+ const measuredSpeed=vectorLengthQ16(slip);onMeasuredSlip?.({wheel,measuredSpeed,surfaceReduction});
+ const reduction=Math.max(surfaceReduction,0);
  const effectiveCapacity=subtract32(capacity,Math.trunc(Math.imul(capacity,reduction)/32));
  let correction,slipSpeed=measuredSpeed,skidding=false;
  if(measuredSpeed<(effectiveCapacity<<3))correction=slip.map(value=>(-Math.trunc(value/8))|0);

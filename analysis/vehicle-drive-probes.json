@@ -1,0 +1,1226 @@
+{
+  "method": "Synthetic forward-moving bodies with recovered wheel layout, variant/special drive tables and mass-derived wheel coefficients. Three declared control/steering profiles and four initial-spin profiles. Direction preparation -> contacts -> suspension -> drive -> traction forces, with candidate and sampled drive instruction comparisons. Surface mode explicitly zero (all serialized vertices classify zero); traction effects use their disabled-context cache write, emission constructors are explicitly inert, and destruction is inert. No body integration, collision response, rest/air assists, original process execution or complete frame equivalence.",
+  "summary": {
+    "resources": 80,
+    "bodies": 7188,
+    "terrainCandidates": 44608,
+    "modelCandidates": 10324,
+    "firstSide": 3832,
+    "secondSide": 24,
+    "noContact": 3332,
+    "terrainContacts": 7816,
+    "modelContacts": 1044,
+    "overlaps": 6032,
+    "misses": 19892,
+    "nativeCandidateChecks": 719,
+    "instructionSteps": 754258,
+    "categories": {
+      "0": 6764,
+      "1": 8,
+      "3": 628,
+      "5": 336,
+      "7": 64,
+      "14": 16
+    },
+    "gripReductions": {
+      "0": 6772,
+      "5": 16,
+      "8": 24,
+      "10": 24,
+      "15": 964,
+      "17": 16
+    },
+    "byInput": {
+      "terrainCenters": {
+        "bodies": 3636,
+        "terrainContacts": 7608,
+        "modelContacts": 0
+      },
+      "modelFaces": {
+        "bodies": 3552,
+        "terrainContacts": 208,
+        "modelContacts": 1044
+      }
+    },
+    "failures": [],
+    "drive": {
+      "bodies": 7188,
+      "activeWheels": 8860,
+      "nonzeroDriveInputs": 23017,
+      "nonzeroCorrections": 8860,
+      "effectCalls": 2934,
+      "nativeChecks": 360,
+      "instructionSteps": 557654
+    }
+  },
+  "resources": [
+    {
+      "resource": 30,
+      "bodies": 150,
+      "terrainCandidates": 678,
+      "modelCandidates": 416,
+      "terrainContacts": 88,
+      "modelContacts": 12,
+      "misses": 500
+    },
+    {
+      "resource": 32,
+      "bodies": 121,
+      "terrainCandidates": 555,
+      "modelCandidates": 87,
+      "terrainContacts": 100,
+      "modelContacts": 38,
+      "misses": 346
+    },
+    {
+      "resource": 34,
+      "bodies": 68,
+      "terrainCandidates": 541,
+      "modelCandidates": 36,
+      "terrainContacts": 74,
+      "modelContacts": 9,
+      "misses": 189
+    },
+    {
+      "resource": 36,
+      "bodies": 126,
+      "terrainCandidates": 404,
+      "modelCandidates": 405,
+      "terrainContacts": 80,
+      "modelContacts": 17,
+      "misses": 407
+    },
+    {
+      "resource": 38,
+      "bodies": 200,
+      "terrainCandidates": 1327,
+      "modelCandidates": 220,
+      "terrainContacts": 282,
+      "modelContacts": 27,
+      "misses": 491
+    },
+    {
+      "resource": 40,
+      "bodies": 69,
+      "terrainCandidates": 643,
+      "modelCandidates": 24,
+      "terrainContacts": 86,
+      "modelContacts": 9,
+      "misses": 181
+    },
+    {
+      "resource": 42,
+      "bodies": 153,
+      "terrainCandidates": 947,
+      "modelCandidates": 319,
+      "terrainContacts": 167,
+      "modelContacts": 20,
+      "misses": 425
+    },
+    {
+      "resource": 44,
+      "bodies": 103,
+      "terrainCandidates": 704,
+      "modelCandidates": 67,
+      "terrainContacts": 140,
+      "modelContacts": 12,
+      "misses": 260
+    },
+    {
+      "resource": 46,
+      "bodies": 150,
+      "terrainCandidates": 1317,
+      "modelCandidates": 75,
+      "terrainContacts": 246,
+      "modelContacts": 18,
+      "misses": 336
+    },
+    {
+      "resource": 48,
+      "bodies": 132,
+      "terrainCandidates": 878,
+      "modelCandidates": 200,
+      "terrainContacts": 170,
+      "modelContacts": 20,
+      "misses": 338
+    },
+    {
+      "resource": 50,
+      "bodies": 77,
+      "terrainCandidates": 627,
+      "modelCandidates": 33,
+      "terrainContacts": 92,
+      "modelContacts": 5,
+      "misses": 211
+    },
+    {
+      "resource": 52,
+      "bodies": 66,
+      "terrainCandidates": 580,
+      "modelCandidates": 63,
+      "terrainContacts": 113,
+      "modelContacts": 14,
+      "misses": 137
+    },
+    {
+      "resource": 54,
+      "bodies": 128,
+      "terrainCandidates": 807,
+      "modelCandidates": 127,
+      "terrainContacts": 118,
+      "modelContacts": 21,
+      "misses": 373
+    },
+    {
+      "resource": 56,
+      "bodies": 90,
+      "terrainCandidates": 305,
+      "modelCandidates": 276,
+      "terrainContacts": 57,
+      "modelContacts": 17,
+      "misses": 286
+    },
+    {
+      "resource": 58,
+      "bodies": 20,
+      "terrainCandidates": 28,
+      "modelCandidates": 40,
+      "terrainContacts": 2,
+      "modelContacts": 0,
+      "misses": 78
+    },
+    {
+      "resource": 60,
+      "bodies": 23,
+      "terrainCandidates": 27,
+      "modelCandidates": 57,
+      "terrainContacts": 6,
+      "modelContacts": 8,
+      "misses": 78
+    },
+    {
+      "resource": 62,
+      "bodies": 6,
+      "terrainCandidates": 33,
+      "modelCandidates": 0,
+      "terrainContacts": 15,
+      "modelContacts": 0,
+      "misses": 9
+    },
+    {
+      "resource": 64,
+      "bodies": 18,
+      "terrainCandidates": 90,
+      "modelCandidates": 66,
+      "terrainContacts": 16,
+      "modelContacts": 0,
+      "misses": 56
+    },
+    {
+      "resource": 66,
+      "bodies": 5,
+      "terrainCandidates": 33,
+      "modelCandidates": 2,
+      "terrainContacts": 6,
+      "modelContacts": 0,
+      "misses": 14
+    },
+    {
+      "resource": 68,
+      "bodies": 92,
+      "terrainCandidates": 628,
+      "modelCandidates": 68,
+      "terrainContacts": 96,
+      "modelContacts": 14,
+      "misses": 258
+    },
+    {
+      "resource": 70,
+      "bodies": 150,
+      "terrainCandidates": 678,
+      "modelCandidates": 416,
+      "terrainContacts": 88,
+      "modelContacts": 12,
+      "misses": 500
+    },
+    {
+      "resource": 72,
+      "bodies": 121,
+      "terrainCandidates": 555,
+      "modelCandidates": 87,
+      "terrainContacts": 100,
+      "modelContacts": 38,
+      "misses": 346
+    },
+    {
+      "resource": 74,
+      "bodies": 68,
+      "terrainCandidates": 541,
+      "modelCandidates": 36,
+      "terrainContacts": 74,
+      "modelContacts": 9,
+      "misses": 189
+    },
+    {
+      "resource": 76,
+      "bodies": 126,
+      "terrainCandidates": 404,
+      "modelCandidates": 405,
+      "terrainContacts": 80,
+      "modelContacts": 17,
+      "misses": 407
+    },
+    {
+      "resource": 78,
+      "bodies": 200,
+      "terrainCandidates": 1327,
+      "modelCandidates": 220,
+      "terrainContacts": 282,
+      "modelContacts": 27,
+      "misses": 491
+    },
+    {
+      "resource": 80,
+      "bodies": 69,
+      "terrainCandidates": 643,
+      "modelCandidates": 24,
+      "terrainContacts": 86,
+      "modelContacts": 9,
+      "misses": 181
+    },
+    {
+      "resource": 82,
+      "bodies": 153,
+      "terrainCandidates": 947,
+      "modelCandidates": 319,
+      "terrainContacts": 167,
+      "modelContacts": 20,
+      "misses": 425
+    },
+    {
+      "resource": 84,
+      "bodies": 103,
+      "terrainCandidates": 704,
+      "modelCandidates": 67,
+      "terrainContacts": 140,
+      "modelContacts": 12,
+      "misses": 260
+    },
+    {
+      "resource": 86,
+      "bodies": 150,
+      "terrainCandidates": 1317,
+      "modelCandidates": 75,
+      "terrainContacts": 246,
+      "modelContacts": 18,
+      "misses": 336
+    },
+    {
+      "resource": 88,
+      "bodies": 132,
+      "terrainCandidates": 878,
+      "modelCandidates": 200,
+      "terrainContacts": 170,
+      "modelContacts": 20,
+      "misses": 338
+    },
+    {
+      "resource": 90,
+      "bodies": 77,
+      "terrainCandidates": 627,
+      "modelCandidates": 33,
+      "terrainContacts": 92,
+      "modelContacts": 5,
+      "misses": 211
+    },
+    {
+      "resource": 92,
+      "bodies": 66,
+      "terrainCandidates": 580,
+      "modelCandidates": 63,
+      "terrainContacts": 113,
+      "modelContacts": 14,
+      "misses": 137
+    },
+    {
+      "resource": 94,
+      "bodies": 128,
+      "terrainCandidates": 807,
+      "modelCandidates": 127,
+      "terrainContacts": 118,
+      "modelContacts": 21,
+      "misses": 373
+    },
+    {
+      "resource": 96,
+      "bodies": 90,
+      "terrainCandidates": 305,
+      "modelCandidates": 276,
+      "terrainContacts": 57,
+      "modelContacts": 17,
+      "misses": 286
+    },
+    {
+      "resource": 98,
+      "bodies": 20,
+      "terrainCandidates": 28,
+      "modelCandidates": 40,
+      "terrainContacts": 2,
+      "modelContacts": 0,
+      "misses": 78
+    },
+    {
+      "resource": 100,
+      "bodies": 23,
+      "terrainCandidates": 27,
+      "modelCandidates": 57,
+      "terrainContacts": 6,
+      "modelContacts": 8,
+      "misses": 78
+    },
+    {
+      "resource": 102,
+      "bodies": 6,
+      "terrainCandidates": 33,
+      "modelCandidates": 0,
+      "terrainContacts": 15,
+      "modelContacts": 0,
+      "misses": 9
+    },
+    {
+      "resource": 104,
+      "bodies": 18,
+      "terrainCandidates": 90,
+      "modelCandidates": 66,
+      "terrainContacts": 16,
+      "modelContacts": 0,
+      "misses": 56
+    },
+    {
+      "resource": 106,
+      "bodies": 5,
+      "terrainCandidates": 33,
+      "modelCandidates": 2,
+      "terrainContacts": 6,
+      "modelContacts": 0,
+      "misses": 14
+    },
+    {
+      "resource": 108,
+      "bodies": 92,
+      "terrainCandidates": 628,
+      "modelCandidates": 68,
+      "terrainContacts": 96,
+      "modelContacts": 14,
+      "misses": 258
+    },
+    {
+      "resource": 110,
+      "bodies": 150,
+      "terrainCandidates": 678,
+      "modelCandidates": 416,
+      "terrainContacts": 88,
+      "modelContacts": 12,
+      "misses": 500
+    },
+    {
+      "resource": 112,
+      "bodies": 121,
+      "terrainCandidates": 555,
+      "modelCandidates": 87,
+      "terrainContacts": 100,
+      "modelContacts": 38,
+      "misses": 346
+    },
+    {
+      "resource": 114,
+      "bodies": 68,
+      "terrainCandidates": 541,
+      "modelCandidates": 36,
+      "terrainContacts": 74,
+      "modelContacts": 9,
+      "misses": 189
+    },
+    {
+      "resource": 116,
+      "bodies": 126,
+      "terrainCandidates": 404,
+      "modelCandidates": 405,
+      "terrainContacts": 80,
+      "modelContacts": 17,
+      "misses": 407
+    },
+    {
+      "resource": 118,
+      "bodies": 200,
+      "terrainCandidates": 1327,
+      "modelCandidates": 220,
+      "terrainContacts": 282,
+      "modelContacts": 27,
+      "misses": 491
+    },
+    {
+      "resource": 120,
+      "bodies": 69,
+      "terrainCandidates": 643,
+      "modelCandidates": 24,
+      "terrainContacts": 86,
+      "modelContacts": 9,
+      "misses": 181
+    },
+    {
+      "resource": 122,
+      "bodies": 153,
+      "terrainCandidates": 947,
+      "modelCandidates": 319,
+      "terrainContacts": 167,
+      "modelContacts": 20,
+      "misses": 425
+    },
+    {
+      "resource": 124,
+      "bodies": 103,
+      "terrainCandidates": 704,
+      "modelCandidates": 67,
+      "terrainContacts": 140,
+      "modelContacts": 12,
+      "misses": 260
+    },
+    {
+      "resource": 126,
+      "bodies": 150,
+      "terrainCandidates": 1317,
+      "modelCandidates": 75,
+      "terrainContacts": 246,
+      "modelContacts": 18,
+      "misses": 336
+    },
+    {
+      "resource": 128,
+      "bodies": 132,
+      "terrainCandidates": 878,
+      "modelCandidates": 200,
+      "terrainContacts": 170,
+      "modelContacts": 20,
+      "misses": 338
+    },
+    {
+      "resource": 130,
+      "bodies": 77,
+      "terrainCandidates": 627,
+      "modelCandidates": 33,
+      "terrainContacts": 92,
+      "modelContacts": 5,
+      "misses": 211
+    },
+    {
+      "resource": 132,
+      "bodies": 66,
+      "terrainCandidates": 580,
+      "modelCandidates": 63,
+      "terrainContacts": 113,
+      "modelContacts": 14,
+      "misses": 137
+    },
+    {
+      "resource": 134,
+      "bodies": 128,
+      "terrainCandidates": 807,
+      "modelCandidates": 127,
+      "terrainContacts": 118,
+      "modelContacts": 21,
+      "misses": 373
+    },
+    {
+      "resource": 136,
+      "bodies": 90,
+      "terrainCandidates": 305,
+      "modelCandidates": 276,
+      "terrainContacts": 57,
+      "modelContacts": 17,
+      "misses": 286
+    },
+    {
+      "resource": 138,
+      "bodies": 20,
+      "terrainCandidates": 28,
+      "modelCandidates": 40,
+      "terrainContacts": 2,
+      "modelContacts": 0,
+      "misses": 78
+    },
+    {
+      "resource": 140,
+      "bodies": 23,
+      "terrainCandidates": 27,
+      "modelCandidates": 57,
+      "terrainContacts": 6,
+      "modelContacts": 8,
+      "misses": 78
+    },
+    {
+      "resource": 142,
+      "bodies": 6,
+      "terrainCandidates": 33,
+      "modelCandidates": 0,
+      "terrainContacts": 15,
+      "modelContacts": 0,
+      "misses": 9
+    },
+    {
+      "resource": 144,
+      "bodies": 18,
+      "terrainCandidates": 90,
+      "modelCandidates": 66,
+      "terrainContacts": 16,
+      "modelContacts": 0,
+      "misses": 56
+    },
+    {
+      "resource": 146,
+      "bodies": 5,
+      "terrainCandidates": 33,
+      "modelCandidates": 2,
+      "terrainContacts": 6,
+      "modelContacts": 0,
+      "misses": 14
+    },
+    {
+      "resource": 148,
+      "bodies": 92,
+      "terrainCandidates": 628,
+      "modelCandidates": 68,
+      "terrainContacts": 96,
+      "modelContacts": 14,
+      "misses": 258
+    },
+    {
+      "resource": 150,
+      "bodies": 150,
+      "terrainCandidates": 678,
+      "modelCandidates": 416,
+      "terrainContacts": 88,
+      "modelContacts": 12,
+      "misses": 500
+    },
+    {
+      "resource": 152,
+      "bodies": 121,
+      "terrainCandidates": 555,
+      "modelCandidates": 87,
+      "terrainContacts": 100,
+      "modelContacts": 38,
+      "misses": 346
+    },
+    {
+      "resource": 154,
+      "bodies": 68,
+      "terrainCandidates": 541,
+      "modelCandidates": 36,
+      "terrainContacts": 74,
+      "modelContacts": 9,
+      "misses": 189
+    },
+    {
+      "resource": 156,
+      "bodies": 126,
+      "terrainCandidates": 404,
+      "modelCandidates": 405,
+      "terrainContacts": 80,
+      "modelContacts": 17,
+      "misses": 407
+    },
+    {
+      "resource": 158,
+      "bodies": 200,
+      "terrainCandidates": 1327,
+      "modelCandidates": 220,
+      "terrainContacts": 282,
+      "modelContacts": 27,
+      "misses": 491
+    },
+    {
+      "resource": 160,
+      "bodies": 69,
+      "terrainCandidates": 643,
+      "modelCandidates": 24,
+      "terrainContacts": 86,
+      "modelContacts": 9,
+      "misses": 181
+    },
+    {
+      "resource": 162,
+      "bodies": 153,
+      "terrainCandidates": 947,
+      "modelCandidates": 319,
+      "terrainContacts": 167,
+      "modelContacts": 20,
+      "misses": 425
+    },
+    {
+      "resource": 164,
+      "bodies": 103,
+      "terrainCandidates": 704,
+      "modelCandidates": 67,
+      "terrainContacts": 140,
+      "modelContacts": 12,
+      "misses": 260
+    },
+    {
+      "resource": 166,
+      "bodies": 150,
+      "terrainCandidates": 1317,
+      "modelCandidates": 75,
+      "terrainContacts": 246,
+      "modelContacts": 18,
+      "misses": 336
+    },
+    {
+      "resource": 168,
+      "bodies": 132,
+      "terrainCandidates": 878,
+      "modelCandidates": 200,
+      "terrainContacts": 170,
+      "modelContacts": 20,
+      "misses": 338
+    },
+    {
+      "resource": 170,
+      "bodies": 77,
+      "terrainCandidates": 627,
+      "modelCandidates": 33,
+      "terrainContacts": 92,
+      "modelContacts": 5,
+      "misses": 211
+    },
+    {
+      "resource": 172,
+      "bodies": 66,
+      "terrainCandidates": 580,
+      "modelCandidates": 63,
+      "terrainContacts": 113,
+      "modelContacts": 14,
+      "misses": 137
+    },
+    {
+      "resource": 174,
+      "bodies": 128,
+      "terrainCandidates": 807,
+      "modelCandidates": 127,
+      "terrainContacts": 118,
+      "modelContacts": 21,
+      "misses": 373
+    },
+    {
+      "resource": 176,
+      "bodies": 90,
+      "terrainCandidates": 305,
+      "modelCandidates": 276,
+      "terrainContacts": 57,
+      "modelContacts": 17,
+      "misses": 286
+    },
+    {
+      "resource": 178,
+      "bodies": 20,
+      "terrainCandidates": 28,
+      "modelCandidates": 40,
+      "terrainContacts": 2,
+      "modelContacts": 0,
+      "misses": 78
+    },
+    {
+      "resource": 180,
+      "bodies": 23,
+      "terrainCandidates": 27,
+      "modelCandidates": 57,
+      "terrainContacts": 6,
+      "modelContacts": 8,
+      "misses": 78
+    },
+    {
+      "resource": 182,
+      "bodies": 6,
+      "terrainCandidates": 33,
+      "modelCandidates": 0,
+      "terrainContacts": 15,
+      "modelContacts": 0,
+      "misses": 9
+    },
+    {
+      "resource": 184,
+      "bodies": 18,
+      "terrainCandidates": 90,
+      "modelCandidates": 66,
+      "terrainContacts": 16,
+      "modelContacts": 0,
+      "misses": 56
+    },
+    {
+      "resource": 186,
+      "bodies": 5,
+      "terrainCandidates": 33,
+      "modelCandidates": 2,
+      "terrainContacts": 6,
+      "modelContacts": 0,
+      "misses": 14
+    },
+    {
+      "resource": 188,
+      "bodies": 92,
+      "terrainCandidates": 628,
+      "modelCandidates": 68,
+      "terrainContacts": 96,
+      "modelContacts": 14,
+      "misses": 258
+    }
+  ],
+  "samples": [
+    {
+      "resource": 30,
+      "input": "terrainCenters",
+      "sector": 1,
+      "cell": 4,
+      "position": [
+        -4208,
+        -60,
+        -3339
+      ],
+      "terrainCandidates": 12,
+      "modelCandidates": 0,
+      "side": 0,
+      "attempts": 2,
+      "cellRefs": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "distances": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "momentum": [
+        0,
+        0,
+        1048576
+      ],
+      "angularMomentum": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "terrainCenters",
+      "sector": 1,
+      "cell": 420,
+      "position": [
+        -4224,
+        -60,
+        -4956
+      ],
+      "terrainCandidates": 9,
+      "modelCandidates": 0,
+      "side": 0,
+      "attempts": 2,
+      "cellRefs": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "distances": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "momentum": [
+        0,
+        0,
+        1048576
+      ],
+      "angularMomentum": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "terrainCenters",
+      "sector": 1,
+      "cell": 827,
+      "position": [
+        -2553,
+        -435,
+        -5417
+      ],
+      "terrainCandidates": 11,
+      "modelCandidates": 4,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        2036737,
+        2036993,
+        -1,
+        -1
+      ],
+      "distances": [
+        0,
+        0,
+        -1,
+        -1
+      ],
+      "momentum": [
+        -16930,
+        -80000,
+        983896
+      ],
+      "angularMomentum": [
+        2560000,
+        -119986,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "terrainCenters",
+      "sector": 2,
+      "cell": 4,
+      "position": [
+        -2858,
+        -60,
+        -6182
+      ],
+      "terrainCandidates": 11,
+      "modelCandidates": 0,
+      "side": 0,
+      "attempts": 2,
+      "cellRefs": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "distances": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "momentum": [
+        0,
+        0,
+        1048576
+      ],
+      "angularMomentum": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "terrainCenters",
+      "sector": 2,
+      "cell": 608,
+      "position": [
+        -992,
+        -20,
+        -6464
+      ],
+      "terrainCandidates": 8,
+      "modelCandidates": 1,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        1312770,
+        1312770,
+        1312770,
+        1312770
+      ],
+      "distances": [
+        2621432,
+        2621432,
+        2621432,
+        2621432
+      ],
+      "momentum": [
+        -2,
+        0,
+        915652
+      ],
+      "angularMomentum": [
+        0,
+        -2,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "terrainCenters",
+      "sector": 2,
+      "cell": 1195,
+      "position": [
+        384,
+        -400,
+        -5379
+      ],
+      "terrainCandidates": 14,
+      "modelCandidates": 0,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        2562306,
+        2562306,
+        2496770,
+        -1
+      ],
+      "distances": [
+        0,
+        0,
+        0,
+        -1
+      ],
+      "momentum": [
+        91569,
+        -120000,
+        975091
+      ],
+      "angularMomentum": [
+        1280000,
+        395164,
+        1080000
+      ]
+    }
+  ],
+  "modelSamples": [
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "placement": 28,
+      "shape": 2,
+      "position": [
+        -5769.125,
+        -360,
+        4318.9375
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 3,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        -4,
+        -1,
+        -4,
+        -1
+      ],
+      "distances": [
+        2624864,
+        -1,
+        167288,
+        -1
+      ],
+      "momentum": [
+        -8145,
+        -38034,
+        980364
+      ],
+      "angularMomentum": [
+        -1217088,
+        -499519,
+        1026918
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "placement": 29,
+      "shape": 0,
+      "position": [
+        -5681.234375,
+        -120,
+        4604.875
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 5,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        -4,
+        -1,
+        -1,
+        -1
+      ],
+      "distances": [
+        2621432,
+        -1,
+        -1,
+        -1
+      ],
+      "momentum": [
+        -17745,
+        0,
+        1083112
+      ],
+      "angularMomentum": [
+        0,
+        64402,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "placement": 32,
+      "shape": 0,
+      "position": [
+        -5799.328125,
+        -200,
+        3771.296875
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 4,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        -4,
+        -4,
+        -1,
+        -1
+      ],
+      "distances": [
+        2621432,
+        2621432,
+        -1,
+        -1
+      ],
+      "momentum": [
+        21176,
+        0,
+        967691
+      ],
+      "angularMomentum": [
+        0,
+        150098,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "placement": 45,
+      "shape": 0,
+      "position": [
+        -833,
+        -200,
+        -5947
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 4,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        -4,
+        -1,
+        -1,
+        -1
+      ],
+      "distances": [
+        2621432,
+        -1,
+        -1,
+        -1
+      ],
+      "momentum": [
+        -19711,
+        0,
+        1013596
+      ],
+      "angularMomentum": [
+        0,
+        -276805,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "placement": 73,
+      "shape": 0,
+      "position": [
+        1699.625,
+        -520,
+        792.484375
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 6,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        -4,
+        -4,
+        -4,
+        -4
+      ],
+      "distances": [
+        2621432,
+        2621432,
+        2621432,
+        2621432
+      ],
+      "momentum": [
+        21175,
+        0,
+        884631
+      ],
+      "angularMomentum": [
+        0,
+        150097,
+        0
+      ]
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "placement": 74,
+      "shape": 0,
+      "position": [
+        1681.578125,
+        -200,
+        571.625
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 6,
+      "side": 0,
+      "attempts": 1,
+      "cellRefs": [
+        -4,
+        -4,
+        -1,
+        -1
+      ],
+      "distances": [
+        2621432,
+        2621432,
+        -1,
+        -1
+      ],
+      "momentum": [
+        -1,
+        0,
+        1134800
+      ],
+      "angularMomentum": [
+        0,
+        -1,
+        0
+      ]
+    }
+  ]
+}

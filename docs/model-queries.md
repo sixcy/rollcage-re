@@ -1,6 +1,6 @@
 # Reconstructed model ray queries
 
-`src/model-query.mjs`, `src/model-transforms.mjs` and `src/placed-model-query.mjs` reconstruct the selected Redux build's zero-radius model hit path and four-wheel terrain/model selector. The queries consume explicit candidate lists; per-frame model candidate generation, destruction effects and nonzero-radius contacts remain incomplete. Serialized records and surface metadata are documented in [model-collision.md](model-collision.md).
+`src/model-query.mjs`, `src/model-transforms.mjs` and `src/placed-model-query.mjs` reconstruct the selected Redux build's zero-radius model hit path and four-wheel terrain/model selector. The queries consume explicit candidate lists, now supplied by `src/model-candidates.mjs` in the connected vehicle path. Mutable registration/lifetimes, destruction effects and nonzero-radius contact response remain incomplete. Serialized records and surface metadata are documented in [model-collision.md](model-collision.md).
 
 ## Shape ray query
 
@@ -32,11 +32,11 @@ The shared result buffer preserves any model-written point, normal, distance and
 
 `src/model-links.mjs` decodes the static placement lists read by `0x429360`. GFXM u32 `+0xac` points to the u32 index table; u16 `+0x96` bounds it. A spatial node's first word supplies a three-bit count at bits 19..21 and start at bits 22..31. Native code increments the start pointer before each read, so references are `start+1` through `start+count`. Serialized small indices become ordinary-placement pointers in the runtime loader; the reader retains bounded placement indices and preserves order/repetition.
 
-`node tools/validate-model-links.mjs` validates all 80 level packs: 25,064 table entries, 96,348 nodes, 17,432 populated lists and 26,108 placement references. Unused table values remain raw. The report is `analysis/model-link-catalog.json`. This reader does not generate the vehicle's complete per-frame candidate list or port the nonzero-radius shape screens used there.
+`node tools/validate-model-links.mjs` validates all 80 level packs: 25,064 table entries, 96,348 nodes, 17,432 populated lists and 26,108 placement references. Unused table values remain raw. The report is `analysis/model-link-catalog.json`. `src/model-candidates.mjs` now consumes these lists and ports the original aggregate-radius acceptance screen; see [connected contacts](vehicle-contacts.md). Full sphere contact response remains separate.
 
 ## Verification
 
-The full focused suite has 85 passing tests. New fixtures cover model hit arithmetic, inclusive limits, inside/on-plane misses, triangle/quad containment, translations, yaw quantization, class/tag filters, explicit effect handling, wheel call order, result-buffer restoration and static placement links.
+The full focused suite has 112 passing tests. Fixtures cover model hit arithmetic, inclusive limits, inside/on-plane misses, triangle/quad containment, translations, yaw quantization, class/tag filters, explicit effect handling, wheel call order, result-buffer restoration, static placement links and connected candidate/contact stages.
 
 The bounded x86 interpreter is shared in `tools/lib/bounded-x86.mjs`. It executes retained static instructions in an allocated byte buffer, admits external calls per checker and does not launch the original executable. The terrain query's original 4,000-fixture comparison still passes after extracting that interpreter. These checks do not prove full game/runtime equivalence.
 
@@ -52,4 +52,4 @@ Complete native replies are retained in `analysis/scene/results`: `173` shape qu
 
 ## Remaining simulation boundary
 
-Connect spatial model lists and the original body-radius shape screens to per-frame candidate generation, then run the terrain/model selector through wheel-side preparation with actual vehicle configuration. Recover damage/effect state updates, nonzero-radius contacts, complete drive-capacity calculation and frame/event response. The connected query code is a reconstruction component, not a playable rebuilt game.
+Spatial model lists and original body-radius screens feed the selector and wheel-side preparation with the recovered common wheel configuration. See [connected contacts](vehicle-contacts.md) for native initializer checks and installed-data coverage. [The vehicle frame stage](vehicle-frame.md) now includes drive capacity, assists and derivative refresh. Damage/effect state updates, nonzero-radius contacts and collision/race event response remain open. The connected code is a reconstruction component, not a playable rebuilt game.

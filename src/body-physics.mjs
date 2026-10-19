@@ -56,8 +56,15 @@ export function updateBodyDerived(body) {
 // Runtime attachment queues and broad-phase updates are handled by the caller.
 export function advanceBody(body,fractionQ16,{timeScaleQ16=65536,timeScaleActive=false,timeScaleExempt=false}={}) {
  if(!Number.isInteger(fractionQ16)||fractionQ16<0||fractionQ16>65536)throw Error('Body advance requires a frame fraction from 0 to 65536.');
+ return advanceBodyDelta(body,fractionQ16,{timeScaleQ16,timeScaleActive,timeScaleExempt});
+}
+// Collision scheduling also admits signed deltas (and processes a negative one
+// before terminating its loop). Keep that machine domain separate from the
+// convenient bounded-frame API above.
+export function advanceBodyDelta(body,deltaQ16,{timeScaleQ16=65536,timeScaleActive=false,timeScaleExempt=false}={}) {
+ if(!Number.isInteger(deltaQ16)||deltaQ16< -2147483648||deltaQ16>2147483647)throw Error('Body time delta must be a signed 32-bit integer.');
  const eligible=[3,7,21].includes(body.flags&0x1ff);
- const fraction=timeScaleActive&&!timeScaleExempt&&eligible?multiplyQ16(fractionQ16,timeScaleQ16):fractionQ16;
+ const fraction=timeScaleActive&&!timeScaleExempt&&eligible?multiplyQ16(deltaQ16,timeScaleQ16):deltaQ16;
  body.position=body.position.map((value,axis)=>add32(value,multiplyQ16(fraction,body.linearVelocity[axis])));
  if(!(body.integrationFlags&1)) {
   body.quaternion=normalizeQuaternionQ16(body.quaternion.map((value,index)=>add32(value,multiplyQ16(fraction,body.quaternionDerivative[index]))));

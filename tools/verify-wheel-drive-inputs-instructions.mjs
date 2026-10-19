@@ -1,0 +1,31 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {prepareWheelDriveInputs} from '../src/wheel-drive.mjs';
+const readEvidence=async name=>{const reply=JSON.parse(await readFile(`analysis/scene/results/${name}`,'utf8'));return reply.structuredContent??JSON.parse(reply.content.find(c=>c.type==='text').text);};
+const evidence=await Promise.all(['214-wheel-drive-inputs-assembly.json','152-vector-length-assembly.json','220-wheel-drive-dot-assembly.json','217-wheel-capacity-curve-assembly.json','221-fixed-sqrt-assembly.json'].map(readEvidence));
+const instructions=evidence.flatMap(value=>value.normalized_result.trim().split('\n').map(line=>{const match=/^(0x[0-9a-f]+): ([A-Z]+)(?: (.*))?$/.exec(line.trim());if(!match)throw Error(`Invalid instruction: ${line}`);return {address:Number(match[1]),op:match[2],args:match[3]?.split(',').map(value=>value.trim())??[]};}));
+const machine=new BoundedX86(instructions),fixtures=4000;let instructionSteps=0,seed=0x41c460ab;
+const random=limit=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)%limit;};
+const rotations=[[4096,0,0,0,4096,0,0,0,4096],[-4096,0,0,0,4096,0,0,0,-4096],[0,0,4096,0,4096,0,-4096,0,0],[2896,0,2896,0,4096,0,-2896,0,2896]];
+const counters=[0,1,2,30,960,32767,-32768,-1],offsets=[0,1,-1,65536,-65536,2147483647,-2147483648];
+const histogram={activeCounter:0,recoveryCounter:0,driveShift:0,minimum:0,overridden:0};
+for(let fixture=0;fixture<fixtures;fixture++) {
+ machine.reset();const bytes=machine.bytes,bodyAddress=0x1000,config=0x6000,output=0x7000;
+ bytes.fill(0xa5,bodyAddress,bodyAddress+0x4000);bytes.fill(0x5a,output,output+8);bytes.writeUInt32LE(config,0x5ecb1c);
+ const velocity=fixture%5===0?[0,0,[0,8*65536,8*65536+16,-32*65536,64*65536][Math.floor(fixture/5)%5]]:[0,1,2].map(()=>random(256*65536)-128*65536);
+ const body={linearVelocity:velocity,rotation:rotations[random(rotations.length)]};
+ const drive={inputByte:[0,128,129,255][random(4)],counter658:counters[random(counters.length)],counter65a:counters[random(counters.length)],counter65c:counters[random(counters.length)],scaleQ12:random(65536)-32768,reductionQ16:random(100000)-10000,multiplierQ16:random(120000)-20000,capacityOffset:offsets[random(offsets.length)],capacityOverride:random(3)};
+ const globals={gameMode:random(8)-2,modeFlags:random(8)},original=structuredClone(drive);
+ body.linearVelocity.forEach((value,axis)=>bytes.writeInt32LE(value,bodyAddress+0x68+axis*4));body.rotation.forEach((value,index)=>bytes.writeInt16LE(value,bodyAddress+0xc4+index*2));
+ bytes[bodyAddress+0x64e]=drive.inputByte;
+ for(const [key,offset]of [['counter658',0x658],['counter65a',0x65a],['counter65c',0x65c],['scaleQ12',0x2f3a]])bytes.writeInt16LE(drive[key],bodyAddress+offset);
+ for(const [key,offset]of [['reductionQ16',0x6b0],['multiplierQ16',0x650],['capacityOffset',0x3cf8],['capacityOverride',0x3d04]])bytes.writeInt32LE(drive[key],bodyAddress+offset);
+ bytes.writeInt32LE(globals.gameMode,config+0x57c);bytes[config+0x553]=globals.modeFlags;
+ const expected=Buffer.from(bytes.subarray(bodyAddress,bodyAddress+0x4000)),result=prepareWheelDriveInputs(body,drive,globals);
+ for(const [key,offset]of [['counter658',0x658],['counter65a',0x65a],['counter65c',0x65c]])expected.writeInt16LE(drive[key],offset);
+ machine.r.ECX=bodyAddress;machine.r.EDX=output;machine.r.ESP=0x9000;bytes.writeUInt32LE(0xffffffff,0x9000);bytes.writeUInt32LE(output+4,0x9004);instructionSteps+=machine.run();
+ if(!bytes.subarray(bodyAddress,bodyAddress+0x4000).equals(expected)||bytes.readInt32LE(output)!==result.capacity||bytes.readInt32LE(output+4)!==result.driveShift)throw Error(`Drive input mismatch: ${JSON.stringify({fixture,body,original,drive,globals,result,nativeCapacity:bytes.readInt32LE(output),nativeShift:bytes.readInt32LE(output+4),nativeCounters:[0x658,0x65a,0x65c].map(offset=>bytes.readInt16LE(bodyAddress+offset))})}`);
+ if(drive.counter658)histogram.activeCounter++;if(drive.counter65a)histogram.recoveryCounter++;if(result.driveShift)histogram.driveShift++;if(result.capacity===0xc00)histogram.minimum++;if(drive.capacityOverride===1)histogram.overridden++;
+}
+const report={method:'Bounded interpretation of retained drive-input preparation, vector length, fixed square root, dot product and signed Q16 division. Compares all 16384 vehicle bytes, capacity and shift on declared synthetic states including signed counter/offset extremes. No helper stubs or original process execution.',evidence:evidence.map(value=>value.evidence_id),instructions:instructions.length,fixtures,instructionSteps,histogram,matched:true};
+await writeFile('analysis/wheel-drive-inputs-instruction-check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));

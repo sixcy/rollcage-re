@@ -1,0 +1,44 @@
+// Native vehicle wheel-update order (0x47ab30). Each of the first four stages
+// runs over all vehicles, followed by global forces and per-vehicle assists.
+import {prepareWheelDriveDirections,updateWheelDrive,readVehicleSurfaceMode} from './wheel-drive.mjs';
+import {updateVehicleContacts} from './vehicle-contacts.mjs';
+import {applyWheelSuspension} from './wheel-physics.mjs';
+import {applyWheelTractionForces} from './wheel-forces.mjs';
+import {clampVehicleAtRest,dampAirborneSpin,assistAirborneOrientation} from './vehicle-assists.mjs';
+import {updateVehicleSpecialState} from './vehicle-special.mjs';
+import {readVehicleTrackBasis} from './track-basis.mjs';
+import {updateBodyDerived} from './body-physics.mjs';
+export function runVehicleWheelStages(vehicles,stages) {
+ for(const key of ['directions','contacts','suspension','drive','forces','rest','airSpin','orientation','special'])if(typeof stages[key]!=='function')throw Error(`Vehicle wheel stage ${key} is required.`);
+ for(const key of ['directions','contacts','suspension','drive'])for(let i=0;i<vehicles.length;i++)stages[key](vehicles[i],i);
+ stages.forces(vehicles);
+ for(let i=0;i<vehicles.length;i++){const vehicle=vehicles[i];for(const key of ['rest','airSpin','orientation','special'])stages[key](vehicle,i);}
+}
+// Each vehicle supplies caller-owned registration, progression, controls and
+// timers. This function does not advance pose, generate collision events or
+// invent those runtime inputs. Unported effects require explicit handlers.
+export function updateVehicleWheelFrame(vehicles,environment,handlers={}) {
+ const {data,grid,modelContext}=environment,results=vehicles.map(()=>({}));
+ if(vehicles.length&&!handlers.onSurfaceParticles)throw Error('Vehicle wheel frame requires its surface-particle handler.');
+ for(const vehicle of vehicles){if(!Number.isInteger(vehicle.registeredCellRef))throw Error('Vehicle wheel frame requires explicit registered cell references.');if(!Number.isInteger(vehicle.steeringAngleQ16)||!Number.isInteger(vehicle.state.airSpinCounter))throw Error('Vehicle wheel frame requires explicit steering and airborne-counter state.');}
+ runVehicleWheelStages(vehicles,{
+  directions:(v,i)=>{results[i].directions=prepareWheelDriveDirections(v.body,v.state.wheels,v.steeringAngleQ16,{reverseSteering:v.reverseSteering});},
+  contacts:(v,i)=>{results[i].contacts=updateVehicleContacts(data,grid,modelContext,v.body,v.state,{spatialState:v.spatialState,specialType4:v.specialType4,onBreakableContact:handlers.onBreakableContact?args=>handlers.onBreakableContact({...args,vehicle:v,index:i}):undefined});},
+  suspension:(v,i)=>{results[i].suspension=applyWheelSuspension(v.body,v.state.wheels,v.state.contacts);},
+  drive:(v,i)=>{results[i].drive=updateWheelDrive(v.body,v.state,v.drive,{...v.driveContext,surfaceMode:readVehicleSurfaceMode(data,grid.scene,v.registeredCellRef)},{timeOptions:v.timeOptions,onTractionEffects:handlers.onTractionEffects?args=>handlers.onTractionEffects({...args,vehicle:v,vehicleIndex:i}):undefined,onEmitEffect:handlers.onEmitEffect?args=>handlers.onEmitEffect({...args,vehicle:v,vehicleIndex:i}):undefined});},
+  forces:all=>{for(let i=0;i<all.length;i++)results[i].forces=applyWheelTractionForces(all[i].body,all[i].state.wheels);for(let i=0;i<all.length;i++)handlers.onSurfaceParticles({vehicle:all[i],index:i});},
+  rest:(v,i)=>{results[i].rest=clampVehicleAtRest(v.body,v.state,v.drive);},
+  airSpin:(v,i)=>{results[i].airSpin=dampAirborneSpin(v.body,v.state);},
+  orientation:(v,i)=>{results[i].orientation=assistAirborneOrientation(v.body,v.state);},
+  special:(v,i)=>{results[i].special=updateVehicleSpecialState(v.body,v.state,v.drive,{readTrackBasis:()=>readVehicleTrackBasis(data,grid,v.registeredCellRef,v.trackContext),onSpecialEvent:handlers.onSpecialEvent?args=>handlers.onSpecialEvent({...args,vehicle:v,index:i}):undefined});}
+ });
+ return results;
+}
+// FUN_00475760 refreshes derivatives for every eligible physical body after
+// the wheel pass, including bodies outside the vehicle list.
+export function updateFrameBodyDerivatives(bodies,derive=updateBodyDerived) {
+ for(const body of bodies)if(!(body.flags&0x8000))derive(body);
+}
+export function updateVehiclePhysicsStage(vehicles,bodies,environment,handlers) {
+ const results=updateVehicleWheelFrame(vehicles,environment,handlers);updateFrameBodyDerivatives(bodies);return results;
+}

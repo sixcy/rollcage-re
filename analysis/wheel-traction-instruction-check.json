@@ -1,0 +1,24 @@
+{
+  "method": "Bounded interpretation of retained traction, spin, vector length, fixed root, dot and Q16 division instructions. Compares all 200 wheel bytes, correction and skid return on declared synthetic inputs. Effect helper 0x483b90 is explicitly omitted as a no-op in the compared arithmetic model; its sound/particle/state behavior is not verified. No original process execution.",
+  "evidence": [
+    "ev_a58fac0a3a8fa1d2505b557a83e1b3bda3cba49b9f0f9d4cbc442d38466ed0b4",
+    "ev_152212b5c4254090b80f0736c3238684f992808b09ffb31f8de2c78db903cfd2",
+    "ev_64c86b863568237db6009d434c4333e761a81e63567c1d09f435e5197fb4d4d9",
+    "ev_fee8e39721464c34755be02c656b55833d6e4d4eac4427577fafbd0e7e64b26d",
+    "ev_da5b27885b591b415a91ce7e3aa053c0f888bb34fcb120aa22eb750e50432d2a",
+    "ev_cac63f72ecb0b6b3158cfe65e9ab38bbc707c38a118b916a001bca069967e861"
+  ],
+  "instructions": 350,
+  "fixtures": 4000,
+  "instructionSteps": 1913582,
+  "effectCalls": 4000,
+  "histogram": {
+    "lowSlip": 500,
+    "limited": 3500,
+    "skidding": 3284,
+    "spinClamped": 532,
+    "scaledTime": 1022,
+    "exemptTime": 972
+  },
+  "matched": true
+}
