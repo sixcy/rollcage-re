@@ -1,0 +1,151 @@
+{
+  "method": "Recovered reference code, original immutable body template, synthetic inputs. No original game execution or runtime equivalence claim.",
+  "template": {
+    "address": "0x5eab18",
+    "evidence": "ev_a515348f35cafc12332f9e408bd4ec7127642c8b4f1a4c95198b405e7d85258b",
+    "matchesGhidra": true
+  },
+  "scenarios": [
+    {
+      "name": "stationary original template",
+      "steps": 1000,
+      "fractionQ16": 65536,
+      "minQuaternionNorm": 1,
+      "maxQuaternionNorm": 1,
+      "samples": [
+        {
+          "step": 1,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "quaternion": [
+            0,
+            0,
+            65536,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "step": 1000,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "quaternion": [
+            0,
+            0,
+            65536,
+            0
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "synthetic constant linear momentum",
+      "steps": 120,
+      "fractionQ16": 32768,
+      "minQuaternionNorm": 1,
+      "maxQuaternionNorm": 1,
+      "samples": [
+        {
+          "step": 1,
+          "position": [
+            65536,
+            -32768,
+            16384
+          ],
+          "quaternion": [
+            0,
+            0,
+            65536,
+            0
+          ],
+          "velocity": [
+            131072,
+            -65536,
+            32768
+          ]
+        },
+        {
+          "step": 120,
+          "position": [
+            7864320,
+            -3932160,
+            1966080
+          ],
+          "quaternion": [
+            0,
+            0,
+            65536,
+            0
+          ],
+          "velocity": [
+            131072,
+            -65536,
+            32768
+          ]
+        }
+      ]
+    },
+    {
+      "name": "synthetic angular momentum",
+      "steps": 1000,
+      "fractionQ16": 16384,
+      "minQuaternionNorm": 1.0011124972176588,
+      "maxQuaternionNorm": 1.0077923593199714,
+      "samples": [
+        {
+          "step": 1,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "quaternion": [
+            -1111,
+            997,
+            65536,
+            2708
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "step": 1000,
+          "position": [
+            0,
+            0,
+            0
+          ],
+          "quaternion": [
+            -38223,
+            24154,
+            -47590,
+            -6483
+          ],
+          "velocity": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

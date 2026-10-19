@@ -1,0 +1,65 @@
+﻿{
+    "GeneratedAt":  "2026-10-18T14:31:11.6352613Z",
+    "Method":  "Direct static file inspection using PowerShell; not REA Evidence. No target execution or decompression.",
+    "Artifacts":  [
+                      {
+                          "Path":  "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\IDXData\\Rollcage.idx",
+                          "Bytes":  5504,
+                          "SHA256":  "28c30b94d5612b98cc9d68540982f40bc1ae6f05df3113cb964c6b2eccf02377"
+                      },
+                      {
+                          "Path":  "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\IDXData\\Rollcage.img",
+                          "Bytes":  81752396,
+                          "SHA256":  "7aa334fe4ce00404d29bf7ab9bde0d3d7f00da9d92ffdd5800a92792aed492de"
+                      },
+                      {
+                          "Path":  "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Player.exe",
+                          "Bytes":  1377280,
+                          "SHA256":  "3de059b01183068201795800cfe31dcbe2ff45a89dd1cb5a1cd5104ebf389fc8"
+                      },
+                      {
+                          "Path":  "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+                          "Bytes":  3120640,
+                          "SHA256":  "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+                      }
+                  ],
+    "RecordBytes":  16,
+    "RecordCount":  344,
+    "ImageBytes":  81752396,
+    "CompleteContiguousCoverage":  true,
+    "MagicCounts":  [
+                        {
+                            "Name":  "GT20",
+                            "Count":  343
+                        },
+                        {
+                            "Name":  "10/2",
+                            "Count":  1
+                        }
+                    ],
+    "FlagCounts":  [
+                       {
+                           "Name":  "3",
+                           "Count":  310
+                       },
+                       {
+                           "Name":  "7",
+                           "Count":  29
+                       },
+                       {
+                           "Name":  "0",
+                           "Count":  1
+                       },
+                       {
+                           "Name":  "5",
+                           "Count":  4
+                       }
+                   ],
+    "GT20Field4MatchesIndexField8":  343,
+    "GT20Field8MatchesFlags":  343,
+    "SumIndexField8":  276444484,
+    "Unknowns":  [
+                     "Index field +8 meaning is unconfirmed; a decoded byte count is a candidate.",
+                     "Flags, GT20 header semantics, compression and resource identifiers require executable cross-references."
+                 ]
+}

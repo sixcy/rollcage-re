@@ -1,0 +1,315 @@
+{
+  "evidence_id": "ev_d37398121efd3d2b6ee8936c7d642fdf5a2dddf102a38b50b0b6f1490dc714fc",
+  "subject": {
+    "name": "Rollcage Player.exe",
+    "digest": {
+      "sha256": "3de059b01183068201795800cfe31dcbe2ff45a89dd1cb5a1cd5104ebf389fc8"
+    },
+    "local_path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Player.exe",
+    "format": "pe",
+    "architecture": "x86"
+  },
+  "provider": {
+    "id": "rea-pe-resources",
+    "name": "REA PE resource parser",
+    "version": "1"
+  },
+  "analysis_profile": null,
+  "predicate_type": "rea.analysis",
+  "operation": "inspect_pe_resources",
+  "parameters": {
+    "path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Player.exe",
+    "max_file_bytes": 67108864,
+    "max_entries": 16384
+  },
+  "raw_result": null,
+  "normalized_result": {
+    "artifact": {
+      "path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Player.exe",
+      "sha256": "3de059b01183068201795800cfe31dcbe2ff45a89dd1cb5a1cd5104ebf389fc8",
+      "bytes": 1377280
+    },
+    "format": "pe32",
+    "machine": 332,
+    "directory": {
+      "rva": 1380352,
+      "location": {
+        "offset": 1349120,
+        "bytes": 10288
+      },
+      "data_directory_location": {
+        "offset": 408,
+        "bytes": 8
+      }
+    },
+    "directories": [
+      {
+        "location": {
+          "offset": 1349120,
+          "bytes": 40
+        },
+        "characteristics": 0,
+        "timestamp": 0,
+        "major_version": 0,
+        "minor_version": 0,
+        "named_entries": 0,
+        "id_entries": 3
+      },
+      {
+        "location": {
+          "offset": 1349160,
+          "bytes": 24
+        },
+        "characteristics": 0,
+        "timestamp": 0,
+        "major_version": 0,
+        "minor_version": 0,
+        "named_entries": 0,
+        "id_entries": 1
+      },
+      {
+        "location": {
+          "offset": 1349232,
+          "bytes": 24
+        },
+        "characteristics": 0,
+        "timestamp": 0,
+        "major_version": 0,
+        "minor_version": 0,
+        "named_entries": 0,
+        "id_entries": 1
+      },
+      {
+        "location": {
+          "offset": 1349184,
+          "bytes": 24
+        },
+        "characteristics": 0,
+        "timestamp": 0,
+        "major_version": 0,
+        "minor_version": 0,
+        "named_entries": 0,
+        "id_entries": 1
+      },
+      {
+        "location": {
+          "offset": 1349256,
+          "bytes": 24
+        },
+        "characteristics": 0,
+        "timestamp": 0,
+        "major_version": 0,
+        "minor_version": 0,
+        "named_entries": 0,
+        "id_entries": 1
+      },
+      {
+        "location": {
+          "offset": 1349208,
+          "bytes": 24
+        },
+        "characteristics": 0,
+        "timestamp": 0,
+        "major_version": 0,
+        "minor_version": 0,
+        "named_entries": 0,
+        "id_entries": 1
+      },
+      {
+        "location": {
+          "offset": 1349280,
+          "bytes": 24
+        },
+        "characteristics": 0,
+        "timestamp": 0,
+        "major_version": 0,
+        "minor_version": 0,
+        "named_entries": 0,
+        "id_entries": 1
+      }
+    ],
+    "resources": [
+      {
+        "index": 0,
+        "type": {
+          "kind": "id",
+          "id": 3
+        },
+        "name": {
+          "kind": "id",
+          "id": 1
+        },
+        "language": {
+          "kind": "id",
+          "id": 2057
+        },
+        "entry_locations": [
+          {
+            "offset": 1349136,
+            "bytes": 8
+          },
+          {
+            "offset": 1349176,
+            "bytes": 8
+          },
+          {
+            "offset": 1349248,
+            "bytes": 8
+          }
+        ],
+        "data_entry_location": {
+          "offset": 1349304,
+          "bytes": 16
+        },
+        "code_page": 0,
+        "reserved": 0,
+        "payload": {
+          "rva": 1380592,
+          "location": {
+            "offset": 1349360,
+            "bytes": 9640
+          },
+          "sha256": "823fa387630be9453bd6bfc8c4121295f0937ddf16376682b122c96b7dc42894"
+        }
+      },
+      {
+        "index": 1,
+        "type": {
+          "kind": "id",
+          "id": 14
+        },
+        "name": {
+          "kind": "id",
+          "id": 1
+        },
+        "language": {
+          "kind": "id",
+          "id": 2057
+        },
+        "entry_locations": [
+          {
+            "offset": 1349144,
+            "bytes": 8
+          },
+          {
+            "offset": 1349200,
+            "bytes": 8
+          },
+          {
+            "offset": 1349272,
+            "bytes": 8
+          }
+        ],
+        "data_entry_location": {
+          "offset": 1349320,
+          "bytes": 16
+        },
+        "code_page": 0,
+        "reserved": 0,
+        "payload": {
+          "rva": 1390232,
+          "location": {
+            "offset": 1359000,
+            "bytes": 20
+          },
+          "sha256": "6eb54801f91b6d8effccbfaefe6b2d7705a274a75940e6226e24e0d4ec58c396"
+        }
+      },
+      {
+        "index": 2,
+        "type": {
+          "kind": "id",
+          "id": 24
+        },
+        "name": {
+          "kind": "id",
+          "id": 1
+        },
+        "language": {
+          "kind": "id",
+          "id": 1033
+        },
+        "entry_locations": [
+          {
+            "offset": 1349152,
+            "bytes": 8
+          },
+          {
+            "offset": 1349224,
+            "bytes": 8
+          },
+          {
+            "offset": 1349296,
+            "bytes": 8
+          }
+        ],
+        "data_entry_location": {
+          "offset": 1349336,
+          "bytes": 16
+        },
+        "code_page": 0,
+        "reserved": 0,
+        "payload": {
+          "rva": 1390256,
+          "location": {
+            "offset": 1359024,
+            "bytes": 381
+          },
+          "sha256": "4bb79dcea0a901f7d9eac5aa05728ae92acb42e0cb22e5dd14134f4421a3d8df"
+        }
+      }
+    ],
+    "icon_groups": [
+      {
+        "resource_index": 1,
+        "images": [
+          {
+            "location": {
+              "offset": 1359006,
+              "bytes": 14
+            },
+            "width": 48,
+            "height": 48,
+            "color_count": 0,
+            "reserved": 0,
+            "planes": 1,
+            "bit_count": 32,
+            "declared_bytes": 9640,
+            "resource_id": 1,
+            "candidate_resource_indices": [
+              0
+            ],
+            "same_language_resource_index": 0,
+            "size_matches": true
+          }
+        ]
+      }
+    ],
+    "coverage": {
+      "status": "complete",
+      "examined_entries": 9,
+      "resources": 3
+    },
+    "limitations": [
+      "Static PE32/PE32+ type/name/language resource inventory; payloads other than RT_GROUP_ICON remain opaque.",
+      "Icon candidates are resource-table relationships. Language fallback, image decoding and actual shell/window loading are not observed.",
+      "Exact shared byte ranges are retained; non-identical overlapping resource structures or payloads are rejected."
+    ]
+  },
+  "confidence": "observed",
+  "authority": "shipped-artifact",
+  "environment": null,
+  "limitations": [
+    "Static PE32/PE32+ type/name/language resource inventory; payloads other than RT_GROUP_ICON remain opaque.",
+    "Icon candidates are resource-table relationships. Language fallback, image decoding and actual shell/window loading are not observed.",
+    "Exact shared byte ranges are retained; non-identical overlapping resource structures or payloads are rejected."
+  ],
+  "relationship_coverage": null,
+  "locations": [
+    {
+      "kind": "artifact-path",
+      "path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Player.exe"
+    }
+  ],
+  "evidence_links": []
+}

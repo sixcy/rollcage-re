@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rollcage recovered scene</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c121d;color:#e6edf7;font:14px system-ui,sans-serif}canvas{width:100vw;height:100vh;display:block;touch-action:none}aside{position:absolute;top:20px;left:20px;background:#111d2aee;padding:16px 20px;border:1px solid #344457;border-radius:10px;max-width:420px}h1{font-size:18px;margin:0 0 8px}p{margin:8px 0;color:#aabbd0}button,select{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:7px;margin:4px 6px 4px 0}label{margin-right:10px}.note{font-size:12px;max-width:360px}#error{color:#ffb4ac}
+</style><canvas id="canvas"></canvas><aside><h1 id="name"></h1><p id="counts"></p><p>Drag to orbit · Scroll to zoom</p><select id="sector"><option value="-1">All terrain sectors</option></select><button id="reset">Reset view</button><p><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label id="objectsLabel"><input type="checkbox" id="objects" checked>Objects</label></p><p class="note" id="scope"></p><p id="error"></p></aside>
+<script>
+'use strict';
+const scene=__SCENE_DATA__;
+document.getElementById('name').textContent=scene.name;
+document.getElementById('counts').textContent=`${scene.segments} sectors · ${scene.instances??0} objects · ${scene.triangles.toLocaleString()} triangles`;
+document.getElementById('scope').textContent=scene.instances?'Recovered track and ordinary model instances at their initial poses. Effects, overlays and game simulation are not included.':'Recovered static track geometry. Model instances, overlays and game simulation are not included.';
+document.getElementById('objectsLabel').hidden=!scene.instances;
+const canvas=document.getElementById('canvas'),gl=canvas.getContext('webgl',{antialias:true,preserveDrawingBuffer:true});
+if(!gl)document.getElementById('error').textContent='WebGL is unavailable in this browser.';
+else try {
+ const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;};
+ const program=gl.createProgram();
+ gl.attachShader(program,shader(gl.VERTEX_SHADER,'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;uniform mat4 mvp;varying vec2 vUV;varying vec3 vNormal;void main(){gl_Position=mvp*vec4(position,1.0);vUV=uv;vNormal=normal;}'));
+ gl.attachShader(program,shader(gl.FRAGMENT_SHADER,'precision mediump float;varying vec2 vUV;varying vec3 vNormal;uniform sampler2D image;uniform bool textured;uniform bool lit;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*light,color.a);}'));
+ gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(program));gl.useProgram(program);
+ const locations={};for(const key of ['position','uv','normal'])locations[key]=gl.getAttribLocation(program,key);
+ const uniforms={};for(const key of ['mvp','image','textured','lit'])uniforms[key]=gl.getUniformLocation(program,key);
+ const decode=base64=>{const s=atob(base64),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a;};
+ const groups=scene.groups.map(group=>{const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,decode(group.buffer),gl.STATIC_DRAW);return {...group,buffer};});
+ const textures=new Map();
+ for(const image of scene.images){const texture=gl.createTexture();textures.set(image.page,texture);gl.bindTexture(gl.TEXTURE_2D,texture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([255,255,255,255]));const img=new Image();img.onload=()=>{gl.bindTexture(gl.TEXTURE_2D,texture);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);setFilters();window.recoveredSceneStats.loadedTextures++;};img.onerror=()=>document.getElementById('error').textContent='A texture could not be loaded.';img.src=image.url;}
+ function setFilters(){const filter=document.getElementById('filter').checked?gl.LINEAR:gl.NEAREST;for(const t of textures.values()){gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,filter);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,filter);}}
+ document.getElementById('filter').onchange=setFilters;
+ const sector=document.getElementById('sector');for(let i=0;i<scene.segments;i++){const option=document.createElement('option');option.value=i;option.textContent=`Sector ${i}`;sector.append(option);}
+ const target=scene.bounds.map(([min,max])=>(min+max)/2),radius=Math.hypot(...scene.bounds.map(([min,max])=>max-min))/2;
+ let yaw=0.4,pitch=0.85,distance=radius*2.4,drag=null;
+ document.getElementById('reset').onclick=()=>{yaw=0.4;pitch=0.85;distance=radius*2.4;sector.value='-1';};
+ canvas.onpointerdown=e=>{drag=[e.clientX,e.clientY];canvas.setPointerCapture(e.pointerId);};canvas.onpointerup=()=>drag=null;
+ canvas.onpointermove=e=>{if(drag){yaw-=(e.clientX-drag[0])*0.006;pitch=Math.max(-1.5,Math.min(1.5,pitch+(e.clientY-drag[1])*0.006));drag=[e.clientX,e.clientY];}};
+ canvas.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(radius*0.03,Math.min(radius*10,distance*Math.exp(e.deltaY*0.001)));},{passive:false});
+ const normalize=v=>{const n=Math.hypot(...v)||1;return v.map(x=>x/n);},cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]],dot=(a,b)=>a.reduce((n,x,i)=>n+x*b[i],0);
+ function matrices(){const eye=target.map((x,i)=>x+[Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch)][i]*distance),z=normalize(eye.map((x,i)=>x-target[i])),x=normalize(cross([0,1,0],z)),y=cross(z,x);
+  const view=[x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1];
+  const near=Math.max(radius*0.001,0.01),far=radius*30,f=1/Math.tan(Math.PI/8),projection=[f/(canvas.width/canvas.height),0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0],out=new Float32Array(16);
+  for(let c=0;c<4;c++)for(let r=0;r<4;r++)for(let k=0;k<4;k++)out[c*4+r]+=projection[k*4+r]*view[c*4+k];return out;}
+ gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);gl.clearColor(0.047,0.071,0.114,1);gl.uniform1i(uniforms.image,0);
+ function render(){const ratio=Math.min(devicePixelRatio||1,2),width=Math.round(innerWidth*ratio),height=Math.round(innerHeight*ratio);if(canvas.width!==width||canvas.height!==height){canvas.width=width;canvas.height=height;}gl.viewport(0,0,width,height);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.uniformMatrix4fv(uniforms.mvp,false,matrices());gl.uniform1i(uniforms.textured,document.getElementById('textures').checked);gl.uniform1i(uniforms.lit,document.getElementById('lighting').checked);
+  for(const group of groups){if(group.kind==='object'?!document.getElementById('objects').checked:(sector.value!=='-1'&&group.segment!==Number(sector.value)))continue;gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);for(const [key,size,offset]of [['position',3,0],['uv',2,12],['normal',3,20]]){gl.enableVertexAttribArray(locations[key]);gl.vertexAttribPointer(locations[key],size,gl.FLOAT,false,32,offset);}gl.bindTexture(gl.TEXTURE_2D,textures.get(group.page));gl.drawArrays(gl.TRIANGLES,0,group.vertices);}requestAnimationFrame(render);}
+ window.recoveredSceneStats={segments:scene.segments,instances:scene.instances??0,triangles:scene.triangles,groups:groups.length,textureCount:scene.images.length,loadedTextures:0};render();
+}catch(error){document.getElementById('error').textContent=error.message;console.error(error);}
+</script></html>
