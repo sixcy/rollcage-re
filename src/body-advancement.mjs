@@ -1,8 +1,13 @@
 import {advanceBodyDelta} from './body-physics.mjs';
 import {multiplyQ16} from './fixed-integer.mjs';
 const required=(handlers,name)=>{if(typeof handlers[name]!=='function')throw Error(`Body advancement requires handler ${name}.`);return handlers[name];};
-function validateClock(body){if(!Number.isInteger(body.frameTimeQ16)||body.frameTimeQ16< -2147483648||body.frameTimeQ16>2147483647||!Number.isInteger(body.attachmentCount)||body.attachmentCount<0||body.attachmentCount>65535)throw Error('Body advancement requires an explicit signed frame clock and unsigned attachment count.');}
-function queueAttachments(body,handlers){if(body.attachmentCount){if(!Array.isArray(handlers.attachmentQueue))throw Error('Body advancement requires an attachment queue.');handlers.attachmentQueue.push(body);}}
+function attachmentWord(body){const value=body.attachmentHandles?.[0]??body.attachmentCount;if(!Number.isInteger(value)||value<0||value>65535)throw Error('Body advancement requires an unsigned first attachment handle at+0x16a.');if(body.attachmentHandles&&body.attachmentCount!==undefined&&body.attachmentCount!==value)throw Error('Historical attachmentCount must agree with the first attachment handle.');return value;}
+function validateClock(body){if(!Number.isInteger(body.frameTimeQ16)||body.frameTimeQ16< -2147483648||body.frameTimeQ16>2147483647)throw Error('Body advancement requires an explicit signed frame clock.');attachmentWord(body);}
+function queueAttachments(body,handlers){if(attachmentWord(body)){
+ const queue=handlers.attachmentQueue;if(Array.isArray(queue))queue.push(body);
+ else if(Array.isArray(queue?.entries)&&Number.isInteger(queue.count)&&queue.count>=0&&queue.count<=queue.entries.length)queue.entries[queue.count++]=body;
+ else throw Error('Body advancement requires an attachment queue.');
+}}
 function advanceDynamic(body,deltaQ16,handlers,timeOptions) {
  advanceBodyDelta(body,deltaQ16,timeOptions);
  queueAttachments(body,handlers);
@@ -33,6 +38,18 @@ export function advanceKinematicBody(body,deltaQ16,handlers={}) {
  body.frameTimeQ16=(body.frameTimeQ16+deltaQ16)|0;
  queueAttachments(body,handlers);
  return body;
+}
+//47cc20 completes a rejected static contact, not object destruction. Type4
+// advances even for a negative remaining interval and queues its attachments.
+// Other types only finish their clock. State32 is written after spatial hooks.
+export function completeRejectedCollisionBody(body,handlers={},timeOptions) {
+ if(!Number.isInteger(body.frameTimeQ16)||body.frameTimeQ16< -2147483648||body.frameTimeQ16>2147483647)throw Error('Rejected collision requires an explicit signed frame clock.');
+ if((body.flags&0x1ff)===4){
+  const before=body.position.map(value=>value>>24),remaining=(65536-body.frameTimeQ16)|0;
+  advanceDynamic(body,remaining,handlers,timeOptions);body.frameTimeQ16=(body.frameTimeQ16+remaining)|0;
+  refreshSpatial(body,before,handlers);
+ }else body.frameTimeQ16=65536;
+ body.collisionState128=32;return body;
 }
 // 0x475450 uses the null-terminated physical list. A completed or overshot body
 // is skipped. Kinematic translation deliberately bypasses the spatial callbacks.

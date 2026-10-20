@@ -1,0 +1,34 @@
+import {writeFile} from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+import assert from 'node:assert/strict';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {readInstructionEvidence} from './lib/instruction-evidence.mjs';
+import {releaseScriptedBody,quaternionFromReleaseDirection} from '../src/scripted-release.mjs';
+const parent=await readInstructionEvidence(['078-scripted-release-assembly.json','088-scripted-release-quaternion-assembly.json'],{directory:'analysis/native-simulation/results'}),math=await readInstructionEvidence(['244-wheel-direction-normalize-assembly.json','152-vector-length-assembly.json','217-wheel-capacity-curve-assembly.json','221-fixed-sqrt-assembly.json']),instructions=[...parent.instructions,...math.instructions],evidence=[...parent.evidence,...math.evidence],machine=new BoundedX86(instructions),root=0x10000;
+const put=(bytes,p,vector)=>vector.forEach((value,index)=>bytes.writeInt32LE(value,p+index*4)),get=(bytes,p)=>[0,4,8].map(offset=>bytes.readInt32LE(p+offset));
+function encode(bytes,p,body){bytes.writeInt32LE(body.flags,p);bytes.writeInt32LE(body.integrationFlags,p+0x108);put(bytes,p+0x34,body.position);put(bytes,p+0x58,body.quaternion);put(bytes,p+0x80,body.torque);body.rotation.forEach((value,index)=>bytes.writeInt16LE(value,p+0xc4+index*2));bytes.writeUInt32LE(body.collisionFilterNativeAddress148,p+0x148);}
+export function verifyScriptedRelease(inputBody,inputRng,inputMathScratch){
+ const body=structuredClone({...inputBody,collisionFilter:null}),originalFilter=()=>1,newFilter=()=>0;body.collisionFilter=originalFilter;
+ const rng=structuredClone(inputRng),mathScratch=structuredClone(inputMathScratch),actual=[],expected=[];machine.reset();const bytes=machine.bytes;bytes.fill(0xa5,root,root+0x4000);encode(bytes,root,body);const original=Buffer.from(bytes.subarray(root,root+0x4000));bytes.writeUInt32LE(rng.seed,0x5ec954);bytes.writeInt32LE(mathScratch.sum91d45c,0x91d45c);bytes.writeInt32LE(mathScratch.leadingZeros91d460,0x91d460);
+ const snapshot=()=>{const value=Buffer.from(original);encode(value,0,body);return value;};
+ const handlers={collisionFilter46e470:newFilter,onReleaseEffect:({body:target,code})=>{assert.equal(target,body);expected.push(['release',code,rng.seed,snapshot()]);},onUnscriptedReleaseEffect:({body:target,positionQ16,vectorQ16,nativeArgs})=>{assert.equal(target,body);assert.equal(target.collisionFilter,originalFilter);expected.push(['ordinary',positionQ16,vectorQ16,nativeArgs,rng.seed,snapshot()]);}};
+ machine.externalCalls.set(0x46e600,m=>{assert.equal(m.r.ECX,root);actual.push(['release',m.r.EDX,m.bytes.readUInt32LE(0x5ec954),Buffer.from(m.bytes.subarray(root,root+0x4000))]);});
+ machine.externalCalls.set(0x435ba0,m=>actual.push(['ordinary',get(m.bytes,m.r.ECX),get(m.bytes,m.r.EDX),[0,4,8].map(offset=>m.bytes.readInt32LE(m.r.ESP+offset)),m.bytes.readUInt32LE(0x5ec954),Buffer.from(m.bytes.subarray(root,root+0x4000))]));
+ const result=releaseScriptedBody(body,{rng,mathScratch,handlers}),expectedBytes=snapshot();machine.entry=0x46e4e0;machine.r.ESP=0x9000;bytes.writeUInt32LE(0xffffffff,0x9000);bytes.writeUInt32LE(root,0x9004);const steps=machine.run();assert.deepEqual(bytes.subarray(root,root+0x4000),expectedBytes);assert.equal(machine.r.EAX,result);assert.equal(bytes.readUInt32LE(0x5ec954),rng.seed);assert.equal(bytes.readInt32LE(0x91d45c),mathScratch.sum91d45c);assert.equal(bytes.readInt32LE(0x91d460),mathScratch.leadingZeros91d460);assert.deepEqual(actual,expected);assert.equal(body.collisionFilter,(inputBody.flags&0x2000)?originalFilter:newFilter);
+ return {body,rng,mathScratch,result,steps};
+}
+export async function checkScriptedRelease(){
+ let seed=0x46e4e0ab,steps=0,released=0,installed=0;const random=limit=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return(seed>>>0)%limit;},signed=()=>random(0xffffffff)|0,fixtures=4000,axes=[[0,0,4096],[4096,0,0],[-4096,0,0],[0,0,-4096],[0,4096,0],[256,-256,256],[32767,-32768,32767]];
+ for(let fixture=0;fixture<fixtures;fixture++){
+  const body={flags:(signed()&~0x2000)|(fixture&1?0x2000:0),integrationFlags:signed(),position:[signed(),signed(),signed()],quaternion:[signed(),signed(),signed(),signed()],torque:[signed(),signed(),signed()],rotation:Array.from({length:9},()=>random(65536)-32768),collisionFilterNativeAddress148:random(0xffffffff)},forward=fixture%3?axes[random(axes.length)]:[random(65535)-32767,random(65535)-32767,random(65535)-32767];
+  if(forward.every(value=>value===0))forward[2]=4096;[2,5,8].forEach((index,axis)=>body.rotation[index]=forward[axis]);
+  const result=verifyScriptedRelease(body,{seed:[0,1,0x7fffffff,0x80000000,0xffffffff,random(0xffffffff)][random(6)]},{sum91d45c:signed(),leadingZeros91d460:signed()});steps+=result.steps;if(result.result===0)released++;else installed++;
+ }
+ const independentFixtures=1000;for(let fixture=0;fixture<independentFixtures;fixture++){
+  machine.reset();const direction=[0,1,2].map(()=>random(0x600001)-0x300000);if(direction.every(value=>value===0))direction[2]=1;
+  put(machine.bytes,0x6000,direction);const scratch={},expected=quaternionFromReleaseDirection(direction,scratch);machine.entry=0x41e3f0;machine.r.ECX=0x7000;machine.r.EDX=0x6000;machine.r.ESP=0x9000;machine.bytes.writeUInt32LE(0xffffffff,0x9000);steps+=machine.run();assert.deepEqual(get(machine.bytes,0x6000),direction);assert.deepEqual([0,4,8,12].map(offset=>machine.bytes.readInt32LE(0x7000+offset)),expected);assert.equal(machine.bytes.readInt32LE(0x91d45c),scratch.sum91d45c);assert.equal(machine.bytes.readInt32LE(0x91d460),scratch.leadingZeros91d460);
+ }
+ const report={method:'Complete46e4e0 release plus41e3f0 quaternion construction, actual fixed length/root/division/vector normalization. Compares all16384 body bytes, return value, RNG seed5ec954 and final shared root scratch globals, with complete effect-boundary body snapshots and arguments. Only46e600/435ba0 effects are explicit inert callbacks. Native46e470 filter is not executed: caller supplies a function representing that unresolved address, and source function identity plus native+148 pointer installation/order are checked.1000 independent quaternion fixtures exercise large-vector reduction and compare mutated direction plus quaternion/scratch. Zero fixed-point forward length causing native division fault is outside fixture domain. No original process execution.',evidence:evidence.map(value=>value.evidence_id),instructions:instructions.length,fixtures,independentQuaternionFixtures:independentFixtures,scriptedReleases:released,filterInstallations:installed,instructionSteps:steps,matched:true};await writeFile('analysis/scripted-release-instruction-check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)await checkScriptedRelease();
+

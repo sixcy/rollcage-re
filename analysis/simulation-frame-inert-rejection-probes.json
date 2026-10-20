@@ -1,0 +1,1525 @@
+{
+  "method": "Connected stepSimulationFrame reconstruction with retained body/wheel/drive state, sphere records, arena, queue, groups and scratch across consecutive frames. Two vehicles per covered sector begin above its middle covered cell, separated64 units in X, at height40, with opposite1-unit Z momentum. Exactflags1c03 and common1803, actual five-sphere geometry/wheel-extended aggregate, explicit speed664=0 and drag0, unitmass, recovered inertia, gravity0x4000, contact friction32768, identity initial orientation with quaternion integration enabled, drive0, steering0/512, ordinary time, nearest-even conversion, explicit pool/registration and route0. Real ordinary preparation/contact friction, candidate builds, vehicle stages, static/body-pair detection, event refresh/response and advancement are connected. Checks signed body state, frame clocks, queue consumption, IDs and spatial linked lists each frame. Gameplay world update/effects/destruction are explicit inert callbacks; removeBody requests retain the body and do not reconstruct native post-removal behavior. Queued attachments are counted but not executed. No original process execution, captured runtime inputs, scripted bodies or complete race equivalence.",
+  "requestedFramesPerScenario": 8,
+  "maxResources": null,
+  "summary": {
+    "resources": 80,
+    "scenarios": 1220,
+    "frames": 9760,
+    "bodyFrames": 19520,
+    "initialEvents": 8730,
+    "regeneratedEvents": 17187,
+    "processedEvents": 19149,
+    "invalidatedEvents": 6768,
+    "terrainQueries": 182190,
+    "terrainHits": 34339,
+    "modelQueries": 19165,
+    "modelHits": 4276,
+    "storedContacts": 10935,
+    "removalRequests": 216,
+    "frictionBodies": 3755,
+    "consumedContacts": 5707,
+    "wheelHits": 29996,
+    "externalWorldCalls": 9760,
+    "attachmentEntries": 24313,
+    "spatialMoves": 1036,
+    "preservedPositionTransitions": 16980,
+    "preservedWheelAngleTransitions": 10134,
+    "cooldownDecays": 19520,
+    "airCounterTransitions": 5740,
+    "effectCallbacks": 23912,
+    "failures": []
+  },
+  "resources": [
+    {
+      "resource": 30,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 133,
+      "regeneratedEvents": 277,
+      "processedEvents": 321,
+      "frictionBodies": 64,
+      "wheelHits": 356,
+      "removalRequests": 7
+    },
+    {
+      "resource": 32,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 82,
+      "regeneratedEvents": 148,
+      "processedEvents": 186,
+      "frictionBodies": 34,
+      "wheelHits": 528,
+      "removalRequests": 0
+    },
+    {
+      "resource": 34,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 79,
+      "regeneratedEvents": 125,
+      "processedEvents": 159,
+      "frictionBodies": 28,
+      "wheelHits": 351,
+      "removalRequests": 0
+    },
+    {
+      "resource": 36,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 84,
+      "regeneratedEvents": 159,
+      "processedEvents": 191,
+      "frictionBodies": 36,
+      "wheelHits": 349,
+      "removalRequests": 0
+    },
+    {
+      "resource": 38,
+      "scenarios": 39,
+      "frames": 312,
+      "initialEvents": 245,
+      "regeneratedEvents": 436,
+      "processedEvents": 538,
+      "frictionBodies": 103,
+      "wheelHits": 1151,
+      "removalRequests": 0
+    },
+    {
+      "resource": 40,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 123,
+      "regeneratedEvents": 170,
+      "processedEvents": 242,
+      "frictionBodies": 30,
+      "wheelHits": 516,
+      "removalRequests": 7
+    },
+    {
+      "resource": 42,
+      "scenarios": 25,
+      "frames": 200,
+      "initialEvents": 193,
+      "regeneratedEvents": 405,
+      "processedEvents": 464,
+      "frictionBodies": 86,
+      "wheelHits": 629,
+      "removalRequests": 0
+    },
+    {
+      "resource": 44,
+      "scenarios": 20,
+      "frames": 160,
+      "initialEvents": 161,
+      "regeneratedEvents": 328,
+      "processedEvents": 362,
+      "frictionBodies": 62,
+      "wheelHits": 501,
+      "removalRequests": 0
+    },
+    {
+      "resource": 46,
+      "scenarios": 35,
+      "frames": 280,
+      "initialEvents": 288,
+      "regeneratedEvents": 666,
+      "processedEvents": 604,
+      "frictionBodies": 140,
+      "wheelHits": 820,
+      "removalRequests": 0
+    },
+    {
+      "resource": 48,
+      "scenarios": 28,
+      "frames": 224,
+      "initialEvents": 170,
+      "regeneratedEvents": 361,
+      "processedEvents": 408,
+      "frictionBodies": 96,
+      "wheelHits": 624,
+      "removalRequests": 0
+    },
+    {
+      "resource": 50,
+      "scenarios": 17,
+      "frames": 136,
+      "initialEvents": 118,
+      "regeneratedEvents": 239,
+      "processedEvents": 265,
+      "frictionBodies": 58,
+      "wheelHits": 163,
+      "removalRequests": 14
+    },
+    {
+      "resource": 52,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 82,
+      "regeneratedEvents": 120,
+      "processedEvents": 163,
+      "frictionBodies": 21,
+      "wheelHits": 461,
+      "removalRequests": 0
+    },
+    {
+      "resource": 54,
+      "scenarios": 23,
+      "frames": 184,
+      "initialEvents": 210,
+      "regeneratedEvents": 486,
+      "processedEvents": 452,
+      "frictionBodies": 97,
+      "wheelHits": 482,
+      "removalRequests": 7
+    },
+    {
+      "resource": 56,
+      "scenarios": 10,
+      "frames": 80,
+      "initialEvents": 67,
+      "regeneratedEvents": 75,
+      "processedEvents": 104,
+      "frictionBodies": 13,
+      "wheelHits": 236,
+      "removalRequests": 12
+    },
+    {
+      "resource": 58,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 29,
+      "processedEvents": 29,
+      "frictionBodies": 7,
+      "wheelHits": 0,
+      "removalRequests": 0
+    },
+    {
+      "resource": 60,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 16,
+      "processedEvents": 19,
+      "frictionBodies": 4,
+      "wheelHits": 14,
+      "removalRequests": 0
+    },
+    {
+      "resource": 62,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 4,
+      "regeneratedEvents": 0,
+      "processedEvents": 4,
+      "frictionBodies": 0,
+      "wheelHits": 128,
+      "removalRequests": 0
+    },
+    {
+      "resource": 64,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 19,
+      "regeneratedEvents": 35,
+      "processedEvents": 41,
+      "frictionBodies": 8,
+      "wheelHits": 56,
+      "removalRequests": 0
+    },
+    {
+      "resource": 66,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 11,
+      "regeneratedEvents": 21,
+      "processedEvents": 24,
+      "frictionBodies": 5,
+      "wheelHits": 12,
+      "removalRequests": 0
+    },
+    {
+      "resource": 68,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 93,
+      "regeneratedEvents": 197,
+      "processedEvents": 207,
+      "frictionBodies": 47,
+      "wheelHits": 122,
+      "removalRequests": 7
+    },
+    {
+      "resource": 70,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 133,
+      "regeneratedEvents": 277,
+      "processedEvents": 321,
+      "frictionBodies": 64,
+      "wheelHits": 356,
+      "removalRequests": 7
+    },
+    {
+      "resource": 72,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 82,
+      "regeneratedEvents": 148,
+      "processedEvents": 186,
+      "frictionBodies": 34,
+      "wheelHits": 528,
+      "removalRequests": 0
+    },
+    {
+      "resource": 74,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 79,
+      "regeneratedEvents": 127,
+      "processedEvents": 161,
+      "frictionBodies": 28,
+      "wheelHits": 351,
+      "removalRequests": 0
+    },
+    {
+      "resource": 76,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 83,
+      "regeneratedEvents": 160,
+      "processedEvents": 189,
+      "frictionBodies": 36,
+      "wheelHits": 349,
+      "removalRequests": 0
+    },
+    {
+      "resource": 78,
+      "scenarios": 39,
+      "frames": 312,
+      "initialEvents": 246,
+      "regeneratedEvents": 433,
+      "processedEvents": 536,
+      "frictionBodies": 102,
+      "wheelHits": 1151,
+      "removalRequests": 0
+    },
+    {
+      "resource": 80,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 123,
+      "regeneratedEvents": 170,
+      "processedEvents": 242,
+      "frictionBodies": 30,
+      "wheelHits": 516,
+      "removalRequests": 7
+    },
+    {
+      "resource": 82,
+      "scenarios": 25,
+      "frames": 200,
+      "initialEvents": 193,
+      "regeneratedEvents": 407,
+      "processedEvents": 466,
+      "frictionBodies": 86,
+      "wheelHits": 629,
+      "removalRequests": 0
+    },
+    {
+      "resource": 84,
+      "scenarios": 20,
+      "frames": 160,
+      "initialEvents": 161,
+      "regeneratedEvents": 328,
+      "processedEvents": 362,
+      "frictionBodies": 62,
+      "wheelHits": 501,
+      "removalRequests": 0
+    },
+    {
+      "resource": 86,
+      "scenarios": 35,
+      "frames": 280,
+      "initialEvents": 288,
+      "regeneratedEvents": 666,
+      "processedEvents": 604,
+      "frictionBodies": 140,
+      "wheelHits": 820,
+      "removalRequests": 0
+    },
+    {
+      "resource": 88,
+      "scenarios": 28,
+      "frames": 224,
+      "initialEvents": 170,
+      "regeneratedEvents": 361,
+      "processedEvents": 408,
+      "frictionBodies": 96,
+      "wheelHits": 624,
+      "removalRequests": 0
+    },
+    {
+      "resource": 90,
+      "scenarios": 17,
+      "frames": 136,
+      "initialEvents": 119,
+      "regeneratedEvents": 240,
+      "processedEvents": 267,
+      "frictionBodies": 58,
+      "wheelHits": 162,
+      "removalRequests": 14
+    },
+    {
+      "resource": 92,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 82,
+      "regeneratedEvents": 120,
+      "processedEvents": 163,
+      "frictionBodies": 21,
+      "wheelHits": 461,
+      "removalRequests": 0
+    },
+    {
+      "resource": 94,
+      "scenarios": 23,
+      "frames": 184,
+      "initialEvents": 210,
+      "regeneratedEvents": 487,
+      "processedEvents": 453,
+      "frictionBodies": 97,
+      "wheelHits": 482,
+      "removalRequests": 7
+    },
+    {
+      "resource": 96,
+      "scenarios": 10,
+      "frames": 80,
+      "initialEvents": 68,
+      "regeneratedEvents": 78,
+      "processedEvents": 108,
+      "frictionBodies": 13,
+      "wheelHits": 236,
+      "removalRequests": 12
+    },
+    {
+      "resource": 98,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 29,
+      "processedEvents": 29,
+      "frictionBodies": 7,
+      "wheelHits": 0,
+      "removalRequests": 0
+    },
+    {
+      "resource": 100,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 16,
+      "processedEvents": 19,
+      "frictionBodies": 4,
+      "wheelHits": 14,
+      "removalRequests": 0
+    },
+    {
+      "resource": 102,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 4,
+      "regeneratedEvents": 0,
+      "processedEvents": 4,
+      "frictionBodies": 0,
+      "wheelHits": 128,
+      "removalRequests": 0
+    },
+    {
+      "resource": 104,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 19,
+      "regeneratedEvents": 35,
+      "processedEvents": 41,
+      "frictionBodies": 8,
+      "wheelHits": 56,
+      "removalRequests": 0
+    },
+    {
+      "resource": 106,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 11,
+      "regeneratedEvents": 21,
+      "processedEvents": 24,
+      "frictionBodies": 5,
+      "wheelHits": 12,
+      "removalRequests": 0
+    },
+    {
+      "resource": 108,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 93,
+      "regeneratedEvents": 197,
+      "processedEvents": 207,
+      "frictionBodies": 47,
+      "wheelHits": 122,
+      "removalRequests": 7
+    },
+    {
+      "resource": 110,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 133,
+      "regeneratedEvents": 277,
+      "processedEvents": 321,
+      "frictionBodies": 64,
+      "wheelHits": 356,
+      "removalRequests": 7
+    },
+    {
+      "resource": 112,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 82,
+      "regeneratedEvents": 147,
+      "processedEvents": 185,
+      "frictionBodies": 34,
+      "wheelHits": 528,
+      "removalRequests": 0
+    },
+    {
+      "resource": 114,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 79,
+      "regeneratedEvents": 127,
+      "processedEvents": 161,
+      "frictionBodies": 28,
+      "wheelHits": 351,
+      "removalRequests": 0
+    },
+    {
+      "resource": 116,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 83,
+      "regeneratedEvents": 159,
+      "processedEvents": 190,
+      "frictionBodies": 36,
+      "wheelHits": 349,
+      "removalRequests": 0
+    },
+    {
+      "resource": 118,
+      "scenarios": 39,
+      "frames": 312,
+      "initialEvents": 246,
+      "regeneratedEvents": 438,
+      "processedEvents": 541,
+      "frictionBodies": 103,
+      "wheelHits": 1152,
+      "removalRequests": 0
+    },
+    {
+      "resource": 120,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 123,
+      "regeneratedEvents": 169,
+      "processedEvents": 241,
+      "frictionBodies": 30,
+      "wheelHits": 516,
+      "removalRequests": 7
+    },
+    {
+      "resource": 122,
+      "scenarios": 25,
+      "frames": 200,
+      "initialEvents": 193,
+      "regeneratedEvents": 404,
+      "processedEvents": 463,
+      "frictionBodies": 86,
+      "wheelHits": 629,
+      "removalRequests": 0
+    },
+    {
+      "resource": 124,
+      "scenarios": 20,
+      "frames": 160,
+      "initialEvents": 161,
+      "regeneratedEvents": 328,
+      "processedEvents": 362,
+      "frictionBodies": 62,
+      "wheelHits": 501,
+      "removalRequests": 0
+    },
+    {
+      "resource": 126,
+      "scenarios": 35,
+      "frames": 280,
+      "initialEvents": 288,
+      "regeneratedEvents": 671,
+      "processedEvents": 607,
+      "frictionBodies": 141,
+      "wheelHits": 820,
+      "removalRequests": 0
+    },
+    {
+      "resource": 128,
+      "scenarios": 28,
+      "frames": 224,
+      "initialEvents": 170,
+      "regeneratedEvents": 361,
+      "processedEvents": 408,
+      "frictionBodies": 96,
+      "wheelHits": 624,
+      "removalRequests": 0
+    },
+    {
+      "resource": 130,
+      "scenarios": 17,
+      "frames": 136,
+      "initialEvents": 118,
+      "regeneratedEvents": 240,
+      "processedEvents": 267,
+      "frictionBodies": 58,
+      "wheelHits": 163,
+      "removalRequests": 14
+    },
+    {
+      "resource": 132,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 82,
+      "regeneratedEvents": 120,
+      "processedEvents": 163,
+      "frictionBodies": 21,
+      "wheelHits": 461,
+      "removalRequests": 0
+    },
+    {
+      "resource": 134,
+      "scenarios": 23,
+      "frames": 184,
+      "initialEvents": 210,
+      "regeneratedEvents": 483,
+      "processedEvents": 449,
+      "frictionBodies": 97,
+      "wheelHits": 482,
+      "removalRequests": 7
+    },
+    {
+      "resource": 136,
+      "scenarios": 10,
+      "frames": 80,
+      "initialEvents": 68,
+      "regeneratedEvents": 77,
+      "processedEvents": 107,
+      "frictionBodies": 13,
+      "wheelHits": 236,
+      "removalRequests": 12
+    },
+    {
+      "resource": 138,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 29,
+      "processedEvents": 29,
+      "frictionBodies": 7,
+      "wheelHits": 0,
+      "removalRequests": 0
+    },
+    {
+      "resource": 140,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 16,
+      "processedEvents": 19,
+      "frictionBodies": 4,
+      "wheelHits": 14,
+      "removalRequests": 0
+    },
+    {
+      "resource": 142,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 4,
+      "regeneratedEvents": 0,
+      "processedEvents": 4,
+      "frictionBodies": 0,
+      "wheelHits": 128,
+      "removalRequests": 0
+    },
+    {
+      "resource": 144,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 19,
+      "regeneratedEvents": 35,
+      "processedEvents": 41,
+      "frictionBodies": 8,
+      "wheelHits": 56,
+      "removalRequests": 0
+    },
+    {
+      "resource": 146,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 11,
+      "regeneratedEvents": 21,
+      "processedEvents": 24,
+      "frictionBodies": 5,
+      "wheelHits": 12,
+      "removalRequests": 0
+    },
+    {
+      "resource": 148,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 93,
+      "regeneratedEvents": 197,
+      "processedEvents": 207,
+      "frictionBodies": 47,
+      "wheelHits": 122,
+      "removalRequests": 7
+    },
+    {
+      "resource": 150,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 133,
+      "regeneratedEvents": 277,
+      "processedEvents": 321,
+      "frictionBodies": 64,
+      "wheelHits": 356,
+      "removalRequests": 7
+    },
+    {
+      "resource": 152,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 82,
+      "regeneratedEvents": 148,
+      "processedEvents": 186,
+      "frictionBodies": 34,
+      "wheelHits": 528,
+      "removalRequests": 0
+    },
+    {
+      "resource": 154,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 79,
+      "regeneratedEvents": 126,
+      "processedEvents": 160,
+      "frictionBodies": 28,
+      "wheelHits": 351,
+      "removalRequests": 0
+    },
+    {
+      "resource": 156,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 83,
+      "regeneratedEvents": 159,
+      "processedEvents": 190,
+      "frictionBodies": 36,
+      "wheelHits": 349,
+      "removalRequests": 0
+    },
+    {
+      "resource": 158,
+      "scenarios": 39,
+      "frames": 312,
+      "initialEvents": 246,
+      "regeneratedEvents": 436,
+      "processedEvents": 539,
+      "frictionBodies": 103,
+      "wheelHits": 1151,
+      "removalRequests": 0
+    },
+    {
+      "resource": 160,
+      "scenarios": 16,
+      "frames": 128,
+      "initialEvents": 123,
+      "regeneratedEvents": 170,
+      "processedEvents": 242,
+      "frictionBodies": 30,
+      "wheelHits": 516,
+      "removalRequests": 7
+    },
+    {
+      "resource": 162,
+      "scenarios": 25,
+      "frames": 200,
+      "initialEvents": 193,
+      "regeneratedEvents": 405,
+      "processedEvents": 464,
+      "frictionBodies": 86,
+      "wheelHits": 629,
+      "removalRequests": 0
+    },
+    {
+      "resource": 164,
+      "scenarios": 20,
+      "frames": 160,
+      "initialEvents": 161,
+      "regeneratedEvents": 328,
+      "processedEvents": 362,
+      "frictionBodies": 62,
+      "wheelHits": 501,
+      "removalRequests": 0
+    },
+    {
+      "resource": 166,
+      "scenarios": 35,
+      "frames": 280,
+      "initialEvents": 287,
+      "regeneratedEvents": 666,
+      "processedEvents": 605,
+      "frictionBodies": 139,
+      "wheelHits": 820,
+      "removalRequests": 0
+    },
+    {
+      "resource": 168,
+      "scenarios": 28,
+      "frames": 224,
+      "initialEvents": 170,
+      "regeneratedEvents": 361,
+      "processedEvents": 408,
+      "frictionBodies": 96,
+      "wheelHits": 624,
+      "removalRequests": 0
+    },
+    {
+      "resource": 170,
+      "scenarios": 17,
+      "frames": 136,
+      "initialEvents": 118,
+      "regeneratedEvents": 240,
+      "processedEvents": 267,
+      "frictionBodies": 58,
+      "wheelHits": 163,
+      "removalRequests": 14
+    },
+    {
+      "resource": 172,
+      "scenarios": 15,
+      "frames": 120,
+      "initialEvents": 82,
+      "regeneratedEvents": 120,
+      "processedEvents": 163,
+      "frictionBodies": 21,
+      "wheelHits": 461,
+      "removalRequests": 0
+    },
+    {
+      "resource": 174,
+      "scenarios": 23,
+      "frames": 184,
+      "initialEvents": 210,
+      "regeneratedEvents": 486,
+      "processedEvents": 452,
+      "frictionBodies": 97,
+      "wheelHits": 482,
+      "removalRequests": 7
+    },
+    {
+      "resource": 176,
+      "scenarios": 10,
+      "frames": 80,
+      "initialEvents": 67,
+      "regeneratedEvents": 75,
+      "processedEvents": 104,
+      "frictionBodies": 13,
+      "wheelHits": 236,
+      "removalRequests": 12
+    },
+    {
+      "resource": 178,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 29,
+      "processedEvents": 29,
+      "frictionBodies": 7,
+      "wheelHits": 0,
+      "removalRequests": 0
+    },
+    {
+      "resource": 180,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 10,
+      "regeneratedEvents": 16,
+      "processedEvents": 19,
+      "frictionBodies": 4,
+      "wheelHits": 14,
+      "removalRequests": 0
+    },
+    {
+      "resource": 182,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 4,
+      "regeneratedEvents": 0,
+      "processedEvents": 4,
+      "frictionBodies": 0,
+      "wheelHits": 128,
+      "removalRequests": 0
+    },
+    {
+      "resource": 184,
+      "scenarios": 2,
+      "frames": 16,
+      "initialEvents": 19,
+      "regeneratedEvents": 35,
+      "processedEvents": 41,
+      "frictionBodies": 8,
+      "wheelHits": 56,
+      "removalRequests": 0
+    },
+    {
+      "resource": 186,
+      "scenarios": 1,
+      "frames": 8,
+      "initialEvents": 11,
+      "regeneratedEvents": 21,
+      "processedEvents": 24,
+      "frictionBodies": 5,
+      "wheelHits": 12,
+      "removalRequests": 0
+    },
+    {
+      "resource": 188,
+      "scenarios": 13,
+      "frames": 104,
+      "initialEvents": 93,
+      "regeneratedEvents": 197,
+      "processedEvents": 207,
+      "frictionBodies": 47,
+      "wheelHits": 122,
+      "removalRequests": 7
+    }
+  ],
+  "samples": [
+    {
+      "resource": 30,
+      "sector": 1,
+      "frames": 8,
+      "initialPositions": [
+        [
+          -276824064,
+          -3932160,
+          -324796416
+        ],
+        [
+          -272629760,
+          -3932160,
+          -324796416
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            -274330968,
+            -3342336,
+            -322909335
+          ],
+          "momentum": [
+            8905,
+            131072,
+            20500
+          ],
+          "quaternion": [
+            65446,
+            0,
+            3684,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "position": [
+            -270510517,
+            -3342336,
+            -324963720
+          ],
+          "momentum": [
+            -7506,
+            131072,
+            -19989
+          ],
+          "quaternion": [
+            65500,
+            0,
+            2314,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 6,
+          "wheelAngles": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 1,
+        "regenerated": 0,
+        "processed": 1
+      }
+    },
+    {
+      "resource": 30,
+      "sector": 2,
+      "frames": 8,
+      "initialPositions": [
+        [
+          -65011712,
+          -1310720,
+          -423624704
+        ],
+        [
+          -60817408,
+          -1310720,
+          -423624704
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            -65209461,
+            -949004,
+            -423490429
+          ],
+          "momentum": [
+            28,
+            34725,
+            5371
+          ],
+          "quaternion": [
+            65536,
+            -1,
+            -57,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            63014,
+            65481,
+            63002,
+            65472
+          ]
+        },
+        {
+          "position": [
+            -60619874,
+            -948959,
+            -423758900
+          ],
+          "momentum": [
+            43,
+            34733,
+            -5360
+          ],
+          "quaternion": [
+            65536,
+            -5,
+            41,
+            3
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            -63156,
+            -65304,
+            -63212,
+            -65358
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 0,
+        "regenerated": 0,
+        "processed": 0
+      }
+    },
+    {
+      "resource": 30,
+      "sector": 3,
+      "frames": 8,
+      "initialPositions": [
+        [
+          130613248,
+          -3866624,
+          -223543296
+        ],
+        [
+          134807552,
+          -3866624,
+          -223543296
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            128309727,
+            -3276800,
+            -222986125
+          ],
+          "momentum": [
+            0,
+            131072,
+            65536
+          ],
+          "quaternion": [
+            65536,
+            0,
+            0,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "position": [
+            135004672,
+            -3276800,
+            -224067584
+          ],
+          "momentum": [
+            0,
+            131072,
+            -65536
+          ],
+          "quaternion": [
+            65536,
+            0,
+            0,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 6,
+          "wheelAngles": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 2,
+        "regenerated": 3,
+        "processed": 5
+      }
+    },
+    {
+      "resource": 30,
+      "sector": 4,
+      "frames": 8,
+      "initialPositions": [
+        [
+          63176704,
+          -2621440,
+          -35061760
+        ],
+        [
+          67371008,
+          -2621440,
+          -35061760
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            61553174,
+            -2376672,
+            -34326133
+          ],
+          "momentum": [
+            13489,
+            20910,
+            4715
+          ],
+          "quaternion": [
+            65476,
+            1346,
+            1006,
+            2359
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            112068,
+            79886,
+            117449,
+            78277
+          ]
+        },
+        {
+          "position": [
+            71471211,
+            -2259638,
+            -31503871
+          ],
+          "momentum": [
+            34,
+            34732,
+            -147
+          ],
+          "quaternion": [
+            65536,
+            -7,
+            308,
+            3
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            -29395,
+            -36211,
+            -29490,
+            -36323
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 1,
+        "regenerated": 1,
+        "processed": 2
+      }
+    },
+    {
+      "resource": 30,
+      "sector": 5,
+      "frames": 8,
+      "initialPositions": [
+        [
+          158728192,
+          -1310720,
+          120127488
+        ],
+        [
+          162922496,
+          -1310720,
+          120127488
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            158530443,
+            -949004,
+            120261763
+          ],
+          "momentum": [
+            28,
+            34725,
+            5371
+          ],
+          "quaternion": [
+            65536,
+            -1,
+            -57,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            63014,
+            65481,
+            63002,
+            65472
+          ]
+        },
+        {
+          "position": [
+            163120030,
+            -948959,
+            119993292
+          ],
+          "momentum": [
+            43,
+            34733,
+            -5360
+          ],
+          "quaternion": [
+            65536,
+            -5,
+            41,
+            3
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            -63156,
+            -65304,
+            -63212,
+            -65358
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 0,
+        "regenerated": 0,
+        "processed": 0
+      }
+    },
+    {
+      "resource": 30,
+      "sector": 6,
+      "frames": 8,
+      "initialPositions": [
+        [
+          -63635456,
+          -15400960,
+          342687744
+        ],
+        [
+          -59441152,
+          -15400960,
+          342687744
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            -64284636,
+            -17411836,
+            348381285
+          ],
+          "momentum": [
+            915,
+            11072,
+            30844
+          ],
+          "quaternion": [
+            64934,
+            -6055,
+            -158,
+            -7319
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            0,
+            74779,
+            74779,
+            74779
+          ]
+        },
+        {
+          "position": [
+            -59227654,
+            -19702529,
+            346230792
+          ],
+          "momentum": [
+            1041,
+            -88981,
+            33727
+          ],
+          "quaternion": [
+            65029,
+            -8813,
+            335,
+            -165
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            -74781,
+            -74781,
+            -268982,
+            -285484
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 0,
+        "regenerated": 0,
+        "processed": 0
+      }
+    },
+    {
+      "resource": 30,
+      "sector": 7,
+      "frames": 8,
+      "initialPositions": [
+        [
+          -304218112,
+          -6488064,
+          249298944
+        ],
+        [
+          -300023808,
+          -6488064,
+          249298944
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            -307096908,
+            -5732124,
+            249795846
+          ],
+          "momentum": [
+            -61790,
+            -47206,
+            -73119
+          ],
+          "quaternion": [
+            64022,
+            -90,
+            399,
+            -15025
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            0,
+            84644,
+            0,
+            84766
+          ]
+        },
+        {
+          "position": [
+            -306230936,
+            -7459329,
+            248449895
+          ],
+          "momentum": [
+            -152140,
+            -75756,
+            -51039
+          ],
+          "quaternion": [
+            61814,
+            21563,
+            -1028,
+            -8268
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            -63762,
+            -63633,
+            0,
+            220441
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 2,
+        "regenerated": 6,
+        "processed": 4
+      }
+    },
+    {
+      "resource": 30,
+      "sector": 8,
+      "frames": 8,
+      "initialPositions": [
+        [
+          -266469376,
+          -3932160,
+          81592320
+        ],
+        [
+          -262275072,
+          -3932160,
+          81592320
+        ]
+      ],
+      "final": [
+        {
+          "position": [
+            -265553209,
+            -3342336,
+            85155442
+          ],
+          "momentum": [
+            -6378,
+            131072,
+            59350
+          ],
+          "quaternion": [
+            65526,
+            0,
+            1251,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 0,
+          "wheelAngles": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "position": [
+            -260979993,
+            -3342336,
+            81618619
+          ],
+          "momentum": [
+            6374,
+            131072,
+            -59353
+          ],
+          "quaternion": [
+            65526,
+            0,
+            1251,
+            0
+          ],
+          "cooldown": 0,
+          "airCounter655": 6,
+          "wheelAngles": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "lastFrameEvents": {
+        "initial": 0,
+        "regenerated": 0,
+        "processed": 0
+      }
+    }
+  ]
+}

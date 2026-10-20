@@ -20,8 +20,12 @@ function integerFloat(value,roundingMode) {
 export function normalizeCollisionVector(input,roundingMode) {
  let bits=input.reduce((mask,value)=>mask|abs32(value),0);if(bits<0)bits=-bits|0;
  const shift=Math.max(0,18-Math.clz32(bits));if(shift)for(let i=0;i<3;i++)input[i]>>=shift;
+ return {vector:normalizeUnreducedCollisionVector(input,roundingMode).vector,shift};
+}
+// 0x4343e0 shares the float conversion but omits422c70's input reduction.
+export function normalizeUnreducedCollisionVector(input,roundingMode) {
  const lanes=input.map(value=>Math.fround(value<<8)),squares=lanes.map(value=>Math.fround(value*value)),length=Math.fround(Math.sqrt(Math.fround(Math.fround(squares[1]+squares[0])+squares[2]))),inverse=Math.fround(1/length);
- return {vector:lanes.map(value=>integerFloat(Math.fround(Math.fround(value*4096)*inverse),roundingMode)),shift};
+ return {vector:lanes.map(value=>integerFloat(Math.fround(Math.fround(value*4096)*inverse),roundingMode))};
 }
 // 0x4225d0 quantizes coefficients before taking the lookup-table square root.
 export function contactDiscriminantRoot(a,b,c) {

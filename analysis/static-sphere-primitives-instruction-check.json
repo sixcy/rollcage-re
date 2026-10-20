@@ -1,0 +1,34 @@
+{
+  "method": "Complete retained-x86 point and finite-edge contact routines with actual signed-short cross product, quadratic helper, normalization, Q8 fraction/scaling, lookup-root and leading-zero routines. No helper stubs or original execution. Compares all output fields and unchanged sphere/geometry bytes. Four explicit x87 rounding modes, nearest binary32 SSE arithmetic and masked invalid conversion are emulation contexts, not observed runtime control words.",
+  "evidence": [
+    "ev_c69f767ae26fa2c32868cb8819e1fbc7d7c7a252c2e8042ff73cb83fa35f39f7",
+    "ev_3f7808a03142dcde5022566a16c4a896980d989fca68c19e68b819e121afe97d",
+    "ev_b04ce070074b38e201025cc266ed76b9ab3a0284316090a97451436c2a28c8c9",
+    "ev_6aa80b28f8c9a4edddf3ad665cdca5c737ef7f2acabfb01dfdc68035a31d8ac7",
+    "ev_5a9e7a76e52a4139579ae93869af0ff3d0c427075434a17ca46f8d81eb2501f9",
+    "ev_3cf8c567932913dd28ac8d31a7e701fad4250943db172498dfff9f69cafb9abf",
+    "ev_c1f7efb973dc4455a1db256f427916e78d80be2158de454c655414b0278479dc",
+    "ev_c7645de61d87c58a664f0690f425b33b828154ad64717cfe3895fdb5057da3c6",
+    "ev_f1c5d07efd452a08aa052dd47fead22c9b5fb82086ad2b390689fef5eff84b81"
+  ],
+  "instructions": 1098,
+  "fixtures": 8000,
+  "checks": 16000,
+  "roundingModes": [
+    "nearest-even",
+    "toward-zero",
+    "down",
+    "up"
+  ],
+  "histogram": {
+    "point:overlap": 1721,
+    "edge:miss": 5707,
+    "point:miss": 5902,
+    "edge:endpoint-rejection": 1188,
+    "edge:overlap": 975,
+    "point:impact": 377,
+    "edge:impact": 130
+  },
+  "instructionSteps": 5113016,
+  "matched": true
+}

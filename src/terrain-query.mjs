@@ -56,6 +56,9 @@ function sharedEdge(current,other) {
  if(current>3)return Math.abs(other-current)===1;
  const opposite=(current-2)&3;return opposite===(other>>4)||opposite===(other&15);
 }
+// Shared native polygon bookkeeping; the radius-bearing path keeps its own
+// plane-selection and edge pass while using the same authored topology.
+export {polygon as terrainPolygon,outsideEdges as terrainOutsideEdges,edgeCode as terrainEdgeCode};
 export function queryTerrainRay(grid,candidates,query,{parameter=0x1010000,bodyFlags=3}={}) {
  if((query.radiusQ8??query.radius??0)!==0)throw Error('Terrain ray query requires zero radius; sphere edge contacts are not reconstructed.');
  if(candidates.length>64)throw Error('Native terrain query admits at most 64 candidates.');

@@ -52,7 +52,11 @@ try {
   await writeFile(path.join(analysis, 'rea-tools.json'), JSON.stringify(catalog, null, 2));
   const toolNames = new Set(catalog.tools.map(tool => tool.name));
   console.log(`REA session ready: ${toolNames.size} tools. Queue: ${queue}`);
-  const completed = new Set();
+  // A replacement server has no active target or evidence ledger. Retained
+  // replies belong to its earlier session and must never be replayed/overwritten.
+  // Queue a NEW open_binary and import_evidence_bundle request when resuming.
+  const completed = new Set((await readdir(results)).filter(name => name.endsWith('.json')));
+  if (completed.size) console.log(`Preserving ${completed.size} retained replies; queue new target/ledger restoration requests for this server.`);
   let stop = false;
   while (!stop) {
     const names = (await readdir(queue)).filter(name => name.endsWith('.json') && !completed.has(name)).sort();
@@ -62,7 +66,7 @@ try {
       if (!toolNames.has(request.tool)) throw new Error(`Unadvertised tool: ${request.tool}`);
       console.log(`Running ${name}: ${request.tool}`);
       const result = await rpc('tools/call', { name: request.tool, arguments: request.arguments ?? {} });
-      await writeFile(path.join(results, name), JSON.stringify(result, null, 2));
+      await writeFile(path.join(results, name), JSON.stringify(result, null, 2), { flag: 'wx' });
       completed.add(name);
       console.log(`Saved ${name}${result.isError ? ' (tool error)' : ''}`);
     }

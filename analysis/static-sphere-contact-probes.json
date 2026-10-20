@@ -1,0 +1,2890 @@
+{
+  "method": "Installed-data synthetic one-vehicle static detection and response. Actual five-sphere PE descriptors, wheel-extended aggregate, shape pool/cache, parsed-index spatial registration, initial terrain/model candidate builders, full terrain and placed-model sphere queries, sphere-list wrappers, default real static-contact merge, queue, dispatcher, contact storage, signed-counter-bounded candidate regeneration and frame completion. Three declared profiles at sampled covered terrain cells and up to three upward model faces per pack: normal offsets26/14/26 units and normal speeds-16/-4/+16 units per frame. All contact classes/times are computed from geometry, never supplied. Unit mass/inverse mass, zero restitution, recovered inertia, identity rotation with rotation integration disabled, recovered drive-class row, explicit pool order, zeroed scratch, selection counter0, ordinary time scaling, nearest-even conversion and active tag5. Candidate geometry lists are retained from the initial broad phase throughout response; no cache rebuild, wheel forces, gravity integration, attachment execution, captured runtime state, original process execution or complete race equivalence. Object/class1 destruction callbacks return false; class2 callback is inert but native class2 damping is preserved. Class16 removal requests from static-contact merger rejection (including zero penetration projection) are recorded through an explicit inert lifecycle callback: the synthetic body remains registered for frame-completion validation, so this does not reconstruct object removal or native post-removal behavior. Sampled complete retained-x86 terrain checks compare actual corpus geometry and scratch state.",
+  "summary": {
+    "resources": 80,
+    "scenarios": 4332,
+    "bodies": 4332,
+    "registeredShapes": 25992,
+    "terrainCandidates": 47664,
+    "modelCandidates": 2792,
+    "terrainQueries": 57300,
+    "modelQueries": 14780,
+    "terrainHits": 20848,
+    "modelHits": 5204,
+    "initialEvents": 4060,
+    "regeneratedEvents": 6496,
+    "processedEvents": 10556,
+    "zeroTimeEvents": 6932,
+    "futureEvents": 3624,
+    "noInitialEvent": 272,
+    "refreshRequests": 10556,
+    "staticPasses": 13056,
+    "storedContacts": 9796,
+    "removalRequests": 44,
+    "spatialMoves": 740,
+    "attachmentEntries": 7416,
+    "nativeTerrainChecks": 80,
+    "instructionSteps": 531464,
+    "effectCalls": {
+      "class1": 1204,
+      "class2": 1724,
+      "object": 2712,
+      "class4Break": 0
+    },
+    "failures": []
+  },
+  "byInput": {
+    "terrainCells:closing": {
+      "scenarios": 1220,
+      "initialEvents": 1216,
+      "processedEvents": 3792,
+      "removalCallbacks": 0,
+      "removalScenarios": 0
+    },
+    "terrainCells:overlap": {
+      "scenarios": 1220,
+      "initialEvents": 1216,
+      "processedEvents": 3608,
+      "removalCallbacks": 0,
+      "removalScenarios": 0
+    },
+    "terrainCells:separating": {
+      "scenarios": 1220,
+      "initialEvents": 1064,
+      "processedEvents": 1528,
+      "removalCallbacks": 0,
+      "removalScenarios": 0
+    },
+    "modelFaces:closing": {
+      "scenarios": 224,
+      "initialEvents": 224,
+      "processedEvents": 684,
+      "removalCallbacks": 16,
+      "removalScenarios": 4
+    },
+    "modelFaces:overlap": {
+      "scenarios": 224,
+      "initialEvents": 224,
+      "processedEvents": 644,
+      "removalCallbacks": 12,
+      "removalScenarios": 4
+    },
+    "modelFaces:separating": {
+      "scenarios": 224,
+      "initialEvents": 116,
+      "processedEvents": 300,
+      "removalCallbacks": 16,
+      "removalScenarios": 4
+    }
+  },
+  "eventClassHistogram": {
+    "1": 2192,
+    "2": 7428,
+    "8": 176,
+    "16": 44,
+    "64": 716
+  },
+  "eventTimeHistogram": {
+    "0": 6932,
+    "19": 20,
+    "23": 4,
+    "31": 8,
+    "33": 4,
+    "34": 8,
+    "40": 12,
+    "42": 4,
+    "63": 4,
+    "66": 12,
+    "74": 8,
+    "75": 4,
+    "79": 4,
+    "98": 16,
+    "99": 4,
+    "100": 4,
+    "102": 4,
+    "105": 4,
+    "106": 12,
+    "107": 4,
+    "118": 4,
+    "126": 4,
+    "127": 4,
+    "136": 4,
+    "141": 12,
+    "145": 4,
+    "154": 8,
+    "155": 4,
+    "159": 12,
+    "161": 4,
+    "163": 12,
+    "165": 4,
+    "172": 12,
+    "189": 12,
+    "191": 4,
+    "195": 4,
+    "196": 8,
+    "197": 12,
+    "200": 4,
+    "205": 4,
+    "215": 4,
+    "231": 4,
+    "242": 4,
+    "247": 4,
+    "266": 4,
+    "272": 4,
+    "273": 4,
+    "274": 8,
+    "277": 8,
+    "281": 16,
+    "287": 12,
+    "296": 4,
+    "300": 20,
+    "301": 8,
+    "309": 12,
+    "335": 4,
+    "375": 8,
+    "376": 4,
+    "383": 4,
+    "387": 4,
+    "393": 4,
+    "422": 4,
+    "524": 4,
+    "590": 12,
+    "630": 8,
+    "652": 4,
+    "675": 8,
+    "682": 16,
+    "740": 4,
+    "757": 12,
+    "762": 4,
+    "771": 8,
+    "809": 8,
+    "819": 8,
+    "829": 16,
+    "836": 8,
+    "851": 4,
+    "862": 8,
+    "885": 32,
+    "923": 12,
+    "963": 4,
+    "992": 16,
+    "1008": 12,
+    "1024": 12,
+    "1040": 4,
+    "1074": 24,
+    "1110": 12,
+    "1153": 8,
+    "1157": 4,
+    "1170": 16,
+    "1191": 4,
+    "1236": 12,
+    "1292": 8,
+    "1310": 8,
+    "1365": 32,
+    "1394": 4,
+    "1424": 12,
+    "1443": 4,
+    "1524": 24,
+    "1560": 24,
+    "1598": 8,
+    "1618": 12,
+    "1638": 12,
+    "1659": 28,
+    "1771": 24,
+    "1795": 24,
+    "1820": 4,
+    "1846": 12,
+    "1899": 4,
+    "1927": 32,
+    "1985": 12,
+    "2016": 12,
+    "2048": 28,
+    "2080": 8,
+    "2106": 8,
+    "2114": 12,
+    "2184": 12,
+    "2221": 4,
+    "2259": 4,
+    "2313": 16,
+    "2340": 8,
+    "2383": 4,
+    "2473": 4,
+    "2520": 28,
+    "2621": 28,
+    "2656": 4,
+    "2674": 32,
+    "2730": 4,
+    "2788": 16,
+    "2849": 32,
+    "2886": 4,
+    "2978": 12,
+    "3024": 16,
+    "3029": 16,
+    "3120": 20,
+    "3196": 4,
+    "3276": 20,
+    "3360": 12,
+    "3366": 8,
+    "3415": 4,
+    "3449": 8,
+    "3513": 4,
+    "3640": 8,
+    "3744": 20,
+    "3855": 16,
+    "3932": 12,
+    "3957": 8,
+    "4096": 32,
+    "4228": 8,
+    "4369": 32,
+    "4519": 8,
+    "4650": 16,
+    "4681": 20,
+    "4795": 4,
+    "4802": 12,
+    "4854": 12,
+    "4929": 4,
+    "5041": 12,
+    "5205": 8,
+    "5242": 28,
+    "5254": 4,
+    "5461": 44,
+    "5560": 8,
+    "5698": 12,
+    "5799": 4,
+    "5957": 8,
+    "6491": 8,
+    "6518": 4,
+    "6680": 4,
+    "6774": 4,
+    "7005": 4,
+    "7021": 8,
+    "7056": 4,
+    "7228": 4,
+    "7281": 24,
+    "7710": 16,
+    "7864": 12,
+    "8176": 8,
+    "8192": 20,
+    "8290": 8,
+    "8458": 4,
+    "8495": 8,
+    "8738": 20,
+    "8874": 8,
+    "8903": 4,
+    "9112": 8,
+    "9362": 16,
+    "9502": 4,
+    "9507": 8,
+    "9708": 4,
+    "9767": 4,
+    "9830": 24,
+    "9913": 8,
+    "10065": 8,
+    "10082": 8,
+    "10094": 8,
+    "10280": 4,
+    "10329": 4,
+    "10347": 4,
+    "10418": 16,
+    "10532": 8,
+    "10576": 4,
+    "10922": 20,
+    "10943": 12,
+    "11218": 4,
+    "11358": 4,
+    "11521": 4,
+    "11552": 4,
+    "11702": 4,
+    "11869": 8,
+    "11882": 4,
+    "11888": 8,
+    "12140": 4,
+    "12189": 4,
+    "12620": 4,
+    "12777": 4,
+    "12931": 4,
+    "13107": 4,
+    "13140": 8,
+    "13261": 4,
+    "13731": 4,
+    "13852": 8,
+    "14028": 4,
+    "14186": 4,
+    "14302": 4,
+    "14417": 4,
+    "14432": 4,
+    "14563": 12,
+    "14717": 8,
+    "14890": 4,
+    "15123": 16,
+    "15372": 4,
+    "15458": 4,
+    "16085": 4,
+    "16087": 4,
+    "16143": 4,
+    "16164": 12,
+    "16252": 4,
+    "16383": 4,
+    "16384": 24,
+    "16579": 8,
+    "16620": 4,
+    "16639": 4,
+    "16783": 4,
+    "16814": 4,
+    "17014": 4,
+    "17203": 4,
+    "17459": 4,
+    "17944": 4,
+    "17978": 4,
+    "18181": 4,
+    "18311": 4,
+    "18323": 8,
+    "18534": 4,
+    "18578": 4,
+    "18635": 4,
+    "18643": 4,
+    "18724": 4,
+    "18929": 4,
+    "19049": 8,
+    "19750": 4,
+    "20264": 4,
+    "20499": 4,
+    "20621": 12,
+    "20938": 8,
+    "21517": 8,
+    "21844": 4,
+    "21845": 48,
+    "22055": 8,
+    "22087": 4,
+    "22678": 4,
+    "22837": 4,
+    "23093": 8,
+    "23394": 4,
+    "23517": 12,
+    "23598": 4,
+    "23721": 4,
+    "23744": 4,
+    "23861": 4,
+    "24094": 4,
+    "24320": 12,
+    "24546": 12,
+    "24575": 8,
+    "24737": 8,
+    "25087": 12,
+    "25292": 36,
+    "25313": 12,
+    "25496": 4,
+    "25560": 12,
+    "25663": 8,
+    "25680": 4,
+    "25756": 8,
+    "25792": 4,
+    "25813": 12,
+    "25941": 4,
+    "26168": 8,
+    "26171": 24,
+    "26214": 16,
+    "26233": 8,
+    "26919": 8,
+    "27025": 4,
+    "27065": 8,
+    "27216": 8,
+    "27306": 4,
+    "27405": 8,
+    "27410": 8,
+    "27685": 4,
+    "27774": 4,
+    "28026": 4,
+    "28262": 4,
+    "28496": 4,
+    "28517": 12,
+    "28672": 204,
+    "28685": 8,
+    "28711": 4,
+    "28986": 4,
+    "29126": 4,
+    "29230": 8,
+    "29299": 4,
+    "29451": 8,
+    "29852": 4,
+    "30267": 4,
+    "30441": 4,
+    "30583": 4,
+    "30794": 8,
+    "30920": 4,
+    "30922": 4,
+    "30931": 4,
+    "30971": 8,
+    "31129": 8,
+    "31207": 8,
+    "32548": 12,
+    "32569": 4,
+    "32767": 4,
+    "32768": 8,
+    "32868": 4,
+    "32886": 8,
+    "32992": 4,
+    "33041": 4,
+    "33355": 8,
+    "33587": 8,
+    "33735": 4,
+    "33914": 24,
+    "34116": 4,
+    "34735": 8,
+    "35442": 4,
+    "36864": 12,
+    "37137": 8,
+    "37449": 8,
+    "37881": 8,
+    "37988": 4,
+    "38762": 4,
+    "39048": 4,
+    "39789": 4,
+    "39948": 4,
+    "39959": 4,
+    "40237": 8,
+    "40300": 4,
+    "40631": 8,
+    "40659": 8,
+    "40680": 4,
+    "40959": 8,
+    "41844": 4,
+    "42106": 4,
+    "42555": 4,
+    "43502": 8,
+    "43690": 32,
+    "44499": 4,
+    "44764": 8,
+    "44836": 16,
+    "46163": 4,
+    "46381": 8,
+    "46811": 4,
+    "47629": 4,
+    "48670": 4,
+    "48674": 8,
+    "48855": 8,
+    "49352": 4,
+    "49516": 12,
+    "50639": 8,
+    "51936": 8,
+    "51953": 8,
+    "52428": 4,
+    "53384": 8,
+    "53548": 8,
+    "54982": 4,
+    "55175": 4,
+    "55294": 4,
+    "55311": 4,
+    "55653": 8,
+    "58368": 8,
+    "58490": 4,
+    "58572": 4,
+    "58666": 4,
+    "60098": 4,
+    "62333": 4,
+    "63950": 12,
+    "65350": 4,
+    "65535": 20
+  },
+  "terrainFlagHistogram": {
+    "0": 36452,
+    "1": 4220,
+    "2": 10768,
+    "524288": 5860
+  },
+  "modelFlagHistogram": {
+    "0": 9576,
+    "1": 752,
+    "2": 2856,
+    "576": 1596
+  },
+  "resources": [
+    {
+      "resource": 30,
+      "scenarios": 54,
+      "initialEvents": 50,
+      "regeneratedEvents": 85,
+      "processedEvents": 135,
+      "terrainHits": 244,
+      "modelHits": 102
+    },
+    {
+      "resource": 32,
+      "scenarios": 57,
+      "initialEvents": 52,
+      "regeneratedEvents": 88,
+      "processedEvents": 140,
+      "terrainHits": 270,
+      "modelHits": 27
+    },
+    {
+      "resource": 34,
+      "scenarios": 48,
+      "initialEvents": 47,
+      "regeneratedEvents": 79,
+      "processedEvents": 126,
+      "terrainHits": 235,
+      "modelHits": 65
+    },
+    {
+      "resource": 36,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 64,
+      "processedEvents": 110,
+      "terrainHits": 196,
+      "modelHits": 70
+    },
+    {
+      "resource": 38,
+      "scenarios": 126,
+      "initialEvents": 115,
+      "regeneratedEvents": 178,
+      "processedEvents": 293,
+      "terrainHits": 696,
+      "modelHits": 100
+    },
+    {
+      "resource": 40,
+      "scenarios": 57,
+      "initialEvents": 57,
+      "regeneratedEvents": 112,
+      "processedEvents": 169,
+      "terrainHits": 292,
+      "modelHits": 93
+    },
+    {
+      "resource": 42,
+      "scenarios": 84,
+      "initialEvents": 79,
+      "regeneratedEvents": 131,
+      "processedEvents": 210,
+      "terrainHits": 445,
+      "modelHits": 113
+    },
+    {
+      "resource": 44,
+      "scenarios": 69,
+      "initialEvents": 63,
+      "regeneratedEvents": 103,
+      "processedEvents": 166,
+      "terrainHits": 326,
+      "modelHits": 99
+    },
+    {
+      "resource": 46,
+      "scenarios": 114,
+      "initialEvents": 110,
+      "regeneratedEvents": 139,
+      "processedEvents": 249,
+      "terrainHits": 587,
+      "modelHits": 30
+    },
+    {
+      "resource": 48,
+      "scenarios": 93,
+      "initialEvents": 88,
+      "regeneratedEvents": 123,
+      "processedEvents": 211,
+      "terrainHits": 533,
+      "modelHits": 101
+    },
+    {
+      "resource": 50,
+      "scenarios": 60,
+      "initialEvents": 58,
+      "regeneratedEvents": 93,
+      "processedEvents": 151,
+      "terrainHits": 271,
+      "modelHits": 28
+    },
+    {
+      "resource": 52,
+      "scenarios": 54,
+      "initialEvents": 53,
+      "regeneratedEvents": 87,
+      "processedEvents": 140,
+      "terrainHits": 247,
+      "modelHits": 104
+    },
+    {
+      "resource": 54,
+      "scenarios": 78,
+      "initialEvents": 78,
+      "regeneratedEvents": 133,
+      "processedEvents": 211,
+      "terrainHits": 423,
+      "modelHits": 44
+    },
+    {
+      "resource": 56,
+      "scenarios": 39,
+      "initialEvents": 34,
+      "regeneratedEvents": 68,
+      "processedEvents": 102,
+      "terrainHits": 173,
+      "modelHits": 67
+    },
+    {
+      "resource": 58,
+      "scenarios": 12,
+      "initialEvents": 9,
+      "regeneratedEvents": 6,
+      "processedEvents": 15,
+      "terrainHits": 17,
+      "modelHits": 30
+    },
+    {
+      "resource": 60,
+      "scenarios": 12,
+      "initialEvents": 11,
+      "regeneratedEvents": 27,
+      "processedEvents": 38,
+      "terrainHits": 16,
+      "modelHits": 71
+    },
+    {
+      "resource": 62,
+      "scenarios": 6,
+      "initialEvents": 2,
+      "regeneratedEvents": 3,
+      "processedEvents": 5,
+      "terrainHits": 30,
+      "modelHits": 0
+    },
+    {
+      "resource": 64,
+      "scenarios": 15,
+      "initialEvents": 11,
+      "regeneratedEvents": 24,
+      "processedEvents": 35,
+      "terrainHits": 36,
+      "modelHits": 61
+    },
+    {
+      "resource": 66,
+      "scenarios": 9,
+      "initialEvents": 6,
+      "regeneratedEvents": 16,
+      "processedEvents": 22,
+      "terrainHits": 14,
+      "modelHits": 24
+    },
+    {
+      "resource": 68,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 65,
+      "processedEvents": 111,
+      "terrainHits": 161,
+      "modelHits": 72
+    },
+    {
+      "resource": 70,
+      "scenarios": 54,
+      "initialEvents": 50,
+      "regeneratedEvents": 85,
+      "processedEvents": 135,
+      "terrainHits": 244,
+      "modelHits": 102
+    },
+    {
+      "resource": 72,
+      "scenarios": 57,
+      "initialEvents": 52,
+      "regeneratedEvents": 88,
+      "processedEvents": 140,
+      "terrainHits": 270,
+      "modelHits": 27
+    },
+    {
+      "resource": 74,
+      "scenarios": 48,
+      "initialEvents": 47,
+      "regeneratedEvents": 79,
+      "processedEvents": 126,
+      "terrainHits": 235,
+      "modelHits": 65
+    },
+    {
+      "resource": 76,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 64,
+      "processedEvents": 110,
+      "terrainHits": 196,
+      "modelHits": 70
+    },
+    {
+      "resource": 78,
+      "scenarios": 126,
+      "initialEvents": 115,
+      "regeneratedEvents": 178,
+      "processedEvents": 293,
+      "terrainHits": 696,
+      "modelHits": 100
+    },
+    {
+      "resource": 80,
+      "scenarios": 57,
+      "initialEvents": 57,
+      "regeneratedEvents": 112,
+      "processedEvents": 169,
+      "terrainHits": 292,
+      "modelHits": 93
+    },
+    {
+      "resource": 82,
+      "scenarios": 84,
+      "initialEvents": 79,
+      "regeneratedEvents": 131,
+      "processedEvents": 210,
+      "terrainHits": 445,
+      "modelHits": 113
+    },
+    {
+      "resource": 84,
+      "scenarios": 69,
+      "initialEvents": 63,
+      "regeneratedEvents": 103,
+      "processedEvents": 166,
+      "terrainHits": 326,
+      "modelHits": 99
+    },
+    {
+      "resource": 86,
+      "scenarios": 114,
+      "initialEvents": 110,
+      "regeneratedEvents": 139,
+      "processedEvents": 249,
+      "terrainHits": 587,
+      "modelHits": 30
+    },
+    {
+      "resource": 88,
+      "scenarios": 93,
+      "initialEvents": 88,
+      "regeneratedEvents": 123,
+      "processedEvents": 211,
+      "terrainHits": 533,
+      "modelHits": 101
+    },
+    {
+      "resource": 90,
+      "scenarios": 60,
+      "initialEvents": 58,
+      "regeneratedEvents": 93,
+      "processedEvents": 151,
+      "terrainHits": 271,
+      "modelHits": 28
+    },
+    {
+      "resource": 92,
+      "scenarios": 54,
+      "initialEvents": 53,
+      "regeneratedEvents": 87,
+      "processedEvents": 140,
+      "terrainHits": 247,
+      "modelHits": 104
+    },
+    {
+      "resource": 94,
+      "scenarios": 78,
+      "initialEvents": 78,
+      "regeneratedEvents": 133,
+      "processedEvents": 211,
+      "terrainHits": 423,
+      "modelHits": 44
+    },
+    {
+      "resource": 96,
+      "scenarios": 39,
+      "initialEvents": 34,
+      "regeneratedEvents": 68,
+      "processedEvents": 102,
+      "terrainHits": 173,
+      "modelHits": 67
+    },
+    {
+      "resource": 98,
+      "scenarios": 12,
+      "initialEvents": 9,
+      "regeneratedEvents": 6,
+      "processedEvents": 15,
+      "terrainHits": 17,
+      "modelHits": 30
+    },
+    {
+      "resource": 100,
+      "scenarios": 12,
+      "initialEvents": 11,
+      "regeneratedEvents": 27,
+      "processedEvents": 38,
+      "terrainHits": 16,
+      "modelHits": 71
+    },
+    {
+      "resource": 102,
+      "scenarios": 6,
+      "initialEvents": 2,
+      "regeneratedEvents": 3,
+      "processedEvents": 5,
+      "terrainHits": 30,
+      "modelHits": 0
+    },
+    {
+      "resource": 104,
+      "scenarios": 15,
+      "initialEvents": 11,
+      "regeneratedEvents": 24,
+      "processedEvents": 35,
+      "terrainHits": 36,
+      "modelHits": 61
+    },
+    {
+      "resource": 106,
+      "scenarios": 9,
+      "initialEvents": 6,
+      "regeneratedEvents": 16,
+      "processedEvents": 22,
+      "terrainHits": 14,
+      "modelHits": 24
+    },
+    {
+      "resource": 108,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 65,
+      "processedEvents": 111,
+      "terrainHits": 161,
+      "modelHits": 72
+    },
+    {
+      "resource": 110,
+      "scenarios": 54,
+      "initialEvents": 50,
+      "regeneratedEvents": 85,
+      "processedEvents": 135,
+      "terrainHits": 244,
+      "modelHits": 102
+    },
+    {
+      "resource": 112,
+      "scenarios": 57,
+      "initialEvents": 52,
+      "regeneratedEvents": 88,
+      "processedEvents": 140,
+      "terrainHits": 270,
+      "modelHits": 27
+    },
+    {
+      "resource": 114,
+      "scenarios": 48,
+      "initialEvents": 47,
+      "regeneratedEvents": 79,
+      "processedEvents": 126,
+      "terrainHits": 235,
+      "modelHits": 65
+    },
+    {
+      "resource": 116,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 64,
+      "processedEvents": 110,
+      "terrainHits": 196,
+      "modelHits": 70
+    },
+    {
+      "resource": 118,
+      "scenarios": 126,
+      "initialEvents": 115,
+      "regeneratedEvents": 178,
+      "processedEvents": 293,
+      "terrainHits": 696,
+      "modelHits": 100
+    },
+    {
+      "resource": 120,
+      "scenarios": 57,
+      "initialEvents": 57,
+      "regeneratedEvents": 112,
+      "processedEvents": 169,
+      "terrainHits": 292,
+      "modelHits": 93
+    },
+    {
+      "resource": 122,
+      "scenarios": 84,
+      "initialEvents": 79,
+      "regeneratedEvents": 131,
+      "processedEvents": 210,
+      "terrainHits": 445,
+      "modelHits": 113
+    },
+    {
+      "resource": 124,
+      "scenarios": 69,
+      "initialEvents": 63,
+      "regeneratedEvents": 103,
+      "processedEvents": 166,
+      "terrainHits": 326,
+      "modelHits": 99
+    },
+    {
+      "resource": 126,
+      "scenarios": 114,
+      "initialEvents": 110,
+      "regeneratedEvents": 139,
+      "processedEvents": 249,
+      "terrainHits": 587,
+      "modelHits": 30
+    },
+    {
+      "resource": 128,
+      "scenarios": 93,
+      "initialEvents": 88,
+      "regeneratedEvents": 123,
+      "processedEvents": 211,
+      "terrainHits": 533,
+      "modelHits": 101
+    },
+    {
+      "resource": 130,
+      "scenarios": 60,
+      "initialEvents": 58,
+      "regeneratedEvents": 93,
+      "processedEvents": 151,
+      "terrainHits": 271,
+      "modelHits": 28
+    },
+    {
+      "resource": 132,
+      "scenarios": 54,
+      "initialEvents": 53,
+      "regeneratedEvents": 87,
+      "processedEvents": 140,
+      "terrainHits": 247,
+      "modelHits": 104
+    },
+    {
+      "resource": 134,
+      "scenarios": 78,
+      "initialEvents": 78,
+      "regeneratedEvents": 133,
+      "processedEvents": 211,
+      "terrainHits": 423,
+      "modelHits": 44
+    },
+    {
+      "resource": 136,
+      "scenarios": 39,
+      "initialEvents": 34,
+      "regeneratedEvents": 68,
+      "processedEvents": 102,
+      "terrainHits": 173,
+      "modelHits": 67
+    },
+    {
+      "resource": 138,
+      "scenarios": 12,
+      "initialEvents": 9,
+      "regeneratedEvents": 6,
+      "processedEvents": 15,
+      "terrainHits": 17,
+      "modelHits": 30
+    },
+    {
+      "resource": 140,
+      "scenarios": 12,
+      "initialEvents": 11,
+      "regeneratedEvents": 27,
+      "processedEvents": 38,
+      "terrainHits": 16,
+      "modelHits": 71
+    },
+    {
+      "resource": 142,
+      "scenarios": 6,
+      "initialEvents": 2,
+      "regeneratedEvents": 3,
+      "processedEvents": 5,
+      "terrainHits": 30,
+      "modelHits": 0
+    },
+    {
+      "resource": 144,
+      "scenarios": 15,
+      "initialEvents": 11,
+      "regeneratedEvents": 24,
+      "processedEvents": 35,
+      "terrainHits": 36,
+      "modelHits": 61
+    },
+    {
+      "resource": 146,
+      "scenarios": 9,
+      "initialEvents": 6,
+      "regeneratedEvents": 16,
+      "processedEvents": 22,
+      "terrainHits": 14,
+      "modelHits": 24
+    },
+    {
+      "resource": 148,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 65,
+      "processedEvents": 111,
+      "terrainHits": 161,
+      "modelHits": 72
+    },
+    {
+      "resource": 150,
+      "scenarios": 54,
+      "initialEvents": 50,
+      "regeneratedEvents": 85,
+      "processedEvents": 135,
+      "terrainHits": 244,
+      "modelHits": 102
+    },
+    {
+      "resource": 152,
+      "scenarios": 57,
+      "initialEvents": 52,
+      "regeneratedEvents": 88,
+      "processedEvents": 140,
+      "terrainHits": 270,
+      "modelHits": 27
+    },
+    {
+      "resource": 154,
+      "scenarios": 48,
+      "initialEvents": 47,
+      "regeneratedEvents": 79,
+      "processedEvents": 126,
+      "terrainHits": 235,
+      "modelHits": 65
+    },
+    {
+      "resource": 156,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 64,
+      "processedEvents": 110,
+      "terrainHits": 196,
+      "modelHits": 70
+    },
+    {
+      "resource": 158,
+      "scenarios": 126,
+      "initialEvents": 115,
+      "regeneratedEvents": 178,
+      "processedEvents": 293,
+      "terrainHits": 696,
+      "modelHits": 100
+    },
+    {
+      "resource": 160,
+      "scenarios": 57,
+      "initialEvents": 57,
+      "regeneratedEvents": 112,
+      "processedEvents": 169,
+      "terrainHits": 292,
+      "modelHits": 93
+    },
+    {
+      "resource": 162,
+      "scenarios": 84,
+      "initialEvents": 79,
+      "regeneratedEvents": 131,
+      "processedEvents": 210,
+      "terrainHits": 445,
+      "modelHits": 113
+    },
+    {
+      "resource": 164,
+      "scenarios": 69,
+      "initialEvents": 63,
+      "regeneratedEvents": 103,
+      "processedEvents": 166,
+      "terrainHits": 326,
+      "modelHits": 99
+    },
+    {
+      "resource": 166,
+      "scenarios": 114,
+      "initialEvents": 110,
+      "regeneratedEvents": 139,
+      "processedEvents": 249,
+      "terrainHits": 587,
+      "modelHits": 30
+    },
+    {
+      "resource": 168,
+      "scenarios": 93,
+      "initialEvents": 88,
+      "regeneratedEvents": 123,
+      "processedEvents": 211,
+      "terrainHits": 533,
+      "modelHits": 101
+    },
+    {
+      "resource": 170,
+      "scenarios": 60,
+      "initialEvents": 58,
+      "regeneratedEvents": 93,
+      "processedEvents": 151,
+      "terrainHits": 271,
+      "modelHits": 28
+    },
+    {
+      "resource": 172,
+      "scenarios": 54,
+      "initialEvents": 53,
+      "regeneratedEvents": 87,
+      "processedEvents": 140,
+      "terrainHits": 247,
+      "modelHits": 104
+    },
+    {
+      "resource": 174,
+      "scenarios": 78,
+      "initialEvents": 78,
+      "regeneratedEvents": 133,
+      "processedEvents": 211,
+      "terrainHits": 423,
+      "modelHits": 44
+    },
+    {
+      "resource": 176,
+      "scenarios": 39,
+      "initialEvents": 34,
+      "regeneratedEvents": 68,
+      "processedEvents": 102,
+      "terrainHits": 173,
+      "modelHits": 67
+    },
+    {
+      "resource": 178,
+      "scenarios": 12,
+      "initialEvents": 9,
+      "regeneratedEvents": 6,
+      "processedEvents": 15,
+      "terrainHits": 17,
+      "modelHits": 30
+    },
+    {
+      "resource": 180,
+      "scenarios": 12,
+      "initialEvents": 11,
+      "regeneratedEvents": 27,
+      "processedEvents": 38,
+      "terrainHits": 16,
+      "modelHits": 71
+    },
+    {
+      "resource": 182,
+      "scenarios": 6,
+      "initialEvents": 2,
+      "regeneratedEvents": 3,
+      "processedEvents": 5,
+      "terrainHits": 30,
+      "modelHits": 0
+    },
+    {
+      "resource": 184,
+      "scenarios": 15,
+      "initialEvents": 11,
+      "regeneratedEvents": 24,
+      "processedEvents": 35,
+      "terrainHits": 36,
+      "modelHits": 61
+    },
+    {
+      "resource": 186,
+      "scenarios": 9,
+      "initialEvents": 6,
+      "regeneratedEvents": 16,
+      "processedEvents": 22,
+      "terrainHits": 14,
+      "modelHits": 24
+    },
+    {
+      "resource": 188,
+      "scenarios": 48,
+      "initialEvents": 46,
+      "regeneratedEvents": 65,
+      "processedEvents": 111,
+      "terrainHits": 161,
+      "modelHits": 72
+    }
+  ],
+  "samples": [
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "closing",
+      "sector": 1,
+      "cell": 4,
+      "initialPositionQ16": [
+        -274130944,
+        -1310720,
+        -219064320
+      ],
+      "normalQ8": [
+        252,
+        0,
+        -36
+      ],
+      "terrainCandidates": 14,
+      "modelCandidates": 0,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          -1077306,
+          -5120,
+          -855380
+        ],
+        "normal": [
+          64878,
+          0,
+          -9269
+        ],
+        "scalar": -3359,
+        "cellRef": 1025
+      },
+      "regenerated": 2,
+      "processed": 3,
+      "finalPositionQ16": [
+        -273244277,
+        -1310720,
+        -219191013
+      ],
+      "finalLinearVelocity": [
+        34073,
+        0,
+        -4881
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 0
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "overlap",
+      "sector": 1,
+      "cell": 411,
+      "initialPositionQ16": [
+        -229136896,
+        -25605376,
+        -301947392
+      ],
+      "normalQ8": [
+        -104,
+        48,
+        -232
+      ],
+      "terrainCandidates": 16,
+      "modelCandidates": 0,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          -895206,
+          -99958,
+          -1175527
+        ],
+        "normal": [
+          -26343,
+          12157,
+          -58764
+        ],
+        "scalar": -8711,
+        "cellRef": 988417
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        -230034817,
+        -25191007,
+        -303950398
+      ],
+      "finalLinearVelocity": [
+        -896,
+        406,
+        -1992
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "separating",
+      "sector": 1,
+      "cell": 827,
+      "initialPositionQ16": [
+        -167732480,
+        -25404672,
+        -356579328
+      ],
+      "normalQ8": [
+        88,
+        56,
+        -236
+      ],
+      "terrainCandidates": 13,
+      "modelCandidates": 4,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          -655027,
+          -99700,
+          -1386016
+        ],
+        "normal": [
+          9515,
+          26432,
+          -59210
+        ],
+        "scalar": -5724,
+        "cellRef": 2036993
+      },
+      "regenerated": 0,
+      "processed": 1,
+      "finalPositionQ16": [
+        -167159209,
+        -24584087,
+        -358870346
+      ],
+      "finalLinearVelocity": [
+        360448,
+        229376,
+        -966656
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 2
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "closing",
+      "sector": 2,
+      "cell": 4,
+      "initialPositionQ16": [
+        -186529792,
+        -1310720,
+        -403685376
+      ],
+      "normalQ8": [
+        116,
+        0,
+        224
+      ],
+      "terrainCandidates": 12,
+      "modelCandidates": 0,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          -729041,
+          -5120,
+          -1584086
+        ],
+        "normal": [
+          30137,
+          0,
+          58196
+        ],
+        "scalar": -5904,
+        "cellRef": 1026
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        -185822793,
+        -1310720,
+        -402320113
+      ],
+      "finalLinearVelocity": [
+        11150,
+        0,
+        21540
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "overlap",
+      "sector": 2,
+      "cell": 607,
+      "initialPositionQ16": [
+        -65191936,
+        -247808,
+        -428652544
+      ],
+      "normalQ8": [
+        0,
+        -252,
+        60
+      ],
+      "terrainCandidates": 8,
+      "modelCandidates": 1,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          -254656,
+          1717,
+          -1679331
+        ],
+        "normal": [
+          0,
+          -63753,
+          15179
+        ],
+        "scalar": -2604,
+        "cellRef": 1312514
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        -65191936,
+        -832866,
+        -428513251
+      ],
+      "finalLinearVelocity": [
+        0,
+        65441,
+        -15583
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "separating",
+      "sector": 2,
+      "cell": 1195,
+      "initialPositionQ16": [
+        25874432,
+        -22607872,
+        -353765376
+      ],
+      "normalQ8": [
+        104,
+        148,
+        -180
+      ],
+      "terrainCandidates": 11,
+      "modelCandidates": 0,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          100242,
+          -89493,
+          -1374061
+        ],
+        "normal": [
+          26709,
+          38009,
+          -46228
+        ],
+        "scalar": -4500,
+        "cellRef": 2562306
+      },
+      "regenerated": 0,
+      "processed": 1,
+      "finalPositionQ16": [
+        26770118,
+        -21333242,
+        -355315620
+      ],
+      "finalLinearVelocity": [
+        425984,
+        606208,
+        -737280
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 2
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "closing",
+      "sector": 3,
+      "cell": 4,
+      "initialPositionQ16": [
+        63330304,
+        -1310720,
+        -393320448
+      ],
+      "normalQ8": [
+        -164,
+        0,
+        196
+      ],
+      "terrainCandidates": 12,
+      "modelCandidates": 2,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          248331,
+          -5120,
+          -1543941
+        ],
+        "normal": [
+          -42058,
+          0,
+          50263
+        ],
+        "scalar": -6019,
+        "cellRef": 1027
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        62367559,
+        -1310720,
+        -392169911
+      ],
+      "finalLinearVelocity": [
+        35544,
+        0,
+        -42501
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "overlap",
+      "sector": 3,
+      "cell": 723,
+      "initialPositionQ16": [
+        77810176,
+        -25591040,
+        -226757120
+      ],
+      "normalQ8": [
+        176,
+        52,
+        176
+      ],
+      "terrainCandidates": 14,
+      "modelCandidates": 0,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          302022,
+          -99860,
+          -888578
+        ],
+        "normal": [
+          49489,
+          31931,
+          28745
+        ],
+        "scalar": -11305,
+        "cellRef": 1774851
+      },
+      "regenerated": 0,
+      "processed": 1,
+      "finalPositionQ16": [
+        79981930,
+        -24126759,
+        -225571231
+      ],
+      "finalLinearVelocity": [
+        -14073,
+        53955,
+        -83718
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 2
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "separating",
+      "sector": 3,
+      "cell": 1451,
+      "initialPositionQ16": [
+        89366528,
+        -25585664,
+        -80388096
+      ],
+      "normalQ8": [
+        240,
+        -4,
+        80
+      ],
+      "terrainCandidates": 14,
+      "modelCandidates": 1,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          342459,
+          -99903,
+          -314861
+        ],
+        "normal": [
+          62165,
+          -1037,
+          20721
+        ],
+        "scalar": -4212,
+        "cellRef": 3609859
+      },
+      "regenerated": 0,
+      "processed": 1,
+      "finalPositionQ16": [
+        91372861,
+        -25619119,
+        -79719330
+      ],
+      "finalLinearVelocity": [
+        983040,
+        -16384,
+        327680
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 2
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "closing",
+      "sector": 4,
+      "cell": 4,
+      "initialPositionQ16": [
+        150274048,
+        -1310720,
+        -81870848
+      ],
+      "normalQ8": [
+        -256,
+        0,
+        32
+      ],
+      "terrainCandidates": 14,
+      "modelCandidates": 0,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          593468,
+          -5120,
+          -322296
+        ],
+        "normal": [
+          -49867,
+          0,
+          42524
+        ],
+        "scalar": -1681,
+        "cellRef": 3605507
+      },
+      "regenerated": 1,
+      "processed": 2,
+      "finalPositionQ16": [
+        149614781,
+        -1310720,
+        -81099393
+      ],
+      "finalLinearVelocity": [
+        72026,
+        0,
+        441462
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 1
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "overlap",
+      "sector": 4,
+      "cell": 277,
+      "initialPositionQ16": [
+        68419584,
+        -917504,
+        -35684352
+      ],
+      "normalQ8": [
+        0,
+        -256,
+        0
+      ],
+      "terrainCandidates": 12,
+      "modelCandidates": 2,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 8,
+        "point": [
+          269043,
+          -205,
+          -137395
+        ],
+        "normal": [
+          36783,
+          43798,
+          31993
+        ],
+        "scalar": 0,
+        "cellRef": -4
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        68321253,
+        -772445,
+        -35769879
+      ],
+      "finalLinearVelocity": [
+        -98331,
+        145059,
+        -85527
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "terrainCells",
+      "profile": "separating",
+      "sector": 4,
+      "cell": 575,
+      "initialPositionQ16": [
+        56811520,
+        -39890944,
+        8572928
+      ],
+      "normalQ8": [
+        176,
+        -184,
+        -24
+      ],
+      "terrainCandidates": 9,
+      "modelCandidates": 0,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          215350,
+          -153239,
+          33824
+        ],
+        "normal": [
+          45101,
+          -47152,
+          -6151
+        ],
+        "scalar": -1868,
+        "cellRef": 992004
+      },
+      "regenerated": 0,
+      "processed": 1,
+      "finalPositionQ16": [
+        57861864,
+        -40989040,
+        8429691
+      ],
+      "finalLinearVelocity": [
+        720896,
+        -753664,
+        -98304
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 2
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "profile": "closing",
+      "placement": 0,
+      "shape": 0,
+      "initialPositionQ16": [
+        100990976,
+        -25821184,
+        133693440
+      ],
+      "normalQ8": [
+        0,
+        -256,
+        0
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 4,
+      "event": {
+        "timeQ16": 28672,
+        "classFlags": 1,
+        "point": [
+          394496,
+          -99073,
+          522240
+        ],
+        "normal": [
+          0,
+          -65535,
+          0
+        ],
+        "scalar": 0,
+        "cellRef": -4
+      },
+      "regenerated": 0,
+      "processed": 1,
+      "finalPositionQ16": [
+        100990976,
+        -25362927,
+        133693440
+      ],
+      "finalLinearVelocity": [
+        0,
+        31,
+        0
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 2
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "profile": "overlap",
+      "placement": 0,
+      "shape": 0,
+      "initialPositionQ16": [
+        100990976,
+        -25034752,
+        133693440
+      ],
+      "normalQ8": [
+        0,
+        -256,
+        0
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 4,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 2,
+        "point": [
+          394496,
+          -99072,
+          522240
+        ],
+        "normal": [
+          0,
+          -65535,
+          0
+        ],
+        "scalar": -1280,
+        "cellRef": -4
+      },
+      "regenerated": 0,
+      "processed": 1,
+      "finalPositionQ16": [
+        100990976,
+        -25362932,
+        133693440
+      ],
+      "finalLinearVelocity": [
+        0,
+        7,
+        0
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 2
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "profile": "closing",
+      "placement": 1,
+      "shape": 0,
+      "initialPositionQ16": [
+        -22085632,
+        -10944512,
+        363331584
+      ],
+      "normalQ8": [
+        0,
+        -256,
+        0
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 2,
+      "event": {
+        "timeQ16": 28672,
+        "classFlags": 64,
+        "point": [
+          -86272,
+          -40960,
+          1419264
+        ],
+        "normal": [
+          0,
+          -65536,
+          0
+        ],
+        "scalar": 0,
+        "cellRef": -4
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        -22085632,
+        -10299136,
+        363331584
+      ],
+      "finalLinearVelocity": [
+        0,
+        331776,
+        0
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "profile": "overlap",
+      "placement": 1,
+      "shape": 0,
+      "initialPositionQ16": [
+        -22085632,
+        -10158080,
+        363331584
+      ],
+      "normalQ8": [
+        0,
+        -256,
+        0
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 2,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 64,
+        "point": [
+          -86272,
+          -37633,
+          1414543
+        ],
+        "normal": [
+          -140,
+          -62593,
+          19420
+        ],
+        "scalar": 0,
+        "cellRef": -4
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        -22085632,
+        -10075136,
+        363331584
+      ],
+      "finalLinearVelocity": [
+        0,
+        82944,
+        0
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "profile": "closing",
+      "placement": 2,
+      "shape": 0,
+      "initialPositionQ16": [
+        -337916928,
+        -21364736,
+        328030464
+      ],
+      "normalQ8": [
+        0,
+        -256,
+        0
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 4,
+      "event": {
+        "timeQ16": 10418,
+        "classFlags": 64,
+        "point": [
+          -1315605,
+          -77970,
+          1275179
+        ],
+        "normal": [
+          -3840,
+          -65536,
+          -2816
+        ],
+        "scalar": 0,
+        "cellRef": -4
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        -337916928,
+        -20919014,
+        328030464
+      ],
+      "finalLinearVelocity": [
+        0,
+        331776,
+        0
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    },
+    {
+      "resource": 30,
+      "input": "modelFaces",
+      "profile": "overlap",
+      "placement": 2,
+      "shape": 0,
+      "initialPositionQ16": [
+        -337916928,
+        -20578304,
+        328030464
+      ],
+      "normalQ8": [
+        0,
+        -256,
+        0
+      ],
+      "terrainCandidates": 0,
+      "modelCandidates": 4,
+      "event": {
+        "timeQ16": 0,
+        "classFlags": 64,
+        "point": [
+          -1317412,
+          -78336,
+          1277731
+        ],
+        "normal": [
+          -15797,
+          -62522,
+          11681
+        ],
+        "scalar": 0,
+        "cellRef": -4
+      },
+      "regenerated": 3,
+      "processed": 4,
+      "finalPositionQ16": [
+        -337916928,
+        -20495360,
+        328030464
+      ],
+      "finalLinearVelocity": [
+        0,
+        82944,
+        0
+      ],
+      "frameTimeQ16": 65536,
+      "collisionCounter168": 255
+    }
+  ],
+  "removalDiagnostics": {
+    "zeroNormalSum": 0,
+    "zeroPenetrationProjection": 44,
+    "noSelectedShapes": 0,
+    "other": 0
+  },
+  "removalSamples": [
+    {
+      "resource": 42,
+      "input": "modelFaces",
+      "profile": "closing",
+      "placement": 3,
+      "shape": 1,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1116807,
+            -88576,
+            447036
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124999,
+            -88576,
+            446620
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1115873,
+            -88576,
+            416797
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124065,
+            -88576,
+            416381
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            0,
+            65536,
+            0
+          ],
+          "penetrationProjectionQ16": 65536,
+          "pointQ8": [
+            1120442,
+            -77056,
+            431833
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        0,
+        65536,
+        0
+      ],
+      "mergedNormalQ16": [
+        0,
+        65536,
+        0
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    },
+    {
+      "resource": 42,
+      "input": "modelFaces",
+      "profile": "separating",
+      "placement": 3,
+      "shape": 1,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1116807,
+            -88576,
+            447036
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124999,
+            -88576,
+            446620
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1115873,
+            -88576,
+            416797
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124065,
+            -88576,
+            416381
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            0,
+            65536,
+            0
+          ],
+          "penetrationProjectionQ16": 65536,
+          "pointQ8": [
+            1120442,
+            -77056,
+            431833
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        0,
+        65536,
+        0
+      ],
+      "mergedNormalQ16": [
+        0,
+        65536,
+        0
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    },
+    {
+      "resource": 56,
+      "input": "modelFaces",
+      "profile": "overlap",
+      "placement": 0,
+      "shape": 0,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            -6400,
+            0,
+            65280
+          ],
+          "penetrationProjectionQ16": 65591,
+          "pointQ8": [
+            138114,
+            -11519,
+            -750684
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            -6400,
+            0,
+            65280
+          ],
+          "penetrationProjectionQ16": 65591,
+          "pointQ8": [
+            146242,
+            -11519,
+            -749887
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -65280,
+            0,
+            -6400
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            129851,
+            -11519,
+            -764962
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            65280,
+            0,
+            6400
+          ],
+          "penetrationProjectionQ16": -2,
+          "pointQ8": [
+            155943,
+            -11519,
+            -763241
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            -6400,
+            0,
+            65280
+          ],
+          "penetrationProjectionQ16": 65591,
+          "pointQ8": [
+            141531,
+            -11519,
+            -750349
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        -19200,
+        0,
+        195840
+      ],
+      "mergedNormalQ16": [
+        -6395,
+        0,
+        65222
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    },
+    {
+      "resource": 82,
+      "input": "modelFaces",
+      "profile": "closing",
+      "placement": 3,
+      "shape": 1,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1116807,
+            -88576,
+            447036
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124999,
+            -88576,
+            446620
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1115873,
+            -88576,
+            416797
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124065,
+            -88576,
+            416381
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            0,
+            65536,
+            0
+          ],
+          "penetrationProjectionQ16": 65536,
+          "pointQ8": [
+            1120442,
+            -77056,
+            431833
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        0,
+        65536,
+        0
+      ],
+      "mergedNormalQ16": [
+        0,
+        65536,
+        0
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    },
+    {
+      "resource": 82,
+      "input": "modelFaces",
+      "profile": "separating",
+      "placement": 3,
+      "shape": 1,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1116807,
+            -88576,
+            447036
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124999,
+            -88576,
+            446620
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1115873,
+            -88576,
+            416797
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124065,
+            -88576,
+            416381
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            0,
+            65536,
+            0
+          ],
+          "penetrationProjectionQ16": 65536,
+          "pointQ8": [
+            1120442,
+            -77056,
+            431833
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        0,
+        65536,
+        0
+      ],
+      "mergedNormalQ16": [
+        0,
+        65536,
+        0
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    },
+    {
+      "resource": 96,
+      "input": "modelFaces",
+      "profile": "overlap",
+      "placement": 0,
+      "shape": 0,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            -6400,
+            0,
+            65280
+          ],
+          "penetrationProjectionQ16": 65591,
+          "pointQ8": [
+            138114,
+            -11519,
+            -750684
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            -6400,
+            0,
+            65280
+          ],
+          "penetrationProjectionQ16": 65591,
+          "pointQ8": [
+            146242,
+            -11519,
+            -749887
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -65280,
+            0,
+            -6400
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            129851,
+            -11519,
+            -764962
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            65280,
+            0,
+            6400
+          ],
+          "penetrationProjectionQ16": -2,
+          "pointQ8": [
+            155943,
+            -11519,
+            -763241
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            -6400,
+            0,
+            65280
+          ],
+          "penetrationProjectionQ16": 65591,
+          "pointQ8": [
+            141531,
+            -11519,
+            -750349
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        -19200,
+        0,
+        195840
+      ],
+      "mergedNormalQ16": [
+        -6395,
+        0,
+        65222
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    },
+    {
+      "resource": 122,
+      "input": "modelFaces",
+      "profile": "closing",
+      "placement": 3,
+      "shape": 1,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1116807,
+            -88576,
+            447036
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124999,
+            -88576,
+            446620
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1115873,
+            -88576,
+            416797
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124065,
+            -88576,
+            416381
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            0,
+            65536,
+            0
+          ],
+          "penetrationProjectionQ16": 65536,
+          "pointQ8": [
+            1120442,
+            -77056,
+            431833
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        0,
+        65536,
+        0
+      ],
+      "mergedNormalQ16": [
+        0,
+        65536,
+        0
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    },
+    {
+      "resource": 122,
+      "input": "modelFaces",
+      "profile": "separating",
+      "placement": 3,
+      "shape": 1,
+      "diagnostic": "zeroPenetrationProjection",
+      "selectedMask": 31,
+      "selected": [
+        {
+          "index": 0,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1116807,
+            -88576,
+            447036
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 1,
+          "normalQ16": [
+            3328,
+            0,
+            65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124999,
+            -88576,
+            446620
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 2,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1115873,
+            -88576,
+            416797
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 3,
+          "normalQ16": [
+            -3328,
+            0,
+            -65536
+          ],
+          "penetrationProjectionQ16": 0,
+          "pointQ8": [
+            1124065,
+            -88576,
+            416381
+          ],
+          "cellRef": -4
+        },
+        {
+          "index": 4,
+          "normalQ16": [
+            0,
+            65536,
+            0
+          ],
+          "penetrationProjectionQ16": 65536,
+          "pointQ8": [
+            1120442,
+            -77056,
+            431833
+          ],
+          "cellRef": -4
+        }
+      ],
+      "normalSumQ16": [
+        0,
+        65536,
+        0
+      ],
+      "mergedNormalQ16": [
+        0,
+        65536,
+        0
+      ],
+      "boundary": "Inert removeBody callback retains the fixture body for completion; native object removal state is not reconstructed."
+    }
+  ]
+}

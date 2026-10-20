@@ -1,0 +1,55 @@
+import {writeFile} from 'node:fs/promises';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {readInstructionEvidence} from './lib/instruction-evidence.mjs';
+import {buildStaticCollisionEvents} from '../src/static-collision-candidates.mjs';
+import {CollisionEventQueue,insertCollisionEvent} from '../src/collision-events.mjs';
+const {evidence,instructions}=await readInstructionEvidence(['011-static-candidates-assembly.json'],{directory:'analysis/native-simulation/results'});
+const GROUP=0x6000,ARRAY=0x7000,HEAP=0x4000,FREE=0x5000,EVENTS=0x20000,POOL=0x30000,CONTACT=0x8fb4,TAG=0x8fb0;
+const readVector=(bytes,p)=>[0,4,8].map(axis=>bytes.readInt32LE(p+axis)),writeVector=(bytes,p,values)=>values.forEach((value,axis)=>bytes.writeInt32LE(value,p+axis*4));
+const readContact=(bytes,p)=>({point:readVector(bytes,p+0x20),normal:readVector(bytes,p+0x2c),field38:bytes.readInt32LE(p+0x38),scalar:bytes.readInt32LE(p+0x3c)});
+function encodeContact(bytes,p,value){writeVector(bytes,p+0x20,value.point);writeVector(bytes,p+0x2c,value.normal);bytes.writeInt32LE(value.field38,p+0x38);bytes.writeInt32LE(value.scalar,p+0x3c);}
+const fields=[['flags',0],['collisionFlags',0x110],['collisionCache114',0x114],['frameTimeQ16',0x118],['collisionDelta124',0x124],['collisionState128',0x128]];
+function encodeBody(bytes,body){for(const [name,p]of fields)bytes.writeInt32LE(body[name]|0,body.address+p);body.collisionIds.forEach((id,i)=>bytes.writeUInt8(id,body.address+0x140+i));bytes.writeUInt16LE(body.modelCandidateCount15e&65535,body.address+0x15e);}
+function decodeBody(bytes,p){const result={address:p,id:(p-0x10000)/0x400,collisionIds:[bytes.readUInt8(p+0x140),bytes.readUInt8(p+0x141)],modelCandidateCount15e:bytes.readUInt16LE(p+0x15e)};for(const [name,offset]of fields)result[name]=bytes.readInt32LE(p+offset);return result;}
+function encodeEvent(bytes,p,event){for(const [name,offset]of [['kind',0],['scalar',0x48],['field44',0x44],['classFlags',0x54]])if(name in event)bytes.writeInt32LE(event[name]|0,p+offset);for(const [name,offset]of [['object1',4],['object2',8]])if(name in event)bytes.writeUInt32LE(event[name]?.address??0,p+offset);for(const [name,offset]of [['point',0x2c],['normal',0x38],['auxiliaryVector',0x5c]])if(name in event)writeVector(bytes,p+offset,event[name]);if('tag'in event)bytes.writeUInt16LE(event.tag,p+0x58);if('damping'in event)bytes.writeUInt16LE(event.damping,p+0x5a);}
+function prep(body,time,log){log.push(['prepare',body.id,time]);body.collisionCache114=time;body.flags^=0x2000;}
+function terrain(bodies,count,records,log){log.push(['terrain',count,bodies.slice(0,count).map(body=>[body.id,body.flags,records.readInt32LE(body.collisionIds[0]*72+64),records.readInt32LE(body.collisionIds[1]*72+64)])]);for(let index=0;index<count;index++)bodies[index].collisionState128=[0,1,8,0x941,0x2042][bodies[index].id%5];}
+function model(body,log){log.push(['model',body.id]);body.collisionState128=[8,2,0,0xa41][body.id%4];}
+function contact(body,value,tag,stateIsEight,serial,log){log.push(['contact',body.id,stateIsEight,structuredClone(value),tag.value]);value.point[serial%3]=(body.id*173+serial*271)|0;if(serial%2){value.normal=[body.id<<15,65536,-serial];value.field38=serial-3;}if(serial%3===0){value.scalar=-173*serial;tag.value=(body.id*17+serial)&65535;}body.collisionState128=[1,2,0xa41,8,0x3140][(body.id+serial)%5];body.collisionDelta124=(body.id*1597+serial*233)&8191;return serial%4===0;}
+let nativeLog,nativeSerial=0,steps=0,seed=0x427bd09a;
+const random=limit=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return(seed>>>0)%limit;},signed=()=>random(0x100000000)|0;
+const machine=new BoundedX86(instructions,{externalCalls:new Map([
+ [0x429820,m=>{const body=decodeBody(m.bytes,m.r.ECX);prep(body,m.r.EDX,nativeLog);encodeBody(m.bytes,body);}],
+ [0x424e20,m=>{const count=m.r.EDX,array=m.r.ECX,bodies=Array.from({length:count},(_,index)=>decodeBody(m.bytes,m.bytes.readUInt32LE(array+index*4)));terrain(bodies,count,m.bytes.subarray(POOL,POOL+32*72),nativeLog);for(const body of bodies)encodeBody(m.bytes,body);}],
+ [0x4238b0,m=>{const body=decodeBody(m.bytes,m.r.ECX);model(body,nativeLog);encodeBody(m.bytes,body);}],
+ [0x448570,m=>{const body=decodeBody(m.bytes,m.r.ECX),pointer=m.r.EDX,tagPointer=m.bytes.readUInt32LE(m.r.ESP),stateIsEight=m.bytes.readInt32LE(m.r.ESP+4)!==0,value=readContact(m.bytes,pointer),tag={value:m.bytes.readUInt16LE(tagPointer)};m.r.EAX=contact(body,value,tag,stateIsEight,++nativeSerial,nativeLog)?1:0;encodeBody(m.bytes,body);encodeContact(m.bytes,pointer,value);m.bytes.writeUInt16LE(tag.value,tagPointer);}]
+])});
+const fixtures=1600;let generated=0,removed=0,marked=0,modelCalls=0,cacheCalls=0;
+for(let fixture=0;fixture<fixtures;fixture++){
+ machine.reset();const count=fixture%13,selectionCounter=signed(),bodies=Array.from({length:12},(_,id)=>({id,address:0x10000+id*0x400,flags:[1,3,7,17,21][random(5)]|(random(4)?0x800:0)|(random(5)?0:0x10000)|(random(7)?0:0x8200),collisionFlags:[0,0x10000000,-2147483648,0x20000000][random(4)],frameTimeQ16:[0,16384,32768,49152,65536][random(5)],collisionCache114:[0,16384,-1][random(3)],collisionState128:signed(),collisionDelta124:random(8192),collisionIds:[id*2,id*2+1],modelCandidateCount15e:[0,1,65535][random(3)]}));
+ const pool=Buffer.alloc(32*72);for(let p=0;p<pool.length;p+=4)pool.writeInt32LE(signed(),p);pool.copy(machine.bytes,POOL);const sourcePool=Buffer.from(pool),sourceBodies=structuredClone(bodies);
+ for(const body of bodies){for(let p=body.address;p<body.address+0x400;p+=4)machine.bytes.writeInt32LE(signed(),p);encodeBody(machine.bytes,body);}
+ const beforeBodies=bodies.map(body=>Buffer.from(machine.bytes.subarray(body.address,body.address+0x400)));
+ const queue=new CollisionEventQueue(20);queue.events.forEach((event,index)=>{for(let p=EVENTS+index*0x68;p<EVENTS+(index+1)*0x68;p+=4)machine.bytes.writeInt32LE(signed(),p);Object.assign(event,{kind:signed(),object1:null,object2:null,point:[signed(),signed(),signed()],normal:[signed(),signed(),signed()],auxiliaryVector:[signed(),signed(),signed()],scalar:signed(),field44:signed(),classFlags:signed(),tag:random(65536),damping:random(65536)});encodeEvent(machine.bytes,EVENTS+index*0x68,event);});
+ // Existing events exercise insertion above live heap parents and retained slots.
+ for(let i=0;i<fixture%4;i++)insertCollisionEvent(queue,{object1:sourceBodies[i],contact:{point:[i,0,0],normal:[0,65536,0],scalar:0,field38:0},flags:{value:1},tag:i,deltaQ16:32768-sourceBodies[i].frameTimeQ16});
+ queue.events.forEach((event,index)=>encodeEvent(machine.bytes,EVENTS+index*0x68,event));const beforeEvents=Buffer.from(machine.bytes.subarray(EVENTS,EVENTS+queue.capacity*0x68));
+ machine.bytes.writeUInt32LE(ARRAY,GROUP);machine.bytes.writeUInt16LE(count,GROUP+4);bodies.forEach((body,index)=>machine.bytes.writeUInt32LE(body.address,ARRAY+index*4));machine.bytes.writeInt32LE(selectionCounter,0x90a548);machine.bytes.writeUInt32LE(POOL,0x91e79c);
+ for(const [value,p]of [[HEAP,0x902bac],[FREE,0x902bb0],[EVENTS,0x902ba8],[queue.count,0x902ba0],[queue.freeTop,0x902bb4]])machine.bytes.writeInt32LE(value,p);
+ queue.heap.forEach((value,index)=>machine.bytes.writeUInt32LE(value,HEAP+index*4));queue.free.forEach((value,index)=>machine.bytes.writeUInt32LE(value,FREE+index*4));
+ const scratch={contact:{point:[signed(),signed(),signed()],normal:[signed(),signed(),signed()],field38:signed(),scalar:signed()},tag:{value:random(65536)}};encodeContact(machine.bytes,CONTACT,scratch.contact);machine.bytes.writeUInt16LE(scratch.tag.value,TAG);
+ const sourceLog=[];let sourceSerial=0;
+ const expected=buildStaticCollisionEvents({bodies:sourceBodies,count},{records:sourcePool,queue,selectionCounter,scratch,prepare:(body,time)=>prep(body,time,sourceLog),terrainBatch:(values,n)=>terrain(values,n,sourcePool,sourceLog),modelBody:body=>model(body,sourceLog),prepareContact:(body,value,tag,stateIsEight)=>contact(body,value,tag,stateIsEight,++sourceSerial,sourceLog)});
+ nativeLog=[];nativeSerial=0;machine.entry=0x427bd0;machine.r.ECX=GROUP;machine.r.ESP=0x9000;machine.bytes.writeUInt32LE(0xffffffff,0x9000);steps+=machine.run();
+ if(machine.r.EAX!==expected||JSON.stringify(nativeLog)!==JSON.stringify(sourceLog))throw Error(`Static fixture ${fixture} result/log mismatch: ${JSON.stringify({native:machine.r.EAX,expected,nativeLog,sourceLog})}`);
+ for(let index=0;index<bodies.length;index++){const wanted=Buffer.from(beforeBodies[index]);encodeBody(wanted,{...sourceBodies[index],address:0});if(!machine.bytes.subarray(bodies[index].address,bodies[index].address+0x400).equals(wanted))throw Error(`Static fixture ${fixture} body ${index} differs.`);}
+ if(!machine.bytes.subarray(POOL,POOL+sourcePool.length).equals(sourcePool))throw Error(`Static fixture ${fixture} pool differs.`);
+ if(machine.bytes.readInt32LE(0x90a548)!==selectionCounter)throw Error('Selection counter was written back.');
+ if(machine.bytes.readInt32LE(0x902ba0)!==queue.count||machine.bytes.readInt32LE(0x902bb4)!==queue.freeTop)throw Error('Queue counters differ.');
+ for(const [values,p]of [[queue.heap,HEAP],[queue.free,FREE]])for(let index=0;index<values.length;index++)if(machine.bytes.readUInt32LE(p+index*4)!==values[index])throw Error('Queue arrays differ.');
+ const wantedEvents=Buffer.from(beforeEvents);queue.events.forEach((event,index)=>encodeEvent(wantedEvents,index*0x68,event));if(!machine.bytes.subarray(EVENTS,EVENTS+wantedEvents.length).equals(wantedEvents))throw Error(`Static fixture ${fixture} event bytes differ.`);
+ if(JSON.stringify(readContact(machine.bytes,CONTACT))!==JSON.stringify(scratch.contact)||machine.bytes.readUInt16LE(TAG)!==(scratch.tag.value&65535))throw Error('Reusable contact/tag scratch differs.');
+ generated+=expected;removed+=Math.floor(sourceSerial/4);marked+=sourceBodies.filter(body=>body.collisionFlags&0x10000000).length;modelCalls+=sourceLog.filter(item=>item[0]==='model').length;cacheCalls+=sourceLog.filter(item=>item[0]==='prepare').length;
+}
+const report={method:'Complete retained native static-candidate orchestration427bd0, including inline event heap/pool insertion. Terrain batch424e20, model body4238b0, merged contact448570 and cache preparation429820 are explicit deterministic state-mutating mocks; detection and cache mathematics are not claimed here. Full body, sphere pool, event records, heap/free arrays, reusable contact/tag scratch and unchanged global alternation counter compared. Stale active marks, eligibility/alternation/stopped clocks, zero groups, model unsigned16 counts, type17 radius changes/restoration, removal events and stale damping/auxiliary bytes exercised. No original process execution.',evidence:evidence.map(item=>item.evidence_id),instructions:instructions.length,fixtures,generatedEvents:generated,removalEvents:removed,markedObservations:marked,modelCalls,cacheCalls,instructionSteps:steps,matched:true};
+await writeFile('analysis/static-collision-candidates-instruction-check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));
