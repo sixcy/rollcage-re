@@ -35,7 +35,7 @@ try {
  const manifest={name,resource:index,textureResource:index+1,segments:scene.segments.length,instances:placedMeshes.length,
   placementTypes:placements.records.reduce((m,r)=>(m[r.type]=(m[r.type]??0)+1,m),{}),
   vertices:output.vertices,quads:output.quads,triangles:output.triangles,
-  pages:images.map(({url,...image})=>image),bounds:output.bounds,coordinates:'X,-Y,Z (Y up); source units retained',
+  pages:images.map(({url,...image})=>image),bounds:output.bounds,coordinates:'X,-Y,-Z (Y up); source units retained',
   scope:'Finest-grid SEGM base pass plus ordinary type-zero model instances at loader-initialized poses. Animated model UVs use the serialized frame. Other placement types, overlays, visibility/LOD and runtime lighting are not included.'};
  const payload={...manifest,groups:output.groups,images};
  await writeFile(path.join(directory,'scene.obj'),output.obj,{flag:'wx'});

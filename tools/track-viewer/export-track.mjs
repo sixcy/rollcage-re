@@ -33,7 +33,7 @@ export async function buildTrackDownload(scene, track) {
     'The export contains the complete track and ordinary objects at their initial poses.',
     'Viewer camera positions, sector selection and display toggles do not affect the export.',
     'Effects, overlays, special objects, original lighting and game simulation are not included.',
-    'Geometry uses Y-up coordinates and original game units.', ''
+    'Geometry maps source X,Y,Z to X,-Y,-Z (Y up), preserving handedness and original game units.', ''
   ].join('\n') });
   return { filename: `${track.name.replace(/\.BLP$/i, '').replace(/[^a-z0-9-]/gi, '-')}.zip`, blob: createZIP(files) };
 }

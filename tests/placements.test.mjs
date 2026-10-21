@@ -54,5 +54,8 @@ test('placed triangle export keeps transforms and does not invent a fourth corne
  const output=buildSceneExport({segments:[]},new Map([[3,{width:16,height:16}]]),meshes);
  assert.equal(output.triangles,1);assert.equal(output.quads,0);assert.equal(output.groups[0].kind,'object');
  assert.equal(output.obj.split('\n').filter(x=>x.startsWith('vt ')).length,3);
+ assert.match(output.obj,/^v 100 20 -30$/m);
+ const bytes=Buffer.from(output.groups[0].buffer,'base64');
+ assert.deepEqual([0,4,8].map(offset=>bytes.readFloatLE(offset)),[100,20,-30]);
  assert.match(output.obj,/f 1\/1 3\/2 2\/3/);
 });

@@ -180,11 +180,17 @@ try {
   }
   assert.deepEqual(errors, []); assert.deepEqual(requests, []);
   await page.locator('#reset').click(); await page.waitForTimeout(100);
+  const levelOneScreenshot = await page.screenshot();
+  await page.selectOption('#track', '34'); await waitTrack('LOW/LEV3.BLP'); await page.waitForTimeout(100);
+  const levelThreeScreenshot = await page.screenshot();
+  await page.selectOption('#track', '30'); await waitTrack('LOW/LEV1.BLP'); await page.waitForTimeout(100);
   const result = { initial, browserParity: browserResults, download: { filename: download.suggestedFilename(), files: [...downloadedFiles.keys()], exactOBJ: true, texturePixelsMatch: true, retryAfterEncodingFailure: true }, controls: 'passed', pointerLockWorked, fallbackLook: 'passed', staleLoads: 'passed', errorRecovery: 'passed', pageErrors: errors, externalRequests: requests,
     webglError: await page.evaluate(() => document.getElementById('canvas').getContext('webgl').getError()) };
   assert.equal(result.webglError, 0);
   await mkdir(output, { recursive: false });
   await writeFile(path.join(output, 'landing.png'), landingScreenshot, { flag: 'wx' });
+  await writeFile(path.join(output, 'level1.png'), levelOneScreenshot, { flag: 'wx' });
+  await writeFile(path.join(output, 'level3.png'), levelThreeScreenshot, { flag: 'wx' });
   await page.screenshot({ path: path.join(output, 'preview.png') });
   await writeFile(path.join(output, 'browser-check.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
   console.log(JSON.stringify({ matchedTracks: browserResults.length, controls: result.controls, pointerLockWorked, pageErrors: errors, externalRequests: requests, webglError: result.webglError, output }));

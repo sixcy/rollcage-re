@@ -21,14 +21,33 @@ test('sector coordinates and UV corners follow the native grid-point flag',()=>{
 });
 test('scene export retains geometry and samples texel centers in both triangles',()=>{
  const output=buildSceneExport(parseScene(fixture()),new Map([[2,{width:16,height:16}]]));
- assert.deepEqual(output.bounds,[[0,10],[0,10],[0,10]]);
+ assert.deepEqual(output.bounds,[[0,10],[0,10],[-10,0]]);
  assert.equal(output.groups[0].vertices,6);
  const bytes=Buffer.from(output.groups[0].buffer,'base64');
  assert.equal(bytes.readFloatLE(12),0.03125);assert.equal(bytes.readFloatLE(16),0.03125);
  assert.equal(bytes.readFloatLE(32+12),0.96875);
  // The second triangle's middle corner is the raised, bottom-right vertex.
  assert.equal(bytes.readFloatLE(4*32+4),10);
+ assert.equal(bytes.readFloatLE(4*32+8),-10);
+ // The flat road triangle must face up after the display-axis conversion.
+ assert.equal(bytes.readFloatLE(24),1);
  assert.equal(output.obj.split('\n').filter(line=>line.startsWith('f ')).length,2);
+});
+
+test('Y-up display coordinates preserve source chirality and UV attachment',()=>{
+ const scene=parseScene(fixture()),output=buildSceneExport(scene,new Map([[2,{width:16,height:16}]]));
+ const source=scene.segments[0].vertices.map(vertex=>vertex.slice(0,3));
+ const exported=output.obj.split('\n').filter(line=>line.startsWith('v ')).map(line=>line.split(' ').slice(1).map(Number));
+ const volume=([o,a,b,c])=>{
+  const u=a.map((n,i)=>n-o[i]),v=b.map((n,i)=>n-o[i]),w=c.map((n,i)=>n-o[i]);
+  return u[0]*(v[1]*w[2]-v[2]*w[1])-u[1]*(v[0]*w[2]-v[2]*w[0])+u[2]*(v[0]*w[1]-v[1]*w[0]);
+ };
+ assert.notEqual(volume(source),0);assert.equal(volume(exported),volume(source));
+ assert.deepEqual(exported,[[0,0,0],[10,0,0],[0,0,-10],[10,10,-10]]);
+ // The UV paired with source corner BL stays on that corner after Z is negated.
+ const bytes=Buffer.from(output.groups[0].buffer,'base64'),corner=2*32;
+ assert.equal(bytes.readFloatLE(corner+8),-10);
+ assert.equal(bytes.readFloatLE(corner+12),0.03125);assert.equal(bytes.readFloatLE(corner+16),0.96875);
 });
 test('missing textures and malformed segment ranges are explicit failures',()=>{
  assert.throws(()=>buildSceneExport(parseScene(fixture()),new Map()),/unavailable/);

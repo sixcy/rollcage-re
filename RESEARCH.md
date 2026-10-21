@@ -78,6 +78,8 @@ The subsequent placement investigation confirms primary-model draw corner order 
 
 ## Textured track milestone
 
+Presentation correction, 2026-10-21: the shared texture decoder now interprets palette bytes as BGR, and viewer/OBJ coordinates use X,-Y,-Z. Earlier RGB output swapped red/blue; the earlier Y-only sign change reflected tracks. These changes supersede the presentation conventions in the historical milestones below. [Evidence and validation](re-docs/viewer-presentation.md) distinguish retained native observations, user-provided in-game references and viewer checks.
+
 The generated `analysis/level1-scene` and `analysis/level1-objects` samples referenced in these historical milestones were removed after being superseded by the [general Track Viewer](docs/track-viewer.html). Their original counts and validation observations below describe those earlier checkpoints; native evidence remains under `analysis/scene`, and current viewer checks are under `analysis/track-viewer`.
 
 The investigation under `analysis/scene` traced sector packet updates at `0x48d130`, grid lighting at `0x48f2d0` and coordinate submission at `0x489e40`. Together these establish primary grid dimensions, signed vertex coordinates, the UV-record lookup, corner rotation controlled by a vertex flag, and both triangle orders. `0x407ee0` builds texel-center coordinate tables. This is static evidence from the selected executable; the game was not executed.

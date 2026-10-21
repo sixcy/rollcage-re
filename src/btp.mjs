@@ -41,7 +41,9 @@ export function decodeBTPTexture(btp, index) {
   for (let i = 0; i < texture.width * texture.height; i++) {
     const paletteIndex = data[texture.pixelOffset + i];
     const p = texture.paletteOffset + paletteIndex * 4;
-    const r = data[p], g = data[p + 1], b = data[p + 2];
+    // Source palette bytes are B,G,R,unused. FUN_00408680 reverses bytes
+    // 0/2 at 0x408821..0x40883b before FUN_0040a2f0 packs device colors.
+    const r = data[p + 2], g = data[p + 1], b = data[p];
     rgba[i * 4] = r; rgba[i * 4 + 1] = g; rgba[i * 4 + 2] = b;
     const black = r === 0 && g === 0 && b === 0;
     rgba[i * 4 + 3] = black && (texture.transparentBlack || paletteIndex === 0) ? 0 : 255;

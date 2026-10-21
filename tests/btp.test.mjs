@@ -17,8 +17,15 @@ function fixture() {
 }
 test('BTP palette order and black transparency follow native upload flags', () => {
   const btp = parseBTP(fixture());
-  assert.deepEqual([...decodeBTPTexture(btp, 0).rgba], [0,0,0,0, 255,0,0,255, 0,0,0,255]);
-  assert.deepEqual([...decodeBTPTexture(btp, 1).rgba], [0,0,0,0, 255,0,0,255, 0,0,0,0]);
+  assert.deepEqual([...decodeBTPTexture(btp, 0).rgba], [0,0,0,0, 0,0,255,255, 0,0,0,255]);
+  assert.deepEqual([...decodeBTPTexture(btp, 1).rgba], [0,0,0,0, 0,0,255,255, 0,0,0,0]);
+});
+
+test('BGR palette bytes become RGBA without treating the fourth source byte as alpha', () => {
+  const data = fixture();
+  data.set([17, 91, 203, 7], 0x88 + 4);
+  const decoded = decodeBTPTexture(parseBTP(data), 0);
+  assert.deepEqual([...decoded.rgba.subarray(4, 8)], [203, 91, 17, 255]);
 });
 test('zero-dimension slots are skipped before unused palette or pixel references', () => {
   const data = fixture(); data.writeUInt16LE(0, 0x70); data.writeUInt16LE(65535, 0x74);

@@ -1,8 +1,11 @@
 // Export the recovered static, finest-grid base pass. Runtime visibility, LOD,
 // overlays and animated effects remain separate. Optional placed meshes use
 // their loader-initialized transforms and per-instance primary materials.
+// Convert source Y-down/forward-Z to display Y-up/backward-Z together.
+// Negating Y alone is a reflection; negating both preserves handedness.
+const displayPosition=([x,y,z])=>[x,y===0?0:-y,z===0?0:-z];
 export function buildSceneExport(scene, textures, placedMeshes=[]) {
-  const obj=['# Rollcage recovered scene. Coordinates X,-Y,Z (Y up).','mtllib scene.mtl'];
+  const obj=['# Rollcage recovered scene. Coordinates X,-Y,-Z (Y up).','mtllib scene.mtl'];
   const groups=[];
   const allPositions=[];
   let vertexBase=1,uvBase=1,quads=0,triangles=0;
@@ -11,8 +14,8 @@ export function buildSceneExport(scene, textures, placedMeshes=[]) {
   for(const segment of meshes) {
     obj.push(`g ${segment.label}`);
     for(const [x,y,z] of segment.vertices) {
-      const up=y===0?0:-y;
-      obj.push(`v ${x} ${up} ${z}`); allPositions.push([x,up,z]);
+      const position=displayPosition([x,y,z]);
+      obj.push(`v ${position.join(' ')}`); allPositions.push(position);
     }
     const pageGroups=new Map(); let previousPage=-1;
     for(const face of segment.faces) {
@@ -30,7 +33,7 @@ export function buildSceneExport(scene, textures, placedMeshes=[]) {
       const orders=corners.length===4?[[0,1,2],[1,3,2]]:[[0,1,2]];
       triangles+=orders.length;
       for(const order of orders) {
-        const p=order.map(c=>{const [x,y,z]=segment.vertices[face.indices[c]];return [x,y===0?0:-y,z];});
+        const p=order.map(c=>displayPosition(segment.vertices[face.indices[c]]));
         const a=p[1].map((n,i)=>n-p[0][i]),b=p[2].map((n,i)=>n-p[0][i]);
         const normal=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
         const length=Math.hypot(...normal)||1;
