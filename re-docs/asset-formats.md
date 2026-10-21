@@ -1,6 +1,6 @@
 # Recovered asset formats
 
-The historical level-one export examples below have been superseded by the [general Track Viewer](../website/track-viewer.html). The generated `analysis/level1-scene` and `analysis/level1-objects` directories were removed; use the viewer's Download track button to export a track again.
+The historical level-one export examples below have been superseded by the [general Track Viewer](../docs/track-viewer.html). The generated `analysis/level1-scene` and `analysis/level1-objects` directories were removed; use the viewer's Download track button to export a track again.
 
 These layouts apply to the artifacts installed with Rollcage Redux 1.3.8.0. Code addresses refer to executable SHA-256 `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`. Fields are little-endian. Names assigned to fields below describe observed use rather than original source declarations.
 

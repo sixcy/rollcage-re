@@ -1,5 +1,5 @@
 // Recovered shared rigid-body arithmetic. Native anchors and scope are in
-// docs/physics.md. This is not the wheel/contact solver or race simulation.
+// re-docs/physics.md. This is not the wheel/contact solver or race simulation.
 import {quaternionMatrix} from './fixed-math.mjs';
 import {add32,abs32,multiplyQ16,divideQ16,sqrtQ16,multiplyQuaternionQ16,
  multiplyMatrixQ16,transformVectorQ16,dotQ16,normalizeQuaternionQ16} from './fixed-integer.mjs';

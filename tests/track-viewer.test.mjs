@@ -100,7 +100,7 @@ test('navigation is frame-time based, normalizes diagonals and clamps pitch/zoom
 test('generated standalone page matches current sources and embeds no scene payload', async () => {
   const template = await readFile(new URL('../tools/track-viewer/viewer.html', import.meta.url), 'utf8');
   const bundle = (await buildViewerBundle()).replace(/<\/script/gi, '<\\/script');
-  assert.equal(await readFile(new URL('../website/track-viewer.html', import.meta.url), 'utf8'), template.replace('__VIEWER_BUNDLE__', () => bundle));
+  assert.equal(await readFile(new URL('../docs/track-viewer.html', import.meta.url), 'utf8'), template.replace('__VIEWER_BUNDLE__', () => bundle));
 });
 
 test('track ZIP round-trips text, binary PNG bytes and Unicode names with standard CRCs', async () => {

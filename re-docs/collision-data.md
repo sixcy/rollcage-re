@@ -85,6 +85,6 @@ Containment operates on truncated short world coordinates and wrapping integer c
 
 ## Next boundary
 
-Wheel-side attempts are now ported as `prepareWheelContactSides`, with the hit selector supplied by the caller; see `docs/wheels.md`. Recover placed-model hits at `0x423ab0`, combined hit/material selection at `0x488e20`, and sphere/edge contacts via `0x425f10`. The full drive-capacity computation and collision response/event queue remain separate. Preserve native surface metadata before treating the connected terrain probe as the complete wheel solver.
+Wheel-side attempts are now ported as `prepareWheelContactSides`, with the hit selector supplied by the caller; see `re-docs/wheels.md`. Recover placed-model hits at `0x423ab0`, combined hit/material selection at `0x488e20`, and sphere/edge contacts via `0x425f10`. The full drive-capacity computation and collision response/event queue remain separate. Preserve native surface metadata before treating the connected terrain probe as the complete wheel solver.
 
 Subsequent milestones recover those placed-model, wheel drive and response stages. The latest [static sphere geometry](static-sphere-contacts.md) adds the nonzero-radius terrain path, actual edge/point contacts and a connected installed-data detection/response probe. This section's zero-radius checks remain a separate wheel-ray baseline.

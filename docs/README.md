@@ -12,6 +12,6 @@ C:\Program Files (x86)\Psygnosis\Rollcage\IDXData
 
 Files are processed locally in your browser. No game assets are included in this website or uploaded when you use it.
 
-This directory is the static website root for GitHub Pages publishing. Its [landing page](index.html) and Track Viewer use relative links and need no server-side code. You can also open either HTML file locally.
+This `docs/` directory is the static website root for GitHub Pages publishing. Its [landing page](index.html) and Track Viewer use relative links and need no server-side code. You can also open either HTML file locally. Reconstruction notes live in `re-docs/` at the repository root.
 
 To regenerate `track-viewer.html` after changing its sources, run `node tools/build-track-viewer.mjs` from the repository root. Sources live in `tools/track-viewer/`; browser-check reports remain in `analysis/track-viewer/`.

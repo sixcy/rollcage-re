@@ -8,8 +8,8 @@ This repository reconstructs Rollcage asset formats and game algorithms in JavaS
 - `tests/`: focused regression tests named `<module>.test.mjs`.
 - `tools/`: extraction, validation, export, probing, and retained-instruction comparison scripts; shared helpers live in `tools/lib/`.
 - `analysis/`: retained evidence, generated reports, and extracted samples.
-- `website/`: static website root and standalone Track Viewer. Open `website/track-viewer.html` locally.
-- `docs/` and `RESEARCH.md`: reconstruction notes, function addresses, evidence, and unresolved behavior.
+- `docs/`: GitHub Pages website root, containing the landing page and standalone Track Viewer. Open `docs/track-viewer.html` locally. Keep research notes in `re-docs/`.
+- `re-docs/` and `RESEARCH.md`: reconstruction notes, function addresses, evidence, and unresolved behavior.
 
 ## Build, Test, and Development Commands
 

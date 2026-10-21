@@ -1,5 +1,5 @@
 // Native wheel arithmetic, with terrain/model hit selection supplied separately.
-// Anchors: scene results 137..154; see docs/wheels.md for layouts and limits.
+// Anchors: scene results 137..154; see re-docs/wheels.md for layouts and limits.
 import {add32,subtract32,multiplyQ16,divideQ16,dotQ16,crossQ16,
  vectorLengthQ16,transformShortQ12,signedShort} from './fixed-integer.mjs';
 const vector=(data,p)=>[0,1,2].map(i=>data.readInt32LE(p+i*4));

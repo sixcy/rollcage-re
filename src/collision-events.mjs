@@ -1,5 +1,5 @@
 // Native event storage/ordering, not contact generation or collision response.
-// Anchors and explicit runtime boundaries are documented in docs/collision-events.md.
+// Anchors and explicit runtime boundaries are documented in re-docs/collision-events.md.
 const priority=key=>key&0xfffff;
 export const decodeCollisionEventKey=key=>({slot:key>>>20,timeQ16:(key>>>1)&0x7ffff,terrain:!!(key&1)});
 export class CollisionEventQueue {

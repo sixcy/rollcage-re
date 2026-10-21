@@ -28,10 +28,10 @@ try {
   const errors = [], requests = [];
   page.on('pageerror', error => errors.push(error.message));
   page.on('request', request => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
-  await page.goto(pathToFileURL(path.resolve('website/index.html')).href);
+  await page.goto(pathToFileURL(path.resolve('docs/index.html')).href);
   const landingScreenshot = await page.screenshot();
   await page.getByRole('link', { name: 'Open the Track Viewer' }).click();
-  assert.equal(page.url(), pathToFileURL(path.resolve('website/track-viewer.html')).href);
+  assert.equal(page.url(), pathToFileURL(path.resolve('docs/track-viewer.html')).href);
   const inspect = () => page.evaluate(() => window.rollcageViewer.inspect());
   const waitTrack = name => page.waitForFunction(name => window.rollcageViewer.inspect().track === name && !window.rollcageViewer.inspect().loading, name, { timeout: 30000 });
   const imagePath = path.join(installation, 'IDXData/Rollcage.img'), indexPath = path.join(installation, 'IDXData/Rollcage.idx');
@@ -132,7 +132,7 @@ try {
 
   const unavailable = await browser.newPage();
   await unavailable.addInitScript(() => { HTMLCanvasElement.prototype.getContext = () => null; });
-  await unavailable.goto(pathToFileURL(path.resolve('website/track-viewer.html')).href);
+  await unavailable.goto(pathToFileURL(path.resolve('docs/track-viewer.html')).href);
   assert.match(await unavailable.locator('#error').textContent(), /WebGL is unavailable/);
   assert.equal(await unavailable.locator('#image').isDisabled(), true);
   await unavailable.close();
