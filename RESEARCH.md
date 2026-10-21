@@ -78,6 +78,8 @@ The subsequent placement investigation confirms primary-model draw corner order 
 
 ## Textured track milestone
 
+The generated `analysis/level1-scene` and `analysis/level1-objects` samples referenced in these historical milestones were removed after being superseded by the [general Track Viewer](website/track-viewer.html). Their original counts and validation observations below describe those earlier checkpoints; native evidence remains under `analysis/scene`, and current viewer checks are under `analysis/track-viewer`.
+
 The investigation under `analysis/scene` traced sector packet updates at `0x48d130`, grid lighting at `0x48f2d0` and coordinate submission at `0x489e40`. Together these establish primary grid dimensions, signed vertex coordinates, the UV-record lookup, corner rotation controlled by a vertex flag, and both triangle orders. `0x407ee0` builds texel-center coordinate tables. This is static evidence from the selected executable; the game was not executed.
 
 `src/scene.mjs` and `src/scene-export.mjs` reconstruct the static finest-grid base pass. `analysis/scene-catalog.json` validates bounded arrays and UV records in all 84 GFXM files: 1,496 sectors, 1,155,548 grid vertices and 1,067,936 quads. Forty scene packs also have every referenced base texture page available in the paired PC BTP table. Forty HIGH packs have geometry but need their other image representation decoded. Four front-end packs have no sector grids. Counts include repeated content across packs.

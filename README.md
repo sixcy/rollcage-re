@@ -28,7 +28,7 @@ This repository **is not** Rollcage source code or a recreation of it.
 So, what will you actually find in there?
 - A bunch of .md files describing what the AI found
 - A lot of JavaScript excerpts that specify the game algorithms ; unit tests to validate them
-- A few demos in .html like [the level-one scene viewer](analysis/level1-objects/viewer.html), usually in `analysis/` directory
+- A few demos in .html like [the Track Viewer](website/track-viewer.html), with publishable pages in `website/`
 
 What can we make of it? For now, nothing much. But, after a while, when Mr AI will have done his diligent work, this could be the basis to build tools to modify the game data or even the game itself.
 
@@ -46,7 +46,15 @@ With all this being said.. Let's move on to the AI slop.
 
 Working reference components include the archive reader, GT20 decompressor, filename lookup, BTP textures, GFXM primary models and textured SEGM track geometry. This is not yet a rebuilt game.
 
-Open [the level-one scene viewer](analysis/level1-objects/viewer.html) locally in a browser. Its geometry and textures are embedded, so it needs no server or network connection. Drag to orbit, scroll to zoom, select a terrain sector, or toggle objects. The [preview](analysis/level1-objects/preview.png) shows 16 track sectors and 114 ordinary model instances: 32,851 triangles using 19 texture pages. The [OBJ](analysis/level1-objects/scene.obj), adjacent MTL and PNG textures can be imported into a 3D editor. Effects, special objects and gameplay remain to be reconstructed. The earlier [terrain-only viewer](analysis/level1-scene/viewer.html) is retained for comparison.
+Open the [interactive track viewer](website/track-viewer.html) locally in a desktop browser, then select your `Rollcage.img` and `Rollcage.idx` files (normally in the game's `IDXData` folder). The page reads and decompresses the selected track in memory; it needs no server, network connection, or prior extraction, and writes no game files. Its menu offers LOW and HIGH versions of all 20 PC BLP tracks, labeled by their archive identifiers. BL6 variants are not supported. The [website directory](website/README.md) contains the static site entry point and viewer for GitHub Pages publishing.
+
+In **Orbit & pan**, left-drag rotates, right-drag or Shift-left-drag pans, and the wheel zooms. Click the view to use arrow keys to rotate, WASD to pan, and +/− to zoom. In **Fly-in**, click the view for mouse-look, use WASD to move, Q/E to move down/up, Shift to move faster, and the wheel to adjust speed. Escape releases the mouse; drag-to-look is available if mouse capture is unavailable. Fly-in allows passing through geometry. Reset returns to an overview of the selected track. Terrain sectors, objects, textures, preview lighting, and smoothing can be selected independently.
+
+Click **Download track** to save the loaded track as a ZIP containing `scene.obj`, `scene.mtl`, PNG textures, and import instructions. Extract all files into the same folder, import `scene.obj` into Blender, and switch to Material Preview to see the textures. Downloads include the complete terrain and ordinary objects, regardless of sector selection or display toggles. Camera movement does not change the exported geometry. Packaging runs entirely in the standalone page, with no server or downloaded dependencies.
+
+The standalone page contains the shared recovered readers and browser controls, with no game assets embedded. After changing its sources, regenerate it with `node tools/build-track-viewer.mjs`. Run `node --test tests/track-viewer.test.mjs` for focused checks. With an existing REA installation supplying Playwright, `node tools/check-track-viewer.mjs '<installed-REA-launcher>' [installation-directory] [new-report-directory]` checks the page in Edge, compares browser geometry and RGBA texture hashes against the Node readers for all 40 packs, exercises controls and loading recovery, and saves a screenshot and report. It downloads no dependencies and refuses to overwrite a report directory.
+
+The general Track Viewer replaces the earlier level-one preview directories. Select LOW / LEV1 to view the same 16 sectors and 114 ordinary model instances, or use Download track to obtain its OBJ, materials and textures. Native evidence and current browser-check reports remain under `analysis/`.
 
 See [RESEARCH.md](RESEARCH.md) for target hashes, recovered function addresses, evidence and remaining questions.
 

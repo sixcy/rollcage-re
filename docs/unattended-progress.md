@@ -1,5 +1,7 @@
 # Unattended reconstruction run
 
+This is a historical ledger. The generated level-one preview directories mentioned below were subsequently removed and replaced by the [general Track Viewer](../website/track-viewer.html); native evidence remains retained under `analysis/`.
+
 The user authorized autonomous continued work on 2026-10-18 at approximately 15:25:58 UTC, asking to go as far as possible within their five-hour allowance. Continue toward source reconstruction without routine confirmation questions. If using elapsed wall time, five hours from this checkpoint is 20:25:58 UTC. Do not mark the overall reconstruction complete merely because an allowance ends.
 
 Target: installed Rollcage Redux.exe 1.3.8.0, SHA-256 `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`. Preserve original files; reconstructed tools read the installation and write only workspace artifacts. Current investigation is static. Generated viewers can be tested in headless Edge.

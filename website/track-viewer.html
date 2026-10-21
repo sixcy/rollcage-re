@@ -1,0 +1,1001 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rollcage track viewer</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c121d;color:#e6edf7;font:14px system-ui,sans-serif}#stage{position:fixed;inset:0}canvas{width:100%;height:100%;display:block;touch-action:none;outline:none}canvas:focus-visible{outline:2px solid #75d7df;outline-offset:-3px}aside{position:absolute;top:18px;left:18px;width:370px;max-width:calc(100vw - 36px);max-height:calc(100dvh - 36px);overflow:auto;background:#111d2af2;padding:18px;border:1px solid #344457;border-radius:10px}h1{font-size:20px;margin:0 0 8px}p{margin:10px 0;color:#b4c4d7;line-height:1.5}label.file{display:block;margin:12px 0;font-weight:600}input[type=file]{display:block;width:100%;margin-top:5px;font-size:12px;color:#b4c4d7}button,select,input::file-selector-button{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:7px;margin:4px 6px 4px 0}select{max-width:100%}button{cursor:pointer}button:hover,input::file-selector-button:hover{background:#36516b}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #75d7df}button:disabled,select:disabled{opacity:.5}.row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.checks{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.note{font-size:12px}#status{color:#91dce4}#error{color:#ffb4ac;white-space:pre-wrap;overflow-wrap:anywhere}#error:empty{display:none}summary{cursor:pointer;color:#c3d5e8}#speed{font-variant-numeric:tabular-nums}a{color:#91dce4}@media(max-width:600px){aside{top:10px;left:10px;max-height:48dvh;padding:12px}h1{font-size:18px}}
+</style>
+</head>
+<body>
+<main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
+<aside aria-label="Track viewer controls">
+<h1>Rollcage track viewer</h1>
+<p class="note">Select <strong>Rollcage.img</strong> and <strong>Rollcage.idx</strong>. Both files are usually located in:<br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage\IDXData</code></p>
+<p class="note">You can paste this folder path into the Browse dialog. Files are read locally and stay on your computer.</p>
+<label class="file" for="image">Rollcage.img<input id="image" type="file" accept=".img"></label>
+<label class="file" for="index">Rollcage.idx<input id="index" type="file" accept=".idx"></label>
+<div class="row"><label for="track">Track</label><select id="track" disabled aria-label="Track"></select><button id="reload" type="button">Load / retry</button></div>
+<p id="status" role="status">Select both Rollcage.img and Rollcage.idx to begin.</p>
+<p id="error" role="alert"></p><p id="counts" class="note"></p>
+<button id="download" type="button" disabled>Download track</button>
+<p class="note">Saves the complete track and ordinary objects as a ZIP with OBJ, materials and PNG textures. Unzip it, then import scene.obj into Blender.</p>
+<div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option></select><button id="reset" type="button">Reset view</button></div>
+<p id="help" class="note"></p><p id="speed" class="note" hidden></p>
+<label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
+<div class="checks"><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label><input type="checkbox" id="objects" checked>Objects</label></div>
+<details><summary>About this reconstruction</summary><p class="note">LOW and HIGH PC BLP packs are supported. Tracks use their archive identifiers. Terrain and ordinary objects are shown at their initial poses. Effects, overlays, special objects, game simulation and BL6 textures remain outside this viewer. Fly-in has no collision.</p></details>
+</aside>
+<script>
+(function() {
+'use strict';
+const modules = {
+"tools/track-viewer/app.mjs": function(require, module, Buffer) {
+const { FileArchive } = require("tools/track-viewer/file-archive.mjs");
+const { tracks, decodeTrack } = require("tools/track-viewer/track-data.mjs");
+const { Navigation } = require("tools/track-viewer/navigation.mjs");
+const { Renderer } = require("tools/track-viewer/renderer.mjs");
+const { buildTrackDownload } = require("tools/track-viewer/export-track.mjs");
+
+const element = id => document.getElementById(id);
+const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
+let renderer, archive, scene, selectedTrack, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
+const errorText = error => error instanceof Error ? error.message : String(error);
+const status = message => { element('status').textContent = message; };
+const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
+function clearInput() { keys.clear(); drag = null; }
+function releaseMouse() { if (document.pointerLockElement === canvas) document.exitPointerLock(); clearInput(); }
+function help() {
+  const fly = navigation.mode === 'fly';
+  element('help').textContent = fly
+    ? 'Click the view for mouse-look · WASD move · Q/E down/up · Shift faster · Wheel changes speed · Esc releases mouse. If capture is unavailable, drag to look.'
+    : 'Left-drag rotates · Right-drag or Shift-drag pans · Wheel zooms · Arrow keys rotate · WASD pans · +/− zoom · Shift faster. Click the view to use keys.';
+  element('mode').value = navigation.mode;
+  element('speed').hidden = !fly;
+}
+function clearScene() {
+  scene = null; selectedTrack = null; renderer?.clear();
+  element('download').disabled = true;
+  element('counts').textContent = ''; element('sector').replaceChildren(new Option('All terrain sectors', '-1'));
+}
+async function loadTrack() {
+  const token = ++generation, source = archive, track = tracks.find(track => track.index === Number(element('track').value));
+  if (!source || !track) return;
+  releaseMouse(); clearScene(); element('error').textContent = '';
+  status(`Loading ${track.label}…`); element('stage').setAttribute('aria-busy', 'true');
+  try {
+    // Yield before decoding so loading status is painted even for cached files.
+    await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
+    if (token !== generation) return;
+    const geometry = await source.readResource(track.index);
+    if (token !== generation) return;
+    const texture = await source.readResource(track.index + 1);
+    if (token !== generation) return;
+    const decoded = decodeTrack(geometry.data, texture.data);
+    renderer.setScene(decoded); scene = decoded; selectedTrack = track;
+    element('download').disabled = exporting;
+    navigation.reset(scene.bounds); help();
+    for (let i = 0; i < scene.segments; i++) element('sector').append(new Option(`Sector ${i}`, String(i)));
+    element('counts').textContent = `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`;
+    status(`${track.label} ready.`);
+  } catch (error) { if (token === generation) { clearScene(); fail(error); } }
+  finally { if (token === generation) element('stage').setAttribute('aria-busy', 'false'); }
+}
+
+async function downloadTrack() {
+  if (!scene || !selectedTrack || exporting) return;
+  const token = generation, source = scene, track = selectedTrack;
+  releaseMouse(); exporting = true; element('download').disabled = true; element('error').textContent = '';
+  status(`Preparing ${track.label} download…`);
+  try {
+    const download = await buildTrackDownload(source, track);
+    if (token !== generation) return;
+    const url = URL.createObjectURL(download.blob), link = document.createElement('a');
+    link.href = url; link.download = download.filename;
+    document.body.append(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    status(`Download started: ${download.filename}. Unzip it and import scene.obj into Blender.`);
+  } catch (error) {
+    if (token === generation) { element('error').textContent = errorText(error); status('Download failed. Try again.'); }
+  } finally { exporting = false; element('download').disabled = !scene; }
+}
+async function openFiles() {
+  const token = ++generation;
+  archive = null; releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
+  element('error').textContent = ''; element('stage').setAttribute('aria-busy', 'false');
+  const image = element('image').files[0], index = element('index').files[0];
+  if (!image || !index) { status('Select both Rollcage.img and Rollcage.idx to begin.'); return; }
+  status('Reading archive index…');
+  try {
+    const opened = await FileArchive.open(image, index);
+    if (token !== generation) return;
+    const available = tracks.filter(track => opened.entries[track.index] && opened.entries[track.index + 1]);
+    if (!available.length) throw new Error('No supported tracks were found. Choose the matching Rollcage IMG and IDX files.');
+    archive = opened;
+    for (const track of available) element('track').append(new Option(track.label, String(track.index)));
+    element('track').disabled = false;
+    await loadTrack();
+  } catch (error) { if (token === generation) fail(error); }
+}
+element('image').addEventListener('change', openFiles);
+element('index').addEventListener('change', openFiles);
+element('track').addEventListener('change', loadTrack);
+element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
+element('download').addEventListener('click', downloadTrack);
+element('mode').addEventListener('change', () => { releaseMouse(); navigation.setMode(element('mode').value); help(); });
+element('reset').addEventListener('click', () => {
+  releaseMouse(); if (scene) navigation.reset(scene.bounds); element('sector').value = '-1'; help();
+});
+element('filter').addEventListener('change', () => renderer?.setFilters(element('filter').checked));
+canvas.addEventListener('contextmenu', event => event.preventDefault());
+canvas.addEventListener('pointerdown', event => {
+  if (!scene || (event.button !== 0 && event.button !== 2)) return;
+  canvas.focus();
+  drag = { id: event.pointerId, x: event.clientX, y: event.clientY, pan: event.button === 2 || event.shiftKey };
+  canvas.setPointerCapture(event.pointerId);
+  if (navigation.mode === 'fly' && event.button === 0 && document.pointerLockElement !== canvas) {
+    try {
+      const request = canvas.requestPointerLock?.();
+      request?.catch(() => { status('Mouse capture unavailable. Drag in the view to look around.'); });
+    } catch { status('Mouse capture unavailable. Drag in the view to look around.'); }
+  }
+});
+canvas.addEventListener('pointermove', event => {
+  if (!scene) return;
+  if (document.pointerLockElement === canvas) { navigation.look(event.movementX, event.movementY); return; }
+  if (!drag || drag.id !== event.pointerId) return;
+  const dx = event.clientX - drag.x, dy = event.clientY - drag.y;
+  if (navigation.mode === 'orbit' && drag.pan) navigation.pan(dx, dy, canvas.clientHeight);
+  else navigation.look(dx, dy);
+  drag.x = event.clientX; drag.y = event.clientY;
+});
+canvas.addEventListener('pointerup', () => { drag = null; });
+canvas.addEventListener('pointercancel', clearInput);
+canvas.addEventListener('lostpointercapture', () => { drag = null; });
+document.addEventListener('pointerlockchange', clearInput);
+document.addEventListener('pointerlockerror', () => status('Mouse capture unavailable. Drag in the view to look around.'));
+canvas.addEventListener('wheel', event => {
+  if (!scene) return;
+  event.preventDefault();
+  navigation.wheel(event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? canvas.clientHeight : 1));
+}, { passive: false });
+const navigationKeys = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyE', 'Equal', 'Minus', 'NumpadAdd', 'NumpadSubtract', 'ShiftLeft', 'ShiftRight']);
+window.addEventListener('keydown', event => {
+  if (event.code === 'Escape') { releaseMouse(); return; }
+  if (!scene || document.activeElement !== canvas || event.ctrlKey || event.metaKey || event.altKey || !navigationKeys.has(event.code)) return;
+  event.preventDefault(); keys.add(event.code);
+});
+window.addEventListener('keyup', event => keys.delete(event.code));
+window.addEventListener('blur', releaseMouse);
+canvas.addEventListener('blur', clearInput);
+document.addEventListener('visibilitychange', () => { if (document.hidden) releaseMouse(); });
+canvas.addEventListener('webglcontextlost', event => {
+  event.preventDefault(); ++generation; releaseMouse(); clearScene(); contextLost = true;
+  element('stage').setAttribute('aria-busy', 'false');
+  for (const id of ['image', 'index', 'track', 'reload']) element(id).disabled = true;
+  status('Reload this page to restore rendering.');
+  element('error').textContent = 'The graphics context was lost. Reload this page to restore the viewer.';
+});
+function frame(time) {
+  if (contextLost) return;
+  if (scene) navigation.step(keys, (time - lastFrame) / 1000);
+  lastFrame = time;
+  renderer.render(navigation, {
+    textures: element('textures').checked, lighting: element('lighting').checked,
+    objects: element('objects').checked, sector: Number(element('sector').value)
+  });
+  if (navigation.mode === 'fly') element('speed').textContent = `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`;
+  requestAnimationFrame(frame);
+}
+// Read-only diagnostics for browser checks; no game data is embedded in the page.
+window.rollcageViewer = { inspect: () => ({
+  track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
+  triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
+  mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
+  yaw: navigation.yaw, pitch: navigation.pitch, distance: navigation.distance, speed: navigation.speed,
+  heldKeys: keys.size, loading: element('stage').getAttribute('aria-busy') === 'true'
+}) };
+help();
+try { renderer = new Renderer(canvas); requestAnimationFrame(frame); }
+catch (error) {
+  element('error').textContent = errorText(error); status('Rendering is unavailable.');
+  for (const id of ['image', 'index', 'track', 'reload']) element(id).disabled = true;
+}
+
+Object.assign(module.exports, {});
+},
+"tools/track-viewer/file-archive.mjs": function(require, module, Buffer) {
+const { ByteBuffer } = require("tools/track-viewer/byte-buffer.mjs");
+const { parseIndex } = require("src/archive-index.mjs");
+const { decodeGT20 } = require("src/gt20.mjs");
+
+class FileArchive {
+  static async open(image, index) {
+    if (!image || !index) throw new Error('Select both Rollcage.img and Rollcage.idx.');
+    if (!image.size) throw new Error('The selected image is empty.');
+    if (!index.size || index.size > 1024 * 1024) throw new Error('Invalid archive index size.');
+    return new FileArchive(image, parseIndex(ByteBuffer.from(await index.arrayBuffer()), image.size));
+  }
+  constructor(image, entries) { this.image = image; this.entries = entries; this.position = 0; }
+  async readResource(index) {
+    if (!Number.isInteger(index) || !this.entries[index]) throw new RangeError('Invalid resource index.');
+    let selected = this.entries[index];
+    const visited = new Set();
+    for (let current = index;;) {
+      if (visited.has(current)) throw new Error('Cycle in archive entry links.');
+      visited.add(current);
+      const candidate = this.entries[current];
+      if (Math.abs(candidate.offset - this.position) < Math.abs(selected.offset - this.position)) selected = candidate;
+      current = candidate.nextIndex;
+      if (current === 0) break;
+    }
+    if (selected.storedBytes > 128 * 1024 * 1024 || selected.decodedBytes > 128 * 1024 * 1024) throw new Error('Resource exceeds the configured size limit.');
+    const stored = ByteBuffer.from(await this.image.slice(selected.offset, selected.offset + selected.storedBytes).arrayBuffer());
+    if (stored.length !== selected.storedBytes) throw new Error('Short resource read.');
+    this.position = selected.offset + selected.storedBytes;
+    const decoded = selected.storedBytes === selected.decodedBytes
+      ? { data: stored, consumedBytes: stored.length, trailingBytes: 0 } : decodeGT20(stored);
+    if (decoded.data.length !== selected.decodedBytes) throw new Error('Decoded length differs from index.');
+    return { ...decoded, entry: selected };
+  }
+}
+
+Object.assign(module.exports, {FileArchive});
+},
+"tools/track-viewer/byte-buffer.mjs": function(require, module, Buffer) {
+// Only the Buffer operations used by the recovered readers; no Node polyfill.
+class ByteBuffer extends Uint8Array {
+  static isBuffer(value) { return value instanceof ByteBuffer; }
+  static alloc(length) { return new ByteBuffer(length); }
+  static from(value) { return new ByteBuffer(value); }
+  view(offset, bytes) {
+    if (!Number.isInteger(offset) || offset < 0 || offset + bytes > this.length) throw new RangeError('Read exceeds buffer bounds.');
+    return new DataView(this.buffer, this.byteOffset + offset, bytes);
+  }
+  readUInt32LE(offset) { return this.view(offset, 4).getUint32(0, true); }
+  readUInt16LE(offset) { return this.view(offset, 2).getUint16(0, true); }
+  readInt16LE(offset) { return this.view(offset, 2).getInt16(0, true); }
+  toString(encoding, start = 0, end = this.length) {
+    const bytes = this.subarray(start, end);
+    if (encoding === 'ascii') return Array.from(bytes, byte => String.fromCharCode(byte & 127)).join('');
+    if (encoding === 'base64') {
+      let text = '';
+      for (let p = 0; p < bytes.length; p += 8192) text += String.fromCharCode(...bytes.subarray(p, p + 8192));
+      return btoa(text);
+    }
+    throw new Error(`Unsupported byte encoding: ${encoding}`);
+  }
+}
+
+Object.assign(module.exports, {ByteBuffer});
+},
+"src/archive-index.mjs": function(require, module, Buffer) {
+// Archive index layout recovered from FUN_00401000. Shared by host readers.
+function parseIndex(buffer, imageBytes) {
+  if (!Buffer.isBuffer(buffer) || buffer.length === 0 || buffer.length % 16 !== 0) throw new Error('Invalid index size.');
+  const entries = [];
+  for (let p = 0; p < buffer.length; p += 16) {
+    const entry = { index: p / 16, offset: buffer.readUInt32LE(p), storedBytes: buffer.readUInt32LE(p + 4),
+      decodedBytes: buffer.readUInt32LE(p + 8), allocationExtra: buffer.readInt16LE(p + 12), nextIndex: buffer.readInt16LE(p + 14) };
+    if (entry.offset + entry.storedBytes > imageBytes) throw new Error(`Entry ${entry.index} exceeds image bounds.`);
+    if (entry.allocationExtra < 0 || entry.nextIndex < 0 || entry.nextIndex >= buffer.length / 16) throw new Error(`Invalid entry metadata at ${entry.index}.`);
+    entries.push(entry);
+  }
+  return entries;
+}
+
+Object.assign(module.exports, {parseIndex});
+},
+"src/gt20.mjs": function(require, module, Buffer) {
+// Behavioral reconstruction of Redux 1.3.8.0 FUN_00401380.
+// Evidence: analysis/results/014-pseudo-decompress-wrapper.json.
+// The original performs unchecked writes; this implementation checks bounds.
+function decodeGT20(input, { maxDecodedBytes = 128 * 1024 * 1024 } = {}) {
+  if (!Buffer.isBuffer(input)) throw new TypeError('Input must be a Buffer.');
+  if (input.length < 16 || input.toString('ascii', 0, 4) !== 'GT20') throw new Error('Missing GT20 header.');
+  const decodedBytes = input.readUInt32LE(4);
+  if (decodedBytes > maxDecodedBytes) throw new Error('Decoded size exceeds the configured limit.');
+  const output = Buffer.alloc(decodedBytes);
+  let source = 16 + input.readUInt32LE(12);
+  let destination = 0;
+  let control = 0;
+  let remainingBits = 0;
+  function requireInput(bytes) {
+    if (source + bytes > input.length) throw new Error(`Truncated GT20 stream at ${source}.`);
+  }
+  function byte() { requireInput(1); return input[source++]; }
+  function word() {
+    requireInput(2);
+    const value = input.readUInt16LE(source);
+    source += 2;
+    return value;
+  }
+  function bit() {
+    // Refill on the next bit request. A token's data may precede the next
+    // control word when its bits straddle a 32-bit boundary.
+    if (remainingBits === 0) {
+      requireInput(4);
+      control = input.readUInt32LE(source);
+      source += 4;
+      remainingBits = 32;
+    }
+    const value = control & 1;
+    control >>>= 1;
+    remainingBits--;
+    return value;
+  }
+  function copy(distance, length) {
+    if (distance < 1 || distance > destination) throw new Error(`Invalid GT20 back-reference at output ${destination}.`);
+    if (destination + length > output.length) throw new Error('GT20 match exceeds the declared decoded size.');
+    // Forward byte copies intentionally preserve overlapping LZ matches.
+    for (let i = 0; i < length; i++) {
+      output[destination] = output[destination - distance];
+      destination++;
+    }
+  }
+  for (;;) {
+    if (bit() === 0) {
+      if (destination >= output.length) throw new Error('GT20 literal exceeds the declared decoded size.');
+      output[destination++] = byte();
+    } else if (bit() === 0) {
+      const distance = 256 - byte();
+      const length = 2 + bit() * 2 + bit();
+      copy(distance, length);
+    } else {
+      const token = word();
+      let distance = 8192 - (token >>> 3);
+      let length = token & 7;
+      if (length === 0) {
+        const extra = byte();
+        if (extra & 0x80) distance += 8192;
+        length = extra & 0x7f;
+        if (length === 1) {
+          if (destination !== output.length) throw new Error(`GT20 ended at ${destination}, expected ${output.length}.`);
+          return { data: output, consumedBytes: source, trailingBytes: input.length - source };
+        }
+        length = length === 0 ? word() : length + 2;
+      } else {
+        length += 2;
+      }
+      if (length !== 0) copy(distance, length);
+    }
+  }
+}
+
+Object.assign(module.exports, {decodeGT20});
+},
+"tools/track-viewer/track-data.mjs": function(require, module, Buffer) {
+const { resourceMappings, normalizeResourceName } = require("src/resource-names.mjs");
+const { parseScene } = require("src/scene.mjs");
+const { parseGFXM } = require("src/gfxm.mjs");
+const { parsePlacements } = require("src/placements.mjs");
+const { buildPlacedMeshes } = require("src/placed-meshes.mjs");
+const { parseBTP, decodeBTPTexture } = require("src/btp.mjs");
+const { buildSceneExport } = require("src/scene-export.mjs");
+
+const tracks = resourceMappings.map(({ name, index }) => ({ name: normalizeResourceName(name), index }))
+  .filter(({ name }) => /^(LOW|HIGH)\/LEV\d+\.BLP$/.test(name))
+  .map(track => ({ ...track, label: track.name.replace('/', ' / ').replace('.BLP', '') }));
+
+function decodeTrack(data, textureData) {
+  const terrain = parseScene(data), gfxm = parseGFXM(data), btp = parseBTP(textureData);
+  if (!terrain.segments.length) throw new Error('This resource has no track geometry.');
+  const placements = parsePlacements(textureData, gfxm.models), meshes = buildPlacedMeshes(data, gfxm, placements);
+  const textures = new Map();
+  for (const page of new Set([...terrain.segments, ...meshes].flatMap(mesh => mesh.faces.map(face => face.page)))) textures.set(page, decodeBTPTexture(btp, page));
+  const output = buildSceneExport(terrain, textures, meshes);
+  if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid track bounds.');
+  return { ...output, segments: terrain.segments.length, instances: meshes.length, textures };
+}
+
+Object.assign(module.exports, {tracks,decodeTrack});
+},
+"src/resource-names.mjs": function(require, module, Buffer) {
+// Reconstructs Redux FUN_00447ae0 for its ASCII resource names.
+const resourceMap = require("src/resource-map.json");
+
+function normalizeResourceName(name) {
+  if (typeof name !== 'string' || /[^\x00-\x7f]/.test(name)) throw new TypeError('Resource names must be ASCII strings.');
+  // The original is a C string; content after its first NUL is ignored.
+  return name.split('\0', 1)[0].toUpperCase().replace(/__|_|\\/g, token => token === '_' ? '.' : '/');
+}
+const lookup = new Map();
+for (const { name, index } of resourceMap.mappings) {
+  const normalized = normalizeResourceName(name);
+  if (!lookup.has(normalized)) lookup.set(normalized, index);
+}
+function findResourceIndex(name) { return lookup.get(normalizeResourceName(name)) ?? -1; }
+const resourceMappings = Object.freeze(resourceMap.mappings.map(mapping => Object.freeze({ ...mapping })));
+
+Object.assign(module.exports, {normalizeResourceName,findResourceIndex,resourceMappings});
+},
+"src/resource-map.json": function(require, module, Buffer) {
+module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","mappings":[{"name":"FE_BLP","index":0},{"name":"FE_BTP","index":1},{"name":"FENOZ_BLP","index":2},{"name":"FENOZ_BTP","index":3},{"name":"FONTPC_RDX","index":8},{"name":"FONT_BMP","index":9},{"name":"LOAD1_BMP","index":10},{"name":"LOAD2_BMP","index":11},{"name":"LOAD3_BMP","index":12},{"name":"LOAD4_BMP","index":13},{"name":"LOAD5_BMP","index":14},{"name":"LOAD6_BMP","index":15},{"name":"LOAD7_BMP","index":16},{"name":"LOAD8_BMP","index":17},{"name":"TESTLVL_BSP","index":18},{"name":"ICE_BMP","index":19},{"name":"TW1_BMP","index":20},{"name":"TW2_BMP","index":21},{"name":"TW3_BMP","index":22},{"name":"TW4_BMP","index":23},{"name":"TW5_BMP","index":24},{"name":"TW6_BMP","index":25},{"name":"TW7_BMP","index":26},{"name":"TW8_BMP","index":27},{"name":"OEM_DAT","index":28},{"name":"LOGO_BMP","index":29},{"name":"LOW__LEV1_BLP","index":30},{"name":"LOW__LEV1_BTP","index":31},{"name":"LOW__LEV2_BLP","index":32},{"name":"LOW__LEV2_BTP","index":33},{"name":"LOW__LEV3_BLP","index":34},{"name":"LOW__LEV3_BTP","index":35},{"name":"LOW__LEV4_BLP","index":36},{"name":"LOW__LEV4_BTP","index":37},{"name":"LOW__LEV5_BLP","index":38},{"name":"LOW__LEV5_BTP","index":39},{"name":"LOW__LEV6_BLP","index":40},{"name":"LOW__LEV6_BTP","index":41},{"name":"LOW__LEV7_BLP","index":42},{"name":"LOW__LEV7_BTP","index":43},{"name":"LOW__LEV8_BLP","index":44},{"name":"LOW__LEV8_BTP","index":45},{"name":"LOW__LEV9_BLP","index":46},{"name":"LOW__LEV9_BTP","index":47},{"name":"LOW__LEV10_BLP","index":48},{"name":"LOW__LEV10_BTP","index":49},{"name":"LOW__LEV11_BLP","index":50},{"name":"LOW__LEV11_BTP","index":51},{"name":"LOW__LEV12_BLP","index":52},{"name":"LOW__LEV12_BTP","index":53},{"name":"LOW__LEV13_BLP","index":54},{"name":"LOW__LEV13_BTP","index":55},{"name":"LOW__LEV14_BLP","index":56},{"name":"LOW__LEV14_BTP","index":57},{"name":"LOW__LEV15_BLP","index":58},{"name":"LOW__LEV15_BTP","index":59},{"name":"LOW__LEV16_BLP","index":60},{"name":"LOW__LEV16_BTP","index":61},{"name":"LOW__LEV17_BLP","index":62},{"name":"LOW__LEV17_BTP","index":63},{"name":"LOW__LEV18_BLP","index":64},{"name":"LOW__LEV18_BTP","index":65},{"name":"LOW__LEV19_BLP","index":66},{"name":"LOW__LEV19_BTP","index":67},{"name":"LOW__LEV20_BLP","index":68},{"name":"LOW__LEV20_BTP","index":69},{"name":"HIGH__LEV1_BLP","index":70},{"name":"HIGH__LEV1_BTP","index":71},{"name":"HIGH__LEV2_BLP","index":72},{"name":"HIGH__LEV2_BTP","index":73},{"name":"HIGH__LEV3_BLP","index":74},{"name":"HIGH__LEV3_BTP","index":75},{"name":"HIGH__LEV4_BLP","index":76},{"name":"HIGH__LEV4_BTP","index":77},{"name":"HIGH__LEV5_BLP","index":78},{"name":"HIGH__LEV5_BTP","index":79},{"name":"HIGH__LEV6_BLP","index":80},{"name":"HIGH__LEV6_BTP","index":81},{"name":"HIGH__LEV7_BLP","index":82},{"name":"HIGH__LEV7_BTP","index":83},{"name":"HIGH__LEV8_BLP","index":84},{"name":"HIGH__LEV8_BTP","index":85},{"name":"HIGH__LEV9_BLP","index":86},{"name":"HIGH__LEV9_BTP","index":87},{"name":"HIGH__LEV10_BLP","index":88},{"name":"HIGH__LEV10_BTP","index":89},{"name":"HIGH__LEV11_BLP","index":90},{"name":"HIGH__LEV11_BTP","index":91},{"name":"HIGH__LEV12_BLP","index":92},{"name":"HIGH__LEV12_BTP","index":93},{"name":"HIGH__LEV13_BLP","index":94},{"name":"HIGH__LEV13_BTP","index":95},{"name":"HIGH__LEV14_BLP","index":96},{"name":"HIGH__LEV14_BTP","index":97},{"name":"HIGH__LEV15_BLP","index":98},{"name":"HIGH__LEV15_BTP","index":99},{"name":"HIGH__LEV16_BLP","index":100},{"name":"HIGH__LEV16_BTP","index":101},{"name":"HIGH__LEV17_BLP","index":102},{"name":"HIGH__LEV17_BTP","index":103},{"name":"HIGH__LEV18_BLP","index":104},{"name":"HIGH__LEV18_BTP","index":105},{"name":"HIGH__LEV19_BLP","index":106},{"name":"HIGH__LEV19_BTP","index":107},{"name":"HIGH__LEV20_BLP","index":108},{"name":"HIGH__LEV20_BTP","index":109},{"name":"LOW__LEV1_BL6","index":110},{"name":"LOW__LEV1_BT6","index":111},{"name":"LOW__LEV2_BL6","index":112},{"name":"LOW__LEV2_BT6","index":113},{"name":"LOW__LEV3_BL6","index":114},{"name":"LOW__LEV3_BT6","index":115},{"name":"LOW__LEV4_BL6","index":116},{"name":"LOW__LEV4_BT6","index":117},{"name":"LOW__LEV5_BL6","index":118},{"name":"LOW__LEV5_BT6","index":119},{"name":"LOW__LEV6_BL6","index":120},{"name":"LOW__LEV6_BT6","index":121},{"name":"LOW__LEV7_BL6","index":122},{"name":"LOW__LEV7_BT6","index":123},{"name":"LOW__LEV8_BL6","index":124},{"name":"LOW__LEV8_BT6","index":125},{"name":"LOW__LEV9_BL6","index":126},{"name":"LOW__LEV9_BT6","index":127},{"name":"LOW__LEV10_BL6","index":128},{"name":"LOW__LEV10_BT6","index":129},{"name":"LOW__LEV11_BL6","index":130},{"name":"LOW__LEV11_BT6","index":131},{"name":"LOW__LEV12_BL6","index":132},{"name":"LOW__LEV12_BT6","index":133},{"name":"LOW__LEV13_BL6","index":134},{"name":"LOW__LEV13_BT6","index":135},{"name":"LOW__LEV14_BL6","index":136},{"name":"LOW__LEV14_BT6","index":137},{"name":"LOW__LEV15_BL6","index":138},{"name":"LOW__LEV15_BT6","index":139},{"name":"LOW__LEV16_BL6","index":140},{"name":"LOW__LEV16_BT6","index":141},{"name":"LOW__LEV17_BL6","index":142},{"name":"LOW__LEV17_BT6","index":143},{"name":"LOW__LEV18_BL6","index":144},{"name":"LOW__LEV18_BT6","index":145},{"name":"LOW__LEV19_BL6","index":146},{"name":"LOW__LEV19_BT6","index":147},{"name":"LOW__LEV20_BL6","index":148},{"name":"LOW__LEV20_BT6","index":149},{"name":"HIGH__LEV1_BL6","index":150},{"name":"HIGH__LEV1_BT6","index":151},{"name":"HIGH__LEV2_BL6","index":152},{"name":"HIGH__LEV2_BT6","index":153},{"name":"HIGH__LEV3_BL6","index":154},{"name":"HIGH__LEV3_BT6","index":155},{"name":"HIGH__LEV4_BL6","index":156},{"name":"HIGH__LEV4_BT6","index":157},{"name":"HIGH__LEV5_BL6","index":158},{"name":"HIGH__LEV5_BT6","index":159},{"name":"HIGH__LEV6_BL6","index":160},{"name":"HIGH__LEV6_BT6","index":161},{"name":"HIGH__LEV7_BL6","index":162},{"name":"HIGH__LEV7_BT6","index":163},{"name":"HIGH__LEV8_BL6","index":164},{"name":"HIGH__LEV8_BT6","index":165},{"name":"HIGH__LEV9_BL6","index":166},{"name":"HIGH__LEV9_BT6","index":167},{"name":"HIGH__LEV10_BL6","index":168},{"name":"HIGH__LEV10_BT6","index":169},{"name":"HIGH__LEV11_BL6","index":170},{"name":"HIGH__LEV11_BT6","index":171},{"name":"HIGH__LEV12_BL6","index":172},{"name":"HIGH__LEV12_BT6","index":173},{"name":"HIGH__LEV13_BL6","index":174},{"name":"HIGH__LEV13_BT6","index":175},{"name":"HIGH__LEV14_BL6","index":176},{"name":"HIGH__LEV14_BT6","index":177},{"name":"HIGH__LEV15_BL6","index":178},{"name":"HIGH__LEV15_BT6","index":179},{"name":"HIGH__LEV16_BL6","index":180},{"name":"HIGH__LEV16_BT6","index":181},{"name":"HIGH__LEV17_BL6","index":182},{"name":"HIGH__LEV17_BT6","index":183},{"name":"HIGH__LEV18_BL6","index":184},{"name":"HIGH__LEV18_BT6","index":185},{"name":"HIGH__LEV19_BL6","index":186},{"name":"HIGH__LEV19_BT6","index":187},{"name":"HIGH__LEV20_BL6","index":188},{"name":"HIGH__LEV20_BT6","index":189},{"name":"CHARANIM__AMER0001_BMP","index":190},{"name":"CHARANIM__AMER0002_BMP","index":191},{"name":"CHARANIM__AMER0003_BMP","index":192},{"name":"CHARANIM__AMER0004_BMP","index":193},{"name":"CHARANIM__AMER0005_BMP","index":194},{"name":"CHARANIM__AMER0006_BMP","index":195},{"name":"CHARANIM__AMER0007_BMP","index":196},{"name":"CHARANIM__AMER0008_BMP","index":197},{"name":"CHARANIM__AMER0009_BMP","index":198},{"name":"CHARANIM__AMER0010_BMP","index":199},{"name":"CHARANIM__AMER0011_BMP","index":200},{"name":"CHARANIM__AMER0012_BMP","index":201},{"name":"CHARANIM__AMER0013_BMP","index":202},{"name":"CHARANIM__AMER0014_BMP","index":203},{"name":"CHARANIM__AMER0015_BMP","index":204},{"name":"CHARANIM__AMER0016_BMP","index":205},{"name":"CHARANIM__AMER0017_BMP","index":206},{"name":"CHARANIM__AMER0018_BMP","index":207},{"name":"CHARANIM__AMER0019_BMP","index":208},{"name":"CHARANIM__AMER0020_BMP","index":209},{"name":"CHARANIM__AMER0021_BMP","index":210},{"name":"CHARANIM__AMER0022_BMP","index":211},{"name":"CHARANIM__FREN0001_BMP","index":212},{"name":"CHARANIM__FREN0002_BMP","index":213},{"name":"CHARANIM__FREN0003_BMP","index":214},{"name":"CHARANIM__FREN0004_BMP","index":215},{"name":"CHARANIM__FREN0005_BMP","index":216},{"name":"CHARANIM__FREN0006_BMP","index":217},{"name":"CHARANIM__FREN0007_BMP","index":218},{"name":"CHARANIM__FREN0008_BMP","index":219},{"name":"CHARANIM__FREN0009_BMP","index":220},{"name":"CHARANIM__FREN0010_BMP","index":221},{"name":"CHARANIM__FREN0011_BMP","index":222},{"name":"CHARANIM__FREN0012_BMP","index":223},{"name":"CHARANIM__FREN0013_BMP","index":224},{"name":"CHARANIM__FREN0014_BMP","index":225},{"name":"CHARANIM__FREN0015_BMP","index":226},{"name":"CHARANIM__FREN0016_BMP","index":227},{"name":"CHARANIM__FREN0017_BMP","index":228},{"name":"CHARANIM__FREN0018_BMP","index":229},{"name":"CHARANIM__FREN0019_BMP","index":230},{"name":"CHARANIM__FREN0020_BMP","index":231},{"name":"CHARANIM__FREN0021_BMP","index":232},{"name":"CHARANIM__FREN0022_BMP","index":233},{"name":"CHARANIM__GERM0001_BMP","index":234},{"name":"CHARANIM__GERM0002_BMP","index":235},{"name":"CHARANIM__GERM0003_BMP","index":236},{"name":"CHARANIM__GERM0004_BMP","index":237},{"name":"CHARANIM__GERM0005_BMP","index":238},{"name":"CHARANIM__GERM0006_BMP","index":239},{"name":"CHARANIM__GERM0007_BMP","index":240},{"name":"CHARANIM__GERM0008_BMP","index":241},{"name":"CHARANIM__GERM0009_BMP","index":242},{"name":"CHARANIM__GERM0010_BMP","index":243},{"name":"CHARANIM__GERM0011_BMP","index":244},{"name":"CHARANIM__GERM0012_BMP","index":245},{"name":"CHARANIM__GERM0013_BMP","index":246},{"name":"CHARANIM__GERM0014_BMP","index":247},{"name":"CHARANIM__GERM0015_BMP","index":248},{"name":"CHARANIM__GERM0016_BMP","index":249},{"name":"CHARANIM__GERM0017_BMP","index":250},{"name":"CHARANIM__GERM0018_BMP","index":251},{"name":"CHARANIM__GERM0019_BMP","index":252},{"name":"CHARANIM__GERM0020_BMP","index":253},{"name":"CHARANIM__GERM0021_BMP","index":254},{"name":"CHARANIM__GERM0022_BMP","index":255},{"name":"CHARANIM__ITAL0001_BMP","index":256},{"name":"CHARANIM__ITAL0002_BMP","index":257},{"name":"CHARANIM__ITAL0003_BMP","index":258},{"name":"CHARANIM__ITAL0004_BMP","index":259},{"name":"CHARANIM__ITAL0005_BMP","index":260},{"name":"CHARANIM__ITAL0006_BMP","index":261},{"name":"CHARANIM__ITAL0007_BMP","index":262},{"name":"CHARANIM__ITAL0008_BMP","index":263},{"name":"CHARANIM__ITAL0009_BMP","index":264},{"name":"CHARANIM__ITAL0010_BMP","index":265},{"name":"CHARANIM__ITAL0011_BMP","index":266},{"name":"CHARANIM__ITAL0012_BMP","index":267},{"name":"CHARANIM__ITAL0013_BMP","index":268},{"name":"CHARANIM__ITAL0014_BMP","index":269},{"name":"CHARANIM__ITAL0015_BMP","index":270},{"name":"CHARANIM__ITAL0016_BMP","index":271},{"name":"CHARANIM__ITAL0017_BMP","index":272},{"name":"CHARANIM__ITAL0018_BMP","index":273},{"name":"CHARANIM__ITAL0019_BMP","index":274},{"name":"CHARANIM__ITAL0020_BMP","index":275},{"name":"CHARANIM__ITAL0021_BMP","index":276},{"name":"CHARANIM__ITAL0022_BMP","index":277},{"name":"CHARANIM__JAPG0001_BMP","index":278},{"name":"CHARANIM__JAPG0002_BMP","index":279},{"name":"CHARANIM__JAPG0003_BMP","index":280},{"name":"CHARANIM__JAPG0004_BMP","index":281},{"name":"CHARANIM__JAPG0005_BMP","index":282},{"name":"CHARANIM__JAPG0006_BMP","index":283},{"name":"CHARANIM__JAPG0007_BMP","index":284},{"name":"CHARANIM__JAPG0008_BMP","index":285},{"name":"CHARANIM__JAPG0009_BMP","index":286},{"name":"CHARANIM__JAPG0010_BMP","index":287},{"name":"CHARANIM__JAPG0011_BMP","index":288},{"name":"CHARANIM__JAPG0012_BMP","index":289},{"name":"CHARANIM__JAPG0013_BMP","index":290},{"name":"CHARANIM__JAPG0014_BMP","index":291},{"name":"CHARANIM__JAPG0015_BMP","index":292},{"name":"CHARANIM__JAPG0016_BMP","index":293},{"name":"CHARANIM__JAPG0017_BMP","index":294},{"name":"CHARANIM__JAPG0018_BMP","index":295},{"name":"CHARANIM__JAPG0019_BMP","index":296},{"name":"CHARANIM__JAPG0020_BMP","index":297},{"name":"CHARANIM__JAPG0021_BMP","index":298},{"name":"CHARANIM__JAPG0022_BMP","index":299},{"name":"CHARANIM__POLI0001_BMP","index":300},{"name":"CHARANIM__POLI0002_BMP","index":301},{"name":"CHARANIM__POLI0003_BMP","index":302},{"name":"CHARANIM__POLI0004_BMP","index":303},{"name":"CHARANIM__POLI0005_BMP","index":304},{"name":"CHARANIM__POLI0006_BMP","index":305},{"name":"CHARANIM__POLI0007_BMP","index":306},{"name":"CHARANIM__POLI0008_BMP","index":307},{"name":"CHARANIM__POLI0009_BMP","index":308},{"name":"CHARANIM__POLI0010_BMP","index":309},{"name":"CHARANIM__POLI0011_BMP","index":310},{"name":"CHARANIM__POLI0012_BMP","index":311},{"name":"CHARANIM__POLI0013_BMP","index":312},{"name":"CHARANIM__POLI0014_BMP","index":313},{"name":"CHARANIM__POLI0015_BMP","index":314},{"name":"CHARANIM__POLI0016_BMP","index":315},{"name":"CHARANIM__POLI0017_BMP","index":316},{"name":"CHARANIM__POLI0018_BMP","index":317},{"name":"CHARANIM__POLI0019_BMP","index":318},{"name":"CHARANIM__POLI0020_BMP","index":319},{"name":"CHARANIM__POLI0021_BMP","index":320},{"name":"CHARANIM__POLI0022_BMP","index":321},{"name":"CHARANIM__UKBY0001_BMP","index":322},{"name":"CHARANIM__UKBY0002_BMP","index":323},{"name":"CHARANIM__UKBY0003_BMP","index":324},{"name":"CHARANIM__UKBY0004_BMP","index":325},{"name":"CHARANIM__UKBY0005_BMP","index":326},{"name":"CHARANIM__UKBY0006_BMP","index":327},{"name":"CHARANIM__UKBY0007_BMP","index":328},{"name":"CHARANIM__UKBY0008_BMP","index":329},{"name":"CHARANIM__UKBY0009_BMP","index":330},{"name":"CHARANIM__UKBY0010_BMP","index":331},{"name":"CHARANIM__UKBY0011_BMP","index":332},{"name":"CHARANIM__UKBY0012_BMP","index":333},{"name":"CHARANIM__UKBY0013_BMP","index":334},{"name":"CHARANIM__UKBY0014_BMP","index":335},{"name":"CHARANIM__UKBY0015_BMP","index":336},{"name":"CHARANIM__UKBY0016_BMP","index":337},{"name":"CHARANIM__UKBY0017_BMP","index":338},{"name":"CHARANIM__UKBY0018_BMP","index":339},{"name":"CHARANIM__UKBY0019_BMP","index":340},{"name":"CHARANIM__UKBY0020_BMP","index":341},{"name":"CHARANIM__UKBY0021_BMP","index":342},{"name":"CHARANIM__UKBY0022_BMP","index":343}]};
+},
+"src/scene.mjs": function(require, module, Buffer) {
+// Primary SEGM grids. Native anchors: scene results 027, 034 and 042.
+function parseScene(data) {
+  if (!Buffer.isBuffer(data) || data.length < 0x120 || data.toString('ascii',0,4)!=='GFXM') throw new Error('Invalid GFXM scene header.');
+  function range(offset,bytes,label) {
+    if (!Number.isSafeInteger(offset)||!Number.isSafeInteger(bytes)||offset<0||bytes<0||offset+bytes>data.length) throw new Error(`Scene ${label} exceeds resource bounds.`);
+  }
+  const count=data.readUInt32LE(0x10), table=data.readUInt32LE(0x14), uvTable=data.readUInt32LE(0x110);
+  range(table,count*4,'segment table');
+  const segments=Array.from({length:count},(_,index)=>{
+    const offset=data.readUInt32LE(table+index*4);
+    range(offset,0x60,`segment ${index} header`);
+    if(data.toString('ascii',offset,offset+4)!=='SEGM') throw new Error(`Unsupported scene segment at ${index}.`);
+    const columns=data.readUInt32LE(offset+8), rows=data.readUInt32LE(offset+0xc);
+    const verticesOffset=data.readUInt32LE(offset+0x20), packetsOffset=data.readUInt32LE(offset+0x50);
+    const vertexCount=(columns+1)*(rows+1), faceCount=columns*rows;
+    range(verticesOffset,vertexCount*8,`segment ${index} vertices`);
+    range(packetsOffset,faceCount*8,`segment ${index} packets`);
+    const vertices=Array.from({length:vertexCount},(_,i)=>{
+      const p=verticesOffset+i*8;
+      return [data.readInt16LE(p),data.readInt16LE(p+2),data.readInt16LE(p+4),data.readUInt16LE(p+6)];
+    });
+    const faces=Array.from({length:faceCount},(_,i)=>{
+      const p=packetsOffset+i*8, textureRecord=data.readUInt32LE(p+4), uvOffset=uvTable+textureRecord*16;
+      range(uvOffset,16,`segment ${index} UV record ${textureRecord}`);
+      const row=Math.floor(i/columns), col=i%columns, top=row*(columns+1)+col;
+      const pageWord=data.readUInt16LE(uvOffset+6);
+      const gridIndices=[top,top+1,top+columns+1,top+columns+2];
+      const vertexFlags=vertices[top+columns+2][3];
+      // FUN_00489e40 maps TL/TR/BL/BR directly when bit 2 is set,
+      // otherwise it rotates the packet corners to TR/BR/TL/BL.
+      const indices=vertexFlags&4?gridIndices:[gridIndices[1],gridIndices[3],gridIndices[0],gridIndices[2]];
+      return {index:i,template:data.readUInt16LE(p),textureRecord,pageWord,page:pageWord&0x3f,
+        clutWord:data.readUInt16LE(uvOffset+2), uv:[[data[uvOffset],data[uvOffset+1]],[data[uvOffset+4],data[uvOffset+5]],
+          [data[uvOffset+8],data[uvOffset+9]],[data[uvOffset+10],data[uvOffset+11]]],
+        indices,gridIndices,
+        // The native lighting pass selects corner mapping from a grid-point flag.
+        // Keep it for the renderer/exporter rather than discarding the field.
+        vertexFlags};
+    });
+    return {index,offset,columns,rows,verticesOffset,packetsOffset,vertices,faces};
+  });
+  return {segments,uvTable};
+}
+
+Object.assign(module.exports, {parseScene});
+},
+"src/gfxm.mjs": function(require, module, Buffer) {
+// GFXM model-table and primary MODL/MODC reconstruction.
+// Native anchors: asset-formats results 003, 006, 019, 022 and 024.
+function parseGFXM(data) {
+  if (!Buffer.isBuffer(data) || data.length < 0x120 || data.toString('ascii', 0, 4) !== 'GFXM') throw new Error('Invalid GFXM header.');
+  function range(offset, bytes, label) {
+    if (!Number.isSafeInteger(offset) || offset < 0 || offset + bytes > data.length) throw new Error(`GFXM ${label} exceeds resource bounds.`);
+  }
+  const modelTable = data.readUInt32LE(0x18), modelSlots = data.readUInt16LE(0x2c);
+  range(modelTable, modelSlots * 4, 'model table');
+  const models = Array.from({ length: modelSlots }, (_, index) => {
+    const offset = data.readUInt32LE(modelTable + index * 4);
+    if (!offset) return null;
+    range(offset, 0x50, `model ${index} header`);
+    const type = data.toString('ascii', offset, offset + 4);
+    if (type !== 'MODL' && type !== 'MODC') throw new Error(`Unsupported GFXM model type ${type}.`);
+    const vertexCount = data.readUInt16LE(offset + 4), faceCount = data.readUInt16LE(offset + 6);
+    const verticesOffset = offset + data.readUInt32LE(offset + 0x40);
+    const facesOffset = offset + data.readUInt32LE(offset + 0xc);
+    range(verticesOffset, vertexCount * 8, `model ${index} vertices`);
+    range(facesOffset, faceCount * 8, `model ${index} faces`);
+    const vertices = Array.from({ length: vertexCount }, (_, i) => {
+      const p = verticesOffset + i * 8;
+      return [data.readInt16LE(p), data.readInt16LE(p + 2), data.readInt16LE(p + 4), data.readInt16LE(p + 6)];
+    });
+    const faces = Array.from({ length: faceCount }, (_, i) => {
+      const p = facesOffset + i * 8, indices = [...data.subarray(p, p + 4)];
+      if (indices.some((v, corner) => v > vertexCount || (v === 0 && corner !== 3))) throw new Error(`Invalid vertex index in model ${index}, face ${i}.`);
+      return { indices, packedWord: data.readUInt32LE(p + 4), triangle: indices[3] === 0 };
+    });
+    return { index, offset, type, vertexCount, faceCount, verticesOffset, facesOffset,
+      lodOffsets: [data.readUInt16LE(offset + 0x1c), data.readUInt16LE(offset + 0x1e)], vertices, faces };
+  });
+  return { version: data.readUInt32LE(4), modelTable, modelSlots, models };
+}
+
+function modelToOBJ(model) {
+  if (!model) throw new Error('The selected model slot is empty.');
+  const lines = ['# Rollcage primary model; original local coordinates.',
+    '# Native draw corners: 1,3,2,4; materials, scene placement and LODs are not exported here.',
+    `o model_${model.index}`];
+  for (const [x,y,z] of model.vertices) lines.push(`v ${x} ${y} ${z}`);
+  for (const { indices: [a,b,c,d] } of model.faces) lines.push(d ? `f ${a} ${c} ${d} ${b}` : `f ${a} ${c} ${b}`);
+  return lines.join('\n') + '\n';
+}
+
+Object.assign(module.exports, {parseGFXM,modelToOBJ});
+},
+"src/placements.mjs": function(require, module, Buffer) {
+const {placementMatrix} = require("src/fixed-math.mjs");
+// BTP records consumed by the GFXM/BTP loader FUN_0044c2b0.
+function parsePlacements(data,models) {
+ if(!Buffer.isBuffer(data)||data.length<0x40||data.toString('ascii',0,4)!=='BTP ')throw Error('Invalid BTP placement header.');
+ const count=data.readUInt32LE(0x14),offset=data.readUInt32LE(0x28);
+ if(offset+count*56>data.length)throw Error('BTP placement records exceed resource bounds.');
+ const records=Array.from({length:count},(_,index)=>{
+  const p=offset+index*56,flags=data.readUInt16LE(p),type=flags&0x3ff;
+  const record={index,offset:p,flags,type,position:[8,10,12].map(a=>data.readInt16LE(p+a)),
+   angles:[14,16,18].map(a=>data.readInt16LE(p+a)),raw:Buffer.from(data.subarray(p,p+56))};
+  if(type===0) {
+   record.modelIndex=data[p+3];
+   if(!models[record.modelIndex])throw Error(`Placement ${index} references missing model ${record.modelIndex}.`);
+   record.uvStarts=[40,42,44].map(a=>data.readUInt16LE(p+a));
+   record.matrix=placementMatrix(record.angles);
+  }
+  return record;
+ });
+ return {count,offset,records};
+}
+
+Object.assign(module.exports, {parsePlacements});
+},
+"src/fixed-math.mjs": function(require, module, Buffer) {
+const table = require("src/trig-table.json");
+// Native Q16 angle lookup, including one-period reduction and table quantization.
+// These are intentionally not general-purpose trigonometric functions.
+function fixedCos(angle) {
+ let i=Math.abs(angle|0);
+ if(i>0x6487f)i-=0x6487f;
+ if(i<0x19221)return table.values[i>>9];
+ if(i<0x32440)return -table.values[(0x3243f-i)>>9];
+ if(i>0x3243f&&i<0x4b660)return -table.values[(i-0x3243f)>>9];
+ if(i>0x4b65f&&i<0x64880)return table.values[(0x6487f-i)>>9];
+ return 0;
+}
+function fixedSin(angle) {
+ let i=Math.abs((angle+0x19220)|0);
+ if(i>0x6487f)i-=0x6487f;
+ if(i<0x19221)return -table.values[i>>9];
+ if(i<0x32440)return table.values[(0x3243f-i)>>9];
+ if(i>0x3243f&&i<0x4b660)return table.values[(i-0x3243f)>>9];
+ if(i>0x4b65f&&i<0x64880)return -table.values[(0x6487f-i)>>9];
+ return 0;
+}
+const multiply=(a,b)=>Number(BigInt.asIntN(32,(BigInt(a)*BigInt(b))>>16n));
+const short=value=>((value|0)>>4)<<16>>16;
+// FUN_00492720: Q16 quaternion to row-major Q12 signed-short matrix.
+function quaternionMatrix([w,x,y,z]) {
+ const xx=multiply(x,x),yy=multiply(y,y),zz=multiply(z,z),wx=multiply(w,x),wy=multiply(w,y),wz=multiply(w,z);
+ const xy=2*multiply(x,y),xz=2*multiply(x,z),yz=2*multiply(y,z);
+ return [short(0x10000-2*zz-2*yy),short(xy-2*wz),short(xz+2*wy),
+  short(xy+2*wz),short(0x10000-2*zz-2*xx),short(yz-2*wx),
+  short(xz-2*wy),short(yz+2*wx),short(0x10000-2*yy-2*xx)];
+}
+// Loader assembly at 0x44ce1e..0x44ce9a. It fills components directly;
+// preserve the observed last-nonzero-axis cosine rather than composing Euler angles.
+function placementMatrix([x,y,z]) {
+ let half=0;const q=[0,0,0,0];
+ if(x){half=x>>1;q[1]=fixedSin(half);}
+ if(y){half=Math.imul(y,0x6488)>>9;q[2]=fixedSin(half);}
+ if(z){half=Math.imul(z,0x6488)>>9;q[3]=fixedSin(half);}
+ q[0]=fixedCos(half);
+ return quaternionMatrix(q);
+}
+function transformPlacedVertex(vertex,matrix,position) {
+ return position.map((p,row)=>p+(matrix[row*3]*vertex[0]+matrix[row*3+1]*vertex[1]+matrix[row*3+2]*vertex[2])/4096);
+}
+
+Object.assign(module.exports, {fixedCos,fixedSin,quaternionMatrix,placementMatrix,transformPlacedVertex});
+},
+"src/trig-table.json": function(require, module, Buffer) {
+module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","address":"0x575228","fileOffset":1524776,"evidence":"ev_d797694640ec620f9407302b6e229a9765cf57e7217090389be077b7b4ebef6d","values":[65536,65534,65527,65517,65503,65485,65463,65437,65407,65373,65335,65294,65248,65198,65144,65086,65024,64958,64888,64814,64737,64655,64569,64480,64386,64289,64187,64082,63973,63860,63743,63622,63497,63368,63236,63099,62959,62815,62667,62515,62360,62200,62037,61870,61699,61525,61346,61164,60978,60789,60596,60399,60198,59994,59786,59574,59359,59140,58918,58692,58462,58229,57992,57752,57508,57261,57010,56755,56498,56236,55972,55703,55432,55157,54879,54597,54312,54024,53732,53438,53139,52838,52533,52226,51915,51601,51283,50963,50639,50313,49983,49650,49314,48975,48634,48289,47941,47590,47237,46880,46521,46159,45794,45426,45056,44682,44306,43928,43546,43162,42776,42386,41994,41600,41203,40803,40401,39997,39590,39181,38769,38355,37938,37519,37098,36675,36250,35822,35392,34960,34525,34089,33651,33210,32768,32323,31876,31428,30978,30525,30071,29615,29157,28698,28237,27774,27309,26842,26374,25905,25433,24961,24486,24011,23533,23055,22574,22093,21610,21126,20641,20154,19666,19177,18686,18195,17702,17209,16714,16218,15722,15224,14725,14226,13725,13224,12722,12219,11716,11212,10707,10201,9695,9188,8681,8173,7664,7155,6646,6136,5626,5116,4605,4094,3583,3071,2560,2048,1536,1024,512,0]};
+},
+"src/placed-meshes.mjs": function(require, module, Buffer) {
+const {readModelMaterials} = require("src/model-materials.mjs");
+const {transformPlacedVertex} = require("src/fixed-math.mjs");
+// Ordinary type-zero models at their loader-initialized poses. Other placement
+// types use separate constructors and are deliberately retained in the inventory.
+function buildPlacedMeshes(data,gfxm,placements) {
+ return placements.records.filter(record=>record.type===0&&(record.flags&0x400)).map(record=>{
+  const model=gfxm.models[record.modelIndex];
+  return {index:record.index,modelIndex:record.modelIndex,
+   vertices:model.vertices.map(vertex=>transformPlacedVertex(vertex,record.matrix,record.position)),
+   faces:readModelMaterials(data,model,record.uvStarts[0]).map(face=>({...face,uv:face.uv.slice(0,face.indices.length)}))};
+ });
+}
+
+Object.assign(module.exports, {buildPlacedMeshes});
+},
+"src/model-materials.mjs": function(require, module, Buffer) {
+// FUN_0046c7c0 / FUN_0046d0e0: per-instance face UVs. Animation is sampled
+// at the serialized frame; stepping the original animation clock is separate.
+const permutations=[[0,1,2,3],[1,3,0,2],[3,2,1,0],[2,0,3,1],
+ [2,3,0,1],[3,1,2,0],[1,0,3,2],[0,2,1,3]];
+function readModelMaterials(data,model,uvStart) {
+ const range=(p,n,label)=>{if(!Number.isSafeInteger(p)||p<0||p+n>data.length)throw Error(`Model ${label} exceeds resource bounds.`);};
+ range(0,0x120,'material header');
+ const indexTable=data.readUInt32LE(0xcc),materialTable=data.readUInt32LE(0xd8);
+ range(indexTable+uvStart*2,model.faceCount*2,'UV indices');
+ return model.faces.map((face,index)=>{
+  const key=data.readUInt16LE(indexTable+(uvStart+index)*2),descriptor=materialTable+(key>>2);
+  range(descriptor,12,'UV descriptor');
+  const animationWord=data.readUInt16LE(descriptor+2);
+  let uvOffset=descriptor,permutation=0,animation=null;
+  if(animationWord!==0xffff) {
+   const animationIndex=animationWord&255,animTable=data.readUInt32LE(0xb0),frameTable=data.readUInt32LE(0xb8);
+   if(animationIndex>=data[0xb4])throw Error('Model UV animation index is unavailable.');
+   range(animTable+animationIndex*24,24,'animation state');
+   let frame=data.readUInt16LE(animTable+animationIndex*24+6),p=frameTable+frame*6;
+   range(p,6,'animation frame');
+   if(data.readInt16LE(p+4)===0){frame=data.readInt16LE(p);p=frameTable+frame*6;range(p,6,'animation redirect');}
+   const uvIndex=data.readInt16LE(p);
+   uvOffset=data.readUInt32LE(0x110)+uvIndex*16;
+   range(uvOffset,12,'animated UV record');
+   permutation=animationWord>>8;
+   animation={index:animationIndex,frame,uvIndex,permutation};
+  }
+  const corners=[[data[uvOffset],data[uvOffset+1]],[data[uvOffset+4],data[uvOffset+5]],
+   [data[uvOffset+8],data[uvOffset+9]],[data[uvOffset+10],data[uvOffset+11]]];
+  const order=permutations[permutation]??permutations[0],pageWord=data.readUInt16LE(uvOffset+6);
+  return {index,key,descriptor,uvOffset,animationWord,animation,pageWord,page:pageWord&63,
+   uv:order.map(i=>corners[i]),indices:[face.indices[0]-1,face.indices[2]-1,face.indices[1]-1,...(face.triangle?[]:[face.indices[3]-1])]};
+ });
+}
+
+Object.assign(module.exports, {readModelMaterials});
+},
+"src/btp.mjs": function(require, module, Buffer) {
+// Redux BTP texture upload reconstruction. Evidence: asset-formats results
+// 003, 010, 012, 014, 015 and 016 (loader, upload loop and palette conversion).
+function parseBTP(data) {
+  if (!Buffer.isBuffer(data) || data.length < 0x70 || data.toString('ascii', 0, 4) !== 'BTP ') throw new Error('Invalid BTP header.');
+  const imageBase = data.readUInt32LE(0x24);
+  const textureCount = data.readUInt16LE(0x34);
+  const paletteCount = data.readUInt16LE(0x36);
+  const textureTable = data.readUInt32LE(0x38);
+  const paletteBase = data.readUInt32LE(0x3c);
+  function range(offset, bytes, description) {
+    if (offset < 0 || bytes < 0 || offset + bytes > data.length) throw new Error(`BTP ${description} exceeds resource bounds.`);
+  }
+  range(textureTable, textureCount * 12, 'texture table');
+  range(paletteBase, paletteCount * 1024, 'palette table');
+  const transparentStart = data[0x32], transparentCount = data[0x33];
+  const textures = Array.from({ length: textureCount }, (_, index) => {
+    const p = textureTable + index * 12;
+    const width = data.readUInt16LE(p), height = data.readUInt16LE(p + 2);
+    const paletteIndex = data.readUInt16LE(p + 4);
+    const pixelOffset = imageBase + data.readUInt32LE(p + 8);
+    const empty = width === 0 || height === 0;
+    if (width * height > 128 * 1024 * 1024) throw new Error(`Invalid BTP texture dimensions at ${index}.`);
+    if (!empty) {
+      if (paletteIndex >= paletteCount) throw new Error(`Invalid BTP palette index at texture ${index}.`);
+      range(pixelOffset, width * height, `texture ${index} pixels`);
+    }
+    return { index, width, height, empty, paletteIndex, unknown6: data.readUInt16LE(p + 6), pixelOffset,
+      paletteOffset: paletteBase + paletteIndex * 1024,
+      transparentBlack: index >= transparentStart && index < transparentStart + transparentCount };
+  });
+  return { version: data.readUInt32LE(4), imageBase, textureTable, paletteBase,
+    textureCount, paletteCount, transparentStart, transparentCount, textures, data };
+}
+
+function decodeBTPTexture(btp, index) {
+  const texture = btp.textures[index];
+  if (!texture || !Number.isInteger(index)) throw new RangeError('Invalid BTP texture index.');
+  if (texture.empty) throw new Error('BTP texture slot is empty; the native uploader skips zero dimensions.');
+  const { data } = btp;
+  const rgba = Buffer.alloc(texture.width * texture.height * 4);
+  for (let i = 0; i < texture.width * texture.height; i++) {
+    const paletteIndex = data[texture.pixelOffset + i];
+    const p = texture.paletteOffset + paletteIndex * 4;
+    const r = data[p], g = data[p + 1], b = data[p + 2];
+    rgba[i * 4] = r; rgba[i * 4 + 1] = g; rgba[i * 4 + 2] = b;
+    const black = r === 0 && g === 0 && b === 0;
+    rgba[i * 4 + 3] = black && (texture.transparentBlack || paletteIndex === 0) ? 0 : 255;
+  }
+  return { width: texture.width, height: texture.height, rgba };
+}
+
+Object.assign(module.exports, {parseBTP,decodeBTPTexture});
+},
+"src/scene-export.mjs": function(require, module, Buffer) {
+// Export the recovered static, finest-grid base pass. Runtime visibility, LOD,
+// overlays and animated effects remain separate. Optional placed meshes use
+// their loader-initialized transforms and per-instance primary materials.
+function buildSceneExport(scene, textures, placedMeshes=[]) {
+  const obj=['# Rollcage recovered scene. Coordinates X,-Y,Z (Y up).','mtllib scene.mtl'];
+  const groups=[];
+  const allPositions=[];
+  let vertexBase=1,uvBase=1,quads=0,triangles=0;
+  const meshes=[...scene.segments.map(s=>({...s,kind:'terrain',label:`segment_${s.index}`})),
+    ...placedMeshes.map(s=>({...s,kind:'object',label:`object_${s.index}`,segment:-1}))];
+  for(const segment of meshes) {
+    obj.push(`g ${segment.label}`);
+    for(const [x,y,z] of segment.vertices) {
+      const up=y===0?0:-y;
+      obj.push(`v ${x} ${up} ${z}`); allPositions.push([x,up,z]);
+    }
+    const pageGroups=new Map(); let previousPage=-1;
+    for(const face of segment.faces) {
+      const texture=textures.get(face.page);
+      if(!texture) throw new Error(`Texture page ${face.page} is unavailable.`);
+      const uv=face.uv.map(([u,v])=>[(u+0.5)/texture.width,(v+0.5)/texture.height]);
+      for(const [u,v] of uv)obj.push(`vt ${u} ${1-v}`);
+      if(previousPage!==face.page){obj.push(`usemtl page_${face.page}`);previousPage=face.page;}
+      const corners=face.indices.map((index,i)=>`${vertexBase+index}/${uvBase+i}`);
+      obj.push(`f ${corners[0]} ${corners[1]} ${corners[2]}`);
+      if(corners.length===4){obj.push(`f ${corners[1]} ${corners[3]} ${corners[2]}`);quads++;}
+      uvBase+=face.uv.length;
+      if(!pageGroups.has(face.page))pageGroups.set(face.page,[]);
+      const vertices=pageGroups.get(face.page);
+      const orders=corners.length===4?[[0,1,2],[1,3,2]]:[[0,1,2]];
+      triangles+=orders.length;
+      for(const order of orders) {
+        const p=order.map(c=>{const [x,y,z]=segment.vertices[face.indices[c]];return [x,y===0?0:-y,z];});
+        const a=p[1].map((n,i)=>n-p[0][i]),b=p[2].map((n,i)=>n-p[0][i]);
+        const normal=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+        const length=Math.hypot(...normal)||1;
+        for(let i=0;i<3;i++)vertices.push(...p[i],...uv[order[i]],...normal.map(n=>n/length));
+      }
+    }
+    for(const [page,values] of pageGroups) {
+      const array=new Float32Array(values);
+      groups.push({segment:segment.kind==='terrain'?segment.index:-1,kind:segment.kind,instance:segment.kind==='object'?segment.index:null,
+        page,vertices:array.length/8,buffer:Buffer.from(array.buffer).toString('base64')});
+    }
+    vertexBase+=segment.vertices.length;
+  }
+  const bounds=[0,1,2].map(axis=>allPositions.reduce(([min,max],p)=>[Math.min(min,p[axis]),Math.max(max,p[axis])],[Infinity,-Infinity]));
+  return {obj:obj.join('\n')+'\n',groups,bounds,quads,triangles,vertices:allPositions.length};
+}
+
+Object.assign(module.exports, {buildSceneExport});
+},
+"tools/track-viewer/navigation.mjs": function(require, module, Buffer) {
+const add = (a, b, scale = 1) => a.map((n, i) => n + b[i] * scale);
+const dot = (a, b) => a.reduce((n, x, i) => n + x * b[i], 0);
+const cross = (a, b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+const normalize = a => { const length = Math.hypot(...a) || 1; return a.map(n => n / length); };
+const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+class Navigation {
+  constructor() { this.reset([[-1, 1], [-1, 1], [-1, 1]]); }
+  reset(bounds) {
+    this.radius = Math.max(1, Math.hypot(...bounds.map(([min, max]) => max - min)) / 2);
+    this.target = bounds.map(([min, max]) => (min + max) / 2);
+    this.yaw = 0.4; this.pitch = 0.85; this.distance = this.radius * 2.6;
+    this.speed = this.radius * 0.35; this.mode = 'orbit'; this.eye = this.orbitEye();
+  }
+  forward() { return [-Math.sin(this.yaw)*Math.cos(this.pitch), -Math.sin(this.pitch), -Math.cos(this.yaw)*Math.cos(this.pitch)]; }
+  right() { return [Math.cos(this.yaw), 0, -Math.sin(this.yaw)]; }
+  up() { return cross(this.right(), this.forward()); }
+  orbitEye() { return add(this.target, this.forward(), -this.distance); }
+  position() { return this.mode === 'orbit' ? this.orbitEye() : [...this.eye]; }
+  setMode(mode) {
+    if (mode === this.mode) return;
+    if (mode === 'fly') this.eye = this.orbitEye();
+    else this.target = add(this.eye, this.forward(), this.distance);
+    this.mode = mode;
+  }
+  look(dx, dy) {
+    this.yaw -= dx * 0.006;
+    this.pitch = clamp(this.pitch + dy * 0.006, -Math.PI / 2 + 0.01, Math.PI / 2 - 0.01);
+  }
+  pan(dx, dy, height) {
+    const units = 2 * this.distance * Math.tan(Math.PI / 8) / Math.max(1, height);
+    this.target = add(add(this.target, this.right(), -dx * units), this.up(), dy * units);
+  }
+  wheel(delta) {
+    if (this.mode === 'fly') this.speed = clamp(this.speed * Math.exp(-delta * 0.001), this.radius * 0.001, this.radius * 10);
+    else this.distance = clamp(this.distance * Math.exp(delta * 0.001), this.radius * 0.003, this.radius * 10);
+  }
+  step(keys, seconds) {
+    const dt = clamp(seconds, 0, 0.05), pressed = (...codes) => codes.some(code => keys.has(code)) ? 1 : 0;
+    const fast = pressed('ShiftLeft', 'ShiftRight') ? 4 : 1;
+    const horizontal = pressed('KeyD') - pressed('KeyA'), vertical = pressed('KeyW') - pressed('KeyS');
+    this.look((pressed('ArrowRight') - pressed('ArrowLeft')) * dt * 160,
+      (pressed('ArrowDown') - pressed('ArrowUp')) * dt * 160);
+    if (this.mode === 'fly') {
+      const rise = pressed('KeyE') - pressed('KeyQ');
+      let direction = add(add(this.forward().map(n => n * vertical), this.right(), horizontal), [0, 1, 0], rise);
+      direction = normalize(direction);
+      this.eye = add(this.eye, direction, this.speed * fast * dt);
+    } else {
+      const length = Math.hypot(horizontal, vertical) || 1;
+      this.target = add(add(this.target, this.right(), horizontal / length * this.distance * dt * fast * 0.6),
+        this.up(), vertical / length * this.distance * dt * fast * 0.6);
+      this.wheel((pressed('Minus', 'NumpadSubtract') - pressed('Equal', 'NumpadAdd')) * dt * 1200);
+    }
+  }
+  matrix(aspect) {
+    const eye = this.position(), z = this.forward().map(n => -n), x = this.right(), y = cross(z, x);
+    const view = [x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,eye),-dot(y,eye),-dot(z,eye),1];
+    const near = Math.max(this.radius * 0.00002, 0.01);
+    const far = Math.max(this.radius * 30, Math.hypot(...eye.map((n, i) => n - this.target[i])) + this.radius * 3);
+    const f = 1 / Math.tan(Math.PI / 8);
+    const projection = [f/aspect,0,0,0,0,f,0,0,0,0,(far+near)/(near-far),-1,0,0,2*far*near/(near-far),0];
+    const out = new Float32Array(16);
+    for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++) for (let k = 0; k < 4; k++) out[c*4+r] += projection[k*4+r]*view[c*4+k];
+    return out;
+  }
+}
+
+Object.assign(module.exports, {Navigation});
+},
+"tools/track-viewer/renderer.mjs": function(require, module, Buffer) {
+class Renderer {
+  constructor(canvas) {
+    this.canvas = canvas;
+    const gl = this.gl = canvas.getContext('webgl', { antialias: true, preserveDrawingBuffer: true });
+    if (!gl) throw new Error('WebGL is unavailable. Enable hardware acceleration or try another browser.');
+    const shader = (type, source) => {
+      const object = gl.createShader(type);
+      gl.shaderSource(object, source); gl.compileShader(object);
+      if (!gl.getShaderParameter(object, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(object));
+      return object;
+    };
+    const program = this.program = gl.createProgram();
+    const vertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;uniform mat4 mvp;varying vec2 vUV;varying vec3 vNormal;void main(){gl_Position=mvp*vec4(position,1.0);vUV=uv;vNormal=normal;}');
+    const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;uniform sampler2D image;uniform bool textured;uniform bool lit;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*light,color.a);}');
+    gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
+    gl.deleteShader(vertex); gl.deleteShader(fragment);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
+    gl.useProgram(program);
+    this.attributes = Object.fromEntries(['position', 'uv', 'normal'].map(key => [key, gl.getAttribLocation(program, key)]));
+    this.uniforms = Object.fromEntries(['mvp', 'image', 'textured', 'lit'].map(key => [key, gl.getUniformLocation(program, key)]));
+    this.groups = []; this.textures = new Map(); this.smooth = false;
+    gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
+    gl.uniform1i(this.uniforms.image, 0);
+  }
+  clear() {
+    for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
+    for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
+    this.groups = []; this.textures.clear();
+  }
+  setScene(scene) {
+    this.clear();
+    const gl = this.gl;
+    try {
+      for (const group of scene.groups) {
+        const buffer = gl.createBuffer();
+        this.groups.push({ ...group, buffer });
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        const text = atob(group.buffer), bytes = Uint8Array.from(text, char => char.charCodeAt(0));
+        gl.bufferData(gl.ARRAY_BUFFER, bytes, gl.STATIC_DRAW);
+      }
+      for (const [page, image] of scene.textures) {
+        const texture = gl.createTexture(); this.textures.set(page, texture);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, image.width, image.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image.rgba);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      }
+      this.setFilters(this.smooth);
+      if (gl.getError() !== gl.NO_ERROR) throw new Error('The GPU could not load this track. Try another browser or track.');
+    } catch (error) { this.clear(); throw error; }
+  }
+  setFilters(smooth) {
+    this.smooth = smooth;
+    const gl = this.gl, filter = smooth ? gl.LINEAR : gl.NEAREST;
+    for (const texture of this.textures.values()) {
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
+    }
+  }
+  render(navigation, options) {
+    const gl = this.gl, canvas = this.canvas, ratio = Math.min(devicePixelRatio || 1, 2);
+    const width = Math.max(1, Math.round(canvas.clientWidth * ratio)), height = Math.max(1, Math.round(canvas.clientHeight * ratio));
+    if (canvas.width !== width || canvas.height !== height) { canvas.width = width; canvas.height = height; }
+    gl.viewport(0, 0, width, height); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.uniformMatrix4fv(this.uniforms.mvp, false, navigation.matrix(width / height));
+    gl.uniform1i(this.uniforms.textured, options.textures); gl.uniform1i(this.uniforms.lit, options.lighting);
+    for (const group of this.groups) {
+      if (group.kind === 'object' ? !options.objects : options.sector !== -1 && group.segment !== options.sector) continue;
+      gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
+      for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
+        gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
+      }
+      gl.bindTexture(gl.TEXTURE_2D, this.textures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
+    }
+  }
+}
+
+Object.assign(module.exports, {Renderer});
+},
+"tools/track-viewer/export-track.mjs": function(require, module, Buffer) {
+const { createZIP } = require("tools/track-viewer/zip.mjs");
+
+function encodeTexturePNG(image) {
+  const canvas = document.createElement('canvas');
+  canvas.width = image.width; canvas.height = image.height;
+  const context = canvas.getContext('2d');
+  if (!context) return Promise.reject(new Error('This browser could not create a texture image.'));
+  const pixels = context.createImageData(image.width, image.height);
+  pixels.data.set(image.rgba); context.putImageData(pixels, 0, 0);
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(async blob => {
+      if (!blob) { reject(new Error('A texture could not be encoded as PNG.')); return; }
+      try { resolve(new Uint8Array(await blob.arrayBuffer())); }
+      catch (error) { reject(error); }
+    }, 'image/png');
+  });
+}
+
+async function buildTrackDownload(scene, track) {
+  const files = [{ name: 'scene.obj', data: scene.obj }], materials = [];
+  for (const [page, image] of scene.textures) {
+    const filename = `texture-${page}.png`;
+    files.push({ name: filename, data: await encodeTexturePNG(image) });
+    materials.push(`newmtl page_${page}\nKa 1 1 1\nKd 1 1 1\nKs 0 0 0\nd 1\nillum 1\nmap_Kd ${filename}\nmap_d ${filename}\n`);
+  }
+  files.push({ name: 'scene.mtl', data: materials.join('\n') });
+  files.push({ name: 'README.txt', data: [
+    `Rollcage track: ${track.name}`, '',
+    'Extract every file in this ZIP into the same folder.',
+    'In Blender, import scene.obj using the OBJ importer.',
+    'Switch the viewport to Material Preview to see the textures.',
+    'Keep scene.mtl and all texture PNGs beside scene.obj.', '',
+    'The export contains the complete track and ordinary objects at their initial poses.',
+    'Viewer camera positions, sector selection and display toggles do not affect the export.',
+    'Effects, overlays, special objects, original lighting and game simulation are not included.',
+    'Geometry uses Y-up coordinates and original game units.', ''
+  ].join('\n') });
+  return { filename: `${track.name.replace(/\.BLP$/i, '').replace(/[^a-z0-9-]/gi, '-')}.zip`, blob: createZIP(files) };
+}
+
+Object.assign(module.exports, {encodeTexturePNG,buildTrackDownload});
+},
+"tools/track-viewer/zip.mjs": function(require, module, Buffer) {
+// ZIP's stored method keeps the standalone viewer dependency-free. PNG files
+// are already compressed; all sizes/offsets below use the classic ZIP layout.
+const crcTable = Array.from({ length: 256 }, (_, value) => {
+  for (let bit = 0; bit < 8; bit++) value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1;
+  return value >>> 0;
+});
+function crc32(bytes) {
+  let crc = 0xffffffff;
+  for (const byte of bytes) crc = crcTable[(crc ^ byte) & 255] ^ (crc >>> 8);
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function createZIP(files) {
+  if (files.length > 65535) throw new Error('Too many files for a ZIP download.');
+  const encoder = new TextEncoder(), local = [], directory = [], names = new Set();
+  let offset = 0, directoryBytes = 0;
+  for (const file of files) {
+    if (!file.name || /[/\\\0]/.test(file.name) || file.name === '.' || file.name === '..' || names.has(file.name)) throw new Error('Invalid or duplicate ZIP filename.');
+    names.add(file.name);
+    const name = encoder.encode(file.name), bytes = typeof file.data === 'string' ? encoder.encode(file.data) : file.data;
+    if (!(bytes instanceof Uint8Array)) throw new Error('ZIP file data must be text or bytes.');
+    if (name.length > 65535 || bytes.length >= 0xffffffff || offset + 30 + name.length + bytes.length >= 0xffffffff) throw new Error('Track exceeds the ZIP size limit.');
+    const crc = crc32(bytes), header = new Uint8Array(30 + name.length), view = new DataView(header.buffer);
+    view.setUint32(0, 0x04034b50, true); view.setUint16(4, 20, true); view.setUint16(6, 0x800, true);
+    view.setUint16(12, 0x21, true); // January 1, 1980; deterministic DOS date.
+    view.setUint32(14, crc, true); view.setUint32(18, bytes.length, true); view.setUint32(22, bytes.length, true);
+    view.setUint16(26, name.length, true); header.set(name, 30);
+    const central = new Uint8Array(46 + name.length), entry = new DataView(central.buffer);
+    entry.setUint32(0, 0x02014b50, true); entry.setUint16(4, 20, true); entry.setUint16(6, 20, true); entry.setUint16(8, 0x800, true);
+    entry.setUint16(14, 0x21, true); entry.setUint32(16, crc, true);
+    entry.setUint32(20, bytes.length, true); entry.setUint32(24, bytes.length, true); entry.setUint16(28, name.length, true);
+    entry.setUint32(42, offset, true); central.set(name, 46);
+    local.push(header, bytes); directory.push(central);
+    offset += header.length + bytes.length; directoryBytes += central.length;
+  }
+  if (offset + directoryBytes + 22 >= 0xffffffff) throw new Error('Track exceeds the ZIP size limit.');
+  const end = new Uint8Array(22), view = new DataView(end.buffer);
+  view.setUint32(0, 0x06054b50, true); view.setUint16(8, files.length, true); view.setUint16(10, files.length, true);
+  view.setUint32(12, directoryBytes, true); view.setUint32(16, offset, true);
+  return new Blob([...local, ...directory, end], { type: 'application/zip' });
+}
+
+Object.assign(module.exports, {createZIP});
+}
+};
+const cache = {};
+let Buffer;
+function require(id) {
+ if (cache[id]) return cache[id].exports;
+ const module = cache[id] = {exports:{}};
+ modules[id](require, module, Buffer);
+ return module.exports;
+}
+Buffer = require('tools/track-viewer/byte-buffer.mjs').ByteBuffer;
+return require("tools/track-viewer/app.mjs");
+})()
+</script>
+</body>
+</html>
