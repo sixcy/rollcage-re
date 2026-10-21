@@ -7,9 +7,10 @@ export class FileArchive {
     if (!image || !index) throw new Error('Select both Rollcage.img and Rollcage.idx.');
     if (!image.size) throw new Error('The selected image is empty.');
     if (!index.size || index.size > 1024 * 1024) throw new Error('Invalid archive index size.');
-    return new FileArchive(image, parseIndex(ByteBuffer.from(await index.arrayBuffer()), image.size));
+    const bytes = ByteBuffer.from(await index.arrayBuffer());
+    return new FileArchive(image, parseIndex(bytes, image.size), bytes);
   }
-  constructor(image, entries) { this.image = image; this.entries = entries; this.position = 0; }
+  constructor(image, entries, indexData = null) { this.image = image; this.entries = entries; this.indexData = indexData; this.position = 0; }
   async readResource(index) {
     if (!Number.isInteger(index) || !this.entries[index]) throw new RangeError('Invalid resource index.');
     let selected = this.entries[index];

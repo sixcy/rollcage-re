@@ -5,6 +5,8 @@ SHA-256: `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
 
 The goal is a source reconstruction. Recovered pseudocode and inferred names are analysis inputs, not original source. Begin with the archive loader and decompressor, then build asset readers and map the game systems. Each reconstructed component needs checks against the installed artifacts.
 
+Stage II has a separate, limited investigation for static track viewing and extraction: see [Stage II format notes](re-docs/stage2-formats.md). It targets the supplied Rollcage Stage 2 installation, shares the archive/terrain/texture pipeline where verified, and uses separate placement/material readers. The common standalone viewer supports the original 40 PC track variants and all 66 supplied Stage II environments. Retained structural reports are under `analysis/stage2-layout/` and `analysis/track-games/`; browser comparisons and screenshots are under `analysis/track-games-browser/`. These checks do not establish original-process runtime equivalence.
+
 ## Installation
 
 The workspace shortcut resolves to `C:\Program Files (x86)\Psygnosis\Rollcage`.

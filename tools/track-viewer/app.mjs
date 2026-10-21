@@ -1,12 +1,12 @@
 import { FileArchive } from './file-archive.mjs';
-import { tracks, decodeTrack } from './track-data.mjs';
+import { identifyGame } from '../../src/track-games.mjs';
 import { Navigation } from './navigation.mjs';
 import { Renderer } from './renderer.mjs';
 import { buildTrackDownload } from './export-track.mjs';
 
 const element = id => document.getElementById(id);
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
-let renderer, archive, scene, selectedTrack, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
+let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
 const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
@@ -26,19 +26,16 @@ function clearScene() {
   element('counts').textContent = ''; element('sector').replaceChildren(new Option('All terrain sectors', '-1'));
 }
 async function loadTrack() {
-  const token = ++generation, source = archive, track = tracks.find(track => track.index === Number(element('track').value));
-  if (!source || !track) return;
+  const token = ++generation, source = archive, adapter = game, track = availableTracks.find(track => track.index === Number(element('track').value));
+  if (!source || !track || !adapter) return;
   releaseMouse(); clearScene(); element('error').textContent = '';
   status(`Loading ${track.label}…`); element('stage').setAttribute('aria-busy', 'true');
   try {
     // Yield before decoding so loading status is painted even for cached files.
     await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
     if (token !== generation) return;
-    const geometry = await source.readResource(track.index);
+    const decoded = await adapter.loadTrack(source, track);
     if (token !== generation) return;
-    const texture = await source.readResource(track.index + 1);
-    if (token !== generation) return;
-    const decoded = decodeTrack(geometry.data, texture.data);
     renderer.setScene(decoded); scene = decoded; selectedTrack = track;
     element('download').disabled = exporting;
     navigation.reset(scene.bounds); help();
@@ -68,7 +65,9 @@ async function downloadTrack() {
 }
 async function openFiles() {
   const token = ++generation;
-  archive = null; releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
+  archive = null; game = null; availableTracks = []; verified = false;
+  releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
+  element('game-info').textContent = '';
   element('error').textContent = ''; element('stage').setAttribute('aria-busy', 'false');
   const image = element('image').files[0], index = element('index').files[0];
   if (!image || !index) { status('Select both Rollcage.img and Rollcage.idx to begin.'); return; }
@@ -76,16 +75,18 @@ async function openFiles() {
   try {
     const opened = await FileArchive.open(image, index);
     if (token !== generation) return;
-    const available = tracks.filter(track => opened.entries[track.index] && opened.entries[track.index + 1]);
-    if (!available.length) throw new Error('No supported tracks were found. Choose the matching Rollcage IMG and IDX files.');
-    archive = opened;
-    for (const track of available) element('track').append(new Option(track.label, String(track.index)));
+    const identified = await identifyGame(opened, element('game').value);
+    if (token !== generation) return;
+    archive = opened; game = identified.game; availableTracks = identified.tracks; verified = identified.verified;
+    element('game-info').textContent = `${game.label} · ${availableTracks.length} environments${verified ? '' : ' · Unverified release; format compatibility is not established.'}`;
+    for (const track of availableTracks) element('track').append(new Option(track.label, String(track.index)));
     element('track').disabled = false;
     await loadTrack();
   } catch (error) { if (token === generation) fail(error); }
 }
 element('image').addEventListener('change', openFiles);
 element('index').addEventListener('change', openFiles);
+element('game').addEventListener('change', openFiles);
 element('track').addEventListener('change', loadTrack);
 element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
 element('download').addEventListener('click', downloadTrack);
@@ -139,7 +140,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) relea
 canvas.addEventListener('webglcontextlost', event => {
   event.preventDefault(); ++generation; releaseMouse(); clearScene(); contextLost = true;
   element('stage').setAttribute('aria-busy', 'false');
-  for (const id of ['image', 'index', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
   status('Reload this page to restore rendering.');
   element('error').textContent = 'The graphics context was lost. Reload this page to restore the viewer.';
 });
@@ -156,6 +157,7 @@ function frame(time) {
 }
 // Read-only diagnostics for browser checks; no game data is embedded in the page.
 window.rollcageViewer = { inspect: () => ({
+  game: game?.id ?? null, verified,
   track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
   mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
@@ -166,5 +168,5 @@ help();
 try { renderer = new Renderer(canvas); requestAnimationFrame(frame); }
 catch (error) {
   element('error').textContent = errorText(error); status('Rendering is unavailable.');
-  for (const id of ['image', 'index', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
 }

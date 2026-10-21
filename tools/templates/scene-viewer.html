@@ -7,7 +7,8 @@
 <script>
 'use strict';
 const scene=__SCENE_DATA__;
-document.getElementById('name').textContent=scene.name;
+document.getElementById('name').textContent=`${scene.game==='stage2'?'Rollcage Stage II':'Rollcage'} / ${scene.name}`;
+document.title=document.getElementById('name').textContent;
 document.getElementById('counts').textContent=`${scene.segments} sectors · ${scene.instances??0} objects · ${scene.triangles.toLocaleString()} triangles`;
 document.getElementById('scope').textContent=scene.instances?'Recovered track and ordinary model instances at their initial poses. Effects, overlays and game simulation are not included.':'Recovered static track geometry. Model instances, overlays and game simulation are not included.';
 document.getElementById('objectsLabel').hidden=!scene.instances;

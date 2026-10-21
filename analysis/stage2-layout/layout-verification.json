@@ -1,0 +1,3546 @@
+{
+  "kind": "installed-data-static-structure-verification",
+  "game": "Rollcage Stage II",
+  "binary": "Rollcage Extreme.exe",
+  "binarySha256": "26f8e8d874e5081f599000e04000414112da6600c493d80f45e4ddd33cd0d148",
+  "nativeEvidence": [
+    "analysis/stage2-native-live/results/024-loadera-entry.json",
+    "analysis/stage2-native-live/results/034-modelrenderer.json",
+    "analysis/stage2-native-live/results/035-modelrenderer2.json",
+    "analysis/stage2-native-live/results/038-texturedecode.json"
+  ],
+  "limitations": [
+    "Structural verification and static native analysis; not original-process runtime or visual parity evidence.",
+    "Includes terrain primary grids and ordinary type-zero placements at loader-initialized poses.",
+    "Per-face lighting color streams, special placement constructors, dynamic destruction, visibility/LOD selection and animation stepping are not rendered."
+  ],
+  "totals": {
+    "environments": 66,
+    "segments": 671,
+    "terrainQuads": 659056,
+    "placements": 4332,
+    "ordinaryObjects": 2254,
+    "ordinaryObjectFaces": 80760,
+    "animatedObjectFaces": 360,
+    "missingTextureFaces": 0,
+    "outsideUvCorners": 0
+  },
+  "environments": [
+    {
+      "geometryId": 80,
+      "texturesId": 81,
+      "geometrySha256": "648cd8a6496fe9ea63fe16e981ddc221537b89f209e8cdb13c9cee3a18f50c2e",
+      "texturesSha256": "532b30150bfe5abf4e649cd0465014a82b06e8f8a6565fbb94f7dc02a96bf20b",
+      "segments": 15,
+      "terrainQuads": 11088,
+      "placements": 80,
+      "placementTypes": {
+        "0": 36,
+        "13": 35,
+        "24": 9
+      },
+      "ordinaryObjects": 36,
+      "ordinaryObjectFaces": 985,
+      "animatedObjectFaces": 8,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "a001f54985c16c0ce7a177b60eb30e324a2bff1d0a588b7acd70f24854d8636a"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "6f965dc0d159c23d1b983b397ddf299fdd3fff2748b5e689f2248b925d098c03"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 67,
+          "rgbaSha256": "916f510305504f4880418a6adf6fe627811339f959337f6b73ab341364bf040f"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 254,
+          "rgbaSha256": "a89a1fb4ebf046f53bedbf519f25965765612a55b92b95b99054ab110a5d54c0"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 238,
+          "rgbaSha256": "309bcf125d204518f1db6ddec69b3da57b69e9d764b77d20f4683f30a8937910"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 48,
+          "rgbaSha256": "2884db9a3f41f1dab89994912616f8fa8123fed63bee03496a7d121adb4c9f7e"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 73,
+          "rgbaSha256": "54ff7375326821fab81aa7222a0c01f4e6930195345f7e4c796249bc650c5e56"
+        },
+        {
+          "page": 27,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "f406514f6b41abf995dadb3fa4995eece60518a9eda6b39d93b840e86209750c"
+        }
+      ]
+    },
+    {
+      "geometryId": 82,
+      "texturesId": 83,
+      "geometrySha256": "8e82df449efaefd5e3df1e1cb6bbb80a58463923fce90b7796d537ed4c815f48",
+      "texturesSha256": "f2ad0ba798bcad615c090cf7fe92e480eb9b299169b9c1eaf01fac3279c5b020",
+      "segments": 10,
+      "terrainQuads": 12272,
+      "placements": 94,
+      "placementTypes": {
+        "0": 66,
+        "13": 20,
+        "24": 8
+      },
+      "ordinaryObjects": 66,
+      "ordinaryObjectFaces": 2111,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "259e4e5437d834055edd4f5185ab152067d8ccabd69a309e677d7c6ecca8f9d7"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 146,
+          "rgbaSha256": "be3d2d2ff73c85e84e551e31cffe1a480a1c4dbab251115ccfbfbcbfeec2c28d"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 168,
+          "rgbaSha256": "fe46475a9f188f770e3486eec7d26609349c4c3276b0caf244d20d214f25c2ba"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 152,
+          "rgbaSha256": "ccf31d5793eff2704f28cdc6b7d4ba02f95953040dc29ba852dd364695bdbc0d"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "33c32b1f60532c17971e57f42f72a4c78562bcc6a36df3ebc956959c85217d69"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "2fe72f92cc2a02b4b5b33c899e6c29b0926992a38cf215543f7a21bf9f4dff94"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 203,
+          "rgbaSha256": "9d47bea7760a8e87510862bcdda3662a15b396b29d6a120c5fa81945cbbad9aa"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "7c3407284043eb0a2275343190175773b6b2613a5bf49961370bb0428c038896"
+        },
+        {
+          "page": 25,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "91524d143a36f00d91fc39e0ff108531a05c607bf74f0c7aa19f3c40c88a255a"
+        },
+        {
+          "page": 26,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "4271b2e2145f211b5afdb8dfe590e9d13ae9615cb952d8326986b0a6ed221db0"
+        },
+        {
+          "page": 27,
+          "width": 256,
+          "height": 54,
+          "rgbaSha256": "00bd4d05eeafab0039698d64a9f6ea51075cd556d4c0808046a29595665c0ed4"
+        },
+        {
+          "page": 28,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "f508d76039fc2a5935eae7c4a55caad83426b79b2e7147df08a9c5adacb80e9c"
+        },
+        {
+          "page": 29,
+          "width": 256,
+          "height": 93,
+          "rgbaSha256": "20d80d86470cb84891b8b77f45318de7d2eef24e75696fcd56d5d69b21a29b3e"
+        },
+        {
+          "page": 31,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "3d6ca8a7a1da115c9f0646463d10c85d7b3977de6ac6fa82c863ad6cf07b28c2"
+        },
+        {
+          "page": 33,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "2966a3bc6dd38b599d8ed90d8f4d26bb26a3816f402bb04a4c7e15f34dde9d4f"
+        }
+      ]
+    },
+    {
+      "geometryId": 84,
+      "texturesId": 85,
+      "geometrySha256": "749f27cdbcc09ea53e5e6d3b2f923f8f283a9745c2227bd34fec986fa1c0c0b6",
+      "texturesSha256": "01e2a044817122a0edf58e9344956ffadd25125df74cd912faecd66f94bca514",
+      "segments": 9,
+      "terrainQuads": 10896,
+      "placements": 46,
+      "placementTypes": {
+        "0": 30,
+        "2": 2,
+        "24": 14
+      },
+      "ordinaryObjects": 30,
+      "ordinaryObjectFaces": 1740,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 14,
+          "width": 256,
+          "height": 136,
+          "rgbaSha256": "334615fca4efb78bda91145158f764c5f6cd6625dc77c98e4cdd875da6546f93"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 250,
+          "rgbaSha256": "5a149170ed49478440a0231f88e369e6b8e00846aff50805c026564e5d682e19"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 90,
+          "rgbaSha256": "578956f9f95de3c5396cdb449ac18ddf14f85df4b8e9bf49e1e074f22fe5f471"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 138,
+          "rgbaSha256": "8d1d85e21b38265f364d89419a0cc2e6cbd15e47906e67fd2e01f22008d1f9c3"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "1d9e153a87e11787a69cdc56843b772aa9b9e52e8cb71139b5bd48ea7509780e"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "f0fb8d82d056fbd35ab5646d6eb82b9346ad94a241a3b8371f952818ba2c9ad2"
+        }
+      ]
+    },
+    {
+      "geometryId": 86,
+      "texturesId": 87,
+      "geometrySha256": "b89b16ec8d684d5b6272315b6f58d6d81a18e669f0ecd3c021fcf7be135741b7",
+      "texturesSha256": "16441826956e9bca9261d7a30e38ed33e9aecc50c5a1ef596f29cd9ecf31e6e9",
+      "segments": 13,
+      "terrainQuads": 12704,
+      "placements": 198,
+      "placementTypes": {
+        "0": 56,
+        "13": 128,
+        "24": 14
+      },
+      "ordinaryObjects": 56,
+      "ordinaryObjectFaces": 2771,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "52fc464a57c67bec7be0acd90a54105aeffef180ba5876f0db23ec2fd3e19384"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 254,
+          "rgbaSha256": "365232190cb931704f3845950d8fa0f6bb1331219ad53d046c6f90f9da40c535"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 48,
+          "rgbaSha256": "f9488f490a28e324f287a3c1b4d22a05430b5477118385bd4d93fa028edd1eb7"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 200,
+          "rgbaSha256": "2277799955580aea4e87902cf7d77429f8378d2c6683fd781455d48a1e79a749"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "183c98b11b922916f2fe910c42bb204d5588e34a7b144e9e0c667de5db5dbca9"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 112,
+          "rgbaSha256": "9f1e3ef30e19fb1a6a76511343044f5249b4c9d599e08b1cf708ee9ac4bf11f8"
+        }
+      ]
+    },
+    {
+      "geometryId": 88,
+      "texturesId": 89,
+      "geometrySha256": "f99aff6f46ac08fd68f337f485a3a5500d8c392137f12d383149be3728d0be6a",
+      "texturesSha256": "caf869c68ab1d6313056ef3f98f103f6a2585335b7dada31f6bca8d636d260d9",
+      "segments": 19,
+      "terrainQuads": 9416,
+      "placements": 36,
+      "placementTypes": {
+        "0": 30,
+        "24": 6
+      },
+      "ordinaryObjects": 30,
+      "ordinaryObjectFaces": 1337,
+      "animatedObjectFaces": 42,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 15,
+          "width": 256,
+          "height": 234,
+          "rgbaSha256": "68dd075553b0117e4dc8e9eaf9a72f60caab2a94a579fbdea69fac63de4285c1"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 246,
+          "rgbaSha256": "0509b822164c1c33505c0a885c06ca0a7b0f3bd1b97ac58a9738ca4c8a7a416e"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 254,
+          "rgbaSha256": "7d906378c5fa5e1a00d05edc2d752e352a1a19b2f3ff562ced01e0f64cbc9ac9"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 12,
+          "rgbaSha256": "6539455d2ece642fda4cc5cef0ee1a4dcdf9a911d34d6af5c040e1ca14785e90"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 254,
+          "rgbaSha256": "ab01e89f5805dcf5e47f2d489d4aeaad623c042dfb67e466d5d3335601db8339"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 25,
+          "rgbaSha256": "f9e91e66cbe7866c723f645b8659a5d8e87891891220f5c938ebef304acdcae4"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 101,
+          "rgbaSha256": "10669c2a17de4f3941c56ed690383066c03750e80f6d567fdee500153fd418a9"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 70,
+          "rgbaSha256": "5e864876e9255a01cb0e3c9f1c5f5929469dcc25fc725cd428ba8b92a3aada98"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 48,
+          "rgbaSha256": "aa0ee3be6da8571ce80e0b854168947a8f389f016244603d21075f9a0e291995"
+        },
+        {
+          "page": 25,
+          "width": 256,
+          "height": 27,
+          "rgbaSha256": "d75ddce96af8f6a095042f9c325d64ea24070d079105230e3870511404fb702c"
+        },
+        {
+          "page": 26,
+          "width": 256,
+          "height": 111,
+          "rgbaSha256": "2e9270c50ea7261bd91167e89d1f726d3505146ea7c8b674f154a66303e6adb5"
+        }
+      ]
+    },
+    {
+      "geometryId": 90,
+      "texturesId": 91,
+      "geometrySha256": "8fc078e58ad5ae8cbb359b1f1b04880cb6a26f235e8dcf3e8b495cbeea989733",
+      "texturesSha256": "77c9b0044824cf61f962fd73f52adc697b6fff54f85c4eb8f7557249b0fa3986",
+      "segments": 15,
+      "terrainQuads": 13520,
+      "placements": 68,
+      "placementTypes": {
+        "0": 24,
+        "13": 30,
+        "24": 14
+      },
+      "ordinaryObjects": 24,
+      "ordinaryObjectFaces": 822,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 18,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "9f1dcbc35c350d6027f98be0f5c8b43b42ca52b7604459c0c42be3aa88913d47"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 224,
+          "rgbaSha256": "3f3399d4cd5705d0b38eb41b6e1e2e502a395e22979911d03133eda312ad5921"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 102,
+          "rgbaSha256": "a2b1c368a50551dde8644f3b41641351220ce95d89102f25a7e13f4ada3739f1"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 240,
+          "rgbaSha256": "8baa2099a6fd556a2c96c123a605e7ad8516e4f6d0a2e0199c07bda4c67a44f7"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 42,
+          "rgbaSha256": "b7d1d10b77a637cbbd9c2492f99933e2a142d02b748b1bda5a6bed10c7838c21"
+        },
+        {
+          "page": 25,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "50053572e49ef35d6307137ff1d1202f2c32d0f266c5c7fe9e41448040f3dd53"
+        },
+        {
+          "page": 27,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "bffca03fd7686f90f448f2f3348d027169f296f68f9f8faf680fa8afc8f50bd7"
+        },
+        {
+          "page": 28,
+          "width": 256,
+          "height": 35,
+          "rgbaSha256": "0c49543dc502d302fa3690df289516731ff95b8097c333ae56192b5b40512dea"
+        },
+        {
+          "page": 29,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "143423f71a651055b37c49e0dd5c19ef3ac892baa9cec3a8929f00817d992e18"
+        },
+        {
+          "page": 30,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "625f8715108077c6c396cbf5608dbb4ab3c403ee60fb617ea05403a4ffa7e741"
+        },
+        {
+          "page": 34,
+          "width": 256,
+          "height": 58,
+          "rgbaSha256": "cf605c5cf73b378e62c50618001d18e487ccc32e43016ee7edb9d4452cf03e4a"
+        }
+      ]
+    },
+    {
+      "geometryId": 92,
+      "texturesId": 93,
+      "geometrySha256": "2210a132a289c15e761a7b09f6e8e701e54358c2bf796fdb07acce161f682a4c",
+      "texturesSha256": "38371b6cdee9ca59f1a9823140982417e5167e4927906eb35e533b74937a4067",
+      "segments": 12,
+      "terrainQuads": 10920,
+      "placements": 87,
+      "placementTypes": {
+        "0": 49,
+        "13": 36,
+        "24": 2
+      },
+      "ordinaryObjects": 49,
+      "ordinaryObjectFaces": 2363,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "63679b9b0e649eb0b97b93b9ad7055b626e88b195debdfaae50774006b4c4571"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 216,
+          "rgbaSha256": "e7e02f0eec7c15aed0f2ef04b89e6fd4fc1345ebc118fa4a72ce3bec22e69b92"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "db1de2c69c659bc00d2c493d7c375d604c8780a4ea4295019df1bb5dd99d6eca"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "7c398897312f4f152a698ecc9e37828c4d6e7f0a78e027206b3a0cc7beb2e34d"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "cdf0bbf89320610343e4a47c50602ae478522d7f0f0de582cd0340f7b309519d"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "d3bfad387c4c610521eea922dfab50421825be862bcb5e145b109cfc3204fa48"
+        }
+      ]
+    },
+    {
+      "geometryId": 94,
+      "texturesId": 95,
+      "geometrySha256": "5bf4ed7c61ce2e972994c9545a00b1ca2e2cce19969333256d33d4f7ab7a5170",
+      "texturesSha256": "aa767f15171adaa01f94bea0467058e4bcec6341a3a8cf7ec92e1684ddfdd646",
+      "segments": 22,
+      "terrainQuads": 12552,
+      "placements": 138,
+      "placementTypes": {
+        "0": 100,
+        "13": 36,
+        "24": 2
+      },
+      "ordinaryObjects": 100,
+      "ordinaryObjectFaces": 4504,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 10,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "5b37880cce09ad87320dca233568e694e96b518fbfa2ea57f12542666da40ee3"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 136,
+          "rgbaSha256": "f6194211f76f306170b4beceac54cc9ec21438b27c59caac833e74ec058c8c74"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 67,
+          "rgbaSha256": "ab75bc4129ade4e081aaede8b5beeb6ac67ccbd97352ea5093916a083ca7cdf9"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 178,
+          "rgbaSha256": "c753bf0f8c25628b07de6a181a05dbbf7b1258fc17c0a6ae6a9555fde3487bd1"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 198,
+          "rgbaSha256": "994d88d2bd2ec6c52b72a89f31cf7fe21f6ed3e87a6fa5718682d87465121dcc"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 112,
+          "rgbaSha256": "fedbe6287ea1860e413c3062c298df04f49ae72c58cbfafef7003304da7f1442"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 56,
+          "rgbaSha256": "940b8a5568613ea9e35b2b406a1af2ef0856d2bddb059d058e87bb72c0c5099c"
+        }
+      ]
+    },
+    {
+      "geometryId": 96,
+      "texturesId": 97,
+      "geometrySha256": "3b9438cac0628b584533c54dafe43403af996af9c1c0471ef4ed56f0e9bdbb7d",
+      "texturesSha256": "d3c4f179aea811204460f2d36ce1cfbf5a00f381f566c15831e0191356a93769",
+      "segments": 15,
+      "terrainQuads": 11480,
+      "placements": 87,
+      "placementTypes": {
+        "0": 46,
+        "2": 17,
+        "13": 18,
+        "24": 6
+      },
+      "ordinaryObjects": 46,
+      "ordinaryObjectFaces": 1372,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 7,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "f38c74fe5f2c155450d74d2e4d3435d9b07f14a9a0bd206edd7515d0c803d28b"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "c55c7b36653dd58a496e6aed1acbd2840df7e3503697a38c3275a414a03e61b2"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "a369f7da6c2f0f109df0b92931ea8c13826e9b4f3b3030d210e13dbd17b50965"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "981339382e2c48a50a35ab1f6dbac2515a2ce53f70165f79c78716593f65768d"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "b31edd9dbb5d318af70df387cd3053f848d17f8bd7c65851ba33e70a6a69e54a"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "8c39a4c61bc5dafef4208a3d1b2452e41dcdb2a0d4b5bf789808fb183d325d55"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "027d58378abe87afd94340f5f4803da7366f228d06fb38998ee5b286f29bb65f"
+        }
+      ]
+    },
+    {
+      "geometryId": 98,
+      "texturesId": 99,
+      "geometrySha256": "362e189e2d0641b7c0f0109be828330415d68adac50e05b96a3aabf921d37c20",
+      "texturesSha256": "692708dcabcda51c8bc850900b7da335f5d2a575ab3011c182a2b1399555b94b",
+      "segments": 22,
+      "terrainQuads": 14336,
+      "placements": 167,
+      "placementTypes": {
+        "0": 130,
+        "13": 35,
+        "24": 2
+      },
+      "ordinaryObjects": 130,
+      "ordinaryObjectFaces": 3283,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "d753b3e2592b98ffb664836aca6dc063a9e71c06e9239e286a9ebdf82d92b15c"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "b328731d67373d73606b8d2d2fa0e40212f9fe023066cb4a4b87f7b9d9324a99"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 170,
+          "rgbaSha256": "3d326356cf81fd3e85e65864875de4494b4f7f63ab3db7f2edebceb9daa6f40c"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 200,
+          "rgbaSha256": "008ea6ae1e8a72e32e67fd6ed251b8cab5f75ec5731b1fe6a2b235927245979a"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 134,
+          "rgbaSha256": "4dc8ef1015a169a515c6819b71223d7353c8c950e74574e71525f48fad3a4024"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 202,
+          "rgbaSha256": "06862ef020bcbf871aafa69fbe526e63d66b76ae6429b1579c27e4c4988e5bf9"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "7b1cd858194c34a0756d0b57ddd617f4296e311ae09468578a0faf57a1ebacec"
+        }
+      ]
+    },
+    {
+      "geometryId": 100,
+      "texturesId": 101,
+      "geometrySha256": "1adb98adafc1f0a21350540571ed7b405ed71d12c287dc26f7d14e82a8d61a3a",
+      "texturesSha256": "b018bbe62e404065fc514213b3868bf54810ad58b32eed4765503ea0e2c3d064",
+      "segments": 10,
+      "terrainQuads": 13040,
+      "placements": 92,
+      "placementTypes": {
+        "0": 85,
+        "24": 7
+      },
+      "ordinaryObjects": 85,
+      "ordinaryObjectFaces": 2640,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "d50f25c26ea7c5eceae8888700362112cc2c6a0c233a9f5a7f967687a8453052"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 162,
+          "rgbaSha256": "5b002d93b9eda64223541b7473d1c52768a716bce99bda24ec83e86df9f5d86a"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 200,
+          "rgbaSha256": "74d9473582ffc571fed5aaa357c381ebdd531d23f78a8340fdbbc615686c6cb1"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 122,
+          "rgbaSha256": "93914d189e59c6b014231c5130fb1f00491b4fb426d7d555561d0d250d510053"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "12aeb58e39fa3f0f52aec4795743b0488d6446d893e198bb77312e3952e5dadb"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 126,
+          "rgbaSha256": "d4f9ebf23ea71c64a866c4de3c346e0e83dc88929b3b42c50981440f5fc66785"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "8c533eaabb210b3026eaa2fba27e8ec9012f5da51a4d2fb4f55a98e33170b5d2"
+        },
+        {
+          "page": 25,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "3f6adffb20c628766a5d91580c3ac8d1b9899ea539d22cbf1ef4a9fd681e6d50"
+        },
+        {
+          "page": 26,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "32e3acc6b0a4b34c2120bead62b10e2a2e24af99fd403e891444e7e8078e2e14"
+        },
+        {
+          "page": 27,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "34ef32c13739607c0d256888a39885f295a9e30bab8eacf0ef1a148dc1e485a6"
+        },
+        {
+          "page": 28,
+          "width": 256,
+          "height": 88,
+          "rgbaSha256": "2fd4ac0efde22f1556727686c5d8cc77ade10750a64d79993465ecedf42dded4"
+        },
+        {
+          "page": 29,
+          "width": 256,
+          "height": 39,
+          "rgbaSha256": "b74502f5d9382895718bf14207f35cf09ec3803e2088b45c658393fcce213a60"
+        }
+      ]
+    },
+    {
+      "geometryId": 102,
+      "texturesId": 103,
+      "geometrySha256": "b9b48b8843c3b543097a7d516db88d3bcc2c1781a505c8c9123adea960d9990f",
+      "texturesSha256": "4bf1baee6730d741e03323846ab90e7d7f361bb2dc7f310524d1ab995a9149bc",
+      "segments": 16,
+      "terrainQuads": 11720,
+      "placements": 86,
+      "placementTypes": {
+        "0": 72,
+        "2": 6,
+        "24": 8
+      },
+      "ordinaryObjects": 72,
+      "ordinaryObjectFaces": 2912,
+      "animatedObjectFaces": 8,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 72,
+          "rgbaSha256": "21026dc9fb9ec1e42db4a98215f9a760e47679bc93db623aafe36f5ac2307806"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 250,
+          "rgbaSha256": "86bb4678dc0a17627249ebb4ce40809eda8df543b99b83fb8cfed27e93daf0f8"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 129,
+          "rgbaSha256": "e867c1e9c293c8250d4c13a85004e5f7494ab7aed3e20846b3a037d699f4037d"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 222,
+          "rgbaSha256": "f47c85af78818e48569399f0e1831031c0336695e97baee13f89f07f936484ae"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 186,
+          "rgbaSha256": "8f5347328a0306d4e6ada3ceebcfccc6169c1b2a3e5c06deb4a656c5655523fa"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 147,
+          "rgbaSha256": "5d34b2971653f98b0c48add5c3e350075803580daa76152e6cdde425e9a00cad"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "9cbc5786257a84e9c4e52f5105c80d06fd8740e74fed699d67dced99eab36404"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 120,
+          "rgbaSha256": "694b42aa87c974b6beee4700a91ba92f86425e523972f61a8bb057cf1be2bb43"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "07cf8d988fdeaa372eccc4b13890636dc57f4e320102923089ca5f25dfdf70e4"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 58,
+          "rgbaSha256": "0b3ea2947e2bf0bcc40cdaa5c71be480a875b003dfb7f778d7aca1cce7839996"
+        }
+      ]
+    },
+    {
+      "geometryId": 104,
+      "texturesId": 105,
+      "geometrySha256": "dfefef4efec290ccc5bdb67a9054a4ee678d04d498697576523c7304766604a1",
+      "texturesSha256": "2e305cc3268d63bd37aa3ba349c766bf98c9f98ad403391e974e67b07953df03",
+      "segments": 11,
+      "terrainQuads": 10144,
+      "placements": 116,
+      "placementTypes": {
+        "0": 65,
+        "13": 40,
+        "24": 11
+      },
+      "ordinaryObjects": 65,
+      "ordinaryObjectFaces": 2200,
+      "animatedObjectFaces": 8,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 246,
+          "rgbaSha256": "075a533ce530dc217a66c688e159c0086c449526aa5bf8a2766828c3a3fac30a"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 254,
+          "rgbaSha256": "fed9e29395a478847255412de5575f314bf8a1eb636dd74a222a8b6b1887c0b6"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 194,
+          "rgbaSha256": "7fef11745dc60c012f7b7cd3d4b2f07c25ea21782f4ce10e3287982ee090ebf7"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 154,
+          "rgbaSha256": "9234a19770eaf9d0785db5363809801ae2c4032fe44bfe705b6c5bde5dc27b92"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 86,
+          "rgbaSha256": "71ec7fd7f91de607d255f6791297b9fd9f6a2850f845c17f521ab5e4de3dd668"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 100,
+          "rgbaSha256": "27468dcced9bc8e1b5920a1aec91db4c0b45a7d1b3a8855b4bb472df9ace5a82"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "cbb3d9873bfe1537f5ed3617394aab8e675a34578d3407e9312710c8e2431a1d"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "10cf2dcb6a96c21307a42d3c1772e0f13e0a52951d67f65f39939fc64c681933"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 43,
+          "rgbaSha256": "4b4637ddc88acdd9d2c77156ce71a4570648e38c98e83b20d6d936ff431d3202"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "47e7a27e893201dca8a5780561f87e69fd249ad22c9ff508c7d1116ff1c20184"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 138,
+          "rgbaSha256": "020fb88d8e6451a3fa3739bdcaebd7729902d14468efdc9deb8c7f3bdef729b8"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 56,
+          "rgbaSha256": "90e8acac5c2a297fc7d64d8097c164475b5636bc51b858a66cfd956a93f06ad2"
+        },
+        {
+          "page": 26,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "d69b6491a411564f096c11dc7e5142e0d8fdd2003c9e8b64310fdfc66af3da59"
+        }
+      ]
+    },
+    {
+      "geometryId": 106,
+      "texturesId": 107,
+      "geometrySha256": "18830d9ec17f3b496d764fd4b7fb020ec0fdc72442f7a315b6dc2141ea0b0242",
+      "texturesSha256": "8394eace7ef069db5382f09170bb8c06e02daf7be8a6819d6a2c854c0a71b1cc",
+      "segments": 22,
+      "terrainQuads": 12040,
+      "placements": 70,
+      "placementTypes": {
+        "0": 43,
+        "13": 20,
+        "24": 7
+      },
+      "ordinaryObjects": 43,
+      "ordinaryObjectFaces": 2627,
+      "animatedObjectFaces": 56,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "48793d94a552af82c857cf5a7f5cc4d3f1298b1d28de91f374c5a49f191eb129"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 42,
+          "rgbaSha256": "ccc1a10b7aac17225febe0b37d40d5b4575aebdad5bb1c291429f04d1a5892b4"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "6c4c65f848219849afc804a9244253422a4b0dedf7775a82f167d8285861ee40"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "ffa8898d27a604753088b99f5fd23036f4395558d713843c23244eac14138b9c"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 118,
+          "rgbaSha256": "47946257f3147aafb496ef10f2959f1471fb4c6a76a6fe7b31076197d5f848f7"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "8dd4ad6614796b0d217ed5bd6d346831cba1c8a574c99ef4f61d3c8cbbddd5ff"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 118,
+          "rgbaSha256": "b478b5fb5402c15c94ce18c40c1dfb8def917a0ecb89e19b3f3c10e03eba8b97"
+        },
+        {
+          "page": 25,
+          "width": 256,
+          "height": 114,
+          "rgbaSha256": "b08b6e6bb7e07624705831bab9230cfcdd80ad3bad2de9c2735b6e6cde7db5a6"
+        },
+        {
+          "page": 26,
+          "width": 256,
+          "height": 68,
+          "rgbaSha256": "bf7a9191475839fab6fa6dbd51b609c1db4f65e8e0530aed4639632a203ff453"
+        },
+        {
+          "page": 27,
+          "width": 256,
+          "height": 87,
+          "rgbaSha256": "94f9cab3d25050bd6de27804ecd9b58251457f90cb65f3984055e6b23f6d5b11"
+        },
+        {
+          "page": 29,
+          "width": 256,
+          "height": 54,
+          "rgbaSha256": "241a0be0e90c1e5ef4c774a80cd06bd22dd7adaa2ae516c902c6b0dc2861b94a"
+        }
+      ]
+    },
+    {
+      "geometryId": 108,
+      "texturesId": 109,
+      "geometrySha256": "e1245686fa5034714cc6d71746618f15a7b5dcba3f65440fbace9423d1c55785",
+      "texturesSha256": "8ec43766b5557854ee8ff2784a9e506975e17329aaa9a718e93bbfbfa2bf0581",
+      "segments": 19,
+      "terrainQuads": 10056,
+      "placements": 122,
+      "placementTypes": {
+        "0": 78,
+        "13": 34,
+        "24": 10
+      },
+      "ordinaryObjects": 78,
+      "ordinaryObjectFaces": 2946,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "fa213c72eaa605a69fffcadcd61e8d55a77462b2a7200d2998652a57c0e22af8"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "c2a9e2c86fa46a48b83850ac04824dc0df9e67ce5f73102a5698d89a2ef81576"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 162,
+          "rgbaSha256": "57bac9cfb6a70f7665128cf7fd8d46cc016846cf9a54eee4fc5ac62c41f7af16"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "602ed980b3d8a579e92acba6fd6b9cd01daffaffa53758209c64f18cbf32625b"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "85dc20974c4311d7f7635891c7c1381f34d61e0c40bba865149cdc521bbf709a"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "61f8f8210ce1373b5b48694e04f11d5f3935084ba7d66ac617401ee26551ee01"
+        },
+        {
+          "page": 26,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "6e1544d8e1b2bbf347d2ff624bfdb81096d37939cb33e665f9e3113e32ff9105"
+        },
+        {
+          "page": 27,
+          "width": 256,
+          "height": 62,
+          "rgbaSha256": "da4f25901d136aa1bc05fadbaa4a7ffea46dec4981d739dec532cb50497d53fc"
+        },
+        {
+          "page": 28,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "44918e5b9abef0a54ba5f8b487da7716ab18f5e9a7776339418264a24a62c3fd"
+        },
+        {
+          "page": 30,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "9a2a7019a677d3888b6d625cbbe7f99e98336bd17b3d0f05796d612c9ddb1e22"
+        }
+      ]
+    },
+    {
+      "geometryId": 110,
+      "texturesId": 111,
+      "geometrySha256": "b681aac9512a30062a486cdd1d2707c956646e6b83d3032ea904e1f62370f17b",
+      "texturesSha256": "bfac20ded2673bada3ebdfaacc8ab3f15e669a611b6c2bd73847c983f891858e",
+      "segments": 21,
+      "terrainQuads": 19056,
+      "placements": 110,
+      "placementTypes": {
+        "0": 46,
+        "13": 62,
+        "24": 2
+      },
+      "ordinaryObjects": 46,
+      "ordinaryObjectFaces": 3129,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 16,
+          "width": 256,
+          "height": 136,
+          "rgbaSha256": "83a053e27328d88df9272d208dba3ba42540895134fcae3c5f56c10f463b566e"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "ad572fa9502921623ab400332d7a194cc20ed4999c7aa6cd32db6818db9c5d98"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "18bbafd939882c03f44e3044caa7afa3683b04309fc9fdb5c2be985913dcc1c1"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "de28dcc637f7decabef27d923173d987fcb378395c9948f187660e07dac790e0"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "bc5253de8d1d4f2d0582c4a73b61cf9b82517ec0a6b5efc0e03bc481c3197b87"
+        }
+      ]
+    },
+    {
+      "geometryId": 112,
+      "texturesId": 113,
+      "geometrySha256": "e241695a099f3eeb27e0ea84fa93712188c07162f0208545fb7970fc33fb38a8",
+      "texturesSha256": "fa97c4632ccda42f026be7b1205a3af56bcc51998351235b8ae4670f354649b7",
+      "segments": 9,
+      "terrainQuads": 11256,
+      "placements": 74,
+      "placementTypes": {
+        "0": 38,
+        "13": 28,
+        "24": 8
+      },
+      "ordinaryObjects": 38,
+      "ordinaryObjectFaces": 1691,
+      "animatedObjectFaces": 48,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "61322ae822948260e022caa112233506db39b35515001fd270651790d21a86ac"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "a2eb11fbd04af2f6eefa75319e5264ca116bdcab236db3874e29819092b42aa5"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 255,
+          "rgbaSha256": "06572cca5dc542e37b1d38866f593eb9b98e4b144c2ea357c38746dac7c89dae"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "811bbe33bcabfbc2e0c21f1cd63c116f80b521f8eadd63ee9446abc191689aa2"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "4ef36c45c3df05891d6015689cf81c2f2100bb4b4bffc289fba78b012d2bb44f"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "b8322fa83a2aa1507d10d92b00d4df0f5f851aa368c829ff4783649b5e1eb3de"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "b8ab58ec7bfe0a74babd349259bc962fa09ae96c902684e95b5b0ab1c6fe1e68"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "18f79bb346d1b176d7a15a4a2d7f4ddcf25ef5eeffe5583a0dad9babc95341a1"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "057eb8059d07531ea8c9d8993264f7179bd58a3238af101c7353f60a6991134e"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "1e6badfb64d0dd96db3d3a6a190785448215194acb95517874de5a06e97fbbcb"
+        }
+      ]
+    },
+    {
+      "geometryId": 114,
+      "texturesId": 115,
+      "geometrySha256": "d56351501daaf4d173015111b1664ef29ad07ecbdd37243019007bbce134843c",
+      "texturesSha256": "28b4ca769a540618fb564979c47cbee95dc9a188de933136d642f07c8301bfb9",
+      "segments": 18,
+      "terrainQuads": 10160,
+      "placements": 117,
+      "placementTypes": {
+        "0": 48,
+        "13": 62,
+        "24": 7
+      },
+      "ordinaryObjects": 48,
+      "ordinaryObjectFaces": 1735,
+      "animatedObjectFaces": 78,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 88,
+          "rgbaSha256": "103087d55dc347e2cab1e11d076e57284d9943b0d070045375fb9d578c57c6cb"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 216,
+          "rgbaSha256": "1553f557d8635d70eea02eadb533275f0c565cb1c57a7a728acd5abb7ad72493"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 224,
+          "rgbaSha256": "1a3e6b4c1c16416502e1b9c197d9fd0f659a044ac8edde85f1c6a47ebc77361a"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "0430727ba978c9a3fe5a1923d65a5b4748894550a14fc3de9c346eee91c1885d"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "2d7135de3cb69f9c01cc89c0cefc7b97da5207d31fc9a5de54df54bea775b33d"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 41,
+          "rgbaSha256": "2205476c125b1d9502241006d1fd4417c7f3a316528f887863a71c4f2057a6d7"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "c834bdf41da3850671181d5930f3004af0af6ba5998ec285fc6c39bca86ece3e"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "b904b97222a136087a962836c3cf0fdf1228f91ccc99a430161a3b959e451852"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "9909b73fbb52be893f6d48424921a1c2e81961a837141f5c7ca395405613473d"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "0e5427afe7602d1a400322a0c5ecfffc57f5967bdb0d358c7ce2b7b53e50063f"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "10e7912aca69c16fdad84ef1b522bd5883cb63bddbf1e181c1704c16415a0a48"
+        },
+        {
+          "page": 25,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "1e69c7e3c18b3bc03b82a00c46b2f11db41b3b3d97a0c61089f508b1ba51a787"
+        }
+      ]
+    },
+    {
+      "geometryId": 116,
+      "texturesId": 117,
+      "geometrySha256": "f4f7d81b9f7f368b3c3f7aa744900918aa7a9d8c959d08066be744c06cb443a2",
+      "texturesSha256": "78dec45f8c22d9cced02c41004db96be7688dbe1d7852c4f5cdb50e6229eab17",
+      "segments": 14,
+      "terrainQuads": 13184,
+      "placements": 113,
+      "placementTypes": {
+        "0": 40,
+        "13": 67,
+        "24": 6
+      },
+      "ordinaryObjects": 40,
+      "ordinaryObjectFaces": 1469,
+      "animatedObjectFaces": 48,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "5452c44cd89971726f06363663d03e00985458bbb38611c41361b4e69526b07d"
+        },
+        {
+          "page": 12,
+          "width": 256,
+          "height": 200,
+          "rgbaSha256": "374d963c5eec64d736574825de3108a6d92c034adc419065e470415915101110"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 240,
+          "rgbaSha256": "09ff597cf9927e7e5e026beeff240e050a6419a8c9a70bbde3b7b4f8d72454a7"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "7e013a189ab09dcb5468a3aa6420ab294d5bea00e78eee72fb257a13b03ba473"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "72d932eb769882673eb4e57b6eb097f7bc6aceb1dce3f2d3dc907a3ec4d6ae1e"
+        }
+      ]
+    },
+    {
+      "geometryId": 118,
+      "texturesId": 119,
+      "geometrySha256": "96be7e4d2d611f5253a27aa760e5f3b77d8e09cd23c4d39f277307dbc79a525b",
+      "texturesSha256": "2da0d837609f842975d745e592cde680a0d423a25d5f9ba9d56cf620fadce871",
+      "segments": 21,
+      "terrainQuads": 13208,
+      "placements": 181,
+      "placementTypes": {
+        "0": 88,
+        "13": 91,
+        "24": 2
+      },
+      "ordinaryObjects": 88,
+      "ordinaryObjectFaces": 1039,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 14,
+          "width": 256,
+          "height": 216,
+          "rgbaSha256": "26f3c270f970e0d0ce24f134c91deaf196cb029ed0249d9a111cbde10f4e04e1"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "3d98f2cd7036c7c8d55070bc17e73898be19b6f975c92a54f733ad64dbcae4d0"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 109,
+          "rgbaSha256": "f7e40e7ae31e1b78dfa9b95ef0b85078e5e3b31648c1cc93f04959dc60a4e537"
+        }
+      ]
+    },
+    {
+      "geometryId": 120,
+      "texturesId": 121,
+      "geometrySha256": "b8e495a4bbd01b4a6a37064f1d905b769da956bf67e85b96d713c3ed482335dc",
+      "texturesSha256": "08e87f9f0554e0bae7ff157f6ebe620c60b60b5bed8a90126646043964d4112e",
+      "segments": 5,
+      "terrainQuads": 5392,
+      "placements": 34,
+      "placementTypes": {
+        "0": 28,
+        "24": 6
+      },
+      "ordinaryObjects": 28,
+      "ordinaryObjectFaces": 874,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 16,
+          "width": 256,
+          "height": 156,
+          "rgbaSha256": "644d909463ca8e7bc26a954a596a60977d3805ec818d3df224e6eedfbfd74752"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "ffdabd6fed3e36a830a85705d0af3def4d0006b07e512f0d271a8a85daa50558"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "199572f8ce13f342a97c7d8602a82e066c30f56adf81c9d5012c2e84cc60b0e9"
+        }
+      ]
+    },
+    {
+      "geometryId": 122,
+      "texturesId": 123,
+      "geometrySha256": "ee17acdffe8b0373954169f3b33d22e5cb163f42b5962a16d02190ae1b2f04c5",
+      "texturesSha256": "84195d44fc19be7ada7baf398e995616e34d5171d03201ebe62e1dd3c9ae4d3d",
+      "segments": 1,
+      "terrainQuads": 2432,
+      "placements": 17,
+      "placementTypes": {
+        "0": 14,
+        "24": 3
+      },
+      "ordinaryObjects": 14,
+      "ordinaryObjectFaces": 264,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 166,
+          "rgbaSha256": "2824cd3f2482952c7fb56962436f7a39891f1b4abe0111834cfa540b70d3e29a"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "452254255a812b4034e1f6b7b37cfa9a8079cdf6671615434c94f770c8948587"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "95de641a0f8a09ce26e3bb04a8854117d90a71639c82a04113f1a560785c1cbb"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "d3bbbb976a3675132434e82e74f7396f5a473ce5a661a10417f4288eed53b03c"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 74,
+          "rgbaSha256": "5db3d71e05148be2ec0f7e5779ea26b61be6fefbf420853155de021b4e7c7df3"
+        }
+      ]
+    },
+    {
+      "geometryId": 124,
+      "texturesId": 125,
+      "geometrySha256": "4bffbc0a96eb48ec4550f1f786e6884931dd3e9ce3152438bc9405a124ebd7ff",
+      "texturesSha256": "f7fb8b9e1cd23b90f740aca63f7ebc6495d8db7fbe488ed25b15a910455c61ce",
+      "segments": 4,
+      "terrainQuads": 1568,
+      "placements": 41,
+      "placementTypes": {
+        "0": 37,
+        "24": 4
+      },
+      "ordinaryObjects": 37,
+      "ordinaryObjectFaces": 1719,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 16,
+          "width": 256,
+          "height": 142,
+          "rgbaSha256": "8d5d472ab485b75fd520d1a3628a6bb354ce606e1ee6d4dccae0810ff6d88bcd"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "00a0484275aad49258ea2860d1fc936e367889f82ddb0d4df5c7307591c7009e"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 42,
+          "rgbaSha256": "ae47ae99848d7c6eb5a8da497dd4cf4875dff24090c3de7b855f069a6a6b2c06"
+        }
+      ]
+    },
+    {
+      "geometryId": 126,
+      "texturesId": 127,
+      "geometrySha256": "7dc55d24a284371a4eb93e0a9b1c7dfc91c2f5701c5953d9f03694ac2734bb79",
+      "texturesSha256": "6937c8d324fe4790e9a06d52e4813a52ea5d589cbca8d5325757204bf4f0b13e",
+      "segments": 1,
+      "terrainQuads": 3584,
+      "placements": 19,
+      "placementTypes": {
+        "0": 16,
+        "24": 3
+      },
+      "ordinaryObjects": 16,
+      "ordinaryObjectFaces": 356,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 14,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 166,
+          "rgbaSha256": "cc3b7788cdd437a28c50ecb2e9cfd5cf3bc12a9d5e4ef25bfdbceb6496633ac7"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "241ea4cbff39029480f0ae7e8e02cfa2e9c35e2915fe641c552dbec6a95e043b"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 72,
+          "rgbaSha256": "8ccd09e3f3b27affa0d60f91343cbfb91c75245aa68f34c7f21c050d9201aca7"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 74,
+          "rgbaSha256": "31739c04e3faa7e6be3897a2add191ecd45dc14f3fa60117c2edec7b29023e98"
+        }
+      ]
+    },
+    {
+      "geometryId": 128,
+      "texturesId": 129,
+      "geometrySha256": "3fe587334502ec42e04b9b65005d32d1cb9ad6c4559ae454cd69e0f024b5daed",
+      "texturesSha256": "24da02abb1d74b1ebdedc1169d31e03998c4bec6e3f5004171edaf3a8b51f662",
+      "segments": 3,
+      "terrainQuads": 8784,
+      "placements": 30,
+      "placementTypes": {
+        "0": 24,
+        "24": 6
+      },
+      "ordinaryObjects": 24,
+      "ordinaryObjectFaces": 534,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 152,
+          "rgbaSha256": "2f7094070db0008831fdedb4316ddec3873487cae56478ae3431cbc1e461054c"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "43e30c52d5b2a105a1725198b6c49ad40c9c17df0cb2ea87a30e8a21c4166b1b"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "f4c6be9767abb899abab4342190339db6c4828dfed0fe6759537e02b1c0e98c7"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 224,
+          "rgbaSha256": "59a2b040aa6d353fb2142af50bad3a36a02a257b5872d2bce2b65f9fe3a45d32"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 170,
+          "rgbaSha256": "cad127ae6c8255138eabc6b3ece2be6e5eaab328be925d5631cbf047044afc47"
+        }
+      ]
+    },
+    {
+      "geometryId": 130,
+      "texturesId": 131,
+      "geometrySha256": "5238c806a0e408261aad58c24f9a5208f20febc51cde174935cb8730c526717e",
+      "texturesSha256": "6ec16d7116dd395342c5dc0ebbdef2778274204d87520f7c418a3fd93600db39",
+      "segments": 2,
+      "terrainQuads": 7808,
+      "placements": 28,
+      "placementTypes": {
+        "0": 24,
+        "24": 4
+      },
+      "ordinaryObjects": 24,
+      "ordinaryObjectFaces": 655,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 15,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "f861a4a5af928ec0dfbe4cc035bf2f630dc6d07112eaeb26a2149ae85ecb87f1"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "a6d22b694285c7a997c1460fabffd64f7710c15431c1a359a0c49d0d47db3025"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "a307b07eee4aec827c50c6e66c4b0dbce71cf4081dfeb329b782a0c7420c28cd"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "8d1a50a2719356eace656f94d32ae1195d0a01a33f8fefa224803501e5ff8e6d"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 106,
+          "rgbaSha256": "9c62f8253b9f7879b01b4697a4034fef0776bfafc5bdb3cbd88f1426d428ada6"
+        }
+      ]
+    },
+    {
+      "geometryId": 132,
+      "texturesId": 133,
+      "geometrySha256": "408c1a73fdda2a6e5dde41578ba2852e9c2abf18e30b2f21db1a552d2f0f835b",
+      "texturesSha256": "13f349e80978fb40d3978bc48a3864995f4a387bbd5b2df99f1a70f624fb1ce5",
+      "segments": 6,
+      "terrainQuads": 7696,
+      "placements": 34,
+      "placementTypes": {
+        "0": 27,
+        "24": 7
+      },
+      "ordinaryObjects": 27,
+      "ordinaryObjectFaces": 660,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 16,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "4ec21df3d1cefc2865c2a61ce629399a863493df0c8ea926237c003867501e3a"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 208,
+          "rgbaSha256": "09d24ba9d63725357b371e045a2e1c9265b4d2d7c1a41b9d4f5230dd6250ae1f"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 76,
+          "rgbaSha256": "5206961b0bc813e4806bcec71c5e0dc6bc00ed25c23b156a20975b5fe1988be4"
+        }
+      ]
+    },
+    {
+      "geometryId": 134,
+      "texturesId": 135,
+      "geometrySha256": "d95fe129dfb1cfb59f12e683a20d7657df3b1b69fca41986b36f81f0ff386b96",
+      "texturesSha256": "269e2507bd9f8c2da0e6323c30d8de42161002f26097298d3bd97fd8ee60579b",
+      "segments": 11,
+      "terrainQuads": 15472,
+      "placements": 39,
+      "placementTypes": {
+        "0": 28,
+        "24": 11
+      },
+      "ordinaryObjects": 28,
+      "ordinaryObjectFaces": 1318,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "e7bf12ccf3a975234dc2968471ae59ecc2a8a972c11b68258c0052369af336ab"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "1d5f051a5d290369fd3aae6319be281201d2461b422e86ba398fc52b10333e52"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 208,
+          "rgbaSha256": "796a248619b9b0dcbc70493e1c3a52ee08282c01e6478b83e0de2e9043a4ff79"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "911e61ea360f12eca132102a6af6e8fd06be14a2bd74634bec538b9dfffe0384"
+        }
+      ]
+    },
+    {
+      "geometryId": 136,
+      "texturesId": 137,
+      "geometrySha256": "a8046908dd1de575214826f8d87a39901909a6c7722aecb0e9b1e8c504ea51f6",
+      "texturesSha256": "a53b5f3202b664d492150ae976c719664342109164a2aa7451e72b4a55d176e6",
+      "segments": 8,
+      "terrainQuads": 5584,
+      "placements": 29,
+      "placementTypes": {
+        "0": 25,
+        "24": 4
+      },
+      "ordinaryObjects": 25,
+      "ordinaryObjectFaces": 836,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 10,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "5ee2782e6b85ce39d9c82d1a3449580ff0c2a4776f3dda4624b58b2ee92dedeb"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 168,
+          "rgbaSha256": "e391d8b17a5c0dd976dc529391471c8056e744de1bd3cf9cf68b062b30fd4c0e"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 208,
+          "rgbaSha256": "51b0a5d8d2bb26e393f11c0d2c2bbcd0e0e9c2e23503f963cfdbdc42ecd066a1"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "199572f8ce13f342a97c7d8602a82e066c30f56adf81c9d5012c2e84cc60b0e9"
+        }
+      ]
+    },
+    {
+      "geometryId": 138,
+      "texturesId": 139,
+      "geometrySha256": "8bb7c65b1b89c5d1546d8fd1ead1542bea115335709ce9757898886247aab2e0",
+      "texturesSha256": "2f2e90c05850578b6454391e3a556a316447cf17c8867e2cb236f115a305918d",
+      "segments": 8,
+      "terrainQuads": 11712,
+      "placements": 41,
+      "placementTypes": {
+        "0": 32,
+        "24": 9
+      },
+      "ordinaryObjects": 32,
+      "ordinaryObjectFaces": 900,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 15,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 166,
+          "rgbaSha256": "a6da75601897afb0baee6ec3f3d38aaa8942c58f124e986a8aea5d38f5360bdd"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "452254255a812b4034e1f6b7b37cfa9a8079cdf6671615434c94f770c8948587"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "db1721f609950adbeafafaaa0050197b083612d1f6116b17cb68853b74f82dcd"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 170,
+          "rgbaSha256": "96f4b8825d8763d905faa44076b3065b07e8f1473cfe9e04870ab0b5162aefdf"
+        }
+      ]
+    },
+    {
+      "geometryId": 140,
+      "texturesId": 141,
+      "geometrySha256": "8b5c3044a484fb22f2b4e042745029e318f06a5900cf1b913eecc9b3b766e0eb",
+      "texturesSha256": "a11693904838b41453e5137eaca99296032f56a5b62071e90dba0a1773bd2060",
+      "segments": 14,
+      "terrainQuads": 14224,
+      "placements": 53,
+      "placementTypes": {
+        "0": 41,
+        "24": 12
+      },
+      "ordinaryObjects": 41,
+      "ordinaryObjectFaces": 1235,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "5ee2782e6b85ce39d9c82d1a3449580ff0c2a4776f3dda4624b58b2ee92dedeb"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 168,
+          "rgbaSha256": "587e083f6a27cc76f957c273234bb4fc38be5075c806a49dc1cc694fc0f087dc"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "ffdabd6fed3e36a830a85705d0af3def4d0006b07e512f0d271a8a85daa50558"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "199572f8ce13f342a97c7d8602a82e066c30f56adf81c9d5012c2e84cc60b0e9"
+        }
+      ]
+    },
+    {
+      "geometryId": 142,
+      "texturesId": 143,
+      "geometrySha256": "f1b07e5de5cf6c865b20f947021012530da27850a072f69338cd97ad368d58b9",
+      "texturesSha256": "9509e12f0328a254db75edcc366e33eb0648707d9245fe8e696dd47cf2a82f3b",
+      "segments": 4,
+      "terrainQuads": 5696,
+      "placements": 24,
+      "placementTypes": {
+        "0": 17,
+        "24": 7
+      },
+      "ordinaryObjects": 17,
+      "ordinaryObjectFaces": 508,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 15,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 184,
+          "rgbaSha256": "c1b94b200521f04a521d355f3db0149783b7b7524b19725cf16fb9bb5eff2f67"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "1af66bf1cdaccd92e649f02c2d6b5bd543a040d653e3943c8a367e885eb64dfd"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 78,
+          "rgbaSha256": "6d7c80cd869ef07b426c3250727d06543520a042da891f1c6c5c6ddb98388bca"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "b7493c644c1b2d92e8bde89c2fe5d004ee18c2bd095b46ae7d38418d7c2f85cc"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 170,
+          "rgbaSha256": "8c81718be28c19686a363752769a7dc776e071ffcfae88c9235f1f8cbc2b5dbb"
+        }
+      ]
+    },
+    {
+      "geometryId": 144,
+      "texturesId": 145,
+      "geometrySha256": "377dcc0c5ff2ff6793b64a7c045d021b28c8a8d048911b67ac4a57354cdee500",
+      "texturesSha256": "af576a00dcc058623b771e86dc9a3dd23f5ad80d00cb531cb79cd02fd2c5b2c3",
+      "segments": 15,
+      "terrainQuads": 13880,
+      "placements": 27,
+      "placementTypes": {
+        "0": 20,
+        "24": 7
+      },
+      "ordinaryObjects": 20,
+      "ordinaryObjectFaces": 970,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "5ee2782e6b85ce39d9c82d1a3449580ff0c2a4776f3dda4624b58b2ee92dedeb"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 168,
+          "rgbaSha256": "9f4f408130b38b6f8cf16ced9d055c155ec0e7431cd7a6a3044b1eb16a7b79af"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "233638c1ed315f150cdbbb93b62d36ea72609b49d72bc9e54dbceec37bf5c53c"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "9a5206876543c4744de2847c47e54085543301ac9acceaf18d005beb2d7cc91e"
+        }
+      ]
+    },
+    {
+      "geometryId": 146,
+      "texturesId": 147,
+      "geometrySha256": "cfc6aed78aab058c4798d2df65b42d534b3b5035532305ee8e14d4add5b4dcba",
+      "texturesSha256": "e15eb46b4f16e694d019bed5c7983bbd20814ba3c54249e979b7cfd7522edee5",
+      "segments": 9,
+      "terrainQuads": 2896,
+      "placements": 63,
+      "placementTypes": {
+        "0": 55,
+        "24": 8
+      },
+      "ordinaryObjects": 55,
+      "ordinaryObjectFaces": 2243,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 9,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "d16ea21670af497c746d1f6cf60a905dc44a0842614f348a5b1e3215526d8771"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 142,
+          "rgbaSha256": "cd5a86025f2d46b4c0d1a6bbcfc384c49bb3181f379b93dad79a44e7b14b0187"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 208,
+          "rgbaSha256": "05996fb4a8ba5357de7f8d02bebc79bc75790b62c76c0d42b950b04425260364"
+        }
+      ]
+    },
+    {
+      "geometryId": 148,
+      "texturesId": 149,
+      "geometrySha256": "698cbd7f058334904f662b96c8003a1ae38a7cc5a91663a0562fa6218afed4b5",
+      "texturesSha256": "a93fcf4c2c457aa298af6a5ec5edaa6c7e8e4a951a18a58a4aa2f77559471eb9",
+      "segments": 10,
+      "terrainQuads": 14416,
+      "placements": 24,
+      "placementTypes": {
+        "0": 15,
+        "24": 9
+      },
+      "ordinaryObjects": 15,
+      "ordinaryObjectFaces": 738,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "5ee2782e6b85ce39d9c82d1a3449580ff0c2a4776f3dda4624b58b2ee92dedeb"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 186,
+          "rgbaSha256": "1711a0f99ca352bba60467f2df6a2793ad209996e7fdb96da07887bdaf0f9344"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 208,
+          "rgbaSha256": "7e290ad24a63b8b06837f37ce0b6acc7863bc46ae887b0ab26231fc616179c7f"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "89e2f25603e19569a0704ad3b4ba0f051acf998bf68d6a23fb7f65e6a75ccd13"
+        }
+      ]
+    },
+    {
+      "geometryId": 150,
+      "texturesId": 151,
+      "geometrySha256": "d6e07af11b7534ae594f667028bba10cb6d763fcdb7374c06a76a22594acc919",
+      "texturesSha256": "ef688861b798b0b55606fa5f79970fc8f34bf98f47c30e759c2e4d56e3e1611a",
+      "segments": 15,
+      "terrainQuads": 17888,
+      "placements": 28,
+      "placementTypes": {
+        "0": 21,
+        "24": 7
+      },
+      "ordinaryObjects": 21,
+      "ordinaryObjectFaces": 934,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "5ee2782e6b85ce39d9c82d1a3449580ff0c2a4776f3dda4624b58b2ee92dedeb"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 208,
+          "rgbaSha256": "abd0e9873e1bd553c6ab04d65ec5ed771bf241ac4cc71885823c504bad6c1dc8"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "531fa4db81e03172c76c12e57688d8e2033aeae450af41be41991db4c0ce251c"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "0a2755c1f645fca4b9bb6e55f2d7e8ca5a02146362b7585bb614d89ad4d627d8"
+        }
+      ]
+    },
+    {
+      "geometryId": 152,
+      "texturesId": 153,
+      "geometrySha256": "935e6ff8f4244a8497fbae04cd758524a15a75d33770f278684141afc6c2a172",
+      "texturesSha256": "fccf80d8b2bed588d5c4a0516ebcc3a24e32935cc396fedd8461ef2e8c6da336",
+      "segments": 2,
+      "terrainQuads": 13824,
+      "placements": 39,
+      "placementTypes": {
+        "0": 28,
+        "24": 11
+      },
+      "ordinaryObjects": 28,
+      "ordinaryObjectFaces": 862,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 14,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 210,
+          "rgbaSha256": "3bc987190349e9ff1a6580e23d5c43f58b9c3a32aeab26a9e626b483c592fe92"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "a6d22b694285c7a997c1460fabffd64f7710c15431c1a359a0c49d0d47db3025"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "307248ac93f375b48d3208dc477508d09d02a4f10e251075aa7894c09e4560c4"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "8d1a50a2719356eace656f94d32ae1195d0a01a33f8fefa224803501e5ff8e6d"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 106,
+          "rgbaSha256": "39467e08d15955848ee66f5982cff7afc1ba2c52fbfcad784a95b158cf1b807d"
+        }
+      ]
+    },
+    {
+      "geometryId": 154,
+      "texturesId": 155,
+      "geometrySha256": "6bd7f48844fd2d0a1cc94fa132ab73a3a281de98cc44b71fc81ecc115bb921b8",
+      "texturesSha256": "f014c4da9691283cab91f6a7841a3174a30fc09c5cc7d888da42b45fbcf321e2",
+      "segments": 8,
+      "terrainQuads": 12040,
+      "placements": 111,
+      "placementTypes": {
+        "0": 101,
+        "24": 10
+      },
+      "ordinaryObjects": 101,
+      "ordinaryObjectFaces": 3575,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 17,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "f4a358aacd85fa22df40980221f9d44322655ae09377b75643f99a485eaf17d9"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 210,
+          "rgbaSha256": "d77d82247984955ecf438acaefe87e6cbf182c04f157775463c3a5bd3b436c70"
+        }
+      ]
+    },
+    {
+      "geometryId": 156,
+      "texturesId": 157,
+      "geometrySha256": "0a0162c857f1dddb5a74f1a4a0a06787d5e36c3bb11a3444fe95b57275e41210",
+      "texturesSha256": "92cad4958ef4219f67de2f31d61c6083bb60cf031a40b5b41bfe436461dbdac5",
+      "segments": 7,
+      "terrainQuads": 11024,
+      "placements": 56,
+      "placementTypes": {
+        "0": 23,
+        "2": 21,
+        "24": 12
+      },
+      "ordinaryObjects": 23,
+      "ordinaryObjectFaces": 723,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 14,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 166,
+          "rgbaSha256": "decfce13147f7768a563a33f05ced28b07e4130d2dcfe100996da35f6ae4b37d"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "28377e6f587b74edbb96c0b06bd22558d3123a53bf21f85e3d3cc7131845e057"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "d2d261e3e577fb96354151919c1ef845df265225ae08d61f51f0245c5823e777"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 104,
+          "rgbaSha256": "b01395f9ba8ea6332f186c14296d8ee69158545c322296900f4c13d5f7abef55"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 234,
+          "rgbaSha256": "e6bff137f8c605c3deae062a1e4604b166cf35e8d9df16ebb32d7f304d7f2872"
+        }
+      ]
+    },
+    {
+      "geometryId": 158,
+      "texturesId": 159,
+      "geometrySha256": "3fd3653672986389c16618acd67e0b7166232aa467c8775844f4c4e7c77a98f9",
+      "texturesSha256": "7670e869aa1afd3d97769ffacac9d28982ae97b7aecb8fda475a1c4cdfb0a9a5",
+      "segments": 8,
+      "terrainQuads": 20008,
+      "placements": 34,
+      "placementTypes": {
+        "0": 25,
+        "24": 9
+      },
+      "ordinaryObjects": 25,
+      "ordinaryObjectFaces": 1248,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 17,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "2c25efcc4332b745ca7702572cd2e7af1e03853af971773bb5741172f0e0a48b"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 210,
+          "rgbaSha256": "0d4cbb9a7ca170ac8bc3b24a16e4a84d521cf1ca8f6124f836da2bd637990f5e"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "6b3cb781e5cb604867dfe2430bf311ae80fbaf07f0adaa6d78d4d0babf2aaedc"
+        }
+      ]
+    },
+    {
+      "geometryId": 160,
+      "texturesId": 161,
+      "geometrySha256": "9377203413658eeef1489f5170a0f38720db439b6433f459d893da6ab34a79d0",
+      "texturesSha256": "ace5658ca3ba3cbd9807d66d56a98ea1976bace868c630d857570dabca8b5ff8",
+      "segments": 6,
+      "terrainQuads": 5248,
+      "placements": 99,
+      "placementTypes": {
+        "0": 92,
+        "24": 7
+      },
+      "ordinaryObjects": 92,
+      "ordinaryObjectFaces": 3299,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 10,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "d16ea21670af497c746d1f6cf60a905dc44a0842614f348a5b1e3215526d8771"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 142,
+          "rgbaSha256": "9b344a83c44102eed118fe5dd9bf1200a2064f09695968c4b5a4a40ff80ddcc6"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 210,
+          "rgbaSha256": "57eb940598fa185ad9736283467f6523ed878c020e99cc2129f1338b90185c05"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "9614e0fc076dacf008425b04ac85fd48685d28f644f2b4f51cbc02497f3e3b43"
+        }
+      ]
+    },
+    {
+      "geometryId": 162,
+      "texturesId": 163,
+      "geometrySha256": "8e066b950f62b6b07e0a566bb81e1b023add0bd45c26d2f27bc9492402d19e04",
+      "texturesSha256": "b4526d067b6b2d353e34cf564bf2f7e332394d676e5ca67a257f511b897f858f",
+      "segments": 4,
+      "terrainQuads": 15840,
+      "placements": 42,
+      "placementTypes": {
+        "0": 31,
+        "24": 11
+      },
+      "ordinaryObjects": 31,
+      "ordinaryObjectFaces": 908,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 16,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 182,
+          "rgbaSha256": "aef32250dab70eeb539618441c94eab9e7e01e71ba902f000c791e0426877bbf"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "241ea4cbff39029480f0ae7e8e02cfa2e9c35e2915fe641c552dbec6a95e043b"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 72,
+          "rgbaSha256": "55222c3d70c3a818f56d34b662bfb89f5285fbf1a4ce937a3e572d450343d4cb"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 170,
+          "rgbaSha256": "96f4b8825d8763d905faa44076b3065b07e8f1473cfe9e04870ab0b5162aefdf"
+        }
+      ]
+    },
+    {
+      "geometryId": 164,
+      "texturesId": 165,
+      "geometrySha256": "c6104f9f9e2840c33a8125a2cb69106efdf6f3363c582f987e3d48a836957a3b",
+      "texturesSha256": "f5314bfeff4f96f4f19a3cdc20a3b503a71f9e892e20ae54ad0e7aefca3c045c",
+      "segments": 13,
+      "terrainQuads": 7520,
+      "placements": 31,
+      "placementTypes": {
+        "0": 26,
+        "24": 5
+      },
+      "ordinaryObjects": 26,
+      "ordinaryObjectFaces": 1019,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "e7bf12ccf3a975234dc2968471ae59ecc2a8a972c11b68258c0052369af336ab"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "da32f65a504880f3c6fcd3e6c45b86e99ad521c4c25a5ec8a5d2b8c763c8eb84"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "2af3932e58247458aeffbb9309370153a9ee4c0a58f8f6324315023dfecb8ae4"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "9f00d3a42e47fd4e76822534605ad1beb81e532e5291f2f2683062dd2e7b6bfe"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "bf6749f5628e6cde2273dc4ea67679a9aa9d0027de0f171fac7ab86408b69853"
+        }
+      ]
+    },
+    {
+      "geometryId": 166,
+      "texturesId": 167,
+      "geometrySha256": "1e7817a2053c41523d929c43194873d966ae84484fab3191686441cefbc8be4f",
+      "texturesSha256": "6e46ad591411c6a9402565037672a47bb989a64f4c52e8f4d05ec5a97a0d7fc3",
+      "segments": 5,
+      "terrainQuads": 13440,
+      "placements": 46,
+      "placementTypes": {
+        "0": 23,
+        "2": 11,
+        "24": 12
+      },
+      "ordinaryObjects": 23,
+      "ordinaryObjectFaces": 738,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 16,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 184,
+          "rgbaSha256": "b5824d732bad9aafd99db5b242679f9b0011009c5b7b1e1a50f69180281c17be"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 38,
+          "rgbaSha256": "afc957b2dc808919413fcde291ef1125873e8bcd6b333092545e7bc045ca1c84"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "149c91240e6afcd891f36628bd2f016304ec66ce6a65691243d724aa027c87c0"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "da4ae7df5191c657e7e247c2d526fd7f69d60ae518ca87a171f250c29ed6ec76"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 234,
+          "rgbaSha256": "651ad3736c4352b63ad15a98aed308be4bd692d85752c86d5178e30c0e01cc87"
+        }
+      ]
+    },
+    {
+      "geometryId": 168,
+      "texturesId": 169,
+      "geometrySha256": "3eb42cf4feef51affa14001fc7be9a85bd4dbca4c9b8f51aad1ddbe5f8bed81b",
+      "texturesSha256": "7721c9e0254de75e0491fb0496489c4a8c663330a2bee9af4490a73734f23097",
+      "segments": 18,
+      "terrainQuads": 17168,
+      "placements": 32,
+      "placementTypes": {
+        "0": 23,
+        "24": 9
+      },
+      "ordinaryObjects": 23,
+      "ordinaryObjectFaces": 1155,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "5ee2782e6b85ce39d9c82d1a3449580ff0c2a4776f3dda4624b58b2ee92dedeb"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 224,
+          "rgbaSha256": "5bd4160c749de21467409653dd36785d4097c2783f3235137bf68429d3777582"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "6c13b22526548a691c4cef888033c21cf39baa20127e0c2d353bc5a612135dbb"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 224,
+          "rgbaSha256": "2cc56d470d5ab14f15ea1256dc46fa2d770d0297c21c5daa552b0ab95059da3b"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "d7404d5195fa9a4f0ef171cd457fb0e11e2e6dbb313023071caf1c714561c5a4"
+        }
+      ]
+    },
+    {
+      "geometryId": 170,
+      "texturesId": 171,
+      "geometrySha256": "e5d4878b09693a119ff7a043860fd4c1388fe98f3625c394f4b0ffeed9df0914",
+      "texturesSha256": "3f49dfe5e57878579509a7f6b915217f791c960bc52ba36460545ac3eb02d4a0",
+      "segments": 13,
+      "terrainQuads": 7752,
+      "placements": 16,
+      "placementTypes": {
+        "13": 16
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "8e9fbe03f395bf6bc45d84b5f3d3a24b8404453757d456c03d68ac548a2dfe54"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 182,
+          "rgbaSha256": "e3fb11dca1e89db14f91db85f63313288c1fc0f4d048dcec8bd6c5bb53ac68b1"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "5f75e6bc7a7859efef177882104b2a3e13d5ed47363d8effe497a0a142b9bd5c"
+        }
+      ]
+    },
+    {
+      "geometryId": 172,
+      "texturesId": 173,
+      "geometrySha256": "bbe77b9d4608893e05ec5a89d50c150a4d7068ecf1e9b3f31f1d483be8e8869e",
+      "texturesSha256": "bb006f142c791e2d8cc7ba74942720d5ea321ff88ff9ed3d8a08f3fe445f435f",
+      "segments": 9,
+      "terrainQuads": 7480,
+      "placements": 23,
+      "placementTypes": {
+        "2": 7,
+        "13": 16
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 18,
+          "width": 256,
+          "height": 168,
+          "rgbaSha256": "5bd7a22ae9d68dba3eadb6188c51addf08704c41c52b1512047a9017d126ad5d"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "0ed57cd86a5433216f75081ef84505a08f65b0e0186c61613f620d32b04eeede"
+        }
+      ]
+    },
+    {
+      "geometryId": 174,
+      "texturesId": 175,
+      "geometrySha256": "303ee3bebc466afbee0db225a63ff3c6f7a240fc7bc86de11831024011f44004",
+      "texturesSha256": "49662db3d6fc51fac08c9c5b1df719075a5199ab7a78cc2fb87b1bdfdb56d556",
+      "segments": 8,
+      "terrainQuads": 6528,
+      "placements": 33,
+      "placementTypes": {
+        "13": 32,
+        "24": 1
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 19,
+          "width": 256,
+          "height": 142,
+          "rgbaSha256": "2eeb90468efaf1dbffb918b1cae898fd15bf41e2bdc82f779a828940eb882b4a"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 120,
+          "rgbaSha256": "bc39b2c4023f573f1bed27e630319766115d5cbd118f9f1a99c8f256401457c9"
+        }
+      ]
+    },
+    {
+      "geometryId": 176,
+      "texturesId": 177,
+      "geometrySha256": "32a1e6bd748eaa36636645a2b1d03e817efa9efb6df9aa8b545d1ed538e0e311",
+      "texturesSha256": "38e5421a5142af0b069a1cb4e213634a63eecaf09f39e0d5c7d57abe1a01b4d8",
+      "segments": 6,
+      "terrainQuads": 7744,
+      "placements": 96,
+      "placementTypes": {
+        "13": 96
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 19,
+          "width": 256,
+          "height": 174,
+          "rgbaSha256": "e6f64fd6495bc23f843fb2d37fc5a91b8ee41158e047e0e34875dcce8ae060ca"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "b99262b77a4e6445355e329a2fcf1b5e472320e99133d187dedcaa4f453e0259"
+        }
+      ]
+    },
+    {
+      "geometryId": 178,
+      "texturesId": 179,
+      "geometrySha256": "f62154de0b918a5f4e711f7add27b23c8e5b00adadd95098523560518d27f704",
+      "texturesSha256": "ff87e3c440dd4a5395a0a78508b1120e3ab8fe2e7e1d06d4f08e0aed3a479744",
+      "segments": 8,
+      "terrainQuads": 11952,
+      "placements": 52,
+      "placementTypes": {
+        "13": 52
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 19,
+          "width": 256,
+          "height": 182,
+          "rgbaSha256": "2467645e437d3da8e978959a4335958193f26845fe80a89c0a0c693e6382505b"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "d4e37d2fca7ad58aabaf8876d47ff606ef1a834ed354c78a7ba23398fffb5607"
+        }
+      ]
+    },
+    {
+      "geometryId": 180,
+      "texturesId": 181,
+      "geometrySha256": "cc2305c4a0f0c60a3876d06c5cd8dca658eea5544ff855b7dff55883667f2767",
+      "texturesSha256": "122fd45550cb016d71f37c45b358bc76198a17f5a6ceefd81b7012fb68dee60a",
+      "segments": 9,
+      "terrainQuads": 5160,
+      "placements": 48,
+      "placementTypes": {
+        "13": 48
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "8e9fbe03f395bf6bc45d84b5f3d3a24b8404453757d456c03d68ac548a2dfe54"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "bb69d8778e2e866c70d30b2deba513d385facd2499ca12211b036cb1d41ae0d6"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "63a3e6fcb187f2a32cc55d150966ce09d4c3c80bb53197833221ba54397fe1ed"
+        }
+      ]
+    },
+    {
+      "geometryId": 182,
+      "texturesId": 183,
+      "geometrySha256": "161f2722601190b8540ad0752c9d7d7fdf955fcdeb005ff0e81926e1be7738e8",
+      "texturesSha256": "d5c8a4ba2f80f24e85dca4c1a993b24f1c27e0b3b1518bfbca7ddffa6f29b4ca",
+      "segments": 4,
+      "terrainQuads": 9920,
+      "placements": 85,
+      "placementTypes": {
+        "2": 51,
+        "13": 34
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "8e9fbe03f395bf6bc45d84b5f3d3a24b8404453757d456c03d68ac548a2dfe54"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 174,
+          "rgbaSha256": "ea1e3e534f5fadce0895e7f694f55adb55922f4352b0c0e6dec1931403bac4ec"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 112,
+          "rgbaSha256": "e22e2335e5e0e1adc00a3d734666627c1832295103925f0d8da48e6ce9386a05"
+        }
+      ]
+    },
+    {
+      "geometryId": 184,
+      "texturesId": 185,
+      "geometrySha256": "a88dc90e40a729f9fe492e74111a63d053f2a3f150d59b66eb7c59a084a9fbff",
+      "texturesSha256": "0d84fee33f2ea13f2da55ec16bea8a0fde2888aa10d9a35975892d0cd51047e1",
+      "segments": 30,
+      "terrainQuads": 12528,
+      "placements": 32,
+      "placementTypes": {
+        "13": 32
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 18,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "e76a699810da09332625510d9cdbaf69a582f0260dd144978b36074b2f227a2f"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 106,
+          "rgbaSha256": "d83ef9946e905a97c00f8084da053d37f87ecefdd02219d626714812e7054972"
+        }
+      ]
+    },
+    {
+      "geometryId": 186,
+      "texturesId": 187,
+      "geometrySha256": "b137d95cd7823afb67eb3cef539669296ea37381f281c9d4855208fc802e7bf7",
+      "texturesSha256": "537724ca001cfa78a05c289ece5ba55149361cd44065cea36f42279ca115b129",
+      "segments": 6,
+      "terrainQuads": 8736,
+      "placements": 138,
+      "placementTypes": {
+        "13": 138
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 21,
+          "width": 256,
+          "height": 174,
+          "rgbaSha256": "a378703b1197b02d2cf5959ddaddd95c0a6f88a5a5581f38630b6f10532f7405"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 136,
+          "rgbaSha256": "65f58cb5a929574615fd02753f0bb3e23ab966020fa2697fcc9cff2b1061bee4"
+        }
+      ]
+    },
+    {
+      "geometryId": 188,
+      "texturesId": 189,
+      "geometrySha256": "791ec682bc95fab601cc0550b9a640d9d371538a98a0ad06e23c882ecdeab930",
+      "texturesSha256": "9da4d682a3d3e65644cc6a58e68d28dba581dad564fa3511db38193e6c8c41e1",
+      "segments": 13,
+      "terrainQuads": 18320,
+      "placements": 88,
+      "placementTypes": {
+        "2": 34,
+        "13": 54
+      },
+      "ordinaryObjects": 0,
+      "ordinaryObjectFaces": 0,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 18,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "8e9fbe03f395bf6bc45d84b5f3d3a24b8404453757d456c03d68ac548a2dfe54"
+        },
+        {
+          "page": 24,
+          "width": 256,
+          "height": 174,
+          "rgbaSha256": "41997714f4a7ea60f683846eec4dc1171acebf4631a3adb9bd9f33d6604909a3"
+        },
+        {
+          "page": 25,
+          "width": 256,
+          "height": 152,
+          "rgbaSha256": "c2d806ed0fa0633fcc936fe74c19a1a5bb3ad87942f3f055416cbed8d288bf0b"
+        }
+      ]
+    },
+    {
+      "geometryId": 190,
+      "texturesId": 191,
+      "geometrySha256": "7a1e3182f11d27fc9335a7b7a3585e68188d1319c4aade442e32cd26e2fb258e",
+      "texturesSha256": "0c38fb13df324235e14ffbe3fedff2142f9a426b084e56c319dec6303bc51716",
+      "segments": 3,
+      "terrainQuads": 6288,
+      "placements": 88,
+      "placementTypes": {
+        "0": 16,
+        "13": 66,
+        "24": 6
+      },
+      "ordinaryObjects": 16,
+      "ordinaryObjectFaces": 708,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "fdad5bcbc1e0efab78636ff40b904745150f2217e901f564d0464362907f5ad4"
+        },
+        {
+          "page": 12,
+          "width": 256,
+          "height": 250,
+          "rgbaSha256": "fdebe73722f67da990ccfd14ba20c8b6c13d6a851f6a1c40588548874db67a22"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "e74c99c4a52d694e1be6f924fde890902d53da006fbe664d1f4bdd2cea39c1d4"
+        }
+      ]
+    },
+    {
+      "geometryId": 192,
+      "texturesId": 193,
+      "geometrySha256": "2459077c78fa1183f8195aecb27403ef1b0aa58ea5acdb860bb2ebcf1a3d3fa0",
+      "texturesSha256": "7f0191c13be8d97e692c9020935f116f649af00d28d6815e3656bbb989a9ae71",
+      "segments": 4,
+      "terrainQuads": 3376,
+      "placements": 57,
+      "placementTypes": {
+        "0": 57
+      },
+      "ordinaryObjects": 57,
+      "ordinaryObjectFaces": 998,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 7,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "d753b3e2592b98ffb664836aca6dc063a9e71c06e9239e286a9ebdf82d92b15c"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "d56524f878273444a7d10145a98cf05253d4c3760e4ef8987bdacc684a0e5dc2"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 104,
+          "rgbaSha256": "b6569c9d8e20bebdb5e07ca06de329b972d72e9dafb0fe77f4ee4540f11b224b"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 56,
+          "rgbaSha256": "6f473fe354c7d9307137fc719124fb02184d01b056f607ed103ce42296a86e4c"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 32,
+          "rgbaSha256": "29dd27b6242140fe542dfb43511c178249cfaa0aa58b209d0cea2272a9d901df"
+        }
+      ]
+    },
+    {
+      "geometryId": 194,
+      "texturesId": 195,
+      "geometrySha256": "839d042c999981ccefbbd4f7167c372a8533bcf597e0214633bf325770e0a186",
+      "texturesSha256": "7673876199c8b4b535736886e3f51e2fdf908034ea82bc38c3a4e922c5fd556b",
+      "segments": 7,
+      "terrainQuads": 6552,
+      "placements": 96,
+      "placementTypes": {
+        "0": 84,
+        "13": 10,
+        "24": 2
+      },
+      "ordinaryObjects": 84,
+      "ordinaryObjectFaces": 1176,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 12,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "8b17cf21984f2da0fa02eb13858c0aeac9b5bc33d7048f1b6072915f5c484512"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 168,
+          "rgbaSha256": "9090cd6750a883ed1ff5c8f40432ab7da3796a9251c4b8752addec0ec5df348c"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 176,
+          "rgbaSha256": "d31e5911a0cd8ea3240e83281d75c2e3f10523884851cbc51e34641f54583309"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 118,
+          "rgbaSha256": "4f4e140745b9ed1144c9bc9fb48f1d851f4f5b63c7a1f8e45ad4eda7be622e54"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "fb30fab88c629fffa79579a710e4ac7405f6a21041b07598dd3b825e3527c3e7"
+        },
+        {
+          "page": 22,
+          "width": 256,
+          "height": 56,
+          "rgbaSha256": "2e96b8fb829997ddc227a166ff277a1bc30b2a814de279c3b8cc900d6b7cc804"
+        },
+        {
+          "page": 23,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "013d0ad8660a16027439ead8c35dda570a28497da287a86d1b421842cf7159cc"
+        }
+      ]
+    },
+    {
+      "geometryId": 196,
+      "texturesId": 197,
+      "geometrySha256": "3300a460251bcf16806e3f66e9f88223c5ca9d5e506efe9d88d1d159d02d92de",
+      "texturesSha256": "6f764e2bdef3512d75f23351ca388df413c6e781cb3679afd9492c7ea9cf9c7b",
+      "segments": 1,
+      "terrainQuads": 4992,
+      "placements": 50,
+      "placementTypes": {
+        "0": 4,
+        "13": 45,
+        "24": 1
+      },
+      "ordinaryObjects": 4,
+      "ordinaryObjectFaces": 28,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 15,
+          "width": 256,
+          "height": 186,
+          "rgbaSha256": "50a831d90ada6fb9b2c63444295d395e6b084ff189a150c3e0ead9b30085ad80"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 202,
+          "rgbaSha256": "c07d5bd4e6e4f32b305a2789dfaf1e94853c892e651dd003c2bd716bab669ce3"
+        }
+      ]
+    },
+    {
+      "geometryId": 198,
+      "texturesId": 199,
+      "geometrySha256": "666638cffce79641a0c200c7100afbc07a4734d9fdb61e9278219fe7ac0843c9",
+      "texturesSha256": "c36444a01b900077160b26329bd5c15e3f4d7e48c1613d3e8e3fd6e82536350f",
+      "segments": 10,
+      "terrainQuads": 5064,
+      "placements": 130,
+      "placementTypes": {
+        "0": 16,
+        "2": 5,
+        "13": 104,
+        "24": 5
+      },
+      "ordinaryObjects": 16,
+      "ordinaryObjectFaces": 642,
+      "animatedObjectFaces": 64,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 80,
+          "rgbaSha256": "0539124e3b909e6cf1bcdc1684515767a47997b97e8342f1210a5b3015101857"
+        },
+        {
+          "page": 12,
+          "width": 256,
+          "height": 202,
+          "rgbaSha256": "23b502ea986837ced6569d69c7426b83a45a6c22578bc9e67f31e85a72dbd5a4"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 240,
+          "rgbaSha256": "8772942744e2df2a1241a8ae457fb1a7b08c420098e618b1b7fc65edab242635"
+        },
+        {
+          "page": 14,
+          "width": 256,
+          "height": 112,
+          "rgbaSha256": "38abb9b8ab6890cc48bb0e4f22268ac70831dbdaa670af12ed8244476c3daa21"
+        },
+        {
+          "page": 15,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "24bf431d67170aa400cba9c8efeeea213672c82d63fe97ba5fbecf2a564c43d7"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "d9bf92014f6aa4ca3a14e49b080d70553a5b9f97f8966ec12711210d70ede7ee"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "3c25368763d388401676622c3baeb86fb808d40e75cb4311062157be9951108c"
+        }
+      ]
+    },
+    {
+      "geometryId": 200,
+      "texturesId": 201,
+      "geometrySha256": "a3ca03f2e1d7907d2ea877cde7b428df3a05cb5e20eb9898694d5479a16a2471",
+      "texturesSha256": "59d59f1c48d6d5a2ed8a48cc7e28f329af8a7526af1144d562437c750ca14ef1",
+      "segments": 1,
+      "terrainQuads": 9248,
+      "placements": 85,
+      "placementTypes": {
+        "0": 17,
+        "13": 68
+      },
+      "ordinaryObjects": 17,
+      "ordinaryObjectFaces": 1721,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 8,
+          "width": 256,
+          "height": 60,
+          "rgbaSha256": "5b37880cce09ad87320dca233568e694e96b518fbfa2ea57f12542666da40ee3"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 150,
+          "rgbaSha256": "37e752d9cee62a3f29e80464b212e948f221a1cac62ce4899f0ec29e01e9ce50"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 112,
+          "rgbaSha256": "5af91c5765400d609fd15bb632aca129b0b1e43b8447b4f3b305e2de354119d9"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 106,
+          "rgbaSha256": "aa0afd6311d5a995d84cdad6c9b79e26d048cb6205988a277d1974b9a0dfd717"
+        }
+      ]
+    },
+    {
+      "geometryId": 202,
+      "texturesId": 203,
+      "geometrySha256": "e1e8b3fb1c1234ff4fe8ae7335cb749230e610b006062af4f3e001357abefa93",
+      "texturesSha256": "8777a848f2666da9ab3c89a89b88438410c8b09139d6dc8c7afdd3233ce6ab4f",
+      "segments": 9,
+      "terrainQuads": 6656,
+      "placements": 30,
+      "placementTypes": {
+        "0": 24,
+        "24": 6
+      },
+      "ordinaryObjects": 24,
+      "ordinaryObjectFaces": 694,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 13,
+          "width": 256,
+          "height": 8,
+          "rgbaSha256": "fbe70435dd81df8f77af403872f256cd7677b693f81022856b8b5f1c0b4466ba"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 192,
+          "rgbaSha256": "6a83ceda7ddc3d7b74747dd8b4195b5bca033cf79cbb0849b431b74e23e0a9e4"
+        },
+        {
+          "page": 19,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "5d28d3e4024385cfa5ff59dd8076ee04a89f3ab89347647e6ff5e621c8e7e026"
+        },
+        {
+          "page": 20,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "4a8ef5c1a154c9601f9bf2a3b23903d941dd2000415171fd1e96649306bf6ec2"
+        },
+        {
+          "page": 21,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "0a65a7130645b76b25b5200d0041d683e8ed4a3f472e81677a7a7d28cb20cee3"
+        }
+      ]
+    },
+    {
+      "geometryId": 204,
+      "texturesId": 205,
+      "geometrySha256": "85fc48355a6d9c29982fae88c378c479565e824d63a6c062c2863a9e85bca5e4",
+      "texturesSha256": "e46475101819c06635076fb068e2de9f068866a6622722411e6fb18cb3f59578",
+      "segments": 9,
+      "terrainQuads": 6656,
+      "placements": 24,
+      "placementTypes": {
+        "0": 20,
+        "24": 4
+      },
+      "ordinaryObjects": 20,
+      "ordinaryObjectFaces": 622,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "f5dfa18dbef4e439b49c05b172bc722011ae3a1c4ed97e3f91c28837da1683ec"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "543199f6ba644ccec52974c043bbb7ae77b55bddcdb4bf37df8be88af56ee2e9"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "6120520ad24d2db60021b9578494f622b71d6e40afb12c41daed390a4e770d8e"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 152,
+          "rgbaSha256": "a462da2113d964152bbfda75ad60cbe746f71b57150339a75fbd4c09453636bd"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "199c37b728e9e161eb74b50ae90aa22f48b50838e57cc1e3610bbe3b8d3e7a8a"
+        }
+      ]
+    },
+    {
+      "geometryId": 206,
+      "texturesId": 207,
+      "geometrySha256": "85fc48355a6d9c29982fae88c378c479565e824d63a6c062c2863a9e85bca5e4",
+      "texturesSha256": "e46475101819c06635076fb068e2de9f068866a6622722411e6fb18cb3f59578",
+      "segments": 9,
+      "terrainQuads": 6656,
+      "placements": 24,
+      "placementTypes": {
+        "0": 20,
+        "24": 4
+      },
+      "ordinaryObjects": 20,
+      "ordinaryObjectFaces": 622,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "f5dfa18dbef4e439b49c05b172bc722011ae3a1c4ed97e3f91c28837da1683ec"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "543199f6ba644ccec52974c043bbb7ae77b55bddcdb4bf37df8be88af56ee2e9"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "6120520ad24d2db60021b9578494f622b71d6e40afb12c41daed390a4e770d8e"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 152,
+          "rgbaSha256": "a462da2113d964152bbfda75ad60cbe746f71b57150339a75fbd4c09453636bd"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "199c37b728e9e161eb74b50ae90aa22f48b50838e57cc1e3610bbe3b8d3e7a8a"
+        }
+      ]
+    },
+    {
+      "geometryId": 208,
+      "texturesId": 209,
+      "geometrySha256": "85fc48355a6d9c29982fae88c378c479565e824d63a6c062c2863a9e85bca5e4",
+      "texturesSha256": "e46475101819c06635076fb068e2de9f068866a6622722411e6fb18cb3f59578",
+      "segments": 9,
+      "terrainQuads": 6656,
+      "placements": 24,
+      "placementTypes": {
+        "0": 20,
+        "24": 4
+      },
+      "ordinaryObjects": 20,
+      "ordinaryObjectFaces": 622,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 11,
+          "width": 256,
+          "height": 256,
+          "rgbaSha256": "f5dfa18dbef4e439b49c05b172bc722011ae3a1c4ed97e3f91c28837da1683ec"
+        },
+        {
+          "page": 13,
+          "width": 256,
+          "height": 144,
+          "rgbaSha256": "543199f6ba644ccec52974c043bbb7ae77b55bddcdb4bf37df8be88af56ee2e9"
+        },
+        {
+          "page": 16,
+          "width": 256,
+          "height": 96,
+          "rgbaSha256": "6120520ad24d2db60021b9578494f622b71d6e40afb12c41daed390a4e770d8e"
+        },
+        {
+          "page": 17,
+          "width": 256,
+          "height": 152,
+          "rgbaSha256": "a462da2113d964152bbfda75ad60cbe746f71b57150339a75fbd4c09453636bd"
+        },
+        {
+          "page": 18,
+          "width": 256,
+          "height": 160,
+          "rgbaSha256": "199c37b728e9e161eb74b50ae90aa22f48b50838e57cc1e3610bbe3b8d3e7a8a"
+        }
+      ]
+    },
+    {
+      "geometryId": 210,
+      "texturesId": 211,
+      "geometrySha256": "06335994914c599c6de7f2b624428d5999d4619baab448bdf84ce084fbd96e47",
+      "texturesSha256": "16e73a7d9254a92ce50e912159d34d4d3dc69ed3b20f48597781b6b4464f26e0",
+      "segments": 3,
+      "terrainQuads": 2600,
+      "placements": 10,
+      "placementTypes": {
+        "0": 10
+      },
+      "ordinaryObjects": 10,
+      "ordinaryObjectFaces": 980,
+      "animatedObjectFaces": 0,
+      "missingTextureFaces": 0,
+      "outsideUvCorners": 0,
+      "textures": [
+        {
+          "page": 9,
+          "width": 256,
+          "height": 128,
+          "rgbaSha256": "8b795a702b4099e70b76af41cc59e7065cb3b744ef5c17bf42c967b5e90192f8"
+        },
+        {
+          "page": 10,
+          "width": 256,
+          "height": 64,
+          "rgbaSha256": "61cc5e70ce8730302924af314bcef6e78d58cfad6a83e1e037387a607248b661"
+        },
+        {
+          "page": 11,
+          "width": 256,
+          "height": 57,
+          "rgbaSha256": "01cfebdabf5e03d43dac82d11fe2344e983700dab2abd4005d6659c635378e60"
+        }
+      ]
+    }
+  ]
+}

@@ -95,9 +95,10 @@ try {
   await page.evaluate(() => { HTMLCanvasElement.prototype.toBlob = window.savedCanvasToBlob; });
   // Hidden objects and a selected sector must not filter the exported track.
   const downloading = page.waitForEvent('download'); await page.locator('#download').click();
-  const download = await downloading; assert.equal(download.suggestedFilename(), 'LOW-LEV1.zip');
+  const download = await downloading; assert.equal(download.suggestedFilename(), 'rollcage-LOW-LEV1.zip');
   const downloadedFiles = readTrackZIP(await readFile(await download.path()));
-  assert.equal(downloadedFiles.size, 22); // OBJ, MTL, instructions, 19 textures.
+  assert.equal(downloadedFiles.size, 23); // OBJ, MTL, manifest, instructions, 19 textures.
+  assert.equal(JSON.parse(downloadedFiles.get('scene.json')).game, 'rollcage');
   const downloadedOBJ = downloadedFiles.get('scene.obj').toString('utf8');
   assert.equal(downloadedOBJ.split('\n').filter(line => line.startsWith('f ')).length, initial.triangles);
   assert.equal(downloadedOBJ.split('\n').filter(line => line.startsWith('g object_')).length, initial.instances);
@@ -126,7 +127,7 @@ try {
   const wrongResourceIndex = Buffer.alloc(344 * 16);
   for (let i = 0; i < 344; i++) { wrongResourceIndex.writeUInt32LE(1, i * 16 + 4); wrongResourceIndex.writeUInt32LE(1, i * 16 + 8); }
   await page.locator('#index').setInputFiles({ name: 'bad.idx', mimeType: 'application/octet-stream', buffer: wrongResourceIndex });
-  await page.waitForFunction(() => document.getElementById('error').textContent.includes('Invalid GFXM'));
+  await page.waitForFunction(() => document.getElementById('error').textContent.includes('Unrecognized archive'));
   assert.equal((await inspect()).track, null);
   await page.locator('#image').setInputFiles(imagePath); await page.locator('#index').setInputFiles(indexPath); await waitTrack('LOW/LEV1.BLP');
 

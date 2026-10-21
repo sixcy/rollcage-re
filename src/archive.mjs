@@ -10,12 +10,13 @@ export class RollcageArchive {
   static async open(gameDirectory) {
     const index = await readFile(path.join(gameDirectory, 'IDXData', 'Rollcage.idx'));
     const file = await open(path.join(gameDirectory, 'IDXData', 'Rollcage.img'));
-    try { return new RollcageArchive(file, parseIndex(index, (await file.stat()).size)); }
+    try { return new RollcageArchive(file, parseIndex(index, (await file.stat()).size), index); }
     catch (error) { await file.close(); throw error; }
   }
-  constructor(file, entries) {
+  constructor(file, entries, indexData = null) {
     this.file = file;
     this.entries = entries;
+    this.indexData = indexData;
     this.position = 0;
   }
   async readResource(index) {

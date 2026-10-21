@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "provenance": {
+      "untrusted_content": true,
+      "source": "analysis_target"
+    }
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"evidence_id\":\"ev_963151b18f43c42f27b8d5b0729000901c3054732daf223a16693c850e3e1732\",\"subject\":{\"name\":\"Rollcage Extreme.exe\",\"digest\":{\"sha256\":\"26f8e8d874e5081f599000e04000414112da6600c493d80f45e4ddd33cd0d148\"},\"local_path\":\"C:\\\\Program Files (x86)\\\\Psygnosis\\\\Rollcage Stage II\\\\BIN\\\\Rollcage Extreme.exe\",\"format\":\"pe\",\"architecture\":\"x86\"},\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"analysis_profile\":{\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"parameters\":{\"target_kind\":\"executable\",\"target_format\":\"pe\",\"executable_role\":\"application\",\"managed\":false,\"native_aot_metadata\":{\"contract_revision\":\"rtr-9.1-x64-pe-read-only-v5\",\"source_bytes\":134217728,\"work_units\":67108864,\"working_memory_bytes\":67108864,\"report_bytes\":4194304},\"architecture\":\"x86\",\"available_architectures\":[\"x86\"],\"import_mode\":\"ephemeral-source-immutable\",\"pdb_observations\":\"program-info-v5\",\"annotation_policy\":\"atomic-function-entry-metadata-v1\",\"load_image_observations\":\"source-mappings-entry-context-v2\",\"function_body_evidence\":\"complete-inclusive-ranges-v1\",\"function_references\":\"complete-body-and-entry-reference-manager-v2\",\"call_relationship_coverage\":\"function-body-call-coverage-v5\",\"function_dossier_coverage\":\"observed-facets-and-call-relationships-v1\",\"string_inventory_evidence\":\"defined-data-coverage-v1\",\"location_resolution\":\"explicit-address-exact-entry-symbol-first-v3\",\"procedure_file_offset_resolution\":\"address-first-unique-target-source-mapping-v2\",\"instruction_flow_evidence\":\"decoded-return-pcode-v1\",\"instruction_references\":\"exact-address-incoming-without-synthetic-entry-v2\",\"function_boundary_observations\":\"ghidra-function-boundary-limitations-v4\",\"no_return_repair\":\"disabled-windows-p0\",\"process_launch\":\"official-headless-script-v1\",\"jump_table_evidence\":\"typed-case-default-blocks-v1\",\"decompiler_jump_loads\":true,\"loader\":\"auto-from-header\",\"language_id\":\"auto-from-header\",\"compiler_spec_id\":\"auto-default\",\"analyzer_preset\":\"ghidra-default\"},\"digest\":\"3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896\"},\"predicate_type\":\"rea.analysis\",\"operation\":\"procedure_pseudo_code\",\"parameters\":{\"procedure\":\"0x4973bd\"},\"raw_result\":{\"value\":\"\\r\\nvoid FUN_00497300(void)\\r\\n\\r\\n{\\r\\n  short sVar1;\\r\\n  short sVar2;\\r\\n  short sVar3;\\r\\n  short sVar4;\\r\\n  short sVar5;\\r\\n  short sVar6;\\r\\n  short sVar7;\\r\\n  undefined4 uVar8;\\r\\n  int iVar9;\\r\\n  undefined *puVar10;\\r\\n  int in_ECX;\\r\\n  int in_EDX;\\r\\n  int iVar11;\\r\\n  \\r\\n  iVar11 = in_EDX * 0x20;\\r\\n  sVar1 = *(short *)(in_ECX + 0x168);\\r\\n  if ((*(uint *)(in_ECX + 0x168) & 0x1c30000) != 0) {\\r\\n    sVar2 = *(short *)(iVar11 + 0x19c + in_ECX);\\r\\n    sVar3 = *(short *)(iVar11 + 0x1ac + in_ECX);\\r\\n    sVar4 = *(short *)(iVar11 + 0x1ae + in_ECX);\\r\\n    sVar5 = *(short *)(iVar11 + 0x19e + in_ECX);\\r\\n    sVar6 = *(short *)(iVar11 + 0x1b0 + in_ECX);\\r\\n    sVar7 = *(short *)(iVar11 + 0x1a0 + in_ECX);\\r\\n    if ((*(uint *)(in_ECX + 0x168) & 0xffff0000) == 0x10000) {\\r\\n      if (sVar1 == 1) {\\r\\n        puVar10 = *(undefined **)(&DAT_004f2d90 + *(int *)(in_ECX + 0x164) * 4);\\r\\n      }\\r\\n      else if (sVar1 == 3) {\\r\\n        puVar10 = *(undefined **)(&DAT_004f2d64 + *(int *)(in_ECX + 0x164) * 4);\\r\\n      }\\r\\n      else {\\r\\n        puVar10 = *(undefined **)(&DAT_004f2d38 + *(int *)(in_ECX + 0x164) * 4);\\r\\n      }\\r\\n    }\\r\\n    else if ((sVar1 == 1) || (puVar10 = &DAT_0060a0f0, sVar1 == 3)) {\\r\\n      puVar10 = &DAT_0070f040;\\r\\n    }\\r\\n    *(undefined **)(in_ECX + 0x198) = puVar10;\\r\\n    FUN_00440f70();\\r\\n    iVar11 = DAT_00626aa8;\\r\\n    if (sVar1 == 3) {\\r\\n      FUN_00441aa0(in_ECX + 0x69c,3,0x80000000,0);\\r\\n    }\\r\\n    else {\\r\\n      uVar8 = *(undefined4 *)(in_ECX + 0x198);\\r\\n      if (DAT_00626aa8 < 10) {\\r\\n        iVar9 = DAT_00626aa8 * 0x130;\\r\\n        DAT_00626aa8 = DAT_00626aa8 + 1;\\r\\n        (&DAT_00626ab0)[iVar9] = 3;\\r\\n        (&DAT_00626ab4)[iVar11 * 0x260] = (short)((int)sVar3 + (int)sVar2 >> 1);\\r\\n        (&DAT_00626ab6)[iVar11 * 0x260] = (short)((int)sVar4 + (int)sVar5 >> 1);\\r\\n        (&DAT_00626ab8)[iVar11 * 0x260] = (short)((int)sVar6 + (int)sVar7 >> 1);\\r\\n        (&DAT_00626abc)[iVar11 * 0x130] = uVar8;\\r\\n        return;\\r\\n      }\\r\\n    }\\r\\n  }\\r\\n  return;\\r\\n}\\r\\n\\r\\n\",\"limitations\":[]},\"normalized_result\":\"\\r\\nvoid FUN_00497300(void)\\r\\n\\r\\n{\\r\\n  short sVar1;\\r\\n  short sVar2;\\r\\n  short sVar3;\\r\\n  short sVar4;\\r\\n  short sVar5;\\r\\n  short sVar6;\\r\\n  short sVar7;\\r\\n  undefined4 uVar8;\\r\\n  int iVar9;\\r\\n  undefined *puVar10;\\r\\n  int in_ECX;\\r\\n  int in_EDX;\\r\\n  int iVar11;\\r\\n  \\r\\n  iVar11 = in_EDX * 0x20;\\r\\n  sVar1 = *(short *)(in_ECX + 0x168);\\r\\n  if ((*(uint *)(in_ECX + 0x168) & 0x1c30000) != 0) {\\r\\n    sVar2 = *(short *)(iVar11 + 0x19c + in_ECX);\\r\\n    sVar3 = *(short *)(iVar11 + 0x1ac + in_ECX);\\r\\n    sVar4 = *(short *)(iVar11 + 0x1ae + in_ECX);\\r\\n    sVar5 = *(short *)(iVar11 + 0x19e + in_ECX);\\r\\n    sVar6 = *(short *)(iVar11 + 0x1b0 + in_ECX);\\r\\n    sVar7 = *(short *)(iVar11 + 0x1a0 + in_ECX);\\r\\n    if ((*(uint *)(in_ECX + 0x168) & 0xffff0000) == 0x10000) {\\r\\n      if (sVar1 == 1) {\\r\\n        puVar10 = *(undefined **)(&DAT_004f2d90 + *(int *)(in_ECX + 0x164) * 4);\\r\\n      }\\r\\n      else if (sVar1 == 3) {\\r\\n        puVar10 = *(undefined **)(&DAT_004f2d64 + *(int *)(in_ECX + 0x164) * 4);\\r\\n      }\\r\\n      else {\\r\\n        puVar10 = *(undefined **)(&DAT_004f2d38 + *(int *)(in_ECX + 0x164) * 4);\\r\\n      }\\r\\n    }\\r\\n    else if ((sVar1 == 1) || (puVar10 = &DAT_0060a0f0, sVar1 == 3)) {\\r\\n      puVar10 = &DAT_0070f040;\\r\\n    }\\r\\n    *(undefined **)(in_ECX + 0x198) = puVar10;\\r\\n    FUN_00440f70();\\r\\n    iVar11 = DAT_00626aa8;\\r\\n    if (sVar1 == 3) {\\r\\n      FUN_00441aa0(in_ECX + 0x69c,3,0x80000000,0);\\r\\n    }\\r\\n    else {\\r\\n      uVar8 = *(undefined4 *)(in_ECX + 0x198);\\r\\n      if (DAT_00626aa8 < 10) {\\r\\n        iVar9 = DAT_00626aa8 * 0x130;\\r\\n        DAT_00626aa8 = DAT_00626aa8 + 1;\\r\\n        (&DAT_00626ab0)[iVar9] = 3;\\r\\n        (&DAT_00626ab4)[iVar11 * 0x260] = (short)((int)sVar3 + (int)sVar2 >> 1);\\r\\n        (&DAT_00626ab6)[iVar11 * 0x260] = (short)((int)sVar4 + (int)sVar5 >> 1);\\r\\n        (&DAT_00626ab8)[iVar11 * 0x260] = (short)((int)sVar6 + (int)sVar7 >> 1);\\r\\n        (&DAT_00626abc)[iVar11 * 0x130] = uVar8;\\r\\n        return;\\r\\n      }\\r\\n    }\\r\\n  }\\r\\n  return;\\r\\n}\\r\\n\\r\\n\",\"confidence\":\"observed\",\"authority\":\"shipped-artifact\",\"environment\":null,\"limitations\":[\"The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.\",\"The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.\",\"Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.\",\"Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.\",\"Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.\",\"External functions and functions without an analyzable body return null; other decompiler failures remain explicit.\",\"Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.\",\"The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.\",\"Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically.\"],\"relationship_coverage\":null,\"locations\":[],\"evidence_links\":[]}"
+    }
+  ],
+  "structuredContent": {
+    "evidence_id": "ev_963151b18f43c42f27b8d5b0729000901c3054732daf223a16693c850e3e1732",
+    "subject": {
+      "name": "Rollcage Extreme.exe",
+      "digest": {
+        "sha256": "26f8e8d874e5081f599000e04000414112da6600c493d80f45e4ddd33cd0d148"
+      },
+      "local_path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage Stage II\\BIN\\Rollcage Extreme.exe",
+      "format": "pe",
+      "architecture": "x86"
+    },
+    "provider": {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "version": "12.1.4"
+    },
+    "analysis_profile": {
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "parameters": {
+        "target_kind": "executable",
+        "target_format": "pe",
+        "executable_role": "application",
+        "managed": false,
+        "native_aot_metadata": {
+          "contract_revision": "rtr-9.1-x64-pe-read-only-v5",
+          "source_bytes": 134217728,
+          "work_units": 67108864,
+          "working_memory_bytes": 67108864,
+          "report_bytes": 4194304
+        },
+        "architecture": "x86",
+        "available_architectures": [
+          "x86"
+        ],
+        "import_mode": "ephemeral-source-immutable",
+        "pdb_observations": "program-info-v5",
+        "annotation_policy": "atomic-function-entry-metadata-v1",
+        "load_image_observations": "source-mappings-entry-context-v2",
+        "function_body_evidence": "complete-inclusive-ranges-v1",
+        "function_references": "complete-body-and-entry-reference-manager-v2",
+        "call_relationship_coverage": "function-body-call-coverage-v5",
+        "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+        "string_inventory_evidence": "defined-data-coverage-v1",
+        "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+        "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+        "instruction_flow_evidence": "decoded-return-pcode-v1",
+        "instruction_references": "exact-address-incoming-without-synthetic-entry-v2",
+        "function_boundary_observations": "ghidra-function-boundary-limitations-v4",
+        "no_return_repair": "disabled-windows-p0",
+        "process_launch": "official-headless-script-v1",
+        "jump_table_evidence": "typed-case-default-blocks-v1",
+        "decompiler_jump_loads": true,
+        "loader": "auto-from-header",
+        "language_id": "auto-from-header",
+        "compiler_spec_id": "auto-default",
+        "analyzer_preset": "ghidra-default"
+      },
+      "digest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896"
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "procedure_pseudo_code",
+    "parameters": {
+      "procedure": "0x4973bd"
+    },
+    "raw_result": {
+      "value": "\r\nvoid FUN_00497300(void)\r\n\r\n{\r\n  short sVar1;\r\n  short sVar2;\r\n  short sVar3;\r\n  short sVar4;\r\n  short sVar5;\r\n  short sVar6;\r\n  short sVar7;\r\n  undefined4 uVar8;\r\n  int iVar9;\r\n  undefined *puVar10;\r\n  int in_ECX;\r\n  int in_EDX;\r\n  int iVar11;\r\n  \r\n  iVar11 = in_EDX * 0x20;\r\n  sVar1 = *(short *)(in_ECX + 0x168);\r\n  if ((*(uint *)(in_ECX + 0x168) & 0x1c30000) != 0) {\r\n    sVar2 = *(short *)(iVar11 + 0x19c + in_ECX);\r\n    sVar3 = *(short *)(iVar11 + 0x1ac + in_ECX);\r\n    sVar4 = *(short *)(iVar11 + 0x1ae + in_ECX);\r\n    sVar5 = *(short *)(iVar11 + 0x19e + in_ECX);\r\n    sVar6 = *(short *)(iVar11 + 0x1b0 + in_ECX);\r\n    sVar7 = *(short *)(iVar11 + 0x1a0 + in_ECX);\r\n    if ((*(uint *)(in_ECX + 0x168) & 0xffff0000) == 0x10000) {\r\n      if (sVar1 == 1) {\r\n        puVar10 = *(undefined **)(&DAT_004f2d90 + *(int *)(in_ECX + 0x164) * 4);\r\n      }\r\n      else if (sVar1 == 3) {\r\n        puVar10 = *(undefined **)(&DAT_004f2d64 + *(int *)(in_ECX + 0x164) * 4);\r\n      }\r\n      else {\r\n        puVar10 = *(undefined **)(&DAT_004f2d38 + *(int *)(in_ECX + 0x164) * 4);\r\n      }\r\n    }\r\n    else if ((sVar1 == 1) || (puVar10 = &DAT_0060a0f0, sVar1 == 3)) {\r\n      puVar10 = &DAT_0070f040;\r\n    }\r\n    *(undefined **)(in_ECX + 0x198) = puVar10;\r\n    FUN_00440f70();\r\n    iVar11 = DAT_00626aa8;\r\n    if (sVar1 == 3) {\r\n      FUN_00441aa0(in_ECX + 0x69c,3,0x80000000,0);\r\n    }\r\n    else {\r\n      uVar8 = *(undefined4 *)(in_ECX + 0x198);\r\n      if (DAT_00626aa8 < 10) {\r\n        iVar9 = DAT_00626aa8 * 0x130;\r\n        DAT_00626aa8 = DAT_00626aa8 + 1;\r\n        (&DAT_00626ab0)[iVar9] = 3;\r\n        (&DAT_00626ab4)[iVar11 * 0x260] = (short)((int)sVar3 + (int)sVar2 >> 1);\r\n        (&DAT_00626ab6)[iVar11 * 0x260] = (short)((int)sVar4 + (int)sVar5 >> 1);\r\n        (&DAT_00626ab8)[iVar11 * 0x260] = (short)((int)sVar6 + (int)sVar7 >> 1);\r\n        (&DAT_00626abc)[iVar11 * 0x130] = uVar8;\r\n        return;\r\n      }\r\n    }\r\n  }\r\n  return;\r\n}\r\n\r\n",
+      "limitations": []
+    },
+    "normalized_result": "\r\nvoid FUN_00497300(void)\r\n\r\n{\r\n  short sVar1;\r\n  short sVar2;\r\n  short sVar3;\r\n  short sVar4;\r\n  short sVar5;\r\n  short sVar6;\r\n  short sVar7;\r\n  undefined4 uVar8;\r\n  int iVar9;\r\n  undefined *puVar10;\r\n  int in_ECX;\r\n  int in_EDX;\r\n  int iVar11;\r\n  \r\n  iVar11 = in_EDX * 0x20;\r\n  sVar1 = *(short *)(in_ECX + 0x168);\r\n  if ((*(uint *)(in_ECX + 0x168) & 0x1c30000) != 0) {\r\n    sVar2 = *(short *)(iVar11 + 0x19c + in_ECX);\r\n    sVar3 = *(short *)(iVar11 + 0x1ac + in_ECX);\r\n    sVar4 = *(short *)(iVar11 + 0x1ae + in_ECX);\r\n    sVar5 = *(short *)(iVar11 + 0x19e + in_ECX);\r\n    sVar6 = *(short *)(iVar11 + 0x1b0 + in_ECX);\r\n    sVar7 = *(short *)(iVar11 + 0x1a0 + in_ECX);\r\n    if ((*(uint *)(in_ECX + 0x168) & 0xffff0000) == 0x10000) {\r\n      if (sVar1 == 1) {\r\n        puVar10 = *(undefined **)(&DAT_004f2d90 + *(int *)(in_ECX + 0x164) * 4);\r\n      }\r\n      else if (sVar1 == 3) {\r\n        puVar10 = *(undefined **)(&DAT_004f2d64 + *(int *)(in_ECX + 0x164) * 4);\r\n      }\r\n      else {\r\n        puVar10 = *(undefined **)(&DAT_004f2d38 + *(int *)(in_ECX + 0x164) * 4);\r\n      }\r\n    }\r\n    else if ((sVar1 == 1) || (puVar10 = &DAT_0060a0f0, sVar1 == 3)) {\r\n      puVar10 = &DAT_0070f040;\r\n    }\r\n    *(undefined **)(in_ECX + 0x198) = puVar10;\r\n    FUN_00440f70();\r\n    iVar11 = DAT_00626aa8;\r\n    if (sVar1 == 3) {\r\n      FUN_00441aa0(in_ECX + 0x69c,3,0x80000000,0);\r\n    }\r\n    else {\r\n      uVar8 = *(undefined4 *)(in_ECX + 0x198);\r\n      if (DAT_00626aa8 < 10) {\r\n        iVar9 = DAT_00626aa8 * 0x130;\r\n        DAT_00626aa8 = DAT_00626aa8 + 1;\r\n        (&DAT_00626ab0)[iVar9] = 3;\r\n        (&DAT_00626ab4)[iVar11 * 0x260] = (short)((int)sVar3 + (int)sVar2 >> 1);\r\n        (&DAT_00626ab6)[iVar11 * 0x260] = (short)((int)sVar4 + (int)sVar5 >> 1);\r\n        (&DAT_00626ab8)[iVar11 * 0x260] = (short)((int)sVar6 + (int)sVar7 >> 1);\r\n        (&DAT_00626abc)[iVar11 * 0x130] = uVar8;\r\n        return;\r\n      }\r\n    }\r\n  }\r\n  return;\r\n}\r\n\r\n",
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+      "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+      "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+      "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+      "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+      "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+      "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+      "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+      "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": []
+  }
+}

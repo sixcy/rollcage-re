@@ -46,15 +46,28 @@ With all this being said.. Let's move on to the AI slop.
 
 Working reference components include the archive reader, GT20 decompressor, filename lookup, BTP textures, GFXM primary models and textured SEGM track geometry. This is not yet a rebuilt game.
 
-Open the [interactive track viewer](docs/track-viewer.html) locally in a desktop browser, then select your `Rollcage.img` and `Rollcage.idx` files (normally in the game's `IDXData` folder). The page reads and decompresses the selected track in memory; it needs no server, network connection, or prior extraction, and writes no game files. Its menu offers LOW and HIGH versions of all 20 PC BLP tracks, labeled by their archive identifiers. BL6 variants are not supported. The [website directory](docs/README.md) contains the static site entry point and viewer for GitHub Pages publishing.
+Open the [interactive track viewer](docs/track-viewer.html) locally in a desktop browser, then select `ROLLCAGE.IMG` and `ROLLCAGE.IDX` from either game's `IDXData` folder. The page identifies the supplied archives automatically and reads the selected environment in memory; it needs no server, network connection, or prior extraction, and writes no game files. Its menu offers LOW and HIGH versions of Rollcage's 20 PC BLP tracks and all 66 Stage II environments: 20 race, 25 scramble, 10 training, 5 deathmatch, 5 pursuit, and 1 football. Select another matching file pair to switch games. BL6 variants are not supported. The [website directory](docs/README.md) contains the static site entry point and viewer for GitHub Pages publishing.
 
 In **Orbit & pan**, left-drag rotates, right-drag or Shift-left-drag pans, and the wheel zooms. Click the view to use arrow keys to rotate, WASD to pan, and +/− to zoom. In **Fly-in**, click the view for mouse-look, use WASD to move, Q/E to move down/up, Shift to move faster, and the wheel to adjust speed. Escape releases the mouse; drag-to-look is available if mouse capture is unavailable. Fly-in allows passing through geometry. Reset returns to an overview of the selected track. Terrain sectors, objects, textures, preview lighting, and smoothing can be selected independently.
 
-Click **Download track** to save the loaded track as a ZIP containing `scene.obj`, `scene.mtl`, PNG textures, and import instructions. Extract all files into the same folder, import `scene.obj` into Blender, and switch to Material Preview to see the textures. Downloads include the complete terrain and ordinary objects, regardless of sector selection or display toggles. Camera movement does not change the exported geometry. Packaging runs entirely in the standalone page, with no server or downloaded dependencies.
+Click **Download track** to save the loaded track as a ZIP containing `scene.obj`, `scene.mtl`, `scene.json`, PNG textures, and import instructions. Extract all files into the same folder, import `scene.obj` into Blender, and switch to Material Preview to see the textures. Downloads include the complete terrain and ordinary objects, regardless of sector selection or display toggles. Camera movement does not change the exported geometry. Packaging runs entirely in the standalone page, with no server or downloaded dependencies. ZIP filenames include the game identity.
 
 The standalone page contains the shared recovered readers and browser controls, with no game assets embedded. After changing its sources, regenerate it with `node tools/build-track-viewer.mjs`. Run `node --test tests/track-viewer.test.mjs` for focused checks. With an existing REA installation supplying Playwright, `node tools/check-track-viewer.mjs '<installed-REA-launcher>' [installation-directory] [new-report-directory]` checks the page in Edge, compares browser geometry and RGBA texture hashes against the Node readers for all 40 packs, exercises controls and loading recovery, and saves a screenshot and report. It downloads no dependencies and refuses to overwrite a report directory.
 
 The general Track Viewer replaces the earlier level-one preview directories. Select LOW / LEV1 to view the same 16 sectors and 114 ordinary model instances, or use Download track to obtain its OBJ, materials and textures. Native evidence and current browser-check reports remain under `analysis/`.
+
+Stage II uses separate placement and model-material readers with the shared archive, terrain, texture, renderer, and exporter components. Its track labels come from the native menu; `.BLP`/`.BTP` names are extraction aliases, not recovered original filenames. See [Stage II format notes](re-docs/stage2-formats.md) for evidence and limitations.
+
+Use `--game stage2` for Stage II command-line extraction and export. Numeric IDs support every archive resource; named aliases currently cover its 66 environment pairs. Existing commands continue to default to Rollcage. Outputs require new filenames or directories:
+
+```powershell
+node tools/extract-resource.mjs --game stage2 80 stage2-lev01.blp
+node tools/export-scene.mjs --game stage2 'LEV01.BLP' stage2-lev01-scene
+node tools/validate-track-game.mjs stage2
+node tools/check-track-games.mjs '<installed-REA-launcher>'
+```
+
+The Stage II installation path may be supplied as the final positional argument to extraction and scene export. The validation command accepts `[installation-directory] [new-report-directory]` after its game ID. The browser check uses both default installations and accepts an optional new report directory after the launcher. These tools download no dependencies, open installed game files read-only, and retain reports without overwriting earlier evidence.
 
 See [RESEARCH.md](RESEARCH.md) for target hashes, recovered function addresses, evidence and remaining questions.
 

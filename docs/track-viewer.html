@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rollcage track viewer</title>
+<title>Rollcage &amp; Stage II track viewer</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#0c121d;color:#e6edf7;font:14px system-ui,sans-serif}#stage{position:fixed;inset:0}canvas{width:100%;height:100%;display:block;touch-action:none;outline:none}canvas:focus-visible{outline:2px solid #75d7df;outline-offset:-3px}aside{position:absolute;top:18px;left:18px;width:370px;max-width:calc(100vw - 36px);max-height:calc(100dvh - 36px);overflow:auto;background:#111d2af2;padding:18px;border:1px solid #344457;border-radius:10px}h1{font-size:20px;margin:0 0 8px}p{margin:10px 0;color:#b4c4d7;line-height:1.5}label.file{display:block;margin:12px 0;font-weight:600}input[type=file]{display:block;width:100%;margin-top:5px;font-size:12px;color:#b4c4d7}button,select,input::file-selector-button{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:7px;margin:4px 6px 4px 0}select{max-width:100%}button{cursor:pointer}button:hover,input::file-selector-button:hover{background:#36516b}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #75d7df}button:disabled,select:disabled{opacity:.5}.row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.checks{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.note{font-size:12px}#status{color:#91dce4}#error{color:#ffb4ac;white-space:pre-wrap;overflow-wrap:anywhere}#error:empty{display:none}summary{cursor:pointer;color:#c3d5e8}#speed{font-variant-numeric:tabular-nums}a{color:#91dce4}@media(max-width:600px){aside{top:10px;left:10px;max-height:48dvh;padding:12px}h1{font-size:18px}}
 </style>
@@ -11,11 +11,15 @@
 <body>
 <main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
 <aside aria-label="Track viewer controls">
-<h1>Rollcage track viewer</h1>
-<p class="note">Select <strong>Rollcage.img</strong> and <strong>Rollcage.idx</strong>. Both files are usually located in:<br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage\IDXData</code></p>
-<p class="note">You can paste this folder path into the Browse dialog. Files are read locally and stay on your computer.</p>
+<h1>Rollcage &amp; Stage II track viewer</h1>
+<p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> from either game's <strong>IDXData</strong> folder. Both games use these filenames.</p>
+<p class="note">Both files are usually located in:<br><strong>Rollcage:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage\IDXData</code><br><strong>Rollcage Stage II:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage Stage II\IDXData</code></p>
+<p class="note">You can paste the folder path for your game into the Browse dialog.</p>
+<p class="note">Files are read locally and stay on your computer. You can switch games by selecting another pair of files.</p>
+<div class="row"><label for="game">Game</label><select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option></select></div>
 <label class="file" for="image">Rollcage.img<input id="image" type="file" accept=".img"></label>
 <label class="file" for="index">Rollcage.idx<input id="index" type="file" accept=".idx"></label>
+<p id="game-info" class="note"></p>
 <div class="row"><label for="track">Track</label><select id="track" disabled aria-label="Track"></select><button id="reload" type="button">Load / retry</button></div>
 <p id="status" role="status">Select both Rollcage.img and Rollcage.idx to begin.</p>
 <p id="error" role="alert"></p><p id="counts" class="note"></p>
@@ -25,7 +29,7 @@
 <p id="help" class="note"></p><p id="speed" class="note" hidden></p>
 <label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
 <div class="checks"><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label><input type="checkbox" id="objects" checked>Objects</label></div>
-<details><summary>About this reconstruction</summary><p class="note">LOW and HIGH PC BLP packs are supported. Tracks use their archive identifiers. Terrain and ordinary objects are shown at their initial poses. Effects, overlays, special objects, game simulation and BL6 textures remain outside this viewer. Fly-in has no collision.</p></details>
+<details><summary>About this reconstruction</summary><p class="note">Rollcage LOW and HIGH PC BLP tracks and Stage II environments are supported. Tracks use their archive identifiers. Stage II support is validated against the supplied installation with Rollcage Extreme. Other releases remain unverified. Terrain and ordinary objects are shown at their initial poses. Effects, overlays, special objects, game simulation and BL6 textures remain outside this viewer. Fly-in has no collision.</p></details>
 </aside>
 <script>
 (function() {
@@ -33,14 +37,14 @@
 const modules = {
 "tools/track-viewer/app.mjs": function(require, module, Buffer) {
 const { FileArchive } = require("tools/track-viewer/file-archive.mjs");
-const { tracks, decodeTrack } = require("tools/track-viewer/track-data.mjs");
+const { identifyGame } = require("src/track-games.mjs");
 const { Navigation } = require("tools/track-viewer/navigation.mjs");
 const { Renderer } = require("tools/track-viewer/renderer.mjs");
 const { buildTrackDownload } = require("tools/track-viewer/export-track.mjs");
 
 const element = id => document.getElementById(id);
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
-let renderer, archive, scene, selectedTrack, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
+let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
 const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
@@ -60,19 +64,16 @@ function clearScene() {
   element('counts').textContent = ''; element('sector').replaceChildren(new Option('All terrain sectors', '-1'));
 }
 async function loadTrack() {
-  const token = ++generation, source = archive, track = tracks.find(track => track.index === Number(element('track').value));
-  if (!source || !track) return;
+  const token = ++generation, source = archive, adapter = game, track = availableTracks.find(track => track.index === Number(element('track').value));
+  if (!source || !track || !adapter) return;
   releaseMouse(); clearScene(); element('error').textContent = '';
   status(`Loading ${track.label}…`); element('stage').setAttribute('aria-busy', 'true');
   try {
     // Yield before decoding so loading status is painted even for cached files.
     await new Promise(resolve => requestAnimationFrame(() => setTimeout(resolve, 0)));
     if (token !== generation) return;
-    const geometry = await source.readResource(track.index);
+    const decoded = await adapter.loadTrack(source, track);
     if (token !== generation) return;
-    const texture = await source.readResource(track.index + 1);
-    if (token !== generation) return;
-    const decoded = decodeTrack(geometry.data, texture.data);
     renderer.setScene(decoded); scene = decoded; selectedTrack = track;
     element('download').disabled = exporting;
     navigation.reset(scene.bounds); help();
@@ -102,7 +103,9 @@ async function downloadTrack() {
 }
 async function openFiles() {
   const token = ++generation;
-  archive = null; releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
+  archive = null; game = null; availableTracks = []; verified = false;
+  releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
+  element('game-info').textContent = '';
   element('error').textContent = ''; element('stage').setAttribute('aria-busy', 'false');
   const image = element('image').files[0], index = element('index').files[0];
   if (!image || !index) { status('Select both Rollcage.img and Rollcage.idx to begin.'); return; }
@@ -110,16 +113,18 @@ async function openFiles() {
   try {
     const opened = await FileArchive.open(image, index);
     if (token !== generation) return;
-    const available = tracks.filter(track => opened.entries[track.index] && opened.entries[track.index + 1]);
-    if (!available.length) throw new Error('No supported tracks were found. Choose the matching Rollcage IMG and IDX files.');
-    archive = opened;
-    for (const track of available) element('track').append(new Option(track.label, String(track.index)));
+    const identified = await identifyGame(opened, element('game').value);
+    if (token !== generation) return;
+    archive = opened; game = identified.game; availableTracks = identified.tracks; verified = identified.verified;
+    element('game-info').textContent = `${game.label} · ${availableTracks.length} environments${verified ? '' : ' · Unverified release; format compatibility is not established.'}`;
+    for (const track of availableTracks) element('track').append(new Option(track.label, String(track.index)));
     element('track').disabled = false;
     await loadTrack();
   } catch (error) { if (token === generation) fail(error); }
 }
 element('image').addEventListener('change', openFiles);
 element('index').addEventListener('change', openFiles);
+element('game').addEventListener('change', openFiles);
 element('track').addEventListener('change', loadTrack);
 element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
 element('download').addEventListener('click', downloadTrack);
@@ -173,7 +178,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) relea
 canvas.addEventListener('webglcontextlost', event => {
   event.preventDefault(); ++generation; releaseMouse(); clearScene(); contextLost = true;
   element('stage').setAttribute('aria-busy', 'false');
-  for (const id of ['image', 'index', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
   status('Reload this page to restore rendering.');
   element('error').textContent = 'The graphics context was lost. Reload this page to restore the viewer.';
 });
@@ -190,6 +195,7 @@ function frame(time) {
 }
 // Read-only diagnostics for browser checks; no game data is embedded in the page.
 window.rollcageViewer = { inspect: () => ({
+  game: game?.id ?? null, verified,
   track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
   mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
@@ -200,7 +206,7 @@ help();
 try { renderer = new Renderer(canvas); requestAnimationFrame(frame); }
 catch (error) {
   element('error').textContent = errorText(error); status('Rendering is unavailable.');
-  for (const id of ['image', 'index', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
 }
 
 Object.assign(module.exports, {});
@@ -215,9 +221,10 @@ class FileArchive {
     if (!image || !index) throw new Error('Select both Rollcage.img and Rollcage.idx.');
     if (!image.size) throw new Error('The selected image is empty.');
     if (!index.size || index.size > 1024 * 1024) throw new Error('Invalid archive index size.');
-    return new FileArchive(image, parseIndex(ByteBuffer.from(await index.arrayBuffer()), image.size));
+    const bytes = ByteBuffer.from(await index.arrayBuffer());
+    return new FileArchive(image, parseIndex(bytes, image.size), bytes);
   }
-  constructor(image, entries) { this.image = image; this.entries = entries; this.position = 0; }
+  constructor(image, entries, indexData = null) { this.image = image; this.entries = entries; this.indexData = indexData; this.position = 0; }
   async readResource(index) {
     if (!Number.isInteger(index) || !this.entries[index]) throw new RangeError('Invalid resource index.');
     let selected = this.entries[index];
@@ -365,31 +372,92 @@ function decodeGT20(input, { maxDecodedBytes = 128 * 1024 * 1024 } = {}) {
 
 Object.assign(module.exports, {decodeGT20});
 },
-"tools/track-viewer/track-data.mjs": function(require, module, Buffer) {
-const { resourceMappings, normalizeResourceName } = require("src/resource-names.mjs");
-const { parseScene } = require("src/scene.mjs");
-const { parseGFXM } = require("src/gfxm.mjs");
-const { parsePlacements } = require("src/placements.mjs");
-const { buildPlacedMeshes } = require("src/placed-meshes.mjs");
-const { parseBTP, decodeBTPTexture } = require("src/btp.mjs");
-const { buildSceneExport } = require("src/scene-export.mjs");
+"src/track-games.mjs": function(require, module, Buffer) {
+const { resourceMappings, normalizeResourceName, findResourceIndex } = require("src/resource-names.mjs");
+const stage2Map = require("src/stage2-resource-map.json");
+const { decodeTrackScene } = require("src/track-scene.mjs");
+const { parseStage2Placements } = require("src/stage2-placements.mjs");
+const { buildStage2PlacedMeshes } = require("src/stage2-placed-meshes.mjs");
 
-const tracks = resourceMappings.map(({ name, index }) => ({ name: normalizeResourceName(name), index }))
-  .filter(({ name }) => /^(LOW|HIGH)\/LEV\d+\.BLP$/.test(name))
-  .map(track => ({ ...track, label: track.name.replace('/', ' / ').replace('.BLP', '') }));
+// Exact index identities plus decoded sentinel resources bind auto-detection to
+// the supplied archives, including a check that the IMG belongs to that IDX.
+// Unknown releases require an explicit choice and remain unverified.
+const fingerprints = {
+  rollcage: {
+    index: '28c30b94d5612b98cc9d68540982f40bc1ae6f05df3113cb964c6b2eccf02377',
+    geometry: '405fc2c8262a3040c444e00594ba22459232da53b19b13e1c92b5da956e70502',
+    texture: '225f08e8e03700090b3841304befbc337cdb07315b8f2dc0770a965686b06732'
+  },
+  stage2: {
+    index: '54e06749a8a5ad23467f85c8f996f732c53065987467a3b0f9931c8592c71f75',
+    geometry: '648cd8a6496fe9ea63fe16e981ddc221537b89f209e8cdb13c9cee3a18f50c2e',
+    texture: '532b30150bfe5abf4e649cd0465014a82b06e8f8a6565fbb94f7dc02a96bf20b'
+  }
+};
 
-function decodeTrack(data, textureData) {
-  const terrain = parseScene(data), gfxm = parseGFXM(data), btp = parseBTP(textureData);
-  if (!terrain.segments.length) throw new Error('This resource has no track geometry.');
-  const placements = parsePlacements(textureData, gfxm.models), meshes = buildPlacedMeshes(data, gfxm, placements);
-  const textures = new Map();
-  for (const page of new Set([...terrain.segments, ...meshes].flatMap(mesh => mesh.faces.map(face => face.page)))) textures.set(page, decodeBTPTexture(btp, page));
-  const output = buildSceneExport(terrain, textures, meshes);
-  if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid track bounds.');
-  return { ...output, segments: terrain.segments.length, instances: meshes.length, textures };
+function createGame(id, label, definitions, decode, resolveName, headerFlags) {
+  const tracks = definitions.map(track => Object.freeze({
+    ...track, game: id, gameLabel: label,
+    label: `${label} / ${track.category ? track.category + ' / ' : ''}${track.name.replace(/\.BLP$/i, '').replace('/', ' / ')}`
+  }));
+  return Object.freeze({ id, label, headerFlags, tracks: Object.freeze(tracks),
+    installation: `C:\\Program Files (x86)\\Psygnosis\\${id === 'stage2' ? 'Rollcage Stage II' : 'Rollcage'}`,
+    findResourceIndex: resolveName, decodeTrack: decode,
+    listTracks: archive => tracks.filter(track => archive.entries[track.index] && archive.entries[track.textureIndex]),
+    async loadTrack(archive, track) {
+      if (!tracks.includes(track)) throw new Error('Track does not belong to the selected game.');
+      const geometry = await archive.readResource(track.index);
+      const texture = await archive.readResource(track.textureIndex);
+      return decode(geometry.data, texture.data);
+    }
+  });
 }
 
-Object.assign(module.exports, {tracks,decodeTrack});
+const stage2Lookup = new Map(stage2Map.mappings.map(({ name, index }) => [normalizeResourceName(name), index]));
+const games = Object.freeze([
+  createGame('rollcage', 'Rollcage', resourceMappings
+    .map(({ name, index }) => ({ name: normalizeResourceName(name), index, textureIndex: index + 1 }))
+    .filter(({ name }) => /^(LOW|HIGH)\/LEV\d+\.BLP$/.test(name)),
+  decodeTrackScene, findResourceIndex, [1]),
+  createGame('stage2', 'Rollcage Stage II', stage2Map.tracks,
+    (data, texture) => decodeTrackScene(data, texture, { parsePlacements: parseStage2Placements, buildPlacedMeshes: buildStage2PlacedMeshes }),
+    name => stage2Lookup.get(normalizeResourceName(name)) ?? -1, [4, 12])
+]);
+
+function getGame(id) {
+  const game = games.find(game => game.id === id);
+  if (!game) throw new Error(`Unknown game: ${id}. Choose rollcage or stage2.`);
+  return game;
+}
+
+async function digest(bytes) {
+  if (!globalThis.crypto?.subtle) return null;
+  return Array.from(new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256', bytes)), byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+async function identifyGame(archive, requested = 'auto') {
+  const indexHash = archive.indexData ? await digest(archive.indexData) : null;
+  const known = games.find(game => fingerprints[game.id].index === indexHash);
+  if (requested !== 'auto' && known && known.id !== requested) {
+    throw new Error(`These files belong to ${known.label}. Choose Automatic or ${known.label}.`);
+  }
+  const game = requested === 'auto' ? known : getGame(requested);
+  if (!game) throw new Error('Unrecognized archive. Choose a game explicitly to try an unverified release, or select its matching IMG and IDX files.');
+  const tracks = game.listTracks(archive);
+  if (!tracks.length || tracks[0] !== game.tracks[0]) throw new Error(`No supported ${game.label} tracks were found in this archive.`);
+  const sentinel = tracks[0];
+  const geometry = await archive.readResource(sentinel.index), texture = await archive.readResource(sentinel.textureIndex);
+  if (geometry.data.toString('ascii', 0, 4) !== 'GFXM' || geometry.data.length < 0x120 || !game.headerFlags.includes(geometry.data.readUInt16LE(4)) ||
+      texture.data.toString('ascii', 0, 4) !== 'BTP ') {
+    throw new Error(`Invalid GFXM/BTP data for ${game.label}. Select the matching IMG and IDX files.`);
+  }
+  if (known && (await digest(geometry.data) !== fingerprints[game.id].geometry || await digest(texture.data) !== fingerprints[game.id].texture)) {
+    throw new Error('The selected IMG does not match this IDX, or its track data is damaged. Select the matching files.');
+  }
+  return { game, tracks, verified: Boolean(known), indexSHA256: indexHash };
+}
+
+Object.assign(module.exports, {games,getGame,identifyGame});
 },
 "src/resource-names.mjs": function(require, module, Buffer) {
 // Reconstructs Redux FUN_00447ae0 for its ASCII resource names.
@@ -412,6 +480,40 @@ Object.assign(module.exports, {normalizeResourceName,findResourceIndex,resourceM
 },
 "src/resource-map.json": function(require, module, Buffer) {
 module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","mappings":[{"name":"FE_BLP","index":0},{"name":"FE_BTP","index":1},{"name":"FENOZ_BLP","index":2},{"name":"FENOZ_BTP","index":3},{"name":"FONTPC_RDX","index":8},{"name":"FONT_BMP","index":9},{"name":"LOAD1_BMP","index":10},{"name":"LOAD2_BMP","index":11},{"name":"LOAD3_BMP","index":12},{"name":"LOAD4_BMP","index":13},{"name":"LOAD5_BMP","index":14},{"name":"LOAD6_BMP","index":15},{"name":"LOAD7_BMP","index":16},{"name":"LOAD8_BMP","index":17},{"name":"TESTLVL_BSP","index":18},{"name":"ICE_BMP","index":19},{"name":"TW1_BMP","index":20},{"name":"TW2_BMP","index":21},{"name":"TW3_BMP","index":22},{"name":"TW4_BMP","index":23},{"name":"TW5_BMP","index":24},{"name":"TW6_BMP","index":25},{"name":"TW7_BMP","index":26},{"name":"TW8_BMP","index":27},{"name":"OEM_DAT","index":28},{"name":"LOGO_BMP","index":29},{"name":"LOW__LEV1_BLP","index":30},{"name":"LOW__LEV1_BTP","index":31},{"name":"LOW__LEV2_BLP","index":32},{"name":"LOW__LEV2_BTP","index":33},{"name":"LOW__LEV3_BLP","index":34},{"name":"LOW__LEV3_BTP","index":35},{"name":"LOW__LEV4_BLP","index":36},{"name":"LOW__LEV4_BTP","index":37},{"name":"LOW__LEV5_BLP","index":38},{"name":"LOW__LEV5_BTP","index":39},{"name":"LOW__LEV6_BLP","index":40},{"name":"LOW__LEV6_BTP","index":41},{"name":"LOW__LEV7_BLP","index":42},{"name":"LOW__LEV7_BTP","index":43},{"name":"LOW__LEV8_BLP","index":44},{"name":"LOW__LEV8_BTP","index":45},{"name":"LOW__LEV9_BLP","index":46},{"name":"LOW__LEV9_BTP","index":47},{"name":"LOW__LEV10_BLP","index":48},{"name":"LOW__LEV10_BTP","index":49},{"name":"LOW__LEV11_BLP","index":50},{"name":"LOW__LEV11_BTP","index":51},{"name":"LOW__LEV12_BLP","index":52},{"name":"LOW__LEV12_BTP","index":53},{"name":"LOW__LEV13_BLP","index":54},{"name":"LOW__LEV13_BTP","index":55},{"name":"LOW__LEV14_BLP","index":56},{"name":"LOW__LEV14_BTP","index":57},{"name":"LOW__LEV15_BLP","index":58},{"name":"LOW__LEV15_BTP","index":59},{"name":"LOW__LEV16_BLP","index":60},{"name":"LOW__LEV16_BTP","index":61},{"name":"LOW__LEV17_BLP","index":62},{"name":"LOW__LEV17_BTP","index":63},{"name":"LOW__LEV18_BLP","index":64},{"name":"LOW__LEV18_BTP","index":65},{"name":"LOW__LEV19_BLP","index":66},{"name":"LOW__LEV19_BTP","index":67},{"name":"LOW__LEV20_BLP","index":68},{"name":"LOW__LEV20_BTP","index":69},{"name":"HIGH__LEV1_BLP","index":70},{"name":"HIGH__LEV1_BTP","index":71},{"name":"HIGH__LEV2_BLP","index":72},{"name":"HIGH__LEV2_BTP","index":73},{"name":"HIGH__LEV3_BLP","index":74},{"name":"HIGH__LEV3_BTP","index":75},{"name":"HIGH__LEV4_BLP","index":76},{"name":"HIGH__LEV4_BTP","index":77},{"name":"HIGH__LEV5_BLP","index":78},{"name":"HIGH__LEV5_BTP","index":79},{"name":"HIGH__LEV6_BLP","index":80},{"name":"HIGH__LEV6_BTP","index":81},{"name":"HIGH__LEV7_BLP","index":82},{"name":"HIGH__LEV7_BTP","index":83},{"name":"HIGH__LEV8_BLP","index":84},{"name":"HIGH__LEV8_BTP","index":85},{"name":"HIGH__LEV9_BLP","index":86},{"name":"HIGH__LEV9_BTP","index":87},{"name":"HIGH__LEV10_BLP","index":88},{"name":"HIGH__LEV10_BTP","index":89},{"name":"HIGH__LEV11_BLP","index":90},{"name":"HIGH__LEV11_BTP","index":91},{"name":"HIGH__LEV12_BLP","index":92},{"name":"HIGH__LEV12_BTP","index":93},{"name":"HIGH__LEV13_BLP","index":94},{"name":"HIGH__LEV13_BTP","index":95},{"name":"HIGH__LEV14_BLP","index":96},{"name":"HIGH__LEV14_BTP","index":97},{"name":"HIGH__LEV15_BLP","index":98},{"name":"HIGH__LEV15_BTP","index":99},{"name":"HIGH__LEV16_BLP","index":100},{"name":"HIGH__LEV16_BTP","index":101},{"name":"HIGH__LEV17_BLP","index":102},{"name":"HIGH__LEV17_BTP","index":103},{"name":"HIGH__LEV18_BLP","index":104},{"name":"HIGH__LEV18_BTP","index":105},{"name":"HIGH__LEV19_BLP","index":106},{"name":"HIGH__LEV19_BTP","index":107},{"name":"HIGH__LEV20_BLP","index":108},{"name":"HIGH__LEV20_BTP","index":109},{"name":"LOW__LEV1_BL6","index":110},{"name":"LOW__LEV1_BT6","index":111},{"name":"LOW__LEV2_BL6","index":112},{"name":"LOW__LEV2_BT6","index":113},{"name":"LOW__LEV3_BL6","index":114},{"name":"LOW__LEV3_BT6","index":115},{"name":"LOW__LEV4_BL6","index":116},{"name":"LOW__LEV4_BT6","index":117},{"name":"LOW__LEV5_BL6","index":118},{"name":"LOW__LEV5_BT6","index":119},{"name":"LOW__LEV6_BL6","index":120},{"name":"LOW__LEV6_BT6","index":121},{"name":"LOW__LEV7_BL6","index":122},{"name":"LOW__LEV7_BT6","index":123},{"name":"LOW__LEV8_BL6","index":124},{"name":"LOW__LEV8_BT6","index":125},{"name":"LOW__LEV9_BL6","index":126},{"name":"LOW__LEV9_BT6","index":127},{"name":"LOW__LEV10_BL6","index":128},{"name":"LOW__LEV10_BT6","index":129},{"name":"LOW__LEV11_BL6","index":130},{"name":"LOW__LEV11_BT6","index":131},{"name":"LOW__LEV12_BL6","index":132},{"name":"LOW__LEV12_BT6","index":133},{"name":"LOW__LEV13_BL6","index":134},{"name":"LOW__LEV13_BT6","index":135},{"name":"LOW__LEV14_BL6","index":136},{"name":"LOW__LEV14_BT6","index":137},{"name":"LOW__LEV15_BL6","index":138},{"name":"LOW__LEV15_BT6","index":139},{"name":"LOW__LEV16_BL6","index":140},{"name":"LOW__LEV16_BT6","index":141},{"name":"LOW__LEV17_BL6","index":142},{"name":"LOW__LEV17_BT6","index":143},{"name":"LOW__LEV18_BL6","index":144},{"name":"LOW__LEV18_BT6","index":145},{"name":"LOW__LEV19_BL6","index":146},{"name":"LOW__LEV19_BT6","index":147},{"name":"LOW__LEV20_BL6","index":148},{"name":"LOW__LEV20_BT6","index":149},{"name":"HIGH__LEV1_BL6","index":150},{"name":"HIGH__LEV1_BT6","index":151},{"name":"HIGH__LEV2_BL6","index":152},{"name":"HIGH__LEV2_BT6","index":153},{"name":"HIGH__LEV3_BL6","index":154},{"name":"HIGH__LEV3_BT6","index":155},{"name":"HIGH__LEV4_BL6","index":156},{"name":"HIGH__LEV4_BT6","index":157},{"name":"HIGH__LEV5_BL6","index":158},{"name":"HIGH__LEV5_BT6","index":159},{"name":"HIGH__LEV6_BL6","index":160},{"name":"HIGH__LEV6_BT6","index":161},{"name":"HIGH__LEV7_BL6","index":162},{"name":"HIGH__LEV7_BT6","index":163},{"name":"HIGH__LEV8_BL6","index":164},{"name":"HIGH__LEV8_BT6","index":165},{"name":"HIGH__LEV9_BL6","index":166},{"name":"HIGH__LEV9_BT6","index":167},{"name":"HIGH__LEV10_BL6","index":168},{"name":"HIGH__LEV10_BT6","index":169},{"name":"HIGH__LEV11_BL6","index":170},{"name":"HIGH__LEV11_BT6","index":171},{"name":"HIGH__LEV12_BL6","index":172},{"name":"HIGH__LEV12_BT6","index":173},{"name":"HIGH__LEV13_BL6","index":174},{"name":"HIGH__LEV13_BT6","index":175},{"name":"HIGH__LEV14_BL6","index":176},{"name":"HIGH__LEV14_BT6","index":177},{"name":"HIGH__LEV15_BL6","index":178},{"name":"HIGH__LEV15_BT6","index":179},{"name":"HIGH__LEV16_BL6","index":180},{"name":"HIGH__LEV16_BT6","index":181},{"name":"HIGH__LEV17_BL6","index":182},{"name":"HIGH__LEV17_BT6","index":183},{"name":"HIGH__LEV18_BL6","index":184},{"name":"HIGH__LEV18_BT6","index":185},{"name":"HIGH__LEV19_BL6","index":186},{"name":"HIGH__LEV19_BT6","index":187},{"name":"HIGH__LEV20_BL6","index":188},{"name":"HIGH__LEV20_BT6","index":189},{"name":"CHARANIM__AMER0001_BMP","index":190},{"name":"CHARANIM__AMER0002_BMP","index":191},{"name":"CHARANIM__AMER0003_BMP","index":192},{"name":"CHARANIM__AMER0004_BMP","index":193},{"name":"CHARANIM__AMER0005_BMP","index":194},{"name":"CHARANIM__AMER0006_BMP","index":195},{"name":"CHARANIM__AMER0007_BMP","index":196},{"name":"CHARANIM__AMER0008_BMP","index":197},{"name":"CHARANIM__AMER0009_BMP","index":198},{"name":"CHARANIM__AMER0010_BMP","index":199},{"name":"CHARANIM__AMER0011_BMP","index":200},{"name":"CHARANIM__AMER0012_BMP","index":201},{"name":"CHARANIM__AMER0013_BMP","index":202},{"name":"CHARANIM__AMER0014_BMP","index":203},{"name":"CHARANIM__AMER0015_BMP","index":204},{"name":"CHARANIM__AMER0016_BMP","index":205},{"name":"CHARANIM__AMER0017_BMP","index":206},{"name":"CHARANIM__AMER0018_BMP","index":207},{"name":"CHARANIM__AMER0019_BMP","index":208},{"name":"CHARANIM__AMER0020_BMP","index":209},{"name":"CHARANIM__AMER0021_BMP","index":210},{"name":"CHARANIM__AMER0022_BMP","index":211},{"name":"CHARANIM__FREN0001_BMP","index":212},{"name":"CHARANIM__FREN0002_BMP","index":213},{"name":"CHARANIM__FREN0003_BMP","index":214},{"name":"CHARANIM__FREN0004_BMP","index":215},{"name":"CHARANIM__FREN0005_BMP","index":216},{"name":"CHARANIM__FREN0006_BMP","index":217},{"name":"CHARANIM__FREN0007_BMP","index":218},{"name":"CHARANIM__FREN0008_BMP","index":219},{"name":"CHARANIM__FREN0009_BMP","index":220},{"name":"CHARANIM__FREN0010_BMP","index":221},{"name":"CHARANIM__FREN0011_BMP","index":222},{"name":"CHARANIM__FREN0012_BMP","index":223},{"name":"CHARANIM__FREN0013_BMP","index":224},{"name":"CHARANIM__FREN0014_BMP","index":225},{"name":"CHARANIM__FREN0015_BMP","index":226},{"name":"CHARANIM__FREN0016_BMP","index":227},{"name":"CHARANIM__FREN0017_BMP","index":228},{"name":"CHARANIM__FREN0018_BMP","index":229},{"name":"CHARANIM__FREN0019_BMP","index":230},{"name":"CHARANIM__FREN0020_BMP","index":231},{"name":"CHARANIM__FREN0021_BMP","index":232},{"name":"CHARANIM__FREN0022_BMP","index":233},{"name":"CHARANIM__GERM0001_BMP","index":234},{"name":"CHARANIM__GERM0002_BMP","index":235},{"name":"CHARANIM__GERM0003_BMP","index":236},{"name":"CHARANIM__GERM0004_BMP","index":237},{"name":"CHARANIM__GERM0005_BMP","index":238},{"name":"CHARANIM__GERM0006_BMP","index":239},{"name":"CHARANIM__GERM0007_BMP","index":240},{"name":"CHARANIM__GERM0008_BMP","index":241},{"name":"CHARANIM__GERM0009_BMP","index":242},{"name":"CHARANIM__GERM0010_BMP","index":243},{"name":"CHARANIM__GERM0011_BMP","index":244},{"name":"CHARANIM__GERM0012_BMP","index":245},{"name":"CHARANIM__GERM0013_BMP","index":246},{"name":"CHARANIM__GERM0014_BMP","index":247},{"name":"CHARANIM__GERM0015_BMP","index":248},{"name":"CHARANIM__GERM0016_BMP","index":249},{"name":"CHARANIM__GERM0017_BMP","index":250},{"name":"CHARANIM__GERM0018_BMP","index":251},{"name":"CHARANIM__GERM0019_BMP","index":252},{"name":"CHARANIM__GERM0020_BMP","index":253},{"name":"CHARANIM__GERM0021_BMP","index":254},{"name":"CHARANIM__GERM0022_BMP","index":255},{"name":"CHARANIM__ITAL0001_BMP","index":256},{"name":"CHARANIM__ITAL0002_BMP","index":257},{"name":"CHARANIM__ITAL0003_BMP","index":258},{"name":"CHARANIM__ITAL0004_BMP","index":259},{"name":"CHARANIM__ITAL0005_BMP","index":260},{"name":"CHARANIM__ITAL0006_BMP","index":261},{"name":"CHARANIM__ITAL0007_BMP","index":262},{"name":"CHARANIM__ITAL0008_BMP","index":263},{"name":"CHARANIM__ITAL0009_BMP","index":264},{"name":"CHARANIM__ITAL0010_BMP","index":265},{"name":"CHARANIM__ITAL0011_BMP","index":266},{"name":"CHARANIM__ITAL0012_BMP","index":267},{"name":"CHARANIM__ITAL0013_BMP","index":268},{"name":"CHARANIM__ITAL0014_BMP","index":269},{"name":"CHARANIM__ITAL0015_BMP","index":270},{"name":"CHARANIM__ITAL0016_BMP","index":271},{"name":"CHARANIM__ITAL0017_BMP","index":272},{"name":"CHARANIM__ITAL0018_BMP","index":273},{"name":"CHARANIM__ITAL0019_BMP","index":274},{"name":"CHARANIM__ITAL0020_BMP","index":275},{"name":"CHARANIM__ITAL0021_BMP","index":276},{"name":"CHARANIM__ITAL0022_BMP","index":277},{"name":"CHARANIM__JAPG0001_BMP","index":278},{"name":"CHARANIM__JAPG0002_BMP","index":279},{"name":"CHARANIM__JAPG0003_BMP","index":280},{"name":"CHARANIM__JAPG0004_BMP","index":281},{"name":"CHARANIM__JAPG0005_BMP","index":282},{"name":"CHARANIM__JAPG0006_BMP","index":283},{"name":"CHARANIM__JAPG0007_BMP","index":284},{"name":"CHARANIM__JAPG0008_BMP","index":285},{"name":"CHARANIM__JAPG0009_BMP","index":286},{"name":"CHARANIM__JAPG0010_BMP","index":287},{"name":"CHARANIM__JAPG0011_BMP","index":288},{"name":"CHARANIM__JAPG0012_BMP","index":289},{"name":"CHARANIM__JAPG0013_BMP","index":290},{"name":"CHARANIM__JAPG0014_BMP","index":291},{"name":"CHARANIM__JAPG0015_BMP","index":292},{"name":"CHARANIM__JAPG0016_BMP","index":293},{"name":"CHARANIM__JAPG0017_BMP","index":294},{"name":"CHARANIM__JAPG0018_BMP","index":295},{"name":"CHARANIM__JAPG0019_BMP","index":296},{"name":"CHARANIM__JAPG0020_BMP","index":297},{"name":"CHARANIM__JAPG0021_BMP","index":298},{"name":"CHARANIM__JAPG0022_BMP","index":299},{"name":"CHARANIM__POLI0001_BMP","index":300},{"name":"CHARANIM__POLI0002_BMP","index":301},{"name":"CHARANIM__POLI0003_BMP","index":302},{"name":"CHARANIM__POLI0004_BMP","index":303},{"name":"CHARANIM__POLI0005_BMP","index":304},{"name":"CHARANIM__POLI0006_BMP","index":305},{"name":"CHARANIM__POLI0007_BMP","index":306},{"name":"CHARANIM__POLI0008_BMP","index":307},{"name":"CHARANIM__POLI0009_BMP","index":308},{"name":"CHARANIM__POLI0010_BMP","index":309},{"name":"CHARANIM__POLI0011_BMP","index":310},{"name":"CHARANIM__POLI0012_BMP","index":311},{"name":"CHARANIM__POLI0013_BMP","index":312},{"name":"CHARANIM__POLI0014_BMP","index":313},{"name":"CHARANIM__POLI0015_BMP","index":314},{"name":"CHARANIM__POLI0016_BMP","index":315},{"name":"CHARANIM__POLI0017_BMP","index":316},{"name":"CHARANIM__POLI0018_BMP","index":317},{"name":"CHARANIM__POLI0019_BMP","index":318},{"name":"CHARANIM__POLI0020_BMP","index":319},{"name":"CHARANIM__POLI0021_BMP","index":320},{"name":"CHARANIM__POLI0022_BMP","index":321},{"name":"CHARANIM__UKBY0001_BMP","index":322},{"name":"CHARANIM__UKBY0002_BMP","index":323},{"name":"CHARANIM__UKBY0003_BMP","index":324},{"name":"CHARANIM__UKBY0004_BMP","index":325},{"name":"CHARANIM__UKBY0005_BMP","index":326},{"name":"CHARANIM__UKBY0006_BMP","index":327},{"name":"CHARANIM__UKBY0007_BMP","index":328},{"name":"CHARANIM__UKBY0008_BMP","index":329},{"name":"CHARANIM__UKBY0009_BMP","index":330},{"name":"CHARANIM__UKBY0010_BMP","index":331},{"name":"CHARANIM__UKBY0011_BMP","index":332},{"name":"CHARANIM__UKBY0012_BMP","index":333},{"name":"CHARANIM__UKBY0013_BMP","index":334},{"name":"CHARANIM__UKBY0014_BMP","index":335},{"name":"CHARANIM__UKBY0015_BMP","index":336},{"name":"CHARANIM__UKBY0016_BMP","index":337},{"name":"CHARANIM__UKBY0017_BMP","index":338},{"name":"CHARANIM__UKBY0018_BMP","index":339},{"name":"CHARANIM__UKBY0019_BMP","index":340},{"name":"CHARANIM__UKBY0020_BMP","index":341},{"name":"CHARANIM__UKBY0021_BMP","index":342},{"name":"CHARANIM__UKBY0022_BMP","index":343}]};
+},
+"src/stage2-resource-map.json": function(require, module, Buffer) {
+module.exports = {"executableSHA256":"26f8e8d874e5081f599000e04000414112da6600c493d80f45e4ddd33cd0d148","labelTableAddress":"0x512fd0","labelTableFileOffset":1121744,"provenance":"Labels are observed in shipped executable order; GFXM/BTP pairs follow native FUN_0042f250. BLP/BTP extensions are reconstructed extraction aliases, not recovered original filenames.","mappings":[{"name":"LEV01.BLP","index":80},{"name":"LEV01.BTP","index":81},{"name":"LEV02.BLP","index":82},{"name":"LEV02.BTP","index":83},{"name":"LEV03.BLP","index":84},{"name":"LEV03.BTP","index":85},{"name":"LEV04.BLP","index":86},{"name":"LEV04.BTP","index":87},{"name":"LEV05.BLP","index":88},{"name":"LEV05.BTP","index":89},{"name":"LEV06.BLP","index":90},{"name":"LEV06.BTP","index":91},{"name":"LEV07.BLP","index":92},{"name":"LEV07.BTP","index":93},{"name":"LEV08.BLP","index":94},{"name":"LEV08.BTP","index":95},{"name":"LEV09.BLP","index":96},{"name":"LEV09.BTP","index":97},{"name":"LEV10.BLP","index":98},{"name":"LEV10.BTP","index":99},{"name":"LEV11.BLP","index":100},{"name":"LEV11.BTP","index":101},{"name":"LEV12.BLP","index":102},{"name":"LEV12.BTP","index":103},{"name":"LEV13.BLP","index":104},{"name":"LEV13.BTP","index":105},{"name":"LEV14.BLP","index":106},{"name":"LEV14.BTP","index":107},{"name":"LEV15.BLP","index":108},{"name":"LEV15.BTP","index":109},{"name":"LEV16.BLP","index":110},{"name":"LEV16.BTP","index":111},{"name":"LEV17.BLP","index":112},{"name":"LEV17.BTP","index":113},{"name":"LEV18.BLP","index":114},{"name":"LEV18.BTP","index":115},{"name":"LEV19.BLP","index":116},{"name":"LEV19.BTP","index":117},{"name":"LEV20.BLP","index":118},{"name":"LEV20.BTP","index":119},{"name":"SCRAM01.BLP","index":120},{"name":"SCRAM01.BTP","index":121},{"name":"SCRAM02.BLP","index":122},{"name":"SCRAM02.BTP","index":123},{"name":"SCRAM03.BLP","index":124},{"name":"SCRAM03.BTP","index":125},{"name":"SCRAM04.BLP","index":126},{"name":"SCRAM04.BTP","index":127},{"name":"SCRAM05.BLP","index":128},{"name":"SCRAM05.BTP","index":129},{"name":"SCRAM06.BLP","index":130},{"name":"SCRAM06.BTP","index":131},{"name":"SCRAM07.BLP","index":132},{"name":"SCRAM07.BTP","index":133},{"name":"SCRAM08.BLP","index":134},{"name":"SCRAM08.BTP","index":135},{"name":"SCRAM09.BLP","index":136},{"name":"SCRAM09.BTP","index":137},{"name":"SCRAM10.BLP","index":138},{"name":"SCRAM10.BTP","index":139},{"name":"SCRAM11.BLP","index":140},{"name":"SCRAM11.BTP","index":141},{"name":"SCRAM12.BLP","index":142},{"name":"SCRAM12.BTP","index":143},{"name":"SCRAM13.BLP","index":144},{"name":"SCRAM13.BTP","index":145},{"name":"SCRAM14.BLP","index":146},{"name":"SCRAM14.BTP","index":147},{"name":"SCRAM15.BLP","index":148},{"name":"SCRAM15.BTP","index":149},{"name":"SCRAM16.BLP","index":150},{"name":"SCRAM16.BTP","index":151},{"name":"SCRAM17.BLP","index":152},{"name":"SCRAM17.BTP","index":153},{"name":"SCRAM18.BLP","index":154},{"name":"SCRAM18.BTP","index":155},{"name":"SCRAM19.BLP","index":156},{"name":"SCRAM19.BTP","index":157},{"name":"SCRAM20.BLP","index":158},{"name":"SCRAM20.BTP","index":159},{"name":"SCRAM21.BLP","index":160},{"name":"SCRAM21.BTP","index":161},{"name":"SCRAM22.BLP","index":162},{"name":"SCRAM22.BTP","index":163},{"name":"SCRAM23.BLP","index":164},{"name":"SCRAM23.BTP","index":165},{"name":"SCRAM24.BLP","index":166},{"name":"SCRAM24.BTP","index":167},{"name":"SCRAM25.BLP","index":168},{"name":"SCRAM25.BTP","index":169},{"name":"TRAIN01.BLP","index":170},{"name":"TRAIN01.BTP","index":171},{"name":"TRAIN02.BLP","index":172},{"name":"TRAIN02.BTP","index":173},{"name":"TRAIN03.BLP","index":174},{"name":"TRAIN03.BTP","index":175},{"name":"TRAIN04.BLP","index":176},{"name":"TRAIN04.BTP","index":177},{"name":"TRAIN05.BLP","index":178},{"name":"TRAIN05.BTP","index":179},{"name":"TRAIN06.BLP","index":180},{"name":"TRAIN06.BTP","index":181},{"name":"TRAIN07.BLP","index":182},{"name":"TRAIN07.BTP","index":183},{"name":"TRAIN08.BLP","index":184},{"name":"TRAIN08.BTP","index":185},{"name":"TRAIN09.BLP","index":186},{"name":"TRAIN09.BTP","index":187},{"name":"TRAIN10.BLP","index":188},{"name":"TRAIN10.BTP","index":189},{"name":"DEATH1.BLP","index":190},{"name":"DEATH1.BTP","index":191},{"name":"DEATH2.BLP","index":192},{"name":"DEATH2.BTP","index":193},{"name":"DEATH3.BLP","index":194},{"name":"DEATH3.BTP","index":195},{"name":"DEATH4.BLP","index":196},{"name":"DEATH4.BTP","index":197},{"name":"DEATH5.BLP","index":198},{"name":"DEATH5.BTP","index":199},{"name":"PURSUIT1.BLP","index":200},{"name":"PURSUIT1.BTP","index":201},{"name":"PURSUIT2.BLP","index":202},{"name":"PURSUIT2.BTP","index":203},{"name":"PURSUIT3.BLP","index":204},{"name":"PURSUIT3.BTP","index":205},{"name":"PURSUIT4.BLP","index":206},{"name":"PURSUIT4.BTP","index":207},{"name":"PURSUIT5.BLP","index":208},{"name":"PURSUIT5.BTP","index":209},{"name":"FOOTY1.BLP","index":210},{"name":"FOOTY1.BTP","index":211}],"tracks":[{"name":"LEV01.BLP","index":80,"textureIndex":81,"category":"Race"},{"name":"LEV02.BLP","index":82,"textureIndex":83,"category":"Race"},{"name":"LEV03.BLP","index":84,"textureIndex":85,"category":"Race"},{"name":"LEV04.BLP","index":86,"textureIndex":87,"category":"Race"},{"name":"LEV05.BLP","index":88,"textureIndex":89,"category":"Race"},{"name":"LEV06.BLP","index":90,"textureIndex":91,"category":"Race"},{"name":"LEV07.BLP","index":92,"textureIndex":93,"category":"Race"},{"name":"LEV08.BLP","index":94,"textureIndex":95,"category":"Race"},{"name":"LEV09.BLP","index":96,"textureIndex":97,"category":"Race"},{"name":"LEV10.BLP","index":98,"textureIndex":99,"category":"Race"},{"name":"LEV11.BLP","index":100,"textureIndex":101,"category":"Race"},{"name":"LEV12.BLP","index":102,"textureIndex":103,"category":"Race"},{"name":"LEV13.BLP","index":104,"textureIndex":105,"category":"Race"},{"name":"LEV14.BLP","index":106,"textureIndex":107,"category":"Race"},{"name":"LEV15.BLP","index":108,"textureIndex":109,"category":"Race"},{"name":"LEV16.BLP","index":110,"textureIndex":111,"category":"Race"},{"name":"LEV17.BLP","index":112,"textureIndex":113,"category":"Race"},{"name":"LEV18.BLP","index":114,"textureIndex":115,"category":"Race"},{"name":"LEV19.BLP","index":116,"textureIndex":117,"category":"Race"},{"name":"LEV20.BLP","index":118,"textureIndex":119,"category":"Race"},{"name":"SCRAM01.BLP","index":120,"textureIndex":121,"category":"Scramble"},{"name":"SCRAM02.BLP","index":122,"textureIndex":123,"category":"Scramble"},{"name":"SCRAM03.BLP","index":124,"textureIndex":125,"category":"Scramble"},{"name":"SCRAM04.BLP","index":126,"textureIndex":127,"category":"Scramble"},{"name":"SCRAM05.BLP","index":128,"textureIndex":129,"category":"Scramble"},{"name":"SCRAM06.BLP","index":130,"textureIndex":131,"category":"Scramble"},{"name":"SCRAM07.BLP","index":132,"textureIndex":133,"category":"Scramble"},{"name":"SCRAM08.BLP","index":134,"textureIndex":135,"category":"Scramble"},{"name":"SCRAM09.BLP","index":136,"textureIndex":137,"category":"Scramble"},{"name":"SCRAM10.BLP","index":138,"textureIndex":139,"category":"Scramble"},{"name":"SCRAM11.BLP","index":140,"textureIndex":141,"category":"Scramble"},{"name":"SCRAM12.BLP","index":142,"textureIndex":143,"category":"Scramble"},{"name":"SCRAM13.BLP","index":144,"textureIndex":145,"category":"Scramble"},{"name":"SCRAM14.BLP","index":146,"textureIndex":147,"category":"Scramble"},{"name":"SCRAM15.BLP","index":148,"textureIndex":149,"category":"Scramble"},{"name":"SCRAM16.BLP","index":150,"textureIndex":151,"category":"Scramble"},{"name":"SCRAM17.BLP","index":152,"textureIndex":153,"category":"Scramble"},{"name":"SCRAM18.BLP","index":154,"textureIndex":155,"category":"Scramble"},{"name":"SCRAM19.BLP","index":156,"textureIndex":157,"category":"Scramble"},{"name":"SCRAM20.BLP","index":158,"textureIndex":159,"category":"Scramble"},{"name":"SCRAM21.BLP","index":160,"textureIndex":161,"category":"Scramble"},{"name":"SCRAM22.BLP","index":162,"textureIndex":163,"category":"Scramble"},{"name":"SCRAM23.BLP","index":164,"textureIndex":165,"category":"Scramble"},{"name":"SCRAM24.BLP","index":166,"textureIndex":167,"category":"Scramble"},{"name":"SCRAM25.BLP","index":168,"textureIndex":169,"category":"Scramble"},{"name":"TRAIN01.BLP","index":170,"textureIndex":171,"category":"Training"},{"name":"TRAIN02.BLP","index":172,"textureIndex":173,"category":"Training"},{"name":"TRAIN03.BLP","index":174,"textureIndex":175,"category":"Training"},{"name":"TRAIN04.BLP","index":176,"textureIndex":177,"category":"Training"},{"name":"TRAIN05.BLP","index":178,"textureIndex":179,"category":"Training"},{"name":"TRAIN06.BLP","index":180,"textureIndex":181,"category":"Training"},{"name":"TRAIN07.BLP","index":182,"textureIndex":183,"category":"Training"},{"name":"TRAIN08.BLP","index":184,"textureIndex":185,"category":"Training"},{"name":"TRAIN09.BLP","index":186,"textureIndex":187,"category":"Training"},{"name":"TRAIN10.BLP","index":188,"textureIndex":189,"category":"Training"},{"name":"DEATH1.BLP","index":190,"textureIndex":191,"category":"Deathmatch"},{"name":"DEATH2.BLP","index":192,"textureIndex":193,"category":"Deathmatch"},{"name":"DEATH3.BLP","index":194,"textureIndex":195,"category":"Deathmatch"},{"name":"DEATH4.BLP","index":196,"textureIndex":197,"category":"Deathmatch"},{"name":"DEATH5.BLP","index":198,"textureIndex":199,"category":"Deathmatch"},{"name":"PURSUIT1.BLP","index":200,"textureIndex":201,"category":"Pursuit"},{"name":"PURSUIT2.BLP","index":202,"textureIndex":203,"category":"Pursuit"},{"name":"PURSUIT3.BLP","index":204,"textureIndex":205,"category":"Pursuit"},{"name":"PURSUIT4.BLP","index":206,"textureIndex":207,"category":"Pursuit"},{"name":"PURSUIT5.BLP","index":208,"textureIndex":209,"category":"Pursuit"},{"name":"FOOTY1.BLP","index":210,"textureIndex":211,"category":"Football"}]};
+},
+"src/track-scene.mjs": function(require, module, Buffer) {
+const { parseScene } = require("src/scene.mjs");
+const { parseGFXM } = require("src/gfxm.mjs");
+const { parsePlacements } = require("src/placements.mjs");
+const { buildPlacedMeshes } = require("src/placed-meshes.mjs");
+const { parseBTP, decodeBTPTexture } = require("src/btp.mjs");
+const { buildSceneExport } = require("src/scene-export.mjs");
+
+// Both host and standalone browser use this boundary. Format-specific readers
+// supply ordinary objects; rendering and OBJ generation share the same meshes.
+function decodeTrackScene(data, textureData, readers = {}) {
+  const terrain = (readers.parseScene ?? parseScene)(data);
+  const gfxm = parseGFXM(data), btp = parseBTP(textureData);
+  if (!terrain.segments.length) throw new Error('This resource has no track geometry.');
+  const placements = (readers.parsePlacements ?? parsePlacements)(textureData, gfxm.models);
+  const meshes = (readers.buildPlacedMeshes ?? buildPlacedMeshes)(data, gfxm, placements);
+  const textures = new Map();
+  for (const page of new Set([...terrain.segments, ...meshes].flatMap(mesh => mesh.faces.map(face => face.page)))) {
+    textures.set(page, (readers.decodeBTPTexture ?? decodeBTPTexture)(btp, page));
+  }
+  const output = buildSceneExport(terrain, textures, meshes);
+  if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid track bounds.');
+  return { ...output, segments: terrain.segments.length, instances: meshes.length, textures,
+    placementTypes: placements.records.reduce((types, record) => {
+      types[record.type] = (types[record.type] ?? 0) + 1;
+      return types;
+    }, {}) };
+}
+
+Object.assign(module.exports, {decodeTrackScene});
 },
 "src/scene.mjs": function(require, module, Buffer) {
 // Primary SEGM grids. Native anchors: scene results 027, 034 and 042.
@@ -749,6 +851,115 @@ function buildSceneExport(scene, textures, placedMeshes=[]) {
 
 Object.assign(module.exports, {buildSceneExport});
 },
+"src/stage2-placements.mjs": function(require, module, Buffer) {
+const { placementMatrix } = require("src/fixed-math.mjs");
+
+// Stage II Extreme FUN_0042f250: cursor = serialized record + 0x26,
+// incremented by 0x42. Color starts are byte offsets into GFXM +0x1c,
+// whose runs select per-face lighting colors, not material UVs.
+// See analysis/stage2-native-live/results/024-loadera-entry.json.
+// The loader at 0x42fdcc..0x42fe0c and FUN_00444fd0 use the same
+// angle conversion, lookup table and quaternion arithmetic as fixed-math.mjs.
+function parseStage2Placements(data, models) {
+  if (!Buffer.isBuffer(data) || data.length < 0x40 || data.toString('ascii', 0, 4) !== 'BTP ') {
+    throw new Error('Invalid Stage II BTP placement header.');
+  }
+  const count = data.readUInt32LE(0x14), offset = data.readUInt32LE(0x28), stride = 66;
+  if (offset + count * stride > data.length) throw new Error('Stage II BTP placement records exceed resource bounds.');
+  const records = Array.from({ length: count }, (_, index) => {
+    const p = offset + index * stride, flags = data.readUInt16LE(p), type = flags & 0x3ff;
+    const record = {
+      index, offset: p, flags, type,
+      position: [8, 10, 12].map(a => data.readInt16LE(p + a)),
+      angles: [14, 16, 18].map(a => data.readInt16LE(p + a)),
+      raw: Buffer.from(data.subarray(p, p + stride)),
+    };
+    if (type === 0) {
+      record.modelIndex = data[p + 3];
+      if (!models[record.modelIndex]) throw new Error(`Stage II placement ${index} references missing model ${record.modelIndex}.`);
+      record.colorStarts = [32, 34, 36].map(a => data.readUInt16LE(p + a));
+      record.matrix = placementMatrix(record.angles);
+    }
+    return record;
+  });
+  return { count, offset, stride, records };
+}
+
+Object.assign(module.exports, {parseStage2Placements});
+},
+"src/stage2-placed-meshes.mjs": function(require, module, Buffer) {
+const { readStage2ModelMaterials } = require("src/stage2-model-materials.mjs");
+const { transformPlacedVertex } = require("src/fixed-math.mjs");
+
+// Preserve the same static base-pass scope as Rollcage: ordinary type-zero
+// placements at their initial poses; special constructors remain inventoried.
+function buildStage2PlacedMeshes(data, gfxm, placements) {
+  return placements.records.filter(record => record.type === 0 && (record.flags & 0x400)).map(record => {
+    const model = gfxm.models[record.modelIndex];
+    return { index: record.index, modelIndex: record.modelIndex,
+      vertices: model.vertices.map(vertex => transformPlacedVertex(vertex, record.matrix, record.position)),
+      faces: readStage2ModelMaterials(data, model).map(face => ({ ...face, uv: face.uv.slice(0, face.indices.length) })) };
+  });
+}
+
+Object.assign(module.exports, {buildStage2PlacedMeshes});
+},
+"src/stage2-model-materials.mjs": function(require, module, Buffer) {
+// Stage II Extreme FUN_00429c00 selects the per-model material index stream
+// from MODL +0x3c. Keys are byte offsets, unlike Rollcage's packed keys.
+// Native evidence: stage2-native-live/results/034-modelrenderer.json.
+// FUN_00433a10 supplies these eight UV permutations; the frame/state layouts
+// are also consumed by FUN_00433b40 (retained results 035 and 066).
+const permutations = [[0,1,2,3],[1,3,0,2],[3,2,1,0],[2,0,3,1],
+  [2,3,0,1],[3,1,2,0],[1,0,3,2],[0,2,1,3]];
+
+function readStage2ModelMaterials(data, model) {
+  const range = (p, n, label) => {
+    if (!Number.isSafeInteger(p) || p < 0 || p + n > data.length) {
+      throw new Error(`Stage II model ${label} exceeds resource bounds.`);
+    }
+  };
+  range(0, 0x120, 'material header');
+  range(model.offset, 0x50, 'header');
+  const materialStart = data.readUInt16LE(model.offset + 0x3c);
+  const inline = (materialStart & 0x8000) !== 0;
+  const indexTable = inline ? model.offset + (materialStart & 0x7fff)
+    : data.readUInt32LE(0xcc) + materialStart * 2;
+  const materialTable = inline ? model.offset : data.readUInt32LE(0xd8);
+  range(indexTable, model.faceCount * 2, 'UV indices');
+  return model.faces.map((face, index) => {
+    const key = data.readUInt16LE(indexTable + index * 2), descriptor = materialTable + key;
+    range(descriptor, 12, 'UV descriptor');
+    const animationWord = data.readUInt16LE(descriptor + 2);
+    let uvOffset = descriptor, permutation = 0, animation = null;
+    if (animationWord !== 0xffff) {
+      const animationIndex = animationWord & 255;
+      const animTable = data.readUInt32LE(0xb0), frameTable = data.readUInt32LE(0xb8);
+      if (animationIndex >= data[0xb4]) throw new Error('Stage II model UV animation index is unavailable.');
+      range(animTable + animationIndex * 24, 24, 'animation state');
+      let frame = data.readUInt16LE(animTable + animationIndex * 24 + 6), p = frameTable + frame * 6;
+      range(p, 6, 'animation frame');
+      if (data.readInt16LE(p + 4) === 0) {
+        frame = data.readInt16LE(p); p = frameTable + frame * 6;
+        range(p, 6, 'animation redirect');
+      }
+      const uvIndex = data.readInt16LE(p);
+      uvOffset = data.readUInt32LE(0x110) + uvIndex * 16;
+      range(uvOffset, 12, 'animated UV record');
+      permutation = animationWord >> 8;
+      animation = { index: animationIndex, frame, uvIndex, permutation };
+    }
+    const corners = [[data[uvOffset], data[uvOffset + 1]], [data[uvOffset + 4], data[uvOffset + 5]],
+      [data[uvOffset + 8], data[uvOffset + 9]], [data[uvOffset + 10], data[uvOffset + 11]]];
+    const order = permutations[permutation] ?? permutations[0], pageWord = data.readUInt16LE(uvOffset + 6);
+    return { index, key, descriptor, uvOffset, animationWord, animation, pageWord, page: pageWord & 63,
+      uv: order.map(i => corners[i]),
+      indices: [face.indices[0] - 1, face.indices[2] - 1, face.indices[1] - 1, ...(face.triangle ? [] : [face.indices[3] - 1])] };
+  });
+}
+
+Object.assign(module.exports, {readStage2ModelMaterials});
+},
 "tools/track-viewer/navigation.mjs": function(require, module, Buffer) {
 const add = (a, b, scale = 1) => a.map((n, i) => n + b[i] * scale);
 const dot = (a, b) => a.reduce((n, x, i) => n + x * b[i], 0);
@@ -903,6 +1114,7 @@ Object.assign(module.exports, {Renderer});
 },
 "tools/track-viewer/export-track.mjs": function(require, module, Buffer) {
 const { createZIP } = require("tools/track-viewer/zip.mjs");
+const { buildTrackManifest } = require("src/track-manifest.mjs");
 
 function encodeTexturePNG(image) {
   const canvas = document.createElement('canvas');
@@ -928,8 +1140,9 @@ async function buildTrackDownload(scene, track) {
     materials.push(`newmtl page_${page}\nKa 1 1 1\nKd 1 1 1\nKs 0 0 0\nd 1\nillum 1\nmap_Kd ${filename}\nmap_d ${filename}\n`);
   }
   files.push({ name: 'scene.mtl', data: materials.join('\n') });
+  files.push({ name: 'scene.json', data: JSON.stringify(buildTrackManifest(scene, track), null, 2) });
   files.push({ name: 'README.txt', data: [
-    `Rollcage track: ${track.name}`, '',
+    `${track.gameLabel ?? 'Rollcage'} track: ${track.name}`, '',
     'Extract every file in this ZIP into the same folder.',
     'In Blender, import scene.obj using the OBJ importer.',
     'Switch the viewport to Material Preview to see the textures.',
@@ -939,7 +1152,7 @@ async function buildTrackDownload(scene, track) {
     'Effects, overlays, special objects, original lighting and game simulation are not included.',
     'Geometry maps source X,Y,Z to X,-Y,-Z (Y up), preserving handedness and original game units.', ''
   ].join('\n') });
-  return { filename: `${track.name.replace(/\.BLP$/i, '').replace(/[^a-z0-9-]/gi, '-')}.zip`, blob: createZIP(files) };
+  return { filename: `${track.game ?? 'rollcage'}-${track.name.replace(/\.BLP$/i, '').replace(/[^a-z0-9-]/gi, '-')}.zip`, blob: createZIP(files) };
 }
 
 Object.assign(module.exports, {encodeTexturePNG,buildTrackDownload});
@@ -988,6 +1201,22 @@ function createZIP(files) {
 }
 
 Object.assign(module.exports, {createZIP});
+},
+"src/track-manifest.mjs": function(require, module, Buffer) {
+function buildTrackManifest(scene, track) {
+  return {
+    game: track.game ?? 'rollcage', name: track.name, resource: track.index,
+    textureResource: track.textureIndex ?? track.index + 1,
+    segments: scene.segments, instances: scene.instances,
+    vertices: scene.vertices, quads: scene.quads, triangles: scene.triangles,
+    placementTypes: scene.placementTypes, bounds: scene.bounds,
+    pages: [...scene.textures].map(([page, { width, height }]) => ({ page, width, height })),
+    coordinates: 'X,-Y,-Z (Y up); source units retained',
+    scope: 'Complete finest-grid terrain and ordinary objects at initial poses. Animated UVs use their serialized frame. Effects, overlays, special objects, visibility/LOD, original lighting and game simulation are not included.'
+  };
+}
+
+Object.assign(module.exports, {buildTrackManifest});
 }
 };
 const cache = {};
