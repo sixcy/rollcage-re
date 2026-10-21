@@ -1,5 +1,7 @@
 import { FileArchive } from './file-archive.mjs';
 import { identifyGame } from '../../src/track-games.mjs';
+import { FirebugsArchive } from '../../src/firebugs-archive.mjs';
+import { openFirebugsDisc } from '../../src/ps1-disc.mjs';
 import { Navigation } from './navigation.mjs';
 import { Renderer } from './renderer.mjs';
 import { buildTrackDownload } from './export-track.mjs';
@@ -7,6 +9,7 @@ import { buildTrackDownload } from './export-track.mjs';
 const element = id => document.getElementById(id);
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
+let sourceKind = 'pc';
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
 const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
@@ -23,6 +26,7 @@ function help() {
 function clearScene() {
   scene = null; selectedTrack = null; renderer?.clear();
   element('download').disabled = true;
+  element('scene-scope').textContent = '';
   element('counts').textContent = ''; element('sector').replaceChildren(new Option('All terrain sectors', '-1'));
 }
 async function loadTrack() {
@@ -41,6 +45,7 @@ async function loadTrack() {
     navigation.reset(scene.bounds); help();
     for (let i = 0; i < scene.segments; i++) element('sector').append(new Option(`Sector ${i}`, String(i)));
     element('counts').textContent = `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`;
+    element('scene-scope').textContent = scene.source?.scope ?? '';
     status(`${track.label} ready.`);
   } catch (error) { if (token === generation) { clearScene(); fail(error); } }
   finally { if (token === generation) element('stage').setAttribute('aria-busy', 'false'); }
@@ -69,13 +74,28 @@ async function openFiles() {
   releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
   element('game-info').textContent = '';
   element('error').textContent = ''; element('stage').setAttribute('aria-busy', 'false');
-  const image = element('image').files[0], index = element('index').files[0];
-  if (!image || !index) { status('Select both Rollcage.img and Rollcage.idx to begin.'); return; }
-  status('Reading archive index…');
+  const requested = element('game').value;
+  const useDisc = requested === 'firebugs' || (requested === 'auto' && sourceKind === 'disc');
+  element('pc-files').hidden = requested === 'firebugs';
+  element('disc-files').hidden = requested !== 'auto' && requested !== 'firebugs';
+  const image = element('image').files[0], index = element('index').files[0], zip = element('disc').files[0];
+  if (useDisc ? !zip : !image || !index) {
+    status(useDisc ? 'Select a Firebugs disc ZIP containing its CUE and data BIN.' : 'Select both Rollcage.img and Rollcage.idx, or a Firebugs disc ZIP.');
+    return;
+  }
+  status(useDisc ? 'Reading Firebugs disc ZIP…' : 'Reading archive index…');
   try {
-    const opened = await FileArchive.open(image, index);
+    let opened;
+    if (useDisc) {
+      const disc = await openFirebugsDisc({ size: zip.size,
+        read: async (offset, length) => new Uint8Array(await zip.slice(offset, offset + length).arrayBuffer()) },
+        { onProgress: phase => { if (token === generation) status(`${phase}…`); } });
+      if (token !== generation) return;
+      status('Reading Firebugs archive index…');
+      opened = await FirebugsArchive.open(disc);
+    } else opened = await FileArchive.open(image, index);
     if (token !== generation) return;
-    const identified = await identifyGame(opened, element('game').value);
+    const identified = await identifyGame(opened, requested);
     if (token !== generation) return;
     archive = opened; game = identified.game; availableTracks = identified.tracks; verified = identified.verified;
     element('game-info').textContent = `${game.label} · ${availableTracks.length} environments${verified ? '' : ' · Unverified release; format compatibility is not established.'}`;
@@ -84,9 +104,14 @@ async function openFiles() {
     await loadTrack();
   } catch (error) { if (token === generation) fail(error); }
 }
-element('image').addEventListener('change', openFiles);
-element('index').addEventListener('change', openFiles);
-element('game').addEventListener('change', openFiles);
+element('image').addEventListener('change', () => { sourceKind = 'pc'; openFiles(); });
+element('index').addEventListener('change', () => { sourceKind = 'pc'; openFiles(); });
+element('disc').addEventListener('change', () => { sourceKind = 'disc'; openFiles(); });
+element('game').addEventListener('change', () => {
+  const requested = element('game').value;
+  if (requested !== 'auto') sourceKind = requested === 'firebugs' ? 'disc' : 'pc';
+  openFiles();
+});
 element('track').addEventListener('change', loadTrack);
 element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
 element('download').addEventListener('click', downloadTrack);
@@ -140,7 +165,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) relea
 canvas.addEventListener('webglcontextlost', event => {
   event.preventDefault(); ++generation; releaseMouse(); clearScene(); contextLost = true;
   element('stage').setAttribute('aria-busy', 'false');
-  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'disc', 'game', 'track', 'reload']) element(id).disabled = true;
   status('Reload this page to restore rendering.');
   element('error').textContent = 'The graphics context was lost. Reload this page to restore the viewer.';
 });
@@ -168,5 +193,5 @@ help();
 try { renderer = new Renderer(canvas); requestAnimationFrame(frame); }
 catch (error) {
   element('error').textContent = errorText(error); status('Rendering is unavailable.');
-  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'disc', 'game', 'track', 'reload']) element(id).disabled = true;
 }

@@ -9,7 +9,7 @@ export function parseGameOptions(argumentsList) {
     const value = argumentsList[index];
     if (value === '--game') {
       gameId = argumentsList[++index];
-      if (!gameId) throw new Error('--game requires rollcage or stage2.');
+      if (!gameId) throw new Error('--game requires rollcage, stage2 or firebugs.');
     } else if (value.startsWith('--game=')) gameId = value.slice(7);
     else if (value.startsWith('--')) throw new Error(`Unknown option: ${value}`);
     else positional.push(value);

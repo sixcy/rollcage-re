@@ -58,6 +58,18 @@ The general Track Viewer replaces the earlier level-one preview directories. Sel
 
 Stage II uses separate placement and model-material readers with the shared archive, terrain, texture, renderer, and exporter components. Its track labels come from the native menu; `.BLP`/`.BTP` names are extraction aliases, not recovered original filenames. See [Stage II format notes](re-docs/stage2-formats.md) for evidence and limitations.
 
+For **Firebugs**, select a ZIP containing the PS1 disc's `.CUE` and referenced data `.BIN` in the same Track Viewer. The disc is processed locally; audio BINs are skipped. Automatic identification targets the supplied Europe disc, including renamed or repacked copies. Choose Firebugs explicitly to attempt another release with unverified compatibility. Firebugs uses its own disc, texture and scene readers with the shared viewer and OBJ export controls. Track labels retain resource IDs where original names have not been established.
+
+The supplied Europe disc exposes 33 environments, including variants and duplicates. See [Firebugs format notes](re-docs/firebugs-formats.md) for native evidence and remaining limits. List the environments before exporting a numeric track resource ID to a new directory:
+
+```powershell
+node tools/list-firebugs-tracks.mjs 'Firebugs.zip'
+node tools/validate-firebugs.mjs 'Firebugs.zip' firebugs-validation.json
+node tools/export-scene.mjs --game firebugs <track-id> firebugs-track-scene 'Firebugs.zip'
+```
+
+Exports contain OBJ, MTL, PNG textures, a JSON manifest and a standalone viewer. The manifest records disc identity, resource references, verification status and reconstruction limits. Firebugs ZIP input supports stored or deflated members and a CUE data track in MODE2/2352 layout; other disc layouts may be rejected.
+
 Use `--game stage2` for Stage II command-line extraction and export. Numeric IDs support every archive resource; named aliases currently cover its 66 environment pairs. Existing commands continue to default to Rollcage. Outputs require new filenames or directories:
 
 ```powershell

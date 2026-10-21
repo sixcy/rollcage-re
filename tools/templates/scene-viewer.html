@@ -1,16 +1,16 @@
 <!doctype html>
 <html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rollcage recovered scene</title>
+<title>Recovered track scene</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#0c121d;color:#e6edf7;font:14px system-ui,sans-serif}canvas{width:100vw;height:100vh;display:block;touch-action:none}aside{position:absolute;top:20px;left:20px;background:#111d2aee;padding:16px 20px;border:1px solid #344457;border-radius:10px;max-width:420px}h1{font-size:18px;margin:0 0 8px}p{margin:8px 0;color:#aabbd0}button,select{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:7px;margin:4px 6px 4px 0}label{margin-right:10px}.note{font-size:12px;max-width:360px}#error{color:#ffb4ac}
 </style><canvas id="canvas"></canvas><aside><h1 id="name"></h1><p id="counts"></p><p>Drag to orbit · Scroll to zoom</p><select id="sector"><option value="-1">All terrain sectors</option></select><button id="reset">Reset view</button><p><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label id="objectsLabel"><input type="checkbox" id="objects" checked>Objects</label></p><p class="note" id="scope"></p><p id="error"></p></aside>
 <script>
 'use strict';
 const scene=__SCENE_DATA__;
-document.getElementById('name').textContent=`${scene.game==='stage2'?'Rollcage Stage II':'Rollcage'} / ${scene.name}`;
+document.getElementById('name').textContent=`${({rollcage:'Rollcage',stage2:'Rollcage Stage II',firebugs:'Firebugs'})[scene.game]??scene.game} / ${scene.name}`;
 document.title=document.getElementById('name').textContent;
 document.getElementById('counts').textContent=`${scene.segments} sectors · ${scene.instances??0} objects · ${scene.triangles.toLocaleString()} triangles`;
-document.getElementById('scope').textContent=scene.instances?'Recovered track and ordinary model instances at their initial poses. Effects, overlays and game simulation are not included.':'Recovered static track geometry. Model instances, overlays and game simulation are not included.';
+document.getElementById('scope').textContent=scene.scope??(scene.instances?'Recovered track and ordinary model instances at their initial poses. Effects, overlays and game simulation are not included.':'Recovered static track geometry. Model instances, overlays and game simulation are not included.');
 document.getElementById('objectsLabel').hidden=!scene.instances;
 const canvas=document.getElementById('canvas'),gl=canvas.getContext('webgl',{antialias:true,preserveDrawingBuffer:true});
 if(!gl)document.getElementById('error').textContent='WebGL is unavailable in this browser.';

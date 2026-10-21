@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rollcage &amp; Stage II track viewer</title>
+<title>Rollcage, Stage II &amp; Firebugs track viewer</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#0c121d;color:#e6edf7;font:14px system-ui,sans-serif}#stage{position:fixed;inset:0}canvas{width:100%;height:100%;display:block;touch-action:none;outline:none}canvas:focus-visible{outline:2px solid #75d7df;outline-offset:-3px}aside{position:absolute;top:18px;left:18px;width:370px;max-width:calc(100vw - 36px);max-height:calc(100dvh - 36px);overflow:auto;background:#111d2af2;padding:18px;border:1px solid #344457;border-radius:10px}h1{font-size:20px;margin:0 0 8px}p{margin:10px 0;color:#b4c4d7;line-height:1.5}label.file{display:block;margin:12px 0;font-weight:600}input[type=file]{display:block;width:100%;margin-top:5px;font-size:12px;color:#b4c4d7}button,select,input::file-selector-button{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:7px;margin:4px 6px 4px 0}select{max-width:100%}button{cursor:pointer}button:hover,input::file-selector-button:hover{background:#36516b}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #75d7df}button:disabled,select:disabled{opacity:.5}.row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.checks{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.note{font-size:12px}#status{color:#91dce4}#error{color:#ffb4ac;white-space:pre-wrap;overflow-wrap:anywhere}#error:empty{display:none}summary{cursor:pointer;color:#c3d5e8}#speed{font-variant-numeric:tabular-nums}a{color:#91dce4}@media(max-width:600px){aside{top:10px;left:10px;max-height:48dvh;padding:12px}h1{font-size:18px}}
 </style>
@@ -11,25 +11,29 @@
 <body>
 <main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
 <aside aria-label="Track viewer controls">
-<h1>Rollcage &amp; Stage II track viewer</h1>
-<p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> from either game's <strong>IDXData</strong> folder. Both games use these filenames.</p>
+<h1>Rollcage, Stage II &amp; Firebugs track viewer</h1>
+<p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> for Rollcage or Stage II, or a <strong>Firebugs PS1 disc ZIP</strong> containing its CUE and data BIN.</p>
+<div class="row"><label for="game">Game</label><select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option><option value="firebugs">Firebugs</option></select></div>
+<div id="pc-files">
 <p class="note">Both files are usually located in:<br><strong>Rollcage:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage\IDXData</code><br><strong>Rollcage Stage II:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage Stage II\IDXData</code></p>
 <p class="note">You can paste the folder path for your game into the Browse dialog.</p>
-<p class="note">Files are read locally and stay on your computer. You can switch games by selecting another pair of files.</p>
-<div class="row"><label for="game">Game</label><select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option></select></div>
 <label class="file" for="image">Rollcage.img<input id="image" type="file" accept=".img"></label>
 <label class="file" for="index">Rollcage.idx<input id="index" type="file" accept=".idx"></label>
+</div>
+<div id="disc-files"><label class="file" for="disc">Firebugs disc ZIP<input id="disc" type="file" accept=".zip,application/zip"></label></div>
+<p class="note">Files are read locally and stay on your computer. Select another source to switch games. Disc loading can take a moment while the data BIN is decompressed; audio tracks are skipped.</p>
 <p id="game-info" class="note"></p>
 <div class="row"><label for="track">Track</label><select id="track" disabled aria-label="Track"></select><button id="reload" type="button">Load / retry</button></div>
-<p id="status" role="status">Select both Rollcage.img and Rollcage.idx to begin.</p>
+<p id="status" role="status">Select both Rollcage.img and Rollcage.idx, or a Firebugs disc ZIP.</p>
 <p id="error" role="alert"></p><p id="counts" class="note"></p>
+<p id="scene-scope" class="note"></p>
 <button id="download" type="button" disabled>Download track</button>
 <p class="note">Saves the complete track and ordinary objects as a ZIP with OBJ, materials and PNG textures. Unzip it, then import scene.obj into Blender.</p>
 <div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option></select><button id="reset" type="button">Reset view</button></div>
 <p id="help" class="note"></p><p id="speed" class="note" hidden></p>
 <label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
 <div class="checks"><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label><input type="checkbox" id="objects" checked>Objects</label></div>
-<details><summary>About this reconstruction</summary><p class="note">Rollcage LOW and HIGH PC BLP tracks and Stage II environments are supported. Tracks use their archive identifiers. Stage II support is validated against the supplied installation with Rollcage Extreme. Other releases remain unverified. Terrain and ordinary objects are shown at their initial poses. Effects, overlays, special objects, game simulation and BL6 textures remain outside this viewer. Fly-in has no collision.</p></details>
+<details><summary>About this reconstruction</summary><p class="note">Rollcage LOW and HIGH PC BLP tracks, Stage II environments and Firebugs PS1 track resources are supported. Tracks use recovered names or archive identifiers. Stage II support targets the supplied installation with Rollcage Extreme; Firebugs targets the supplied Europe disc. Unknown releases require an explicit game selection and remain unverified. Terrain and ordinary objects are shown at their initial poses. Effects, overlays, special objects, game simulation and BL6 textures remain outside this viewer. Fly-in has no collision. Export manifests describe source identity and reconstruction limits.</p></details>
 </aside>
 <script>
 (function() {
@@ -38,6 +42,8 @@ const modules = {
 "tools/track-viewer/app.mjs": function(require, module, Buffer) {
 const { FileArchive } = require("tools/track-viewer/file-archive.mjs");
 const { identifyGame } = require("src/track-games.mjs");
+const { FirebugsArchive } = require("src/firebugs-archive.mjs");
+const { openFirebugsDisc } = require("src/ps1-disc.mjs");
 const { Navigation } = require("tools/track-viewer/navigation.mjs");
 const { Renderer } = require("tools/track-viewer/renderer.mjs");
 const { buildTrackDownload } = require("tools/track-viewer/export-track.mjs");
@@ -45,6 +51,7 @@ const { buildTrackDownload } = require("tools/track-viewer/export-track.mjs");
 const element = id => document.getElementById(id);
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
+let sourceKind = 'pc';
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
 const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
@@ -61,6 +68,7 @@ function help() {
 function clearScene() {
   scene = null; selectedTrack = null; renderer?.clear();
   element('download').disabled = true;
+  element('scene-scope').textContent = '';
   element('counts').textContent = ''; element('sector').replaceChildren(new Option('All terrain sectors', '-1'));
 }
 async function loadTrack() {
@@ -79,6 +87,7 @@ async function loadTrack() {
     navigation.reset(scene.bounds); help();
     for (let i = 0; i < scene.segments; i++) element('sector').append(new Option(`Sector ${i}`, String(i)));
     element('counts').textContent = `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`;
+    element('scene-scope').textContent = scene.source?.scope ?? '';
     status(`${track.label} ready.`);
   } catch (error) { if (token === generation) { clearScene(); fail(error); } }
   finally { if (token === generation) element('stage').setAttribute('aria-busy', 'false'); }
@@ -107,13 +116,28 @@ async function openFiles() {
   releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
   element('game-info').textContent = '';
   element('error').textContent = ''; element('stage').setAttribute('aria-busy', 'false');
-  const image = element('image').files[0], index = element('index').files[0];
-  if (!image || !index) { status('Select both Rollcage.img and Rollcage.idx to begin.'); return; }
-  status('Reading archive index…');
+  const requested = element('game').value;
+  const useDisc = requested === 'firebugs' || (requested === 'auto' && sourceKind === 'disc');
+  element('pc-files').hidden = requested === 'firebugs';
+  element('disc-files').hidden = requested !== 'auto' && requested !== 'firebugs';
+  const image = element('image').files[0], index = element('index').files[0], zip = element('disc').files[0];
+  if (useDisc ? !zip : !image || !index) {
+    status(useDisc ? 'Select a Firebugs disc ZIP containing its CUE and data BIN.' : 'Select both Rollcage.img and Rollcage.idx, or a Firebugs disc ZIP.');
+    return;
+  }
+  status(useDisc ? 'Reading Firebugs disc ZIP…' : 'Reading archive index…');
   try {
-    const opened = await FileArchive.open(image, index);
+    let opened;
+    if (useDisc) {
+      const disc = await openFirebugsDisc({ size: zip.size,
+        read: async (offset, length) => new Uint8Array(await zip.slice(offset, offset + length).arrayBuffer()) },
+        { onProgress: phase => { if (token === generation) status(`${phase}…`); } });
+      if (token !== generation) return;
+      status('Reading Firebugs archive index…');
+      opened = await FirebugsArchive.open(disc);
+    } else opened = await FileArchive.open(image, index);
     if (token !== generation) return;
-    const identified = await identifyGame(opened, element('game').value);
+    const identified = await identifyGame(opened, requested);
     if (token !== generation) return;
     archive = opened; game = identified.game; availableTracks = identified.tracks; verified = identified.verified;
     element('game-info').textContent = `${game.label} · ${availableTracks.length} environments${verified ? '' : ' · Unverified release; format compatibility is not established.'}`;
@@ -122,9 +146,14 @@ async function openFiles() {
     await loadTrack();
   } catch (error) { if (token === generation) fail(error); }
 }
-element('image').addEventListener('change', openFiles);
-element('index').addEventListener('change', openFiles);
-element('game').addEventListener('change', openFiles);
+element('image').addEventListener('change', () => { sourceKind = 'pc'; openFiles(); });
+element('index').addEventListener('change', () => { sourceKind = 'pc'; openFiles(); });
+element('disc').addEventListener('change', () => { sourceKind = 'disc'; openFiles(); });
+element('game').addEventListener('change', () => {
+  const requested = element('game').value;
+  if (requested !== 'auto') sourceKind = requested === 'firebugs' ? 'disc' : 'pc';
+  openFiles();
+});
 element('track').addEventListener('change', loadTrack);
 element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
 element('download').addEventListener('click', downloadTrack);
@@ -178,7 +207,7 @@ document.addEventListener('visibilitychange', () => { if (document.hidden) relea
 canvas.addEventListener('webglcontextlost', event => {
   event.preventDefault(); ++generation; releaseMouse(); clearScene(); contextLost = true;
   element('stage').setAttribute('aria-busy', 'false');
-  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'disc', 'game', 'track', 'reload']) element(id).disabled = true;
   status('Reload this page to restore rendering.');
   element('error').textContent = 'The graphics context was lost. Reload this page to restore the viewer.';
 });
@@ -206,7 +235,7 @@ help();
 try { renderer = new Renderer(canvas); requestAnimationFrame(frame); }
 catch (error) {
   element('error').textContent = errorText(error); status('Rendering is unavailable.');
-  for (const id of ['image', 'index', 'game', 'track', 'reload']) element(id).disabled = true;
+  for (const id of ['image', 'index', 'disc', 'game', 'track', 'reload']) element(id).disabled = true;
 }
 
 Object.assign(module.exports, {});
@@ -378,6 +407,7 @@ const stage2Map = require("src/stage2-resource-map.json");
 const { decodeTrackScene } = require("src/track-scene.mjs");
 const { parseStage2Placements } = require("src/stage2-placements.mjs");
 const { buildStage2PlacedMeshes } = require("src/stage2-placed-meshes.mjs");
+const { firebugsGame, identifyFirebugs } = require("src/firebugs.mjs");
 
 // Exact index identities plus decoded sentinel resources bind auto-detection to
 // the supplied archives, including a check that the IMG belongs to that IDX.
@@ -414,6 +444,8 @@ function createGame(id, label, definitions, decode, resolveName, headerFlags) {
 }
 
 const stage2Lookup = new Map(stage2Map.mappings.map(({ name, index }) => [normalizeResourceName(name), index]));
+// PC catalogs are fixed. Firebugs discovers its catalog from the selected disc
+// and participates through getGame/identifyGame below.
 const games = Object.freeze([
   createGame('rollcage', 'Rollcage', resourceMappings
     .map(({ name, index }) => ({ name: normalizeResourceName(name), index, textureIndex: index + 1 }))
@@ -425,8 +457,9 @@ const games = Object.freeze([
 ]);
 
 function getGame(id) {
+  if (id === 'firebugs') return firebugsGame;
   const game = games.find(game => game.id === id);
-  if (!game) throw new Error(`Unknown game: ${id}. Choose rollcage or stage2.`);
+  if (!game) throw new Error(`Unknown game: ${id}. Choose rollcage, stage2 or firebugs.`);
   return game;
 }
 
@@ -436,6 +469,7 @@ async function digest(bytes) {
 }
 
 async function identifyGame(archive, requested = 'auto') {
+  if (archive.game === 'firebugs' || requested === 'firebugs') return identifyFirebugs(archive, requested);
   const indexHash = archive.indexData ? await digest(archive.indexData) : null;
   const known = games.find(game => fingerprints[game.id].index === indexHash);
   if (requested !== 'auto' && known && known.id !== requested) {
@@ -960,6 +994,506 @@ function readStage2ModelMaterials(data, model) {
 
 Object.assign(module.exports, {readStage2ModelMaterials});
 },
+"src/firebugs.mjs": function(require, module, Buffer) {
+const { decodeFirebugsScene } = require("src/firebugs-scene.mjs");
+
+const knownIndex = 'f020b8f8b6ebc4e2a29261450ec732bd71cc9038551e71bfe39846b9ba9a6147';
+const knownImage = 'b24e781e33c915e9c9ef87c2789a85d05b76ea7c1ecd30405bff954cc6199531';
+async function digest(bytes) {
+  if (!globalThis.crypto?.subtle) return null;
+  const hash = new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256', bytes));
+  return Array.from(hash, b => b.toString(16).padStart(2, '0')).join('');
+}
+
+const firebugsGame = Object.freeze({
+  id: 'firebugs', label: 'Firebugs', tracks: Object.freeze([]),
+  async listTracks(archive) {
+    const tracks = [];
+    for (const entry of archive.entries) {
+      const resource = await archive.readResource(entry.index);
+      if (resource.data.toString('ascii', 0, 4) !== 'GFXM' || resource.data.length < 0x140 || resource.data.readUInt32LE(0x10) === 0) continue;
+      const vramIndex = entry.index + 1, btxIndex = entry.index + 2;
+      const vram = await archive.readResource(vramIndex), btx = await archive.readResource(btxIndex);
+      if (vram.data.toString('ascii', 0, 4) !== 'VRAM' || btx.data.toString('ascii', 0, 4) !== 'BTX ') throw new Error(`Firebugs resource ${entry.index} has no matching VRAM/BTX resources.`);
+      tracks.push(Object.freeze({ game:'firebugs', gameLabel:'Firebugs', index:entry.index, vramIndex, btxIndex, textureIndex:btxIndex,
+        name:`RESOURCE-${entry.index}`, label:`Firebugs / Resource ${entry.index}`, category:'Disc environments' }));
+    }
+    return Object.freeze(tracks);
+  },
+  async loadTrack(archive, track) {
+    if (track.game !== 'firebugs' || !archive.tracks?.includes(track)) throw new Error('Track does not belong to the selected Firebugs disc.');
+    const geometry = await archive.readResource(track.index), vram = await archive.readResource(track.vramIndex), btx = await archive.readResource(track.btxIndex);
+    const scene = decodeFirebugsScene(geometry.data, vram.data, btx.data);
+    scene.source = { identity:archive.identity, verified:archive.verified, geometryResource:track.index, vramResource:track.vramIndex, btxResource:track.btxIndex,
+      coordinates:'X,-Y,-Z (Y up); source units retained',
+      scope:'Static terrain and ordinary scenery at initial poses. Effects, special objects, overlays, animation, original lighting, visibility/LOD and simulation are not included. PS1 semitransparency uses cutout transparency.' };
+    return scene;
+  }
+});
+
+async function identifyFirebugs(archive, requested='auto') {
+  if (requested !== 'auto' && requested !== 'firebugs') throw new Error('This disc belongs to Firebugs. Choose Automatic or Firebugs.');
+  if (archive.game !== 'firebugs') throw new Error('Select a Firebugs disc ZIP.');
+  const indexSHA256 = await digest(archive.indexData), imageSHA256 = await digest(archive.imageData);
+  const known = indexSHA256 === knownIndex;
+  if (known && imageSHA256 !== knownImage) throw new Error('The Firebugs image does not match its index, or its data is damaged.');
+  const verified = known && imageSHA256 === knownImage
+    && archive.identity?.volumeId === 'FIREBUGS' && archive.identity?.bootExecutable?.toUpperCase() === 'SCES_038.84';
+  if (!verified && requested === 'auto') throw new Error('Unrecognized Firebugs release. Choose Firebugs explicitly to attempt unverified compatibility.');
+  archive.tracks = await firebugsGame.listTracks(archive);
+  if (!archive.tracks.length) throw new Error('No Firebugs track environments were found.');
+  archive.verified = verified;
+  archive.identity = { ...archive.identity, indexSHA256, imageSHA256 };
+  return { game:firebugsGame, tracks:archive.tracks, verified, identity:archive.identity, indexSHA256 };
+}
+
+Object.assign(module.exports, {firebugsGame,identifyFirebugs});
+},
+"src/firebugs-scene.mjs": function(require, module, Buffer) {
+const { buildSceneExport } = require("src/scene-export.mjs");
+const { placementMatrix, transformPlacedVertex } = require("src/fixed-math.mjs");
+
+function range(data, offset, bytes, label) {
+  if (!Number.isSafeInteger(offset) || !Number.isSafeInteger(bytes) || offset < 0 || bytes < 0 || offset + bytes > data.length) throw new Error(`Firebugs ${label} exceeds resource bounds.`);
+}
+function signature(data, magic, bytes) {
+  if (!Buffer.isBuffer(data) || data.length < bytes || data.toString('ascii', 0, 4) !== magic) throw new Error(`Invalid Firebugs ${magic.trim()} header.`);
+}
+
+// Firebugs serializes PS1 GPU UV records: CLUT at +2, TPAGE at +6.
+function readFirebugsMaterial(data, offset) {
+  range(data, offset, 12, 'material');
+  const clut = data.readUInt16LE(offset + 2) & 0x7fff, tpage = data.readUInt16LE(offset + 6) | 0x20;
+  const corners = [[data[offset],data[offset+1]], [data[offset+4],data[offset+5]],
+    [data[offset+8],data[offset+9]], [data[offset+10],data[offset+11]]];
+  return { clut, tpage, page: tpage * 65536 + clut, uv: corners };
+}
+
+function parseFirebugsTerrain(data) {
+  signature(data, 'GFXM', 0x140);
+  const count = data.readUInt32LE(0x10), table = data.readUInt32LE(0x14), uvTable = data.readUInt32LE(0x110);
+  range(data, table, count * 4, 'segment table');
+  const segments = Array.from({ length: count }, (_, index) => {
+    const offset = data.readUInt32LE(table + index * 4);
+    range(data, offset, 0x60, 'segment header');
+    if (data.toString('ascii', offset, offset + 4) !== 'SEGM') throw new Error('Invalid Firebugs SEGM.');
+    const columns = data.readUInt32LE(offset + 8), rows = data.readUInt32LE(offset + 12);
+    const verticesOffset = data.readUInt32LE(offset + 0x20), packetsOffset = data.readUInt32LE(offset + 0x50);
+    const vertexCount = (columns + 1) * (rows + 1), faceCount = columns * rows;
+    range(data, verticesOffset, vertexCount * 8, 'terrain vertices');
+    range(data, packetsOffset, faceCount * 4, 'terrain packets');
+    const vertices = Array.from({ length: vertexCount }, (_, i) => {
+      const p = verticesOffset + i * 8;
+      return [data.readInt16LE(p), data.readInt16LE(p+2), data.readInt16LE(p+4), data.readUInt16LE(p+6)];
+    });
+    const faces = Array.from({ length: faceCount }, (_, i) => {
+      const packed = data.readUInt32LE(packetsOffset + i * 4);
+      // FUN_8005f9c0, 800600c8..80060110: low11 selects a GPU template;
+      // bits11..17 select a 16-byte terrain UV descriptor.
+      const textureRecord = (packed >>> 11) & 127;
+      const top = Math.floor(i / columns) * (columns + 1) + i % columns;
+      const grid = [top, top+1, top+columns+1, top+columns+2];
+      // Native grid draw at 80060b40..80060b60 rotates the same four
+      // corners as the PC reader when bottom-right vertex flag bit 2 is clear.
+      const indices = vertices[grid[3]][3] & 4 ? grid : [grid[1],grid[3],grid[0],grid[2]];
+      return { index: i, packed, textureRecord, indices,
+        ...readFirebugsMaterial(data, uvTable + textureRecord * 16) };
+    });
+    return { index, columns, rows, offset, vertices, faces };
+  });
+  return { segments, uvTable };
+}
+
+function parseFirebugsModels(data) {
+  signature(data, 'GFXM', 0x140);
+  const table = data.readUInt32LE(0x18), count = data.readUInt16LE(0x2c);
+  range(data, table, count * 4, 'model table');
+  return Array.from({ length: count }, (_, index) => {
+    const offset = data.readUInt32LE(table + index * 4);
+    if (!offset) return null;
+    range(data, offset, 0x70, 'model header');
+    if (![0x4d4f4401,0x4d4f4301].includes(data.readUInt32LE(offset))) throw new Error('Invalid Firebugs model tag.');
+    const vertexCount = data.readUInt16LE(offset + 4), faceCount = data.readUInt16LE(offset + 6);
+    const vp = offset + data.readUInt32LE(offset + 0x44), fp = offset + data.readUInt32LE(offset + 12);
+    range(data, vp, vertexCount * 8, 'model vertices');
+    range(data, fp, faceCount * 8, 'model faces');
+    const vertices = Array.from({ length: vertexCount }, (_, i) => [0,2,4].map(a => data.readInt16LE(vp+i*8+a)));
+    const start = data.readUInt32LE(offset + 0x3c);
+    const keys = data.readUInt32LE(0xcc) + start * 2, materials = data.readUInt32LE(0xd8);
+    const faces = Array.from({ length: faceCount }, (_, i) => {
+      const p = fp + i * 8, a = data[p], b = data[p+1], c = data[p+2], d = data[p+3];
+      const indices = [a-1,c-1,b-1,...(d ? [d-1] : [])];
+      if (indices.some(v => v < 0 || v >= vertexCount)) throw new Error(`Invalid Firebugs model ${index} face ${i}.`);
+      return { index: i, indices };
+    });
+    return { index, offset, vertices, faces, keys, materials };
+  });
+}
+
+function parseFirebugsPlacements(data, models) {
+  signature(data, 'BTX ', 0x40);
+  const count = data.readUInt32LE(0x14), offset = data.readUInt32LE(0x28), stride = 64;
+  range(data, offset, count * stride, 'placement records');
+  const records = Array.from({ length: count }, (_, index) => {
+    const p = offset + index * stride, flags = data.readUInt16LE(p), type = flags & 0x3ff;
+    const record = { index, flags, type, modelIndex: data[p+3], position: [8,10,12].map(a=>data.readInt16LE(p+a)), angles: [14,16,18].map(a=>data.readInt16LE(p+a)) };
+    if (type === 0 && !models[record.modelIndex]) throw new Error(`Firebugs placement ${index} references a missing model.`);
+    return record;
+  });
+  return { count, offset, stride, records };
+}
+
+// The retained VRAM bitmap stores the right half (x=512..1023) of PS1 VRAM.
+function decodeFirebugsTexture(data, tpage, clut) {
+  signature(data, 'VRAM', 16 + 512 * 512 * 2);
+  const depth = (tpage >>> 7) & 3;
+  if (depth === 3) throw new Error('Reserved PS1 texture depth.');
+  const word = (x,y) => {
+    // FUN_80061328 uploads an additional palette rectangle to (0,511,256,1).
+    if (y === 511 && x >= 0 && x < 256) {
+      const p=16+512*512*2+x*2; range(data,p,2,'extra VRAM palette'); return data.readUInt16LE(p);
+    }
+    if (x < 512 || x >= 1024 || y < 0 || y >= 512) throw new Error(`PS1 texture address outside retained VRAM (${x},${y}).`);
+    return data.readUInt16LE(16 + y*1024 + (x-512)*2);
+  };
+  const originX = (tpage & 15)*64, originY = ((tpage >>> 4)&1)*256;
+  const rgba = Buffer.alloc(256 * 256 * 4);
+  for (let y=0;y<256;y++) for (let x=0;x<256;x++) {
+    const pixelsPerWord = depth===0 ? 4 : depth===1 ? 2 : 1;
+    const raw = word(originX + Math.floor(x/pixelsPerWord),originY+y);
+    const color = depth===2 ? raw : word((clut&63)*16 + ((raw >>> ((x%pixelsPerWord)*(depth===0?4:8))) & (depth===0?15:255)), clut>>>6);
+    const p=(y*256+x)*4;
+    rgba[p]=Math.round((color&31)*255/31); rgba[p+1]=Math.round(((color>>>5)&31)*255/31); rgba[p+2]=Math.round(((color>>>10)&31)*255/31);
+    rgba[p+3]=color===0 ? 0 : 255;
+  }
+  return { width:256,height:256,rgba };
+}
+
+function decodeFirebugsScene(geometry, vram, btx) {
+  const terrain=parseFirebugsTerrain(geometry),models=parseFirebugsModels(geometry),placements=parseFirebugsPlacements(btx,models);
+  if (!terrain.segments.length) throw new Error('Firebugs resource has no track terrain.');
+  const meshes=placements.records.filter(r=>r.type===0&&(r.flags&0x400)).map(record=>{
+    const model=models[record.modelIndex];
+    // FUN_80061328 calls FUN_80028b94 then FUN_800288b4. Their arithmetic
+    // and all 202 trig entries at 0x800a55d8 match the shared PC routines.
+    const matrix=placementMatrix(record.angles);
+    range(geometry,model.keys,model.faces.length*2,'placed model material keys');
+    const faces=model.faces.map((face,i)=>{
+      const material=readFirebugsMaterial(geometry,model.materials+geometry.readUInt16LE(model.keys+i*2));
+      return { ...face,...material,uv:material.uv.slice(0,face.indices.length) };
+    });
+    return { index:record.index, modelIndex:record.modelIndex, vertices:model.vertices.map(v=>transformPlacedVertex(v,matrix,record.position)), faces };
+  });
+  const textures=new Map();
+  for (const mesh of [...terrain.segments,...meshes]) for (const face of mesh.faces) {
+    if (!textures.has(face.page)) textures.set(face.page,decodeFirebugsTexture(vram,face.tpage,face.clut));
+  }
+  const output=buildSceneExport(terrain,textures,meshes);
+  if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid Firebugs scene bounds.');
+  return { ...output,segments:terrain.segments.length,instances:meshes.length,textures,
+    placementTypes:placements.records.reduce((a,r)=>{a[r.type]=(a[r.type]??0)+1;return a;},{}) };
+}
+
+Object.assign(module.exports, {readFirebugsMaterial,parseFirebugsTerrain,parseFirebugsModels,parseFirebugsPlacements,decodeFirebugsTexture,decodeFirebugsScene});
+},
+"src/firebugs-archive.mjs": function(require, module, Buffer) {
+const { parseIndex } = require("src/archive-index.mjs");
+const { decodeGT20 } = require("src/gt20.mjs");
+
+// Disc transport supplies logical ISO file bytes, not raw CD sectors.
+class FirebugsArchive {
+  static async open(disc) {
+    const indexData = Buffer.from(disc.indexData), imageData = Buffer.from(disc.imageData);
+    return new FirebugsArchive(indexData, imageData, disc.identity);
+  }
+  constructor(indexData, imageData, identity) {
+    this.game = 'firebugs';
+    this.indexData = indexData;
+    this.imageData = imageData;
+    this.identity = identity;
+    this.entries = parseIndex(indexData, imageData.length);
+  }
+  async readResource(index) {
+    const entry = this.entries[index];
+    if (!Number.isInteger(index) || !entry) throw new RangeError('Invalid Firebugs resource index.');
+    if (entry.storedBytes > 128 * 1024 * 1024 || entry.decodedBytes > 128 * 1024 * 1024) throw new Error('Firebugs resource exceeds the size limit.');
+    const raw = this.imageData.subarray(entry.offset, entry.offset + entry.storedBytes);
+    const result = entry.storedBytes === entry.decodedBytes
+      ? { data: raw, consumedBytes: raw.length, trailingBytes: 0 } : decodeGT20(raw);
+    if (result.data.length !== entry.decodedBytes) throw new Error('Firebugs decoded length differs from index.');
+    return { ...result, entry };
+  }
+  async close() { this.imageData = null; }
+}
+
+Object.assign(module.exports, {FirebugsArchive});
+},
+"src/ps1-disc.mjs": function(require, module, Buffer) {
+// PS1 raw-sector and ISO9660 transport; independent of game asset formats.
+const { openDiscZip, normalizeDiscPath, crc32 } = require("src/disc-zip.mjs");
+
+const textDecoder = new TextDecoder('ascii');
+const text = bytes => textDecoder.decode(bytes);
+const MAX_ISO_FILE_BYTES = 128 * 1024 * 1024;
+
+function parseDiscCue(cueText) {
+  const files = [];
+  const tracks = [];
+  let currentFile, currentTrack;
+  for (const raw of cueText.replace(/^\uFEFF/, '').split(/\r?\n/)) {
+    const line = raw.trim();
+    const file = /^FILE\s+(?:"([^"]+)"|(\S+))\s+(\S+)$/i.exec(line);
+    if (file) {
+      currentFile = { name: normalizeDiscPath(file[1] ?? file[2]), type: file[3].toUpperCase(), tracks: [] };
+      files.push(currentFile); currentTrack = null; continue;
+    }
+    const track = /^TRACK\s+(\d+)\s+(\S+)$/i.exec(line);
+    if (track) {
+      if (!currentFile) throw new Error('CUE TRACK has no FILE.');
+      currentTrack = { number: Number(track[1]), mode: track[2].toUpperCase(), file: currentFile, startSector: null };
+      currentFile.tracks.push(currentTrack); tracks.push(currentTrack); continue;
+    }
+    const index = /^INDEX\s+01\s+(\d+):(\d+):(\d+)$/i.exec(line);
+    if (index) {
+      if (!currentTrack || currentTrack.startSector !== null || Number(index[2]) >= 60 || Number(index[3]) >= 75) throw new Error('Invalid CUE INDEX 01.');
+      currentTrack.startSector = Number(index[1]) * 60 * 75 + Number(index[2]) * 75 + Number(index[3]);
+    }
+  }
+  const data = tracks.filter(track => track.mode !== 'AUDIO');
+  if (data.length !== 1) throw new Error('CUE must identify exactly one data track.');
+  const selected = data[0];
+  if (selected.mode !== 'MODE2/2352' || selected.file.type !== 'BINARY') throw new Error('Only a BINARY MODE2/2352 PS1 data track is supported.');
+  if (selected.file.tracks.length !== 1) throw new Error('Merged data/audio BIN layouts are unsupported.');
+  if (selected.startSector === null) throw new Error('Data track is missing CUE INDEX 01.');
+  return selected;
+}
+
+function openMode2Iso(bin, startSector = 0) {
+  if (bin.length % 2352 || startSector < 0 || !Number.isInteger(startSector) || startSector * 2352 >= bin.length) throw new Error('Invalid MODE2/2352 BIN size or track start.');
+  const sectorCount = bin.length / 2352 - startSector;
+  function read(offset, length) {
+    if (!Number.isSafeInteger(offset) || !Number.isSafeInteger(length) || offset < 0 || length < 0 || offset + length > sectorCount * 2048) throw new Error('ISO read exceeds data track bounds.');
+    const output = new Uint8Array(length);
+    let written = 0;
+    while (written < length) {
+      const logical = offset + written, sector = Math.floor(logical / 2048), within = logical % 2048;
+      const raw = (sector + startSector) * 2352;
+      if (bin[raw + 15] !== 2 || (bin[raw + 18] & 0x20)) throw new Error('ISO file uses an unsupported MODE2 sector.');
+      // Mode 2 Form 1 duplicates its four-byte subheader.
+      for (let i = 0; i < 4; i++) if (bin[raw + 16 + i] !== bin[raw + 20 + i]) throw new Error('Corrupt MODE2 subheader.');
+      const count = Math.min(length - written, 2048 - within);
+      output.set(bin.subarray(raw + 24 + within, raw + 24 + within + count), written);
+      written += count;
+    }
+    return output;
+  }
+  function bothEndian(bytes, p) {
+    const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.length);
+    const little = view.getUint32(p, true);
+    if (little !== view.getUint32(p + 4, false)) throw new Error('ISO endian fields disagree.');
+    return little;
+  }
+  function record(bytes, p) {
+    const length = bytes[p];
+    if (length < 34 || p + length > bytes.length || bytes[p + 32] + 33 > length) throw new Error('Invalid ISO directory record.');
+    if (bytes[p + 1] || bytes[p + 26] || bytes[p + 27] || (bytes[p + 25] & 0x80)) throw new Error('Extended, interleaved, or multi-extent ISO files are unsupported.');
+    const extent = bothEndian(bytes, p + 2), size = bothEndian(bytes, p + 10);
+    if (extent * 2048 + size > sectorCount * 2048 || size > MAX_ISO_FILE_BYTES) throw new Error('ISO file exceeds data track bounds or size limit.');
+    return { extent, size, directory: Boolean(bytes[p + 25] & 2), name: text(bytes.subarray(p + 33, p + 33 + bytes[p + 32])).replace(/;\d+$/, ''), length };
+  }
+  let primary;
+  for (let sector = 16; sector < Math.min(48, sectorCount); sector++) {
+    const bytes = read(sector * 2048, 2048);
+    if (text(bytes.subarray(1, 6)) !== 'CD001' || bytes[6] !== 1) throw new Error('Invalid ISO9660 volume descriptor.');
+    if (bytes[0] === 1) { primary = bytes; break; }
+    if (bytes[0] === 255) break;
+  }
+  if (!primary) throw new Error('ISO9660 primary volume descriptor not found.');
+  const volumeSectors = bothEndian(primary, 80);
+  // Mixed-mode PS1 discs can declare the whole disc, including CD audio,
+  // as their volume size. File extents are bounded against the data BIN above.
+  if (!volumeSectors) throw new Error('ISO volume size is empty.');
+  const primaryView = new DataView(primary.buffer, primary.byteOffset, primary.length);
+  if (primaryView.getUint16(128, true) !== 2048 || primaryView.getUint16(130, false) !== 2048) throw new Error('Unsupported ISO logical block size.');
+  const root = record(primary, 156);
+  if (!root.directory) throw new Error('Invalid ISO root directory.');
+  function list(directory) {
+    if (!directory.directory || directory.size > 8 * 1024 * 1024) throw new Error('Invalid ISO directory size.');
+    const bytes = read(directory.extent * 2048, directory.size), output = [];
+    for (let p = 0; p < bytes.length;) {
+      if (!bytes[p]) { p = (Math.floor(p / 2048) + 1) * 2048; continue; }
+      const child = record(bytes, p);
+      if (p % 2048 + child.length > 2048) throw new Error('ISO directory record crosses a sector boundary.');
+      if (child.name !== '\0' && child.name !== '\x01') output.push(child);
+      p += child.length;
+    }
+    return output;
+  }
+  function find(path) {
+    let entry = root;
+    for (const part of normalizeDiscPath(path).split('/')) {
+      const matches = list(entry).filter(candidate => candidate.name.toUpperCase() === part.toUpperCase());
+      if (matches.length !== 1) throw new Error(`ISO file missing or ambiguous: ${path}.`);
+      entry = matches[0];
+    }
+    return entry;
+  }
+  return {
+    volumeId: text(primary.subarray(40, 72)).trim(),
+    readFile(path) {
+      const entry = find(path);
+      if (entry.directory) throw new Error(`ISO path is a directory: ${path}.`);
+      return read(entry.extent * 2048, entry.size);
+    },
+    listDirectory(path = '') { return list(path ? find(path) : root); },
+  };
+}
+
+async function openFirebugsDisc(source, options = {}) {
+  const zip = await openDiscZip(source, options);
+  const cues = zip.entries.filter(entry => /\.cue$/i.test(entry.name));
+  if (cues.length !== 1) throw new Error('Disc ZIP must contain exactly one CUE sheet.');
+  if (cues[0].size > 1024 * 1024) throw new Error('CUE sheet exceeds size limit.');
+  options.onProgress?.('Reading CUE sheet');
+  const cue = parseDiscCue(new TextDecoder().decode(await zip.readEntry(cues[0])));
+  const parent = cues[0].name.includes('/') ? cues[0].name.slice(0, cues[0].name.lastIndexOf('/') + 1) : '';
+  const target = normalizeDiscPath(parent + cue.file.name);
+  const bins = zip.entries.filter(entry => entry.name.toLowerCase() === target.toLowerCase());
+  if (bins.length !== 1) throw new Error(`CUE data BIN is missing or ambiguous: ${target}.`);
+  options.onProgress?.('Decompressing data track');
+  const bin = await zip.readEntry(bins[0]);
+  const iso = openMode2Iso(bin, cue.startSector);
+  options.onProgress?.('Reading Firebugs archive');
+  const indexData = Buffer.from(iso.readFile('IDX/IDXFILES.IDX'));
+  const imageData = Buffer.from(iso.readFile('IDX/IDXFILES.IMG'));
+  const systemConfig = text(iso.readFile('SYSTEM.CNF'));
+  const bootExecutable = /BOOT\s*=\s*cdrom:\\?([^;\s]+)/i.exec(systemConfig)?.[1] ?? null;
+  return {
+    indexData, imageData,
+    identity: { volumeId: iso.volumeId, bootExecutable, systemConfig, cueMember: cues[0].name, dataMember: bins[0].name,
+      dataTrackStartSector: cue.startSector, discBytes: bin.length, indexCrc32: crc32(indexData), imageCrc32: crc32(imageData) },
+  };
+}
+
+Object.assign(module.exports, {parseDiscCue,openMode2Iso,openFirebugsDisc});
+},
+"src/disc-zip.mjs": function(require, module, Buffer) {
+// Host-independent, bounded ZIP reader. Audio members stay compressed.
+const decoder = new TextDecoder('utf-8', { fatal: true });
+const MAX_DIRECTORY_BYTES = 32 * 1024 * 1024;
+const MAX_MEMBER_BYTES = 1024 * 1024 * 1024;
+const crcTable = Uint32Array.from({ length: 256 }, (_, value) => {
+  for (let bit = 0; bit < 8; bit++) value = (value >>> 1) ^ ((value & 1) ? 0xedb88320 : 0);
+  return value >>> 0;
+});
+
+function crc32(bytes) {
+  let crc = 0xffffffff;
+  for (const byte of bytes) crc = (crc >>> 8) ^ crcTable[(crc ^ byte) & 255];
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+async function readSource(source, offset, length) {
+  if (!Number.isSafeInteger(source.size) || !Number.isSafeInteger(offset) || !Number.isSafeInteger(length)
+    || offset < 0 || length < 0 || offset + length > source.size) throw new Error('Disc input read exceeds source bounds.');
+  const bytes = await source.read(offset, length);
+  if (!(bytes instanceof Uint8Array) || bytes.length !== length) throw new Error('Truncated disc input read.');
+  return bytes;
+}
+
+function normalizeDiscPath(name) {
+  const parts = name.replace(/\\/g, '/').split('/');
+  if (parts.some(part => part === '..') || name.includes('\0') || name.startsWith('/') || /^[A-Za-z]:/.test(name)) throw new Error('Unsafe disc member path.');
+  return parts.filter(part => part && part !== '.').join('/');
+}
+
+async function inflateInBrowser(bytes, expectedBytes) {
+  if (typeof DecompressionStream === 'undefined') throw new Error('This browser does not support ZIP deflate decompression.');
+  let stream;
+  try { stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate-raw')); }
+  catch { throw new Error('This browser does not support ZIP deflate-raw decompression.'); }
+  const reader = stream.getReader();
+  const output = new Uint8Array(expectedBytes);
+  let position = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (position + value.length > expectedBytes) throw new Error('ZIP inflated size exceeds member size.');
+      output.set(value, position); position += value.length;
+    }
+  } catch (error) { await reader.cancel().catch(() => {}); throw error; }
+  finally { reader.releaseLock(); }
+  if (position !== expectedBytes) throw new Error('ZIP inflated size differs from member size.');
+  return output;
+}
+
+async function openDiscZip(source, { inflateRaw = inflateInBrowser } = {}) {
+  if (source.size < 22) throw new Error('Truncated ZIP end record.');
+  const tailOffset = Math.max(0, source.size - 65557);
+  const tail = await readSource(source, tailOffset, source.size - tailOffset);
+  const tailView = new DataView(tail.buffer, tail.byteOffset, tail.length);
+  let end = -1;
+  for (let p = tail.length - 22; p >= 0; p--) {
+    if (tailView.getUint32(p, true) === 0x06054b50 && p + 22 + tailView.getUint16(p + 20, true) === tail.length) { end = p; break; }
+  }
+  if (end < 0) throw new Error('ZIP end record not found.');
+  const count = tailView.getUint16(end + 10, true);
+  const directoryBytes = tailView.getUint32(end + 12, true);
+  const directoryOffset = tailView.getUint32(end + 16, true);
+  if (tailView.getUint16(end + 4, true) || tailView.getUint16(end + 6, true)
+    || tailView.getUint16(end + 8, true) !== count) throw new Error('Multipart ZIP archives are unsupported.');
+  if (count === 0xffff || directoryOffset === 0xffffffff || directoryBytes === 0xffffffff) throw new Error('ZIP64 archives are unsupported.');
+  if (!count || directoryBytes > MAX_DIRECTORY_BYTES || directoryOffset + directoryBytes !== tailOffset + end) throw new Error('Invalid ZIP central directory bounds.');
+  const directory = await readSource(source, directoryOffset, directoryBytes);
+  const view = new DataView(directory.buffer, directory.byteOffset, directory.length);
+  const entries = [];
+  const names = new Set();
+  let p = 0;
+  for (let index = 0; index < count; index++) {
+    if (p + 46 > directory.length || view.getUint32(p, true) !== 0x02014b50) throw new Error('Invalid ZIP central directory entry.');
+    const flags = view.getUint16(p + 8, true), method = view.getUint16(p + 10, true);
+    const nameBytes = view.getUint16(p + 28, true), extraBytes = view.getUint16(p + 30, true), commentBytes = view.getUint16(p + 32, true);
+    const next = p + 46 + nameBytes + extraBytes + commentBytes;
+    if (next > directory.length || view.getUint16(p + 34, true)) throw new Error('Invalid ZIP member bounds.');
+    const encodedName = directory.subarray(p + 46, p + 46 + nameBytes);
+    // ASCII names are portable. Non-UTF8 legacy encodings cannot be resolved reliably.
+    if (!(flags & 0x800) && encodedName.some(byte => byte > 127)) throw new Error('ZIP member names must use ASCII or UTF-8.');
+    const name = normalizeDiscPath(decoder.decode(encodedName));
+    if (!name || names.has(name.toLowerCase())) throw new Error('Duplicate or empty ZIP member name.');
+    names.add(name.toLowerCase());
+    const entry = { name, flags, method, crc32: view.getUint32(p + 16, true), compressedBytes: view.getUint32(p + 20, true), size: view.getUint32(p + 24, true), offset: view.getUint32(p + 42, true) };
+    if (entry.offset === 0xffffffff || entry.compressedBytes === 0xffffffff || entry.size === 0xffffffff) throw new Error('ZIP64 members are unsupported.');
+    if (entry.offset + 30 > directoryOffset || entry.compressedBytes > MAX_MEMBER_BYTES || entry.size > MAX_MEMBER_BYTES) throw new Error('ZIP member exceeds size or offset bounds.');
+    if (flags & 0x41) throw new Error('Encrypted ZIP members are unsupported.');
+    if (method !== 0 && method !== 8) throw new Error(`Unsupported ZIP compression method ${method}.`);
+    entries.push(entry); p = next;
+  }
+  if (p !== directory.length) throw new Error('ZIP central directory length mismatch.');
+  return {
+    entries,
+    async readEntry(entry) {
+      if (!entries.includes(entry)) throw new Error('Unknown ZIP member.');
+      const header = await readSource(source, entry.offset, 30);
+      const local = new DataView(header.buffer, header.byteOffset, header.length);
+      if (local.getUint32(0, true) !== 0x04034b50 || local.getUint16(6, true) !== entry.flags || local.getUint16(8, true) !== entry.method) throw new Error('ZIP local header disagrees with central directory.');
+      const nameBytes = local.getUint16(26, true), extraBytes = local.getUint16(28, true);
+      const dataOffset = entry.offset + 30 + nameBytes + extraBytes;
+      if (dataOffset + entry.compressedBytes > directoryOffset) throw new Error('ZIP member data exceeds archive bounds.');
+      const localName = await readSource(source, entry.offset + 30, nameBytes);
+      if (normalizeDiscPath(decoder.decode(localName)) !== entry.name) throw new Error('ZIP local member name mismatch.');
+      if (!(entry.flags & 8) && (local.getUint32(14, true) !== entry.crc32 || local.getUint32(18, true) !== entry.compressedBytes || local.getUint32(22, true) !== entry.size)) throw new Error('ZIP local member sizes or CRC disagree.');
+      const stored = await readSource(source, dataOffset, entry.compressedBytes);
+      const output = entry.method === 0 ? stored : await inflateRaw(stored, entry.size);
+      if (!(output instanceof Uint8Array) || output.length !== entry.size) throw new Error('ZIP decoded member length mismatch.');
+      if (crc32(output) !== entry.crc32) throw new Error(`ZIP CRC mismatch for ${entry.name}.`);
+      return output;
+    },
+  };
+}
+
+Object.assign(module.exports, {crc32,readSource,normalizeDiscPath,openDiscZip});
+},
 "tools/track-viewer/navigation.mjs": function(require, module, Buffer) {
 const add = (a, b, scale = 1) => a.map((n, i) => n + b[i] * scale);
 const dot = (a, b) => a.reduce((n, x, i) => n + x * b[i], 0);
@@ -1133,6 +1667,7 @@ function encodeTexturePNG(image) {
 }
 
 async function buildTrackDownload(scene, track) {
+  const manifest = buildTrackManifest(scene, track);
   const files = [{ name: 'scene.obj', data: scene.obj }], materials = [];
   for (const [page, image] of scene.textures) {
     const filename = `texture-${page}.png`;
@@ -1140,17 +1675,17 @@ async function buildTrackDownload(scene, track) {
     materials.push(`newmtl page_${page}\nKa 1 1 1\nKd 1 1 1\nKs 0 0 0\nd 1\nillum 1\nmap_Kd ${filename}\nmap_d ${filename}\n`);
   }
   files.push({ name: 'scene.mtl', data: materials.join('\n') });
-  files.push({ name: 'scene.json', data: JSON.stringify(buildTrackManifest(scene, track), null, 2) });
+  files.push({ name: 'scene.json', data: JSON.stringify(manifest, null, 2) });
   files.push({ name: 'README.txt', data: [
     `${track.gameLabel ?? 'Rollcage'} track: ${track.name}`, '',
     'Extract every file in this ZIP into the same folder.',
     'In Blender, import scene.obj using the OBJ importer.',
     'Switch the viewport to Material Preview to see the textures.',
     'Keep scene.mtl and all texture PNGs beside scene.obj.', '',
-    'The export contains the complete track and ordinary objects at their initial poses.',
+    manifest.scope,
     'Viewer camera positions, sector selection and display toggles do not affect the export.',
-    'Effects, overlays, special objects, original lighting and game simulation are not included.',
-    'Geometry maps source X,Y,Z to X,-Y,-Z (Y up), preserving handedness and original game units.', ''
+    `Coordinates: ${manifest.coordinates}.`,
+    'See scene.json for source identity and reconstruction limits.', ''
   ].join('\n') });
   return { filename: `${track.game ?? 'rollcage'}-${track.name.replace(/\.BLP$/i, '').replace(/[^a-z0-9-]/gi, '-')}.zip`, blob: createZIP(files) };
 }
@@ -1204,15 +1739,19 @@ Object.assign(module.exports, {createZIP});
 },
 "src/track-manifest.mjs": function(require, module, Buffer) {
 function buildTrackManifest(scene, track) {
+  const source = scene.source ?? {};
   return {
     game: track.game ?? 'rollcage', name: track.name, resource: track.index,
     textureResource: track.textureIndex ?? track.index + 1,
+    ...(track.vramIndex === undefined ? {} : { vramResource: track.vramIndex }),
+    ...(track.btxIndex === undefined ? {} : { btxResource: track.btxIndex }),
     segments: scene.segments, instances: scene.instances,
     vertices: scene.vertices, quads: scene.quads, triangles: scene.triangles,
     placementTypes: scene.placementTypes, bounds: scene.bounds,
     pages: [...scene.textures].map(([page, { width, height }]) => ({ page, width, height })),
-    coordinates: 'X,-Y,-Z (Y up); source units retained',
-    scope: 'Complete finest-grid terrain and ordinary objects at initial poses. Animated UVs use their serialized frame. Effects, overlays, special objects, visibility/LOD, original lighting and game simulation are not included.'
+    coordinates: source.coordinates ?? 'X,-Y,-Z (Y up); source units retained',
+    scope: source.scope ?? 'Complete finest-grid terrain and ordinary objects at initial poses. Animated UVs use their serialized frame. Effects, overlays, special objects, visibility/LOD, original lighting and game simulation are not included.',
+    ...(Object.keys(source).length ? { source } : {})
   };
 }
 

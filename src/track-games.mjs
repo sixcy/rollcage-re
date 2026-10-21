@@ -3,6 +3,7 @@ import stage2Map from './stage2-resource-map.json' with { type: 'json' };
 import { decodeTrackScene } from './track-scene.mjs';
 import { parseStage2Placements } from './stage2-placements.mjs';
 import { buildStage2PlacedMeshes } from './stage2-placed-meshes.mjs';
+import { firebugsGame, identifyFirebugs } from './firebugs.mjs';
 
 // Exact index identities plus decoded sentinel resources bind auto-detection to
 // the supplied archives, including a check that the IMG belongs to that IDX.
@@ -39,6 +40,8 @@ function createGame(id, label, definitions, decode, resolveName, headerFlags) {
 }
 
 const stage2Lookup = new Map(stage2Map.mappings.map(({ name, index }) => [normalizeResourceName(name), index]));
+// PC catalogs are fixed. Firebugs discovers its catalog from the selected disc
+// and participates through getGame/identifyGame below.
 export const games = Object.freeze([
   createGame('rollcage', 'Rollcage', resourceMappings
     .map(({ name, index }) => ({ name: normalizeResourceName(name), index, textureIndex: index + 1 }))
@@ -50,8 +53,9 @@ export const games = Object.freeze([
 ]);
 
 export function getGame(id) {
+  if (id === 'firebugs') return firebugsGame;
   const game = games.find(game => game.id === id);
-  if (!game) throw new Error(`Unknown game: ${id}. Choose rollcage or stage2.`);
+  if (!game) throw new Error(`Unknown game: ${id}. Choose rollcage, stage2 or firebugs.`);
   return game;
 }
 
@@ -61,6 +65,7 @@ async function digest(bytes) {
 }
 
 export async function identifyGame(archive, requested = 'auto') {
+  if (archive.game === 'firebugs' || requested === 'firebugs') return identifyFirebugs(archive, requested);
   const indexHash = archive.indexData ? await digest(archive.indexData) : null;
   const known = games.find(game => fingerprints[game.id].index === indexHash);
   if (requested !== 'auto' && known && known.id !== requested) {

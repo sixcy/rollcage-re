@@ -1,8 +1,8 @@
-# Rollcage and Stage II tools
+# Rollcage, Stage II and Firebugs tools
 
 [Open the Track Viewer](track-viewer.html)
 
-Explore Rollcage's 20 tracks in their LOW and HIGH PC versions, plus 66 Stage II environments: 20 race, 25 scramble, 10 training, 5 deathmatch, 5 pursuit and 1 football. Use orbit, pan, zoom, or fly-in controls. Download complete static terrain and ordinary objects as OBJ, materials and PNG textures for import into Blender; a JSON manifest records game identity and reconstruction limits.
+Explore Rollcage's 20 tracks in their LOW and HIGH PC versions, 66 Stage II environments, and 33 Firebugs disc environments. Stage II includes 20 race, 25 scramble, 10 training, 5 deathmatch, 5 pursuit and 1 football environments. Firebugs includes variants and duplicates, labeled by archive resource ID. Use orbit, pan, zoom, or fly-in controls. Download static terrain and ordinary objects as OBJ, materials and PNG textures for import into Blender; a JSON manifest records game identity and reconstruction limits.
 
 Select your own `ROLLCAGE.IMG` and `ROLLCAGE.IDX` files from the same installation. Both games use these filenames, usually located in:
 
@@ -12,6 +12,8 @@ C:\Program Files (x86)\Psygnosis\Rollcage Stage II\IDXData
 ```
 
 The supplied archives are identified automatically by index identity and decoded sample hashes. Select another matching pair to switch games. For unrecognized releases, choose a game explicitly to attempt loading; compatibility remains unverified. Stage II validation targets the supplied installation containing Rollcage Extreme.
+
+For Firebugs, select a PS1 disc ZIP containing its CUE and referenced data BIN. The viewer reads the disc locally and skips audio tracks. Automatic identification targets the supplied Europe disc; choose Firebugs explicitly to attempt another release with unverified compatibility. Stored and deflated ZIP members and MODE2/2352 data tracks are supported. Track labels retain archive resource IDs where original names have not been established. Export manifests include disc identity and reconstruction limits.
 
 Files are processed locally in your browser. No game assets are included in this website or uploaded when you use it. Effects, overlays, special objects, original lighting, and game simulation remain outside the viewer.
 

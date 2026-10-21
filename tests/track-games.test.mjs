@@ -55,6 +55,7 @@ test('host game options preserve original positional arguments and allow an expl
   const stage2 = parseGameOptions(['--game', 'stage2', '80', 'output']);
   assert.equal(stage2.game.id, 'stage2'); assert.ok(stage2.installation.endsWith('Rollcage Stage II'));
   assert.equal(parseGameOptions(['--game=stage2']).game.id, 'stage2');
+  assert.equal(parseGameOptions(['--game', 'firebugs', '123', 'output', 'disc.zip']).game.id, 'firebugs');
   assert.throws(() => parseGameOptions(['--game']), /requires/);
   assert.throws(() => parseGameOptions(['--game=bad']), /Unknown game/);
   assert.throws(() => parseGameOptions(['--bad']), /Unknown option/);
@@ -68,6 +69,17 @@ test('scene manifests retain game identity, explicit resource pairing and comple
   assert.equal(manifest.game, 'stage2'); assert.equal(manifest.resource, track.index);
   assert.equal(manifest.textureResource, track.textureIndex); assert.equal(manifest.instances, 2);
   assert.deepEqual(manifest.pages, [{ page: 5, width: 64, height: 128 }]);
+});
+
+test('disc scene manifests preserve identity, explicit texture references and source-specific limits', () => {
+  const source = { identity: { boot: 'SCES_038.47' }, verified: false,
+    coordinates: 'Recovered PS1 units', scope: 'Static terrain; unsupported records remain listed.', unsupported: [7] };
+  const scene = { segments: 1, instances: 0, vertices: 3, quads: 0, triangles: 1,
+    bounds: [[0, 1], [0, 1], [0, 1]], textures: new Map(), source };
+  const manifest = buildTrackManifest(scene, { game: 'firebugs', name: 'Resource 12', index: 12, textureIndex: 14, vramIndex: 13, btxIndex: 14 });
+  assert.equal(manifest.textureResource, 14); assert.equal(manifest.vramResource, 13); assert.equal(manifest.btxResource, 14);
+  assert.equal(manifest.coordinates, source.coordinates); assert.equal(manifest.scope, source.scope);
+  assert.deepEqual(manifest.source, source);
 });
 
 test('standalone bundle exposes both adapters and preserves browser game identification', async () => {

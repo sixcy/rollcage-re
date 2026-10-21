@@ -7,6 +7,8 @@ The goal is a source reconstruction. Recovered pseudocode and inferred names are
 
 Stage II has a separate, limited investigation for static track viewing and extraction: see [Stage II format notes](re-docs/stage2-formats.md). It targets the supplied Rollcage Stage 2 installation, shares the archive/terrain/texture pipeline where verified, and uses separate placement/material readers. The common standalone viewer supports the original 40 PC track variants and all 66 supplied Stage II environments. Retained structural reports are under `analysis/stage2-layout/` and `analysis/track-games/`; browser comparisons and screenshots are under `analysis/track-games-browser/`. These checks do not establish original-process runtime equivalence.
 
+Firebugs Europe PS1 disc ZIPs are also supported for static viewing/extraction: see [Firebugs format notes](re-docs/firebugs-formats.md). All 229 resources decode, and 33 terrain-bearing disc environments export with ordinary scenery. They include duplicates and variants; resource IDs are retained because original menu names/order remain unestablished. Native evidence comes from direct Ghidra analysis after REA rejected the PS-X format. Browser/Node consistency is not original-process visual equivalence.
+
 ## Installation
 
 The workspace shortcut resolves to `C:\Program Files (x86)\Psygnosis\Rollcage`.
