@@ -1,4 +1,5 @@
 import { buildSceneExport } from './scene-export.mjs';
+import { decodeTrackPaths } from './track-paths.mjs';
 import { placementMatrix, transformPlacedVertex } from './fixed-math.mjs';
 
 function range(data, offset, bytes, label) {
@@ -138,6 +139,6 @@ export function decodeFirebugsScene(geometry, vram, btx) {
   }
   const output=buildSceneExport(terrain,textures,meshes);
   if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid Firebugs scene bounds.');
-  return { ...output,segments:terrain.segments.length,instances:meshes.length,textures,
+  return { ...output,paths:decodeTrackPaths(geometry,true),segments:terrain.segments.length,instances:meshes.length,textures,
     placementTypes:placements.records.reduce((a,r)=>{a[r.type]=(a[r.type]??0)+1;return a;},{}) };
 }

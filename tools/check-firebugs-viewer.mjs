@@ -12,13 +12,14 @@ import { buildTrackManifest } from '../src/track-manifest.mjs';
 import { openFirebugsZip } from './lib/firebugs-disc.mjs';
 import { buildViewerBundle } from './lib/track-viewer-bundle.mjs';
 import { readTrackZIP } from './lib/check-track-download.mjs';
+import { assertStoredPathBytes, checkPathOverlay } from './lib/check-path-overlay.mjs';
 
 const [launcher, filename, output = `analysis/firebugs-browser-${Date.now()}`, ...extra] = process.argv.slice(2);
 if (!launcher || !filename || extra.length) throw new Error('Usage: node tools/check-firebugs-viewer.mjs <installed-REA-launcher> <disc.zip> [new-report-directory]');
 const { chromium } = createRequire(path.resolve(launcher))('playwright-core');
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const summary = scene => ({ segments: scene.segments, instances: scene.instances, triangles: scene.triangles,
-  vertices: scene.vertices, bounds: scene.bounds, groupsHash: hash(JSON.stringify(scene.groups)), objHash: hash(scene.obj),
+  vertices: scene.vertices, bounds: scene.bounds, groupsHash: hash(JSON.stringify(scene.groups)), objHash: hash(scene.obj), pathsHash: hash(JSON.stringify(scene.paths)),
   textures: [...scene.textures].map(([page, image]) => ({ page, width: image.width, height: image.height, hash: hash(image.rgba) })) });
 await mkdir(path.dirname(path.resolve(output)), { recursive: true });
 await mkdir(output, { recursive: false });
@@ -55,6 +56,8 @@ try {
     assert.equal(state.textures, decoded.textures.size, track.name);
     uiTracks.push({ name: track.name, ...summary(decoded) });
     const category = track.category ?? 'tracks';
+    assertStoredPathBytes(decoded.paths, (await archive.readResource(track.index)).data);
+    await checkPathOverlay(page, decoded.paths, !categories.has(category));
     if (!categories.has(category) || [Math.floor(tracks.length / 3), Math.floor(2 * tracks.length / 3), tracks.length - 1].includes(i)) {
       categories.add(category);
       const screenshot = `firebugs-${track.index}.png`;
@@ -111,7 +114,7 @@ try {
     for (const track of identified.tracks) {
       const scene = await identified.game.loadTrack(archive, track);
       result.push({ name: track.name, segments: scene.segments, instances: scene.instances, triangles: scene.triangles,
-        vertices: scene.vertices, bounds: scene.bounds, groupsHash: await hash(encode(JSON.stringify(scene.groups))), objHash: await hash(encode(scene.obj)),
+        vertices: scene.vertices, bounds: scene.bounds, groupsHash: await hash(encode(JSON.stringify(scene.groups))), objHash: await hash(encode(scene.obj)), pathsHash: await hash(encode(JSON.stringify(scene.paths))),
         textures: await Promise.all([...scene.textures].map(async ([page, image]) => ({ page, width: image.width, height: image.height, hash: await hash(image.rgba) }))) });
     }
     return result;
@@ -146,7 +149,7 @@ try {
   assert.equal(webglError, 0); assert.deepEqual(errors, []); assert.deepEqual(requests, []);
   const result = { identity: identified.identity, verified: identified.verified, uiTracks, browserParity, screenshots,
     download: { filename: download.suggestedFilename(), exactOBJ: true, exactManifest: true, texturePixelsMatch: true, completeDespiteDisplayFilters: true },
-    navigation: 'passed', sourceRecovery: 'passed', staleLoads: 'passed', explicitAndAutomatic: 'passed', pageErrors: errors, externalRequests: requests, webglError };
+    navigation: 'passed', sourceRecovery: 'passed', staleLoads: 'passed', explicitAndAutomatic: 'passed', pathOverlays: 'source-byte parity, experimental label, controls and filters passed', pageErrors: errors, externalRequests: requests, webglError };
   await writeFile(path.join(output, 'browser-check.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
   console.log(JSON.stringify({ tracks: tracks.length, screenshots, pageErrors: errors, externalRequests: requests, webglError, output }));
 } finally {

@@ -1,0 +1,13 @@
+# Vehicle control replay codec
+
+`src/replay-codec.mjs` reconstructs42ab90 control recording/playback and42b280 checksums. Race completion calls42ab90 twice; the original request filename called it shutdown before the function's behavior was understood. These calls finalize replay state rather than destroy a vehicle.
+
+`stepReplayControl(bodyAddress,{memory})` follows body+660 to a caller-owned controller of at least1e884 bytes. Global9020a0 pauses all processing. Controller states2/3/7 record or flush;5 plays back;6 clears the state; other states return. Three independent byte streams live at controller+4e30/+14c24/+19a50. They preserve previous/current bytes, repeat count, capacity, written/read cursors and native retained data.
+
+Recording run-length encodes unchanged axis values, uses a signed7-bit delta for absolute changes below64 and otherwise writes a literal pair. Capacity overflow changes state2 to3. Input word710 uses one of five native packet shapes according to button count, thef0f0 subset and elapsed frame limits. Frame counters and byte/word stores retain wrapping. First clock0 copies the current mask into remembered state. State3 flushes to7; the next terminal call computes the checksum and clears state0.
+
+Playback decodes the original5706a0 button map and all five packet forms, writes a full dword at body710 (clearing its upper word), decrements packet/run counters and updates all three axis streams. Terminal state6 can be set while the current call still completes its axis writes. `updateReplayChecksum(controller,{memory,validate})` checks four byte streams with an alternating complement accumulator and2524 seed. Its first stream length is signed16 while the axis lengths are unsigned16. Compute writes word+6; validation preserves a match or writesfecd on mismatch.
+
+`node tools/verify-replay-codec-instructions.mjs` executes532 retained instructions with original dispatch/decode tables and no mocked calls/arithmetic. It compares full16384-byte bodies and125060-byte controller/stream regions across4000 replay fixtures (500 of every state0..7) plus1000 checksum fixtures;1320986 interpreted steps match. Seven focused tests include a48-frame control/axis recording and playback round trip against the supplied original sequence. Native storage construction, replay file transport and game input producers remain separate work.
+
+`src/session-input-flag.mjs` also recovers41a670: argument bit0 controls91ce90 bit1; clearing zeros four input words except when91ff80 equals14. Its19 instructions match5000 fixtures without mocks and three focused tests preserve neighboring bytes. Both helpers are default bindings in `finishRaceProgress`.

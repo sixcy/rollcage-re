@@ -10,6 +10,7 @@ import { RollcageArchive } from '../src/archive.mjs';
 import { decodeTrack, tracks } from './track-viewer/track-data.mjs';
 import { buildViewerBundle } from './lib/track-viewer-bundle.mjs';
 import { readTrackZIP } from './lib/check-track-download.mjs';
+import { assertStoredPathBytes, checkPathOverlay, checkPathRendering } from './lib/check-path-overlay.mjs';
 
 const [launcher, installation = 'C:\\Program Files (x86)\\Psygnosis\\Rollcage', output = `analysis/track-viewer/check-${Date.now()}`] = process.argv.slice(2);
 if (!launcher) throw new Error('Usage: node tools/check-track-viewer.mjs <installed-REA-launcher> [installation-directory] [new-report-directory]');
@@ -19,7 +20,7 @@ const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const summary = scene => ({
   segments: scene.segments, instances: scene.instances, triangles: scene.triangles, vertices: scene.vertices,
   bounds: scene.bounds, groupsHash: hash(JSON.stringify(scene.groups)),
-  objHash: hash(scene.obj),
+  objHash: hash(scene.obj), pathsHash: hash(JSON.stringify(scene.paths)),
   textures: [...scene.textures].map(([page, image]) => ({ page, width: image.width, height: image.height, hash: hash(image.rgba) }))
 });
 let archive;
@@ -45,6 +46,9 @@ try {
   const initial = await inspect();
   assert.equal(await page.locator('#download').isEnabled(), true);
   assert.equal(initial.instances, 114); assert.equal(initial.triangles, 32851);
+  assert.equal(await page.locator('#paths').isChecked(), false);
+  await checkPathOverlay(page, initial.paths, true);
+  const pathRendering = await checkPathRendering(page);
   const before = await page.locator('#canvas').screenshot();
   await page.mouse.move(1000, 600); await page.mouse.down(); await page.mouse.move(1120, 650, { steps: 8 }); await page.mouse.up();
   await page.mouse.wheel(0, -250); await page.waitForTimeout(80);
@@ -153,7 +157,7 @@ try {
       results.push({ name: track.name, summary: {
         segments: scene.segments, instances: scene.instances, triangles: scene.triangles, vertices: scene.vertices,
         bounds: scene.bounds, groupsHash: await hash(new TextEncoder().encode(JSON.stringify(scene.groups))),
-        objHash: await hash(new TextEncoder().encode(scene.obj)),
+        objHash: await hash(new TextEncoder().encode(scene.obj)), pathsHash: await hash(new TextEncoder().encode(JSON.stringify(scene.paths))),
         textures: await Promise.all([...scene.textures].map(async ([page, image]) => ({ page, width: image.width, height: image.height, hash: await hash(image.rgba) })))
       } });
     }
@@ -162,7 +166,9 @@ try {
   archive = await RollcageArchive.open(installation);
   for (const [i, track] of tracks.entries()) {
     const geometry = await archive.readResource(track.index), texture = await archive.readResource(track.index + 1);
-    assert.deepEqual(browserResults[i], { name: track.name, summary: summary(decodeTrack(geometry.data, texture.data)) });
+    const decoded = decodeTrack(geometry.data, texture.data);
+    assertStoredPathBytes(decoded.paths, geometry.data);
+    assert.deepEqual(browserResults[i], { name: track.name, summary: summary(decoded) });
   }
   const firstGeometry = await archive.readResource(30), firstTextures = await archive.readResource(31);
   const firstScene = decodeTrack(firstGeometry.data, firstTextures.data);
@@ -187,6 +193,7 @@ try {
   await page.selectOption('#track', '30'); await waitTrack('LOW/LEV1.BLP'); await page.waitForTimeout(100);
   const result = { initial, browserParity: browserResults, download: { filename: download.suggestedFilename(), files: [...downloadedFiles.keys()], exactOBJ: true, texturePixelsMatch: true, retryAfterEncodingFailure: true }, controls: 'passed', pointerLockWorked, fallbackLook: 'passed', staleLoads: 'passed', errorRecovery: 'passed', pageErrors: errors, externalRequests: requests,
     webglError: await page.evaluate(() => document.getElementById('canvas').getContext('webgl').getError()) };
+  result.pathRendering = pathRendering;
   assert.equal(result.webglError, 0);
   await mkdir(output, { recursive: false });
   await writeFile(path.join(output, 'landing.png'), landingScreenshot, { flag: 'wx' });

@@ -1,0 +1,28 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import assert from 'node:assert/strict';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {readInstructionEvidence} from './lib/instruction-evidence.mjs';
+import {finishVehicleBookkeeping,selectFinishRoute} from '../src/finish-bookkeeping.mjs';
+const directory='analysis/native-simulation/results',own=await readInstructionEvidence(['139-finish-bookkeeping-assembly.json','145-finish-score-assembly.json'],{directory}),outer=await readInstructionEvidence(['139-finish-bookkeeping-assembly.json'],{directory}),machine=new BoundedX86(own.instructions),mockMachine=new BoundedX86(outer.instructions),table=JSON.parse(await readFile('src/finish-skill-tables.json','utf8')),memory=Buffer.alloc(0xa00000),record=0x10000,bodies=[0x20000,0x28000],pack=0x40000,bucket=0x50000,groups=0x60000,points=0x61000,map=0x62000;
+Buffer.from(table.hex,'hex').copy(memory,0x570680);let seed=0x491be0ab,steps=0,routeChanges=0,relinks=0;
+const random=limit=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return(seed>>>0)%limit;},signed=()=>random(0xffffffff)|0;
+const fixtures=4000;
+for(let fixture=0;fixture<fixtures;fixture++){
+ const mocked=fixture>=3000,m=mocked?mockMachine:machine;m.reset();
+ memory.fill(0xa5,record,record+780);for(const body of bodies)memory.fill(0x5a,body,body+0x4000);memory.fill(0x7d,pack,pack+0x100);memory.fill(0x69,groups,groups+60);memory.fill(0x33,points,points+5*0x100);memory.fill(0x99,bucket,bucket+12);memory.fill(0xab,0x6e6560,0x6e65a0);
+ const originalIndex=1+random(4),original=groups+originalIndex*12;
+ memory.writeUInt32LE(bodies[0],record);memory.writeUInt32LE(original,record+0x54);memory.writeUInt32LE(pack,0x90b98c);memory.writeUInt32LE(groups,pack+0x60);memory.writeUInt32LE(map,pack+0x7c);memory.writeInt32LE(signed(),0x90a548);
+ for(let index=0;index<5;index++){const group=groups+index*12,count=2+random(5);memory.writeUInt16LE(count,group);memory[group+4]=fixture%4===0?0:fixture%4===1?1:random(2);memory.writeUInt32LE(points+index*0x100,group+8);for(let point=0;point<8;point++){const p=points+index*0x100+point*16;for(const offset of [0,2,4])memory.writeInt16LE(fixture%11===0?random(65536)-32768:random(1000)-500,p+offset);memory.writeUInt32LE((random(5)|(random(8)<<5)|(random(5)<<14)|(random(8)<<19))>>>0,p+12);}}
+ const originalCount=memory.readUInt16LE(original);memory.writeInt32LE([-1,0,1,originalCount-1,originalCount,originalCount+1][fixture%6],record+0x58);
+ for(let index=0;index<2;index++){const body=bodies[index];for(const offset of [0x36,0x3a,0x3e])memory.writeInt16LE(fixture%11===0?random(65536)-32768:random(1000)-500,body+offset);memory.writeUInt16LE(random(65536),body+0x65e);memory.writeUInt32LE(bucket+(fixture%2),body+0xc);for(const offset of [0x708,0x709,0x70a])memory[body+offset]=random(256);}
+ const key=fixture%4;memory.writeUInt32LE((key<<22)>>>0,bucket);for(let entry=0;entry<4;entry++)memory.writeUInt32LE((random(5)<<16)|random(8),map+entry*4);
+ const ranges=[[record,780],...bodies.map(p=>[p,0x4000]),[pack,0x100],[bucket,12],[groups,60],[points,5*0x100],[map,16],[0x90b98c,4],[0x90a548,4],[0x6e6560,64],[0x570680,113]];
+ for(const [p,n]of ranges)memory.copy(m.bytes,p,p,p+n);
+ const sourceLog=[],nativeLog=[];
+ function finish(target,address,log){const body=target.readUInt32LE(address);log.push([address,target[body+0x718],target[body+0x720],target[body+0x721],target[body+0x722]]);target.writeUInt32LE(bodies[1],address);target.writeUInt32LE(groups+24,address+0x54);target.writeInt32LE(0x12345678,address+0x58);target.writeInt32LE(-1,0x90a548);}
+ const expected=finishVehicleBookkeeping(record,{memory,handlers:mocked?{finish48da10:address=>finish(memory,address,sourceLog)}:{}});if(memory.readUInt32LE(record+0x54)!==original)routeChanges++;if(mocked)relinks++;
+ if(mocked)m.externalCalls.set(0x48da10,n=>finish(n.bytes,n.r.ECX,nativeLog));m.entry=0x491be0;m.r.ECX=record;m.r.ESP=0x9000;m.bytes.writeUInt32LE(0xffffffff,0x9000);steps+=m.run();assert.equal(m.r.EAX>>>0,expected,`quotient ${fixture}`);for(const [p,n]of ranges)assert.deepEqual(m.bytes.subarray(p,p+n),memory.subarray(p,p+n),`bytes ${fixture}/${p.toString(16)}`);assert.deepEqual(nativeLog,sourceLog,`calls ${fixture}`);
+}
+const nullFixtures=100;
+for(let fixture=0;fixture<nullFixtures;fixture++){machine.reset();memory.fill(0xa5,record,record+780);memory.writeUInt32LE(0,record+0x54);memory.copy(machine.bytes,record,record,record+780);selectFinishRoute(record,{memory});machine.entry=0x48da10;machine.r.ECX=record;machine.r.ESP=0x9000;machine.bytes.writeUInt32LE(0xffffffff,0x9000);steps+=machine.run();assert.deepEqual(machine.bytes.subarray(record,record+780),memory.subarray(record,record+780));}
+const report={method:'Complete491be0 with actual48da10 route-nearest helper and SHA-bound original113-byte threshold table.3000 complete numeric fixtures plus1000 state-mutating48da10 boundary fixtures and100 null-route helper fixtures. Full780-byte record,two16384-byte bodies,route headers/point memory/fallback tables,low-word-only global clears,clock and final quotient compared. Covers cached original body versus live record relink, cyclic single wrap, noncyclic linked-group original-count bound,signed squared-distance overflow and spatial fallback winning ties. No original process execution.',evidence:[...own.evidence.map(item=>item.evidence_id),table.evidence],instructions:own.instructions.length,fixtures,completeNumericFixtures:3000,callbackFixtures:1000,nullRouteFixtures:nullFixtures,routeChanges,bodyRelinks:relinks,instructionSteps:steps,matched:true};await writeFile('analysis/finish-bookkeeping-instruction-check.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report));

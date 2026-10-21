@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {stepSimulationFrame} from '../src/simulation-frame.mjs';
+import {stepSimulationFrame,stepPhysicsAndAttachments,stepPhysicsAttachmentsAndBodyStates} from '../src/simulation-frame.mjs';
+import {applyRespawn} from '../src/respawn-apply.mjs';
+import {ATTACHMENT_SCRATCH_LENGTH} from '../src/body-attachments.mjs';
 import {BodyShapePool,registerBodyCollisionShapes} from '../src/body-shape-registration.mjs';
 import {BodySpatialRegistry,createBodySpatialSelector} from '../src/body-spatial.mjs';
 import {CollisionEventQueue} from '../src/collision-events.mjs';
@@ -123,4 +125,63 @@ test('a script release action enables ordinary dynamics for the following frame 
  f.context.scriptOptionsFor=()=>({bytecode});f.context.scriptedReleaseState={rng,handlers:{onReleaseEffect:({body,code})=>effects.push([body,code])}};
  const first=stepSimulationFrame(f.group,[],f.context);assert.equal(first.scriptedBodies,1);assert.equal(f.body.flags&0x2000,0);assert.equal(f.body.integrationFlags&1,0);assert.equal(rng.seed,16807);assert.equal(effects[0][0],f.body);assert.equal(effects[0][1],16);assert.equal(f.body.position[1],-100*U);
  const second=stepSimulationFrame(f.group,[],f.context);assert.equal(second.ordinaryBodies,1);assert.equal(second.scriptedBodies,0);assert.equal(f.body.position[1],-100*U+U/4);assert.equal(f.group.bodies[0],f.body);
+});
+
+test('an active vehicle routes the radial effect into target state instead of ordinary force',()=>{
+ const f=fixture({terrain:false,height:-100,velocity:0}),state=Buffer.alloc(265),lookup=Buffer.alloc(64);state[8]=1;
+ f.body.pairCollisionContext.stateByte6bc=1;f.context.effectFlags.first=1;
+ f.context.bodyEffectImpulse={originQ16:[f.body.position[0]-16*U,...f.body.position.slice(1)],strength:4};
+ f.context.activeVehicleEffectFor=body=>{assert.equal(body,f.body);return {state,lookup};};
+ const position=f.body.position.slice();stepSimulationFrame(f.group,[],f.context);
+ assert.equal(state[9],0x70);assert.equal(state[8],1);assert.deepEqual(f.body.momentum,[0,0,0]);assert.deepEqual(f.body.position,position);
+});
+
+test('queued attachments use the completed pose and their storage is reused on the following frame',()=>{
+ const f=fixture({terrain:false,height:-100,velocity:8}),records=Buffer.alloc(16,0xa5),queue={entries:[],count:0};
+ delete f.body.attachmentCount;Object.assign(f.body,{attachmentHandles:[0x1001,0,0,0,0],rotationPaddingD6:0});
+ f.context.handlers.attachmentQueue=queue;f.context.attachments={pointsFor:()=>Buffer.alloc(8),type1Records:records,scratch:Buffer.alloc(ATTACHMENT_SCRATCH_LENGTH,0xa5),roundingMode:'nearest-even'};
+ for(const expectedY of [-92,-84]){
+  const result=stepPhysicsAndAttachments(f.group,[],f.context);assert.equal(result.attachments.type1Writes,1);assert.deepEqual([8,10,12].map(offset=>records.readInt16LE(offset)),[50,expectedY,-50]);assert.equal(records.readUInt16LE(14),1);assert.equal(queue.count,0);assert.equal(queue.entries.length,1);assert.equal(queue.entries[0],f.body);
+ }
+});
+
+function attachFixture(f){
+ const records=Buffer.alloc(16,0xa5),queue={entries:[],count:0};
+ delete f.body.attachmentCount;Object.assign(f.body,{attachmentHandles:[0x1001,0,0,0,0],rotationPaddingD6:0});
+ f.context.handlers.attachmentQueue=queue;f.context.attachments={pointsFor:()=>Buffer.alloc(8),type1Records:records,scratch:Buffer.alloc(ATTACHMENT_SCRATCH_LENGTH,0xa5),roundingMode:'nearest-even'};
+ return records;
+}
+
+test('the actual vehicle prepass observes completed physics after attachment writes, then dispatches state32',()=>{
+ const f=fixture({terrain:false,height:-100,velocity:8}),records=attachFixture(f);
+ f.body.flags=(f.body.flags&~511)|4;f.body.controller164={body:f.body,timer3a:0,flags39:0};
+ f.body.collisionFlags=0x80000000;f.body.closestTerrain11c=0;
+ f.context.postFrame={vehicleCheck:{runtime:{session:{vehicleCount54d:1},records:[{body00:f.body,field248:51}]},sectorHeights:[-1000]}};
+ const result=stepPhysicsAttachmentsAndBodyStates(f.group,[],f.context);
+ assert.equal(records.readInt16LE(10),-92);assert.equal(f.body.position[1],-92*U);
+ assert.equal(result.postFrameVehicleCheck.heightFailures,1);assert.equal(result.postFrame.stoppedByType4,true);
+ assert.equal(f.body.collisionState128,32);assert.equal(f.body.collisionFlags&0x80000000,0);
+ assert.equal(f.body.controller164.timer3a,20);assert.equal(f.body.controller164.flags39,0x80);assert.ok(f.body.flags&0x200);
+});
+
+test('state dispatch applies the selected respawn after attachments and reinserts the actual spatial body',()=>{
+ const f=fixture({terrain:false,height:-100,velocity:8}),records=attachFixture(f),trace=[];
+ f.body.flags=(f.body.flags&~511)|5;f.body.quaternionDerivative=[123,456,789,1011];
+ const points=[{position:[50,-110,-50]},{position:[50,-90,-40]}],route={count:2,reverseByte2:0,points};
+ f.context.postFrame={routes:{countByte46:2,groups:[{},route]},routeState:{currentPoint:null},handlers:{
+  prepass:()=>{trace.push('prepass');assert.equal(records.readInt16LE(10),-92);f.body.collisionState128=32;},
+  query:(body,query)=>{trace.push('query');assert.equal(body.position[1],-92*U);body.quaternionDerivative=[123,456,789,1011];query.queryValue.value=0;return 1;},
+  apply:(body,selected)=>{trace.push('apply');applyRespawn(body,{...selected,closestTerrain11c:selected.queryValue,spatialRegistry:f.registry});return {registerEcx:0x1234};},
+  emit:event=>{trace.push('emit');assert.equal(event.args[4],0x1234);assert.equal(f.body.position[1],-90*U);}
+ }};
+ const result=stepPhysicsAttachmentsAndBodyStates(f.group,[],f.context);
+ assert.deepEqual(trace,['prepass','query','apply','emit']);assert.equal(result.postFrame.respawnedBodies,1);
+ assert.equal(records.readInt16LE(10),-92);assert.deepEqual(f.body.position,[50*U,-90*U,-40*U]);assert.deepEqual(f.body.momentum,[0,0,0]);
+ assert.deepEqual(f.body.quaternionDerivative,[123,456,789,1011]);assert.equal(f.body.closestTerrain11c,0);assert.equal(f.buckets[0].headId,f.registry.idFor(f.body));
+ assert.equal(f.context.handlers.attachmentQueue.count,0);
+});
+
+test('post-frame context is required before any composed physics mutation',()=>{
+ const f=fixture();f.body.frameTimeQ16=123;
+ assert.throws(()=>stepPhysicsAttachmentsAndBodyStates(f.group,[],f.context),/Post-frame composition/);assert.equal(f.body.frameTimeQ16,123);
 });

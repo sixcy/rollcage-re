@@ -11,6 +11,8 @@ import { getGame } from '../src/track-games.mjs';
 import { buildTrackManifest } from '../src/track-manifest.mjs';
 import { buildViewerBundle } from './lib/track-viewer-bundle.mjs';
 import { readTrackZIP } from './lib/check-track-download.mjs';
+import { decodeTrackPaths } from '../src/track-paths.mjs';
+import { assertStoredPathBytes, checkPathOverlay } from './lib/check-path-overlay.mjs';
 
 const [launcher, output = `analysis/track-games-browser/check-${Date.now()}`] = process.argv.slice(2);
 if (!launcher) throw new Error('Usage: node tools/check-track-games.mjs <installed-REA-launcher> [new-report-directory]');
@@ -18,7 +20,7 @@ const { chromium } = createRequire(path.resolve(launcher))('playwright-core');
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const summarize = scene => ({
   segments: scene.segments, instances: scene.instances, triangles: scene.triangles, vertices: scene.vertices,
-  bounds: scene.bounds, groupsHash: hash(JSON.stringify(scene.groups)), objHash: hash(scene.obj),
+  bounds: scene.bounds, groupsHash: hash(JSON.stringify(scene.groups)), objHash: hash(scene.obj), pathsHash: hash(JSON.stringify(scene.paths)),
   textures: [...scene.textures].map(([page, image]) => ({ page, width: image.width, height: image.height, hash: hash(image.rgba) }))
 });
 const paths = id => ({
@@ -69,6 +71,8 @@ try {
   assert.equal(getGame('stage2').tracks.length, 66);
   const firstState = await inspect();
   assert.ok(firstState.triangles > 0); assert.ok(firstState.instances > 0); assert.ok(firstState.textures > 0);
+  assert.equal(await page.locator('#paths').isChecked(), false);
+  const archive = await RollcageArchive.open(getGame('stage2').installation); archives.push(archive);
 
   // Test actual UI loading for every Stage II environment, keeping one image per category.
   const categories = new Set();
@@ -79,6 +83,9 @@ try {
     assert.equal(await page.locator('#error').textContent(), '', track.name);
     uiTracks.push({ name: track.name, segments: state.segments, instances: state.instances, triangles: state.triangles, textures: state.textures });
     const category = track.category ?? 'environments';
+    const geometry = (await archive.readResource(track.index)).data, storedPaths = decodeTrackPaths(geometry);
+    assertStoredPathBytes(storedPaths, geometry);
+    await checkPathOverlay(page, storedPaths, !categories.has(category));
     if (!categories.has(category)) {
       categories.add(category);
       const filename = `stage2-${category.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}.png`;
@@ -104,7 +111,6 @@ try {
   const download = await downloading;
   assert.equal(download.suggestedFilename(), 'stage2-LEV01.zip');
   const files = readTrackZIP(await readFile(await download.path()));
-  const archive = await RollcageArchive.open(game.installation); archives.push(archive);
   const firstScene = await game.loadTrack(archive, first);
   assert.equal(files.size, firstScene.textures.size + 4);
   assert.equal(files.get('scene.obj').toString('utf8'), firstScene.obj);
@@ -141,7 +147,7 @@ try {
       const scene = await getGame('stage2').loadTrack(archive, track);
       results.push({ name: track.name, summary: {
         segments: scene.segments, instances: scene.instances, triangles: scene.triangles, vertices: scene.vertices,
-        bounds: scene.bounds, groupsHash: await hash(encode(JSON.stringify(scene.groups))), objHash: await hash(encode(scene.obj)),
+        bounds: scene.bounds, groupsHash: await hash(encode(JSON.stringify(scene.groups))), objHash: await hash(encode(scene.obj)), pathsHash: await hash(encode(JSON.stringify(scene.paths))),
         textures: await Promise.all([...scene.textures].map(async ([page, image]) => ({ page, width: image.width, height: image.height, hash: await hash(image.rgba) })))
       } });
     }
@@ -178,6 +184,8 @@ try {
   await page.selectOption('#game', 'auto'); await restoreFiles('stage2'); assert.equal((await inspect()).verified, true);
   await openGame('rollcage');
   assert.equal(await page.locator('#track option').count(), 40);
+  assert.equal(await page.locator('#paths').isChecked(), true);
+  assert.equal(await page.locator('#path-through').isChecked(), true);
   await page.screenshot({ path: path.join(output, 'rollcage.png') });
 
   // Start earlier requests and immediately supersede them across both game and track changes.
@@ -206,7 +214,7 @@ try {
     uiTracks, browserParity: browserResults, screenshots,
     download: { filename: download.suggestedFilename(), files: [...files.keys()], exactOBJ: true, exactManifest: true, texturePixelsMatch: true, completeDespiteDisplayFilters: true, retryAfterPNGFailure: true },
     automaticIdentification: 'passed', explicitSelection: 'passed', unverifiedRelease: 'passed', gameSwitching: 'passed',
-    staleLoads: 'passed', errorRecovery: 'passed', pageErrors: errors, externalRequests: requests, webglError
+    staleLoads: 'passed', errorRecovery: 'passed', pathOverlays: 'source-byte parity, controls, markers, filters, state restoration and game switching passed', pageErrors: errors, externalRequests: requests, webglError
   };
   await writeFile(path.join(output, 'browser-check.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
   console.log(JSON.stringify({ matchedTracks: browserResults.length, screenshots, pageErrors: errors, externalRequests: requests, webglError, output }));

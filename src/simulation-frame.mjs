@@ -1,5 +1,5 @@
-// Concrete composition of the recovered frame stages. Gameplay world updates,
-// effects, object lifecycle and attachment execution remain caller boundaries.
+// Concrete composition of the recovered frame stages. Runtime inputs, emission
+// callbacks and the surrounding gameplay tick remain caller-owned.
 import {runPhysicsFrame} from './physics-frame.mjs';
 import {beginPhysicsFrame} from './physics-frame-state.mjs';
 import {prepareOrdinaryBody} from './body-preparation.mjs';
@@ -21,6 +21,9 @@ import {applyBodyEffectImpulse} from './body-effect-impulse.mjs';
 import {applyBodyEffectDamping} from './body-effect-damping.mjs';
 import {releaseScriptedBody} from './scripted-release.mjs';
 import {updateBodyAttachments} from './body-attachments.mjs';
+import {applyActiveVehicleEffect} from './active-vehicle-effect.mjs';
+import {runPostFrameBodyStates} from './post-frame-body-states.mjs';
+import {checkPostFrameVehicles} from './post-frame-vehicle-check.mjs';
 
 const decodeQuery=record=>({originQ8:[8,12,16].map(p=>record.readInt32LE(p)),deltaQ8:[20,24,28].map(p=>record.readInt32LE(p)),radiusQ8:record.readInt32LE(64),tag:record.readUInt16LE(70),surfaceRef:record.readInt32LE(56)});
 const specialVehicle=body=>{const state=body.pairCollisionContext?.stateByte6bc;return state!==null&&state!==undefined&&state!==0;};
@@ -32,8 +35,12 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
  if(typeof spatialStateFor!=='function')throw Error('Simulation frame requires the runtime registration to parsed-node mapping.');
  if(typeof handlers.externalWorld!=='function'&&!context.worldEffectState)throw Error('Simulation frame requires explicit world effect state or its external world override.');
  const timeOptionsFor=context.timeOptionsFor??(()=>({})),bodies=()=>physicalGroup.bodies.slice(0,physicalGroup.count??physicalGroup.bodies.length);
+ const effectHandlers={...handlers,onActiveVehicleEffect:handlers.onActiveVehicleEffect??(({body,directionQ8,effectCode})=>{
+  if(typeof context.activeVehicleEffectFor!=='function')throw Error('Active vehicle effect requires explicit target state and lookup.');
+  return applyActiveVehicleEffect(body,directionQ8,effectCode,{...context.activeVehicleEffectFor(body),handlers});
+ })};
  const preparationHandlers={...handlers,
-  applyEffect91cd90:handlers.applyEffect91cd90??(body=>{if(!context.bodyEffectImpulse)throw Error('First frame effect requires explicit impulse effect state.');return applyBodyEffectImpulse(body,{...context.bodyEffectImpulse,roundingMode,handlers});}),
+  applyEffect91cd90:handlers.applyEffect91cd90??(body=>{if(!context.bodyEffectImpulse)throw Error('First frame effect requires explicit impulse effect state.');return applyBodyEffectImpulse(body,{...context.bodyEffectImpulse,roundingMode,handlers:effectHandlers});}),
   applyEffect9153d0:handlers.applyEffect9153d0??(body=>{if(!context.bodyEffectDamping)throw Error('Second frame effect requires explicit damping effect state.');return applyBodyEffectDamping(body,context.bodyEffectDamping);})};
  const prepare=(body,time,pool)=>prepareBodyShapeCache(body,time,pool,timeOptionsFor(body));
  const report={ordinary:[],scripted:[],candidates:null,vehicles:null,worldUpdatedRecords:null,initialEvents:0,regeneratedEvents:0,storedContacts:0,rejectedContacts:0,terrainQueries:0,terrainHits:0,modelQueries:0,modelHits:0,finishedBodies:0};
@@ -92,4 +99,17 @@ export function stepPhysicsAndAttachments(physicalGroup,vehicles,context) {
  if(!context.attachments||!Array.isArray(queue?.entries)||!Number.isInteger(queue.count))throw Error('Physics and attachments require retained native queue storage and explicit attachment context.');
  const frame=stepSimulationFrame(physicalGroup,vehicles,context),attachments=updateBodyAttachments(queue,context.attachments);
  return {...frame,attachments};
+}
+
+//450e50:4749e0,44f050,47ccc0 are consecutive calls. This composition ends
+//after those calls; route/runtime producers and the surrounding race tick
+//remain explicit. Query/apply/emit contracts must preserve register outputs.
+export function stepPhysicsAttachmentsAndBodyStates(physicalGroup,vehicles,context) {
+ const post=context.postFrame;
+ if(!post||(typeof post.handlers?.prepass!=='function'&&!post.vehicleCheck))throw Error('Post-frame composition requires explicit body-state context and vehicle prepass inputs.');
+ let postFrameVehicleCheck=null;
+ const prepass=post.handlers?.prepass??(()=>postFrameVehicleCheck=checkPostFrameVehicles(post.vehicleCheck.runtime,post.vehicleCheck));
+ const frame=stepPhysicsAndAttachments(physicalGroup,vehicles,context);
+ const postFrame=runPostFrameBodyStates(physicalGroup,{...post,handlers:{...post.handlers,prepass}});
+ return {...frame,postFrameVehicleCheck,postFrame};
 }

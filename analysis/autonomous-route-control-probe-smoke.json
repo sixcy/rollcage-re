@@ -1,0 +1,1341 @@
+{
+  "method": "Installed Redux GFXM route-control corpus through actual431750 and all default target/speed/steering/pacing references, with no callbacks or original executable execution. Complete decoded resource copies retain all authored group/point bytes; only group+8 pointers are relocated from file point-base-relative offsets, and runtime pack+60 publishes the copied table. Every usable group is sampled at first/middle/last points across nine declared profiles and four persistent ticks. Body/session/wheel/opponent/progression storage is synthetic zeroed memory with explicitly assigned fields. The progression record stays fixed during a scenario. Between ticks, declared linear fixture motion advances position by serialized velocity/4; this is not reconstructed vehicle physics or a captured runtime. Caller resets control bits at each tick. Invariants check source/mapped hashes,bounds and exact point bytes,authored-direction allowed target steps,unrelated body bytes,control widths,one-shot steering suppression,disabled early return and opponent pacing. Mode4/highspeed/special target inputs are declared profiles. No claim about constructor defaults,autonomous strategy outside431750,collision integration or whole-race behavior.",
+  "archiveIndexSHA256": "28c30b94d5612b98cc9d68540982f40bc1ae6f05df3113cb964c6b2eccf02377",
+  "referenceSourceSHA256": {
+    "autonomous-route-control.mjs": "679a27301f891dde6d0c5a89a9a9d3c26c2706165103e914e0ea051632822bae",
+    "autonomous-route-geometry.mjs": "e45aa8567583bb5b4deea7c8cb781e171d7be8961859094bccbdb084e4bcce8e",
+    "autonomous-speed.mjs": "da0abe87685c4d1229529c3f3cc43c7b85551c4360d251ee7743e5bb1a156616",
+    "autonomous-steering.mjs": "2be25d2ddba35090b8a955b67cc5ad846140acb901aaaed9f9cac71b938e981f",
+    "body-contact-friction.mjs": "90c34b52b978abdb3a29f84e8a62a432c2813848484b246f5df6a87cbdbec859",
+    "fixed-integer.mjs": "19e51f8a9886d5b94817bd2872a049fffc75db67260450fb720b4d53d4ec8b0d"
+  },
+  "profiles": [
+    {
+      "name": "route-low",
+      "speed": 60,
+      "skill": 0,
+      "heading": 0,
+      "offset": [
+        -24,
+        8,
+        -24
+      ],
+      "surface": 0,
+      "velocityUnits": 4
+    },
+    {
+      "name": "route-high-skip",
+      "speed": 350,
+      "skill": 3,
+      "heading": 1,
+      "offset": [
+        -24,
+        8,
+        -24
+      ],
+      "surface": 12,
+      "velocityUnits": 16,
+      "skip": true
+    },
+    {
+      "name": "mode4",
+      "speed": 260,
+      "skill": 2,
+      "heading": 0,
+      "offset": [
+        24,
+        -8,
+        24
+      ],
+      "surface": 20,
+      "velocityUnits": 8,
+      "mode": 4
+    },
+    {
+      "name": "steering-suppression",
+      "speed": 150,
+      "skill": 3,
+      "heading": 1,
+      "offset": [
+        -24,
+        8,
+        24
+      ],
+      "surface": 31,
+      "velocityUnits": 8,
+      "suppress": true,
+      "gear": 1,
+      "angular": 4000001,
+      "steering": 12288
+    },
+    {
+      "name": "special-near5",
+      "speed": 100,
+      "skill": 1,
+      "heading": 0,
+      "offset": [
+        24,
+        0,
+        -24
+      ],
+      "surface": 8,
+      "velocityUnits": 4,
+      "special": 5,
+      "specialOffset": [
+        50,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "special-far5",
+      "speed": 420,
+      "skill": 3,
+      "heading": 1,
+      "offset": [
+        -24,
+        0,
+        24
+      ],
+      "surface": 21,
+      "velocityUnits": 8,
+      "special": 5,
+      "specialOffset": [
+        300,
+        30,
+        0
+      ]
+    },
+    {
+      "name": "special-retained1",
+      "speed": 420,
+      "skill": 2,
+      "heading": 0,
+      "offset": [
+        24,
+        8,
+        24
+      ],
+      "surface": 0,
+      "velocityUnits": 8,
+      "special": 1,
+      "specialOffset": [
+        70,
+        0,
+        -20
+      ],
+      "skip": true
+    },
+    {
+      "name": "pacing-mask",
+      "speed": 500,
+      "skill": 1,
+      "heading": 1,
+      "offset": [
+        -24,
+        8,
+        -24
+      ],
+      "surface": 12,
+      "velocityUnits": 16,
+      "pacing": true
+    },
+    {
+      "name": "disabled",
+      "speed": 100,
+      "skill": 0,
+      "heading": 0,
+      "offset": [
+        24,
+        8,
+        -24
+      ],
+      "surface": 0,
+      "velocityUnits": 4,
+      "disabled": true
+    }
+  ],
+  "ticksPerScenario": 4,
+  "summary": {
+    "resources": 1,
+    "groups": 10,
+    "reverseGroups": 10,
+    "forwardGroups": 0,
+    "loopedGroups": 1,
+    "openGroups": 9,
+    "scenarios": 270,
+    "ticks": 1080,
+    "fixtureMoves": 1080,
+    "targetChanges": 143,
+    "targetWraps": 4,
+    "highSpeedSkipTicks": 120,
+    "specialCancelled": 30,
+    "specialRetainedTicks": 240,
+    "mode4Ticks": 120,
+    "suppressionClears": 30,
+    "pacingChecks": 120,
+    "disabledChecks": 120,
+    "throttleTicks": 916,
+    "brakeTicks": 436,
+    "leftTicks": 517,
+    "rightTicks": 653,
+    "progressionFallbacks": 0,
+    "sourceAndMappedHashesVerified": 2
+  },
+  "profileCounts": {
+    "route-low": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 13,
+      "throttle": 120,
+      "brake": 0,
+      "left": 83,
+      "right": 37
+    },
+    "route-high-skip": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 83,
+      "throttle": 120,
+      "brake": 100,
+      "left": 44,
+      "right": 76
+    },
+    "mode4": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 10,
+      "throttle": 120,
+      "brake": 68,
+      "left": 16,
+      "right": 104
+    },
+    "steering-suppression": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 10,
+      "throttle": 76,
+      "brake": 100,
+      "left": 18,
+      "right": 72
+    },
+    "special-near5": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 11,
+      "throttle": 120,
+      "brake": 0,
+      "left": 16,
+      "right": 104
+    },
+    "special-far5": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 0,
+      "throttle": 120,
+      "brake": 100,
+      "left": 56,
+      "right": 64
+    },
+    "special-retained1": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 0,
+      "throttle": 120,
+      "brake": 68,
+      "left": 120,
+      "right": 0
+    },
+    "pacing-mask": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 16,
+      "throttle": 0,
+      "brake": 0,
+      "left": 44,
+      "right": 76
+    },
+    "disabled": {
+      "scenarios": 30,
+      "ticks": 120,
+      "targetChanges": 0,
+      "throttle": 120,
+      "brake": 0,
+      "left": 120,
+      "right": 120
+    }
+  },
+  "resources": [
+    {
+      "resource": 30,
+      "bytes": 682152,
+      "sha256": "405fc2c8262a3040c444e00594ba22459232da53b19b13e1c92b5da956e70502",
+      "mappedSHA256": "b0e2ba91328eb12d079bde8e02f6a927578a9f188a81be93db43fdd8721e9eef",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 143
+    }
+  ],
+  "samples": [
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111600421,
+        1835008,
+        -143654524
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 2,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111593034,
+        1835008,
+        -143719672
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 3,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111585647,
+        1835008,
+        -143784820
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 73,
+      "point": [
+        1547,
+        20,
+        -3458
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111578260,
+        1835008,
+        -143849968
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 2,
+      "previousIndex": 73,
+      "selectedIndex": 72,
+      "point": [
+        1438,
+        20,
+        -4005
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111548712,
+        1835008,
+        -144110560
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 3,
+      "previousIndex": 72,
+      "selectedIndex": 71,
+      "point": [
+        1256,
+        20,
+        -4594
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111519164,
+        1835008,
+        -144371152
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114753536,
+        786432,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114738762,
+        786432,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114723988,
+        786432,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114709214,
+        786432,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 192,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111593034,
+        1835008,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111578260,
+        1835008,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111563486,
+        1835008,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 5,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114753536,
+        1310720,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114746149,
+        1310720,
+        -143654524
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 2,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114738762,
+        1310720,
+        -143719672
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 3,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114731375,
+        1310720,
+        -143784820
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1310720,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111593034,
+        1310720,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111578260,
+        1310720,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111563486,
+        1310720,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114753536,
+        1835008,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114738762,
+        1835008,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114723988,
+        1835008,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114709214,
+        1835008,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111578260,
+        1835008,
+        -143849968
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 2,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111548712,
+        1835008,
+        -144110560
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 3,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111519164,
+        1835008,
+        -144371152
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    }
+  ],
+  "failures": []
+}

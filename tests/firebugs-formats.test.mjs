@@ -103,6 +103,23 @@ test('format readers reject out-of-range pointers, missing models and truncated 
   assert.throws(()=>decodeFirebugsTexture(vram.subarray(0,32),0x28,clut),/header/);
 });
 
+test('experimental path failures retain the complete terrain/object scene and export',()=>{
+  const {geometry,vram,btx}=fixtures();
+  const baseline=decodeFirebugsScene(geometry,vram,btx);
+  geometry[0x79]=1; geometry.writeUInt32LE(0x360,0x8c); geometry.writeUInt32LE(0x380,0x98);
+  geometry.writeUInt16LE(1,0x360);
+  [30000,-30000,25000].forEach((value,axis)=>geometry.writeInt16LE(value,0x380+axis*2));
+  const marker=decodeFirebugsScene(geometry,vram,btx);
+  assert.deepEqual(marker.paths.groups[0].positions,[[30000,30000,-25000]]);
+  assert.equal(marker.paths.experimental,true);
+  geometry.writeUInt32LE(0xffffffff,0x98);
+  const broken=decodeFirebugsScene(geometry,vram,btx);
+  assert.equal(broken.paths.status,'unavailable');
+  for(const scene of [marker,broken]) {
+    for(const key of ['obj','bounds','groups','triangles','vertices','placementTypes']) assert.deepEqual(scene[key],baseline[key]);
+  }
+});
+
 async function fixtureArchive() {
   const {geometry,vram,btx}=fixtures(), blobs=[geometry,vram,btx], indexData=Buffer.alloc(48);
   let at=0;

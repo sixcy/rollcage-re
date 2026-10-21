@@ -3,7 +3,7 @@
 // their loader-initialized transforms and per-instance primary materials.
 // Convert source Y-down/forward-Z to display Y-up/backward-Z together.
 // Negating Y alone is a reflection; negating both preserves handedness.
-const displayPosition=([x,y,z])=>[x,y===0?0:-y,z===0?0:-z];
+export const displayPosition=([x,y,z])=>[x,y===0?0:-y,z===0?0:-z];
 export function buildSceneExport(scene, textures, placedMeshes=[]) {
   const obj=['# Rollcage recovered scene. Coordinates X,-Y,-Z (Y up).','mtllib scene.mtl'];
   const groups=[];

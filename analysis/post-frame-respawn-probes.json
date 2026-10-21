@@ -1,0 +1,1477 @@
+{
+  "method": "Installed-data postphysics integration: actual authored route tables,47ccc0 persistent closest/second selection and fallback,47e180 numeric vehicle checks using actual sector+14 headers,47d040 complete rawbody clone/orientation/temp-shape/free path,47d9c0 region append, actual model append and sphere geometry,47d710 terrain/model/dynamic obstruction,47d440 pose/reset/special-mode counters/registration,47d900+436920+435df0 ring/particles/allocator with actual spatial lists and exact emitterECX. One3-body scenario per nonheader routegroup with at least2points. Complete synthetic0x4000 body storage has declareda5 retained bytes and explicitly encoded known fields, five original shape descriptors, wheel-extended aggregate, mode3 session/counters/controller sentinel, identity initial quaternion and declared initial velocities/forces. Initial closest reference comes from the ordinary candidate builder or an explicitly declared region-start fallback. Profiles are prior state32, slowcounter90/missingwheel and signedheight+513 (priorstate32 if that height is unrepresentable). No fixture is captured live game state. Source matrix mutation is synchronized before apply; fallback retains first orientation/query output. Body/pool/list/reset/counter/ring/ECX invariants checked. The final484bb0 event is an inspected explicit boundary; model effects are explicitly inert, progression callees are legitimately unvisited by declared mode3, and lifecycle retirement/type4 paths are outside these type3 fixtures. No physics/attachment execution, original executable execution, rendered particles or complete race equivalence.",
+  "summary": {
+    "resources": 80,
+    "scenarios": 540,
+    "bodyStates": 1620,
+    "prepassChecks": 1620,
+    "prepassHeightMarks": 540,
+    "prepassSlowMarks": 540,
+    "queries": 1620,
+    "acceptedQueries": 8,
+    "rejectedQueries": 1612,
+    "fallbacks": 1612,
+    "terrainCandidates": 15648,
+    "modelCandidates": 648,
+    "terrainQueries": 1620,
+    "modelQueries": 24,
+    "terrainHits": 1596,
+    "modelHits": 0,
+    "dynamicRejections": 16,
+    "temporaryShapesFreed": 9720,
+    "appliedBodies": 1620,
+    "spatialRemovals": 1620,
+    "spatialInsertions": 1620,
+    "sessionCounterDecrements": 1620,
+    "vehicleRings": 1620,
+    "particles": 25920,
+    "particleReuses": 23360,
+    "emittedEvents": 1620,
+    "modelEffectCallbacks": 0,
+    "failures": []
+  },
+  "resources": [
+    {
+      "resource": 30,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 32,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 34,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 36,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 38,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 40,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 42,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 44,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 46,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 48,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 1,
+      "rejected": 23,
+      "fallbacks": 23
+    },
+    {
+      "resource": 50,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 52,
+      "scenarios": 5,
+      "bodyStates": 15,
+      "accepted": 0,
+      "rejected": 15,
+      "fallbacks": 15
+    },
+    {
+      "resource": 54,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 56,
+      "scenarios": 6,
+      "bodyStates": 18,
+      "accepted": 0,
+      "rejected": 18,
+      "fallbacks": 18
+    },
+    {
+      "resource": 58,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 60,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 62,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 64,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 66,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 68,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 1,
+      "rejected": 2,
+      "fallbacks": 2
+    },
+    {
+      "resource": 70,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 72,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 74,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 76,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 78,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 80,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 82,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 84,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 86,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 88,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 1,
+      "rejected": 23,
+      "fallbacks": 23
+    },
+    {
+      "resource": 90,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 92,
+      "scenarios": 5,
+      "bodyStates": 15,
+      "accepted": 0,
+      "rejected": 15,
+      "fallbacks": 15
+    },
+    {
+      "resource": 94,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 96,
+      "scenarios": 6,
+      "bodyStates": 18,
+      "accepted": 0,
+      "rejected": 18,
+      "fallbacks": 18
+    },
+    {
+      "resource": 98,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 100,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 102,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 104,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 106,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 108,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 1,
+      "rejected": 2,
+      "fallbacks": 2
+    },
+    {
+      "resource": 110,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 112,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 114,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 116,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 118,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 120,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 122,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 124,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 126,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 128,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 1,
+      "rejected": 23,
+      "fallbacks": 23
+    },
+    {
+      "resource": 130,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 132,
+      "scenarios": 5,
+      "bodyStates": 15,
+      "accepted": 0,
+      "rejected": 15,
+      "fallbacks": 15
+    },
+    {
+      "resource": 134,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 136,
+      "scenarios": 6,
+      "bodyStates": 18,
+      "accepted": 0,
+      "rejected": 18,
+      "fallbacks": 18
+    },
+    {
+      "resource": 138,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 140,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 142,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 144,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 146,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 148,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 1,
+      "rejected": 2,
+      "fallbacks": 2
+    },
+    {
+      "resource": 150,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 152,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 154,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 156,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 0,
+      "rejected": 24,
+      "fallbacks": 24
+    },
+    {
+      "resource": 158,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 160,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 162,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 164,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 166,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 168,
+      "scenarios": 8,
+      "bodyStates": 24,
+      "accepted": 1,
+      "rejected": 23,
+      "fallbacks": 23
+    },
+    {
+      "resource": 170,
+      "scenarios": 7,
+      "bodyStates": 21,
+      "accepted": 0,
+      "rejected": 21,
+      "fallbacks": 21
+    },
+    {
+      "resource": 172,
+      "scenarios": 5,
+      "bodyStates": 15,
+      "accepted": 0,
+      "rejected": 15,
+      "fallbacks": 15
+    },
+    {
+      "resource": 174,
+      "scenarios": 13,
+      "bodyStates": 39,
+      "accepted": 0,
+      "rejected": 39,
+      "fallbacks": 39
+    },
+    {
+      "resource": 176,
+      "scenarios": 6,
+      "bodyStates": 18,
+      "accepted": 0,
+      "rejected": 18,
+      "fallbacks": 18
+    },
+    {
+      "resource": 178,
+      "scenarios": 10,
+      "bodyStates": 30,
+      "accepted": 0,
+      "rejected": 30,
+      "fallbacks": 30
+    },
+    {
+      "resource": 180,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 182,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 184,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 186,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 0,
+      "rejected": 3,
+      "fallbacks": 3
+    },
+    {
+      "resource": 188,
+      "scenarios": 1,
+      "bodyStates": 3,
+      "accepted": 1,
+      "rejected": 2,
+      "fallbacks": 2
+    }
+  ],
+  "samples": [
+    {
+      "resource": 30,
+      "route": 1,
+      "point": 37,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 8,
+          "index": 9,
+          "positionQ16": [
+            -313393152,
+            0,
+            167444480
+          ],
+          "closestTerrain11c": 2363911
+        },
+        {
+          "route": 1,
+          "index": 37,
+          "positionQ16": [
+            -322633728,
+            1310720,
+            166330368
+          ],
+          "closestTerrain11c": 2363911
+        },
+        {
+          "route": 1,
+          "index": 37,
+          "positionQ16": [
+            -322633728,
+            1310720,
+            166330368
+          ],
+          "closestTerrain11c": 2363911
+        }
+      ],
+      "rng": 442666881,
+      "lastEmitterEcx": 1833187991
+    },
+    {
+      "resource": 30,
+      "route": 2,
+      "point": 14,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 2,
+          "index": 15,
+          "positionQ16": [
+            1900544,
+            14811136,
+            -138346496
+          ],
+          "closestTerrain11c": 66828
+        },
+        {
+          "route": 2,
+          "index": 14,
+          "positionQ16": [
+            -21495808,
+            14811136,
+            -153550848
+          ],
+          "closestTerrain11c": 66828
+        },
+        {
+          "route": 2,
+          "index": 14,
+          "positionQ16": [
+            -21495808,
+            14811136,
+            -153550848
+          ],
+          "closestTerrain11c": 66828
+        }
+      ],
+      "rng": 1664442113,
+      "lastEmitterEcx": 1877597975
+    },
+    {
+      "resource": 30,
+      "route": 3,
+      "point": 7,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 1,
+          "index": 5,
+          "positionQ16": [
+            132317184,
+            1310720,
+            32112640
+          ],
+          "closestTerrain11c": 397061
+        },
+        {
+          "route": 3,
+          "index": 7,
+          "positionQ16": [
+            134807552,
+            1310720,
+            32178176
+          ],
+          "closestTerrain11c": 397061
+        },
+        {
+          "route": 3,
+          "index": 7,
+          "positionQ16": [
+            134807552,
+            1310720,
+            32178176
+          ],
+          "closestTerrain11c": 397061
+        }
+      ],
+      "rng": 1180200577,
+      "lastEmitterEcx": 1162167191
+    },
+    {
+      "resource": 30,
+      "route": 4,
+      "point": 6,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 4,
+          "index": 7,
+          "positionQ16": [
+            -374931456,
+            0,
+            243728384
+          ],
+          "closestTerrain11c": 1182215
+        },
+        {
+          "route": 4,
+          "index": 6,
+          "positionQ16": [
+            -374931456,
+            0,
+            262733824
+          ],
+          "closestTerrain11c": 1182215
+        },
+        {
+          "route": 4,
+          "index": 6,
+          "positionQ16": [
+            -374931456,
+            0,
+            262733824
+          ],
+          "closestTerrain11c": 1182215
+        }
+      ],
+      "rng": 1068219905,
+      "lastEmitterEcx": 1316382743
+    },
+    {
+      "resource": 30,
+      "route": 5,
+      "point": 29,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 1,
+          "index": 0,
+          "positionQ16": [
+            113180672,
+            1310720,
+            -142016512
+          ],
+          "closestTerrain11c": 2951427
+        },
+        {
+          "route": 5,
+          "index": 29,
+          "positionQ16": [
+            121765888,
+            1310720,
+            -142409728
+          ],
+          "closestTerrain11c": 2951427
+        },
+        {
+          "route": 5,
+          "index": 29,
+          "positionQ16": [
+            121765888,
+            1310720,
+            -142409728
+          ],
+          "closestTerrain11c": 2951427
+        }
+      ],
+      "rng": 1527729537,
+      "lastEmitterEcx": 1553812631
+    },
+    {
+      "resource": 30,
+      "route": 6,
+      "point": 12,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 8,
+          "index": 11,
+          "positionQ16": [
+            -274595840,
+            1310720,
+            114556928
+          ],
+          "closestTerrain11c": 461320
+        },
+        {
+          "route": 6,
+          "index": 12,
+          "positionQ16": [
+            -277086208,
+            1310720,
+            111542272
+          ],
+          "closestTerrain11c": 461320
+        },
+        {
+          "route": 6,
+          "index": 12,
+          "positionQ16": [
+            -277086208,
+            1310720,
+            111542272
+          ],
+          "closestTerrain11c": 461320
+        }
+      ],
+      "rng": 878910721,
+      "lastEmitterEcx": 819589399
+    },
+    {
+      "resource": 30,
+      "route": 7,
+      "point": 6,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 4,
+          "index": 7,
+          "positionQ16": [
+            -374931456,
+            0,
+            243728384
+          ],
+          "closestTerrain11c": 1443591
+        },
+        {
+          "route": 7,
+          "index": 6,
+          "positionQ16": [
+            -389152768,
+            0,
+            237371392
+          ],
+          "closestTerrain11c": 1443591
+        },
+        {
+          "route": 7,
+          "index": 6,
+          "positionQ16": [
+            -389152768,
+            0,
+            237371392
+          ],
+          "closestTerrain11c": 1443591
+        }
+      ],
+      "rng": 2005347457,
+      "lastEmitterEcx": 2085377431
+    },
+    {
+      "resource": 30,
+      "route": 8,
+      "point": 7,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 1,
+          "index": 33,
+          "positionQ16": [
+            -337641472,
+            1310720,
+            222035968
+          ],
+          "closestTerrain11c": 1643527
+        },
+        {
+          "route": 8,
+          "index": 7,
+          "positionQ16": [
+            -323485696,
+            0,
+            221642752
+          ],
+          "closestTerrain11c": 1643527
+        },
+        {
+          "route": 8,
+          "index": 7,
+          "positionQ16": [
+            -323485696,
+            0,
+            221642752
+          ],
+          "closestTerrain11c": 1643527
+        }
+      ],
+      "rng": 1616608257,
+      "lastEmitterEcx": 1611954711
+    },
+    {
+      "resource": 30,
+      "route": 9,
+      "point": 3,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 9,
+          "index": 4,
+          "positionQ16": [
+            125960192,
+            0,
+            90898432
+          ],
+          "closestTerrain11c": 922373
+        },
+        {
+          "route": 9,
+          "index": 3,
+          "positionQ16": [
+            120389632,
+            0,
+            75890688
+          ],
+          "closestTerrain11c": 922373
+        },
+        {
+          "route": 9,
+          "index": 3,
+          "positionQ16": [
+            120389632,
+            0,
+            75890688
+          ],
+          "closestTerrain11c": 922373
+        }
+      ],
+      "rng": 985664385,
+      "lastEmitterEcx": 1834114711
+    },
+    {
+      "resource": 30,
+      "route": 10,
+      "point": 4,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 5,
+          "index": 36,
+          "positionQ16": [
+            179240960,
+            0,
+            100925440
+          ],
+          "closestTerrain11c": 1379077
+        },
+        {
+          "route": 10,
+          "index": 4,
+          "positionQ16": [
+            169476096,
+            0,
+            102039552
+          ],
+          "closestTerrain11c": 1379077
+        },
+        {
+          "route": 10,
+          "index": 4,
+          "positionQ16": [
+            169476096,
+            0,
+            102039552
+          ],
+          "closestTerrain11c": 1379077
+        }
+      ],
+      "rng": 1653922561,
+      "lastEmitterEcx": 623248151
+    },
+    {
+      "resource": 32,
+      "route": 1,
+      "point": 28,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 8,
+          "index": 7,
+          "positionQ16": [
+            -44040192,
+            -57999360,
+            814153728
+          ],
+          "closestTerrain11c": 660485
+        },
+        {
+          "route": 1,
+          "index": 28,
+          "positionQ16": [
+            -56885248,
+            -57475072,
+            817954816
+          ],
+          "closestTerrain11c": 660485
+        },
+        {
+          "route": 1,
+          "index": 28,
+          "positionQ16": [
+            -56885248,
+            -57475072,
+            817954816
+          ],
+          "closestTerrain11c": 660485
+        }
+      ],
+      "rng": 442666881,
+      "lastEmitterEcx": 1833187991
+    },
+    {
+      "resource": 32,
+      "route": 2,
+      "point": 17,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 2,
+          "index": 16,
+          "positionQ16": [
+            -106102784,
+            -1572864,
+            647102464
+          ],
+          "closestTerrain11c": 3474702
+        },
+        {
+          "route": 2,
+          "index": 17,
+          "positionQ16": [
+            -62390272,
+            -7798784,
+            653131776
+          ],
+          "closestTerrain11c": 3474702
+        },
+        {
+          "route": 2,
+          "index": 17,
+          "positionQ16": [
+            -62390272,
+            -7798784,
+            653131776
+          ],
+          "closestTerrain11c": 3474702
+        }
+      ],
+      "rng": 1664442113,
+      "lastEmitterEcx": 1877597975
+    },
+    {
+      "resource": 32,
+      "route": 3,
+      "point": 30,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 5,
+          "index": 0,
+          "positionQ16": [
+            176095232,
+            -30736384,
+            156565504
+          ],
+          "closestTerrain11c": 2363656
+        },
+        {
+          "route": 3,
+          "index": 30,
+          "positionQ16": [
+            173539328,
+            -30736384,
+            156303360
+          ],
+          "closestTerrain11c": 2363656
+        },
+        {
+          "route": 3,
+          "index": 30,
+          "positionQ16": [
+            173539328,
+            -30736384,
+            156303360
+          ],
+          "closestTerrain11c": 2363656
+        }
+      ],
+      "rng": 1180200577,
+      "lastEmitterEcx": 1162167191
+    },
+    {
+      "resource": 32,
+      "route": 4,
+      "point": 6,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 4,
+          "index": 5,
+          "positionQ16": [
+            -7733248,
+            -58523648,
+            795869184
+          ],
+          "closestTerrain11c": 1510149
+        },
+        {
+          "route": 4,
+          "index": 6,
+          "positionQ16": [
+            18939904,
+            -58392576,
+            799211520
+          ],
+          "closestTerrain11c": 1510149
+        },
+        {
+          "route": 4,
+          "index": 6,
+          "positionQ16": [
+            18939904,
+            -58392576,
+            799211520
+          ],
+          "closestTerrain11c": 1510149
+        }
+      ],
+      "rng": 1068219905,
+      "lastEmitterEcx": 1316382743
+    },
+    {
+      "resource": 32,
+      "route": 5,
+      "point": 13,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 1,
+          "index": 3,
+          "positionQ16": [
+            38862848,
+            -65863680,
+            -101253120
+          ],
+          "closestTerrain11c": 2035466
+        },
+        {
+          "route": 5,
+          "index": 13,
+          "positionQ16": [
+            39387136,
+            -84148224,
+            -82444288
+          ],
+          "closestTerrain11c": 2035466
+        },
+        {
+          "route": 5,
+          "index": 13,
+          "positionQ16": [
+            39387136,
+            -84148224,
+            -82444288
+          ],
+          "closestTerrain11c": 2035466
+        }
+      ],
+      "rng": 1527729537,
+      "lastEmitterEcx": 1553812631
+    },
+    {
+      "resource": 32,
+      "route": 6,
+      "point": 4,
+      "prepass": {
+        "checkedVehicles": 3,
+        "markedBodies": 2,
+        "heightFailures": 1,
+        "slowFailures": 1
+      },
+      "queryAcceptance": [
+        0,
+        0,
+        0
+      ],
+      "selected": [
+        {
+          "route": 6,
+          "index": 5,
+          "positionQ16": [
+            215875584,
+            -31391744,
+            187564032
+          ],
+          "closestTerrain11c": 1710600
+        },
+        {
+          "route": 6,
+          "index": 4,
+          "positionQ16": [
+            217710592,
+            -31457280,
+            213647360
+          ],
+          "closestTerrain11c": 1710600
+        },
+        {
+          "route": 6,
+          "index": 4,
+          "positionQ16": [
+            217710592,
+            -31457280,
+            213647360
+          ],
+          "closestTerrain11c": 1710600
+        }
+      ],
+      "rng": 878910721,
+      "lastEmitterEcx": 819589399
+    }
+  ]
+}

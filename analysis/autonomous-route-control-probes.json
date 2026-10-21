@@ -1,0 +1,2289 @@
+{
+  "method": "Installed Redux GFXM route-control corpus through actual431750 and all default target/speed/steering/pacing references, with no callbacks or original executable execution. Complete decoded resource copies retain all authored group/point bytes; only group+8 pointers are relocated from file point-base-relative offsets, and runtime pack+60 publishes the copied table. Every usable group is sampled at first/middle/last points across nine declared profiles and four persistent ticks. Body/session/wheel/opponent/progression storage is synthetic zeroed memory with explicitly assigned fields. The progression record stays fixed during a scenario. Between ticks, declared linear fixture motion advances position by serialized velocity/4; this is not reconstructed vehicle physics or a captured runtime. Caller resets control bits at each tick. Invariants check source/mapped hashes,bounds and exact point bytes,authored-direction allowed target steps,unrelated body bytes,control widths,one-shot steering suppression,disabled early return and opponent pacing. Mode4/highspeed/special target inputs are declared profiles. No claim about constructor defaults,autonomous strategy outside431750,collision integration or whole-race behavior.",
+  "archiveIndexSHA256": "28c30b94d5612b98cc9d68540982f40bc1ae6f05df3113cb964c6b2eccf02377",
+  "referenceSourceSHA256": {
+    "autonomous-route-control.mjs": "679a27301f891dde6d0c5a89a9a9d3c26c2706165103e914e0ea051632822bae",
+    "autonomous-route-geometry.mjs": "41acc87faebd06a810b558e2ae6dae1e6ff4a481847c9706402a72018fc75bde",
+    "autonomous-speed.mjs": "da0abe87685c4d1229529c3f3cc43c7b85551c4360d251ee7743e5bb1a156616",
+    "autonomous-steering.mjs": "2be25d2ddba35090b8a955b67cc5ad846140acb901aaaed9f9cac71b938e981f",
+    "body-contact-friction.mjs": "90c34b52b978abdb3a29f84e8a62a432c2813848484b246f5df6a87cbdbec859",
+    "fixed-integer.mjs": "19e51f8a9886d5b94817bd2872a049fffc75db67260450fb720b4d53d4ec8b0d"
+  },
+  "profiles": [
+    {
+      "name": "route-low",
+      "speed": 60,
+      "skill": 0,
+      "heading": 0,
+      "offset": [
+        -24,
+        8,
+        -24
+      ],
+      "surface": 0,
+      "velocityUnits": 4
+    },
+    {
+      "name": "route-high-skip",
+      "speed": 350,
+      "skill": 3,
+      "heading": 1,
+      "offset": [
+        -24,
+        8,
+        -24
+      ],
+      "surface": 12,
+      "velocityUnits": 16,
+      "skip": true
+    },
+    {
+      "name": "mode4",
+      "speed": 260,
+      "skill": 2,
+      "heading": 0,
+      "offset": [
+        24,
+        -8,
+        24
+      ],
+      "surface": 20,
+      "velocityUnits": 8,
+      "mode": 4
+    },
+    {
+      "name": "steering-suppression",
+      "speed": 150,
+      "skill": 3,
+      "heading": 1,
+      "offset": [
+        -24,
+        8,
+        24
+      ],
+      "surface": 31,
+      "velocityUnits": 8,
+      "suppress": true,
+      "gear": 1,
+      "angular": 4000001,
+      "steering": 12288
+    },
+    {
+      "name": "special-near5",
+      "speed": 100,
+      "skill": 1,
+      "heading": 0,
+      "offset": [
+        24,
+        0,
+        -24
+      ],
+      "surface": 8,
+      "velocityUnits": 4,
+      "special": 5,
+      "specialOffset": [
+        50,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "special-far5",
+      "speed": 420,
+      "skill": 3,
+      "heading": 1,
+      "offset": [
+        -24,
+        0,
+        24
+      ],
+      "surface": 21,
+      "velocityUnits": 8,
+      "special": 5,
+      "specialOffset": [
+        300,
+        30,
+        0
+      ]
+    },
+    {
+      "name": "special-retained1",
+      "speed": 420,
+      "skill": 2,
+      "heading": 0,
+      "offset": [
+        24,
+        8,
+        24
+      ],
+      "surface": 0,
+      "velocityUnits": 8,
+      "special": 1,
+      "specialOffset": [
+        70,
+        0,
+        -20
+      ],
+      "skip": true
+    },
+    {
+      "name": "pacing-mask",
+      "speed": 500,
+      "skill": 1,
+      "heading": 1,
+      "offset": [
+        -24,
+        8,
+        -24
+      ],
+      "surface": 12,
+      "velocityUnits": 16,
+      "pacing": true
+    },
+    {
+      "name": "disabled",
+      "speed": 100,
+      "skill": 0,
+      "heading": 0,
+      "offset": [
+        24,
+        8,
+        -24
+      ],
+      "surface": 0,
+      "velocityUnits": 4,
+      "disabled": true
+    }
+  ],
+  "ticksPerScenario": 4,
+  "summary": {
+    "resources": 80,
+    "groups": 540,
+    "reverseGroups": 164,
+    "forwardGroups": 376,
+    "loopedGroups": 96,
+    "openGroups": 444,
+    "scenarios": 14580,
+    "ticks": 58320,
+    "fixtureMoves": 58320,
+    "targetChanges": 7736,
+    "targetWraps": 352,
+    "highSpeedSkipTicks": 6480,
+    "specialCancelled": 1620,
+    "specialRetainedTicks": 12960,
+    "mode4Ticks": 6480,
+    "suppressionClears": 1620,
+    "pacingChecks": 6480,
+    "disabledChecks": 6480,
+    "throttleTicks": 48656,
+    "brakeTicks": 23040,
+    "leftTicks": 29364,
+    "rightTicks": 33712,
+    "progressionFallbacks": 0,
+    "sourceAndMappedHashesVerified": 160
+  },
+  "profileCounts": {
+    "route-low": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 576,
+      "throttle": 6480,
+      "brake": 0,
+      "left": 5092,
+      "right": 1388
+    },
+    "route-high-skip": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 4580,
+      "throttle": 6480,
+      "brake": 4976,
+      "left": 2356,
+      "right": 4116
+    },
+    "mode4": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 696,
+      "throttle": 6480,
+      "brake": 3920,
+      "left": 1560,
+      "right": 4920
+    },
+    "steering-suppression": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 624,
+      "throttle": 3296,
+      "brake": 4976,
+      "left": 900,
+      "right": 3960
+    },
+    "special-near5": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 616,
+      "throttle": 6480,
+      "brake": 0,
+      "left": 1436,
+      "right": 5044
+    },
+    "special-far5": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 0,
+      "throttle": 6480,
+      "brake": 5072,
+      "left": 3200,
+      "right": 3184
+    },
+    "special-retained1": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 0,
+      "throttle": 6480,
+      "brake": 3920,
+      "left": 6432,
+      "right": 48
+    },
+    "pacing-mask": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 644,
+      "throttle": 0,
+      "brake": 176,
+      "left": 1908,
+      "right": 4572
+    },
+    "disabled": {
+      "scenarios": 1620,
+      "ticks": 6480,
+      "targetChanges": 0,
+      "throttle": 6480,
+      "brake": 0,
+      "left": 6480,
+      "right": 6480
+    }
+  },
+  "resources": [
+    {
+      "resource": 30,
+      "bytes": 682152,
+      "sha256": "405fc2c8262a3040c444e00594ba22459232da53b19b13e1c92b5da956e70502",
+      "mappedSHA256": "b0e2ba91328eb12d079bde8e02f6a927578a9f188a81be93db43fdd8721e9eef",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 143
+    },
+    {
+      "resource": 32,
+      "bytes": 723872,
+      "sha256": "1df48596b7cd5838ad0182504f24311191a6bf7db2c0ca859078a7f8921d5b60",
+      "mappedSHA256": "e872af7fdfac0ef1fa3b665e455c174a740a8f2140b8c9d5eb6a4fd5e66dc234",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 118
+    },
+    {
+      "resource": 34,
+      "bytes": 780888,
+      "sha256": "155ea173ca968fd85686215b093d95711bffb7bc25059aed4dd45f5e7e9db833",
+      "mappedSHA256": "3f3c0684a7f6b87bb3531e7d98bae666913f2469c282a370f310da9f0ec02206",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 114
+    },
+    {
+      "resource": 36,
+      "bytes": 867244,
+      "sha256": "6bbf8b8faa7f0c9e4a421584c57f7c27590793e5391cf33971f54e8e4385ff0f",
+      "mappedSHA256": "490c3fafa000d8b300d16a5d3afd2db838ffe0572ab056a86f5139cfb554b83d",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 111
+    },
+    {
+      "resource": 38,
+      "bytes": 781788,
+      "sha256": "69a768a58d0f34ad0a51655ac389738dc374b936e7335f8334584b61088753d3",
+      "mappedSHA256": "bd91a81930b1cf43f8b0b7a44e1ed41ad3f79ec0c7740cc0b920c9dcc5a6be69",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 163
+    },
+    {
+      "resource": 40,
+      "bytes": 750240,
+      "sha256": "d9d2b812aaacb4a6c4a14eccf2f24de4e6f4b5204edc78ee34f0e7500f86b8a5",
+      "mappedSHA256": "b6309033fa12c6fdae88f55842948c6ef9a60a647fe13dccc0bf1f40ce6d86ed",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 136
+    },
+    {
+      "resource": 42,
+      "bytes": 757436,
+      "sha256": "de81314399fed418a7305a5dba47510643f6cf243de90fe20c91490f5a88952a",
+      "mappedSHA256": "39091e6c8c24313dafc793fd5c9552ac4b67adb9a3b28a9cd5ec580b200abb25",
+      "groupCount": 9,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 102
+    },
+    {
+      "resource": 44,
+      "bytes": 689776,
+      "sha256": "363e1bc3d476d682543de5a96257fc6fef19d71e598e4752c12616904eb6aabe",
+      "mappedSHA256": "e1a400f1d5b7aeae19ca86b47ef9124961e188e43ecdac0858f470433958d90e",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 106
+    },
+    {
+      "resource": 46,
+      "bytes": 831228,
+      "sha256": "2fe6765b40359ec74574535a2087d5db058292420b6e6ad0721f647e68aec9c0",
+      "mappedSHA256": "ca4641c77e0cc4a3757c9e2eaa0b5a08392b7410b4615efac3b5244a8af392fa",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 140
+    },
+    {
+      "resource": 48,
+      "bytes": 715632,
+      "sha256": "7d1cfdee2b6eb90f878fbb0d0c19970a8bba9af8bd4e4b3e39cccbf02196e4c9",
+      "mappedSHA256": "ba6dd1c180734bd5b4aba1dfbedc1a34aa9493490f593b7c6ccadda28dba6458",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 107
+    },
+    {
+      "resource": 50,
+      "bytes": 776696,
+      "sha256": "72242fddbaf831ee69b5a002964cbdd159f049adad4a619b90a62464da6fcd4b",
+      "mappedSHA256": "961651094b7d631dce814dae48c306b8b6ff024bd17ef0ff4d720bc685410cac",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 97
+    },
+    {
+      "resource": 52,
+      "bytes": 754648,
+      "sha256": "4a9926ae2a97214aae1b3c12c93aa010ffa05b4c03cd2c7d61f71d9adc11d991",
+      "mappedSHA256": "390f0fe3aad993e1c3965f4b3a761726694fb3799ff9c66cafce8ca0d276dbdb",
+      "groupCount": 6,
+      "usableGroups": 5,
+      "groups": 5,
+      "scenarios": 135,
+      "ticks": 540,
+      "targetChanges": 63
+    },
+    {
+      "resource": 54,
+      "bytes": 722540,
+      "sha256": "7c875f745ed85c9fd6a00ca80d084157ce582522e060f7879a10b3c85913a0ad",
+      "mappedSHA256": "7733942b1a1428b13c49beb426efa8a4a35ab03beeedc03c7ce1e1c16aa97ce4",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 189
+    },
+    {
+      "resource": 56,
+      "bytes": 755920,
+      "sha256": "fd8e1f4ff3ee5eee6a04ebe9f3cbc2723035cf77617c4e4a749037691dc75e7f",
+      "mappedSHA256": "ba1061cb0bd9d2a9dc5e1e24bb3b21eabf73fbd70ec1207bdd1da19ed02f3f25",
+      "groupCount": 7,
+      "usableGroups": 6,
+      "groups": 6,
+      "scenarios": 162,
+      "ticks": 648,
+      "targetChanges": 85
+    },
+    {
+      "resource": 58,
+      "bytes": 504672,
+      "sha256": "578fdb365e98777b021715033dda0f27950c0cc383274c1228e0ac3f4a0a975a",
+      "mappedSHA256": "179ab44ade10ef684d59046e83ff8233462614dab5e0dd8fe1e04c0edfe612af",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 160
+    },
+    {
+      "resource": 60,
+      "bytes": 220428,
+      "sha256": "098ed337363b49794c1007a5f5f5982bf721a614ba456070f437b79c51634a40",
+      "mappedSHA256": "b13463e6f932f4933d6a89f0c5dfc69a925c5bc25d10ab2e7e1b53d8f4da9964",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 62,
+      "bytes": 277292,
+      "sha256": "d32a58a2bcd5157caf133a7b7770d4565eea9c3cd3544cc3baf09779c0e56d41",
+      "mappedSHA256": "08359155f30ed29fa145ae8a93c99e95d8d1c439e7afb9eca117f96da36dd168",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 22
+    },
+    {
+      "resource": 64,
+      "bytes": 303748,
+      "sha256": "ec8d9baf0d0ef9a463dc62fa4f4b9c39b8ab11a9dc39a8f0eef8ecb971160011",
+      "mappedSHA256": "b149912687f854402a6ba7d86ff53b971fb7a243d56fe98913522f62adc3f746",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    },
+    {
+      "resource": 66,
+      "bytes": 473756,
+      "sha256": "5a75f9998550cfd5627d2c698df24767ff3cc0af879fd7280d240e6bd6cf6803",
+      "mappedSHA256": "a9b840d3f8a95af26cae09a1cc739097ea7519d5e49509fd2f1edaada2c7d4af",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 68,
+      "bytes": 632008,
+      "sha256": "7d12bab6e7df9e44f6ce834fab13e32177bea798f06dd7f2bf3a20729b51eced",
+      "mappedSHA256": "07678ffff68282f881a8c17fb60c79bc3496192bc681fa1b899183c7bf9f8b13",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    },
+    {
+      "resource": 70,
+      "bytes": 861200,
+      "sha256": "51202975f8e839c24ac7e4d5cb0ae4d9e5fa7dee73f50abdb1195c6106e88fe3",
+      "mappedSHA256": "b4aef7d5750586bb95094dfa955fb1dd4ba125a6c73f4cd6ee60ae4b7a283c3b",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 143
+    },
+    {
+      "resource": 72,
+      "bytes": 909544,
+      "sha256": "cd58c514544c93676059928fbec5600a7f6ea56ef34032148c55a4d7db42bb93",
+      "mappedSHA256": "a34f43e35b499217eba5772aaf3ab9bf7049d5c8ea48f1dabd003472b9b7d6df",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 118
+    },
+    {
+      "resource": 74,
+      "bytes": 961936,
+      "sha256": "27f65fa8a8ba67d635ac7cc096895ab78d849c0c9c8c4994247ba6cc51ff72c8",
+      "mappedSHA256": "449e9be7bbd5f1a9c81583d09eac3129f3755109df0825a1da07a25d6d1acea3",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 114
+    },
+    {
+      "resource": 76,
+      "bytes": 1049124,
+      "sha256": "de57a8e55d90ef06aa8325883d90020449fee1cf6acfdf090fdf91f7826a41ac",
+      "mappedSHA256": "ff0e309bd05812d029ab5aa861a321bccf24d49894ac45c1fb2d2d0912a61f23",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 111
+    },
+    {
+      "resource": 78,
+      "bytes": 961108,
+      "sha256": "2ffd745b579785e9c1f143e9485b643fde8db0e2b1974eeadcda90ceb21859b7",
+      "mappedSHA256": "439191a13af00e7bda9557b1bd1948f53891bc5e23d302ede3a7ba9423ecef08",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 163
+    },
+    {
+      "resource": 80,
+      "bytes": 929256,
+      "sha256": "fb1d5e58a6f83c842c603fedf46e5a538059df1ea40746e52d71ff2756a044f6",
+      "mappedSHA256": "41ff18ead68f612ede75db662d8d329a443970105d76b36adc8068e202e29387",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 136
+    },
+    {
+      "resource": 82,
+      "bytes": 939396,
+      "sha256": "5e8e8a78ff9bdea71f6ccc3149075484670a092f995fd0699f27329b29f15d63",
+      "mappedSHA256": "a43e7332ddee0263515febf03c051e2b3c7d2e44a25fef06efbac2e08992d36e",
+      "groupCount": 9,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 102
+    },
+    {
+      "resource": 84,
+      "bytes": 869528,
+      "sha256": "bfe15ef776e52167574ff86b5507cec57651ebb4fa783b162e1320b7de93d0d8",
+      "mappedSHA256": "304cb1fbe8dce114176db58d4d98a00c1b443204799766e510d1da0b1095ff6f",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 106
+    },
+    {
+      "resource": 86,
+      "bytes": 1007876,
+      "sha256": "3d9cd261aa51650cf0fc90a744f9505ba855f9d3a0761593716ab7ce8a870707",
+      "mappedSHA256": "9ec1a7d4cdd52a106a00ac9960c177a6cf297d7c75067a5a4c1b79d6c161514b",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 140
+    },
+    {
+      "resource": 88,
+      "bytes": 898952,
+      "sha256": "f9d65a0cc3dcbad0546baa217e1d995a901ad2eea6db8d40a65fe4ab01f0a366",
+      "mappedSHA256": "b909f3f1a9a36ac5a301321337b831e581e1fe01b8d29d63e5fc3d14a886b010",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 107
+    },
+    {
+      "resource": 90,
+      "bytes": 960656,
+      "sha256": "c9476a790cb1ded6222015a1f7ad514ab117e9f3949f0304ee1ef4ab4f753d9b",
+      "mappedSHA256": "4482dc6e04f7e4cd201f69cfd35593735369474e9a80a3eb15e84dad2c589580",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 97
+    },
+    {
+      "resource": 92,
+      "bytes": 942736,
+      "sha256": "bdc2ce40f0de4c17b3f7bf628cfc416f0683fcaa1297fae17432ed7f1612aab9",
+      "mappedSHA256": "75d202d25f57f1b03b5913c3ae6f9bae410381d6b388f8035653fa5b842f3e1d",
+      "groupCount": 6,
+      "usableGroups": 5,
+      "groups": 5,
+      "scenarios": 135,
+      "ticks": 540,
+      "targetChanges": 63
+    },
+    {
+      "resource": 94,
+      "bytes": 907764,
+      "sha256": "3931a3fa6c6836393af0e0ae31f40bf1d15e75a1db3870ee7186bf67af5289d3",
+      "mappedSHA256": "28040f23c280e9130bd67f50314a9cd1fc08a5280f6e17c9341104994ac2a8d2",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 189
+    },
+    {
+      "resource": 96,
+      "bytes": 938136,
+      "sha256": "b23cf46f743b5c6abca8723d2de11475e9c5a83e6faf1fcfdb79d562c0c3558c",
+      "mappedSHA256": "bf95ad35a8f323cf340d181cfd9e85d86900a57931800117b0ccc2e8da7946fc",
+      "groupCount": 7,
+      "usableGroups": 6,
+      "groups": 6,
+      "scenarios": 162,
+      "ticks": 648,
+      "targetChanges": 85
+    },
+    {
+      "resource": 98,
+      "bytes": 694224,
+      "sha256": "c8e8fe9bca809e6ad985b3d6423ca2bd7651b013bc9856e51baa00af15310162",
+      "mappedSHA256": "9c9174d568871d3e5343468f1b074eb3fa1caa07d9b4101ae8ea744ef07ddd9c",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 160
+    },
+    {
+      "resource": 100,
+      "bytes": 405820,
+      "sha256": "a3f724efa1b31b2f14aa24152775be71ef326143bb6ac3d054568f693d510fa4",
+      "mappedSHA256": "7fc89dbf9fcb14869ae1fe6b65946f0bd42ef0ee9fa9b87e8257875ee03539e3",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 102,
+      "bytes": 463700,
+      "sha256": "49697320975fe1d97d755649d5d0d30c0280bffff6dfc60d0b330ba8b39397cd",
+      "mappedSHA256": "68570deec22895fbb80622e8dfefa78cf0beaf3e4b142533ad159b9da14f9ba4",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 22
+    },
+    {
+      "resource": 104,
+      "bytes": 489628,
+      "sha256": "47fc3efaedaa380829053a67f330876fd94fc46202c7d0c0f8dd2466cc2cbba3",
+      "mappedSHA256": "f3dee28f0a63a986fee047adea949101b2210c1017e6aa3b4ec2496d8c4d0869",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    },
+    {
+      "resource": 106,
+      "bytes": 660660,
+      "sha256": "1cc15ef824115545e1f31590cb36c520792246a1d35ebdf392b1a860f20980c3",
+      "mappedSHA256": "9f33246791f0057334a64faf7cef920158e4f7de060ce69be2f76ba1367f5acd",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 108,
+      "bytes": 822016,
+      "sha256": "965653c0eb75e738fedae1fb2a0d82586bb5eddd47c3e9c00d0728b727ed5025",
+      "mappedSHA256": "f886b381803d1357e757b98c901161de7428b9fbaa10f02cd6a1217b4f4ad5e5",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    },
+    {
+      "resource": 110,
+      "bytes": 682152,
+      "sha256": "f7cff306c2ebd48580824ab730cd28fc9c5098387d5e1b46dee6b82e22ab8511",
+      "mappedSHA256": "7dc1b42dbf67def2ab5d67484c7790c0a159962cc18683ed6c218a06ad9d6687",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 143
+    },
+    {
+      "resource": 112,
+      "bytes": 723872,
+      "sha256": "0ac9099639c1f52336ddf4646bf5b44202fbf6587ce7574ea7664451f3913a39",
+      "mappedSHA256": "8e8d8007e2a5355073d5919772a5f64a0658231ae0b2fbcaa5f5e507fae4dc42",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 118
+    },
+    {
+      "resource": 114,
+      "bytes": 780888,
+      "sha256": "ce71fe135a5b18747473ab69a04eeb78cf428f93709b9f8f7b198c71ae8a888f",
+      "mappedSHA256": "ad595002d3a45d03532b9bf43084a8b71d6dc7bd1a033ed2374988cd2bf17e4d",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 114
+    },
+    {
+      "resource": 116,
+      "bytes": 867244,
+      "sha256": "3308820fa9033c1cc3623ceaf7474f57bbd03b31e48e5d43548ee77698ed7e7d",
+      "mappedSHA256": "2a9e2ff9fd921cffff0ceb2dcc0db30330922ab5df30b08f8d24ad5f047ec5e4",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 111
+    },
+    {
+      "resource": 118,
+      "bytes": 781788,
+      "sha256": "6def6346ecd2e0143a31100c4b76e1259da177c66b0adbfa272a0b731df25776",
+      "mappedSHA256": "c3f5bd4215ee0d6f4a9ab876ccbeff58397a055ca35d44e4fd9f14eeae8ff62d",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 163
+    },
+    {
+      "resource": 120,
+      "bytes": 750240,
+      "sha256": "469ec758005600e453b8143d149cd1ab7767d2ec3ca27f94e6b09033db4df311",
+      "mappedSHA256": "591966c99ee231ba66347252f4314b7c26a6b50408ad35c8fd46a1312075f4ad",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 136
+    },
+    {
+      "resource": 122,
+      "bytes": 757436,
+      "sha256": "085d295249522d778d333ffe96dd66f1bcc3b809c90652ee7566a745cc945f52",
+      "mappedSHA256": "62d7a72e9c00bd6d32b5d8444996f967441f13176ffb6aba2e41557d09b5cde7",
+      "groupCount": 9,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 102
+    },
+    {
+      "resource": 124,
+      "bytes": 689776,
+      "sha256": "f9188f7becbaea7fe256aae44401a88215416a3bbdbca23cf8eb082bf56b972a",
+      "mappedSHA256": "a6ac1d40e4d193e6bbcea8d5438178e99f313a198ad160c630c9e95e300dc633",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 106
+    },
+    {
+      "resource": 126,
+      "bytes": 831228,
+      "sha256": "972e7024465863e4f1b3e5a2462fa9baffed585d74191827f527489ce409ccb6",
+      "mappedSHA256": "a4bb1284be3d53f1ccf731906050f9d5c26e6d9595da910ea09af123c09cbc9a",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 140
+    },
+    {
+      "resource": 128,
+      "bytes": 715632,
+      "sha256": "36fc0bc208cd7e4736be434e54e582752cbdceb48349425982224b7afea25cf3",
+      "mappedSHA256": "202838c602a11f7dc2c2f1a2bfa143d41663a2faeef4af78ff6de343527c3b78",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 107
+    },
+    {
+      "resource": 130,
+      "bytes": 776696,
+      "sha256": "5f5b2ba28cf357feeed56ac8625a8403f4dbbe592d28ffcdbcd2dca9abb859a4",
+      "mappedSHA256": "ef8a178b7640964e8cb1c89c2b3fa4ee47bcfa861c0fe0cd00dd68aec1e6a21a",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 97
+    },
+    {
+      "resource": 132,
+      "bytes": 754648,
+      "sha256": "0bc30d2e1bace1c097f41dca954748d1c910b6fefb1739db863297d9516cb01a",
+      "mappedSHA256": "dd4c8ec15fb14ca00c1fbec776392dfe761b1a71aede92688acec4796fe21b37",
+      "groupCount": 6,
+      "usableGroups": 5,
+      "groups": 5,
+      "scenarios": 135,
+      "ticks": 540,
+      "targetChanges": 63
+    },
+    {
+      "resource": 134,
+      "bytes": 722540,
+      "sha256": "01327a0a25ece757eb21995c2a800ad8a37ab69970776fb9dfe0a6a04c05ab0c",
+      "mappedSHA256": "a3c939b0427058980b8a6aa88226b4edc7fb42f97a0a61cab693f92a5837de90",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 189
+    },
+    {
+      "resource": 136,
+      "bytes": 755920,
+      "sha256": "29e5b86d0f4b761dcad4e8a374438cfa24c80c4fce43f452f7f0b599316aa0d3",
+      "mappedSHA256": "bfc0aa654998ba97296339ff1c4c1bcc4018851d97fef9c38d7f378d1dbd6d1a",
+      "groupCount": 7,
+      "usableGroups": 6,
+      "groups": 6,
+      "scenarios": 162,
+      "ticks": 648,
+      "targetChanges": 85
+    },
+    {
+      "resource": 138,
+      "bytes": 504672,
+      "sha256": "3be47d24b9fd2ff8f962b5a26bb56d28258fc25713cd5c6536af99c67286d976",
+      "mappedSHA256": "4b68dddcd0bd37d756f28249337792e54e20701171f8747b6c1d0b4da0ca375b",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 160
+    },
+    {
+      "resource": 140,
+      "bytes": 220428,
+      "sha256": "a50b6db2250e8e4d08864eefa5ef5b3a4a43ad185c7245cd5709d38ff0d1c5b5",
+      "mappedSHA256": "f3717251c1e7fbd348dafb4f45d266ef244eb902d3e676ae6421dd43e86c4bf9",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 142,
+      "bytes": 277292,
+      "sha256": "cd16fb148c9d7c27a66f897bd8c978921ed507605eb1b21251fd6e6b99d108bb",
+      "mappedSHA256": "c64f9183176012d866818c62e497f57427ea610040bd8ed02697f1d949e43447",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 22
+    },
+    {
+      "resource": 144,
+      "bytes": 303748,
+      "sha256": "01e562a72bf43042a9bf33c2d011eed38f925c9e66f759d6890390584d89a19f",
+      "mappedSHA256": "ba5fe29b0ac1329c51bb549b261c61eaa9920a665512196c5c6c305385e588c5",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    },
+    {
+      "resource": 146,
+      "bytes": 473756,
+      "sha256": "c0db602dd19e999eaf758c25caef947c4939759ebecbdf6d14f466c3eb926bd5",
+      "mappedSHA256": "feef5307fdbecabeb3b12945f1b6c39bad1302cb44e90d9b48d13a2c53e4bfd9",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 148,
+      "bytes": 632008,
+      "sha256": "0dd57d6c07384d1bb1b819174b3b99c14c81ee9ac87b71f683d4fc6491368db7",
+      "mappedSHA256": "d0d16d40608de27b7fb57e896fd5b02bbbd09187b3d0d80b185bec3fcddc1ec4",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    },
+    {
+      "resource": 150,
+      "bytes": 861200,
+      "sha256": "e8b43618c6cb93a8f9657bd70fdd60c6f697b3ae75d65531a9c188367d975456",
+      "mappedSHA256": "443e213fdf35e0f5b0cd3732959edeef4b639bc3c97c0d3e537388977db0606f",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 143
+    },
+    {
+      "resource": 152,
+      "bytes": 909544,
+      "sha256": "73c91299501f1a83d714d081378c2716af6d741636cbacefe724f2928cc97e56",
+      "mappedSHA256": "19587664c4126defb7f9fc543ab2428fb2fd29e0d0dc5aadfd8864cd3c6a34e7",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 118
+    },
+    {
+      "resource": 154,
+      "bytes": 961936,
+      "sha256": "0f34ff3937f91c7b2a15ccccba95094dc23ad4d7d4f2d1a8d17e6ef98a990772",
+      "mappedSHA256": "adfbfd5b8eb1558f1b1350c472fa205b97306740aeede72128b3d956a7548fad",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 114
+    },
+    {
+      "resource": 156,
+      "bytes": 1049124,
+      "sha256": "e399b48732594895a23c68322e0d0bd3cf20ee1dd37dd018150da63c2abbd445",
+      "mappedSHA256": "decb06ec3fa7878e694edd0bf63dce5b74f4fc31893579a8db2f89a7d81e8c8d",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 111
+    },
+    {
+      "resource": 158,
+      "bytes": 961108,
+      "sha256": "eb51c96a6fef54bc31b9a8410b003f0c26b143651fa317013c0b0f97b31f277c",
+      "mappedSHA256": "722e538377ccd57379fec72d32d83ff3b9890236f883e7c3e6ee4792a07f81c4",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 163
+    },
+    {
+      "resource": 160,
+      "bytes": 929256,
+      "sha256": "a29f51116e8bac9d484274637161d926641ea15761a233a14e2032ccb82c15d7",
+      "mappedSHA256": "dd5645a37a666ab7f32576f03e325d7b02ce544d97fd2bfbff8cf8536a1e48de",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 136
+    },
+    {
+      "resource": 162,
+      "bytes": 939396,
+      "sha256": "7be4951ecd83347a3f5a5ec2c1d7be38324e0d57f52fd2f56c844447de811312",
+      "mappedSHA256": "bc3df70ce1e75237a6a2729a23196d720e942b2a826220bc18c28683433a6255",
+      "groupCount": 9,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 102
+    },
+    {
+      "resource": 164,
+      "bytes": 869528,
+      "sha256": "d0517b66582a1ff376c330bcb6075be5e42a1424e42dc5de6c9c780bfbfc7165",
+      "mappedSHA256": "74244f0bf8508a9e191f1a332bf44d277e0292f8142fe8e925e5577a70ccc2e5",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 106
+    },
+    {
+      "resource": 166,
+      "bytes": 1007876,
+      "sha256": "674089b20cc674e5fc2595b70bbf68ab4b2d4ad26062002aa63b296ddd468b24",
+      "mappedSHA256": "8307b77be93e2176b083fa41ccdf93ca845fc14bc8ecc3e080154fe557635aa4",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 140
+    },
+    {
+      "resource": 168,
+      "bytes": 898952,
+      "sha256": "9113281dab3512604c889dc1b37e3d06778385686573d1940984be356ffe0693",
+      "mappedSHA256": "804760495e2ac4297d3600d425adbc72be3c506fca53ca76a47c66ab0130622d",
+      "groupCount": 9,
+      "usableGroups": 8,
+      "groups": 8,
+      "scenarios": 216,
+      "ticks": 864,
+      "targetChanges": 107
+    },
+    {
+      "resource": 170,
+      "bytes": 960656,
+      "sha256": "439f61a86b2fb642f4ccf7bf1974e2a38d612f52dc8c53c623361a4b0f50a699",
+      "mappedSHA256": "415125232acde99370554731173818d41264c09f0010f27d3735013905aa4f45",
+      "groupCount": 8,
+      "usableGroups": 7,
+      "groups": 7,
+      "scenarios": 189,
+      "ticks": 756,
+      "targetChanges": 97
+    },
+    {
+      "resource": 172,
+      "bytes": 942736,
+      "sha256": "e427c0f3eebb13eff92da0cf3bde82f2731dd9842275d0848ea7b9960c20b6b7",
+      "mappedSHA256": "9ed22559c40fa1d7ab5e3c7d368bd4012218180fbf9d76977b8888f3e098de03",
+      "groupCount": 6,
+      "usableGroups": 5,
+      "groups": 5,
+      "scenarios": 135,
+      "ticks": 540,
+      "targetChanges": 63
+    },
+    {
+      "resource": 174,
+      "bytes": 907764,
+      "sha256": "45286b82b51d12e9cee335b35d30fde9fcc6cc313f7d613c105037d7e1cc5a30",
+      "mappedSHA256": "9d05a76276e7b9021fa0460de14a5b9e926cdbc1ac362816aa51166d65a3cdb9",
+      "groupCount": 14,
+      "usableGroups": 13,
+      "groups": 13,
+      "scenarios": 351,
+      "ticks": 1404,
+      "targetChanges": 189
+    },
+    {
+      "resource": 176,
+      "bytes": 938136,
+      "sha256": "2d7c286cf77eb1d0cc0d5f32d5df4c9dead79811105f9367e60c8f9206881011",
+      "mappedSHA256": "2d5d7fc252a0d6143aea06b50081d23a87f788c79077cac00e3b6c71460857f4",
+      "groupCount": 7,
+      "usableGroups": 6,
+      "groups": 6,
+      "scenarios": 162,
+      "ticks": 648,
+      "targetChanges": 85
+    },
+    {
+      "resource": 178,
+      "bytes": 694224,
+      "sha256": "1487658c4d8e10616667efa28f66eff7a7b287e5b989c1147d5c62e39b875c64",
+      "mappedSHA256": "c52a80afdb630da75675293618a6a2518bfa0f37f420a74518fc65400ffd262f",
+      "groupCount": 11,
+      "usableGroups": 10,
+      "groups": 10,
+      "scenarios": 270,
+      "ticks": 1080,
+      "targetChanges": 160
+    },
+    {
+      "resource": 180,
+      "bytes": 405820,
+      "sha256": "2da982cd69e639e44be05292223a285c75c09f8c830c3221c2deb4b69df82322",
+      "mappedSHA256": "fe14cf3309677a877eaa01695fe05b08bfd7e21f13bbd0ad375d12f5df577867",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 182,
+      "bytes": 463700,
+      "sha256": "52297bbbfbe8779d089c0f918285cb1d8b61bdcac1cd99b04e0d7f02f66a3eb9",
+      "mappedSHA256": "f7ce89ee16951da67308cc8f0e6f5457ed1da32c2ca9abdac2bdfe134ad17841",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 22
+    },
+    {
+      "resource": 184,
+      "bytes": 489628,
+      "sha256": "032a02105e7059031f5f1c5d34af90e1ba51a71d01190596e9ed1f633f567028",
+      "mappedSHA256": "7984acdebf8a27ae66592866ad533119eceb444631a85f35ef86aa7f79137b26",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    },
+    {
+      "resource": 186,
+      "bytes": 660660,
+      "sha256": "dddba5e955e753133670488086455d9ae90b6f526484c0c35117d728a8503b3c",
+      "mappedSHA256": "98cb04d23c64e2e6006db67ba3e773ba20ca9ad3efb6aec892169cae0fc128e1",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 20
+    },
+    {
+      "resource": 188,
+      "bytes": 822016,
+      "sha256": "8de8e212a4a5612663cce24fed83d7d93abb88f1c700ef015cb50464fb662ad2",
+      "mappedSHA256": "6587693da2e451d2e051e6f3ee9611454aa5870188f4e45d28ec36e087551d27",
+      "groupCount": 2,
+      "usableGroups": 1,
+      "groups": 1,
+      "scenarios": 27,
+      "ticks": 108,
+      "targetChanges": 19
+    }
+  ],
+  "samples": [
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111600421,
+        1835008,
+        -143654524
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 2,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111593034,
+        1835008,
+        -143719672
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-low",
+      "tick": 3,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111585647,
+        1835008,
+        -143784820
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 73,
+      "point": [
+        1547,
+        20,
+        -3458
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111578260,
+        1835008,
+        -143849968
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 2,
+      "previousIndex": 73,
+      "selectedIndex": 72,
+      "point": [
+        1438,
+        20,
+        -4005
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111548712,
+        1835008,
+        -144110560
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "route-high-skip",
+      "tick": 3,
+      "previousIndex": 72,
+      "selectedIndex": 71,
+      "point": [
+        1256,
+        20,
+        -4594
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111519164,
+        1835008,
+        -144371152
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114753536,
+        786432,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114738762,
+        786432,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114723988,
+        786432,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "mode4",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114709214,
+        786432,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 192,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111593034,
+        1835008,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111578260,
+        1835008,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "steering-suppression",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32960,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        111563486,
+        1835008,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 5,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114753536,
+        1310720,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114746149,
+        1310720,
+        -143654524
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 2,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114738762,
+        1310720,
+        -143719672
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-near5",
+      "tick": 3,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 32832,
+      "controls": {
+        "throttle": true,
+        "brake": false,
+        "left": false,
+        "right": true
+      },
+      "positionQ16": [
+        114731375,
+        1310720,
+        -143784820
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1310720,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111593034,
+        1310720,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111578260,
+        1310720,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-far5",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 5,
+      "specialAfter": 5,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111563486,
+        1310720,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114753536,
+        1835008,
+        -140443648
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 1,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114738762,
+        1835008,
+        -140573944
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 2,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114723988,
+        1835008,
+        -140704240
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "special-retained1",
+      "tick": 3,
+      "previousIndex": 0,
+      "selectedIndex": 0,
+      "point": [
+        1727,
+        20,
+        -2167
+      ],
+      "specialBefore": 1,
+      "specialAfter": 1,
+      "controlBits": 8384,
+      "controls": {
+        "throttle": true,
+        "brake": true,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        114709214,
+        1835008,
+        -140834536
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 0,
+      "previousIndex": 0,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111607808,
+        1835008,
+        -143589376
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 1,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111578260,
+        1835008,
+        -143849968
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 2,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111548712,
+        1835008,
+        -144110560
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    },
+    {
+      "resource": 30,
+      "route": 1,
+      "initialIndex": 0,
+      "reverseByte2": 1,
+      "loopByte4": 1,
+      "profile": "pacing-mask",
+      "tick": 3,
+      "previousIndex": 74,
+      "selectedIndex": 74,
+      "point": [
+        1644,
+        20,
+        -2899
+      ],
+      "specialBefore": 0,
+      "specialAfter": 0,
+      "controlBits": 8192,
+      "controls": {
+        "throttle": false,
+        "brake": false,
+        "left": true,
+        "right": false
+      },
+      "positionQ16": [
+        111519164,
+        1835008,
+        -144371152
+      ],
+      "progressionRoute": 1,
+      "progressionGroup": 1,
+      "progressionIndex": 0
+    }
+  ],
+  "failures": []
+}

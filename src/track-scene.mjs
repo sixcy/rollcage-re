@@ -4,6 +4,7 @@ import { parsePlacements } from './placements.mjs';
 import { buildPlacedMeshes } from './placed-meshes.mjs';
 import { parseBTP, decodeBTPTexture } from './btp.mjs';
 import { buildSceneExport } from './scene-export.mjs';
+import { decodeTrackPaths } from './track-paths.mjs';
 
 // Both host and standalone browser use this boundary. Format-specific readers
 // supply ordinary objects; rendering and OBJ generation share the same meshes.
@@ -19,7 +20,7 @@ export function decodeTrackScene(data, textureData, readers = {}) {
   }
   const output = buildSceneExport(terrain, textures, meshes);
   if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid track bounds.');
-  return { ...output, segments: terrain.segments.length, instances: meshes.length, textures,
+  return { ...output, paths: decodeTrackPaths(data), segments: terrain.segments.length, instances: meshes.length, textures,
     placementTypes: placements.records.reduce((types, record) => {
       types[record.type] = (types[record.type] ?? 0) + 1;
       return types;

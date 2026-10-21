@@ -13,6 +13,12 @@ export class BodyShapePool {
   const id=this.freeIds[this.freeTop--];this.allocatedCount=(this.allocatedCount+1)|0;this.activeIds[++this.activeTop]=id;this.reverseIndices[id]=this.activeTop&255;
   return {id,record:this.records.subarray(id*72,(id+1)*72)};
  }
+ // Native free-list swap used by47d040 when releasing temporary probe shapes.
+ release(id) {
+  if(!Number.isInteger(id)||id<0||id>=this.records.length/72||this.activeTop<0||this.activeIds[this.reverseIndices[id]]!==id||this.reverseIndices[id]>this.activeTop)throw Error('Shape release requires an active pool ID.');
+  const index=this.reverseIndices[id],last=this.activeIds[this.activeTop--];
+  this.activeIds[index]=last;this.reverseIndices[last]=index;this.freeIds[++this.freeTop]=id;this.allocatedCount=(this.allocatedCount-1)|0;
+ }
 }
 export function registerBodyCollisionShapes(body,descriptors,pool,physicalBodies) {
  if(!Buffer.isBuffer(descriptors)||descriptors.length%20||descriptors.length/20>255||!Array.isArray(physicalBodies))throw Error('Body shape registration requires 20-byte descriptors and a physical body list.');

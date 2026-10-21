@@ -1,0 +1,6780 @@
+{
+  "method": "Read-only StageII installed-data feasibility check. Existing Redux route reader independently checks all GFXM group/point pointer bounds and signed XYZ. StageII42f250 loader lines118..126 independently establish authored+8c/+98/+79 and12-byte group relocation. Adjacent stored points form directly drawable open polylines in source coordinates; viewer transform isX,-Y,-Z. Terrain bounding-box comparisons are geometric sanity checks, not path-following/runtime evidence. Group byte4 values and repeated endpoints are reported without assuming closure semantics. Point+12 links are checked only under the candidate Redux5/9-bit lane interpretation; StageII AI/route consumer semantics and flags are not established by this check. No viewer change, game execution or installed-file write.",
+  "nativeLoader": {
+    "path": "analysis/stage2-native-live/024-loadera-entry.c",
+    "sha256": "a7dee4b3499d57976996fa9bd9ff5538d7676f91241803de59567a606d466ec1",
+    "procedure": "0x42f250",
+    "lines": [
+      118,
+      126
+    ]
+  },
+  "summary": {
+    "gfxmResources": 67,
+    "catalogEnvironments": 66,
+    "matchedEnvironments": 66,
+    "environmentsWithPolylines": 46,
+    "groups": 279,
+    "nonemptyGroups": 212,
+    "groupsWithAtLeast2Points": 192,
+    "pointReferences": 4315,
+    "nonzeroAdjacentSegments": 4103,
+    "zeroLengthAdjacentSegments": 0,
+    "pointsInsideTerrainXYZ": 4315,
+    "pointsOutsideTerrainXYZ": 0,
+    "pointsInsideTerrainXZ": 4315,
+    "pointsOutsideTerrainXZ": 0,
+    "nonzeroCandidateLinks": 3595,
+    "candidateLinksWithinDeclaredGroup": 1283,
+    "candidateLinksOutsideDeclaredGroup": 2312,
+    "groupsWithRepeatedEndpoint": 0,
+    "byte4Values": {
+      "0": 243,
+      "1": 36
+    },
+    "failures": []
+  },
+  "resources": [
+    {
+      "resource": 80,
+      "name": "LEV01.BLP",
+      "category": "Race",
+      "sha256": "648cd8a6496fe9ea63fe16e981ddc221537b89f209e8cdb13c9cee3a18f50c2e",
+      "terrainSectors": 15,
+      "terrainBounds": [
+        [
+          -3688,
+          -1910,
+          -899
+        ],
+        [
+          6166,
+          331,
+          11741
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 42,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            3016,
+            -230,
+            1508
+          ],
+          "last": [
+            3333,
+            25,
+            2401
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 26383.345575287654
+        },
+        {
+          "index": 2,
+          "points": 8,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            4103,
+            208,
+            6941
+          ],
+          "last": [
+            3278,
+            25,
+            2400
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4871.582373409628
+        },
+        {
+          "index": 3,
+          "points": 6,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -1168,
+            -568,
+            1443
+          ],
+          "last": [
+            -2535,
+            105,
+            4045
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3093.7415773423663
+        },
+        {
+          "index": 4,
+          "points": 9,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -1690,
+            -293,
+            1850
+          ],
+          "last": [
+            -1612,
+            -2,
+            6075
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4818.532088539557
+        },
+        {
+          "index": 5,
+          "points": 9,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            -962,
+            0,
+            8812
+          ],
+          "last": [
+            2924,
+            160,
+            9720
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4457.959360540042
+        },
+        {
+          "index": 6,
+          "points": 13,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -776,
+            -3,
+            9377
+          ],
+          "last": [
+            4426,
+            274,
+            7300
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 7598.434579464193
+        },
+        {
+          "index": 7,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            -488,
+            -16,
+            9863
+          ],
+          "last": [
+            4482,
+            329,
+            8377
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6167.259610395458
+        },
+        {
+          "index": 8,
+          "points": 11,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            4372,
+            275,
+            7292
+          ],
+          "last": [
+            3265,
+            100,
+            3085
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 5057.878582822193
+        },
+        {
+          "index": 9,
+          "points": 12,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            2790,
+            -190,
+            4956
+          ],
+          "last": [
+            3039,
+            -230,
+            1490
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4125.001416276953
+        },
+        {
+          "index": 10,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 10,
+          "first": [
+            -2109,
+            -106,
+            2349
+          ],
+          "last": [
+            -1666,
+            -2,
+            6094
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4480.607565662624
+        }
+      ],
+      "points": 130,
+      "insideXYZ": 130,
+      "outsideXYZ": 0,
+      "insideXZ": 130,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 74,
+      "linkTargetsOutOfRange": 52
+    },
+    {
+      "resource": 82,
+      "name": "LEV02.BLP",
+      "category": "Race",
+      "sha256": "8e82df449efaefd5e3df1e1cb6bbb80a58463923fce90b7796d537ed4c815f48",
+      "terrainSectors": 10,
+      "terrainBounds": [
+        [
+          -7871,
+          -600,
+          -4212
+        ],
+        [
+          6839,
+          260,
+          9489
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 62,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -2910,
+            -20,
+            771
+          ],
+          "last": [
+            -3467,
+            -20,
+            1593
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 32087.99033899304
+        },
+        {
+          "index": 2,
+          "points": 62,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            -3019,
+            -20,
+            698
+          ],
+          "last": [
+            -3592,
+            -37,
+            1498
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 33267.535386650365
+        },
+        {
+          "index": 3,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            4013,
+            -25,
+            -2281
+          ],
+          "last": [
+            4160,
+            0,
+            1904
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4443.905723685348
+        },
+        {
+          "index": 4,
+          "points": 12,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            4574,
+            0,
+            1567
+          ],
+          "last": [
+            585,
+            40,
+            6067
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6394.529420461287
+        },
+        {
+          "index": 5,
+          "points": 13,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            -3923,
+            245,
+            7930
+          ],
+          "last": [
+            -6027,
+            249,
+            4727
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4869.882599396975
+        }
+      ],
+      "points": 159,
+      "insideXYZ": 159,
+      "outsideXYZ": 0,
+      "insideXZ": 159,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 30,
+      "linkTargetsOutOfRange": 100
+    },
+    {
+      "resource": 84,
+      "name": "LEV03.BLP",
+      "category": "Race",
+      "sha256": "749f27cdbcc09ea53e5e6d3b2f923f8f283a9745c2227bd34fec986fa1c0c0b6",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -5940,
+          -2423,
+          -4981
+        ],
+        [
+          5367,
+          809,
+          11746
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 58,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            1791,
+            382,
+            3618
+          ],
+          "last": [
+            1244,
+            385,
+            4585
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 45561.33821671114
+        },
+        {
+          "index": 2,
+          "points": 58,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            1538,
+            421,
+            3504
+          ],
+          "last": [
+            1003,
+            424,
+            4546
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 44172.88815748366
+        },
+        {
+          "index": 3,
+          "points": 24,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            3470,
+            417,
+            1156
+          ],
+          "last": [
+            -5316,
+            -478,
+            -1453
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 17636.401385474062
+        },
+        {
+          "index": 4,
+          "points": 13,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -5269,
+            -477,
+            -1447
+          ],
+          "last": [
+            -3673,
+            47,
+            8888
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10574.525068487059
+        },
+        {
+          "index": 5,
+          "points": 19,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            1375,
+            165,
+            10013
+          ],
+          "last": [
+            4714,
+            635,
+            -2462
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 14025.75575689123
+        }
+      ],
+      "points": 172,
+      "insideXYZ": 172,
+      "outsideXYZ": 0,
+      "insideXZ": 172,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 47,
+      "linkTargetsOutOfRange": 167
+    },
+    {
+      "resource": 86,
+      "name": "LEV04.BLP",
+      "category": "Race",
+      "sha256": "b89b16ec8d684d5b6272315b6f58d6d81a18e669f0ecd3c021fcf7be135741b7",
+      "terrainSectors": 13,
+      "terrainBounds": [
+        [
+          -2505,
+          -986,
+          -1903
+        ],
+        [
+          6736,
+          415,
+          10866
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 78,
+          "byte2": 1,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            425,
+            150,
+            9784
+          ],
+          "last": [
+            -319,
+            118,
+            9607
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 37183.2829912412
+        },
+        {
+          "index": 2,
+          "points": 8,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            297,
+            -70,
+            2143
+          ],
+          "last": [
+            334,
+            65,
+            6188
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4067.7023730813994
+        },
+        {
+          "index": 3,
+          "points": 8,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            193,
+            -70,
+            2179
+          ],
+          "last": [
+            210,
+            65,
+            6187
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4011.1047063607293
+        },
+        {
+          "index": 4,
+          "points": 6,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            441,
+            -46,
+            2651
+          ],
+          "last": [
+            453,
+            43,
+            5547
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2925.2756405424398
+        },
+        {
+          "index": 5,
+          "points": 6,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            131,
+            -46,
+            2698
+          ],
+          "last": [
+            157,
+            47,
+            5563
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2885.593471640557
+        },
+        {
+          "index": 6,
+          "points": 14,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            3233,
+            26,
+            7508
+          ],
+          "last": [
+            3103,
+            1,
+            1688
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 5886.918780192368
+        },
+        {
+          "index": 7,
+          "points": 10,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            3019,
+            -5,
+            6464
+          ],
+          "last": [
+            3052,
+            -5,
+            2144
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4323.795570617184
+        },
+        {
+          "index": 8,
+          "points": 10,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            2905,
+            -5,
+            6472
+          ],
+          "last": [
+            2926,
+            -5,
+            2137
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4348.8905580724795
+        },
+        {
+          "index": 9,
+          "points": 19,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            4931,
+            -132,
+            8363
+          ],
+          "last": [
+            2995,
+            -5,
+            1701
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 8145.802742208616
+        },
+        {
+          "index": 10,
+          "points": 37,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 10,
+          "first": [
+            -48,
+            90,
+            6630
+          ],
+          "last": [
+            2942,
+            -5,
+            6463
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 17818.045145253356
+        },
+        {
+          "index": 11,
+          "points": 23,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 11,
+          "first": [
+            3154,
+            18,
+            1199
+          ],
+          "last": [
+            265,
+            -68,
+            2154
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 11013.35226589479
+        },
+        {
+          "index": 12,
+          "points": 19,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 12,
+          "first": [
+            3077,
+            368,
+            10243
+          ],
+          "last": [
+            5348,
+            -200,
+            8114
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 7010.035485216924
+        }
+      ],
+      "points": 238,
+      "insideXYZ": 238,
+      "outsideXYZ": 0,
+      "insideXZ": 238,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 138,
+      "linkTargetsOutOfRange": 133
+    },
+    {
+      "resource": 88,
+      "name": "LEV05.BLP",
+      "category": "Race",
+      "sha256": "f99aff6f46ac08fd68f337f485a3a5500d8c392137f12d383149be3728d0be6a",
+      "terrainSectors": 19,
+      "terrainBounds": [
+        [
+          -2675,
+          -730,
+          -612
+        ],
+        [
+          6050,
+          849,
+          11130
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 56,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            5461,
+            445,
+            9399
+          ],
+          "last": [
+            5404,
+            584,
+            8638
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 29188.73039915285
+        },
+        {
+          "index": 2,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            -692,
+            119,
+            7346
+          ],
+          "last": [
+            -1652,
+            52,
+            4251
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3324.3219122457253
+        },
+        {
+          "index": 3,
+          "points": 18,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -226,
+            120,
+            7893
+          ],
+          "last": [
+            507,
+            129,
+            751
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 8840.279368691177
+        },
+        {
+          "index": 4,
+          "points": 8,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -1882,
+            105,
+            6204
+          ],
+          "last": [
+            -1596,
+            61,
+            3177
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3151.609101441507
+        },
+        {
+          "index": 5,
+          "points": 6,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            17,
+            189,
+            929
+          ],
+          "last": [
+            2546,
+            599,
+            12
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2762.1469839368983
+        },
+        {
+          "index": 6,
+          "points": 25,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            1626,
+            285,
+            379
+          ],
+          "last": [
+            5401,
+            92,
+            10300
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 13567.442261447128
+        },
+        {
+          "index": 7,
+          "points": 27,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            5191,
+            173,
+            1683
+          ],
+          "last": [
+            746,
+            110,
+            8764
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 14409.927630553293
+        },
+        {
+          "index": 8,
+          "points": 24,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            4973,
+            480,
+            4569
+          ],
+          "last": [
+            -751,
+            118,
+            7385
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 9248.78132903044
+        },
+        {
+          "index": 9,
+          "points": 6,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            5009,
+            580,
+            6814
+          ],
+          "last": [
+            4391,
+            478,
+            7114
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 740.5453248755216
+        }
+      ],
+      "points": 180,
+      "insideXYZ": 180,
+      "outsideXYZ": 0,
+      "insideXZ": 180,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 65,
+      "linkTargetsOutOfRange": 112
+    },
+    {
+      "resource": 90,
+      "name": "LEV06.BLP",
+      "category": "Race",
+      "sha256": "8fc078e58ad5ae8cbb359b1f1b04880cb6a26f235e8dcf3e8b495cbeea989733",
+      "terrainSectors": 15,
+      "terrainBounds": [
+        [
+          -6056,
+          -879,
+          -138
+        ],
+        [
+          4273,
+          200,
+          15535
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 54,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -4138,
+            -80,
+            9178
+          ],
+          "last": [
+            -3652,
+            -81,
+            8087
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 35859.95266341165
+        },
+        {
+          "index": 2,
+          "points": 54,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            -4345,
+            -79,
+            9128
+          ],
+          "last": [
+            -3854,
+            -80,
+            8010
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 36825.71408248132
+        },
+        {
+          "index": 3,
+          "points": 51,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -2093,
+            14,
+            3781
+          ],
+          "last": [
+            1966,
+            -65,
+            91
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 28526.083646504743
+        },
+        {
+          "index": 4,
+          "points": 26,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -3141,
+            -120,
+            6063
+          ],
+          "last": [
+            2317,
+            0,
+            10055
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 18292.880208269224
+        },
+        {
+          "index": 5,
+          "points": 7,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            -4191,
+            -389,
+            8993
+          ],
+          "last": [
+            -5861,
+            -190,
+            12188
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3620.6563344080228
+        },
+        {
+          "index": 6,
+          "points": 14,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -1496,
+            -90,
+            2718
+          ],
+          "last": [
+            -5635,
+            -80,
+            12301
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10455.013817649875
+        },
+        {
+          "index": 7,
+          "points": 9,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            -2533,
+            0,
+            13564
+          ],
+          "last": [
+            1917,
+            0,
+            10383
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 5486.844165664394
+        }
+      ],
+      "points": 215,
+      "insideXYZ": 215,
+      "outsideXYZ": 0,
+      "insideXZ": 215,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 60,
+      "linkTargetsOutOfRange": 136
+    },
+    {
+      "resource": 92,
+      "name": "LEV07.BLP",
+      "category": "Race",
+      "sha256": "2210a132a289c15e761a7b09f6e8e701e54358c2bf796fdb07acce161f682a4c",
+      "terrainSectors": 12,
+      "terrainBounds": [
+        [
+          -7192,
+          -479,
+          -47
+        ],
+        [
+          7457,
+          2379,
+          6037
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 94,
+          "byte2": 1,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            3214,
+            975,
+            517
+          ],
+          "last": [
+            1723,
+            987,
+            522
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 51919.68917797132
+        },
+        {
+          "index": 2,
+          "points": 94,
+          "byte2": 1,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            3206,
+            974,
+            660
+          ],
+          "last": [
+            1734,
+            987,
+            650
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 46668.82137002784
+        },
+        {
+          "index": 3,
+          "points": 14,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -315,
+            1094,
+            689
+          ],
+          "last": [
+            5463,
+            1000,
+            821
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 5813.819711506027
+        },
+        {
+          "index": 4,
+          "points": 15,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -306,
+            1094,
+            464
+          ],
+          "last": [
+            6123,
+            859,
+            799
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6583.8122783943445
+        }
+      ],
+      "points": 217,
+      "insideXYZ": 217,
+      "outsideXYZ": 0,
+      "insideXZ": 217,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 26,
+      "linkTargetsOutOfRange": 176
+    },
+    {
+      "resource": 94,
+      "name": "LEV08.BLP",
+      "category": "Race",
+      "sha256": "5bf4ed7c61ce2e972994c9545a00b1ca2e2cce19969333256d33d4f7ab7a5170",
+      "terrainSectors": 22,
+      "terrainBounds": [
+        [
+          -3496,
+          -710,
+          805
+        ],
+        [
+          7101,
+          161,
+          9313
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 78,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            6322,
+            80,
+            4403
+          ],
+          "last": [
+            6418,
+            80,
+            5312
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 31863.240607680924
+        },
+        {
+          "index": 2,
+          "points": 78,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            6452,
+            80,
+            4401
+          ],
+          "last": [
+            6541,
+            80,
+            5289
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 32114.86357816422
+        },
+        {
+          "index": 3,
+          "points": 15,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            1076,
+            0,
+            1349
+          ],
+          "last": [
+            -2219,
+            0,
+            4208
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4720.469531222969
+        },
+        {
+          "index": 4,
+          "points": 14,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            299,
+            160,
+            5202
+          ],
+          "last": [
+            3549,
+            160,
+            7819
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 5531.142320009768
+        },
+        {
+          "index": 5,
+          "points": 47,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            252,
+            160,
+            6565
+          ],
+          "last": [
+            599,
+            0,
+            1575
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 18266.710085861163
+        },
+        {
+          "index": 6,
+          "points": 17,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -2083,
+            0,
+            3675
+          ],
+          "last": [
+            -174,
+            157,
+            8060
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6073.781834406609
+        },
+        {
+          "index": 7,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            -2349,
+            0,
+            3676
+          ],
+          "last": [
+            -2435,
+            0,
+            7638
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4047.2505229243534
+        },
+        {
+          "index": 8,
+          "points": 7,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            5408,
+            -11,
+            6717
+          ],
+          "last": [
+            4774,
+            -2,
+            4024
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2847.828420227319
+        },
+        {
+          "index": 9,
+          "points": 12,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            6453,
+            77,
+            4405
+          ],
+          "last": [
+            4257,
+            0,
+            1182
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4281.456669469165
+        }
+      ],
+      "points": 278,
+      "insideXYZ": 278,
+      "outsideXYZ": 0,
+      "insideXZ": 278,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 101,
+      "linkTargetsOutOfRange": 158
+    },
+    {
+      "resource": 96,
+      "name": "LEV09.BLP",
+      "category": "Race",
+      "sha256": "3b9438cac0628b584533c54dafe43403af996af9c1c0471ef4ed56f0e9bdbb7d",
+      "terrainSectors": 15,
+      "terrainBounds": [
+        [
+          -5760,
+          -2035,
+          -2434
+        ],
+        [
+          5232,
+          1105,
+          10593
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 67,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -709,
+            -1489,
+            3923
+          ],
+          "last": [
+            -705,
+            -1253,
+            5001
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 38040.28792041857
+        },
+        {
+          "index": 2,
+          "points": 64,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            -819,
+            -1445,
+            3922
+          ],
+          "last": [
+            -820,
+            -1200,
+            4992
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 34995.777239535775
+        },
+        {
+          "index": 3,
+          "points": 27,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            4247,
+            299,
+            5395
+          ],
+          "last": [
+            -3496,
+            416,
+            9933
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 14017.393976707373
+        },
+        {
+          "index": 4,
+          "points": 7,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            4700,
+            165,
+            3414
+          ],
+          "last": [
+            2883,
+            462,
+            5586
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3078.041842060511
+        },
+        {
+          "index": 5,
+          "points": 22,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            -2909,
+            241,
+            10159
+          ],
+          "last": [
+            1169,
+            -609,
+            -781
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 13119.814241536767
+        },
+        {
+          "index": 6,
+          "points": 18,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -877,
+            -1445,
+            3926
+          ],
+          "last": [
+            1534,
+            -490,
+            -1158
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6415.7839644426485
+        },
+        {
+          "index": 7,
+          "points": 6,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            -523,
+            -1254,
+            5016
+          ],
+          "last": [
+            -464,
+            -1767,
+            1872
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3209.8448978354672
+        }
+      ],
+      "points": 211,
+      "insideXYZ": 211,
+      "outsideXYZ": 0,
+      "insideXZ": 211,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 53,
+      "linkTargetsOutOfRange": 137
+    },
+    {
+      "resource": 98,
+      "name": "LEV10.BLP",
+      "category": "Race",
+      "sha256": "362e189e2d0641b7c0f0109be828330415d68adac50e05b96a3aabf921d37c20",
+      "terrainSectors": 22,
+      "terrainBounds": [
+        [
+          -3509,
+          -1006,
+          -3234
+        ],
+        [
+          10819,
+          455,
+          12904
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 82,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            2447,
+            7,
+            8984
+          ],
+          "last": [
+            2438,
+            8,
+            10070
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 41784.411043343964
+        },
+        {
+          "index": 2,
+          "points": 31,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            -1197,
+            -99,
+            5821
+          ],
+          "last": [
+            2638,
+            210,
+            5828
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 11231.372885498366
+        },
+        {
+          "index": 3,
+          "points": 82,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 3,
+          "first": [
+            2372,
+            8,
+            8992
+          ],
+          "last": [
+            2479,
+            8,
+            10058
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 42654.72279895603
+        },
+        {
+          "index": 4,
+          "points": 29,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            3247,
+            260,
+            4530
+          ],
+          "last": [
+            4153,
+            20,
+            -966
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10256.31872783089
+        },
+        {
+          "index": 5,
+          "points": 5,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            666,
+            20,
+            -899
+          ],
+          "last": [
+            -1133,
+            20,
+            -657
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1817.945152782207
+        },
+        {
+          "index": 6,
+          "points": 13,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -1691,
+            7,
+            11735
+          ],
+          "last": [
+            2533,
+            7,
+            10976
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 5618.299536732551
+        },
+        {
+          "index": 7,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            552,
+            -9,
+            9891
+          ],
+          "last": [
+            814,
+            -9,
+            9511
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 462.10187550464946
+        }
+      ],
+      "points": 246,
+      "insideXYZ": 246,
+      "outsideXYZ": 0,
+      "insideXZ": 246,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 53,
+      "linkTargetsOutOfRange": 135
+    },
+    {
+      "resource": 100,
+      "name": "LEV11.BLP",
+      "category": "Race",
+      "sha256": "1adb98adafc1f0a21350540571ed7b405ed71d12c287dc26f7d14e82a8d61a3a",
+      "terrainSectors": 10,
+      "terrainBounds": [
+        [
+          -10857,
+          -600,
+          -873
+        ],
+        [
+          6353,
+          500,
+          9950
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 61,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            4950,
+            480,
+            6221
+          ],
+          "last": [
+            4524,
+            480,
+            5211
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 35217.521699209785
+        },
+        {
+          "index": 2,
+          "points": 61,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            5072,
+            480,
+            6182
+          ],
+          "last": [
+            4650,
+            480,
+            5192
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 36079.39236203504
+        },
+        {
+          "index": 3,
+          "points": 13,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -3203,
+            37,
+            1491
+          ],
+          "last": [
+            3175,
+            99,
+            3912
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6893.751202083989
+        },
+        {
+          "index": 4,
+          "points": 12,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -3283,
+            37,
+            1710
+          ],
+          "last": [
+            2618,
+            5,
+            3842
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6297.7834133514225
+        },
+        {
+          "index": 5,
+          "points": 15,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            -5206,
+            500,
+            5235
+          ],
+          "last": [
+            -3710,
+            166,
+            1468
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6206.098785322623
+        }
+      ],
+      "points": 162,
+      "insideXYZ": 162,
+      "outsideXYZ": 0,
+      "insideXZ": 162,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 22,
+      "linkTargetsOutOfRange": 124
+    },
+    {
+      "resource": 102,
+      "name": "LEV12.BLP",
+      "category": "Race",
+      "sha256": "b9b48b8843c3b543097a7d516db88d3bcc2c1781a505c8c9123adea960d9990f",
+      "terrainSectors": 16,
+      "terrainBounds": [
+        [
+          -2240,
+          -640,
+          -1985
+        ],
+        [
+          7809,
+          850,
+          11583
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 59,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            4932,
+            0,
+            7756
+          ],
+          "last": [
+            5232,
+            0,
+            6700
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 32482.629095112978
+        },
+        {
+          "index": 2,
+          "points": 12,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            1,
+            13,
+            9756
+          ],
+          "last": [
+            -467,
+            0,
+            1710
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 8071.292033209336
+        },
+        {
+          "index": 3,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            5238,
+            -2,
+            -919
+          ],
+          "last": [
+            6297,
+            -2,
+            3079
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4802.786503745193
+        },
+        {
+          "index": 4,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            5427,
+            -2,
+            5877
+          ],
+          "last": [
+            1124,
+            18,
+            10501
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 7200.057385156916
+        },
+        {
+          "index": 5,
+          "points": 16,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            5505,
+            -2,
+            5878
+          ],
+          "last": [
+            -573,
+            59,
+            6751
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 12245.156477139462
+        },
+        {
+          "index": 6,
+          "points": 5,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -614,
+            180,
+            4510
+          ],
+          "last": [
+            -181,
+            -8,
+            3912
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 796.3165581073265
+        }
+      ],
+      "points": 112,
+      "insideXYZ": 112,
+      "outsideXYZ": 0,
+      "insideXZ": 112,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 27,
+      "linkTargetsOutOfRange": 49
+    },
+    {
+      "resource": 104,
+      "name": "LEV13.BLP",
+      "category": "Race",
+      "sha256": "dfefef4efec290ccc5bdb67a9054a4ee678d04d498697576523c7304766604a1",
+      "terrainSectors": 11,
+      "terrainBounds": [
+        [
+          -4682,
+          -1111,
+          1385
+        ],
+        [
+          4280,
+          990,
+          11938
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 66,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            3664,
+            -17,
+            6492
+          ],
+          "last": [
+            3621,
+            -118,
+            5613
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 30796.281286896072
+        },
+        {
+          "index": 2,
+          "points": 12,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            -1283,
+            0,
+            8841
+          ],
+          "last": [
+            -3929,
+            0,
+            5924
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4980.180993502775
+        },
+        {
+          "index": 3,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -4369,
+            0,
+            3067
+          ],
+          "last": [
+            -1372,
+            0,
+            3250
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4496.304016233958
+        },
+        {
+          "index": 4,
+          "points": 30,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -1466,
+            -1,
+            3286
+          ],
+          "last": [
+            1428,
+            -15,
+            10807
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 14742.94708965101
+        },
+        {
+          "index": 5,
+          "points": 23,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            1803,
+            -44,
+            11079
+          ],
+          "last": [
+            -3834,
+            -2,
+            7359
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 8528.030292588439
+        }
+      ],
+      "points": 141,
+      "insideXYZ": 141,
+      "outsideXYZ": 0,
+      "insideXZ": 141,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 29,
+      "linkTargetsOutOfRange": 93
+    },
+    {
+      "resource": 106,
+      "name": "LEV14.BLP",
+      "category": "Race",
+      "sha256": "18830d9ec17f3b496d764fd4b7fb020ec0fdc72442f7a315b6dc2141ea0b0242",
+      "terrainSectors": 22,
+      "terrainBounds": [
+        [
+          2149,
+          -1277,
+          -4689
+        ],
+        [
+          12390,
+          715,
+          12268
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 57,
+          "byte2": 1,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            3508,
+            247,
+            5197
+          ],
+          "last": [
+            3712,
+            271,
+            6348
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 28857.528436213815
+        },
+        {
+          "index": 2,
+          "points": 57,
+          "byte2": 1,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            3281,
+            247,
+            5231
+          ],
+          "last": [
+            3528,
+            269,
+            6373
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 29608.14341126668
+        },
+        {
+          "index": 3,
+          "points": 15,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            9646,
+            -276,
+            2435
+          ],
+          "last": [
+            10382,
+            -606,
+            8524
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6656.888830985187
+        },
+        {
+          "index": 4,
+          "points": 10,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            9896,
+            -276,
+            2430
+          ],
+          "last": [
+            10572,
+            -606,
+            8484
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6154.739528633747
+        },
+        {
+          "index": 5,
+          "points": 6,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            9861,
+            -321,
+            2887
+          ],
+          "last": [
+            10343,
+            -389,
+            6518
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3681.1022967224158
+        },
+        {
+          "index": 6,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            3771,
+            -16,
+            1985
+          ],
+          "last": [
+            4319,
+            -2,
+            2171
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 628.9559350067639
+        },
+        {
+          "index": 7,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            4295,
+            -2,
+            3120
+          ],
+          "last": [
+            4383,
+            -2,
+            2355
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 777.6482270419931
+        },
+        {
+          "index": 8,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            3198,
+            270,
+            7085
+          ],
+          "last": [
+            3497,
+            270,
+            6390
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 794.9141442456325
+        },
+        {
+          "index": 9,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            4360,
+            270,
+            6855
+          ],
+          "last": [
+            3752,
+            270,
+            6334
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 848.5603819775886
+        }
+      ],
+      "points": 161,
+      "insideXYZ": 161,
+      "outsideXYZ": 0,
+      "insideXZ": 161,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 55,
+      "linkTargetsOutOfRange": 95
+    },
+    {
+      "resource": 108,
+      "name": "LEV15.BLP",
+      "category": "Race",
+      "sha256": "e1245686fa5034714cc6d71746618f15a7b5dcba3f65440fbace9423d1c55785",
+      "terrainSectors": 19,
+      "terrainBounds": [
+        [
+          -4845,
+          -1255,
+          2297
+        ],
+        [
+          8439,
+          1778,
+          11102
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 63,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            6337,
+            -577,
+            5318
+          ],
+          "last": [
+            5937,
+            -459,
+            4579
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 33701.32681221521
+        },
+        {
+          "index": 2,
+          "points": 12,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            1970,
+            -80,
+            5870
+          ],
+          "last": [
+            -901,
+            -90,
+            8656
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4307.585793270156
+        },
+        {
+          "index": 3,
+          "points": 5,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -1057,
+            -96,
+            8967
+          ],
+          "last": [
+            -2753,
+            -64,
+            9776
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2116.1362856567503
+        },
+        {
+          "index": 4,
+          "points": 24,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            -1554,
+            1441,
+            4601
+          ],
+          "last": [
+            6950,
+            -523,
+            8719
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 13835.302847228291
+        },
+        {
+          "index": 5,
+          "points": 24,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            7294,
+            -541,
+            6809
+          ],
+          "last": [
+            -64,
+            -80,
+            6836
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10609.859858060126
+        }
+      ],
+      "points": 128,
+      "insideXYZ": 128,
+      "outsideXYZ": 0,
+      "insideXZ": 128,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 24,
+      "linkTargetsOutOfRange": 79
+    },
+    {
+      "resource": 110,
+      "name": "LEV16.BLP",
+      "category": "Race",
+      "sha256": "b681aac9512a30062a486cdd1d2707c956646e6b83d3032ea904e1f62370f17b",
+      "terrainSectors": 21,
+      "terrainBounds": [
+        [
+          -7956,
+          -560,
+          -2596
+        ],
+        [
+          7345,
+          1753,
+          9600
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 69,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            2679,
+            1556,
+            8927
+          ],
+          "last": [
+            1197,
+            1408,
+            8928
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 44209.70796634382
+        },
+        {
+          "index": 2,
+          "points": 68,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            2669,
+            1557,
+            9197
+          ],
+          "last": [
+            1186,
+            1385,
+            9180
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 47226.503733186706
+        },
+        {
+          "index": 3,
+          "points": 14,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -5803,
+            21,
+            8724
+          ],
+          "last": [
+            5764,
+            1572,
+            8348
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 11887.213170260275
+        },
+        {
+          "index": 4,
+          "points": 11,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            6567,
+            1531,
+            6713
+          ],
+          "last": [
+            2448,
+            1468,
+            1452
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6777.495190831314
+        },
+        {
+          "index": 5,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            227,
+            1320,
+            -1688
+          ],
+          "last": [
+            -6558,
+            826,
+            2362
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 7956.7844529415
+        },
+        {
+          "index": 6,
+          "points": 36,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -4506,
+            848,
+            4445
+          ],
+          "last": [
+            -2127,
+            346,
+            9052
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 16359.03605521859
+        },
+        {
+          "index": 7,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            -3199,
+            100,
+            6528
+          ],
+          "last": [
+            -6300,
+            460,
+            6487
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3317.522345051896
+        },
+        {
+          "index": 8,
+          "points": 17,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            -5835,
+            471,
+            6379
+          ],
+          "last": [
+            -5074,
+            16,
+            9185
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6700.647130700767
+        },
+        {
+          "index": 9,
+          "points": 21,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            2684,
+            1556,
+            9081
+          ],
+          "last": [
+            4832,
+            1469,
+            3885
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10057.941523916374
+        },
+        {
+          "index": 10,
+          "points": 21,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 10,
+          "first": [
+            7194,
+            1118,
+            6096
+          ],
+          "last": [
+            -5372,
+            846,
+            1673
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 15357.756903086422
+        },
+        {
+          "index": 11,
+          "points": 12,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 11,
+          "first": [
+            -2959,
+            616,
+            197
+          ],
+          "last": [
+            5339,
+            786,
+            3913
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 9756.910652343871
+        }
+      ],
+      "points": 289,
+      "insideXYZ": 289,
+      "outsideXYZ": 0,
+      "insideXZ": 289,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 116,
+      "linkTargetsOutOfRange": 113
+    },
+    {
+      "resource": 112,
+      "name": "LEV17.BLP",
+      "category": "Race",
+      "sha256": "e241695a099f3eeb27e0ea84fa93712188c07162f0208545fb7970fc33fb38a8",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -3991,
+          -1165,
+          -2235
+        ],
+        [
+          5463,
+          300,
+          9819
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 72,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -2666,
+            0,
+            4160
+          ],
+          "last": [
+            -2922,
+            0,
+            3098
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 31131.63542711745
+        },
+        {
+          "index": 2,
+          "points": 64,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            -2556,
+            -14,
+            4139
+          ],
+          "last": [
+            -2795,
+            -14,
+            3060
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 29646.160058343983
+        },
+        {
+          "index": 3,
+          "points": 40,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -3275,
+            -10,
+            736
+          ],
+          "last": [
+            4794,
+            -10,
+            2826
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 18872.274565965658
+        },
+        {
+          "index": 4,
+          "points": 25,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            4166,
+            -558,
+            5222
+          ],
+          "last": [
+            -1565,
+            -50,
+            -1230
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 12602.160267479181
+        },
+        {
+          "index": 5,
+          "points": 23,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            4785,
+            -10,
+            2460
+          ],
+          "last": [
+            -2014,
+            -30,
+            -814
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 9780.810630526597
+        }
+      ],
+      "points": 224,
+      "insideXYZ": 224,
+      "outsideXYZ": 0,
+      "insideXZ": 224,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 48,
+      "linkTargetsOutOfRange": 102
+    },
+    {
+      "resource": 114,
+      "name": "LEV18.BLP",
+      "category": "Race",
+      "sha256": "d56351501daaf4d173015111b1664ef29ad07ecbdd37243019007bbce134843c",
+      "terrainSectors": 18,
+      "terrainBounds": [
+        [
+          -4086,
+          -660,
+          403
+        ],
+        [
+          3619,
+          299,
+          10032
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 58,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            3217,
+            -17,
+            3961
+          ],
+          "last": [
+            3190,
+            -17,
+            4665
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 26076.088027508646
+        },
+        {
+          "index": 2,
+          "points": 58,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 2,
+          "first": [
+            3348,
+            -22,
+            3984
+          ],
+          "last": [
+            3282,
+            -22,
+            4686
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 26617.494464874126
+        },
+        {
+          "index": 3,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -3445,
+            -10,
+            6000
+          ],
+          "last": [
+            -3495,
+            -10,
+            7320
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1321.412953373687
+        },
+        {
+          "index": 4,
+          "points": 28,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            2973,
+            -33,
+            6956
+          ],
+          "last": [
+            -3560,
+            -10,
+            7830
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 16017.909008442404
+        },
+        {
+          "index": 5,
+          "points": 5,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            -3824,
+            -10,
+            5967
+          ],
+          "last": [
+            -3610,
+            -10,
+            7830
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1878.419337985265
+        },
+        {
+          "index": 6,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            -3358,
+            -9,
+            7835
+          ],
+          "last": [
+            -2881,
+            -9,
+            8112
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 585.7642384719331
+        },
+        {
+          "index": 7,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            -3623,
+            -9,
+            7829
+          ],
+          "last": [
+            -3912,
+            -9,
+            8183
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 495.0719590898579
+        },
+        {
+          "index": 8,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            3167,
+            -20,
+            4008
+          ],
+          "last": [
+            2460,
+            -20,
+            3880
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 720.7275559851325
+        },
+        {
+          "index": 9,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            857,
+            -22,
+            942
+          ],
+          "last": [
+            338,
+            -22,
+            518
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 715.6076279082051
+        },
+        {
+          "index": 10,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 10,
+          "first": [
+            264,
+            -22,
+            1002
+          ],
+          "last": [
+            -374,
+            -22,
+            1256
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 770.912443211809
+        },
+        {
+          "index": 11,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 11,
+          "first": [
+            -409,
+            -22,
+            819
+          ],
+          "last": [
+            -942,
+            -22,
+            531
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 698.2831667364912
+        },
+        {
+          "index": 12,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 12,
+          "first": [
+            -1039,
+            -22,
+            856
+          ],
+          "last": [
+            -1715,
+            -22,
+            567
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 823.6447511833625
+        },
+        {
+          "index": 13,
+          "points": 14,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 13,
+          "first": [
+            -3396,
+            -8,
+            8489
+          ],
+          "last": [
+            1119,
+            -9,
+            9366
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 5344.949672656144
+        },
+        {
+          "index": 14,
+          "points": 14,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 14,
+          "first": [
+            -2352,
+            -300,
+            9556
+          ],
+          "last": [
+            2932,
+            -15,
+            7930
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6194.022391595823
+        },
+        {
+          "index": 15,
+          "points": 5,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 15,
+          "first": [
+            -195,
+            -8,
+            9531
+          ],
+          "last": [
+            1825,
+            -140,
+            9468
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2051.582711830625
+        },
+        {
+          "index": 16,
+          "points": 5,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 16,
+          "first": [
+            1297,
+            -330,
+            1734
+          ],
+          "last": [
+            -2154,
+            -288,
+            1981
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3473.730292967114
+        },
+        {
+          "index": 17,
+          "points": 7,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 17,
+          "first": [
+            -2283,
+            -36,
+            1151
+          ],
+          "last": [
+            -3636,
+            -335,
+            3255
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2808.53728387953
+        }
+      ],
+      "points": 226,
+      "insideXYZ": 226,
+      "outsideXYZ": 0,
+      "insideXZ": 226,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 108,
+      "linkTargetsOutOfRange": 85
+    },
+    {
+      "resource": 116,
+      "name": "LEV19.BLP",
+      "category": "Race",
+      "sha256": "f4f7d81b9f7f368b3c3f7aa744900918aa7a9d8c959d08066be744c06cb443a2",
+      "terrainSectors": 14,
+      "terrainBounds": [
+        [
+          -6210,
+          -887,
+          2211
+        ],
+        [
+          4678,
+          1850,
+          14430
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 108,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            3869,
+            1200,
+            9007
+          ],
+          "last": [
+            2829,
+            99,
+            11327
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 48014.64259541526
+        },
+        {
+          "index": 2,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            3670,
+            1198,
+            8773
+          ],
+          "last": [
+            2951,
+            700,
+            10463
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2634.4968553720805
+        },
+        {
+          "index": 3,
+          "points": 15,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            3184,
+            725,
+            10492
+          ],
+          "last": [
+            3987,
+            133,
+            8389
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4803.0759631984765
+        },
+        {
+          "index": 4,
+          "points": 9,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            3645,
+            180,
+            8197
+          ],
+          "last": [
+            4095,
+            -82,
+            10874
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3297.05595902325
+        },
+        {
+          "index": 5,
+          "points": 7,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            4311,
+            -103,
+            10571
+          ],
+          "last": [
+            2193,
+            78,
+            11177
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2521.58173291418
+        },
+        {
+          "index": 6,
+          "points": 90,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            3854,
+            1200,
+            9009
+          ],
+          "last": [
+            1591,
+            33,
+            10963
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 41634.162250666435
+        },
+        {
+          "index": 7,
+          "points": 26,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            -3388,
+            581,
+            7800
+          ],
+          "last": [
+            1195,
+            -208,
+            11944
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 11267.380148903478
+        },
+        {
+          "index": 8,
+          "points": 6,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            -1815,
+            582,
+            4028
+          ],
+          "last": [
+            -1932,
+            582,
+            7356
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3354.891943961826
+        },
+        {
+          "index": 9,
+          "points": 17,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            -638,
+            822,
+            5738
+          ],
+          "last": [
+            -1967,
+            582,
+            7130
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 8969.255596941544
+        },
+        {
+          "index": 10,
+          "points": 31,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 10,
+          "first": [
+            1614,
+            -269,
+            12198
+          ],
+          "last": [
+            950,
+            -11,
+            10758
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 13834.564890060812
+        },
+        {
+          "index": 11,
+          "points": 10,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 11,
+          "first": [
+            -3508,
+            582,
+            11696
+          ],
+          "last": [
+            603,
+            -98,
+            11788
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 4235.675402902595
+        }
+      ],
+      "points": 329,
+      "insideXYZ": 329,
+      "outsideXYZ": 0,
+      "insideXZ": 329,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 128,
+      "linkTargetsOutOfRange": 208
+    },
+    {
+      "resource": 118,
+      "name": "LEV20.BLP",
+      "category": "Race",
+      "sha256": "96be7e4d2d611f5253a27aa760e5f3b77d8e09cd23c4d39f277307dbc79a525b",
+      "terrainSectors": 21,
+      "terrainBounds": [
+        [
+          -6653,
+          -900,
+          3303
+        ],
+        [
+          11417,
+          375,
+          18204
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 72,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -1132,
+            -94,
+            4478
+          ],
+          "last": [
+            414,
+            -314,
+            4483
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 53963.20953561795
+        },
+        {
+          "index": 2,
+          "points": 11,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            10266,
+            370,
+            16156
+          ],
+          "last": [
+            11219,
+            348,
+            8934
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 7318.804451593052
+        },
+        {
+          "index": 3,
+          "points": 25,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 3,
+          "first": [
+            -1136,
+            49,
+            4352
+          ],
+          "last": [
+            3149,
+            -15,
+            9652
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 18261.326753983998
+        },
+        {
+          "index": 4,
+          "points": 10,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 4,
+          "first": [
+            3148,
+            -14,
+            9585
+          ],
+          "last": [
+            6471,
+            -2,
+            14772
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 7779.461620003753
+        },
+        {
+          "index": 5,
+          "points": 16,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 5,
+          "first": [
+            6323,
+            -14,
+            11124
+          ],
+          "last": [
+            10288,
+            370,
+            16166
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10922.603493046347
+        },
+        {
+          "index": 6,
+          "points": 13,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 6,
+          "first": [
+            10013,
+            330,
+            17104
+          ],
+          "last": [
+            11122,
+            350,
+            6778
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10554.544443611043
+        },
+        {
+          "index": 7,
+          "points": 9,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 7,
+          "first": [
+            11214,
+            350,
+            6767
+          ],
+          "last": [
+            6333,
+            -177,
+            4450
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 6372.851390513464
+        },
+        {
+          "index": 8,
+          "points": 7,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 8,
+          "first": [
+            -1146,
+            49,
+            4604
+          ],
+          "last": [
+            -4615,
+            -14,
+            4609
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3473.1451163536867
+        },
+        {
+          "index": 9,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 9,
+          "first": [
+            -1604,
+            -2,
+            4641
+          ],
+          "last": [
+            -2246,
+            28,
+            5126
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 882.6448962630438
+        },
+        {
+          "index": 10,
+          "points": 4,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 10,
+          "first": [
+            -1612,
+            -2,
+            4322
+          ],
+          "last": [
+            -2254,
+            28,
+            3815
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 896.4887895159364
+        },
+        {
+          "index": 11,
+          "points": 5,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 11,
+          "first": [
+            1231,
+            -50,
+            9503
+          ],
+          "last": [
+            2595,
+            179,
+            9079
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1540.598735753166
+        },
+        {
+          "index": 12,
+          "points": 5,
+          "byte2": 1,
+          "byte4": 0,
+          "byte05": 12,
+          "first": [
+            1238,
+            -50,
+            9747
+          ],
+          "last": [
+            2588,
+            179,
+            10146
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1518.8860765688216
+        },
+        {
+          "index": 13,
+          "points": 25,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 13,
+          "first": [
+            -599,
+            -238,
+            9614
+          ],
+          "last": [
+            10644,
+            371,
+            10186
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 17924.321060872564
+        }
+      ],
+      "points": 206,
+      "insideXYZ": 206,
+      "outsideXYZ": 0,
+      "insideXZ": 206,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 79,
+      "linkTargetsOutOfRange": 58
+    },
+    {
+      "resource": 120,
+      "name": "SCRAM01.BLP",
+      "category": "Scramble",
+      "sha256": "b8e495a4bbd01b4a6a37064f1d905b769da956bf67e85b96d713c3ed482335dc",
+      "terrainSectors": 5,
+      "terrainBounds": [
+        [
+          -1600,
+          -204,
+          2880
+        ],
+        [
+          7998,
+          400,
+          8640
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            584,
+            0,
+            5716
+          ],
+          "last": [
+            1992,
+            -97,
+            5716
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1417.4922469667808
+        }
+      ],
+      "points": 4,
+      "insideXYZ": 4,
+      "outsideXYZ": 0,
+      "insideXZ": 4,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 122,
+      "name": "SCRAM02.BLP",
+      "category": "Scramble",
+      "sha256": "ee17acdffe8b0373954169f3b33d22e5cb163f42b5962a16d02190ae1b2f04c5",
+      "terrainSectors": 1,
+      "terrainBounds": [
+        [
+          -837,
+          -116,
+          3994
+        ],
+        [
+          7537,
+          40,
+          8429
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -143,
+            -40,
+            8092
+          ],
+          "last": [
+            -143,
+            -40,
+            8092
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 124,
+      "name": "SCRAM03.BLP",
+      "category": "Scramble",
+      "sha256": "4bffbc0a96eb48ec4550f1f786e6884931dd3e9ce3152438bc9405a124ebd7ff",
+      "terrainSectors": 4,
+      "terrainBounds": [
+        [
+          720,
+          -983,
+          1761
+        ],
+        [
+          4000,
+          0,
+          6600
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            994,
+            -400,
+            6389
+          ],
+          "last": [
+            1636,
+            -400,
+            6389
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 642
+        }
+      ],
+      "points": 4,
+      "insideXYZ": 4,
+      "outsideXYZ": 0,
+      "insideXZ": 4,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 126,
+      "name": "SCRAM04.BLP",
+      "category": "Scramble",
+      "sha256": "7dc55d24a284371a4eb93e0a9b1c7dfc91c2f5701c5953d9f03694ac2734bb79",
+      "terrainSectors": 1,
+      "terrainBounds": [
+        [
+          -7715,
+          -560,
+          4668
+        ],
+        [
+          7537,
+          40,
+          8398
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -6811,
+            -40,
+            5089
+          ],
+          "last": [
+            -6811,
+            -40,
+            5089
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 128,
+      "name": "SCRAM05.BLP",
+      "category": "Scramble",
+      "sha256": "3fe587334502ec42e04b9b65005d32d1cb9ad6c4559ae454cd69e0f024b5daed",
+      "terrainSectors": 3,
+      "terrainBounds": [
+        [
+          -819,
+          -4020,
+          -4372
+        ],
+        [
+          4879,
+          1120,
+          11096
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -568,
+            -4019,
+            -3796
+          ],
+          "last": [
+            -568,
+            -4019,
+            -3796
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 130,
+      "name": "SCRAM06.BLP",
+      "category": "Scramble",
+      "sha256": "5238c806a0e408261aad58c24f9a5208f20febc51cde174935cb8730c526717e",
+      "terrainSectors": 2,
+      "terrainBounds": [
+        [
+          -9752,
+          -520,
+          -227
+        ],
+        [
+          21451,
+          40,
+          8595
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -8834,
+            -40,
+            8289
+          ],
+          "last": [
+            -8834,
+            -40,
+            8289
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 132,
+      "name": "SCRAM07.BLP",
+      "category": "Scramble",
+      "sha256": "408c1a73fdda2a6e5dde41578ba2852e9c2abf18e30b2f21db1a552d2f0f835b",
+      "terrainSectors": 6,
+      "terrainBounds": [
+        [
+          -959,
+          -564,
+          4159
+        ],
+        [
+          13439,
+          843,
+          7360
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1483,
+            100,
+            5723
+          ],
+          "last": [
+            2129,
+            144,
+            5721
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 647.4998069497782
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 134,
+      "name": "SCRAM08.BLP",
+      "category": "Scramble",
+      "sha256": "d95fe129dfb1cfb59f12e683a20d7657df3b1b69fca41986b36f81f0ff386b96",
+      "terrainSectors": 11,
+      "terrainBounds": [
+        [
+          -2879,
+          -2102,
+          3287
+        ],
+        [
+          15038,
+          343,
+          8640
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 3,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1488,
+            0,
+            5723
+          ],
+          "last": [
+            3582,
+            -14,
+            5482
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2113.849331313155
+        }
+      ],
+      "points": 3,
+      "insideXYZ": 3,
+      "outsideXYZ": 0,
+      "insideXZ": 3,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 136,
+      "name": "SCRAM09.BLP",
+      "category": "Scramble",
+      "sha256": "a8046908dd1de575214826f8d87a39901909a6c7722aecb0e9b1e8c504ea51f6",
+      "terrainSectors": 8,
+      "terrainBounds": [
+        [
+          80,
+          0,
+          5439
+        ],
+        [
+          5039,
+          3817,
+          23076
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1488,
+            0,
+            5723
+          ],
+          "last": [
+            2136,
+            0,
+            5722
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 648.0007716044789
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 138,
+      "name": "SCRAM10.BLP",
+      "category": "Scramble",
+      "sha256": "8bb7c65b1b89c5d1546d8fd1ead1542bea115335709ce9757898886247aab2e0",
+      "terrainSectors": 8,
+      "terrainBounds": [
+        [
+          -3349,
+          -2014,
+          -6767
+        ],
+        [
+          3965,
+          1512,
+          10132
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -2850,
+            -40,
+            4416
+          ],
+          "last": [
+            -2850,
+            -40,
+            4416
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 140,
+      "name": "SCRAM11.BLP",
+      "category": "Scramble",
+      "sha256": "8b5c3044a484fb22f2b4e042745029e318f06a5900cf1b913eecc9b3b766e0eb",
+      "terrainSectors": 14,
+      "terrainBounds": [
+        [
+          -5439,
+          -400,
+          5439
+        ],
+        [
+          9439,
+          335,
+          16480
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 3,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1488,
+            0,
+            5723
+          ],
+          "last": [
+            3580,
+            0,
+            5742
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2092.139269117789
+        }
+      ],
+      "points": 3,
+      "insideXYZ": 3,
+      "outsideXYZ": 0,
+      "insideXZ": 3,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 142,
+      "name": "SCRAM12.BLP",
+      "category": "Scramble",
+      "sha256": "f1b07e5de5cf6c865b20f947021012530da27850a072f69338cd97ad368d58b9",
+      "terrainSectors": 4,
+      "terrainBounds": [
+        [
+          -10245,
+          -520,
+          -751
+        ],
+        [
+          3381,
+          40,
+          2805
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -9123,
+            -40,
+            2309
+          ],
+          "last": [
+            -9123,
+            -40,
+            2309
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 144,
+      "name": "SCRAM13.BLP",
+      "category": "Scramble",
+      "sha256": "377dcc0c5ff2ff6793b64a7c045d021b28c8a8d048911b67ac4a57354cdee500",
+      "terrainSectors": 15,
+      "terrainBounds": [
+        [
+          80,
+          -3331,
+          5439
+        ],
+        [
+          7650,
+          1129,
+          15678
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1488,
+            159,
+            5723
+          ],
+          "last": [
+            2133,
+            160,
+            5723
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 645.0007751933326
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 146,
+      "name": "SCRAM14.BLP",
+      "category": "Scramble",
+      "sha256": "cfc6aed78aab058c4798d2df65b42d534b3b5035532305ee8e14d4add5b4dcba",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          720,
+          -400,
+          2237
+        ],
+        [
+          8480,
+          1135,
+          6599
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1529,
+            -400,
+            6400
+          ],
+          "last": [
+            1725,
+            -400,
+            6400
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 196
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 148,
+      "name": "SCRAM15.BLP",
+      "category": "Scramble",
+      "sha256": "698cbd7f058334904f662b96c8003a1ae38a7cc5a91663a0562fa6218afed4b5",
+      "terrainSectors": 10,
+      "terrainBounds": [
+        [
+          -12342,
+          -480,
+          -559
+        ],
+        [
+          4278,
+          1720,
+          16284
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 3,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1488,
+            0,
+            5723
+          ],
+          "last": [
+            3651,
+            -240,
+            5695
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2181.570910880743
+        }
+      ],
+      "points": 3,
+      "insideXYZ": 3,
+      "outsideXYZ": 0,
+      "insideXZ": 3,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 150,
+      "name": "SCRAM16.BLP",
+      "category": "Scramble",
+      "sha256": "d6e07af11b7534ae594f667028bba10cb6d763fcdb7374c06a76a22594acc919",
+      "terrainSectors": 15,
+      "terrainBounds": [
+        [
+          80,
+          -2394,
+          240
+        ],
+        [
+          16957,
+          650,
+          11199
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1486,
+            0,
+            5722
+          ],
+          "last": [
+            2133,
+            0,
+            5723
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 647.0007727970656
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 152,
+      "name": "SCRAM17.BLP",
+      "category": "Scramble",
+      "sha256": "935e6ff8f4244a8497fbae04cd758524a15a75d33770f278684141afc6c2a172",
+      "terrainSectors": 2,
+      "terrainBounds": [
+        [
+          -20278,
+          -887,
+          8371
+        ],
+        [
+          12239,
+          1090,
+          15293
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -19259,
+            787,
+            15003
+          ],
+          "last": [
+            -19259,
+            787,
+            15003
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 154,
+      "name": "SCRAM18.BLP",
+      "category": "Scramble",
+      "sha256": "6bd7f48844fd2d0a1cc94fa132ab73a3a281de98cc44b71fc81ecc115bb921b8",
+      "terrainSectors": 8,
+      "terrainBounds": [
+        [
+          -2653,
+          -400,
+          3378
+        ],
+        [
+          12000,
+          5908,
+          13003
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1528,
+            -400,
+            6400
+          ],
+          "last": [
+            1725,
+            -400,
+            6399
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 197.00253805471644
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 156,
+      "name": "SCRAM19.BLP",
+      "category": "Scramble",
+      "sha256": "0a0162c857f1dddb5a74f1a4a0a06787d5e36c3bb11a3444fe95b57275e41210",
+      "terrainSectors": 7,
+      "terrainBounds": [
+        [
+          -3813,
+          -1264,
+          -12663
+        ],
+        [
+          17452,
+          1545,
+          6912
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -1098,
+            -335,
+            -11565
+          ],
+          "last": [
+            -1098,
+            -335,
+            -11565
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 158,
+      "name": "SCRAM20.BLP",
+      "category": "Scramble",
+      "sha256": "3fd3653672986389c16618acd67e0b7166232aa467c8775844f4c4e7c77a98f9",
+      "terrainSectors": 8,
+      "terrainBounds": [
+        [
+          720,
+          -400,
+          -7560
+        ],
+        [
+          25552,
+          4335,
+          6920
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1528,
+            -400,
+            6400
+          ],
+          "last": [
+            1725,
+            -400,
+            6399
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 197.00253805471644
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 160,
+      "name": "SCRAM21.BLP",
+      "category": "Scramble",
+      "sha256": "9377203413658eeef1489f5170a0f38720db439b6433f459d893da6ab34a79d0",
+      "terrainSectors": 6,
+      "terrainBounds": [
+        [
+          720,
+          -3625,
+          1040
+        ],
+        [
+          13577,
+          840,
+          7291
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1529,
+            -400,
+            6400
+          ],
+          "last": [
+            1725,
+            -400,
+            6400
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 196
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 162,
+      "name": "SCRAM22.BLP",
+      "category": "Scramble",
+      "sha256": "8e066b950f62b6b07e0a566bb81e1b023add0bd45c26d2f27bc9492402d19e04",
+      "terrainSectors": 4,
+      "terrainBounds": [
+        [
+          -6249,
+          -1515,
+          -8125
+        ],
+        [
+          12815,
+          193,
+          7751
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -5783,
+            -40,
+            6973
+          ],
+          "last": [
+            -5783,
+            -40,
+            6973
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 164,
+      "name": "SCRAM23.BLP",
+      "category": "Scramble",
+      "sha256": "c6104f9f9e2840c33a8125a2cb69106efdf6f3363c582f987e3d48a836957a3b",
+      "terrainSectors": 13,
+      "terrainBounds": [
+        [
+          80,
+          -495,
+          -583
+        ],
+        [
+          11463,
+          80,
+          7560
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1488,
+            0,
+            5723
+          ],
+          "last": [
+            3271,
+            0,
+            5663
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1784.5503658313362
+        }
+      ],
+      "points": 4,
+      "insideXYZ": 4,
+      "outsideXYZ": 0,
+      "insideXZ": 4,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 166,
+      "name": "SCRAM24.BLP",
+      "category": "Scramble",
+      "sha256": "1e7817a2053c41523d929c43194873d966ae84484fab3191686441cefbc8be4f",
+      "terrainSectors": 5,
+      "terrainBounds": [
+        [
+          6868,
+          -7635,
+          -11540
+        ],
+        [
+          13121,
+          5487,
+          15589
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            12816,
+            -2983,
+            9740
+          ],
+          "last": [
+            12816,
+            -2983,
+            9740
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 168,
+      "name": "SCRAM25.BLP",
+      "category": "Scramble",
+      "sha256": "3eb42cf4feef51affa14001fc7be9a85bd4dbca4c9b8f51aad1ddbe5f8bed81b",
+      "terrainSectors": 18,
+      "terrainBounds": [
+        [
+          80,
+          -1376,
+          4672
+        ],
+        [
+          22399,
+          2813,
+          13542
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 3,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1488,
+            0,
+            5723
+          ],
+          "last": [
+            3555,
+            -119,
+            5721
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 2071.982161932316
+        }
+      ],
+      "points": 3,
+      "insideXYZ": 3,
+      "outsideXYZ": 0,
+      "insideXZ": 3,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 170,
+      "name": "TRAIN01.BLP",
+      "category": "Training",
+      "sha256": "e5d4878b09693a119ff7a043860fd4c1388fe98f3625c394f4b0ffeed9df0914",
+      "terrainSectors": 13,
+      "terrainBounds": [
+        [
+          142,
+          -3259,
+          -172
+        ],
+        [
+          10349,
+          196,
+          13394
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1714,
+            0,
+            691
+          ],
+          "last": [
+            1714,
+            0,
+            691
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 172,
+      "name": "TRAIN02.BLP",
+      "category": "Training",
+      "sha256": "bbe77b9d4608893e05ec5a89d50c150a4d7068ecf1e9b3f31f1d483be8e8869e",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -1934,
+          -2085,
+          -172
+        ],
+        [
+          10441,
+          738,
+          11182
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1739,
+            202,
+            353
+          ],
+          "last": [
+            1739,
+            202,
+            353
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 174,
+      "name": "TRAIN03.BLP",
+      "category": "Training",
+      "sha256": "303ee3bebc466afbee0db225a63ff3c6f7a240fc7bc86de11831024011f44004",
+      "terrainSectors": 8,
+      "terrainBounds": [
+        [
+          -4967,
+          -720,
+          -15308
+        ],
+        [
+          -3395,
+          1400,
+          1396
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -4188,
+            -2,
+            -14219
+          ],
+          "last": [
+            -4188,
+            -2,
+            -14219
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 176,
+      "name": "TRAIN04.BLP",
+      "category": "Training",
+      "sha256": "32a1e6bd748eaa36636645a2b1d03e817efa9efb6df9aa8b545d1ed538e0e311",
+      "terrainSectors": 6,
+      "terrainBounds": [
+        [
+          -6989,
+          -4071,
+          -11651
+        ],
+        [
+          1920,
+          3199,
+          10038
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -2389,
+            0,
+            -10883
+          ],
+          "last": [
+            -2389,
+            0,
+            -10883
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 178,
+      "name": "TRAIN05.BLP",
+      "category": "Training",
+      "sha256": "f62154de0b918a5f4e711f7add27b23c8e5b00adadd95098523560518d27f704",
+      "terrainSectors": 8,
+      "terrainBounds": [
+        [
+          -12717,
+          -4769,
+          -12084
+        ],
+        [
+          972,
+          0,
+          18333
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -5918,
+            0,
+            -7896
+          ],
+          "last": [
+            -5918,
+            0,
+            -7896
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 180,
+      "name": "TRAIN06.BLP",
+      "category": "Training",
+      "sha256": "cc2305c4a0f0c60a3876d06c5cd8dca658eea5544ff855b7dff55883667f2767",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -4338,
+          -3567,
+          -11633
+        ],
+        [
+          1217,
+          1217,
+          629
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -1847,
+            0,
+            -9318
+          ],
+          "last": [
+            -1847,
+            0,
+            -9318
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 182,
+      "name": "TRAIN07.BLP",
+      "category": "Training",
+      "sha256": "161f2722601190b8540ad0752c9d7d7fdf955fcdeb005ff0e81926e1be7738e8",
+      "terrainSectors": 4,
+      "terrainBounds": [
+        [
+          -19792,
+          -3271,
+          -4776
+        ],
+        [
+          -7241,
+          2488,
+          12971
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -15219,
+            0,
+            -4215
+          ],
+          "last": [
+            -15219,
+            0,
+            -4215
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 184,
+      "name": "TRAIN08.BLP",
+      "category": "Training",
+      "sha256": "a88dc90e40a729f9fe492e74111a63d053f2a3f150d59b66eb7c59a084a9fbff",
+      "terrainSectors": 30,
+      "terrainBounds": [
+        [
+          -12018,
+          -4861,
+          -10812
+        ],
+        [
+          8850,
+          7932,
+          11416
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -9577,
+            0,
+            8567
+          ],
+          "last": [
+            -9577,
+            0,
+            8567
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 186,
+      "name": "TRAIN09.BLP",
+      "category": "Training",
+      "sha256": "b137d95cd7823afb67eb3cef539669296ea37381f281c9d4855208fc802e7bf7",
+      "terrainSectors": 6,
+      "terrainBounds": [
+        [
+          -6376,
+          -2608,
+          -9201
+        ],
+        [
+          -1109,
+          10,
+          24468
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -2498,
+            0,
+            -8339
+          ],
+          "last": [
+            -2498,
+            0,
+            -8339
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 188,
+      "name": "TRAIN10.BLP",
+      "category": "Training",
+      "sha256": "791ec682bc95fab601cc0550b9a640d9d371538a98a0ad06e23c882ecdeab930",
+      "terrainSectors": 13,
+      "terrainBounds": [
+        [
+          -11333,
+          -560,
+          -20082
+        ],
+        [
+          19315,
+          1637,
+          -1266
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 1,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -8866,
+            0,
+            -19309
+          ],
+          "last": [
+            -8866,
+            0,
+            -19309
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 1,
+      "insideXYZ": 1,
+      "outsideXYZ": 0,
+      "insideXZ": 1,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 190,
+      "name": "DEATH1.BLP",
+      "category": "Deathmatch",
+      "sha256": "7a1e3182f11d27fc9335a7b7a3585e68188d1319c4aade442e32cd26e2fb258e",
+      "terrainSectors": 3,
+      "terrainBounds": [
+        [
+          -1374,
+          -400,
+          2800
+        ],
+        [
+          4211,
+          0,
+          8344
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 4,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -442,
+            -14,
+            7506
+          ],
+          "last": [
+            -503,
+            -14,
+            3526
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 11547.894575241284
+        }
+      ],
+      "points": 4,
+      "insideXYZ": 4,
+      "outsideXYZ": 0,
+      "insideXZ": 4,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 192,
+      "name": "DEATH2.BLP",
+      "category": "Deathmatch",
+      "sha256": "2459077c78fa1183f8195aecb27403ef1b0aa58ea5acdb860bb2ebcf1a3d3fa0",
+      "terrainSectors": 4,
+      "terrainBounds": [
+        [
+          -2294,
+          -80,
+          1894
+        ],
+        [
+          2400,
+          480,
+          7752
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            1822,
+            280,
+            4603
+          ],
+          "last": [
+            1886,
+            280,
+            3987
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 619.3157514547809
+        }
+      ],
+      "points": 2,
+      "insideXYZ": 2,
+      "outsideXYZ": 0,
+      "insideXZ": 2,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 194,
+      "name": "DEATH3.BLP",
+      "category": "Deathmatch",
+      "sha256": "839d042c999981ccefbbd4f7167c372a8533bcf597e0214633bf325770e0a186",
+      "terrainSectors": 7,
+      "terrainBounds": [
+        [
+          -4270,
+          -520,
+          1424
+        ],
+        [
+          192,
+          440,
+          12006
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 15,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -2587,
+            10,
+            3960
+          ],
+          "last": [
+            -2885,
+            0,
+            11218
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 19374.70089837938
+        }
+      ],
+      "points": 15,
+      "insideXYZ": 15,
+      "outsideXYZ": 0,
+      "insideXZ": 15,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 196,
+      "name": "DEATH4.BLP",
+      "category": "Deathmatch",
+      "sha256": "3300a460251bcf16806e3f66e9f88223c5ca9d5e506efe9d88d1d159d02d92de",
+      "terrainSectors": 1,
+      "terrainBounds": [
+        [
+          -1679,
+          -1000,
+          4380
+        ],
+        [
+          3119,
+          1000,
+          9180
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 24,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            715,
+            800,
+            4985
+          ],
+          "last": [
+            1401,
+            800,
+            5130
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 10604.948741354294
+        }
+      ],
+      "points": 24,
+      "insideXYZ": 24,
+      "outsideXYZ": 0,
+      "insideXZ": 24,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 198,
+      "name": "DEATH5.BLP",
+      "category": "Deathmatch",
+      "sha256": "666638cffce79641a0c200c7100afbc07a4734d9fdb61e9278219fe7ac0843c9",
+      "terrainSectors": 10,
+      "terrainBounds": [
+        [
+          -873,
+          -960,
+          4017
+        ],
+        [
+          2086,
+          1200,
+          12617
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 18,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            81,
+            -40,
+            8650
+          ],
+          "last": [
+            271,
+            -40,
+            8869
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 3723.8870956000123
+        }
+      ],
+      "points": 18,
+      "insideXYZ": 18,
+      "outsideXYZ": 0,
+      "insideXZ": 18,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 200,
+      "name": "PURSUIT1.BLP",
+      "category": "Pursuit",
+      "sha256": "a3ca03f2e1d7907d2ea877cde7b428df3a05cb5e20eb9898694d5479a16a2471",
+      "terrainSectors": 1,
+      "terrainBounds": [
+        [
+          -2240,
+          -1440,
+          701
+        ],
+        [
+          3680,
+          560,
+          9980
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 16,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -1680,
+            -20,
+            6816
+          ],
+          "last": [
+            -1584,
+            -20,
+            3720
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 18397.12698231528
+        }
+      ],
+      "points": 16,
+      "insideXYZ": 16,
+      "outsideXYZ": 0,
+      "insideXZ": 16,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 202,
+      "name": "PURSUIT2.BLP",
+      "category": "Pursuit",
+      "sha256": "e1e8b3fb1c1234ff4fe8ae7335cb749230e610b006062af4f3e001357abefa93",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -2318,
+          -1280,
+          1507
+        ],
+        [
+          3780,
+          -480,
+          11324
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 32,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -562,
+            -741,
+            7502
+          ],
+          "last": [
+            1661,
+            -933,
+            5360
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 25236.056399640624
+        },
+        {
+          "index": 2,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            188,
+            -740,
+            6775
+          ],
+          "last": [
+            967,
+            -834,
+            6034
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1079.239547088597
+        }
+      ],
+      "points": 34,
+      "insideXYZ": 34,
+      "outsideXYZ": 0,
+      "insideXZ": 34,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 204,
+      "name": "PURSUIT3.BLP",
+      "category": "Pursuit",
+      "sha256": "85fc48355a6d9c29982fae88c378c479565e824d63a6c062c2863a9e85bca5e4",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -2318,
+          -1280,
+          1507
+        ],
+        [
+          3780,
+          -480,
+          11324
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 32,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -562,
+            -741,
+            7502
+          ],
+          "last": [
+            1661,
+            -933,
+            5360
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 25236.056399640624
+        },
+        {
+          "index": 2,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            188,
+            -740,
+            6775
+          ],
+          "last": [
+            967,
+            -834,
+            6034
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1079.239547088597
+        }
+      ],
+      "points": 34,
+      "insideXYZ": 34,
+      "outsideXYZ": 0,
+      "insideXZ": 34,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 206,
+      "name": "PURSUIT4.BLP",
+      "category": "Pursuit",
+      "sha256": "85fc48355a6d9c29982fae88c378c479565e824d63a6c062c2863a9e85bca5e4",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -2318,
+          -1280,
+          1507
+        ],
+        [
+          3780,
+          -480,
+          11324
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 32,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -562,
+            -741,
+            7502
+          ],
+          "last": [
+            1661,
+            -933,
+            5360
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 25236.056399640624
+        },
+        {
+          "index": 2,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            188,
+            -740,
+            6775
+          ],
+          "last": [
+            967,
+            -834,
+            6034
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1079.239547088597
+        }
+      ],
+      "points": 34,
+      "insideXYZ": 34,
+      "outsideXYZ": 0,
+      "insideXZ": 34,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 208,
+      "name": "PURSUIT5.BLP",
+      "category": "Pursuit",
+      "sha256": "85fc48355a6d9c29982fae88c378c479565e824d63a6c062c2863a9e85bca5e4",
+      "terrainSectors": 9,
+      "terrainBounds": [
+        [
+          -2318,
+          -1280,
+          1507
+        ],
+        [
+          3780,
+          -480,
+          11324
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 32,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 1,
+          "first": [
+            -562,
+            -741,
+            7502
+          ],
+          "last": [
+            1661,
+            -933,
+            5360
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 25236.056399640624
+        },
+        {
+          "index": 2,
+          "points": 2,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 2,
+          "first": [
+            188,
+            -740,
+            6775
+          ],
+          "last": [
+            967,
+            -834,
+            6034
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 1079.239547088597
+        }
+      ],
+      "points": 34,
+      "insideXYZ": 34,
+      "outsideXYZ": 0,
+      "insideXZ": 34,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 210,
+      "name": "FOOTY1.BLP",
+      "category": "Football",
+      "sha256": "06335994914c599c6de7f2b624428d5999d4619baab448bdf84ce084fbd96e47",
+      "terrainSectors": 3,
+      "terrainBounds": [
+        [
+          -6388,
+          -1120,
+          2013
+        ],
+        [
+          548,
+          0,
+          5667
+        ]
+      ],
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        },
+        {
+          "index": 1,
+          "points": 16,
+          "byte2": 0,
+          "byte4": 1,
+          "byte05": 1,
+          "first": [
+            -1769,
+            0,
+            2461
+          ],
+          "last": [
+            -797,
+            0,
+            2479
+          ],
+          "repeatedEndpoint": false,
+          "openPolylineLength": 8411.295604130699
+        }
+      ],
+      "points": 16,
+      "insideXYZ": 16,
+      "outsideXYZ": 0,
+      "insideXZ": 16,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    },
+    {
+      "resource": 232,
+      "name": null,
+      "category": null,
+      "sha256": "af6350a1d208a4bb6e16a194f45fc9f588f0949ccbb96c55f716a546e44c22e2",
+      "terrainSectors": 0,
+      "terrainBounds": null,
+      "groups": [
+        {
+          "index": 0,
+          "points": 0,
+          "byte2": 0,
+          "byte4": 0,
+          "byte05": 0,
+          "first": null,
+          "last": null,
+          "repeatedEndpoint": false,
+          "openPolylineLength": 0
+        }
+      ],
+      "points": 0,
+      "insideXYZ": 0,
+      "outsideXYZ": 0,
+      "insideXZ": 0,
+      "outsideXZ": 0,
+      "linkTargetsInRange": 0,
+      "linkTargetsOutOfRange": 0
+    }
+  ],
+  "invalidLinkSamples": [
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 0,
+      "word": 184832,
+      "targetGroup": 11,
+      "targetPoint": 0,
+      "targetCount": null
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 7,
+      "word": 2049,
+      "targetGroup": 1,
+      "targetPoint": 64,
+      "targetCount": 42
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 8,
+      "word": 18434,
+      "targetGroup": 2,
+      "targetPoint": 64,
+      "targetCount": 8
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 10,
+      "word": 67075,
+      "targetGroup": 3,
+      "targetPoint": 48,
+      "targetCount": 6
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 11,
+      "word": 83460,
+      "targetGroup": 4,
+      "targetPoint": 48,
+      "targetCount": 9
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 21,
+      "word": 3073,
+      "targetGroup": 1,
+      "targetPoint": 96,
+      "targetCount": 42
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 22,
+      "word": 19458,
+      "targetGroup": 2,
+      "targetPoint": 96,
+      "targetCount": 8
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 23,
+      "word": 35843,
+      "targetGroup": 3,
+      "targetPoint": 96,
+      "targetCount": 6
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 24,
+      "word": 52228,
+      "targetGroup": 4,
+      "targetPoint": 96,
+      "targetCount": 9
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 25,
+      "word": 68613,
+      "targetGroup": 5,
+      "targetPoint": 96,
+      "targetCount": 9
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 26,
+      "word": 84998,
+      "targetGroup": 6,
+      "targetPoint": 96,
+      "targetCount": 13
+    },
+    {
+      "resource": 80,
+      "group": 1,
+      "point": 27,
+      "word": 101383,
+      "targetGroup": 7,
+      "targetPoint": 96,
+      "targetCount": 10
+    }
+  ],
+  "outsideSamples": []
+}

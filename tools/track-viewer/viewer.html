@@ -28,12 +28,18 @@
 <p id="error" role="alert"></p><p id="counts" class="note"></p>
 <p id="scene-scope" class="note"></p>
 <button id="download" type="button" disabled>Download track</button>
-<p class="note">Saves the complete track and ordinary objects as a ZIP with OBJ, materials and PNG textures. Unzip it, then import scene.obj into Blender.</p>
+<p class="note">Saves the complete track and ordinary objects as a ZIP with OBJ, materials and PNG textures. Stored path overlays are viewer-only. Unzip it, then import scene.obj into Blender.</p>
 <div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option></select><button id="reset" type="button">Reset view</button></div>
 <p id="help" class="note"></p><p id="speed" class="note" hidden></p>
 <label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
 <div class="checks"><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label><input type="checkbox" id="objects" checked>Objects</label></div>
-<details><summary>About this reconstruction</summary><p class="note">Rollcage LOW and HIGH PC BLP tracks, Stage II environments and Firebugs PS1 track resources are supported. Tracks use recovered names or archive identifiers. Stage II support targets the supplied installation with Rollcage Extreme; Firebugs targets the supplied Europe disc. Unknown releases require an explicit game selection and remain unverified. Terrain and ordinary objects are shown at their initial poses. Effects, overlays, special objects, game simulation and BL6 textures remain outside this viewer. Fly-in has no collision. Export manifests describe source identity and reconstruction limits.</p></details>
+<fieldset style="border:1px solid #344457;border-radius:5px"><legend>Stored paths</legend>
+<div class="checks"><label><input type="checkbox" id="paths" disabled>Show paths</label><label><input type="checkbox" id="path-points" checked disabled>Point markers</label><label><input type="checkbox" id="path-through" checked disabled>Show through terrain</label></div>
+<label for="path-group">Group</label> <select id="path-group" disabled><option value="-1">All groups</option></select>
+<p class="note"><span id="path-color" aria-hidden="true" hidden>● </span><span id="path-counts"></span></p>
+<p id="path-note" class="note" role="status">Load a track to inspect stored paths.</p>
+</fieldset>
+<details><summary>About this reconstruction</summary><p class="note">Rollcage LOW and HIGH PC BLP tracks, Stage II environments and Firebugs PS1 track resources are supported. Tracks use recovered names or archive identifiers. Stage II support targets the supplied installation with Rollcage Extreme; Firebugs targets the supplied Europe disc. Unknown releases require an explicit game selection and remain unverified. Terrain and ordinary objects are shown at their initial poses. Stored paths connect consecutive points; AI route choice and connectivity remain unresolved, and Firebugs point interpretation is experimental. Effects, runtime overlays, special objects, game simulation and BL6 textures remain outside this viewer. Fly-in has no collision. Export manifests describe source identity and reconstruction limits.</p></details>
 </aside>
 <script>
 __VIEWER_BUNDLE__

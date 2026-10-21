@@ -5,6 +5,7 @@ import { openFirebugsDisc } from '../../src/ps1-disc.mjs';
 import { Navigation } from './navigation.mjs';
 import { Renderer } from './renderer.mjs';
 import { buildTrackDownload } from './export-track.mjs';
+import { pathColor } from './path-color.mjs';
 
 const element = id => document.getElementById(id);
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
@@ -28,6 +29,23 @@ function clearScene() {
   element('download').disabled = true;
   element('scene-scope').textContent = '';
   element('counts').textContent = ''; element('sector').replaceChildren(new Option('All terrain sectors', '-1'));
+  element('path-group').replaceChildren(new Option('All groups', '-1'));
+  updatePaths();
+}
+function updatePaths() {
+  const paths = scene?.paths, available = paths?.status === 'available';
+  for (const id of ['paths', 'path-points', 'path-through', 'path-group']) element(id).disabled = !available;
+  element('path-note').textContent = paths?.message ?? 'Load a track to inspect stored paths.';
+  const index = Number(element('path-group').value);
+  const groups = (paths?.groups ?? []).filter(group => index === -1 || group.index === index);
+  const points = groups.reduce((sum, group) => sum + group.positions.length, 0);
+  const segments = groups.reduce((sum, group) => sum + Math.max(0, group.positions.length - 1), 0);
+  const count = (value, noun) => `${value.toLocaleString()} ${noun}${value === 1 ? '' : 's'}`;
+  element('path-counts').textContent = available
+    ? `${index === -1 ? `${count(groups.length, 'group')} · ` : `Group ${index} · `}${count(points, 'point')} · ${count(segments, 'segment')}`
+    : '';
+  element('path-color').hidden = index === -1 || !available;
+  if (index !== -1 && available) element('path-color').style.color = pathColor(index);
 }
 async function loadTrack() {
   const token = ++generation, source = archive, adapter = game, track = availableTracks.find(track => track.index === Number(element('track').value));
@@ -41,6 +59,8 @@ async function loadTrack() {
     const decoded = await adapter.loadTrack(source, track);
     if (token !== generation) return;
     renderer.setScene(decoded); scene = decoded; selectedTrack = track;
+    for (const group of scene.paths.groups) element('path-group').append(new Option(`Group ${group.index} (${group.positions.length} ${group.positions.length === 1 ? 'point' : 'points'})`, String(group.index)));
+    updatePaths();
     element('download').disabled = exporting;
     navigation.reset(scene.bounds); help();
     for (let i = 0; i < scene.segments; i++) element('sector').append(new Option(`Sector ${i}`, String(i)));
@@ -120,6 +140,7 @@ element('reset').addEventListener('click', () => {
   releaseMouse(); if (scene) navigation.reset(scene.bounds); element('sector').value = '-1'; help();
 });
 element('filter').addEventListener('change', () => renderer?.setFilters(element('filter').checked));
+element('path-group').addEventListener('change', updatePaths);
 canvas.addEventListener('contextmenu', event => event.preventDefault());
 canvas.addEventListener('pointerdown', event => {
   if (!scene || (event.button !== 0 && event.button !== 2)) return;
@@ -175,7 +196,9 @@ function frame(time) {
   lastFrame = time;
   renderer.render(navigation, {
     textures: element('textures').checked, lighting: element('lighting').checked,
-    objects: element('objects').checked, sector: Number(element('sector').value)
+    objects: element('objects').checked, sector: Number(element('sector').value),
+    paths: element('paths').checked, pathPoints: element('path-points').checked,
+    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value)
   });
   if (navigation.mode === 'fly') element('speed').textContent = `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`;
   requestAnimationFrame(frame);
@@ -185,6 +208,7 @@ window.rollcageViewer = { inspect: () => ({
   game: game?.id ?? null, verified,
   track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
+  paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,
   mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
   yaw: navigation.yaw, pitch: navigation.pitch, distance: navigation.distance, speed: navigation.speed,
   heldKeys: keys.size, loading: element('stage').getAttribute('aria-busy') === 'true'
