@@ -27,7 +27,8 @@ export async function checkPathOverlay(page, expected, exercise = false) {
   assert.equal(await page.locator('#path-group').inputValue(), '-1');
   assert.equal(await page.locator('#path-group option').count(), expected.groups.length + 1);
   assert.equal(await page.locator('#paths').isDisabled(), expected.status !== 'available');
-  assert.equal(await page.locator('#path-note').textContent(), expected.message);
+  if (state.practice && expected.status === 'available') assert.match(await page.locator('#path-note').textContent(), /consecutive authored points.*AI car selects its routes independently/);
+  else assert.equal(await page.locator('#path-note').textContent(), expected.message);
   if (!exercise || !expected.groups.length) return;
   const groups = expected.groups, points = groups.reduce((sum, group) => sum + group.positions.length, 0);
   const segments = groups.reduce((sum, group) => sum + Math.max(0, group.positions.length - 1), 0);

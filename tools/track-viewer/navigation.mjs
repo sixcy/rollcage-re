@@ -16,12 +16,21 @@ export class Navigation {
   right() { return [Math.cos(this.yaw), 0, -Math.sin(this.yaw)]; }
   up() { return cross(this.right(), this.forward()); }
   orbitEye() { return add(this.target, this.forward(), -this.distance); }
-  position() { return this.mode === 'orbit' ? this.orbitEye() : [...this.eye]; }
+  position() { return this.mode !== 'fly' ? this.orbitEye() : [...this.eye]; }
   setMode(mode) {
     if (mode === this.mode) return;
     if (mode === 'fly') this.eye = this.orbitEye();
-    else this.target = add(this.eye, this.forward(), this.distance);
+    else if (this.mode === 'fly') this.target = add(this.eye, this.forward(), this.distance);
     this.mode = mode;
+  }
+  follow(car, seconds, reset = false) {
+    const target = [car.position[0], -car.position[1] + 25, -car.position[2]];
+    const heading = Math.atan2(-car.rotation[2], car.rotation[8]);
+    const amount = reset ? 1 : 1 - Math.exp(-Math.max(0, seconds) * 7);
+    this.target = this.target.map((value, i) => value + (target[i] - value) * amount);
+    const difference = Math.atan2(Math.sin(heading - this.yaw), Math.cos(heading - this.yaw));
+    this.yaw += difference * amount; this.pitch = 0.3; this.distance = 280;
+    this.mode = 'follow';
   }
   look(dx, dy) {
     this.yaw -= dx * 0.006;
@@ -36,6 +45,7 @@ export class Navigation {
     else this.distance = clamp(this.distance * Math.exp(delta * 0.001), this.radius * 0.003, this.radius * 10);
   }
   step(keys, seconds) {
+    if (this.mode === 'follow') return;
     const dt = clamp(seconds, 0, 0.05), pressed = (...codes) => codes.some(code => keys.has(code)) ? 1 : 0;
     const fast = pressed('ShiftLeft', 'ShiftRight') ? 4 : 1;
     const horizontal = pressed('KeyD') - pressed('KeyA'), vertical = pressed('KeyW') - pressed('KeyS');

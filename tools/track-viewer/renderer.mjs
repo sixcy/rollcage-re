@@ -1,4 +1,7 @@
 import { pathColor } from './path-color.mjs';
+import { carDisplayMatrix } from './solo-presentation.mjs';
+
+const identity = new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
 
 export class Renderer {
   constructor(canvas) {
@@ -12,14 +15,14 @@ export class Renderer {
       return object;
     };
     const program = this.program = gl.createProgram();
-    const vertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;uniform mat4 mvp;varying vec2 vUV;varying vec3 vNormal;void main(){gl_Position=mvp*vec4(position,1.0);vUV=uv;vNormal=normal;}');
+    const vertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;uniform mat4 mvp;uniform mat4 model;varying vec2 vUV;varying vec3 vNormal;void main(){gl_Position=mvp*model*vec4(position,1.0);vUV=uv;vNormal=mat3(model)*normal;}');
     const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;uniform sampler2D image;uniform bool textured;uniform bool lit;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*light,color.a);}');
     gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
     gl.deleteShader(vertex); gl.deleteShader(fragment);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
     gl.useProgram(program);
     this.attributes = Object.fromEntries(['position', 'uv', 'normal'].map(key => [key, gl.getAttribLocation(program, key)]));
-    this.uniforms = Object.fromEntries(['mvp', 'image', 'textured', 'lit'].map(key => [key, gl.getUniformLocation(program, key)]));
+    this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit'].map(key => [key, gl.getUniformLocation(program, key)]));
     const pathProgram = this.pathProgram = gl.createProgram();
     const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;void main(){gl_Position=mvp*vec4(position,1.0);gl_PointSize=pointSize;}');
     const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;void main(){gl_FragColor=vec4(color,1.0);}');
@@ -30,15 +33,42 @@ export class Renderer {
     this.pathUniforms = Object.fromEntries(['mvp', 'color', 'pointSize'].map(key => [key, gl.getUniformLocation(pathProgram, key)]));
     this.groups = []; this.pathGroups = []; this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     this.textures = new Map(); this.smooth = false;
+    this.carGroups = []; this.carTextures = new Map();
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
     gl.uniform1i(this.uniforms.image, 0);
   }
   clear() {
+    this.clearCar();
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
     this.groups = []; this.pathGroups = []; this.textures.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+  }
+  clearCar() {
+    for (const group of this.carGroups) this.gl.deleteBuffer(group.buffer);
+    for (const texture of this.carTextures.values()) this.gl.deleteTexture(texture);
+    this.carGroups = []; this.carTextures.clear();
+  }
+  setCar(assets) {
+    this.clearCar();
+    const gl = this.gl;
+    try {
+      for (const group of assets.groups) {
+        const buffer = gl.createBuffer(); this.carGroups.push({...group, buffer});
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+        gl.bufferData(gl.ARRAY_BUFFER, Uint8Array.from(atob(group.buffer), char => char.charCodeAt(0)), gl.STATIC_DRAW);
+      }
+      for (const [page, image] of assets.textures) {
+        const texture = gl.createTexture(); this.carTextures.set(page, texture);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, image.width, image.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image.rgba);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      }
+      this.setFilters(this.smooth);
+      if (gl.getError() !== gl.NO_ERROR) throw Error('The GPU could not load the practice car.');
+    } catch (error) {this.clearCar(); throw error;}
   }
   setScene(scene) {
     this.clear();
@@ -72,7 +102,7 @@ export class Renderer {
   setFilters(smooth) {
     this.smooth = smooth;
     const gl = this.gl, filter = smooth ? gl.LINEAR : gl.NEAREST;
-    for (const texture of this.textures.values()) {
+    for (const texture of [...this.textures.values(), ...this.carTextures.values()]) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
@@ -86,6 +116,7 @@ export class Renderer {
     gl.useProgram(this.program);
     const matrix = navigation.matrix(width / height);
     gl.uniformMatrix4fv(this.uniforms.mvp, false, matrix);
+    gl.uniformMatrix4fv(this.uniforms.model, false, identity);
     gl.uniform1i(this.uniforms.textured, options.textures); gl.uniform1i(this.uniforms.lit, options.lighting);
     for (const group of this.groups) {
       if (group.kind === 'object' ? !options.objects : options.sector !== -1 && group.segment !== options.sector) continue;
@@ -94,6 +125,15 @@ export class Renderer {
         gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
       }
       gl.bindTexture(gl.TEXTURE_2D, this.textures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
+    }
+    for (const group of options.car ? this.carGroups : []) {
+      const part = options.car.parts[group.instance];
+      gl.uniformMatrix4fv(this.uniforms.model, false, carDisplayMatrix(part));
+      gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
+      for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
+        gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
+      }
+      gl.bindTexture(gl.TEXTURE_2D, this.carTextures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
     }
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     if (!options.paths || !this.pathGroups.length) return;

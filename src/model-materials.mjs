@@ -2,6 +2,21 @@
 // at the serialized frame; stepping the original animation clock is separate.
 const permutations=[[0,1,2,3],[1,3,0,2],[3,2,1,0],[2,0,3,1],
  [2,3,0,1],[3,1,2,0],[1,0,3,2],[0,2,1,3]];
+
+// 474490 publishes the default 40-byte GPU packets into 132-byte draw
+// records. 46c7c0 consumes their UVs for bodies with flag800 (cars/wheels).
+// These are embedded model materials, separate from placed-instance UV keys.
+export function readDefaultModelMaterials(data, model) {
+  const first = model.offset + data.readUInt32LE(model.offset + 0x10);
+  const end = model.offset + data.readUInt32LE(model.offset + 0x14);
+  if (first < 0 || end > data.length || end - first !== model.faceCount * 40) throw Error('Default model packets exceed resource bounds or face count.');
+  return model.faces.map((face, index) => {
+    const packet = first + index * 40, pageWord = data.readUInt16LE(packet + 22);
+    return {page: pageWord & 63, pageWord,
+      uv: [12,20,28,36].slice(0, face.triangle ? 3 : 4).map(offset => [data[packet + offset], data[packet + offset + 1]]),
+      indices: [face.indices[0]-1, face.indices[2]-1, face.indices[1]-1, ...(face.triangle ? [] : [face.indices[3]-1])]};
+  });
+}
 export function readModelMaterials(data,model,uvStart) {
  const range=(p,n,label)=>{if(!Number.isSafeInteger(p)||p<0||p+n>data.length)throw Error(`Model ${label} exceeds resource bounds.`);};
  range(0,0x120,'material header');

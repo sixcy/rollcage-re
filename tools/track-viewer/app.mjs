@@ -6,11 +6,15 @@ import { Navigation } from './navigation.mjs';
 import { Renderer } from './renderer.mjs';
 import { buildTrackDownload } from './export-track.mjs';
 import { pathColor } from './path-color.mjs';
+import { createSession } from '../../src/solo-session.mjs';
+import { SoloController } from './solo-controller.mjs';
+import { formatPracticeTime } from './solo-presentation.mjs';
 
 const element = id => document.getElementById(id);
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
 let sourceKind = 'pc';
+let practice = null;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
 const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
@@ -18,24 +22,42 @@ function clearInput() { keys.clear(); drag = null; }
 function releaseMouse() { if (document.pointerLockElement === canvas) document.exitPointerLock(); clearInput(); }
 function help() {
   const fly = navigation.mode === 'fly';
-  element('help').textContent = fly
+  element('help').textContent = navigation.mode === 'follow' ? 'Following the AI car. Choose Orbit & pan or Fly-in to explore while it drives.' : fly
     ? 'Click the view for mouse-look · WASD move · Q/E down/up · Shift faster · Wheel changes speed · Esc releases mouse. If capture is unavailable, drag to look.'
     : 'Left-drag rotates · Right-drag or Shift-drag pans · Wheel zooms · Arrow keys rotate · WASD pans · +/− zoom · Shift faster. Click the view to use keys.';
   element('mode').value = navigation.mode;
   element('speed').hidden = !fly;
 }
 function clearScene() {
+  practice?.dispose(); practice = null;
   scene = null; selectedTrack = null; renderer?.clear();
   element('download').disabled = true;
   element('scene-scope').textContent = '';
   element('counts').textContent = ''; element('sector').replaceChildren(new Option('All terrain sectors', '-1'));
   element('path-group').replaceChildren(new Option('All groups', '-1'));
   updatePaths();
+  updatePractice();
+}
+function updatePractice() {
+  const available = Boolean(practice), running = practice?.state === 'running';
+  element('practice-start').disabled = !available || practice.state === 'error';
+  element('practice-reset').disabled = !available;
+  element('practice-follow').disabled = !available;
+  element('camera-follow').disabled = !available;
+  element('practice-start').textContent = running ? 'Pause' : practice?.state === 'paused' ? 'Resume' : 'Start';
+  const excluded = game?.id === 'rollcage' && /\/(?:LEV16|LEV17)\.BLP$/.test(selectedTrack?.name ?? '');
+  element('practice-note').textContent = available ? `Continuous racing test · ${practice.state}.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.';
+  element('practice-error').textContent = practice?.message ?? '';
+  const value = available ? practice.snapshot : null;
+  element('practice-readout').textContent = value ? `${value.speed} km/h · ${value.laps} laps completed · Lap ${formatPracticeTime(value.lapTime)} · Best ${formatPracticeTime(value.bestLap)}` : '';
+}
+function followCar(reset = false, seconds = 0) {
+  if (practice && element('practice-follow').checked) { navigation.follow(practice.snapshot, seconds, reset); help(); }
 }
 function updatePaths() {
   const paths = scene?.paths, available = paths?.status === 'available';
   for (const id of ['paths', 'path-points', 'path-through', 'path-group']) element(id).disabled = !available;
-  element('path-note').textContent = paths?.message ?? 'Load a track to inspect stored paths.';
+  element('path-note').textContent = practice && available ? 'Segments show consecutive authored points. The AI car selects its routes independently.' : paths?.message ?? 'Load a track to inspect stored paths.';
   const index = Number(element('path-group').value);
   const groups = (paths?.groups ?? []).filter(group => index === -1 || group.index === index);
   const points = groups.reduce((sum, group) => sum + group.positions.length, 0);
@@ -59,6 +81,7 @@ async function loadTrack() {
     const decoded = await adapter.loadTrack(source, track);
     if (token !== generation) return;
     renderer.setScene(decoded); scene = decoded; selectedTrack = track;
+    updatePractice();
     for (const group of scene.paths.groups) element('path-group').append(new Option(`Group ${group.index} (${group.positions.length} ${group.positions.length === 1 ? 'point' : 'points'})`, String(group.index)));
     updatePaths();
     element('download').disabled = exporting;
@@ -67,6 +90,19 @@ async function loadTrack() {
     element('counts').textContent = `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`;
     element('scene-scope').textContent = scene.source?.scope ?? '';
     status(`${track.label} ready.`);
+    if (verified && adapter.id === 'rollcage' && !/\/(?:LEV16|LEV17)\.BLP$/.test(track.name)) {
+      try {
+        const geometry = await source.readResource(track.index);
+        const texture = await source.readResource(track.textureIndex);
+        if (token !== generation) return;
+        const session = createSession(geometry.data, texture.data);
+        try { renderer.setCar(session.assets); } catch (error) {session.dispose(); throw error;}
+        practice = new SoloController(session);
+      } catch (error) {
+        if (token === generation) element('practice-error').textContent = `Racing test unavailable: ${errorText(error)}`;
+      }
+      if (token === generation && practice) {updatePractice(); updatePaths();}
+    }
   } catch (error) { if (token === generation) { clearScene(); fail(error); } }
   finally { if (token === generation) element('stage').setAttribute('aria-busy', 'false'); }
 }
@@ -135,9 +171,31 @@ element('game').addEventListener('change', () => {
 element('track').addEventListener('change', loadTrack);
 element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
 element('download').addEventListener('click', downloadTrack);
-element('mode').addEventListener('change', () => { releaseMouse(); navigation.setMode(element('mode').value); help(); });
+element('mode').addEventListener('change', () => {
+  releaseMouse(); navigation.setMode(element('mode').value);
+  element('practice-follow').checked = navigation.mode === 'follow';
+  if (navigation.mode === 'follow') followCar(true);
+  help();
+});
+element('practice-start').addEventListener('click', () => {
+  if (!practice) return;
+  releaseMouse();
+  if (practice.state === 'running') practice.pause();
+  else {practice.start(); lastFrame = 0; followCar(true);}
+  updatePractice();
+});
+element('practice-reset').addEventListener('click', () => {
+  if (!practice) return;
+  practice.reset(); followCar(true); updatePractice();
+});
+element('practice-follow').addEventListener('change', () => {
+  releaseMouse();
+  if (element('practice-follow').checked) followCar(true);
+  else navigation.setMode('orbit');
+  help();
+});
 element('reset').addEventListener('click', () => {
-  releaseMouse(); if (scene) navigation.reset(scene.bounds); element('sector').value = '-1'; help();
+  releaseMouse(); if (scene) navigation.reset(scene.bounds); element('sector').value = '-1'; element('practice-follow').checked = false; help();
 });
 element('filter').addEventListener('change', () => renderer?.setFilters(element('filter').checked));
 element('path-group').addEventListener('change', updatePaths);
@@ -182,7 +240,10 @@ window.addEventListener('keydown', event => {
 window.addEventListener('keyup', event => keys.delete(event.code));
 window.addEventListener('blur', releaseMouse);
 canvas.addEventListener('blur', clearInput);
-document.addEventListener('visibilitychange', () => { if (document.hidden) releaseMouse(); });
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { releaseMouse(); practice?.pause(); updatePractice(); }
+  lastFrame = 0;
+});
 canvas.addEventListener('webglcontextlost', event => {
   event.preventDefault(); ++generation; releaseMouse(); clearScene(); contextLost = true;
   element('stage').setAttribute('aria-busy', 'false');
@@ -192,14 +253,20 @@ canvas.addEventListener('webglcontextlost', event => {
 });
 function frame(time) {
   if (contextLost) return;
-  if (scene) navigation.step(keys, (time - lastFrame) / 1000);
+  const seconds = lastFrame ? Math.max(0, (time - lastFrame) / 1000) : 0;
+  if (!document.hidden) practice?.advance(seconds);
+  if (scene) {
+    if (navigation.mode === 'follow') followCar(false, seconds);
+    else navigation.step(keys, seconds);
+  }
   lastFrame = time;
   renderer.render(navigation, {
     textures: element('textures').checked, lighting: element('lighting').checked,
     objects: element('objects').checked, sector: Number(element('sector').value),
     paths: element('paths').checked, pathPoints: element('path-points').checked,
-    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value)
+    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: practice?.snapshot
   });
+  if (practice) updatePractice();
   if (navigation.mode === 'fly') element('speed').textContent = `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`;
   requestAnimationFrame(frame);
 }
@@ -209,6 +276,7 @@ window.rollcageViewer = { inspect: () => ({
   track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
   paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,
+  practice: practice ? {state: practice.state, ...practice.snapshot} : null, carBuffers: renderer?.carGroups.length ?? 0,
   mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
   yaw: navigation.yaw, pitch: navigation.pitch, distance: navigation.distance, speed: navigation.speed,
   heldKeys: keys.size, loading: element('stage').getAttribute('aria-busy') === 'true'

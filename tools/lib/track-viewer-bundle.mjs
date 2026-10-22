@@ -14,14 +14,25 @@ export async function buildViewerBundle(entry = 'tools/track-viewer/app.mjs') {
     const source = await readFile(path.join(root, id), 'utf8');
     if (id.endsWith('.json')) { modules.set(id, `module.exports = ${JSON.stringify(JSON.parse(source))};`); return; }
     const imports = [];
-    let code = source.replace(/^import\s+(.+?)\s+from\s+['"](.+?)['"](?:\s+with\s*\{[^}]+\})?\s*;/gm, (_, binding, relative) => {
+    const dependencyFor = relative => {
       if (!relative.startsWith('.')) throw new Error(`Nonlocal import in ${id}`);
       const dependency = path.posix.normalize(path.posix.join(path.posix.dirname(id), relative));
       imports.push(dependency);
-      return `const ${binding} = require(${JSON.stringify(dependency)});`;
+      return dependency;
+    };
+    const destructuring = binding => binding.replace(/\b(\w+)\s+as\s+(\w+)\b/g, '$1: $2');
+    let code = source.replace(/^import\s+([\s\S]+?)\s+from\s+['"](.+?)['"](?:\s+with\s*\{[^}]+\})?\s*;/gm, (_, binding, relative) => {
+      const name = binding.trim().replace(/^\*\s+as\s+/, '');
+      return `const ${destructuring(name)} = require(${JSON.stringify(dependencyFor(relative))});`;
     });
     const exports = [];
     code = code.replace(/^export (async )?(class|function|const|let) (\w+)/gm, (_, async, kind, name) => { exports.push(name); return `${async ?? ''}${kind} ${name}`; });
+    code = code.replace(/^export\s*\{([^}]+)\}(?:\s+from\s+['"]([^'"]+)['"])?\s*;/gm, (_, names, relative) => {
+      const entries = names.split(',').map(value => value.trim()).filter(Boolean).map(value => value.split(/\s+as\s+/));
+      if (relative) return `Object.assign(module.exports, Object.fromEntries(${JSON.stringify(entries)}.map(([source, target = source]) => [target, require(${JSON.stringify(dependencyFor(relative))})[source]])));`;
+      for (const [source, target = source] of entries) exports.push(`${target}: ${source}`);
+      return '';
+    });
     if (/^\s*(import|export)\s/m.test(code)) throw new Error(`Unsupported module syntax in ${id}`);
     modules.set(id, `${code}\nObject.assign(module.exports, {${exports.join(',')}});`);
     for (const dependency of imports) await visit(dependency);

@@ -11,6 +11,7 @@ import { decodeTrack, tracks } from './track-viewer/track-data.mjs';
 import { buildViewerBundle } from './lib/track-viewer-bundle.mjs';
 import { readTrackZIP } from './lib/check-track-download.mjs';
 import { assertStoredPathBytes, checkPathOverlay, checkPathRendering } from './lib/check-path-overlay.mjs';
+import { checkSoloPractice, saveSoloPractice } from './lib/check-solo-practice.mjs';
 
 const [launcher, installation = 'C:\\Program Files (x86)\\Psygnosis\\Rollcage', output = `analysis/track-viewer/check-${Date.now()}`] = process.argv.slice(2);
 if (!launcher) throw new Error('Usage: node tools/check-track-viewer.mjs <installed-REA-launcher> [installation-directory] [new-report-directory]');
@@ -113,6 +114,7 @@ try {
   await page.locator('#reset').click(); assert.equal(await page.locator('#sector').inputValue(), '-1');
   assert.equal((await inspect()).mode, 'orbit');
   await page.locator('#objects').check(); await page.locator('#textures').check(); await page.locator('#lighting').check();
+  const soloPractice = await checkSoloPractice(page, installation);
   // Two selections in one turn force the earlier asynchronous request stale.
   await page.evaluate(() => {
     const select = document.getElementById('track');
@@ -121,6 +123,9 @@ try {
   });
   await waitTrack('HIGH/LEV20.BLP'); await page.waitForTimeout(150);
   assert.equal((await inspect()).track, 'HIGH/LEV20.BLP');
+  assert.equal((await inspect()).practice.state, 'ready'); assert.equal((await inspect()).practice.ticks, 0);
+  assert.ok((await inspect()).carBuffers > 0);
+  assert.equal(await page.locator('#practice-start').isEnabled(), true);
   await page.locator('#index').setInputFiles({ name: 'bad.idx', mimeType: 'application/octet-stream', buffer: Buffer.alloc(15) });
   await page.waitForFunction(() => document.getElementById('error').textContent.includes('index size'));
   assert.equal(await page.locator('#track').isDisabled(), true); assert.equal((await inspect()).track, null);
@@ -170,6 +175,16 @@ try {
     assertStoredPathBytes(decoded.paths, geometry.data);
     assert.deepEqual(browserResults[i], { name: track.name, summary: summary(decoded) });
   }
+  const racingAvailability = [];
+  for (const track of tracks) {
+    await page.selectOption('#track', String(track.index)); await waitTrack(track.name);
+    const excluded = /\/(?:LEV16|LEV17)\.BLP$/.test(track.name), state = await inspect();
+    assert.equal(await page.locator('#practice-start').isDisabled(), excluded, track.name);
+    assert.equal(Boolean(state.practice), !excluded, track.name);
+    assert.equal(state.carBuffers > 0, !excluded, track.name);
+    if (excluded) assert.match(await page.locator('#practice-note').textContent(), /disabled on LEV16 and LEV17/);
+    racingAvailability.push({track: track.name, enabled: !excluded});
+  }
   const firstGeometry = await archive.readResource(30), firstTextures = await archive.readResource(31);
   const firstScene = decodeTrack(firstGeometry.data, firstTextures.data);
   assert.equal(downloadedOBJ, firstScene.obj);
@@ -194,12 +209,18 @@ try {
   const result = { initial, browserParity: browserResults, download: { filename: download.suggestedFilename(), files: [...downloadedFiles.keys()], exactOBJ: true, texturePixelsMatch: true, retryAfterEncodingFailure: true }, controls: 'passed', pointerLockWorked, fallbackLook: 'passed', staleLoads: 'passed', errorRecovery: 'passed', pageErrors: errors, externalRequests: requests,
     webglError: await page.evaluate(() => document.getElementById('canvas').getContext('webgl').getError()) };
   result.pathRendering = pathRendering;
+  result.racingAvailability = racingAvailability;
   assert.equal(result.webglError, 0);
   await mkdir(output, { recursive: false });
+  await saveSoloPractice(soloPractice, output);
   await writeFile(path.join(output, 'landing.png'), landingScreenshot, { flag: 'wx' });
   await writeFile(path.join(output, 'level1.png'), levelOneScreenshot, { flag: 'wx' });
   await writeFile(path.join(output, 'level3.png'), levelThreeScreenshot, { flag: 'wx' });
   await page.screenshot({ path: path.join(output, 'preview.png') });
+  await page.evaluate(() => document.getElementById('canvas').dispatchEvent(new Event('webglcontextlost', {cancelable: true})));
+  assert.equal((await inspect()).practice, null); assert.equal((await inspect()).carBuffers, 0);
+  assert.equal(await page.locator('#practice-start').isDisabled(), true);
+  result.contextLoss = 'Synthetic context-loss event disposes practice and GPU resources; reload required.';
   await writeFile(path.join(output, 'browser-check.json'), JSON.stringify(result, null, 2), { flag: 'wx' });
   console.log(JSON.stringify({ matchedTracks: browserResults.length, controls: result.controls, pointerLockWorked, pageErrors: errors, externalRequests: requests, webglError: result.webglError, output }));
 } finally { await archive?.close(); await browser.close(); }
