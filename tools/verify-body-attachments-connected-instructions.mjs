@@ -41,19 +41,20 @@ export function createRawAttachmentFixture(fixture=0) {
  return {memory,roundingMode:['nearest-even','toward-zero','down','up'][fixture%4]};
 }
 
-export async function checkRawBodyAttachments(fixtures=1600) {
+export async function checkRawBodyAttachments(fixtures=1600,{x87PrecisionBits,output='analysis/body-attachments-connected-instruction-check.json'}={}) {
  const {evidence,instructions}=await readInstructionEvidence(['084-attachment-update-assembly.json','086-attachment-transform-assembly.json','118-particle-removal-assembly.json','117-particle-registration-assembly.json','665-retirement-4286e0-assembly.json','669-retirement-4746f0-assembly.json'],{directory:'analysis/native-simulation/results'});
- const machine=new BoundedX86(instructions,{entry:0x44f050}),totals={processedBodies:0,transformedPoints:0,type1Writes:0,type2Writes:0,type4Writes:0,spatialMoves:0};let steps=0,removals=0,inserts=0;
+ const machine=new BoundedX86(instructions,{entry:0x44f050,fpuPrecisionBits:x87PrecisionBits}),totals={processedBodies:0,transformedPoints:0,type1Writes:0,type2Writes:0,type4Writes:0,spatialMoves:0};let steps=0,removals=0,inserts=0;
  machine.onInstruction=address=>{if(address===0x4748d0)removals++;if(address===0x474670)inserts++;};
  const ranges=[[0x10000,0x70000],[0x5dc5f4,4],[0x6e6ba0,8],[0x80e660,32],[0x902040,24],[0x902eec,4],[0x909254,4],[0x909278,4],[0x90b688,64],[0x90b990,4],[ATTACHMENT_SCRATCH_BASE,ATTACHMENT_SCRATCH_LENGTH]];
  for(let fixture=0;fixture<fixtures;fixture++) {
-  const context=createRawAttachmentFixture(fixture);machine.reset();context.memory.copy(machine.bytes);machine.fpuRounding=context.roundingMode;
+  const context={...createRawAttachmentFixture(fixture),x87PrecisionBits};machine.reset();context.memory.copy(machine.bytes);machine.fpuRounding=context.roundingMode;
   const report=updateRawBodyAttachments(context);for(const key of Object.keys(totals))totals[key]+=report[key];
   machine.r.ESP=0x9000;machine.bytes.writeInt32LE(-1,0x9000);steps+=machine.run();
   for(const[address,length]of ranges)assert.deepEqual(machine.bytes.subarray(address,address+length),context.memory.subarray(address,address+length),`fixture ${fixture} / ${address.toString(16)}`);
  }
  assert.equal(removals,totals.spatialMoves);assert.equal(inserts,totals.spatialMoves);
  const report={method:'Raw44f050 attachment queue/model-point/handle/table reads with actual432080 transform and actual4748d0 removal,474670 insertion,4286e0 bucket lookup and4746f0 nearest-column fallback. No game mocks or external services. Full body/model/target/spatial-row/index/bucket bytes, pointer tables, live count and1700-byte scratch compared over all4 declared x87 rounding modes. Runtime model-point,queue,target and spatial-map constructors remain explicit fixture inputs; no authored-point producer or original-process runtime claim.',evidence:evidence.map(item=>item.evidence_id),instructions:instructions.length,fixtures,instructionSteps:steps,...totals,actualSpatialRemovals:removals,actualSpatialInsertions:inserts,matched:true};
- await writeFile('analysis/body-attachments-connected-instruction-check.json',JSON.stringify(report,null,2));return report;
+ if(x87PrecisionBits!==undefined)report.x87PrecisionBits=x87PrecisionBits;
+ if(output)await writeFile(output,JSON.stringify(report,null,2),output==='analysis/body-attachments-connected-instruction-check.json'?undefined:{flag:'wx'});return report;
 }
 if(import.meta.url===pathToFileURL(process.argv[1]??'').href)console.log(JSON.stringify(await checkRawBodyAttachments()));

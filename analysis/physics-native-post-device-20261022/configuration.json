@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D",
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\post-device-capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 15000,
+  "maxEvents": 100000,
+  "maxSnapshots": 40,
+  "showWindow": false,
+  "ranges": [
+    {
+      "id": "gravity",
+      "length": 4,
+      "rva": "0x1eb5e0"
+    },
+    {
+      "id": "clock",
+      "length": 4,
+      "rva": "0x50a548"
+    }
+  ],
+  "breakpoints": [
+    {
+      "id": "post-crt-winmain",
+      "rva": "0x4d70",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 128
+        }
+      ]
+    },
+    {
+      "id": "clock-gate",
+      "rva": "0x41c70",
+      "stopAfterHits": 5,
+      "ranges": [
+        {
+          "id": "session-root",
+          "length": 4,
+          "rva": "0x1ecb1c"
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 128
+        }
+      ]
+    },
+    {
+      "id": "race-update-entry",
+      "rva": "0x50e50",
+      "stopAfterHits": 120,
+      "ranges": [
+        {
+          "id": "session",
+          "length": 1792,
+          "dereferenceOffsets": [
+            "0x0"
+          ],
+          "rva": "0x1ecb1c"
+        },
+        {
+          "id": "racer-records",
+          "length": 768,
+          "rva": "0x509300"
+        },
+        {
+          "id": "body0",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0x0"
+          ],
+          "rva": "0x509300"
+        }
+      ]
+    },
+    {
+      "id": "renderer-cache-entry",
+      "rva": "0x118cb0",
+      "stopAfterHits": 1,
+      "ranges": [
+        {
+          "id": "cache",
+          "baseRegister": "ecx",
+          "length": 16
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    }
+  ],
+  "phaseActions": [],
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp",
+  "denyPlayerMailslot": true
+}

@@ -30,16 +30,18 @@ try {
     trajectory.update(JSON.stringify(current)); previous = current;
   }
   assert.ok(previous.laps >= 3, 'The car must complete three laps.');
-  assert.equal(laps[2].recoveries, 0, 'The first three laps must complete without respawn corrections.');
   assert.ok(previous.stats.wheelContacts > 0 && previous.stats.events > 0 && previous.stats.modelHits > 0);
+  assert.ok(previous.brokenPlacements.length > 0, 'Native placed-model contact must break authored scenery.');
   session.reset(); browser.reset();
   for (let i = 0; i < 150; i++) {session.step(); browser.step();}
   assert.equal(JSON.stringify(session.snapshot), JSON.stringify(browser.snapshot));
   assert.equal(hash(data), sourceHash); assert.equal(hash(textures), textureHash);
-  const report = {method: 'Installed LOW/LEV1, one actual vehicle constructor, recovered AI/input/physics/checkpoint/recovery functions; Node and bundled browser runtime compared at every tick. Viewer clock60Hz. No original executable run.',
-    limits: 'Static scenery; destruction decisions suppressed. No opponents, weapons, pickups or audio. Browser service/runtime assembly and presentation are viewer features; no original-process trajectory equivalence claimed.',
-    track: 'LOW/LEV1.BLP', ticks, sourceHash, textureHash, bundleHash: hash(bundle), trajectoryHash: trajectory.digest('hex'), final: previous, laps, checkpointTransitions: trace, matched: true};
+  const report = {method: 'Installed LOW/LEV1, actual vehicle/all placed-object/world-fragment constructors, native scripted motion and object collision filters, recovered AI/input/physics/checkpoint/recovery and native model damage/break/destruction/effect lifecycles; Node and bundled browser runtime compared at every tick. Recovered nominal30Hz clock and normal gravity65536. This comparison does not run the original executable.',
+    limits: 'No opponents, weapons, pickups or audio. Collapsing ordinary meshes and particles/fragments are not animated or drawn. Scripted-object poses use native transforms; type20 UV animation is not replayed by the viewer. Browser service/runtime assembly and presentation are viewer features; no original-process trajectory equivalence claimed.',
+    track: 'LOW/LEV1.BLP', ticks, sourceHash, textureHash, bundleHash: hash(bundle), trajectoryHash: trajectory.digest('hex'), final: previous, laps, checkpointTransitions: trace, matched: true,
+    recoveryFreeFirstThreeLaps: laps[2].recoveries === 0};
   await writeFile(output, JSON.stringify(report, null, 2) + '\n', {flag: 'wx'});
   console.log(JSON.stringify({ticks, laps: previous.laps, recoveries: previous.recoveries, matched: true, output}));
   session.dispose(); browser.dispose();
+  assert.equal(laps[2].recoveries, 0, 'The first three laps must complete without respawn corrections; matched state/report retained for diagnosis.');
 } finally {await archive.close();}

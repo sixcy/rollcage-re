@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "authority": "failed-original-process-capture",
+  "matched": false,
+  "fidelityEvidence": false,
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/hidden-selected-force-capture",
+  "reason": "An explicit requested readable region was unavailable; the trace does not identify which range or root.",
+  "failure": {
+    "type": "capture-error",
+    "error": "System.IO.InvalidDataException: Explicit root must identify a committed readable region without PAGE_GUARD or PAGE_NOACCESS.\r\n   at RollcageCapture.NativeDebugger.ValidateReadableRegion(UInt32 root, MemoryRegionInfo region, Int32 maxRegionBytes)\r\n   at RollcageCapture.NativeDebugger.QueryReadableRegion(IntPtr process, UInt32 root, Int32 maxRegionBytes)\r\n   at RollcageCapture.NativeDebugger.ReadBufferedSnapshot(Options options, PendingFrameProgress progress, IntPtr process, IntPtr thread, UInt32 mainBase, Breakpoint hit, UInt32 tid, Dictionary`2 regs, IntPtr context, Dictionary`2 predicate, String role, Int64 elapsedMs, Int32 debugOrdinal)\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+    "events": 2585,
+    "snapshots": 3,
+    "pendingFrame": {
+      "candidateIndex": 1,
+      "frameTid": 31664,
+      "frameEntryEsp": "0x00dbf6d4",
+      "frameReturnAddress": "0x00731017",
+      "frameMatchingHit": 121,
+      "observedEventHits": 0,
+      "qualifyingEventSnapshots": 0
+    },
+    "elapsedMs": 50569
+  },
+  "forceSnapshots": 0,
+  "frameSnapshots": 0,
+  "ownedProcessCleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 22580,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 50632
+  },
+  "sourceVerification": "physics-native-force-source-verification-after-20261022.json",
+  "limits": [
+    "No complete physics or force input pair was published.",
+    "A suspected empty optional channel vector is not proven by this trace.",
+    "No user input cause is inferred."
+  ]
+}

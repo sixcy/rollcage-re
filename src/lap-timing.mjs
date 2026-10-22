@@ -1,4 +1,4 @@
-//4459f0 packs eight HUD glyph nibbles from each Q11 centisecond timer.
+//4459f0 packs eight HUD glyph nibbles; 2048 timer units are one tenth-second.
 //All storage aliases the caller's native vehicle record, including stale rows.
 function packLapTimeDigits(time) {
   const whole=time>>11;

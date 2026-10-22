@@ -5,7 +5,7 @@ import {applyBodyForces,updateLinearVelocity} from './body-physics.mjs';
 import {consumeBodyContactState,accumulateBodyContactFriction} from './body-contact-friction.mjs';
 import {applyVehiclePreparationForce} from './vehicle-preparation-force.mjs';
 const invoke=(handlers,name,body)=>{if(typeof handlers[name]!=='function')throw Error(`Body preparation requires ${name}.`);return handlers[name](body);};
-export function prepareOrdinaryBody(body,{records,gravityQ16,effectFlags,timeOptions={},specialVehicleState,handlers={}}={}){
+export function prepareOrdinaryBody(body,{records,gravityQ16,effectFlags,timeOptions={},specialVehicleState,specialVehicleStateFor,handlers={}}={}){
  if(!Number.isInteger(gravityQ16)||gravityQ16< -2147483648||gravityQ16>2147483647)throw Error('Body preparation requires explicit signed gravityQ16.');
  if(!effectFlags||!Number.isInteger(effectFlags.first)||!Number.isInteger(effectFlags.second))throw Error('Body preparation requires explicit frame effect flags.');
  for(const [flag,handler]of [['first','applyEffect91cd90'],['second','applyEffect9153d0']])if(effectFlags[flag]===1){
@@ -16,7 +16,9 @@ export function prepareOrdinaryBody(body,{records,gravityQ16,effectFlags,timeOpt
   if(body.flags===0x1c03){
    if(!Number.isInteger(body.dragCoefficient2f38))throw Error('Exact vehicle flags1c03 require explicit drag coefficient+0x2f38.');
    const drag=signedShort(body.dragCoefficient2f38);body.force=body.force.map((value,axis)=>(value-Math.imul(body.linearVelocity[axis]>>16,drag))|0);
-   applyVehiclePreparationForce(body,specialVehicleState,{gravityQ16,...timeOptions});
+   // Native0x47a8e0 reaches vehicle-only storage after the live effect/flags gates.
+   const state=specialVehicleStateFor?specialVehicleStateFor(body):specialVehicleState;
+   applyVehiclePreparationForce(body,state,{gravityQ16,...timeOptions});
   }else if(!(body.collisionFlags&0x80000000)){
    let force=multiplyQ16(body.mass,gravityQ16);
    if(timeOptions.timeScaleActive&&!timeOptions.timeScaleExempt&&[3,7,21].includes(body.flags&0x1ff))force=multiplyQ16(timeOptions.timeScaleQ16??65536,force);

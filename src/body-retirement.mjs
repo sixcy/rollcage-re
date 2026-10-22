@@ -1,5 +1,6 @@
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
+import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 import {emitRawEffectParticles,emitRawBodyDebris,alterRawTerrainBrightness,appendRawBodyFlash,activateRawBodyTrail,activateRawBodyPulse} from './body-retirement-effects.mjs';
 const get=(memory,address)=>memory.readInt32LE(address);
 const pointer=(memory,address)=>memory.readUInt32LE(address);
@@ -66,8 +67,11 @@ export function emitBodyEffectBurst(position,velocity,count,mask,code,{memory,sc
   count|=0;mask|=0;code&=255;
   const request=(extra={})=>({position,velocity,count,memory,scratchBase,...extra});
   if(count!==0&&code!==0){
-    const index=get(memory,0x9153dc),next=(index+1)|0,target=(0x919020+Math.imul(index,12))>>>0;
-    put(memory,0x9153dc,(next>>>0)<24?next:0);copyVector(memory,position,target);
+    const index=get(memory,0x9153dc),next=(index+1)|0,preferredTarget=(0x919020+Math.imul(index,12))>>>0;
+    put(memory,0x9153dc,(next>>>0)<24?next:0);
+    //435bc6 LEA uses a relocated module literal. Publish its actual address
+    //to484bb0/40ea40, while caller-owned position/velocity pointers stay opaque.
+    const target=resolveNativeMemoryAddress(memory,preferredTarget,12);copyVector(memory,position,target);
     const args=[0,0x400,12000,6,next,0,0];
     if(handlers.emit484bb0)call(handlers,'emit484bb0',request({code,registerEdx:target,args}));
     else emitNativeEffect(code,target,args,{dispatch40ea40:value=>handlers.dispatch40ea40?call(handlers,'dispatch40ea40',{...value,memory}):dispatchNativeSound(value,soundRuntime??{memory,handlers})});

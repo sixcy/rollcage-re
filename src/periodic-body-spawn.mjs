@@ -4,6 +4,7 @@ import {emitRawEffectParticles, lookupRawSpatialBucket} from './body-retirement-
 import {updateRawLinearVelocity} from './raw-linear-velocity.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
+import {sharesNativeMemorySpan,nativeCodeAddress} from './native-memory-spans.mjs';
 import constants from './periodic-body-constants.json' with {type: 'json'};
 
 const get = (m, p) => m.readInt32LE(p), pointer = (m, p) => m.readUInt32LE(p);
@@ -19,10 +20,11 @@ export function initializePeriodicBodyConstants(memory) {
 
 //469ec0: the single type33 controller is allocated from the real body arena,
 //initialized/spatially inserted, then immediately removed until first spawn.
-export function initializePeriodicBody({memory, scratchBase}) {
+export function initializePeriodicBody(runtime) {
+  const {memory, scratchBase} = runtime;
   if (!memory[pointer(memory, 0x5ecb1c) + 0x554]) return;
   const body = createRawBody(0, 0x821, 0x180, 0, {memory, scratchBase: scratchBase - 16});
-  put(memory, 0x903510, body); put(memory, body + 0x148, 0x46a2c0);
+  put(memory, 0x903510, body); put(memory, body + 0x148, nativeCodeAddress(0x46a2c0, runtime));
   initializeRawBody(pointer(memory, 0x903510), 0x5ec318, {memory, scratchBase: scratchBase - 16});
   removeBodySpatial(pointer(memory, 0x903510), {memory});
   const current = pointer(memory, 0x903510);
@@ -39,7 +41,7 @@ export function handlePeriodicBodyContact(body, runtime) {
 
 export function createPeriodicBodyCollisionFilter(runtime) {
   return body => {
-    if (!Number.isInteger(body?.address) || !Buffer.isBuffer(body.bytes) || body.bytes.buffer !== runtime.memory.buffer || body.bytes.byteOffset !== runtime.memory.byteOffset + body.address || body.bytes.length < 0x180) throw Error('Periodic body collision filter requires shared native body storage.');
+    if (!Number.isInteger(body?.address) || !sharesNativeMemorySpan(runtime.memory, body.bytes, body.address, 0x180)) throw Error('Periodic body collision filter requires shared native body storage.');
     return handlePeriodicBodyContact(body.address, runtime);
   };
 }

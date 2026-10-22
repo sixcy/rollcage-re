@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "authority": "bounded-original-process-search",
+  "fidelityEvidence": false,
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/hidden-selected-recovery-v2-capture",
+  "method": "Observer-only pending47ccc0 parent, retain only when actual47d440 application is reached. No game physics writes.",
+  "complete": {
+    "type": "complete",
+    "reason": "duration-bound",
+    "events": 6122,
+    "snapshots": 3,
+    "elapsedMs": 90007
+  },
+  "discardedCandidates": 815,
+  "firstDiscarded": {
+    "candidateIndex": 1,
+    "frameTid": 20164,
+    "frameEntryEsp": "0x012ffbb4",
+    "frameReturnAddress": "0x00731021",
+    "frameMatchingHit": 1,
+    "observedEventHits": 0,
+    "qualifyingEventSnapshots": 0,
+    "type": "pending-frame-discarded",
+    "reason": "no-qualifying-event",
+    "bufferedBytes": 39702546,
+    "beforeRawHit": 229,
+    "afterRawHit": 229,
+    "elapsedMs": 46171
+  },
+  "lastDiscarded": {
+    "candidateIndex": 815,
+    "frameTid": 20164,
+    "frameEntryEsp": "0x012ffbb4",
+    "frameReturnAddress": "0x00731021",
+    "frameMatchingHit": 815,
+    "observedEventHits": 0,
+    "qualifyingEventSnapshots": 0,
+    "type": "pending-frame-discarded",
+    "reason": "no-qualifying-event",
+    "bufferedBytes": 42864658,
+    "beforeRawHit": 1043,
+    "afterRawHit": 1043,
+    "elapsedMs": 89975
+  },
+  "observedApplications": 0,
+  "ownedCleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 26396,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 90056
+  },
+  "limits": [
+    "No positive native recovery query/application/frame pair was retained.",
+    "This bounded absence does not establish that recovery never happens."
+  ]
+}

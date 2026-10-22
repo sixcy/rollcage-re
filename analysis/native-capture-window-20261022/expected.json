@@ -1,0 +1,76 @@
+{
+  "provenance": "Synthetic x86 PE, generated without executing game code. Imports only KERNEL32!ExitProcess; no file, registry, network or child-process calls.",
+  "normal": {
+    "snapshots": 3,
+    "counters": [
+      1,
+      2,
+      3
+    ],
+    "ecx": [
+      3,
+      2,
+      1
+    ],
+    "eip": "0x00401015",
+    "completeReason": "process-exit",
+    "exitCode": 0
+  },
+  "bounded": {
+    "snapshots": 2,
+    "counters": [
+      1,
+      2
+    ],
+    "completeReason": "snapshot-bound",
+    "terminatedOwnedChild": true
+  },
+  "filtered": {
+    "snapshots": 1,
+    "skippedRawHits": [
+      1
+    ],
+    "actualSkippedPredicateBytesHex": [
+      "01000000"
+    ],
+    "counters": [
+      2
+    ],
+    "snapshotHits": [
+      1
+    ],
+    "snapshotRawHits": [
+      2
+    ],
+    "snapshotMatchingHits": [
+      1
+    ],
+    "completeReason": "snapshot-bound",
+    "terminatedOwnedChild": true
+  },
+  "matchingWindow": {
+    "snapshots": 1,
+    "skippedRawHits": [
+      1,
+      2
+    ],
+    "skippedMatchingHits": [
+      1,
+      2
+    ],
+    "counters": [
+      3
+    ],
+    "snapshotHits": [
+      1
+    ],
+    "snapshotRawHits": [
+      3
+    ],
+    "snapshotMatchingHits": [
+      3
+    ],
+    "completeReason": "snapshot-bound",
+    "terminatedOwnedChild": true
+  }
+}

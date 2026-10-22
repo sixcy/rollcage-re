@@ -33,6 +33,11 @@ test('constructor allocates one dormant type33 body with its contact and control
   assert.equal(f.memory.readUInt16LE(0x55008), 0); assert.equal(f.memory.readUInt16LE(0x902bc4), 0); assert.equal(f.memory.readInt32LE(0x903518), 127);
 });
 
+test('constructor publishes its explicit collision callback at the observed module address', () => {
+  const f = fixture(); initializePeriodicBody({...f.runtime, moduleBaseAddress: 0x6e0000});
+  assert.equal(f.memory.readUInt32LE(POOL + 0x148), 0x74a2c0);
+});
+
 test('rejected sector retains partial pose/RNG writes without registering collision shapes', () => {
   const f = fixture(); initializePeriodicBody(f.runtime); f.memory[0x57004] = 8; f.put(0x5ec954, 1);
   spawnPeriodicBody(PLAYER + 0x34, f.runtime);

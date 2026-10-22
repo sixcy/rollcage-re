@@ -1,0 +1,442 @@
+{
+  "schemaVersion": 1,
+  "authority": "shipped-artifact-static-audit",
+  "target": {
+    "path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "method": "Exact PE32 import parsing, mapped byte/table reads and existing retained REA assembly. Raw FF15 byte matches are candidate callsites, not independent instruction-boundary proofs. No target execution or input hooks.",
+  "inputImports": [
+    {
+      "dll": "USER32.dll",
+      "name": "TranslateMessage",
+      "iat": "0x56e50c",
+      "directCallCandidates": [
+        {
+          "address": "0x49970f",
+          "precedingBytesHex": "00742c8d44240c50",
+          "instructionBytesHex": "ff150ce55600"
+        }
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "DispatchMessageA",
+      "iat": "0x56e510",
+      "directCallCandidates": [
+        {
+          "address": "0x49971a",
+          "precedingBytesHex": "e556008d44240c50",
+          "instructionBytesHex": "ff1510e55600"
+        }
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "GetKeyState",
+      "iat": "0x56e518",
+      "directCallCandidates": [
+        {
+          "address": "0x45b3d4",
+          "precedingBytesHex": "0083c4048bd86a14",
+          "instructionBytesHex": "ff1518e55600"
+        }
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "PeekMessageA",
+      "iat": "0x56e594",
+      "directCallCandidates": [
+        {
+          "address": "0x4996f0",
+          "precedingBytesHex": "006a008d44241c50",
+          "instructionBytesHex": "ff1594e55600"
+        }
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "PeekMessageW",
+      "iat": "0x56e5a0",
+      "directCallCandidates": []
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "DispatchMessageW",
+      "iat": "0x56e5b0",
+      "directCallCandidates": []
+    },
+    {
+      "dll": "DINPUT8.dll",
+      "name": "DirectInput8Create",
+      "iat": "0x56e02c",
+      "directCallCandidates": [
+        {
+          "address": "0x5185a9",
+          "precedingBytesHex": "6800080000ff7014",
+          "instructionBytesHex": "ff152ce05600"
+        }
+      ]
+    }
+  ],
+  "absentDirectImports": [
+    "GetAsyncKeyState",
+    "GetKeyboardState",
+    "GetCursorPos",
+    "GetRawInputData",
+    "RegisterRawInputDevices"
+  ],
+  "guidBytes": [
+    {
+      "id": "GUID_SysKeyboard",
+      "address": "0x56f778",
+      "length": 16,
+      "bytesHex": "612b1d6fa0d5cf11bfc7444553540000",
+      "sha256": "388e7684d389ac1824c279d4d02e70e039387fee62da0a041ed41614b54897b4"
+    },
+    {
+      "id": "GUID_SysMouse",
+      "address": "0x56f788",
+      "length": 16,
+      "bytesHex": "602b1d6fa0d5cf11bfc7444553540000",
+      "sha256": "c26d2395db46e7ded4df601be1674467605bb6717800e48696cb730a640bb99f"
+    }
+  ],
+  "deviceTables": [
+    {
+      "id": "keyboard-vtable-candidate-from-constructor-bytes",
+      "address": "0x5db684",
+      "entries": [
+        {
+          "offset": "0x0",
+          "target": "0x52eb00"
+        },
+        {
+          "offset": "0x4",
+          "target": "0x52eb80"
+        },
+        {
+          "offset": "0x8",
+          "target": "0x52ebb0"
+        },
+        {
+          "offset": "0xc",
+          "target": "0x5184e0"
+        },
+        {
+          "offset": "0x10",
+          "target": "0x518510"
+        },
+        {
+          "offset": "0x14",
+          "target": "0x5184d0"
+        },
+        {
+          "offset": "0x18",
+          "target": "0x5183a0"
+        },
+        {
+          "offset": "0x1c",
+          "target": "0x4029b0"
+        },
+        {
+          "offset": "0x20",
+          "target": "0x4029b0"
+        },
+        {
+          "offset": "0x24",
+          "target": "0x4afb80"
+        },
+        {
+          "offset": "0x28",
+          "target": "0x4afb80"
+        },
+        {
+          "offset": "0x2c",
+          "target": "0x401c80"
+        },
+        {
+          "offset": "0x30",
+          "target": "0x402940"
+        },
+        {
+          "offset": "0x34",
+          "target": "0x518360"
+        },
+        {
+          "offset": "0x38",
+          "target": "0x4029d0"
+        },
+        {
+          "offset": "0x3c",
+          "target": "0x4029d0"
+        },
+        {
+          "offset": "0x40",
+          "target": "0x4029a0"
+        },
+        {
+          "offset": "0x44",
+          "target": "0x4029a0"
+        },
+        {
+          "offset": "0x48",
+          "target": "0x402930"
+        },
+        {
+          "offset": "0x4c",
+          "target": "0x402930"
+        },
+        {
+          "offset": "0x50",
+          "target": "0x402930"
+        },
+        {
+          "offset": "0x54",
+          "target": "0x518370"
+        },
+        {
+          "offset": "0x58",
+          "target": "0x4029a0"
+        },
+        {
+          "offset": "0x5c",
+          "target": "0x514080"
+        },
+        {
+          "offset": "0x60",
+          "target": "0x518380"
+        },
+        {
+          "offset": "0x64",
+          "target": "0x52ec00"
+        }
+      ]
+    },
+    {
+      "id": "mouse-vtable-from-retained-constructor",
+      "address": "0x5dc408",
+      "entries": [
+        {
+          "offset": "0x0",
+          "target": "0x52e8e0"
+        },
+        {
+          "offset": "0x4",
+          "target": "0x52e960"
+        },
+        {
+          "offset": "0x8",
+          "target": "0x52e990"
+        },
+        {
+          "offset": "0xc",
+          "target": "0x52e9e0"
+        },
+        {
+          "offset": "0x10",
+          "target": "0x52ea20"
+        },
+        {
+          "offset": "0x14",
+          "target": "0x518390"
+        },
+        {
+          "offset": "0x18",
+          "target": "0x5183a0"
+        },
+        {
+          "offset": "0x1c",
+          "target": "0x4029b0"
+        },
+        {
+          "offset": "0x20",
+          "target": "0x4029b0"
+        },
+        {
+          "offset": "0x24",
+          "target": "0x4afb80"
+        },
+        {
+          "offset": "0x28",
+          "target": "0x4afb80"
+        },
+        {
+          "offset": "0x2c",
+          "target": "0x401c80"
+        },
+        {
+          "offset": "0x30",
+          "target": "0x402940"
+        },
+        {
+          "offset": "0x34",
+          "target": "0x518360"
+        },
+        {
+          "offset": "0x38",
+          "target": "0x4029d0"
+        },
+        {
+          "offset": "0x3c",
+          "target": "0x4029d0"
+        },
+        {
+          "offset": "0x40",
+          "target": "0x4029a0"
+        },
+        {
+          "offset": "0x44",
+          "target": "0x4029a0"
+        },
+        {
+          "offset": "0x48",
+          "target": "0x402930"
+        },
+        {
+          "offset": "0x4c",
+          "target": "0x402930"
+        },
+        {
+          "offset": "0x50",
+          "target": "0x402930"
+        },
+        {
+          "offset": "0x54",
+          "target": "0x518370"
+        },
+        {
+          "offset": "0x58",
+          "target": "0x4029a0"
+        },
+        {
+          "offset": "0x5c",
+          "target": "0x514080"
+        },
+        {
+          "offset": "0x60",
+          "target": "0x518380"
+        },
+        {
+          "offset": "0x64",
+          "target": "0x52eab0"
+        }
+      ]
+    }
+  ],
+  "mappedBytes": [
+    {
+      "id": "keyboard-constructor",
+      "address": "0x518470",
+      "length": 96,
+      "bytesHex": "33c0568bf1680001000050c7461807000000c74614000000006689460489461c88462089462889466089465c8946588d466450c70684b65d00c7462401000000e89b05050068000100008d86640100006a0050e88805050083c4188bc65ec3cc",
+      "sha256": "311486b2be682cbf1a39052a0ab612bde28cb085d492325cb346f41eb10f7741"
+    },
+    {
+      "id": "keyboard-cooperative-level",
+      "address": "0x52ec00",
+      "length": 22,
+      "bytesHex": "568b7128e8973eedff8b0e6a06ff700456ff51345ec3",
+      "sha256": "ada709e4c1da9640533fb3e516c503bbeca566b44c5ce1064663833db407d419"
+    },
+    {
+      "id": "mouse-cooperative-level",
+      "address": "0x52eab0",
+      "length": 80,
+      "bytesHex": "578bf9837f2800743756e85165edff80783c0175178b7728e8d33fedff8b0e6a05ff700456ff513485c074138b7728e8bc3fedff8b0e6a06ff700456ff51345e5fc3cccccccccccccccccccccccccccc",
+      "sha256": "28eedd76ef15532a882755bc350300fef94d997fd01281bf7255d0d487e36de2"
+    },
+    {
+      "id": "keyboard-poll",
+      "address": "0x52eb00",
+      "length": 128,
+      "bytesHex": "538bd9558b6b2885ed746356578d4364b9400000008bf08dbb64010000508b03f3a58b75008bcbff50145055ff562485c074398b4328508b08ff511c85c08d436475198b73288bcb508b038b3eff50145056ff57245f5e5db0015bc368000100006a0050e8e79e030083c40c5f5e5db0015bc3cccccccccccccccccccccccccc",
+      "sha256": "87247e2466fe76bd203f6d545e83944983f98f51940eeb1a6bcb49b92d696283"
+    },
+    {
+      "id": "mouse-poll",
+      "address": "0x52e8e0",
+      "length": 144,
+      "bytesHex": "56578bf98b4f2885c9745d8b018d7764566a1451ff502485c0741d8b4728508b08ff511c85c075408b4728566a14508b08ff512485c0753053bb88ffffff8d77782bdf8a068bcf8846088d04338b17508b4204ffd088068d76018d043383f8087ce15b5fb0015ec30f57c032c0f30f7f4764c74774000000000f1147785f5ec3568bf18b06ff50148b4c24083bc87206",
+      "sha256": "25e29a56c99123142eaa03316428ef476e9131aaa9128c0f56183159e97ea569"
+    }
+  ],
+  "manualDecoding": {
+    "authority": "Manual interpretation of the retained mapped x86 bytes; not fresh Ghidra evidence or native execution.",
+    "keyboardCooperativeLevel": {
+      "address": "0x52ec00",
+      "flags": 6,
+      "meaning": "DISCL_NONEXCLUSIVE|DISCL_FOREGROUND",
+      "instructions": [
+        "PUSH ESI",
+        "MOV ESI,[ECX+28h]",
+        "CALL 402aa0",
+        "MOV ECX,[ESI]",
+        "PUSH 6",
+        "PUSH [EAX+4]",
+        "PUSH ESI",
+        "CALL [ECX+34h]",
+        "POP ESI",
+        "RET"
+      ]
+    },
+    "mouseCooperativeLevel": {
+      "address": "0x52eab0",
+      "fullscreenFlags": 5,
+      "windowedOrFallbackFlags": 6,
+      "meaning": "Both branches request DISCL_FOREGROUND; fullscreen first tries EXCLUSIVE, otherwise NONEXCLUSIVE."
+    },
+    "getKeyStateCandidate": {
+      "address": "0x45b3d4",
+      "precedingPushImmediate": 20,
+      "meaning": "PUSH 14h is VK_CAPITAL; caller function and its consequences require separate instruction-boundary/callgraph confirmation."
+    }
+  },
+  "retainedEvidence": [
+    {
+      "file": "analysis/native-simulation/results/11431-renderer-state-cache-518570-procedure_assembly.json",
+      "fileSha256": "924000cbdcc2848e4c0131ebf593e130fce415632fe5aa2802c4f74291ced9b8",
+      "evidenceId": "ev_9e1aa118a7a0e934be253c750335a3ed0841281c78f4432875cc45a4242ac957",
+      "procedure": "0x518570",
+      "assembly": "0x518570: PUSH ECX\n0x518571: PUSH EBX\n0x518572: PUSH EDI\n0x518573: MOV EDI, ECX\n0x518575: CALL 0x00402aa0\n0x51857a: PUSH dword ptr [EAX + 0x4]\n0x51857d: CALL dword ptr [0x0056e550]\n0x518583: CALL 0x00402aa0\n0x518588: PUSH dword ptr [EAX + 0x4]\n0x51858b: CALL dword ptr [0x0056e584]\n0x518591: CALL 0x00402aa0\n0x518596: PUSH 0x0\n0x518598: LEA EBX, [EDI + 0x24]\n0x51859b: PUSH EBX\n0x51859c: PUSH 0x56f828\n0x5185a1: PUSH 0x800\n0x5185a6: PUSH dword ptr [EAX + 0x14]\n0x5185a9: CALL dword ptr [0x0056e02c]\n0x5185af: TEST EAX, EAX\n0x5185b1: JZ 0x005185b9\n0x5185b3: POP EDI\n0x5185b4: XOR AL, AL\n0x5185b6: POP EBX\n0x5185b7: POP ECX\n0x5185b8: RET\n0x5185b9: PUSH ESI\n0x5185ba: MOV ESI, dword ptr [0x0056e220]\n0x5185c0: PUSH 0x264\n0x5185c5: CALL ESI\n0x5185c7: ADD ESP, 0x4\n0x5185ca: TEST EAX, EAX\n0x5185cc: JZ 0x005185d7\n0x5185ce: MOV ECX, EAX\n0x5185d0: CALL 0x00518470\n0x5185d5: JMP 0x005185d9\n0x5185d7: XOR EAX, EAX\n0x5185d9: MOV dword ptr [EDI + 0x2c], EAX\n0x5185dc: LEA EDX, [ESP + 0xc]\n0x5185e0: MOV EAX, dword ptr [EBX]\n0x5185e2: PUSH 0x0\n0x5185e4: PUSH EDX\n0x5185e5: PUSH 0x56f778\n0x5185ea: MOV ECX, dword ptr [EAX]\n0x5185ec: PUSH EAX\n0x5185ed: CALL dword ptr [ECX + 0xc]\n0x5185f0: MOV ECX, dword ptr [EDI + 0x2c]\n0x5185f3: MOV EAX, dword ptr [ESP + 0xc]\n0x5185f7: MOV dword ptr [ECX + 0x28], EAX\n0x5185fa: MOV ECX, dword ptr [EDI + 0x2c]\n0x5185fd: MOV EAX, dword ptr [ECX]\n0x5185ff: CALL dword ptr [EAX + 0x64]\n0x518602: MOV EAX, dword ptr [EDI + 0x2c]\n0x518605: PUSH 0x56fa24\n0x51860a: MOV EAX, dword ptr [EAX + 0x28]\n0x51860d: PUSH EAX\n0x51860e: MOV ECX, dword ptr [EAX]\n0x518610: CALL dword ptr [ECX + 0x2c]\n0x518613: PUSH dword ptr [EDI + 0x2c]\n0x518616: MOV ECX, EDI\n0x518618: CALL 0x005187f0\n0x51861d: PUSH 0x88\n0x518622: CALL ESI\n0x518624: ADD ESP, 0x4\n0x518627: TEST EAX, EAX\n0x518629: JZ 0x00518667\n0x51862b: MOV dword ptr [EAX + 0x18], 0x7\n0x518632: XOR ECX, ECX\n0x518634: MOV dword ptr [EAX + 0x14], 0x0\n0x51863b: XORPS XMM0, XMM0\n0x51863e: MOV word ptr [EAX + 0x4], CX\n0x518642: MOV dword ptr [EAX + 0x1c], ECX\n0x518645: MOV byte ptr [EAX + 0x20], CL\n0x518648: MOV dword ptr [EAX + 0x28], ECX\n0x51864b: MOV dword ptr [EAX + 0x60], ECX\n0x51864e: MOV dword ptr [EAX + 0x5c], ECX\n0x518651: MOV dword ptr [EAX + 0x58], ECX\n0x518654: MOV dword ptr [EAX], 0x5dc408\n0x51865a: MOV dword ptr [EAX + 0x24], 0x2\n0x518661: MOVUPS xmmword ptr [EAX + 0x78], XMM0\n0x518665: JMP 0x00518669\n0x518667: XOR EAX, EAX\n0x518669: MOV dword ptr [EDI + 0x28], EAX\n0x51866c: LEA EDX, [ESP + 0xc]\n0x518670: MOV EAX, dword ptr [EBX]\n0x518672: PUSH 0x0\n0x518674: PUSH EDX\n0x518675: PUSH 0x56f788\n0x51867a: MOV ECX, dword ptr [EAX]\n0x51867c: PUSH EAX\n0x51867d: CALL dword ptr [ECX + 0xc]\n0x518680: MOV ECX, dword ptr [EDI + 0x28]\n0x518683: MOV EAX, dword ptr [ESP + 0xc]\n0x518687: MOV dword ptr [ECX + 0x28], EAX\n0x51868a: MOV ECX, dword ptr [EDI + 0x28]\n0x51868d: MOV EAX, dword ptr [ECX]\n0x51868f: CALL dword ptr [EAX + 0x64]\n0x518692: MOV EAX, dword ptr [EDI + 0x28]\n0x518695: PUSH 0x56fc2c\n0x51869a: MOV EAX, dword ptr [EAX + 0x28]\n0x51869d: PUSH EAX\n0x51869e: MOV ECX, dword ptr [EAX]\n0x5186a0: CALL dword ptr [ECX + 0x2c]\n0x5186a3: PUSH dword ptr [EDI + 0x28]\n0x5186a6: MOV ECX, EDI\n0x5186a8: CALL 0x005187f0\n0x5186ad: MOV EAX, dword ptr [EDI + 0x28]\n0x5186b0: PUSH 0x0\n0x5186b2: PUSH EAX\n0x5186b3: PUSH 0x518410\n0x5186b8: MOV ECX, dword ptr [EAX + 0x28]\n0x5186bb: PUSH ECX\n0x5186bc: MOV EDX, dword ptr [ECX]\n0x5186be: CALL dword ptr [EDX + 0x10]\n0x5186c1: MOV EAX, dword ptr [EBX]\n0x5186c3: PUSH 0x1\n0x5186c5: PUSH 0x0\n0x5186c7: PUSH 0x52fd10\n0x5186cc: MOV ECX, dword ptr [EAX]\n0x5186ce: PUSH 0x4\n0x5186d0: PUSH EAX\n0x5186d1: CALL dword ptr [ECX + 0x10]\n0x5186d4: MOV EAX, dword ptr [EDI + 0x2c]\n0x5186d7: XOR ESI, ESI\n0x5186d9: PUSH 0x3\n0x5186db: PUSH ESI\n0x5186dc: MOV ECX, EDI\n0x5186de: MOV byte ptr [EAX + 0x20], 0x1\n0x5186e2: MOV EAX, dword ptr [EDI + 0x28]\n0x5186e5: MOV byte ptr [EAX + 0x20], 0x1\n0x5186e9: MOV EAX, dword ptr [EDI]\n0x5186eb: CALL dword ptr [EAX + 0x14]\n0x5186ee: TEST EAX, EAX\n0x5186f0: JZ 0x00518705\n0x5186f2: MOV byte ptr [EAX + 0x20], 0x1\n0x5186f6: INC ESI\n0x5186f7: MOV EAX, dword ptr [EDI]\n0x5186f9: MOV ECX, EDI\n0x5186fb: PUSH 0x3\n0x5186fd: PUSH ESI\n0x5186fe: CALL dword ptr [EAX + 0x14]\n0x518701: TEST EAX, EAX\n0x518703: JNZ 0x005186f2\n0x518705: MOV EAX, dword ptr [EDI + 0x34]\n0x518708: XOR ECX, ECX\n0x51870a: MOV ESI, dword ptr [EDI + 0x30]\n0x51870d: MOV EBX, EAX\n0x51870f: SUB EBX, ESI\n0x518711: XOR EDI, EDI\n0x518713: ADD EBX, 0x3\n0x518716: SHR EBX, 0x2\n0x518719: CMP ESI, EAX\n0x51871b: CMOVA EBX, ECX\n0x51871e: TEST EBX, EBX\n0x518720: JZ 0x0051873b\n0x518722: MOV EAX, dword ptr [ESI]\n0x518724: CMP byte ptr [EAX + 0x20], 0x0\n0x518728: JZ 0x00518733\n0x51872a: MOV EAX, dword ptr [EAX + 0x28]\n0x51872d: PUSH EAX\n0x51872e: MOV ECX, dword ptr [EAX]\n0x518730: CALL dword ptr [ECX + 0x1c]\n0x518733: INC EDI\n0x518734: ADD ESI, 0x4\n0x518737: CMP EDI, EBX\n0x518739: JNZ 0x00518722\n0x51873b: POP ESI\n0x51873c: POP EDI\n0x51873d: MOV AL, 0x1\n0x51873f: POP EBX\n0x518740: POP ECX\n0x518741: RET"
+    },
+    {
+      "file": "analysis/native-simulation/results/11437-renderer-state-cache-518890-procedure_assembly.json",
+      "fileSha256": "908e6c2f195cd33212032cd8e38446498886763292c45246b51f00155ccbb8fa",
+      "evidenceId": "ev_83ed7f2a394dacd5ef1424a768199ec5496c748a1d54b232c805d6cf6006a809",
+      "procedure": "0x518890",
+      "assembly": "0x518890: MOV EAX, dword ptr [ECX + 0x34]\n0x518893: PUSH EBX\n0x518894: PUSH EBP\n0x518895: PUSH ESI\n0x518896: MOV ESI, dword ptr [ECX + 0x30]\n0x518899: MOV EBP, EAX\n0x51889b: SUB EBP, ESI\n0x51889d: XOR ECX, ECX\n0x51889f: ADD EBP, 0x3\n0x5188a2: XOR EBX, EBX\n0x5188a4: SHR EBP, 0x2\n0x5188a7: CMP ESI, EAX\n0x5188a9: CMOVA EBP, ECX\n0x5188ac: TEST EBP, EBP\n0x5188ae: JZ 0x00518936\n0x5188b4: PUSH EDI\n0x5188b5: MOV EDI, dword ptr [ESI]\n0x5188b7: CMP byte ptr [EDI + 0x20], 0x0\n0x5188bb: JZ 0x005188c5\n0x5188bd: MOV EAX, dword ptr [EDI]\n0x5188bf: MOV ECX, EDI\n0x5188c1: CALL dword ptr [EAX]\n0x5188c3: JMP 0x005188ce\n0x5188c5: MOV EAX, dword ptr [EDI + 0x28]\n0x5188c8: PUSH EAX\n0x5188c9: MOV ECX, dword ptr [EAX]\n0x5188cb: CALL dword ptr [ECX + 0x20]\n0x5188ce: MOV EAX, dword ptr [EDI + 0x60]\n0x5188d1: MOV ECX, EDI\n0x5188d3: MOV dword ptr [EDI + EAX*0x4 + 0x58], 0x0\n0x5188db: MOV EAX, dword ptr [EDI]\n0x5188dd: MOV EAX, dword ptr [EAX + 0x1c]\n0x5188e0: CALL EAX\n0x5188e2: TEST AL, AL\n0x5188e4: JZ 0x00518908\n0x5188e6: MOV EAX, dword ptr [EDI]\n0x5188e8: MOV ECX, EDI\n0x5188ea: MOV EAX, dword ptr [EAX + 0x20]\n0x5188ed: CALL EAX\n0x5188ef: TEST AL, AL\n0x5188f1: MOV EAX, dword ptr [EDI + 0x60]\n0x5188f4: JZ 0x00518900\n0x5188f6: MOV dword ptr [EDI + EAX*0x4 + 0x58], 0x1\n0x5188fe: JMP 0x00518908\n0x518900: MOV dword ptr [EDI + EAX*0x4 + 0x58], 0x2\n0x518908: XOR dword ptr [EDI + 0x60], 0x1\n0x51890c: MOV EAX, dword ptr [EDI + 0x60]\n0x51890f: MOV ECX, EAX\n0x518911: XOR ECX, 0x1\n0x518914: MOV EAX, dword ptr [EDI + EAX*0x4 + 0x58]\n0x518918: CMP EAX, dword ptr [EDI + ECX*0x4 + 0x58]\n0x51891c: JZ 0x0051892d\n0x51891e: MOV EAX, [0x006efb40]\n0x518923: TEST EAX, EAX\n0x518925: JZ 0x0051892d\n0x518927: PUSH EDI\n0x518928: CALL EAX\n0x51892a: ADD ESP, 0x4\n0x51892d: INC EBX\n0x51892e: ADD ESI, 0x4\n0x518931: CMP EBX, EBP\n0x518933: JNZ 0x005188b5\n0x518935: POP EDI\n0x518936: POP ESI\n0x518937: POP EBP\n0x518938: POP EBX\n0x518939: RET"
+    },
+    {
+      "file": "analysis/native-simulation/results/13415-renderer-runtime-closure-403570-procedure_assembly.json",
+      "fileSha256": "f5bf45db1e42931b1b6c7035162803ef80bf61ab72030eea19b0439eac334ce7",
+      "evidenceId": "ev_82ac5cc57ca75ff427daaaac9cd57e56ba651abf95dc4b4c96626f82b09f449e",
+      "procedure": "0x403570",
+      "assembly": "0x403570: MOV EAX, dword ptr [ESP + 0x8]\n0x403574: CMP EAX, 0x10\n0x403577: JZ 0x00403591\n0x403579: CMP EAX, 0x100\n0x40357e: JZ 0x00403588\n0x403580: MOV EAX, 0x1\n0x403585: RET 0x10\n0x403588: MOV CL, byte ptr [ESP + 0xc]\n0x40358c: CALL 0x004416a0\n0x403591: XOR EAX, EAX\n0x403593: RET 0x10"
+    },
+    {
+      "file": "analysis/native-simulation/results/13425-renderer-window-key-procedure_assembly.json",
+      "fileSha256": "0898aa7345a8d8d8733cbcbe8d8e73574004860e285dfa6a963f0215c1ce668d",
+      "evidenceId": "ev_6dfd805614f6380b403425d033785a71f6d4bfc8bbbc4e3995eb4f05ee280187",
+      "procedure": "0x4416a0",
+      "assembly": "0x4416a0: PUSH EBX\n0x4416a1: PUSH ESI\n0x4416a2: MOV EBX, 0x1\n0x4416a7: MOV EDX, 0x20\n0x4416ac: PUSH EDI\n0x4416ad: MOV EDI, EBX\n0x4416af: NOP\n0x4416b0: MOV AL, byte ptr [EDX + 0x6fbaef]\n0x4416b6: MOV byte ptr [EDX + 0x6fbaf0], AL\n0x4416bc: DEC EDX\n0x4416bd: TEST EDX, EDX\n0x4416bf: JG 0x004416b0\n0x4416c1: PUSH 0x6fbaf0\n0x4416c6: MOV byte ptr [0x006fbaf0], CL\n0x4416cc: MOV byte ptr [0x006fbb10], 0x0\n0x4416d3: CALL dword ptr [0x0056e244]\n0x4416d9: MOV ESI, dword ptr [0x0056e248]\n0x4416df: PUSH 0x5d0734\n0x4416e4: PUSH 0x6fbaf0\n0x4416e9: CALL ESI\n0x4416eb: ADD ESP, 0xc\n0x4416ee: CMP EAX, 0x6fbaf0\n0x4416f3: JNZ 0x00441708\n0x4416f5: MOV EAX, [0x005ecefc]\n0x4416fa: MOV ECX, 0x4e20\n0x4416ff: MOV byte ptr [EAX + 0x97], 0x2\n0x441706: JMP 0x0044172e\n0x441708: PUSH 0x5d0744\n0x44170d: PUSH 0x6fbaf0\n0x441712: CALL ESI\n0x441714: ADD ESP, 0x8\n0x441717: CMP EAX, 0x6fbaf0\n0x44171c: JNZ 0x00441745\n0x44171e: MOV EAX, [0x005ecefc]\n0x441723: MOV ECX, 0xafc8\n0x441728: MOV byte ptr [EAX + 0x97], BL\n0x44172e: CMP byte ptr [EAX + 0x82], 0x0\n0x441735: MOV EDX, 0x10000\n0x44173a: CMOVNZ ECX, EDX\n0x44173d: MOV dword ptr [0x005eb5e0], ECX\n0x441743: JMP 0x00441775\n0x441745: PUSH 0x5d0754\n0x44174a: PUSH 0x6fbaf0\n0x44174f: CALL ESI\n0x441751: ADD ESP, 0x8\n0x441754: CMP EAX, 0x6fbaf0\n0x441759: JNZ 0x00441773\n0x44175b: MOV EAX, [0x005ecefc]\n0x441760: MOV dword ptr [0x005eb5e0], 0x10000\n0x44176a: MOV byte ptr [EAX + 0x97], 0x0\n0x441771: JMP 0x00441775\n0x441773: XOR EBX, EBX\n0x441775: PUSH 0x5d076c\n0x44177a: PUSH 0x6fbaf0\n0x44177f: CALL ESI\n0x441781: ADD ESP, 0x8\n0x441784: CMP EAX, 0x6fbaf0\n0x441789: JNZ 0x0044179c\n0x44178b: MOV EAX, [0x005ecefc]\n0x441790: XOR byte ptr [EAX + 0x96], 0x1\n0x441797: JMP 0x00441aa2\n0x44179c: PUSH 0x5d0774\n0x4417a1: PUSH 0x6fbaf0\n0x4417a6: CALL ESI\n0x4417a8: ADD ESP, 0x8\n0x4417ab: CMP EAX, 0x6fbaf0\n0x4417b0: JNZ 0x004417e3\n0x4417b2: CMP dword ptr [0x005eb518], 0x0\n0x4417b9: JZ 0x004417e3\n0x4417bb: MOV ECX, dword ptr [0x005ecefc]\n0x4417c1: CMP byte ptr [ECX + 0x7], 0x0\n0x4417c5: SETZ AL\n0x4417c8: CMP dword ptr [0x005ec138], 0x4\n0x4417cf: MOV byte ptr [ECX + 0x7], AL\n0x4417d2: JNZ 0x00441aa2\n0x4417d8: MOV dword ptr [0x006e6764], EDI\n0x4417de: JMP 0x00441aa2\n0x4417e3: PUSH 0x5d0784\n0x4417e8: PUSH 0x6fbaf0\n0x4417ed: CALL ESI\n0x4417ef: ADD ESP, 0x8\n0x4417f2: CMP EAX, 0x6fbaf0\n0x4417f7: JNZ 0x0044180a\n0x4417f9: MOV EAX, [0x005ecefc]\n0x4417fe: XOR byte ptr [EAX + 0x95], 0x1\n0x441805: JMP 0x00441aa2\n0x44180a: PUSH 0x5d0794\n0x44180f: PUSH 0x6fbaf0\n0x441814: CALL ESI\n0x441816: ADD ESP, 0x8\n0x441819: CMP EAX, 0x6fbaf0\n0x44181e: JNZ 0x0044184b\n0x441820: CMP dword ptr [0x005eb518], 0x0\n0x441827: JZ 0x0044184b\n0x441829: MOV EDX, dword ptr [0x005ecb1c]\n0x44182f: MOV AL, byte ptr [EDX + 0x721]\n0x441835: MOV CL, AL\n0x441837: NOT CL\n0x441839: XOR CL, AL\n0x44183b: AND CL, 0x40\n0x44183e: XOR CL, AL\n0x441840: MOV byte ptr [EDX + 0x721], CL\n0x441846: JMP 0x00441aa2\n0x44184b: PUSH 0x5d07a4\n0x441850: PUSH 0x6fbaf0\n0x441855: CALL ESI\n0x441857: ADD ESP, 0x8\n0x44185a: CMP EAX, 0x6fbaf0\n0x44185f: JNZ 0x0044188d\n0x441861: CMP dword ptr [0x005eb518], 0x0\n0x441868: JZ 0x0044188d\n0x44186a: MOV EDX, dword ptr [0x005ecb1c]\n0x441870: MOV CL, byte ptr [EDX + 0x720]\n0x441876: MOV AL, CL\n0x441878: NOT AL\n0x44187a: XOR AL, CL\n0x44187c: NOT CL\n0x44187e: AND AL, 0x7f\n0x441880: XOR AL, CL\n0x441882: MOV byte ptr [EDX + 0x720], AL\n0x441888: JMP 0x00441aa2\n0x44188d: PUSH 0x5d07b4\n0x441892: PUSH 0x6fbaf0\n0x441897: CALL ESI\n0x441899: ADD ESP, 0x8\n0x44189c: CMP EAX, 0x6fbaf0\n0x4418a1: JNZ 0x004418ce\n0x4418a3: CMP dword ptr [0x005eb518], 0x0\n0x4418aa: JZ 0x004418ce\n0x4418ac: MOV EDX, dword ptr [0x005ecb1c]\n0x4418b2: MOV AL, byte ptr [EDX + 0x720]\n0x4418b8: MOV CL, AL\n0x4418ba: NOT CL\n0x4418bc: XOR CL, AL\n0x4418be: AND CL, 0x2\n0x4418c1: XOR CL, AL\n0x4418c3: MOV byte ptr [EDX + 0x720], CL\n0x4418c9: JMP 0x00441aa2\n0x4418ce: PUSH 0x5d07c4\n0x4418d3: PUSH 0x6fbaf0\n0x4418d8: CALL ESI\n0x4418da: ADD ESP, 0x8\n0x4418dd: CMP EAX, 0x6fbaf0\n0x4418e2: JNZ 0x0044190f\n0x4418e4: CMP dword ptr [0x005eb518], 0x0\n0x4418eb: JZ 0x0044190f\n0x4418ed: MOV EDX, dword ptr [0x005ecb1c]\n0x4418f3: MOV AL, byte ptr [EDX + 0x720]\n0x4418f9: MOV CL, AL\n0x4418fb: NOT CL\n0x4418fd: XOR CL, AL\n0x4418ff: AND CL, 0x4\n0x441902: XOR CL, AL\n0x441904: MOV byte ptr [EDX + 0x720], CL\n0x44190a: JMP 0x00441aa2\n0x44190f: PUSH 0x5d07d4\n0x441914: PUSH 0x6fbaf0\n0x441919: CALL ESI\n0x44191b: ADD ESP, 0x8\n0x44191e: CMP EAX, 0x6fbaf0\n0x441923: JNZ 0x00441950\n0x441925: CMP dword ptr [0x005eb518], 0x0\n0x44192c: JZ 0x00441950\n0x44192e: MOV EDX, dword ptr [0x005ecb1c]\n0x441934: MOV AL, byte ptr [EDX + 0x720]\n0x44193a: MOV CL, AL\n0x44193c: NOT CL\n0x44193e: XOR CL, AL\n0x441940: AND CL, 0x10\n0x441943: XOR CL, AL\n0x441945: MOV byte ptr [EDX + 0x720], CL\n0x44194b: JMP 0x00441aa2\n0x441950: PUSH 0x5d07e0\n0x441955: PUSH 0x6fbaf0\n0x44195a: CALL ESI\n0x44195c: ADD ESP, 0x8\n0x44195f: CMP EAX, 0x6fbaf0\n0x441964: JNZ 0x00441991\n0x441966: CMP dword ptr [0x005eb518], 0x0\n0x44196d: JZ 0x00441991\n0x44196f: MOV EDX, dword ptr [0x005ecb1c]\n0x441975: MOV AL, byte ptr [EDX + 0x720]\n0x44197b: MOV CL, AL\n0x44197d: NOT CL\n0x44197f: XOR CL, AL\n0x441981: AND CL, 0x20\n0x441984: XOR CL, AL\n0x441986: MOV byte ptr [EDX + 0x720], CL\n0x44198c: JMP 0x00441aa2\n0x441991: PUSH 0x5d07ec\n0x441996: PUSH 0x6fbaf0\n0x44199b: CALL ESI\n0x44199d: ADD ESP, 0x8\n0x4419a0: CMP EAX, 0x6fbaf0\n0x4419a5: JNZ 0x004419d2\n0x4419a7: CMP dword ptr [0x005eb518], 0x0\n0x4419ae: JZ 0x004419d2\n0x4419b0: MOV EDX, dword ptr [0x005ecb1c]\n0x4419b6: MOV AL, byte ptr [EDX + 0x720]\n0x4419bc: MOV CL, AL\n0x4419be: NOT CL\n0x4419c0: XOR CL, AL\n0x4419c2: AND CL, 0x8\n0x4419c5: XOR CL, AL\n0x4419c7: MOV byte ptr [EDX + 0x720], CL\n0x4419cd: JMP 0x00441aa2\n0x4419d2: PUSH 0x5d07f8\n0x4419d7: PUSH 0x6fbaf0\n0x4419dc: CALL ESI\n0x4419de: ADD ESP, 0x8\n0x4419e1: CMP EAX, 0x6fbaf0\n0x4419e6: JNZ 0x00441a0b\n0x4419e8: MOV EDX, dword ptr [0x005ecb1c]\n0x4419ee: MOV CL, byte ptr [EDX + 0x721]\n0x4419f4: MOV AL, CL\n0x4419f6: NOT AL\n0x4419f8: XOR AL, CL\n0x4419fa: NOT CL\n0x4419fc: AND AL, 0x7f\n0x4419fe: XOR AL, CL\n0x441a00: MOV byte ptr [EDX + 0x721], AL\n0x441a06: JMP 0x00441aa2\n0x441a0b: PUSH 0x5d0804\n0x441a10: PUSH 0x6fbaf0\n0x441a15: CALL ESI\n0x441a17: ADD ESP, 0x8\n0x441a1a: CMP EAX, 0x6fbaf0\n0x441a1f: JNZ 0x00441a2f\n0x441a21: MOV EAX, [0x005ecb1c]\n0x441a26: XOR word ptr [EAX + 0x61c], DI\n0x441a2d: JMP 0x00441aa2\n0x441a2f: PUSH 0x5d0814\n0x441a34: PUSH 0x6fbaf0\n0x441a39: CALL ESI\n0x441a3b: ADD ESP, 0x8\n0x441a3e: CMP EAX, 0x6fbaf0\n0x441a43: JNZ 0x00441a5c\n0x441a45: CMP dword ptr [0x005eb518], 0x0\n0x441a4c: JZ 0x00441a5c\n0x441a4e: MOV EAX, [0x005ecb1c]\n0x441a53: XOR byte ptr [EAX + 0x587], 0x1\n0x441a5a: JMP 0x00441aa2\n0x441a5c: PUSH 0x5d0820\n0x441a61: PUSH 0x6fbaf0\n0x441a66: CALL ESI\n0x441a68: ADD ESP, 0x8\n0x441a6b: CMP EAX, 0x6fbaf0\n0x441a70: JNZ 0x00441a7d\n0x441a72: MOV EAX, [0x005ecefc]\n0x441a77: XOR byte ptr [EAX + 0x29], 0x1\n0x441a7b: JMP 0x00441aa2\n0x441a7d: PUSH 0x5d0838\n0x441a82: PUSH 0x6fbaf0\n0x441a87: CALL ESI\n0x441a89: ADD ESP, 0x8\n0x441a8c: CMP EAX, 0x6fbaf0\n0x441a91: JNZ 0x00441aa0\n0x441a93: MOV EAX, [0x005ecb1c]\n0x441a98: XOR dword ptr [EAX + 0x724], EDI\n0x441a9e: JMP 0x00441aa2\n0x441aa0: XOR EDI, EDI\n0x441aa2: TEST EBX, EBX\n0x441aa4: JNZ 0x00441aaa\n0x441aa6: TEST EDI, EDI\n0x441aa8: JZ 0x00441aca\n0x441aaa: PUSH 0x0\n0x441aac: PUSH 0x0\n0x441aae: PUSH ECX\n0x441aaf: PUSH 0x5\n0x441ab1: XOR EDX, EDX\n0x441ab3: PUSH 0x3a98\n0x441ab8: PUSH 0x800\n0x441abd: PUSH 0x0\n0x441abf: LEA ECX, [EDX + 0x23]\n0x441ac2: CALL 0x00484bb0\n0x441ac7: ADD ESP, 0x1c\n0x441aca: POP EDI\n0x441acb: POP ESI\n0x441acc: POP EBX\n0x441acd: RET"
+    }
+  ],
+  "conclusions": [
+    "DirectInput keyboard/mouse devices are explicitly created, acquired and polled by retained native input-manager routines; hidden/foreground-query adapters do not neutralize that interface.",
+    "Mapped cooperative setters select FOREGROUND for both keyboard and mouse. Background GetDeviceState/Acquire success under the declared hidden policy has not been observed.",
+    "Six mode8 AI participants use the autonomous dispatch/route path, but that does not establish that menu, demo-abort, hotkey, cheat or controller paths ignore physical input."
+  ],
+  "limitations": [
+    "No original process was launched, no device state/HRESULT was captured, and no input isolation was implemented.",
+    "Device polling/cooperative wrappers outside retained REA coverage are supported here by mapped bytes/manual decoding; fresh provider confirmation remains useful.",
+    "Main-EXE import absence does not exclude dynamic calls or input handled inside dependencies.",
+    "Joystick/game-controller cooperative and demo-abort behavior remains unresolved.",
+    "Existing normal WM_KEYDOWN key-history/cheat path is distinct from DirectInput and is not filtered by the current hidden-window policy."
+  ],
+  "platformSources": [
+    "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ee416848(v=vs.85)",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getkeystate"
+  ]
+}

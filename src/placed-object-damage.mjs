@@ -3,6 +3,7 @@ import {emitRawEffectParticles,emitRawBodyDebris,lookupRawSpatialBucket} from '.
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
 import {spatialBucketContainsSector} from './track-deformation.mjs';
+import {copyToNativeMemory} from './native-memory-spans.mjs';
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 const vector=(m,p)=>[0,4,8].map(o=>get(m,p+o));
 const copy=(m,a,b)=>{for(const o of[0,4,8])put(m,b+o,get(m,a+o));};
@@ -82,7 +83,7 @@ export function queueDestroyedPlacedObjects(object,{memory,scratchBase,handlers=
   const next=ptr(memory,tail+0x19c);if(!next){put(memory,row+4,255);break;}put(memory,row+4,cursor);tail=next;
  }
  const xy=Buffer.from(memory.subarray(tail+0x34,tail+0x3c)),z=get(memory,tail+0x3c);
- put(memory,scratchBase-4,z);memory[0x9207e1]=cursor;memory[0x9207e0]=count;xy.copy(memory,scratchBase-12);
+ put(memory,scratchBase-4,z);memory[0x9207e1]=cursor;memory[0x9207e0]=count;copyToNativeMemory(memory,scratchBase-12,xy);
  if(memory[ptr(memory,0x5ecb1c)+0x58c]!==2){
   const context={...runtime,memory,handlers,scratchBase:scratchBase-0x14};
   if(handlers.call41a5d0)handlers.call41a5d0({object:tail,position:scratchBase-12,...context});
@@ -105,7 +106,7 @@ export function selectModelDestructionObserver(position,output,distance,{memory,
   }
   put(memory,output,0x91f6c0+selected*56);if(selected!==-1)return;
  }
- put(memory,0x9205a0,0);const xy=Buffer.from(memory.subarray(position,position+8));xy.copy(memory,0x9205a4);const z=get(memory,position+8);
+ put(memory,0x9205a0,0);const xy=Buffer.from(memory.subarray(position,position+8));copyToNativeMemory(memory,0x9205a4,xy);const z=get(memory,position+8);
  put(memory,0x9205a4,get(memory,0x9205a4)-0x320000);put(memory,0x9205a8,get(memory,0x9205a8)-0xc80000);put(memory,0x9205ac,z-0x320000);put(memory,output,0x9205a0);
 }
 
@@ -123,9 +124,9 @@ export function computeModelCameraDuration(observer,position,divisor,maximum,{me
 export function startModelDestructionCamera(object,position,{memory,scratchBase,handlers={},...runtime}) {
  put(memory,scratchBase-4,object);
  if(get(memory,0x6e6550)<2||memory.readInt16LE(0x91ffb2)<45)return;
- const xy=Buffer.from(memory.subarray(position,position+8));xy.copy(memory,0x91ff90);put(memory,0x91ff98,get(memory,position+8));
+ const xy=Buffer.from(memory.subarray(position,position+8));copyToNativeMemory(memory,0x91ff90,xy);put(memory,0x91ff98,get(memory,position+8));
  put(memory,0x91ff80,15);put(memory,0x91ffb2,0x640000);
  selectModelDestructionObserver(position,scratchBase-4,1500,{...runtime,memory,handlers,scratchBase:scratchBase-0x18});
- const selected=ptr(memory,scratchBase-4),selectedXY=Buffer.from(memory.subarray(selected+4,selected+12));selectedXY.copy(memory,0x91ff84);put(memory,0x91ff8c,get(memory,selected+12));put(memory,0x9200c0,object);
+ const selected=ptr(memory,scratchBase-4),selectedXY=Buffer.from(memory.subarray(selected+4,selected+12));copyToNativeMemory(memory,0x91ff84,selectedXY);put(memory,0x91ff8c,get(memory,selected+12));put(memory,0x9200c0,object);
  put(memory,0x91ffa8,computeModelCameraDuration(0x91ff84,position,700,4,{memory,scratchBase:scratchBase-0x20}));word(memory,0x91ffb6,0);
 }

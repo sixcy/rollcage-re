@@ -21,6 +21,13 @@ export class ByteBuffer extends Uint8Array {
     return new DataView(this.buffer, this.byteOffset + offset, bytes);
   }
   readUInt32LE(offset) { return this.view(offset, 4).getUint32(0, true); }
+  readUIntLE(offset, length) {
+    if (!Number.isInteger(length) || length < 1 || length > 6) throw new RangeError('Integer reads require 1..6 bytes.');
+    this.view(offset, length);
+    let value = 0;
+    for (let index = length - 1; index >= 0; index--) value = value * 256 + this[offset + index];
+    return value;
+  }
   readUInt16LE(offset) { return this.view(offset, 2).getUint16(0, true); }
   readInt16LE(offset) { return this.view(offset, 2).getInt16(0, true); }
   readInt32LE(offset) { return this.view(offset, 4).getInt32(0, true); }

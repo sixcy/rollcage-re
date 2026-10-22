@@ -2,6 +2,8 @@
 // globals. The active-vehicle482730 operation remains an explicit boundary.
 import {abs32,vectorLengthQ16,divideQ16,multiplyQ16} from './fixed-integer.mjs';
 import {normalizeUnreducedCollisionVector} from './sphere-collision.mjs';
+import {applyNativeBodyEffectImpulse} from './native-body-effect-impulse.mjs';
+import {sharesNativeMemorySpan} from './native-memory-spans.mjs';
 const clamp=value=>Math.max(-0x1800,Math.min(0x1800,value));
 //417610 mutates the input and two process scratch globals. Its Z offset is
 // intentional; this is not a general-purpose vector normalization primitive.
@@ -12,7 +14,11 @@ export function reduceBodyEffectDirection(vector,scratch={}) {
  else if(abs32(vector.reduce((value,component)=>(value+Math.imul(component>>18,component>>18))|0,0))<1)vector[2]=(vector[2]-0x20000)|0;
  return scratch;
 }
-export function applyBodyEffectImpulse(body,{originQ16,strength,roundingMode,directionScratch={},handlers={}}={}) {
+export function applyBodyEffectImpulse(body,{originQ16,strength,roundingMode,directionScratch={},handlers={},nativeStack}={}) {
+ if(nativeStack){
+  if(!Number.isInteger(body.address)||!sharesNativeMemorySpan(nativeStack.memory,body.bytes,body.address,0x180))throw Error('Native body impulse requires actual shared body state.');
+  return applyNativeBodyEffectImpulse(body.address,{...nativeStack,nativeStack,roundingMode,handlers});
+ }
  const difference=body.position.map((value,axis)=>(value-originQ16[axis])|0),reduced=difference.map(value=>value>>18),squared=reduced.reduce((sum,value)=>(sum+Math.imul(value,value))|0,0);
  if(squared>65536)return;
  const denominator=Math.max(squared,256),direction=reduced.map(value=>Math.trunc((value<<16)/denominator));

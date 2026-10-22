@@ -1,0 +1,39 @@
+{"type":"capture","schemaVersion":1,"executablePath":"C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-thread-environment-20261022\\synthetic-thread-environment-fixture.exe","workingDirectory":"C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-thread-environment-20261022","arguments":[],"executableSha256":"b22fb0d892cfb0e0e6f59f507d029dc4b8a151c66ab2f9133beb4d200b169f02","breakpointMode":"software-int3","cleanupPolicy":"freeze-owned-threads-before-unpatch-and-termination","maxDurationMs":10000,"maxEvents":1000,"maxSnapshots":1,"timingLimitation":"Debugger-paused elapsed time does not establish native wall-clock simulation rate.","elapsedMs":0}
+{"type":"owned-process","pid":16672,"tid":21448,"showWindow":false,"elapsedMs":17}
+{"type":"debug-event","event":3,"pid":16672,"tid":21448,"ordinal":1,"elapsedMs":17}
+{"type":"module","kind":"main","baseAddress":"0x00400000","path":"\\\\?\\C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-thread-environment-20261022\\synthetic-thread-environment-fixture.exe","wow64":true,"elapsedMs":19}
+{"type":"breakpoint-installed","id":"thread-environment-observed","address":"0x00401015","originalBytesHex":"90","patchBytesHex":"cc","elapsedMs":20}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":2,"elapsedMs":20}
+{"type":"module","kind":"dll","baseAddress":null,"nativeBaseAddress":"0x00007ffaffe00000","path":"\\\\?\\C:\\Windows\\System32\\ntdll.dll","elapsedMs":20}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":3,"elapsedMs":21}
+{"type":"module","kind":"dll","baseAddress":"0x77dc0000","nativeBaseAddress":"0x0000000077dc0000","path":"\\\\?\\C:\\Windows\\SysWOW64\\ntdll.dll","elapsedMs":21}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":4,"elapsedMs":21}
+{"type":"module","kind":"dll","baseAddress":null,"nativeBaseAddress":"0x00007ffafe8e0000","path":"\\\\?\\C:\\Windows\\System32\\wow64.dll","elapsedMs":21}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":5,"elapsedMs":21}
+{"type":"module","kind":"dll","baseAddress":null,"nativeBaseAddress":"0x00007ffaff9a0000","path":"\\\\?\\C:\\Windows\\System32\\wow64base.dll","elapsedMs":22}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":6,"elapsedMs":22}
+{"type":"module","kind":"dll","baseAddress":null,"nativeBaseAddress":"0x00007ffafdc60000","path":"\\\\?\\C:\\Windows\\System32\\wow64win.dll","elapsedMs":22}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":7,"elapsedMs":22}
+{"type":"module","kind":"dll","baseAddress":null,"nativeBaseAddress":"0x00007ffaff980000","path":"\\\\?\\C:\\Windows\\System32\\wow64con.dll","elapsedMs":22}
+{"type":"debug-event","event":1,"pid":16672,"tid":21448,"ordinal":8,"elapsedMs":22}
+{"type":"exception","code":"0x80000003","address":"0xfff22239","nativeAddress":"0x00007ffafff22239","firstChance":1,"elapsedMs":22}
+{"type":"loader-breakpoint","address":"0xfff22239","architecture":"native-host-before-wow64-import-resolution","elapsedMs":22}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":9,"elapsedMs":22}
+{"type":"module","kind":"dll","baseAddress":"0x77db0000","nativeBaseAddress":"0x0000000077db0000","path":"\\\\?\\C:\\Windows\\System32\\wow64cpu.dll","elapsedMs":23}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":10,"elapsedMs":23}
+{"type":"module","kind":"dll","baseAddress":"0x77030000","nativeBaseAddress":"0x0000000077030000","path":"\\\\?\\C:\\Windows\\SysWOW64\\kernel32.dll","elapsedMs":24}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":11,"elapsedMs":24}
+{"type":"module","kind":"dll","baseAddress":"0x77710000","nativeBaseAddress":"0x0000000077710000","path":"\\\\?\\C:\\Windows\\SysWOW64\\KernelBase.dll","elapsedMs":24}
+{"type":"debug-event","event":6,"pid":16672,"tid":21448,"ordinal":12,"elapsedMs":25}
+{"type":"module","kind":"dll","baseAddress":"0x64480000","nativeBaseAddress":"0x0000000064480000","path":"\\\\?\\C:\\Windows\\SysWOW64\\apphelp.dll","elapsedMs":25}
+{"type":"debug-event","event":1,"pid":16672,"tid":21448,"ordinal":13,"elapsedMs":28}
+{"type":"exception","code":"0x4000001f","address":"0x77ed8b88","nativeAddress":"0x0000000077ed8b88","firstChance":1,"elapsedMs":28}
+{"type":"loader-breakpoint","address":"0x77ed8b88","architecture":"x86","elapsedMs":28}
+{"type":"imports","entries":[{"dll":"KERNEL32.dll","name":"ExitProcess","iatRva":"0x00001250","resolvedAddress":"0x7705b360"}],"coverageLimitation":"Hooks cover listed main-executable imports only; dynamically resolved APIs and imports made solely by other modules are not enumerated.","elapsedMs":30}
+{"type":"debug-event","event":1,"pid":16672,"tid":21448,"ordinal":14,"elapsedMs":30}
+{"type":"exception","code":"0x4000001f","address":"0x00401015","nativeAddress":"0x0000000000401015","firstChance":1,"elapsedMs":30}
+{"type":"snapshot","ordinal":1,"breakpointId":"thread-environment-observed","hit":1,"tid":21448,"registers":{"edi":"0x00401000","esi":"0x00401000","ebx":"0x0026a000","edx":"0x00401000","ecx":"0x00401000","eax":"0x00000053","ebp":"0x001aff84","eip":"0x00401015","cs":"0x00000023","eflags":"0x00000246","esp":"0x001aff78","ss":"0x0000002b","fpuControlWord":"0x0000027f","fpuStatusWord":"0x00000000","mxcsr":"0x00001f80"},"contextFile":"snapshot-000001-context.bin","contextSha256":"cd5f021799a0c0abbae9efafa88a02414211ec15a536abdbc39b0d359458a59e","ranges":[{"id":"counter","address":"0x00401100","rootAddress":null,"rootRva":"0x1100","moduleBaseAddress":"0x00400000","baseRegister":null,"dereferenceOffsets":[],"offset":"0","length":8,"file":"snapshot-000001-range-001.bin","sha256":"5501240ac53b7dbabd0f9acbb56e81ff8a14b81de9ca86e8ffc0ec20ba17c506"},{"id":"thread-seh-head","address":"0x0026d000","length":4,"sha256":"c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b","source":"stopped-owned-thread-fs-zero","file":"snapshot-000001-range-002.bin"}],"capturePhase":"before-declared-writes-before-original-instruction","threadEnvironment":{"fsSelector":"0x00000053","descriptorHex":"ff0f00d026f34000","fsBase":"0x0026d000","sehWord":"0x001affcc","tid":21448,"selectorApi":"Wow64GetThreadSelectorEntry","contextSelectorOffset":144,"source":"stopped-owned-thread-selector-query"},"elapsedMs":33}
+{"type":"complete","reason":"snapshot-bound","events":14,"snapshots":1,"elapsedMs":34}
+{"type":"owned-process-cleanup-thread-frozen","pid":16672,"tid":21448,"mainThread":true,"previousSuspendCount":0,"elapsedMs":35}
+{"type":"owned-process-cleanup-freeze","pid":16672,"requestedThreads":1,"frozenTids":[21448],"allFrozen":true,"elapsedMs":35}
+{"type":"owned-process-cleanup","pid":16672,"terminated":true,"win32Error":0,"elapsedMs":35}

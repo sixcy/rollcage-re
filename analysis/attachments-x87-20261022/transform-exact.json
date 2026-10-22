@@ -1,0 +1,25 @@
+{
+  "method": "Actual retained432080 with explicit exact finite x87 value stacks at PC24/53/64 and all four RC modes. Source follows original z,x,y stores and translation-first FXCH/FADDP tree. Complete1700-byte scratch and drained value stack compare; no game or service substitutions. Synthetic signed-short/Q12 inputs, not captured trajectories. Shared exact arithmetic primitive is independently hardware-checked in the separate x87 fixture; this interpreter comparison validates instruction sequencing/storage and propagation, not a second independent arithmetic implementation. No native launch or status/exception equivalence claim.",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidence": [
+    "ev_4f11390a164e680ba1a045c162466cf9d6cf45d3f937cf146a50973151aa1984"
+  ],
+  "cases": 3072,
+  "instructionSteps": 144384,
+  "pc24CasesDifferingFromHistorical53": 20,
+  "examples": [
+    {
+      "precisionBits": 24,
+      "x": 27818
+    },
+    {
+      "precisionBits": 53,
+      "x": 27817
+    },
+    {
+      "precisionBits": 64,
+      "x": 27817
+    }
+  ],
+  "matched": true
+}

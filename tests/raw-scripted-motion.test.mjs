@@ -36,6 +36,13 @@ test('debris emission consumes free IDs, initializes stale rows and links the pa
 test('unscripted release executes actual effect policies and installs the later collision filter',()=>{
   const runtime=createRawScriptFixture({freeCount:32}),m=runtime.memory;put(m,a.body,26);assert.equal(releaseRawScriptedBody(a.body,runtime),1);assert.equal(get(m,a.body+0x148),0x46e470);assert.equal(get(m,0x902b88),15);assert.notEqual(get(m,0x6e65c0),0);assert.equal(get(m,0x91cd60),1);
 });
+
+test('unscripted release publishes the actual relocated collision callback without rewriting heap pointers',()=>{
+  const runtime=createRawScriptFixture({freeCount:32}),m=runtime.memory;put(m,a.body,26);
+  assert.equal(releaseRawScriptedBody(a.body,{...runtime,moduleBaseAddress:0x6e0000}),1);
+  assert.equal(m.readUInt32LE(a.body+0x148),0x74e470);
+  assert.equal(m.readUInt32LE(0x902b84),a.debris);
+});
 test('self-restarting bytecode is bounded by an explicit workflow guard',()=>{
   const runtime=createRawScriptFixture();word(runtime.memory,a.script,4);assert.throws(()=>stepRawScriptedMotion(a.body,{...runtime,maxOpcodes:3}),/opcode budget/);
 });

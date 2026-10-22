@@ -1,0 +1,27 @@
+{
+  "authority": "failed-original-process-observation",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-query-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "matched": false,
+  "error": {
+    "type": "capture-error",
+    "error": "System.ComponentModel.Win32Exception (0x80004005): Suspend peer thread\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+    "events": 152,
+    "snapshots": 2,
+    "pendingFrame": null,
+    "elapsedMs": 155
+  },
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 31672,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 167
+  },
+  "recoverySnapshots": 0,
+  "limits": [
+    "Startup failed while suspending a peer thread (Win32 error5 in diagnostics). No recovery leaf was observed; no physics fidelity claim.",
+    "The owned child was terminated. A thread-lifecycle cause is unproven without a live handle wait/exit observation.",
+    "The user then requested the six-car Expert roster; native captures remain stopped."
+  ]
+}

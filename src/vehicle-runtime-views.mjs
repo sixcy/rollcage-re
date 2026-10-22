@@ -1,11 +1,12 @@
 // Live native-storage views, not constructors or synchronization snapshots.
 // Layout anchors: 488220/488370/41c080/499e90 and 483b90/436630/42c590.
 import {updateWheelTractionEffects,emitWheelRearParticle,emitWheelSurfaceParticles} from './wheel-effects.mjs';
+import {assertNativeMemorySpan,sharesNativeMemorySpan,resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
 const indexFor=key=>typeof key==='string'&&/^(0|[1-9][0-9]*)$/.test(key)?Number(key):null;
 export function createVehicleRuntimeViews({memory,bodyAt:bodyFactory,vehicleStateFor:stateFactory,materialAt:materialFactory,materialAddressFor}={}){
  if(!Buffer.isBuffer(memory)||typeof bodyFactory!=='function')throw Error('Vehicle views require supplied native memory and bodyAt factory.');
- const range=(p,n)=>{if(!Number.isInteger(p)||p<0||!Number.isInteger(n)||n<0||p+n>memory.length)throw Error('Vehicle view exceeds supplied native storage.');};
+ const range=(p,n)=>{if(!Number.isInteger(p)||p<0||!Number.isInteger(n)||n<0||p+n>memory.length)throw Error('Vehicle view exceeds supplied native storage.');assertNativeMemorySpan(memory,p,n);};
  const width=type=>type==='u8'?1:type==='s16'||type==='u16'?2:4;
  const read=(p,type)=>{range(p,width(type));return type==='u8'?memory[p]:type==='s16'?memory.readInt16LE(p):type==='u16'?memory.readUInt16LE(p):type==='u32'?memory.readUInt32LE(p):type==='f32'?memory.readFloatLE(p):memory.readInt32LE(p);};
  const write=(p,type,value)=>{range(p,width(type));if(type!=='f32'&&!Number.isInteger(value))throw Error('Vehicle native field requires an integer.');if(type==='u8')memory[p]=value&255;else if(type==='s16'||type==='u16')memory.writeUInt16LE(value&65535,p);else if(type==='u32')memory.writeUInt32LE(value>>>0,p);else if(type==='f32')memory.writeFloatLE(value,p);else memory.writeInt32LE(value|0,p);};
@@ -27,11 +28,11 @@ export function createVehicleRuntimeViews({memory,bodyAt:bodyFactory,vehicleStat
  const vector=(object,name,p,length=3,type='s32')=>define(object,name,{get:()=>arrayAt(p,length,type),set:values=>{if(!Array.isArray(values)||values.length!==length)throw Error(`Vehicle ${name} requires ${length} native lanes.`);for(let i=0;i<length;i++)write(p+i*width(type),type,values[i]);}});
  const attach=(object,p,length)=>{
   range(p,length);if(object.address!==undefined&&object.address!==p)throw Error('Vehicle object native address disagrees with its supplied identity.');object.address=p;
-  if(object.bytes!==undefined&&(!Buffer.isBuffer(object.bytes)||object.bytes.buffer!==memory.buffer||object.bytes.byteOffset!==memory.byteOffset+p||object.bytes.length<length))throw Error('Vehicle object bytes must alias the supplied native memory.');
+  if(object.bytes!==undefined&&!sharesNativeMemorySpan(memory,object.bytes,p,length))throw Error('Vehicle object bytes must alias the supplied native memory.');
   if(object.bytes===undefined)object.bytes=memory.subarray(p,p+length);return object;
  };
  const bodies=new Map(),states=new Map(),drives=new Map(),materials=new Map(),contexts=new Map(),vehicles=new Map();
- const addressOf=value=>Number.isInteger(value)?value:value?.address;
+ const addressOf=value=>resolveNativeMemoryAddress(memory,Number.isInteger(value)?value:value?.address);
  function bodyAt(value){
   const p=addressOf(value);if(bodies.has(p))return bodies.get(p);const body=attach(bodyFactory(p),p,0x3e70);
   for(const[name,offset,type]of[['flags',0,'s32'],['mass',0xa8,'s32'],['inverseMass',0xac,'s32'],['coefficient7c',0xb0,'s32'],['integrationFlags',0x108,'s32'],['speed664',0x664,'s32'],['speed668',0x668,'s16'],['steeringAngleQ16',0x644,'s32'],['reverseByte64f',0x64f,'u8'],['vehicleIndex65e',0x65e,'u16']])scalar(body,name,p+offset,type);

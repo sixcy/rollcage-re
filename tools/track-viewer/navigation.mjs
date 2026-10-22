@@ -27,7 +27,9 @@ export class Navigation {
     const target = [car.position[0], -car.position[1] + 25, -car.position[2]];
     const heading = Math.atan2(-car.rotation[2], car.rotation[8]);
     const amount = reset ? 1 : 1 - Math.exp(-Math.max(0, seconds) * 7);
-    this.target = this.target.map((value, i) => value + (target[i] - value) * amount);
+    //The car and camera use the same interpolated render pose. A second
+    //translation filter made the30Hz car jump relative to a moving camera.
+    this.target = target;
     const difference = Math.atan2(Math.sin(heading - this.yaw), Math.cos(heading - this.yaw));
     this.yaw += difference * amount; this.pitch = 0.3; this.distance = 280;
     this.mode = 'follow';

@@ -4,17 +4,18 @@ import {CollisionEventQueue} from './collision-events.mjs';
 import {BodyShapePool,registerBodyCollisionShapes} from './body-shape-registration.mjs';
 import {unpackCollisionNormal} from './collision-grid.mjs';
 import {packNativeTerrainReference} from './respawn-runtime.mjs';
+import {assertNativeMemorySpan,sharesNativeMemorySpan,resolveNativeMemoryAddress,nativeMemoryAddress,copyToNativeMemory} from './native-memory-spans.mjs';
 const indexFor=key=>typeof key==='string'&&/^-?(0|[1-9][0-9]*)$/.test(key)?Number(key):null;
 
 export function createPhysicsRuntimeViews({memory,bodyAt:bodyFactory,bodyStorage=[],bodyLists,groupCapacity=65,shapeCapacity=256,candidateCapacity=2048,bucketAt:bucketFactory,collisionFilters=new Map(),candidateMapping={}}={}){
  if(!Buffer.isBuffer(memory)||!Array.isArray(bodyStorage)||!Array.isArray(bodyLists)||!Number.isInteger(groupCapacity)||groupCapacity<1||groupCapacity>65||!Number.isInteger(shapeCapacity)||shapeCapacity<1||shapeCapacity>256||!Number.isInteger(candidateCapacity)||candidateCapacity<1)throw Error('Physics views require explicit memory, pointer-list capacities and bounded pool capacities.');
- const range=(p,n)=>{if(!Number.isInteger(p)||p<0||!Number.isInteger(n)||n<0||p+n>memory.length)throw Error('Physics view exceeds supplied native storage.');};
+ const range=(p,n)=>{if(!Number.isInteger(p)||p<0||!Number.isInteger(n)||n<0||p+n>memory.length)throw Error('Physics view exceeds supplied native storage.');assertNativeMemorySpan(memory,p,n);};
  const size=type=>type==='u8'?1:type==='u16'||type==='s16'?2:4;
  const read=(p,type='s32')=>{range(p,size(type));return type==='u8'?memory[p]:type==='u16'?memory.readUInt16LE(p):type==='s16'?memory.readInt16LE(p):type==='u32'?memory.readUInt32LE(p):memory.readInt32LE(p);};
  const write=(p,type,value)=>{range(p,size(type));if(!Number.isInteger(value))throw Error('Physics native field requires an integer.');if(type==='u8')memory[p]=value&255;else if(type==='u16'||type==='s16')memory.writeUInt16LE(value&65535,p);else if(type==='u32')memory.writeUInt32LE(value>>>0,p);else memory.writeInt32LE(value|0,p);};
  const define=(object,name,descriptor)=>{const old=Object.getOwnPropertyDescriptor(object,name);if(old&&!old.configurable){if(typeof old.get!=='function'||typeof old.set!=='function')throw Error(`Physics ${name} cannot be bound to native storage.`);return;}Object.defineProperty(object,name,{enumerable:true,...descriptor});};
  const scalar=(object,name,p,type='s32')=>define(object,name,{get:()=>read(typeof p==='function'?p():p,type),set:value=>write(typeof p==='function'?p():p,type,value)});
- const addressOf=value=>value===null||value===0?0:Number.isInteger(value)?value:value?.address;
+ const addressOf=value=>{const p=value===null||value===0?0:Number.isInteger(value)?value:value?.address;return p?resolveNativeMemoryAddress(memory,p):p;};
  const arrays=new Map();
  function arrayAt(key,length,get,set,{negativeMinimum=0}={}){
   if(arrays.has(key))return arrays.get(key);const array=new Proxy(Array(length).fill(0),{
@@ -25,10 +26,10 @@ export function createPhysicsRuntimeViews({memory,bodyAt:bodyFactory,bodyStorage
  }
  const numericArray=(p,length,type='s32',negativeMinimum=0)=>arrayAt(`numeric:${p}:${length}:${type}:${negativeMinimum}`,length,i=>read(p+i*size(type),type),(i,value)=>write(p+i*size(type),type,value),{negativeMinimum});
  const vector=(object,name,p,length=3,type='s32')=>define(object,name,{get:()=>numericArray(p,length,type),set:values=>{if(!Array.isArray(values)||values.length!==length)throw Error(`Physics ${name} requires ${length} native lanes.`);for(let i=0;i<length;i++)write(p+i*size(type),type,values[i]);}});
- const storage=new Map(bodyStorage.map(({address,length})=>{range(address,length);if(length<0x180)throw Error('Physics body storage must contain the common 180h body.');return[address,length];}));
- const listCapacities=new Map(bodyLists.map(({address,capacity})=>{if(!Number.isInteger(capacity)||capacity<1||capacity>65536)throw Error('Physics pointer-list capacity is invalid.');range(address,capacity*4);return[address,capacity];}));
+ const storage=new Map(bodyStorage.map(({address,length})=>{range(address,length);if(length<0x180)throw Error('Physics body storage must contain the common 180h body.');return[resolveNativeMemoryAddress(memory,address,length),length];}));
+ const listCapacities=new Map(bodyLists.map(({address,capacity})=>{if(!Number.isInteger(capacity)||capacity<1||capacity>65536)throw Error('Physics pointer-list capacity is invalid.');range(address,capacity*4);return[resolveNativeMemoryAddress(memory,address,capacity*4),capacity];}));
  const bodies=new Map(),groups=new Map(),buckets=new Map(),events=new Map(),contacts=new Map(),outputs=new Map(),candidates=new Map();
- function attach(object,p,n){range(p,n);if(object.address!==undefined&&object.address!==p)throw Error('Physics supplied object identity has a different native address.');object.address=p;if(object.bytes!==undefined&&(!Buffer.isBuffer(object.bytes)||object.bytes.buffer!==memory.buffer||object.bytes.byteOffset!==memory.byteOffset+p||object.bytes.length<n))throw Error('Physics object bytes must alias supplied memory.');object.bytes??=memory.subarray(p,p+n);return object;}
+ function attach(object,p,n){range(p,n);if(object.address!==undefined&&object.address!==p)throw Error('Physics supplied object identity has a different native address.');object.address=p;if(object.bytes!==undefined&&!sharesNativeMemorySpan(memory,object.bytes,p,n))throw Error('Physics object bytes must alias supplied memory.');object.bytes??=memory.subarray(p,p+n);return object;}
  function bodyAt(value){
   const p=addressOf(value);if(!p)return null;if(bodies.has(p))return bodies.get(p);const body=bodyFactory?bodyFactory(p):storage.has(p)?{address:p,bytes:memory.subarray(p,p+storage.get(p))}:null;if(!body)throw Error('Physics body pointer has no supplied storage/factory.');attach(body,p,0x180);
   for(const[name,offset,type]of[['flags',0,'s32'],['spatialNextId',4,'u16'],['spatialPreviousId',6,'u16'],['mass',0xa8,'s32'],['inverseMass',0xac,'s32'],['coefficient7c',0xb0,'s32'],['contactFrictionB4',0xb4,'s32'],['integrationFlags',0x108,'s32'],['collisionCount10c',0x10c,'u8'],['collisionFlags',0x110,'s32'],['collisionCache114',0x114,'s32'],['frameTimeQ16',0x118,'s32'],['collisionBound120',0x120,'s32'],['collisionDelta124',0x124,'s32'],['collisionState128',0x128,'s32'],['terrainWord15c',0x15c,'u16'],['modelCandidateCount15e',0x15e,'u16'],['collisionCounter168',0x168,'u8'],['attachmentCount',0x16a,'u16'],['collisionCooldown66f',0x66f,'u8'],['dragCoefficient2f38',0x2f38,'s16'],['scriptOffset138',0x138,'u16'],['scriptTimer13a',0x13a,'u16'],['scriptActionTimer13c',0x13c,'u16'],['scriptSegment13e',0x13e,'u8'],['scriptSpawnIndex13f',0x13f,'u8'],['scriptField180',0x180,'s32'],['scriptField184',0x184,'u16']])scalar(body,name,p+offset,type);
@@ -43,10 +44,10 @@ export function createPhysicsRuntimeViews({memory,bodyAt:bodyFactory,bodyStorage
   const pairContext=body.pairCollisionContext??{};scalar(pairContext,'field3d00',p+0x3d00);define(pairContext,'stateByte6bc',{get:()=>{const state=read(p+0x6bc,'u32');return state===0xffffffff?null:read(state,'u8');},set:value=>{const state=read(p+0x6bc,'u32');if(value===null){write(p+0x6bc,'u32',0xffffffff);return;}if(state===0xffffffff)throw Error('Physics vehicle state pointer requires supplied storage before a byte write.');write(state,'u8',value);}});body.pairCollisionContext=pairContext;
   bodies.set(p,body);return body;
  }
- function bucketAt(p){if(!p)return null;if(buckets.has(p))return buckets.get(p);const bucket=attach(bucketFactory?.(p)??{},p,12);scalar(bucket,'headId',p+8,'u16');buckets.set(p,bucket);return bucket;}
- function bodyArrayAt(p){const capacity=listCapacities.get(p);if(capacity===undefined)throw Error(`Physics body list 0x${p.toString(16)} has no supplied capacity.`);return arrayAt(`bodies:${p}`,capacity,i=>bodyAt(read(p+i*4,'u32')),(i,value)=>write(p+i*4,'u32',addressOf(value)));}
+ function bucketAt(p){if(!p)return null;p=resolveNativeMemoryAddress(memory,p,12);if(buckets.has(p))return buckets.get(p);const bucket=attach(bucketFactory?.(p)??{},p,12);scalar(bucket,'headId',p+8,'u16');buckets.set(p,bucket);return bucket;}
+ function bodyArrayAt(p){p=resolveNativeMemoryAddress(memory,p);const capacity=listCapacities.get(p);if(capacity===undefined)throw Error(`Physics body list 0x${p.toString(16)} has no supplied capacity.`);return arrayAt(`bodies:${p}`,capacity,i=>bodyAt(read(p+i*4,'u32')),(i,value)=>write(p+i*4,'u32',addressOf(value)));}
  function groupAt(p){
-  if(!p)return null;if(groups.has(p))return groups.get(p);const group=attach({},p,12);scalar(group,'count',p+4,'u16');define(group,'bodies',{get:()=>bodyArrayAt(read(p,'u32')),set:value=>{const address=Number.isInteger(value)?value:[...listCapacities].find(([address])=>bodyArrayAt(address)===value)?.[0];if(!listCapacities.has(address))throw Error('Physics group list must be an existing declared native array.');write(p,'u32',address);}});define(group,'spatialBucket',{get:()=>bucketAt(read(p+8,'u32')),set:value=>write(p+8,'u32',addressOf(value))});group.isRefreshGroup=p===0x902ee0;groups.set(p,group);return group;
+  if(!p)return null;p=resolveNativeMemoryAddress(memory,p,12);if(groups.has(p))return groups.get(p);const group=attach({},p,12);scalar(group,'count',p+4,'u16');define(group,'bodies',{get:()=>bodyArrayAt(read(p,'u32')),set:value=>{const address=Number.isInteger(value)?resolveNativeMemoryAddress(memory,value):[...listCapacities].find(([address])=>bodyArrayAt(address)===value)?.[0];if(!listCapacities.has(address))throw Error('Physics group list must be an existing declared native array.');write(p,'u32',address);}});define(group,'spatialBucket',{get:()=>bucketAt(read(p+8,'u32')),set:value=>write(p+8,'u32',addressOf(value))});group.isRefreshGroup=p===resolveNativeMemoryAddress(memory,0x902ee0,12);groups.set(p,group);return group;
  }
  const physicalGroup=groupAt(0x902bc0),candidateGroups={groups:Array.from({length:groupCapacity},(_,i)=>groupAt(0x902be0+i*12)),refreshGroup:groupAt(0x902ee0)};scalar(candidateGroups,'count',0x902bcc);
  const effectFlags={};scalar(effectFlags,'first',0x91cd90);scalar(effectFlags,'second',0x9153d0);
@@ -72,7 +73,7 @@ export function createPhysicsRuntimeViews({memory,bodyAt:bodyFactory,bodyStorage
   candidates.set(p,candidate);return candidate;
  }
  function writeCandidate(p,value){
-  if(value?.bytes?.buffer===memory.buffer&&value.bytes.length===16){value.bytes.copy(memory,p);return;}
+  if(Buffer.isBuffer(value?.bytes)&&value.bytes.length===16&&nativeMemoryAddress(memory,value.bytes)!==null){copyToNativeMemory(memory,p,value.bytes);return;}
   if(value?.collision&&value?.shape&&value?.settings){const pointers=candidateMapping.modelPointersFor?.(value);if(!Number.isInteger(pointers?.object)||!Number.isInteger(pointers?.shape))throw Error('Physics model append requires supplied native object/shape addresses.');write(p,'u8',(read(p,'u8')&240)|1);write(p+1,'u8',value.settings.yaw);write(p+4,'s32',-4);write(p+8,'u32',pointers.object);write(p+12,'u32',pointers.shape);}
   else{const base=candidateMapping.terrainVerticesFor?.(value?.sector);if(!Number.isInteger(base))throw Error('Physics terrain append requires supplied native sector vertex storage.');write(p,'u8',(read(p,'u8')&240)|(value.type&15));write(p+1,'u8',value.pointOffset);write(p+3,'u8',value.columns);write(p+4,'u32',value.id);write(p+8,'u32',value.packedNormal);write(p+12,'u32',base+value.vertexBase*8);}
  }

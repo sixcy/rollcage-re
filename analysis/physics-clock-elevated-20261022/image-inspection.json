@@ -1,0 +1,20 @@
+{
+  "method": "Read-only PE32 mapping and exact-byte inspection; CALL scan yields candidates, not decoded instruction or reachability claims. Original executable was not launched.",
+  "target": {
+    "path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "gravityImageInitializer": {
+    "address": "0x5eb5e0",
+    "fileOffset": "0x1ea5e0",
+    "bytesHex": "00000100",
+    "signed32": 65536
+  },
+  "ordinaryRaceUpdateDirectCallCandidates": [
+    "0x450e33"
+  ],
+  "limitations": [
+    "Initialized image bytes do not establish the live value after all startup/configuration producers.",
+    "No original-process timing or floating-point context was observed."
+  ]
+}

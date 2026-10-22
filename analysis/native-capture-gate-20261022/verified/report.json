@@ -1,0 +1,74 @@
+{
+  "method": "Executed synthetic x86 counter loop under Windows owned-child debugger; no game code.",
+  "matched": true,
+  "reports": [
+    {
+      "mode": "filtered",
+      "counters": [
+        2
+      ],
+      "ecx": [
+        2
+      ],
+      "completion": {
+        "type": "complete",
+        "reason": "snapshot-bound",
+        "events": 16,
+        "snapshots": 1,
+        "elapsedMs": 34
+      },
+      "snapshots": [
+        {
+          "type": "snapshot",
+          "ordinal": 1,
+          "breakpointId": "counter-after-increment",
+          "hit": 1,
+          "tid": 23972,
+          "registers": {
+            "edi": "0x00401000",
+            "esi": "0x00401000",
+            "ebx": "0x00375000",
+            "edx": "0x00401000",
+            "ecx": "0x00000002",
+            "eax": "0x001affcc",
+            "ebp": "0x001aff84",
+            "eip": "0x00401015",
+            "cs": "0x00000023",
+            "eflags": "0x00000202",
+            "esp": "0x001aff78",
+            "ss": "0x0000002b",
+            "fpuControlWord": "0x0000027f",
+            "fpuStatusWord": "0x00000000",
+            "mxcsr": "0x00001f80"
+          },
+          "contextFile": "snapshot-000001-context.bin",
+          "contextSha256": "0110373bc3d3b16420203eaf26b6f9c6b0bc7699ef0eeac10000fd9ce26a17cf",
+          "capturePhase": "before-declared-writes-before-original-instruction",
+          "rawHit": 2,
+          "captureWhen": {
+            "address": "0x00401100",
+            "actualBytesHex": "02000000",
+            "equalsBytesHex": "02000000"
+          },
+          "elapsedMs": 33,
+          "ranges": [
+            {
+              "id": "counter",
+              "address": "0x00401100",
+              "rootAddress": "0x401100",
+              "rootRva": null,
+              "moduleBaseAddress": null,
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "file": "snapshot-000001-range-001.bin",
+              "sha256": "26b25d457597a7b0463f9620f666dd10aa2c4373a505967c7c8d70922a2d6ece"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Verifies WOW64 INT3 reinsertion/single-step, integer/register/context capture, natural exit, snapshot bound and owned-child cleanup. Does not prove the game physics or persistence adapters."
+}

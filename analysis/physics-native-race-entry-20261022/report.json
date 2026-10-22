@@ -1,0 +1,1373 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-process-with-declared-instrumentation",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Observed native launcher/session/race entries and first physics call; raw blob hashes verified before extracting declared fields.",
+  "externalInteraction": "User reports pressing Start in the launcher; exact external UI/input timing was not recorded. The observed frontend call is ECX3/EDX1, session mode9, attract flag0 and first body mode10. This run is not evidence of unattended AI-demo entry.",
+  "observedEntry": {
+    "ecx": "0x00000003",
+    "edx": "0x00000001"
+  },
+  "snapshots": [
+    {
+      "stage": "post-crt-winmain",
+      "hit": 1,
+      "registers": {
+        "edi": "0x00000000",
+        "esi": "0x01542897",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x00000020",
+        "eax": "0x00000022",
+        "ebp": "0x00fefa2c",
+        "eip": "0x006e4d70",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00fef9e4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": null,
+      "session": null,
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        }
+      ]
+    },
+    {
+      "stage": "race-gravity-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0xd2421479",
+        "eax": "0x009f5470",
+        "ebp": "0x00000000",
+        "eip": "0x007212c0",
+        "cs": "0x00000023",
+        "eflags": "0x00200206",
+        "esp": "0x00fef924",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 2,
+        "selector15": 8,
+        "trackArgument16": 2,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 0,
+        "phase57c": 8
+      },
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000002-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000002-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000002-range-003.bin",
+          "sha256": "71c9fb040b89a85cefa901245bd476d8b24dd8441280013c01449aea153d3ed8"
+        },
+        {
+          "id": "config-gravity-options",
+          "address": "0x00b27a62",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x82",
+          "length": 22,
+          "file": "snapshot-000002-range-004.bin",
+          "sha256": "73f543fc0511cf08661d1075b0fbbfef2b41fa25063ee75eaa701ffc240393b2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000002-range-005.bin",
+          "sha256": "01fce8ad05458402807f1bccd239481143cb1404ec4900ba575a2a29e90e69c8"
+        }
+      ]
+    },
+    {
+      "stage": "frontend-race-launch",
+      "hit": 1,
+      "registers": {
+        "edi": "0x00000000",
+        "esi": "0x009f5470",
+        "ebx": "0x00000001",
+        "edx": "0x00000001",
+        "ecx": "0x00000003",
+        "eax": "0x00000000",
+        "ebp": "0x00fef7f8",
+        "eip": "0x0071dfe0",
+        "cs": "0x00000023",
+        "eflags": "0x00000293",
+        "esp": "0x00fef7d4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 2,
+        "selector15": 8,
+        "trackArgument16": 2,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 0,
+        "phase57c": 8
+      },
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000003-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000003-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000003-range-003.bin",
+          "sha256": "cabb500af68959c62002bc5057ad919b0ad263ef7d573b6b303fe91c0fb24c2f"
+        },
+        {
+          "id": "config-gravity-options",
+          "address": "0x00b27a62",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x82",
+          "length": 22,
+          "file": "snapshot-000003-range-004.bin",
+          "sha256": "73f543fc0511cf08661d1075b0fbbfef2b41fa25063ee75eaa701ffc240393b2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000003-range-005.bin",
+          "sha256": "01fce8ad05458402807f1bccd239481143cb1404ec4900ba575a2a29e90e69c8"
+        },
+        {
+          "id": "entry-stack",
+          "address": "0x00fef7d4",
+          "rootAddress": null,
+          "rootRva": null,
+          "moduleBaseAddress": null,
+          "baseRegister": "esp",
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000003-range-006.bin",
+          "sha256": "0ffaa4cc1101c189dc2da15c81438dcf79e0d982678d8433ae0888e9bdb154a3"
+        }
+      ]
+    },
+    {
+      "stage": "session-construction-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x008b3504",
+        "ecx": "0x00000000",
+        "eax": "0x00b279e0",
+        "ebp": "0x00000001",
+        "eip": "0x0071e280",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00fef91c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000120",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 3,
+        "selector15": 1,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 0,
+        "phase57c": 8
+      },
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000004-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000004-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000004-range-003.bin",
+          "sha256": "94b4def497cddbe4d03c51fa28b7c185ae575657656955d3c728e50d374b4d73"
+        },
+        {
+          "id": "config-gravity-options",
+          "address": "0x00b27a62",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x82",
+          "length": 22,
+          "file": "snapshot-000004-range-004.bin",
+          "sha256": "73f543fc0511cf08661d1075b0fbbfef2b41fa25063ee75eaa701ffc240393b2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000004-range-005.bin",
+          "sha256": "729f6e1b80b776473a4cafd6e654afd87fe0c8a980d102a9da44767a957c66b5"
+        }
+      ]
+    },
+    {
+      "stage": "race-gravity-entry",
+      "hit": 2,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x009dbb20",
+        "eax": "0x009f5470",
+        "ebp": "0x00000003",
+        "eip": "0x007212c0",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x00fef924",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 3,
+        "selector15": 1,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 9,
+        "attract58c": 0,
+        "phase57c": 1
+      },
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000005-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000005-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000005-range-003.bin",
+          "sha256": "94b4def497cddbe4d03c51fa28b7c185ae575657656955d3c728e50d374b4d73"
+        },
+        {
+          "id": "config-gravity-options",
+          "address": "0x00b27a62",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x82",
+          "length": 22,
+          "file": "snapshot-000005-range-004.bin",
+          "sha256": "73f543fc0511cf08661d1075b0fbbfef2b41fa25063ee75eaa701ffc240393b2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000005-range-005.bin",
+          "sha256": "04beced9c96cf5b1056b1b2c92f59d3aa403c998988b2cda58bc78530c8d2af2"
+        }
+      ]
+    },
+    {
+      "stage": "race-startup-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x009dbb20",
+        "eax": "0xfffffffe",
+        "ebp": "0x00000003",
+        "eip": "0x0075ea40",
+        "cs": "0x00000023",
+        "eflags": "0x00000282",
+        "esp": "0x00fef91c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 3,
+        "selector15": 1,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 9,
+        "attract58c": 0,
+        "phase57c": 1
+      },
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000006-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000006-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000006-range-003.bin",
+          "sha256": "94b4def497cddbe4d03c51fa28b7c185ae575657656955d3c728e50d374b4d73"
+        },
+        {
+          "id": "config-gravity-options",
+          "address": "0x00b27a62",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x82",
+          "length": 22,
+          "file": "snapshot-000006-range-004.bin",
+          "sha256": "73f543fc0511cf08661d1075b0fbbfef2b41fa25063ee75eaa701ffc240393b2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000006-range-005.bin",
+          "sha256": "04beced9c96cf5b1056b1b2c92f59d3aa403c998988b2cda58bc78530c8d2af2"
+        }
+      ]
+    },
+    {
+      "stage": "race-update-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x00000001",
+        "esi": "0x00000000",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x000003e8",
+        "eax": "0x00000001",
+        "ebp": "0x00000000",
+        "eip": "0x00730e50",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00fef908",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 3,
+        "selector15": 1,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 9,
+        "attract58c": 0,
+        "phase57c": 1
+      },
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000007-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000007-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000007-range-003.bin",
+          "sha256": "94b4def497cddbe4d03c51fa28b7c185ae575657656955d3c728e50d374b4d73"
+        },
+        {
+          "id": "config-gravity-options",
+          "address": "0x00b27a62",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x82",
+          "length": 22,
+          "file": "snapshot-000007-range-004.bin",
+          "sha256": "73f543fc0511cf08661d1075b0fbbfef2b41fa25063ee75eaa701ffc240393b2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000007-range-005.bin",
+          "sha256": "f71b6c8b3817a0809c707d848e38c496f388bd67a05820fef9fa18f7691190b5"
+        },
+        {
+          "id": "racer-records",
+          "address": "0x00be9300",
+          "rootAddress": null,
+          "rootRva": "0x509300",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 768,
+          "file": "snapshot-000007-range-006.bin",
+          "sha256": "ceacefd7b9b2a5d4e1cc9afa397983e25cb258643eb4e852c6b4f4f37369bf0c"
+        }
+      ]
+    },
+    {
+      "stage": "physics-frame-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x00bea548",
+        "esi": "0x00b29a60",
+        "ebx": "0x00000006",
+        "edx": "0x00000000",
+        "ecx": "0x3374c552",
+        "eax": "0x00000006",
+        "ebp": "0x00000000",
+        "eip": "0x007549e0",
+        "cs": "0x00000023",
+        "eflags": "0x00000212",
+        "esp": "0x00fef8f4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 3,
+        "selector15": 1,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 9,
+        "attract58c": 0,
+        "phase57c": 1
+      },
+      "body0": {
+        "flags": 7171,
+        "massQ16": 65536,
+        "inverseMassQ16": 65536,
+        "state708": 128,
+        "input710": 0,
+        "executionMode718": 10,
+        "state720": 16,
+        "steering644": 0,
+        "speed668": 0,
+        "positionQ16": [
+          -210042880,
+          -3932160,
+          -383844352
+        ],
+        "momentumQ16": [
+          0,
+          0,
+          0
+        ],
+        "quaternionQ16": [
+          46938,
+          0,
+          -45734,
+          0
+        ],
+        "linearVelocityQ16": [
+          0,
+          0,
+          0
+        ]
+      },
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000008-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000008-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000008-range-003.bin",
+          "sha256": "94b4def497cddbe4d03c51fa28b7c185ae575657656955d3c728e50d374b4d73"
+        },
+        {
+          "id": "config-gravity-options",
+          "address": "0x00b27a62",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x82",
+          "length": 22,
+          "file": "snapshot-000008-range-004.bin",
+          "sha256": "73f543fc0511cf08661d1075b0fbbfef2b41fa25063ee75eaa701ffc240393b2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000008-range-005.bin",
+          "sha256": "f71b6c8b3817a0809c707d848e38c496f388bd67a05820fef9fa18f7691190b5"
+        },
+        {
+          "id": "racer-records",
+          "address": "0x00be9300",
+          "rootAddress": null,
+          "rootRva": "0x509300",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 768,
+          "file": "snapshot-000008-range-006.bin",
+          "sha256": "ceacefd7b9b2a5d4e1cc9afa397983e25cb258643eb4e852c6b4f4f37369bf0c"
+        },
+        {
+          "id": "body0",
+          "address": "0x135b1700",
+          "rootAddress": null,
+          "rootRva": "0x509300",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 15992,
+          "file": "snapshot-000008-range-007.bin",
+          "sha256": "0d723faaba21d5901a1c6446f73aec3197d114d4bfd9e9d7f49887df8ab9f967"
+        }
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "environment-intervention",
+      "overrides": {
+        "TEMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp",
+        "TMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp"
+      },
+      "otherVariables": "Inherited without modification; values not logged.",
+      "elapsedMs": 2
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegDeleteValueA",
+      "kind": "deny-registry-write",
+      "tid": 13076,
+      "originalCallSkipped": true,
+      "stackBytesHex": "1b077600880300001c358b00",
+      "registersBefore": {
+        "edi": "0x008b351c",
+        "esi": "0xffffffff",
+        "ebx": "0x00000000",
+        "edx": "0x00e70000",
+        "ecx": "0x008b34d8",
+        "eax": "0x00000000",
+        "ebp": "0x00fef98c",
+        "eip": "0x77154990",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00fef514",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0x008b351c",
+        "esi": "0xffffffff",
+        "ebx": "0x00000000",
+        "edx": "0x00e70000",
+        "ecx": "0x008b34d8",
+        "eax": "0x00000005",
+        "ebp": "0x00fef98c",
+        "eip": "0x0076071b",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00fef520",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 54
+    },
+    {
+      "type": "service-intervention",
+      "api": "CreateProcessA",
+      "kind": "deny-child-process",
+      "tid": 13076,
+      "originalCallSkipped": true,
+      "stackBytesHex": "deec7400702f8b00c0f5fe0000000000000000000000000000000004000000000000000078f5fe0068f5fe00",
+      "registersBefore": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000044",
+        "ecx": "0x00000000",
+        "eax": "0x00fef5c0",
+        "ebp": "0x00000000",
+        "eip": "0x770607b0",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00fef524",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000044",
+        "ecx": "0x00000000",
+        "eax": "0x00000000",
+        "ebp": "0x00000000",
+        "eip": "0x0074ecde",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00fef550",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 12589
+    },
+    {
+      "type": "service-intervention",
+      "api": "CreateFileA",
+      "kind": "deny-player-mailslot",
+      "tid": 13076,
+      "originalCallSkipped": true,
+      "stackBytesHex": "06ed7400902f8b00000000400100000000000000030000008000000000000000",
+      "registersBefore": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x06cc2d0a",
+        "eax": "0x00000000",
+        "ebp": "0x00000000",
+        "eip": "0x7704ea00",
+        "cs": "0x00000023",
+        "eflags": "0x00200283",
+        "esp": "0x00fef530",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x06cc2d0a",
+        "eax": "0xffffffff",
+        "ebp": "0x00000000",
+        "eip": "0x0074ed06",
+        "cs": "0x00000023",
+        "eflags": "0x00200283",
+        "esp": "0x00fef550",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": "\\\\.\\mailslot\\Rollcage Player",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 13590
+    },
+    {
+      "type": "service-memory-write",
+      "api": "SHGetFolderPathA",
+      "address": "0x00fef700",
+      "originalBytesHex": "e0c400006000004000005401ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffff",
+      "replacementBytesHex": "433a5c55736572735c437972696c5c446f63756d656e74735c526f6c6c636167652052455c616e616c797369735c6e61746976652d706879736963732d6c6f63616c5c737461727475702d32303236313032325c646f63756d656e747300",
+      "elapsedMs": 13590
+    },
+    {
+      "type": "service-intervention",
+      "api": "SHGetFolderPathA",
+      "kind": "redirect-personal-folder",
+      "tid": 13076,
+      "originalCallSkipped": true,
+      "stackBytesHex": "21ed74000000000005000000000000000000000000f7fe00",
+      "registersBefore": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x06cc2d0a",
+        "eax": "0x00fef700",
+        "ebp": "0x00000000",
+        "eip": "0x7604e5c0",
+        "cs": "0x00000023",
+        "eflags": "0x00200283",
+        "esp": "0x00fef538",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x06cc2d0a",
+        "eax": "0x00000000",
+        "ebp": "0x00000000",
+        "eip": "0x0074ed21",
+        "cs": "0x00000023",
+        "eflags": "0x00200283",
+        "esp": "0x00fef550",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": null,
+      "redirectedPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+      "semantics": null,
+      "elapsedMs": 13590
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegCreateKeyExA",
+      "kind": "deny-registry-write",
+      "tid": 13076,
+      "originalCallSkipped": true,
+      "stackBytesHex": "2a02760001000080d8348b000000000000000000000000003f000f0000000000b4309f000cf9fe00",
+      "registersBefore": {
+        "edi": "0xffffffff",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x00000000",
+        "eax": "0x00fef90c",
+        "ebp": "0x00000001",
+        "eip": "0x771530d0",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00fef8e0",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000120",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0xffffffff",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x00000000",
+        "eax": "0x00000005",
+        "ebp": "0x00000001",
+        "eip": "0x0076022a",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00fef908",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000120",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 31011
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegCreateKeyExA",
+      "kind": "deny-registry-write",
+      "tid": 13076,
+      "originalCallSkipped": true,
+      "stackBytesHex": "2a02760001000080d8348b000000000000000000000000003f000f0000000000b4309f00f8f8fe00",
+      "registersBefore": {
+        "edi": "0x008b3504",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x008b3504",
+        "ecx": "0xffffffff",
+        "eax": "0x00fef8f8",
+        "ebp": "0x00000001",
+        "eip": "0x771530d0",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00fef8cc",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000120",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0x008b3504",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x008b3504",
+        "ecx": "0xffffffff",
+        "eax": "0x00000005",
+        "ebp": "0x00000001",
+        "eip": "0x0076022a",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00fef8f4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000120",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 31011
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegCreateKeyExA",
+      "kind": "deny-registry-write",
+      "tid": 13076,
+      "originalCallSkipped": true,
+      "stackBytesHex": "2a02760001000080d8348b000000000000000000000000003f000f0000000000b4309f00d4f8fe00",
+      "registersBefore": {
+        "edi": "0x008b351c",
+        "esi": "0x00000000",
+        "ebx": "0x00000003",
+        "edx": "0x008b351c",
+        "ecx": "0x00000000",
+        "eax": "0x00fef8d4",
+        "ebp": "0x00b279e0",
+        "eip": "0x771530d0",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00fef8a8",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000120",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0x008b351c",
+        "esi": "0x00000000",
+        "ebx": "0x00000003",
+        "edx": "0x008b351c",
+        "ecx": "0x00000000",
+        "eax": "0x00000005",
+        "ebp": "0x00b279e0",
+        "eip": "0x0076022a",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00fef8d0",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000120",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 31014
+    }
+  ],
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 954,
+    "snapshots": 8,
+    "elapsedMs": 35160
+  },
+  "limits": [
+    "External UI/input history is not reconstructed from a final state.",
+    "Six participants alone do not establish six AI drivers or idle-demo entry; retain mode/selector/attract/execution bytes.",
+    "This is initialization/context evidence, not trajectory equivalence or uninterrupted wall-clock timing.",
+    "Raw body memory remains in the private local capture; this report retains selected fields and hashes."
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-range-diagnostics-20261022\\synthetic-pending-frame-fixture.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-range-diagnostics-20261022",
+  "arguments": [],
+  "expectedSha256": "ca9685ed1dcd488fd4669997afa82e5caf9b214ce158e1b510f1c6b39f247acd",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-range-diagnostics-20261022\\pending-frame-capture",
+  "maxDurationMs": 10000,
+  "maxEvents": 1000,
+  "maxSnapshots": 3,
+  "showWindow": false,
+  "breakpoints": [
+    {
+      "id": "frame-before",
+      "rva": "0x1040",
+      "captureWhen": {
+        "range": {
+          "id": "zero-gate",
+          "rva": "0x1104",
+          "length": 4
+        },
+        "equalsBytesHex": "00000000"
+      },
+      "skipMatchingHits": 0,
+      "ranges": [
+        {
+          "id": "counter",
+          "rva": "0x1100",
+          "length": 4
+        },
+        {
+          "id": "caller",
+          "baseRegister": "esp",
+          "length": 4
+        }
+      ]
+    },
+    {
+      "id": "frame-after",
+      "rva": "0x1064",
+      "stopAfterHits": 1,
+      "captureWhen": {
+        "range": {
+          "id": "zero-gate",
+          "rva": "0x1104",
+          "length": 4
+        },
+        "equalsBytesHex": "00000000"
+      },
+      "skipMatchingHits": 0,
+      "ranges": [
+        {
+          "id": "counter",
+          "rva": "0x1100",
+          "length": 4
+        },
+        {
+          "id": "caller",
+          "baseRegister": "esp",
+          "length": 4
+        }
+      ]
+    },
+    {
+      "id": "dispatch",
+      "rva": "0x1080",
+      "ranges": [
+        {
+          "id": "counter",
+          "rva": "0x1100",
+          "length": 4
+        },
+        {
+          "id": "event",
+          "baseRegister": "ecx",
+          "length": 104
+        },
+        {
+          "id": "caller",
+          "baseRegister": "esp",
+          "length": 4
+        }
+      ]
+    }
+  ],
+  "pendingFrameObserver": {
+    "beforeBreakpointId": "frame-before",
+    "afterBreakpointId": "frame-after",
+    "eventBreakpointId": "dispatch",
+    "maxPendingBytes": 65536,
+    "maxCandidateFrames": 2,
+    "maxEventSnapshots": 1,
+    "eventStackOffset": -28,
+    "eventReturnRva": "0x1061",
+    "eventPointerRegister": "ecx",
+    "eventRecordBytes": 104,
+    "eventPoolRoot": {
+      "id": "pool",
+      "rva": "0x1108",
+      "length": 4
+    },
+    "eventPoolCapacity": {
+      "id": "capacity",
+      "rva": "0x110c",
+      "length": 4
+    }
+  }
+}

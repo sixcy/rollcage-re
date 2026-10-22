@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-process-with-declared-instrumentation",
+  "target": {
+    "name": "Rollcage Redux.exe",
+    "version": "1.3.8.0",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "method": "Windows debugger launched the unchanged workspace copy of the shipped executable; snapshots precede the original breakpoint instruction.",
+  "module": {
+    "type": "module",
+    "kind": "main",
+    "baseAddress": "0x006e0000",
+    "path": "\\\\?\\C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D\\Rollcage Redux.exe",
+    "wow64": true,
+    "elapsedMs": 8
+  },
+  "stages": [
+    {
+      "stage": "post-crt-winmain",
+      "hit": 1,
+      "ordinal": 1,
+      "registers": {
+        "edi": "0x00000000",
+        "esi": "0x011e2897",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x00000020",
+        "eax": "0x00000022",
+        "ebp": "0x00d1f9d4",
+        "eip": "0x006e4d70",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00d1f98c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "gravityQ16": 65536,
+      "logicalClock": 0,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "entry-stack",
+          "address": "0x00d1f98c",
+          "rootAddress": null,
+          "rootRva": null,
+          "moduleBaseAddress": null,
+          "baseRegister": "esp",
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 128,
+          "file": "snapshot-000001-range-003.bin",
+          "sha256": "00ec815b7fea65f4d9ccef9329950518416819310d2db6dcb65db9fcc0b6fd90"
+        }
+      ]
+    }
+  ],
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 48,
+    "snapshots": 1,
+    "elapsedMs": 39
+  },
+  "sourceVerification": {
+    "files": 171,
+    "bytes": 156187383,
+    "allOriginalHashesUnchanged": true
+  },
+  "installedHooks": [
+    {
+      "type": "service-hook-installed",
+      "api": "CreateFileW",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e07c",
+      "address": "0x7704ea10",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 22
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateFileA",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e0d0",
+      "address": "0x7704ea00",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 22
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateProcessA",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e0d8",
+      "address": "0x770607b0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 22
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateProcessW",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e174",
+      "address": "0x7704d530",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 22
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegDeleteValueA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e000",
+      "address": "0x77154990",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 22
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegSetValueExA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e004",
+      "address": "0x77154550",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 22
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegUnLoadKeyA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e010",
+      "address": "0x7716f940",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 22
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegCreateKeyExA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e018",
+      "address": "0x771530d0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 23
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "SHGetFolderPathA",
+      "dll": "SHELL32.dll",
+      "iatRva": "0x0016e4f4",
+      "address": "0x7604e5c0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 23
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "ShellExecuteA",
+      "dll": "SHELL32.dll",
+      "iatRva": "0x0016e4f8",
+      "address": "0x7605c240",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 23
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "SHGetPathFromIDListA",
+      "dll": "SHELL32.dll",
+      "iatRva": "0x0016e500",
+      "address": "0x7605bbe0",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 23
+    }
+  ],
+  "interventions": [
+    {
+      "type": "environment-intervention",
+      "overrides": {
+        "TEMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp",
+        "TMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp"
+      },
+      "otherVariables": "Inherited without modification; values not logged.",
+      "elapsedMs": 2
+    }
+  ],
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 19176,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 39
+  },
+  "limits": [
+    "Startup checkpoints are not race-stage or trajectory equivalence.",
+    "Temporary code breakpoints, process TEMP/TMP redirection, folder/API adapters and registry/child/IPC denial are declared interventions.",
+    "Later Direct3D/library code can change floating-point state; retain separate stage contexts.",
+    "Breakpoint-paused elapsed time cannot prove wall-clock cadence.",
+    "Hook coverage is the enumerated main-executable imports, not every dynamically resolved or third-party API."
+  ]
+}

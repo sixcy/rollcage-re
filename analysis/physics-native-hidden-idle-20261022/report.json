@@ -1,0 +1,2708 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-process-with-declared-instrumentation",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Observed native launcher/session/race entries and first physics call; raw blob hashes verified before extracting declared fields.",
+  "externalInteraction": "Unattended native idle entry under declared Skip Launcher/Skip Movies, hidden/windowed and foreground-query policies. No Start press or driving was needed. Observed frontend ECX0/EDX10, all six participant modes8, session mode0/attract1 and first body mode8.",
+  "observedEntry": {
+    "ecx": "0x00000000",
+    "edx": "0x0000000a"
+  },
+  "snapshots": [
+    {
+      "stage": "launcher-policy",
+      "hit": 1,
+      "registers": {
+        "edi": "0x011c4668",
+        "esi": "0x6f470000",
+        "ebx": "0x009c63d8",
+        "edx": "0x00850308",
+        "ecx": "0x009f5470",
+        "eax": "0x006e35a0",
+        "ebp": "0x00dbfe68",
+        "eip": "0x00722890",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00dbfb98",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8097,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": null,
+      "session": null,
+      "participantModes": null,
+      "vehicleTypes": null,
+      "trackFilename": null,
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "launcher-skip",
+          "address": "0x009c66ec",
+          "rootAddress": null,
+          "rootRva": "0x2e66ec",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-003.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "launcher-config",
+          "address": "0x00b27e0c",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10,
+          "file": "snapshot-000001-range-004.bin",
+          "sha256": "4b3d3fb251f6a7d49bf838f6f136fd6a602ffb7eac6d02964b353a7d7ff0800f"
+        }
+      ]
+    },
+    {
+      "stage": "graphics-policy",
+      "hit": 1,
+      "registers": {
+        "edi": "0x011c4668",
+        "esi": "0x6f470000",
+        "ebx": "0x009c63d8",
+        "edx": "0x00000200",
+        "ecx": "0x00000000",
+        "eax": "0x00000001",
+        "ebp": "0x00dbfe68",
+        "eip": "0x006e35be",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfb9c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8097,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": null,
+      "session": null,
+      "participantModes": null,
+      "vehicleTypes": null,
+      "trackFilename": null,
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000002-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000002-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "graphics-mode",
+          "address": "0x009c63fc",
+          "rootAddress": null,
+          "rootRva": "0x2e64a4",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28,
+          "file": "snapshot-000002-range-003.bin",
+          "sha256": "9e2153443c07df443d6917298f2d6e112fa2629094ac914a3026860408f6bf95"
+        }
+      ]
+    },
+    {
+      "stage": "before-device-creation",
+      "hit": 1,
+      "registers": {
+        "edi": "0x011c4668",
+        "esi": "0x00000020",
+        "ebx": "0x009c63d8",
+        "edx": "0x00c40000",
+        "ecx": "0x011c4668",
+        "eax": "0x0000004b",
+        "ebp": "0x00dbfe68",
+        "eip": "0x007f2a30",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x00dbfb98",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8097,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": null,
+      "session": null,
+      "participantModes": null,
+      "vehicleTypes": null,
+      "trackFilename": null,
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000003-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000003-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "presentation",
+          "address": "0x011c49e0",
+          "rootAddress": null,
+          "rootRva": null,
+          "moduleBaseAddress": null,
+          "baseRegister": "ecx",
+          "dereferenceOffsets": [],
+          "offset": "0x378",
+          "length": 56,
+          "file": "snapshot-000003-range-003.bin",
+          "sha256": "cfbea76557f20e525be239341e0873693c8f2983222cd96b0538d73df461907a"
+        },
+        {
+          "id": "entry-stack",
+          "address": "0x00dbfb98",
+          "rootAddress": null,
+          "rootRva": null,
+          "moduleBaseAddress": null,
+          "baseRegister": "esp",
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 32,
+          "file": "snapshot-000003-range-004.bin",
+          "sha256": "78c5312d6870fb5cc11fd7d1acc8713c2382843354f862842b1a7bbcbda5ba52"
+        }
+      ]
+    },
+    {
+      "stage": "race-gravity-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0xee0304df",
+        "eax": "0x009f5470",
+        "ebp": "0x00000000",
+        "eip": "0x007212c0",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x00dbfe24",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 2,
+        "selector15": 8,
+        "trackArgument16": 2,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 0,
+        "phase57c": 8
+      },
+      "participantModes": [
+        0,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "vehicleTypes": [
+        1,
+        6,
+        0,
+        2,
+        3,
+        4
+      ],
+      "trackFilename": "",
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000004-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000004-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000004-range-003.bin",
+          "sha256": "71c9fb040b89a85cefa901245bd476d8b24dd8441280013c01449aea153d3ed8"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000004-range-004.bin",
+          "sha256": "01fce8ad05458402807f1bccd239481143cb1404ec4900ba575a2a29e90e69c8"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "address": "0x00b29a60",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 48,
+          "file": "snapshot-000004-range-005.bin",
+          "sha256": "9dd31260f41c832bc17c10315fed89b658eed4ba002026eb900a89d24913519e"
+        },
+        {
+          "id": "track-filename",
+          "address": "0x009c6660",
+          "rootAddress": null,
+          "rootRva": "0x2e6660",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000004-range-006.bin",
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
+        },
+        {
+          "id": "game-rng",
+          "address": "0x008cc958",
+          "rootAddress": null,
+          "rootRva": "0x1ec958",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000004-range-007.bin",
+          "sha256": "1a2de690568587e6cd9adbd7d9f65ef269becd2f89fb89c224975b0c5944b973"
+        },
+        {
+          "id": "frontend-rng",
+          "address": "0x009c6624",
+          "rootAddress": null,
+          "rootRva": "0x2e6624",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000004-range-008.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        }
+      ]
+    },
+    {
+      "stage": "frontend-race-launch",
+      "hit": 1,
+      "registers": {
+        "edi": "0x00000000",
+        "esi": "0x009f5470",
+        "ebx": "0x00000001",
+        "edx": "0x0000000a",
+        "ecx": "0x00000000",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfcf8",
+        "eip": "0x0071dfe0",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00dbfccc",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 2,
+        "selector15": 8,
+        "trackArgument16": 2,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 0,
+        "phase57c": 8
+      },
+      "participantModes": [
+        0,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "vehicleTypes": [
+        1,
+        6,
+        0,
+        2,
+        3,
+        4
+      ],
+      "trackFilename": "",
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000005-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000005-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000005-range-003.bin",
+          "sha256": "71c9fb040b89a85cefa901245bd476d8b24dd8441280013c01449aea153d3ed8"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000005-range-004.bin",
+          "sha256": "01fce8ad05458402807f1bccd239481143cb1404ec4900ba575a2a29e90e69c8"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "address": "0x00b29a60",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 48,
+          "file": "snapshot-000005-range-005.bin",
+          "sha256": "9dd31260f41c832bc17c10315fed89b658eed4ba002026eb900a89d24913519e"
+        },
+        {
+          "id": "track-filename",
+          "address": "0x009c6660",
+          "rootAddress": null,
+          "rootRva": "0x2e6660",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000005-range-006.bin",
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
+        },
+        {
+          "id": "game-rng",
+          "address": "0x008cc958",
+          "rootAddress": null,
+          "rootRva": "0x1ec958",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000005-range-007.bin",
+          "sha256": "c108fb0dfa6299066332c5b3921fb9db2d45fe6460d26c8569aafd6776d20ffc"
+        },
+        {
+          "id": "frontend-rng",
+          "address": "0x009c6624",
+          "rootAddress": null,
+          "rootRva": "0x2e6624",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000005-range-008.bin",
+          "sha256": "2a70832b09a9c9ca2774cc9d3e2489b4b30c07aaa58d6492a2f29648ee0bf01f"
+        },
+        {
+          "id": "entry-stack",
+          "address": "0x00dbfccc",
+          "rootAddress": null,
+          "rootRva": null,
+          "moduleBaseAddress": null,
+          "baseRegister": "esp",
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 32,
+          "file": "snapshot-000005-range-009.bin",
+          "sha256": "83a8da7b30dcfeb82dc75346d5f6fc5a54b8fef7159efa77ea524c3607d5b09b"
+        }
+      ]
+    },
+    {
+      "stage": "session-construction-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x008b3504",
+        "ecx": "0x00000000",
+        "eax": "0x00b279e0",
+        "ebp": "0x00000001",
+        "eip": "0x0071e280",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00dbfe1c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 0,
+        "selector15": 10,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 0,
+        "phase57c": 8
+      },
+      "participantModes": [
+        0,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "vehicleTypes": [
+        1,
+        6,
+        0,
+        2,
+        3,
+        4
+      ],
+      "trackFilename": "",
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000006-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000006-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000006-range-003.bin",
+          "sha256": "61ebf1c34f7faf390d67fff54eca4f334138bc51f05eb86d1f4e092c96f1f4c2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000006-range-004.bin",
+          "sha256": "4822486e11d46de0af615c197762bb479949c411e16b8aacea914fd9dcf99c1a"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "address": "0x00b29a60",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 48,
+          "file": "snapshot-000006-range-005.bin",
+          "sha256": "75eb5cc1e86b6f5dd887ae389f59d929701da46c6b0f5f4990f4c314d96ed57d"
+        },
+        {
+          "id": "track-filename",
+          "address": "0x009c6660",
+          "rootAddress": null,
+          "rootRva": "0x2e6660",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000006-range-006.bin",
+          "sha256": "f5a5fd42d16a20302798ef6ed309979b43003d2320d9f0e8ea9831a92759fb4b"
+        },
+        {
+          "id": "game-rng",
+          "address": "0x008cc958",
+          "rootAddress": null,
+          "rootRva": "0x1ec958",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000006-range-007.bin",
+          "sha256": "1a2de690568587e6cd9adbd7d9f65ef269becd2f89fb89c224975b0c5944b973"
+        },
+        {
+          "id": "frontend-rng",
+          "address": "0x009c6624",
+          "rootAddress": null,
+          "rootRva": "0x2e6624",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000006-range-008.bin",
+          "sha256": "62001a6e2f075209d7ab6858d337c07acc407a833b5b33b8e1b7b430c3d1d58f"
+        }
+      ]
+    },
+    {
+      "stage": "race-gravity-entry",
+      "hit": 2,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x009dbb20",
+        "eax": "0x009f5470",
+        "ebp": "0x00000003",
+        "eip": "0x007212c0",
+        "cs": "0x00000023",
+        "eflags": "0x00200206",
+        "esp": "0x00dbfe24",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 0,
+        "selector15": 10,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 1,
+        "phase57c": 1
+      },
+      "participantModes": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "vehicleTypes": [
+        6,
+        5,
+        4,
+        3,
+        2,
+        0
+      ],
+      "trackFilename": "high\\lev3",
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000007-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000007-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000007-range-003.bin",
+          "sha256": "61ebf1c34f7faf390d67fff54eca4f334138bc51f05eb86d1f4e092c96f1f4c2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000007-range-004.bin",
+          "sha256": "ca76f24212f28cc9fb769f0fec4c86c893d436ce2431ebf148f465fc7c030577"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "address": "0x00b29a60",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 48,
+          "file": "snapshot-000007-range-005.bin",
+          "sha256": "1a3aa5c95f890065a207f6708b43b1c8a5f23b1eb0ea83955ac257f59e870a48"
+        },
+        {
+          "id": "track-filename",
+          "address": "0x009c6660",
+          "rootAddress": null,
+          "rootRva": "0x2e6660",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000007-range-006.bin",
+          "sha256": "b3912f8d0ffb3fc427f02bc0b7854b6fe7d3e117ad6e9dc581108353cdeeef64"
+        },
+        {
+          "id": "game-rng",
+          "address": "0x008cc958",
+          "rootAddress": null,
+          "rootRva": "0x1ec958",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000007-range-007.bin",
+          "sha256": "1a2de690568587e6cd9adbd7d9f65ef269becd2f89fb89c224975b0c5944b973"
+        },
+        {
+          "id": "frontend-rng",
+          "address": "0x009c6624",
+          "rootAddress": null,
+          "rootRva": "0x2e6624",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000007-range-008.bin",
+          "sha256": "2bb35acccd354bac22c2522c8fd31b5f3d8c1ac434247eee598208218d9baea1"
+        }
+      ]
+    },
+    {
+      "stage": "race-startup-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x009dbb20",
+        "eax": "0xfffffffe",
+        "ebp": "0x00000003",
+        "eip": "0x0075ea40",
+        "cs": "0x00000023",
+        "eflags": "0x00200282",
+        "esp": "0x00dbfe1c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 0,
+        "selector15": 10,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 1,
+        "phase57c": 1
+      },
+      "participantModes": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "vehicleTypes": [
+        6,
+        5,
+        4,
+        3,
+        2,
+        0
+      ],
+      "trackFilename": "high\\lev3",
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000008-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000008-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000008-range-003.bin",
+          "sha256": "61ebf1c34f7faf390d67fff54eca4f334138bc51f05eb86d1f4e092c96f1f4c2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000008-range-004.bin",
+          "sha256": "ca76f24212f28cc9fb769f0fec4c86c893d436ce2431ebf148f465fc7c030577"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "address": "0x00b29a60",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 48,
+          "file": "snapshot-000008-range-005.bin",
+          "sha256": "1a3aa5c95f890065a207f6708b43b1c8a5f23b1eb0ea83955ac257f59e870a48"
+        },
+        {
+          "id": "track-filename",
+          "address": "0x009c6660",
+          "rootAddress": null,
+          "rootRva": "0x2e6660",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000008-range-006.bin",
+          "sha256": "b3912f8d0ffb3fc427f02bc0b7854b6fe7d3e117ad6e9dc581108353cdeeef64"
+        },
+        {
+          "id": "game-rng",
+          "address": "0x008cc958",
+          "rootAddress": null,
+          "rootRva": "0x1ec958",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000008-range-007.bin",
+          "sha256": "1a2de690568587e6cd9adbd7d9f65ef269becd2f89fb89c224975b0c5944b973"
+        },
+        {
+          "id": "frontend-rng",
+          "address": "0x009c6624",
+          "rootAddress": null,
+          "rootRva": "0x2e6624",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000008-range-008.bin",
+          "sha256": "2bb35acccd354bac22c2522c8fd31b5f3d8c1ac434247eee598208218d9baea1"
+        }
+      ]
+    },
+    {
+      "stage": "race-update-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x00000001",
+        "esi": "0x00000000",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x000003e8",
+        "eax": "0x00000001",
+        "ebp": "0x00000000",
+        "eip": "0x00730e50",
+        "cs": "0x00000023",
+        "eflags": "0x00200202",
+        "esp": "0x00dbfe08",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 0,
+        "selector15": 10,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 1,
+        "phase57c": 1
+      },
+      "participantModes": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "vehicleTypes": [
+        6,
+        5,
+        4,
+        3,
+        2,
+        0
+      ],
+      "trackFilename": "high\\lev3",
+      "body0": null,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000009-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000009-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000009-range-003.bin",
+          "sha256": "61ebf1c34f7faf390d67fff54eca4f334138bc51f05eb86d1f4e092c96f1f4c2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000009-range-004.bin",
+          "sha256": "7e6c2a6dde0931b11c709d86c4257ad063dab80f90eb4b43656836beb03ec5ba"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "address": "0x00b29a60",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 48,
+          "file": "snapshot-000009-range-005.bin",
+          "sha256": "1a3aa5c95f890065a207f6708b43b1c8a5f23b1eb0ea83955ac257f59e870a48"
+        },
+        {
+          "id": "track-filename",
+          "address": "0x009c6660",
+          "rootAddress": null,
+          "rootRva": "0x2e6660",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000009-range-006.bin",
+          "sha256": "b3912f8d0ffb3fc427f02bc0b7854b6fe7d3e117ad6e9dc581108353cdeeef64"
+        },
+        {
+          "id": "game-rng",
+          "address": "0x008cc958",
+          "rootAddress": null,
+          "rootRva": "0x1ec958",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000009-range-007.bin",
+          "sha256": "f62be84f9eaf27f3fa2bd5d2fe5f4c60569956e29e0269e05409507e7abd4ee3"
+        },
+        {
+          "id": "frontend-rng",
+          "address": "0x009c6624",
+          "rootAddress": null,
+          "rootRva": "0x2e6624",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000009-range-008.bin",
+          "sha256": "2bb35acccd354bac22c2522c8fd31b5f3d8c1ac434247eee598208218d9baea1"
+        },
+        {
+          "id": "racer-records",
+          "address": "0x00be9300",
+          "rootAddress": null,
+          "rootRva": "0x509300",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 780,
+          "file": "snapshot-000009-range-009.bin",
+          "sha256": "16adf142669f1096558f76ddcd714c79143ab68b3e82aa9e11c74d25e9132d18"
+        }
+      ]
+    },
+    {
+      "stage": "physics-frame-entry",
+      "hit": 1,
+      "registers": {
+        "edi": "0x00bea548",
+        "esi": "0x00b29a60",
+        "ebx": "0x00000006",
+        "edx": "0x00000000",
+        "ecx": "0x344a3b05",
+        "eax": "0x00000006",
+        "ebp": "0x00000000",
+        "eip": "0x007549e0",
+        "cs": "0x00000023",
+        "eflags": "0x00200212",
+        "esp": "0x00dbfdf4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa5"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 127,
+          "roundingMode": "nearest-even",
+          "precisionBits": 24,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8101,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "configuration": {
+        "mode14": 0,
+        "selector15": 10,
+        "trackArgument16": 0,
+        "demoTrackSelector1f": 0
+      },
+      "session": {
+        "participants54d": 6,
+        "mode551": 0,
+        "attract58c": 1,
+        "phase57c": 1
+      },
+      "participantModes": [
+        8,
+        8,
+        8,
+        8,
+        8,
+        8
+      ],
+      "vehicleTypes": [
+        6,
+        5,
+        4,
+        3,
+        2,
+        0
+      ],
+      "trackFilename": "high\\lev3",
+      "body0": {
+        "flags": 7171,
+        "massQ16": 65536,
+        "inverseMassQ16": 65536,
+        "state708": 128,
+        "input710": 0,
+        "executionMode718": 8,
+        "state720": 16,
+        "steering644": 0,
+        "speed668": 0,
+        "positionQ16": [
+          184025088,
+          15269888,
+          -393412608
+        ],
+        "momentumQ16": [
+          0,
+          0,
+          0
+        ],
+        "quaternionQ16": [
+          19887,
+          0,
+          -62444,
+          0
+        ],
+        "linearVelocityQ16": [
+          0,
+          0,
+          0
+        ]
+      },
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000010-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000010-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "config-selection",
+          "address": "0x00b279f0",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10",
+          "length": 16,
+          "file": "snapshot-000010-range-003.bin",
+          "sha256": "61ebf1c34f7faf390d67fff54eca4f334138bc51f05eb86d1f4e092c96f1f4c2"
+        },
+        {
+          "id": "session-settings",
+          "address": "0x00b29fad",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 208,
+          "file": "snapshot-000010-range-004.bin",
+          "sha256": "7e6c2a6dde0931b11c709d86c4257ad063dab80f90eb4b43656836beb03ec5ba"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "address": "0x00b29a60",
+          "rootAddress": null,
+          "rootRva": "0x1ecb1c",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 48,
+          "file": "snapshot-000010-range-005.bin",
+          "sha256": "1a3aa5c95f890065a207f6708b43b1c8a5f23b1eb0ea83955ac257f59e870a48"
+        },
+        {
+          "id": "track-filename",
+          "address": "0x009c6660",
+          "rootAddress": null,
+          "rootRva": "0x2e6660",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 64,
+          "file": "snapshot-000010-range-006.bin",
+          "sha256": "b3912f8d0ffb3fc427f02bc0b7854b6fe7d3e117ad6e9dc581108353cdeeef64"
+        },
+        {
+          "id": "game-rng",
+          "address": "0x008cc958",
+          "rootAddress": null,
+          "rootRva": "0x1ec958",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000010-range-007.bin",
+          "sha256": "f62be84f9eaf27f3fa2bd5d2fe5f4c60569956e29e0269e05409507e7abd4ee3"
+        },
+        {
+          "id": "frontend-rng",
+          "address": "0x009c6624",
+          "rootAddress": null,
+          "rootRva": "0x2e6624",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000010-range-008.bin",
+          "sha256": "2bb35acccd354bac22c2522c8fd31b5f3d8c1ac434247eee598208218d9baea1"
+        },
+        {
+          "id": "racer-records",
+          "address": "0x00be9300",
+          "rootAddress": null,
+          "rootRva": "0x509300",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 780,
+          "file": "snapshot-000010-range-009.bin",
+          "sha256": "16adf142669f1096558f76ddcd714c79143ab68b3e82aa9e11c74d25e9132d18"
+        },
+        {
+          "id": "body0",
+          "address": "0x109d1f00",
+          "rootAddress": null,
+          "rootRva": "0x509300",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0",
+          "length": 15992,
+          "file": "snapshot-000010-range-010.bin",
+          "sha256": "0dd99b7e9c13f79eb9ccabc4ace1245b2ac46142fff9395245e74f23f94abd1f"
+        }
+      ]
+    }
+  ],
+  "interventions": [
+    {
+      "type": "environment-intervention",
+      "overrides": {
+        "TEMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp",
+        "TMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp"
+      },
+      "otherVariables": "Inherited without modification; values not logged.",
+      "elapsedMs": 1
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 1,
+      "stackAddress": "0x00dbf9d8",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 39
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 4,
+      "stackAddress": "0x00dbf9e4",
+      "originalBytesHex": "00000088",
+      "replacementBytesHex": "00000088",
+      "changed": false,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 39
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 1,
+      "stackAddress": "0x03c2fa50",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 40
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 4,
+      "stackAddress": "0x03c2fa5c",
+      "originalBytesHex": "00000080",
+      "replacementBytesHex": "00000080",
+      "changed": false,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 40
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExA",
+      "argumentIndex": 1,
+      "stackAddress": "0x00dbfe10",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 42
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExA",
+      "argumentIndex": 4,
+      "stackAddress": "0x00dbfe1c",
+      "originalBytesHex": "00000090",
+      "replacementBytesHex": "00000080",
+      "changed": true,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 42
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "ShowWindow",
+      "argumentIndex": 2,
+      "stackAddress": "0x00dbfe3c",
+      "originalBytesHex": "01000000",
+      "replacementBytesHex": "00000000",
+      "changed": true,
+      "reason": "Force SW_HIDE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 44
+    },
+    {
+      "type": "service-intervention",
+      "api": "SetFocus",
+      "kind": "suppress-window-activation",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "4a376e0090063600",
+      "registersBefore": {
+        "edi": "0x009f5470",
+        "esi": "0x76e64050",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x77db1f83",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfe8c",
+        "eip": "0x76e7add0",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00dbfe38",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0x009f5470",
+        "esi": "0x76e64050",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x77db1f83",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfe8c",
+        "eip": "0x006e374a",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00dbfe40",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 44
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegDeleteValueA",
+      "kind": "deny-registry-write",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "1b0776003c0300001c358b00",
+      "registersBefore": {
+        "edi": "0x008b351c",
+        "esi": "0xffffffff",
+        "ebx": "0x00000000",
+        "edx": "0x00c40000",
+        "ecx": "0x008b34d8",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfe8c",
+        "eip": "0x77154990",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfa14",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0x008b351c",
+        "esi": "0xffffffff",
+        "ebx": "0x00000000",
+        "edx": "0x00c40000",
+        "ecx": "0x008b34d8",
+        "eax": "0x00000005",
+        "ebp": "0x00dbfe8c",
+        "eip": "0x0076071b",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfa20",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 47
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "address": "0x009c66ec",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "01000000",
+      "acceptedOriginalBytesHex": [
+        "00000000",
+        "01000000"
+      ],
+      "elapsedMs": 144
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "address": "0x00b279ea",
+      "originalBytesHex": "00",
+      "replacementBytesHex": "01",
+      "acceptedOriginalBytesHex": [
+        "00",
+        "01"
+      ],
+      "elapsedMs": 144
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "address": "0x00b279ee",
+      "originalBytesHex": "00",
+      "replacementBytesHex": "01",
+      "acceptedOriginalBytesHex": [
+        "00",
+        "01"
+      ],
+      "elapsedMs": 144
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "address": "0x009c6414",
+      "originalBytesHex": "01",
+      "replacementBytesHex": "00",
+      "acceptedOriginalBytesHex": [
+        "00",
+        "01"
+      ],
+      "elapsedMs": 145
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 1,
+      "stackAddress": "0x00dbfb10",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 145
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 4,
+      "stackAddress": "0x00dbfb1c",
+      "originalBytesHex": "00000090",
+      "replacementBytesHex": "00000080",
+      "changed": true,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 145
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "ShowWindow",
+      "argumentIndex": 2,
+      "stackAddress": "0x00dbfb3c",
+      "originalBytesHex": "01000000",
+      "replacementBytesHex": "00000000",
+      "changed": true,
+      "reason": "Force SW_HIDE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 146
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "address": "0x011c4a00",
+      "originalBytesHex": "01000000",
+      "replacementBytesHex": "01000000",
+      "acceptedOriginalBytesHex": [
+        "01000000"
+      ],
+      "elapsedMs": 187
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "address": "0x011c4a10",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000000",
+      "acceptedOriginalBytesHex": [
+        "00000000"
+      ],
+      "elapsedMs": 187
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "ab6f0f66",
+      "registersBefore": {
+        "edi": "0x045356a8",
+        "esi": "0x04534630",
+        "ebx": "0x00dbd2c2",
+        "edx": "0x00c40010",
+        "ecx": "0x045356d8",
+        "eax": "0x04530201",
+        "ebp": "0x00dbc708",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00dbc1c4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "registersAfter": {
+        "edi": "0x045356a8",
+        "esi": "0x04534630",
+        "ebx": "0x00dbd2c2",
+        "edx": "0x00c40010",
+        "ecx": "0x045356d8",
+        "eax": "0x00a30b92",
+        "ebp": "0x00dbc708",
+        "eip": "0x660f6fab",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00dbc1c8",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 246
+    },
+    {
+      "type": "service-intervention",
+      "api": "SetActiveWindow",
+      "kind": "suppress-window-activation",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "83857f00920ba300",
+      "registersBefore": {
+        "edi": "0x08c1f748",
+        "esi": "0x66f4ee11",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x3491c571",
+        "eax": "0x009f5470",
+        "ebp": "0x00dbfeb8",
+        "eip": "0x76e7ac60",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x00dbfe80",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c1f748",
+        "esi": "0x66f4ee11",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x3491c571",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfeb8",
+        "eip": "0x007f8583",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x00dbfe88",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 332
+    },
+    {
+      "type": "service-intervention",
+      "api": "SetFocus",
+      "kind": "suppress-window-activation",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "91857f00920ba300",
+      "registersBefore": {
+        "edi": "0x08c1f748",
+        "esi": "0x66f4ee11",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x3491c571",
+        "eax": "0x009f5470",
+        "ebp": "0x00dbfeb8",
+        "eip": "0x76e7add0",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x00dbfe80",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c1f748",
+        "esi": "0x66f4ee11",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x3491c571",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfeb8",
+        "eip": "0x007f8591",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x00dbfe88",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 332
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "91bade72",
+      "registersBefore": {
+        "edi": "0x08c24ad8",
+        "esi": "0x08c24ad8",
+        "ebx": "0x00000002",
+        "edx": "0x00c40000",
+        "ecx": "0x08c24ad8",
+        "eax": "0x08c24c10",
+        "ebp": "0x00dbfe64",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe58",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c24ad8",
+        "esi": "0x08c24ad8",
+        "ebx": "0x00000002",
+        "edx": "0x00c40000",
+        "ecx": "0x08c24ad8",
+        "eax": "0x00a30b92",
+        "ebp": "0x00dbfe64",
+        "eip": "0x72deba91",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe5c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 578
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 1,
+      "stackAddress": "0x0e61f718",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 579
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 4,
+      "stackAddress": "0x0e61f724",
+      "originalBytesHex": "0000cf00",
+      "replacementBytesHex": "0000cf00",
+      "changed": false,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 579
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "91bade72",
+      "registersBefore": {
+        "edi": "0x08c24ad8",
+        "esi": "0x08c24ad8",
+        "ebx": "0x00000002",
+        "edx": "0x00000000",
+        "ecx": "0x08c24ad8",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfe58",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe4c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c24ad8",
+        "esi": "0x08c24ad8",
+        "ebx": "0x00000002",
+        "edx": "0x00000000",
+        "ecx": "0x08c24ad8",
+        "eax": "0x00a30b92",
+        "ebp": "0x00dbfe58",
+        "eip": "0x72deba91",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe50",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 581
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "91bade72",
+      "registersBefore": {
+        "edi": "0x08c24ad8",
+        "esi": "0x08c24ad8",
+        "ebx": "0x00000002",
+        "edx": "0x00c40008",
+        "ecx": "0x08c24ad8",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfe58",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe4c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c24ad8",
+        "esi": "0x08c24ad8",
+        "ebx": "0x00000002",
+        "edx": "0x00c40008",
+        "ecx": "0x08c24ad8",
+        "eax": "0x00a30b92",
+        "ebp": "0x00dbfe58",
+        "eip": "0x72deba91",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe50",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 581
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "91bade72",
+      "registersBefore": {
+        "edi": "0x08c26948",
+        "esi": "0x08c26948",
+        "ebx": "0x00000002",
+        "edx": "0x00c40000",
+        "ecx": "0x08c26948",
+        "eax": "0x08c26a80",
+        "ebp": "0x00dbfe64",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe58",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c26948",
+        "esi": "0x08c26948",
+        "ebx": "0x00000002",
+        "edx": "0x00c40000",
+        "ecx": "0x08c26948",
+        "eax": "0x00a30b92",
+        "ebp": "0x00dbfe64",
+        "eip": "0x72deba91",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe5c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 581
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "91bade72",
+      "registersBefore": {
+        "edi": "0x08c26948",
+        "esi": "0x08c26948",
+        "ebx": "0x00000002",
+        "edx": "0x00000000",
+        "ecx": "0x08c26948",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfe58",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe4c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c26948",
+        "esi": "0x08c26948",
+        "ebx": "0x00000002",
+        "edx": "0x00000000",
+        "ecx": "0x08c26948",
+        "eax": "0x00a30b92",
+        "ebp": "0x00dbfe58",
+        "eip": "0x72deba91",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe50",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 581
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "91bade72",
+      "registersBefore": {
+        "edi": "0x08c26948",
+        "esi": "0x08c26948",
+        "ebx": "0x00000002",
+        "edx": "0x00c40008",
+        "ecx": "0x08c26948",
+        "eax": "0x00000000",
+        "ebp": "0x00dbfe58",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe4c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "registersAfter": {
+        "edi": "0x08c26948",
+        "esi": "0x08c26948",
+        "ebx": "0x00000002",
+        "edx": "0x00c40008",
+        "ecx": "0x08c26948",
+        "eax": "0x00a30b92",
+        "ebp": "0x00dbfe58",
+        "eip": "0x72deba91",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x00dbfe50",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001f80"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 582
+    },
+    {
+      "type": "service-intervention",
+      "api": "CreateProcessA",
+      "kind": "deny-child-process",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "deec7400702f8b00c0fadb0000000000000000000000000000000004000000000000000078fadb0068fadb00",
+      "registersBefore": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000044",
+        "ecx": "0x00000000",
+        "eax": "0x00dbfac0",
+        "ebp": "0x00000000",
+        "eip": "0x770607b0",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00dbfa24",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000044",
+        "ecx": "0x00000000",
+        "eax": "0x00000000",
+        "ebp": "0x00000000",
+        "eip": "0x0074ecde",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x00dbfa50",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 870
+    },
+    {
+      "type": "service-intervention",
+      "api": "CreateFileA",
+      "kind": "deny-player-mailslot",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "06ed7400902f8b00000000400100000000000000030000008000000000000000",
+      "registersBefore": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x5e4c7804",
+        "eax": "0x00000000",
+        "ebp": "0x00000000",
+        "eip": "0x7704ea00",
+        "cs": "0x00000023",
+        "eflags": "0x00000283",
+        "esp": "0x00dbfa30",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x5e4c7804",
+        "eax": "0xffffffff",
+        "ebp": "0x00000000",
+        "eip": "0x0074ed06",
+        "cs": "0x00000023",
+        "eflags": "0x00000283",
+        "esp": "0x00dbfa50",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": "\\\\.\\mailslot\\Rollcage Player",
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 1871
+    },
+    {
+      "type": "service-memory-write",
+      "api": "SHGetFolderPathA",
+      "address": "0x00dbfc00",
+      "originalBytesHex": "e0c400006000004000001701ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffffff00ffff",
+      "replacementBytesHex": "433a5c55736572735c437972696c5c446f63756d656e74735c526f6c6c636167652052455c616e616c797369735c6e61746976652d706879736963732d6c6f63616c5c737461727475702d32303236313032325c646f63756d656e747300",
+      "elapsedMs": 1871
+    },
+    {
+      "type": "service-intervention",
+      "api": "SHGetFolderPathA",
+      "kind": "redirect-personal-folder",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "21ed74000000000005000000000000000000000000fcdb00",
+      "registersBefore": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x5e4c7804",
+        "eax": "0x00dbfc00",
+        "ebp": "0x00000000",
+        "eip": "0x7604e5c0",
+        "cs": "0x00000023",
+        "eflags": "0x00000283",
+        "esp": "0x00dbfa38",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x7704d730",
+        "esi": "0x00000001",
+        "ebx": "0x000038a4",
+        "edx": "0x00000000",
+        "ecx": "0x5e4c7804",
+        "eax": "0x00000000",
+        "ebp": "0x00000000",
+        "eip": "0x0074ed21",
+        "cs": "0x00000023",
+        "eflags": "0x00000283",
+        "esp": "0x00dbfa50",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+      "semantics": null,
+      "elapsedMs": 1871
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegCreateKeyExA",
+      "kind": "deny-registry-write",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "2a02760001000080d8348b000000000000000000000000003f000f0000000000b4309f000cfedb00",
+      "registersBefore": {
+        "edi": "0xffffffff",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x00000000",
+        "eax": "0x00dbfe0c",
+        "ebp": "0x00000001",
+        "eip": "0x771530d0",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00dbfde0",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0xffffffff",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x00000000",
+        "eax": "0x00000005",
+        "ebp": "0x00000001",
+        "eip": "0x0076022a",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00dbfe08",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 32775
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegCreateKeyExA",
+      "kind": "deny-registry-write",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "2a02760001000080d8348b000000000000000000000000003f000f0000000000b4309f00f8fddb00",
+      "registersBefore": {
+        "edi": "0x008b3504",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x008b3504",
+        "ecx": "0xffffffff",
+        "eax": "0x00dbfdf8",
+        "ebp": "0x00000001",
+        "eip": "0x771530d0",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00dbfdcc",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x008b3504",
+        "esi": "0x00000000",
+        "ebx": "0x7704eee0",
+        "edx": "0x008b3504",
+        "ecx": "0xffffffff",
+        "eax": "0x00000005",
+        "ebp": "0x00000001",
+        "eip": "0x0076022a",
+        "cs": "0x00000023",
+        "eflags": "0x00200246",
+        "esp": "0x00dbfdf4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00004020",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 32775
+    },
+    {
+      "type": "service-intervention",
+      "api": "GetForegroundWindow",
+      "kind": "substitute-owned-foreground-query",
+      "tid": 25568,
+      "originalCallSkipped": true,
+      "stackBytesHex": "c20c7200",
+      "registersBefore": {
+        "edi": "0x7704d730",
+        "esi": "0x00a30b92",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x3491c511",
+        "eax": "0x009f5470",
+        "ebp": "0x00000004",
+        "eip": "0x76eaaaf0",
+        "cs": "0x00000023",
+        "eflags": "0x00200206",
+        "esp": "0x00dbfe24",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x7704d730",
+        "esi": "0x00a30b92",
+        "ebx": "0x7704eee0",
+        "edx": "0x00000000",
+        "ecx": "0x3491c511",
+        "eax": "0x00a30b92",
+        "ebp": "0x00000004",
+        "eip": "0x00720cc2",
+        "cs": "0x00000023",
+        "eflags": "0x00200206",
+        "esp": "0x00dbfe28",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00000000",
+        "mxcsr": "0x00001fa5"
+      },
+      "targetPath": null,
+      "realForegroundWindow": "0x0000000000050990",
+      "substitutedOwnedWindow": "0x00a30b92",
+      "foregroundWindowSourceAddress": "0x009f5474",
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 35163
+    }
+  ],
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 787,
+    "snapshots": 10,
+    "elapsedMs": 35181
+  },
+  "limits": [
+    "External UI/input history is not reconstructed from a final state.",
+    "Six participants alone do not establish six AI drivers or idle-demo entry; retain mode/selector/attract/execution bytes.",
+    "This is initialization/context evidence, not trajectory equivalence or uninterrupted wall-clock timing.",
+    "Raw body memory remains in the private local capture; this report retains selected fields and hashes."
+  ]
+}

@@ -26,6 +26,10 @@ Both global effect flags remain visible through `externalWorld`. They are cleare
 
 The result is `{nativeReturn:0, preparedBodies, scriptedBodies, ordinaryBodies, processedEvents}`. Counters are reconstruction observations; the native return value is zero. Required callbacks are validated before beginning the frame, while the physical traversal input is captured and checked afterward. This wrapper does not invent object lists, world updates, effects, collision results or controls.
 
+The body flag `0x10000` is a transient selection marker during static collision queries. Retained `427bd0` assembly ORs it into eligible body flags at `427c3f/427c45`, calls terrain batch `424e20` at `427ca7`, runs eligible model queries, then clears the bit at `427d09/427d0e` before contact event preparation. Terrain batch explicitly tests the bit at `424e57`. Evidence: [static candidate assembly](../analysis/native-simulation/results/011-static-candidates-assembly.json), `ev_a2807b94a5c25ff3213a36c54d8961c68c3b183409b103cb2158d10e17e83f56`, and [terrain batch assembly](../analysis/native-simulation/results/024-terrain-batch-assembly.json), `ev_5c52dce326045f1545c8066ef0498f08d33572e1431899744304cbdbd57bf443`. The matching source lifetime is in `src/static-collision-candidates.mjs`.
+
+The local original-process capture `analysis/native-physics-local/startup-20261022/hidden-terrain-active-body-capture` observes fifteen `0x11c03` body pairs and one `0x10804` pair at phase4 terrain-query entry/exit, within that marked interval. This does not establish a persistent initialization flag or spawn/invulnerability state. Keep constructor flags `0x1c03` at viewer initialization and let the recovered query orchestration add/remove its marker. Ordinary body preparation occurs earlier in the frame and its exact-`0x1c03` vehicle-force branch must not be disabled by copying a mid-query flag word into initialization. No initialization code change is required for this observation.
+
 Verification:
 
 ```powershell

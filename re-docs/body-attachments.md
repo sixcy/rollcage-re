@@ -10,7 +10,7 @@ Evidence under `analysis/native-simulation/results`:
 
 ## API and runtime storage
 
-Call `updateBodyAttachments(queue,{pointsFor,type1Records,type2Objects,type4Records,scratch,roundingMode,handlers})`:
+Call `updateBodyAttachments(queue,{pointsFor,type1Records,type2Objects,type4Records,scratch,roundingMode,x87PrecisionBits,handlers})`:
 
 | Input | Contract |
 | --- | --- |
@@ -21,7 +21,8 @@ Call `updateBodyAttachments(queue,{pointsFor,type1Records,type2Objects,type4Reco
 | `type2Objects` | Indexed objects `{bytes:Buffer,...callerState}` corresponding to pointer table 0x80e660. Coordinates are signed shorts at +0x10/+0x12/+0x14. |
 | `type4Records` | Raw table selected through 0x90b990 +0x10c, twelve-byte stride. |
 | `scratch` | Retained Buffer covering 0x91cdb0 through 0x91d453, length **0x6a4 / 1,700 bytes**. Constants `ATTACHMENT_SCRATCH_BASE` and `ATTACHMENT_SCRATCH_LENGTH` are exported. |
-| `roundingMode` | Explicit `nearest-even`, `toward-zero`, `down`, or `up` for native integer conversion. |
+| `roundingMode` | Explicit `nearest-even`, `toward-zero`, `down`, or `up` for x87 arithmetic and integer conversion. |
+| `x87PrecisionBits` | Arithmetic precision24,53 or64. Default53 preserves historical instruction-proof callers; observed native race context requires an explicit24. |
 
 The model point pointer in the routine comes from the body model pointer at +0x10 plus a word read from its +0x4c. This does **not** establish an authored attachment array in raw installed model resources: inspected +0x4c values can point to the next model header. Until the runtime producer is recovered, `pointsFor` stays explicit and the validation points are synthetic. No asset reader is inferred here.
 
@@ -42,11 +43,11 @@ The transform computes matrix/4096 times the three signed point shorts plus inte
 
 Low-byte-only type-2 movement does not invoke either spatial callback. All table padding, unrelated target bytes and unused scratch bytes survive. Callbacks can mutate future handles, point storage, scratch values, target entries and queue state; subsequent reads use the live values. Queued bodies added during callbacks are processed if the live count reaches them. Shrinking the count affects the next outer iteration, while remaining handles of the current body still execute. The final count is cleared to zero and queued entries are retained.
 
-The returned counters are reconstruction observations: `processedBodies`, `transformedPoints`, `type1Writes`, `type2Writes`, `type4Writes`, `spatialMoves`. `transformAttachmentPoint(scratch,roundingMode)` is also exported for the same retained transform state.
+The returned counters are reconstruction observations: `processedBodies`, `transformedPoints`, `type1Writes`, `type2Writes`, `type4Writes`, `spatialMoves`. `transformAttachmentPoint(scratch,roundingMode,{x87PrecisionBits:24})` is also exported for the same retained transform state.
 
 ## Numeric scope and validation
 
-The matrix floats are exact signed-short/Q12 dyadics, translations are exact signed-short integers, and input points are signed shorts. Products and sums in this domain fit exactly within binary64 precision before final integer rounding. The port and bounded x87 stack therefore preserve these exact values and the four declared rounding modes; this is not a general 80-bit x87 equivalence claim. The original runtime control word has not been observed.
+The matrix floats are exact signed-short/Q12 dyadics, translations are exact signed-short integers, and input points are signed shorts. Products and sums in this domain fit within binary64 precision, but the original race process was subsequently observed with **PC24**, which rounds each arithmetic instruction sooner. Source now executes finite exact FMUL/FADDP primitives at the selected PC/RC. Original `432080` uses z/x/y stores and the tree `((translation + product0) + product1) + product2`; both multiplication and addition round separately. FILD/FLD loads remain exact. The default53 keeps historical callers stable; raw updates, structured updates and authored-object construction propagate explicit `x87PrecisionBits:24`. See [observed numerical context](physics-numerical-context.md).
 
 ```powershell
 node tools/verify-body-attachments-instructions.mjs
@@ -55,12 +56,18 @@ node --test tests/body-attachments.test.mjs
 
 The structured instruction checker executes the complete **229 instructions** of both routines across **4,000 fixtures**, **2,919,509 interpreted steps**, **8,767 queued bodies**, and **25,813 transformed points**. It compares complete body/model-point/target-table bytes and all **1,700 scratch bytes**, including stale gaps and copied padding. There are **5,057 type-1 writes**, **5,581 type-2 writes**, **5,096 type-4 writes**, and **5,048 spatial callback pairs**. State-mutating callback fixtures exercise **1,149 queue appends**, **213 queue shrinks**, **739 scratch mutations**, future-handle changes and coordinate rereads. Only the two spatial routines are mocked in this checker; all transform arithmetic executes its retained x87 instructions. Report: `analysis/body-attachments-instruction-check.json`.
 
-Ten focused tests additionally cover empty queues, padding/tag copying, zero high-nibble termination, unsupported types, the five-point limit, half-coordinate rounding, target short truncation, spatial thresholds, queue growth/shrink and live scratch. The original executable has not been run. Actual runtime point/handle creation and target allocation remain separate reconstruction work.
+Ten historical focused tests additionally cover empty queues, padding/tag copying, zero high-nibble termination, unsupported types, the five-point limit, half-coordinate rounding, target short truncation, spatial thresholds, queue growth/shrink and live scratch. Those original proofs did not execute the game. Later original-process observations establish numerical context, not attachment-trajectory equivalence. Actual runtime point/handle creation and target allocation remain separate reconstruction work.
 
 ## Raw connected default
 
-`updateRawBodyAttachments({memory,roundingMode})` reads the live native queue, body/model pointers, model-relative point offset, handles and target tables directly from the same memory. It captures the matrix scale once, copies matrix/point DWORDs forward, preserves copied padding, resolves the type4 table at each reached handle and rereads the unsigned queue count after every body. Native spatial removal4748d0 and insertion474670 are actual defaults, including4286e0 bucket lookup/4746f0 fallback. No game callbacks remain in this raw processor. `runRaceUpdate` binds it at44f050.
+`updateRawBodyAttachments({memory,roundingMode,x87PrecisionBits})` reads the live native queue, body/model pointers, model-relative point offset, handles and target tables directly from the same memory. It captures the matrix scale once, copies matrix/point DWORDs forward, preserves copied padding, resolves the type4 table at each reached handle and rereads the unsigned queue count after every body. Native spatial removal4748d0 and insertion474670 are actual defaults, including4286e0 bucket lookup/4746f0 fallback. No game callbacks remain in this raw processor. `runRaceUpdate` binds it at44f050.
 
 `tools/verify-body-attachments-connected-instructions.mjs` compares the raw processor and spatial callees against536 unique retained instructions over1600 populated fixtures, with allfour explicit rounding modes. It compares body/model/target/linked-spatial/pointer storage and full1700-byte scratch; aliased targets exercise the live queue count. The report `analysis/body-attachments-connected-instruction-check.json` retains counts and Evidence IDs. Four additional tests cover empty scratch preservation, linked-list integrity after real target moves, live model offsets and queue-count aliases.
 
 The supplied runtime queue/model/target/spatial tables are explicit synthetic inputs. This closes the consumer and reached spatial algorithms, without claiming authored point/handle discovery, native constructors, recovered x87 control-word initialization or a complete race tick.
+
+## Explicit PC24 integration check
+
+New immutable reports under `analysis/attachments-x87-20261022/` retain the4000-case historical structured proof,1600-case historical raw proof,2400-case historical metadata proof, and separate PC24 raw/metadata runs at the same fixture counts. Both raw runs match1452190 interpreted steps and2011 actual spatial removal/insertion pairs. Both metadata runs match688971 steps,1800 authored transforms and1200 actual particle allocations. The legacy interpreter still uses its Number stack by default; explicit `fpuPrecisionBits` selects a separate exact finite-value stack without broadening accepted instruction forms.
+
+`tools/verify-attachment-x87-instructions.mjs` adds3072 actual retained432080 cases across PC24/53/64 and all RC modes, comparing all1700 scratch bytes. Twenty PC24 cases differ from historical53; the concrete Q12 row yields27818 rather than27817. Four focused source tests check this counterexample, the translation-first tree and precision propagation through structured/raw/authored calls; two interpreter tests check exact loads and opt-in arithmetic. The shared finite primitive has a separate bounded hardware fixture, so this retained-instruction comparison establishes sequencing/storage rather than claiming an independent second arithmetic implementation. No native launch was performed for this integration.

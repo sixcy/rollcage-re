@@ -5,8 +5,10 @@ import {appendRespawnRegionCandidates} from './respawn-terrain-candidates.mjs';
 import {appendRawRespawnModelCandidates} from './raw-respawn-model-candidates.mjs';
 import {queryRawTerrain} from './raw-terrain-query.mjs';
 import {queryRawPlacedModelSphere} from './raw-model-sphere-query.mjs';
+import {nativeMemoryAddress,resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
-const CLONE = 0x70f130, ARENA = 0x70ed30;
+const cloneAddress = memory => resolveNativeMemoryAddress(memory,0x70f130,0x3e78);
+const arenaAddress = memory => resolveNativeMemoryAddress(memory,0x70ed30,16);
 const get = (memory, address) => memory.readInt32LE(address), pointer = (memory, address) => memory.readUInt32LE(address);
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
 const vector = (memory, address) => [0, 4, 8].map(offset => get(memory, address + offset));
@@ -24,7 +26,11 @@ function cacheState(memory, scratchBase) {
     },
     //429ab0 PUSH EBP saves its parent's current shape-record pointer. A later
     //zero-row47d9c0 consumes these same bytes as an uninitialized nearest ID.
-    beforeShapeCacheEntry: (body, record) => put(memory, scratchBase - 136, record.byteOffset - memory.byteOffset),
+    beforeShapeCacheEntry: (body, record) => {
+      const address = nativeMemoryAddress(memory, record);
+      if (address === null) throw Error('Respawn shape record must retain its native memory identity.');
+      put(memory, scratchBase - 136, address);
+    },
   };
 }
 
@@ -37,6 +43,7 @@ function terrainSlot(memory, address, terrainVerticesFor) {
 }
 
 function appendRawRespawnRegion(record, region, center, radiusSquared, {memory, grid, views, scratchBase}) {
+  const CLONE=cloneAddress(memory),ARENA=arenaAddress(memory);
   const numeric = key => typeof key === 'string' && /^(0|[1-9][0-9]*)$/.test(key);
   const slots = new Proxy([], {has: (target, key) => numeric(key) || Reflect.has(target, key), get: (target, key, receiver) => numeric(key) ? terrainSlot(memory, ARENA + Number(key) * 16, sector => {
     const header = pointer(memory, pointer(memory, 0x909240) + sector * 4); return pointer(memory, header + 0x20);
@@ -70,6 +77,7 @@ function appendRawRespawnRegion(record, region, center, radiusSquared, {memory, 
 //unsigned expression, including its y/z product rather than a repaired norm.
 export function queryRawRespawnObstruction(original, mode, runtime) {
   const {memory, views, scratchBase} = runtime, records = pointer(memory, 0x91e79c), output = scratchBase - 40;
+  const CLONE=cloneAddress(memory);
   let index = mode ? memory.readInt8(CLONE + 0x10c) : 0, remaining = mode ? 1 : memory.readInt8(CLONE + 0x10c) - 1, queries = 0;
   if (remaining !== 0) do {
     if (queries++ >= 256) throw Error('Raw respawn obstruction exceeded its signed-byte shape workflow.');
@@ -99,6 +107,7 @@ export function queryRawRespawnObstruction(original, mode, runtime) {
 //insertion. All temporary shape records and candidates alias the real pools.
 export function queryRawRespawnPlacement(bodyAddress, positionAddress, quaternionAddress, rotationAddress, mode, outputAddress, runtime) {
   const {memory, views, grid, scratchBase} = runtime;
+  const CLONE=cloneAddress(memory),ARENA=arenaAddress(memory);
   if (!Buffer.isBuffer(memory) || views?.memory !== memory || !Number.isInteger(scratchBase)) throw Error('Raw respawn query requires coherent memory/views and native entry ESP.');
   const records = pointer(memory, 0x91e79c), body = views.bodyAt(CLONE);
   if (quaternionAddress) quaternionMatrix([0, 4, 8, 12].map(offset => get(memory, quaternionAddress + offset))).forEach((value, index) => memory.writeInt16LE(value, rotationAddress + index * 2));

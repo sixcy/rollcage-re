@@ -8,7 +8,7 @@ import {carDisplayMatrix, formatPracticeTime} from '../tools/track-viewer/solo-p
 import {readDefaultModelMaterials} from '../src/model-materials.mjs';
 import {buildViewerBundle} from '../tools/lib/track-viewer-bundle.mjs';
 import {RollcageArchive} from '../src/archive.mjs';
-import {createSession} from '../src/solo-session.mjs';
+import {createSession, SOLO_STEP_SECONDS} from '../src/solo-session.mjs';
 
 test('browser mutable bytes match native signed integers, IEEE values and overlapping copies', () => {
   const native = Buffer.alloc(64), browser = ByteBuffer.alloc(64);
@@ -25,6 +25,8 @@ test('browser mutable bytes match native signed integers, IEEE values and overla
   assert.throws(() => browser.writeInt32LE(0x80000000, 0), RangeError);
   assert.throws(() => browser.writeFloatLE(1, 62), RangeError);
   browser.writeBigUInt64LE(0xffffffffffffffffn, 0); assert.equal(browser.readBigUInt64LE(0), 0xffffffffffffffffn);
+  for (let length = 1; length <= 6; length++) assert.equal(browser.readUIntLE(1, length), Buffer.from(browser).readUIntLE(1, length));
+  assert.throws(() => browser.readUIntLE(0, 7), RangeError); assert.throws(() => browser.readUIntLE(63, 3), RangeError);
   assert.throws(() => createSession(Buffer.alloc(2), Buffer.alloc(2)), /GFXM/);
 });
 
@@ -33,12 +35,31 @@ test('practice controller decouples physics from render scheduling, pause and ba
   const first = make(), second = make(); first.start(); second.start();
   for (let i = 0; i < 120; i++) first.advance(1 / 60);
   for (let i = 0; i < 48; i++) second.advance(1 / 24);
-  assert.equal(first.session.ticks, 120); assert.equal(second.session.ticks, 120);
-  first.pause(); first.advance(100); assert.equal(first.session.ticks, 120);
-  first.start(); first.advance(100); assert.equal(first.session.ticks, 128);
+  assert.equal(SOLO_STEP_SECONDS, 1 / 30);
+  assert.equal(first.session.ticks, 60); assert.equal(second.session.ticks, 60);
+  first.pause(); first.advance(100); assert.equal(first.session.ticks, 60);
+  first.start(); first.advance(100); assert.equal(first.session.ticks, 68);
   first.reset(); assert.equal(first.state, 'ready'); assert.equal(first.session.ticks, 0);
-  first.start(); first.session.step = () => {throw Error('bad state');}; first.advance(1 / 60);
+  first.start(); first.session.step = () => {throw Error('bad state');}; first.advance(SOLO_STEP_SECONDS);
   assert.equal(first.state, 'error'); assert.equal(first.message, 'bad state');
+});
+
+test('manual frame and recovery controls preserve pause, defer running requests and surface failures', () => {
+  const session = {ticks: 0, recoveries: 0, pending: false,
+    step() {this.ticks++; if (this.pending) {this.recoveries++; this.pending = false;}},
+    requestRecovery() {this.pending = true;},
+    reset() {this.ticks = 0; this.recoveries = 0; this.pending = false;}, dispose() {}};
+  const control = new SoloController(session);
+  assert.equal(control.stepFrame(), true); assert.equal(control.state, 'paused'); assert.equal(session.ticks, 1);
+  control.advance(100); assert.equal(session.ticks, 1, 'Single stepping does not resume scheduling.');
+  assert.equal(control.requestRecovery(), true); assert.equal(session.recoveries, 1); assert.equal(control.state, 'paused');
+  control.start(); assert.equal(control.stepFrame(), false); assert.equal(session.ticks, 2);
+  control.requestRecovery(); assert.equal(session.ticks, 2); assert.equal(session.recoveries, 1);
+  control.advance(SOLO_STEP_SECONDS); assert.equal(session.ticks, 3); assert.equal(session.recoveries, 2);
+  control.reset(); assert.equal(control.state, 'ready'); assert.equal(session.ticks, 0); assert.equal(session.pending, false);
+  session.requestRecovery = () => {throw Error('test recovery failure');};
+  assert.equal(control.requestRecovery(), false); assert.equal(control.state, 'error'); assert.equal(control.message, 'test recovery failure');
+  assert.equal(control.stepFrame(), false); assert.equal(session.ticks, 0);
 });
 
 test('car presentation applies the handedness-preserving display transform once', () => {
@@ -62,13 +83,23 @@ test('installed LEV1 session preserves assets, resets deterministically and matc
   const archive = await RollcageArchive.open(installation);
   try {
     const {data} = await archive.readResource(30), {data: textures} = await archive.readResource(31);
-    const original = Buffer.from(data), session = createSession(data, textures), initial = session.snapshot;
+    const frames = [];
+    const original = Buffer.from(data), session = createSession(data, textures, {onDebugFrame: frame => frames.push(frame)}), initial = session.snapshot;
     assert.equal(session.assets.modelIndices.length, 5);
+    assert.equal(session.assets.worldObjects.modelIndices.length, 5);
+    assert.deepEqual(session.assets.worldObjects.placementIndices, [4, 13, 27, 77, 108]);
+    assert.ok(Object.isFrozen(initial.worldObjects)); assert.ok(Object.isFrozen(initial.worldObjects[0].position));
     const browser = runInNewContext(await buildViewerBundle('src/solo-session.mjs'), {btoa, atob, TextEncoder, TextDecoder}).createSession(data, textures);
     for (let i = 0; i < 150; i++) {session.step(); browser.step();}
     const expected = session.snapshot;
+    assert.equal(frames.length, 450);
+    assert.deepEqual(frames.slice(0, 3).map(frame => frame.stage), ['after-controls', 'after-physics', 'after-postframe']);
+    assert.ok(Object.isFrozen(frames[0])); assert.ok(Object.isFrozen(frames[0].positionQ16));
+    assert.throws(() => {frames[0].positionQ16[0] = 0;}, TypeError);
     assert.deepEqual(JSON.parse(JSON.stringify(browser.snapshot)), JSON.parse(JSON.stringify(expected)));
     assert.ok(expected.stats.wheelContacts > 0); assert.notDeepEqual(expected.position, initial.position);
+    assert.notDeepEqual(expected.worldObjects[0].position, initial.worldObjects[0].position);
+    assert.deepEqual(expected.worldObjects.map(row => row.modelIndex), session.assets.worldObjects.modelIndices);
     assert.throws(() => {expected.position[0] = 0;}, TypeError);
     session.reset(); assert.deepEqual(session.snapshot, initial);
     for (let i = 0; i < 150; i++) session.step();

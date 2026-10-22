@@ -1,0 +1,594 @@
+{
+  "schemaVersion": 1,
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 90000,
+  "maxEvents": 100000,
+  "maxSnapshots": 4096,
+  "showWindow": false,
+  "ranges": [
+    {
+      "id": "gravity",
+      "length": 4,
+      "rva": "0x1eb5e0"
+    },
+    {
+      "id": "clock",
+      "length": 4,
+      "rva": "0x50a548"
+    }
+  ],
+  "breakpoints": [
+    {
+      "id": "launcher-policy",
+      "rva": "0x42890",
+      "ranges": [
+        {
+          "id": "launcher-skip",
+          "rva": "0x2e66ec",
+          "length": 4
+        },
+        {
+          "id": "launcher-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "graphics-policy",
+      "rva": "0x35be",
+      "ranges": [
+        {
+          "id": "graphics-mode",
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28
+        }
+      ]
+    },
+    {
+      "id": "before-device-creation",
+      "rva": "0x112a30",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "presentation",
+          "baseRegister": "ecx",
+          "offset": "0x378",
+          "length": 56
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    },
+    {
+      "id": "physics-frame-entry",
+      "rva": "0x749e0",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "preparation-before",
+      "rva": "0x74a11",
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "ecx",
+          "length": 384
+        },
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "forces-before",
+      "rva": "0x7ab0f",
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "ecx",
+          "length": 384
+        },
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "forces-after",
+      "rva": "0x7ab14",
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "edi",
+          "length": 384
+        },
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "preparation-after",
+      "rva": "0x74a16",
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "edi",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 384
+        },
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "derivatives-before",
+      "rva": "0x7578d",
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "ecx",
+          "length": 384,
+          "offset": "-0x34"
+        },
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "derivatives-after",
+      "rva": "0x75792",
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "edi",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 384
+        },
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    },
+    {
+      "id": "physics-finish",
+      "rva": "0x74b1e",
+      "stopAfterHits": 10,
+      "ranges": [
+        {
+          "id": "vehicle0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "effect-first",
+          "rva": "0x51cd90",
+          "length": 4
+        },
+        {
+          "id": "effect-second",
+          "rva": "0x5153d0",
+          "length": 4
+        },
+        {
+          "id": "time-options",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "root-scratch",
+          "rva": "0x51d45c",
+          "length": 8
+        },
+        {
+          "id": "contact-records",
+          "rva": "0x51e79c",
+          "length": 18432,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "physical-group",
+          "rva": "0x502bc0",
+          "length": 8
+        }
+      ]
+    }
+  ],
+  "phaseActions": [
+    {
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e66ec",
+          "bytesHex": "01000000",
+          "expectedAnyBytesHex": [
+            "00000000",
+            "01000000"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xa",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xe",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x3c",
+          "bytesHex": "00",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "writes": [
+        {
+          "baseRegister": "ecx",
+          "offset": "0x398",
+          "bytesHex": "01000000",
+          "expectedBytesHex": "01000000"
+        },
+        {
+          "baseRegister": "ecx",
+          "offset": "0x3a8",
+          "bytesHex": "00000000",
+          "expectedBytesHex": "00000000"
+        }
+      ]
+    }
+  ],
+  "denyPlayerMailslot": true,
+  "hideOwnedWindows": true,
+  "foregroundWindowSource": {
+    "id": "owned-application-hwnd",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0"
+    ],
+    "offset": "4",
+    "length": 4
+  },
+  "captureThreadsOnStop": true,
+  "stopThreadStackBytes": 128,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\hidden-stages-ten-capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp"
+}

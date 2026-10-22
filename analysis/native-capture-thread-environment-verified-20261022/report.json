@@ -1,0 +1,447 @@
+{
+  "method": "Executed synthetic x86 counter loop under Windows owned-child debugger; no game code.",
+  "matched": true,
+  "reports": [
+    {
+      "mode": "thread-environment",
+      "counters": [
+        1769420
+      ],
+      "ecx": [
+        4198400
+      ],
+      "completion": {
+        "type": "complete",
+        "reason": "snapshot-bound",
+        "events": 14,
+        "snapshots": 1,
+        "elapsedMs": 34
+      },
+      "snapshots": [
+        {
+          "type": "snapshot",
+          "ordinal": 1,
+          "breakpointId": "thread-environment-observed",
+          "hit": 1,
+          "tid": 21448,
+          "registers": {
+            "edi": "0x00401000",
+            "esi": "0x00401000",
+            "ebx": "0x0026a000",
+            "edx": "0x00401000",
+            "ecx": "0x00401000",
+            "eax": "0x00000053",
+            "ebp": "0x001aff84",
+            "eip": "0x00401015",
+            "cs": "0x00000023",
+            "eflags": "0x00000246",
+            "esp": "0x001aff78",
+            "ss": "0x0000002b",
+            "fpuControlWord": "0x0000027f",
+            "fpuStatusWord": "0x00000000",
+            "mxcsr": "0x00001f80"
+          },
+          "contextFile": "snapshot-000001-context.bin",
+          "contextSha256": "cd5f021799a0c0abbae9efafa88a02414211ec15a536abdbc39b0d359458a59e",
+          "capturePhase": "before-declared-writes-before-original-instruction",
+          "threadEnvironment": {
+            "fsSelector": "0x00000053",
+            "descriptorHex": "ff0f00d026f34000",
+            "fsBase": "0x0026d000",
+            "sehWord": "0x001affcc",
+            "tid": 21448,
+            "selectorApi": "Wow64GetThreadSelectorEntry",
+            "contextSelectorOffset": 144,
+            "source": "stopped-owned-thread-selector-query"
+          },
+          "elapsedMs": 33,
+          "ranges": [
+            {
+              "id": "counter",
+              "address": "0x00401100",
+              "rootAddress": null,
+              "rootRva": "0x1100",
+              "moduleBaseAddress": "0x00400000",
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 8,
+              "file": "snapshot-000001-range-001.bin",
+              "sha256": "5501240ac53b7dbabd0f9acbb56e81ff8a14b81de9ca86e8ffc0ec20ba17c506"
+            },
+            {
+              "id": "thread-seh-head",
+              "address": "0x0026d000",
+              "length": 4,
+              "sha256": "c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b",
+              "source": "stopped-owned-thread-fs-zero",
+              "file": "snapshot-000001-range-002.bin"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "pending-thread-environment",
+      "counters": [
+        1,
+        2,
+        2
+      ],
+      "ecx": [
+        4198400,
+        4198784,
+        4198784
+      ],
+      "completion": {
+        "type": "complete",
+        "reason": "snapshot-bound",
+        "events": 22,
+        "snapshots": 3,
+        "pendingFrameSelection": {
+          "candidateIndex": 2,
+          "frameTid": 20768,
+          "frameEntryEsp": "0x001aff74",
+          "frameReturnAddress": "0x00401029",
+          "frameMatchingHit": 2,
+          "observedEventHits": 1,
+          "qualifyingEventSnapshots": 1
+        },
+        "elapsedMs": 43
+      },
+      "snapshots": [
+        {
+          "type": "snapshot",
+          "breakpointId": "frame-before",
+          "tid": 20768,
+          "registers": {
+            "edi": "0x00401000",
+            "esi": "0x00401000",
+            "ebx": "0x003b0000",
+            "edx": "0x00401000",
+            "ecx": "0x00401000",
+            "eax": "0x001affcc",
+            "ebp": "0x001aff84",
+            "eip": "0x00401040",
+            "cs": "0x00000023",
+            "eflags": "0x00000297",
+            "esp": "0x001aff74",
+            "ss": "0x0000002b",
+            "fpuControlWord": "0x0000027f",
+            "fpuStatusWord": "0x00000000",
+            "mxcsr": "0x00001f80"
+          },
+          "contextSha256": "a20c3b1f25075f50eca8d58ffa4849fb6c51dfe2dad9ec8d96f386f2f3cb5fdf",
+          "capturePhase": "before-declared-writes-before-original-instruction",
+          "rawHit": 2,
+          "matchingHit": 2,
+          "deferredPublication": true,
+          "observedElapsedMs": 36,
+          "observedDebugEventOrdinal": 18,
+          "captureWhen": {
+            "address": "0x00401104",
+            "actualBytesHex": "00000000",
+            "equalsBytesHex": "00000000"
+          },
+          "threadEnvironment": {
+            "fsSelector": "0x00000053",
+            "descriptorHex": "ff0f00303bf34000",
+            "fsBase": "0x003b3000",
+            "sehWord": "0x001affcc",
+            "tid": 20768,
+            "selectorApi": "Wow64GetThreadSelectorEntry",
+            "contextSelectorOffset": 144,
+            "source": "stopped-owned-thread-selector-query"
+          },
+          "ordinal": 1,
+          "hit": 1,
+          "contextFile": "snapshot-000001-context.bin",
+          "pendingFrame": {
+            "candidateIndex": 2,
+            "frameTid": 20768,
+            "frameEntryEsp": "0x001aff74",
+            "frameReturnAddress": "0x00401029",
+            "frameMatchingHit": 2,
+            "observedEventHits": 1,
+            "qualifyingEventSnapshots": 1,
+            "role": "before"
+          },
+          "elapsedMs": 43,
+          "ranges": [
+            {
+              "id": "fixture-thread-seh",
+              "address": "0x00401110",
+              "rootAddress": null,
+              "rootRva": "0x1110",
+              "moduleBaseAddress": "0x00400000",
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b",
+              "file": "snapshot-000001-range-001.bin"
+            },
+            {
+              "id": "counter",
+              "address": "0x00401100",
+              "rootAddress": null,
+              "rootRva": "0x1100",
+              "moduleBaseAddress": "0x00400000",
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+              "file": "snapshot-000001-range-002.bin"
+            },
+            {
+              "id": "caller",
+              "address": "0x001aff74",
+              "rootAddress": null,
+              "rootRva": null,
+              "moduleBaseAddress": null,
+              "baseRegister": "esp",
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "264a7e89beb9b87e9192f36724f984e9e13f70dd355b5aab1e38c420314f9607",
+              "file": "snapshot-000001-range-003.bin"
+            },
+            {
+              "id": "thread-seh-head",
+              "address": "0x003b3000",
+              "length": 4,
+              "sha256": "c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b",
+              "source": "stopped-owned-thread-fs-zero",
+              "file": "snapshot-000001-range-004.bin"
+            }
+          ]
+        },
+        {
+          "type": "snapshot",
+          "breakpointId": "dispatch",
+          "tid": 20768,
+          "registers": {
+            "edi": "0x00401000",
+            "esi": "0x00401000",
+            "ebx": "0x003b0000",
+            "edx": "0x00000011",
+            "ecx": "0x00401180",
+            "eax": "0x001affcc",
+            "ebp": "0x001aff84",
+            "eip": "0x00401080",
+            "cs": "0x00000023",
+            "eflags": "0x00000216",
+            "esp": "0x001aff58",
+            "ss": "0x0000002b",
+            "fpuControlWord": "0x0000027f",
+            "fpuStatusWord": "0x00000000",
+            "mxcsr": "0x00001f80"
+          },
+          "contextSha256": "6199b5582e9702881d22b23ef0b9eeee5d3c6256271aa40e95363cccaf5f4231",
+          "capturePhase": "before-declared-writes-before-original-instruction",
+          "rawHit": 1,
+          "matchingHit": 1,
+          "deferredPublication": true,
+          "observedElapsedMs": 37,
+          "observedDebugEventOrdinal": 20,
+          "threadEnvironment": {
+            "fsSelector": "0x00000053",
+            "descriptorHex": "ff0f00303bf34000",
+            "fsBase": "0x003b3000",
+            "sehWord": "0x001affcc",
+            "tid": 20768,
+            "selectorApi": "Wow64GetThreadSelectorEntry",
+            "contextSelectorOffset": 144,
+            "source": "stopped-owned-thread-selector-query"
+          },
+          "ordinal": 2,
+          "hit": 1,
+          "contextFile": "snapshot-000002-context.bin",
+          "pendingFrame": {
+            "candidateIndex": 2,
+            "frameTid": 20768,
+            "frameEntryEsp": "0x001aff74",
+            "frameReturnAddress": "0x00401029",
+            "frameMatchingHit": 2,
+            "observedEventHits": 1,
+            "qualifyingEventSnapshots": 1,
+            "role": "event",
+            "eventIndex": 1
+          },
+          "elapsedMs": 43,
+          "ranges": [
+            {
+              "id": "fixture-thread-seh",
+              "address": "0x00401110",
+              "rootAddress": null,
+              "rootRva": "0x1110",
+              "moduleBaseAddress": "0x00400000",
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b",
+              "file": "snapshot-000002-range-001.bin"
+            },
+            {
+              "id": "counter",
+              "address": "0x00401100",
+              "rootAddress": null,
+              "rootRva": "0x1100",
+              "moduleBaseAddress": "0x00400000",
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "26b25d457597a7b0463f9620f666dd10aa2c4373a505967c7c8d70922a2d6ece",
+              "file": "snapshot-000002-range-002.bin"
+            },
+            {
+              "id": "event",
+              "address": "0x00401180",
+              "rootAddress": null,
+              "rootRva": null,
+              "moduleBaseAddress": null,
+              "baseRegister": "ecx",
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 104,
+              "sha256": "39f37f8d1931b3bdf767e7510dd69509fbf23af1f7654933d0a4d291cbdd4418",
+              "file": "snapshot-000002-range-003.bin"
+            },
+            {
+              "id": "caller",
+              "address": "0x001aff58",
+              "rootAddress": null,
+              "rootRva": null,
+              "moduleBaseAddress": null,
+              "baseRegister": "esp",
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "c96cca844403604faef103b159edbd8583b33651d7dc87393e91df88409f809d",
+              "file": "snapshot-000002-range-004.bin"
+            },
+            {
+              "id": "thread-seh-head",
+              "address": "0x003b3000",
+              "length": 4,
+              "sha256": "c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b",
+              "source": "stopped-owned-thread-fs-zero",
+              "file": "snapshot-000002-range-005.bin"
+            }
+          ]
+        },
+        {
+          "type": "snapshot",
+          "breakpointId": "frame-after",
+          "tid": 20768,
+          "registers": {
+            "edi": "0x00401000",
+            "esi": "0x00401000",
+            "ebx": "0x003b0000",
+            "edx": "0x00000011",
+            "ecx": "0x00401180",
+            "eax": "0x001affcc",
+            "ebp": "0x001aff84",
+            "eip": "0x00401064",
+            "cs": "0x00000023",
+            "eflags": "0x00000216",
+            "esp": "0x001aff74",
+            "ss": "0x0000002b",
+            "fpuControlWord": "0x0000027f",
+            "fpuStatusWord": "0x00000000",
+            "mxcsr": "0x00001f80"
+          },
+          "contextSha256": "2dee0e6fa2bde695cfd8e5c7defb267f71ef4b6c070f1127e04d6456e4d5be5f",
+          "capturePhase": "before-declared-writes-before-original-instruction",
+          "rawHit": 2,
+          "matchingHit": 2,
+          "deferredPublication": true,
+          "observedElapsedMs": 37,
+          "observedDebugEventOrdinal": 22,
+          "captureWhen": {
+            "address": "0x00401104",
+            "actualBytesHex": "00000000",
+            "equalsBytesHex": "00000000"
+          },
+          "threadEnvironment": {
+            "fsSelector": "0x00000053",
+            "descriptorHex": "ff0f00303bf34000",
+            "fsBase": "0x003b3000",
+            "sehWord": "0x001affcc",
+            "tid": 20768,
+            "selectorApi": "Wow64GetThreadSelectorEntry",
+            "contextSelectorOffset": 144,
+            "source": "stopped-owned-thread-selector-query"
+          },
+          "ordinal": 3,
+          "hit": 1,
+          "contextFile": "snapshot-000003-context.bin",
+          "pendingFrame": {
+            "candidateIndex": 2,
+            "frameTid": 20768,
+            "frameEntryEsp": "0x001aff74",
+            "frameReturnAddress": "0x00401029",
+            "frameMatchingHit": 2,
+            "observedEventHits": 1,
+            "qualifyingEventSnapshots": 1,
+            "role": "after"
+          },
+          "elapsedMs": 43,
+          "ranges": [
+            {
+              "id": "fixture-thread-seh",
+              "address": "0x00401110",
+              "rootAddress": null,
+              "rootRva": "0x1110",
+              "moduleBaseAddress": "0x00400000",
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b",
+              "file": "snapshot-000003-range-001.bin"
+            },
+            {
+              "id": "counter",
+              "address": "0x00401100",
+              "rootAddress": null,
+              "rootRva": "0x1100",
+              "moduleBaseAddress": "0x00400000",
+              "baseRegister": null,
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "26b25d457597a7b0463f9620f666dd10aa2c4373a505967c7c8d70922a2d6ece",
+              "file": "snapshot-000003-range-002.bin"
+            },
+            {
+              "id": "caller",
+              "address": "0x001aff74",
+              "rootAddress": null,
+              "rootRva": null,
+              "moduleBaseAddress": null,
+              "baseRegister": "esp",
+              "dereferenceOffsets": [],
+              "offset": "0",
+              "length": 4,
+              "sha256": "264a7e89beb9b87e9192f36724f984e9e13f70dd355b5aab1e38c420314f9607",
+              "file": "snapshot-000003-range-003.bin"
+            },
+            {
+              "id": "thread-seh-head",
+              "address": "0x003b3000",
+              "length": 4,
+              "sha256": "c6ab9203372e70be2e7420654c6805b717ae4bac2acc147cd84852a752e6794b",
+              "source": "stopped-owned-thread-fs-zero",
+              "file": "snapshot-000003-range-004.bin"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "Verifies WOW64 INT3 reinsertion/single-step, integer/register/context capture, natural exit, snapshot bound and owned-child cleanup. Does not prove the game physics or persistence adapters."
+}

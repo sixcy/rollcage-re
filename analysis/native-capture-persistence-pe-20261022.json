@@ -1,0 +1,524 @@
+{
+  "method": "Read-only original PE import parsing and byte scans; candidates are not instruction-decoded xrefs or a runtime observation.",
+  "target": {
+    "path": "C:/Program Files (x86)/Psygnosis/Rollcage/Direct3D/Rollcage Redux.exe",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "imports": [
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateFileW",
+      "iat": "0x56e07c",
+      "directCallOrJumpCandidates": [
+        "0x4a3c06",
+        "0x4a3c3f"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4a3c08",
+        "0x4a3c41",
+        "0x4a3d4f",
+        "0x4af304"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetModuleFileNameW",
+      "iat": "0x56e080",
+      "directCallOrJumpCandidates": [
+        "0x4b0c7e"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4b0c80"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateDirectoryA",
+      "iat": "0x56e0c4",
+      "directCallOrJumpCandidates": [],
+      "absoluteOperandCandidates": [
+        "0x4150b1"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateFileA",
+      "iat": "0x56e0d0",
+      "directCallOrJumpCandidates": [
+        "0x46ed00"
+      ],
+      "absoluteOperandCandidates": [
+        "0x46ed02",
+        "0x4795a4",
+        "0x489273",
+        "0x489363"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "WriteFile",
+      "iat": "0x56e0d4",
+      "directCallOrJumpCandidates": [
+        "0x42bcef",
+        "0x4413de",
+        "0x441406",
+        "0x4415ef",
+        "0x45d6af",
+        "0x4796ff",
+        "0x484487",
+        "0x4844eb",
+        "0x48454a",
+        "0x4850aa",
+        "0x4a428e",
+        "0x4a432a",
+        "0x4b0584",
+        "0x4b0661",
+        "0x4b1ac9"
+      ],
+      "absoluteOperandCandidates": [
+        "0x42bcf1",
+        "0x440936",
+        "0x440cfc",
+        "0x4413e0",
+        "0x441408",
+        "0x4415f1",
+        "0x45d6b1",
+        "0x46eddd",
+        "0x479701",
+        "0x484489",
+        "0x4844ed",
+        "0x48454c",
+        "0x4850ac",
+        "0x4a4290",
+        "0x4a432c",
+        "0x4b0586",
+        "0x4b0663",
+        "0x4b1acb"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateProcessA",
+      "iat": "0x56e0d8",
+      "directCallOrJumpCandidates": [
+        "0x46ecd8",
+        "0x486e63",
+        "0x486fea"
+      ],
+      "absoluteOperandCandidates": [
+        "0x46ecda",
+        "0x486e65",
+        "0x486fec"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetCurrentDirectoryA",
+      "iat": "0x56e0dc",
+      "directCallOrJumpCandidates": [
+        "0x46ed75"
+      ],
+      "absoluteOperandCandidates": [
+        "0x46ed77"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetModuleFileNameA",
+      "iat": "0x56e0f0",
+      "directCallOrJumpCandidates": [
+        "0x48716b"
+      ],
+      "absoluteOperandCandidates": [
+        "0x48716d"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "DeleteFileA",
+      "iat": "0x56e0f4",
+      "directCallOrJumpCandidates": [
+        "0x486b00",
+        "0x4992a1"
+      ],
+      "absoluteOperandCandidates": [
+        "0x486b02",
+        "0x4992a3"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CopyFileA",
+      "iat": "0x56e108",
+      "directCallOrJumpCandidates": [
+        "0x489c41"
+      ],
+      "absoluteOperandCandidates": [
+        "0x489c43"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetTempFileNameA",
+      "iat": "0x56e10c",
+      "directCallOrJumpCandidates": [
+        "0x42b88c",
+        "0x42bc77",
+        "0x486a6c"
+      ],
+      "absoluteOperandCandidates": [
+        "0x42b88e",
+        "0x42bc79",
+        "0x486a6e"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetTempPathA",
+      "iat": "0x56e11c",
+      "directCallOrJumpCandidates": [
+        "0x42b86f",
+        "0x42bc5d",
+        "0x486a4f",
+        "0x499210"
+      ],
+      "absoluteOperandCandidates": [
+        "0x42b871",
+        "0x42bc5f",
+        "0x486a51",
+        "0x499212"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetProcAddress",
+      "iat": "0x56e154",
+      "directCallOrJumpCandidates": [
+        "0x51014f"
+      ],
+      "absoluteOperandCandidates": [
+        "0x510151"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "LoadLibraryW",
+      "iat": "0x56e158",
+      "directCallOrJumpCandidates": [
+        "0x51013d"
+      ],
+      "absoluteOperandCandidates": [
+        "0x51013f"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateProcessW",
+      "iat": "0x56e174",
+      "directCallOrJumpCandidates": [
+        "0x4b0e1c"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4b0e1e"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetTempFileNameW",
+      "iat": "0x56e180",
+      "directCallOrJumpCandidates": [
+        "0x4a846d",
+        "0x4c9c28"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4a846f",
+        "0x4c9c2a"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "GetTempPathW",
+      "iat": "0x56e184",
+      "directCallOrJumpCandidates": [
+        "0x4a8450",
+        "0x4c9c0d"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4a8452",
+        "0x4c9c0f"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "DeleteFileW",
+      "iat": "0x56e1a0",
+      "directCallOrJumpCandidates": [
+        "0x4a1935",
+        "0x4a3e3d"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4a1937",
+        "0x4a3e3f"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CopyFileW",
+      "iat": "0x56e1a4",
+      "directCallOrJumpCandidates": [
+        "0x4a3ee3"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4a3ee5"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "name": "CreateDirectoryW",
+      "iat": "0x56e1a8",
+      "directCallOrJumpCandidates": [
+        "0x4a4023",
+        "0x4a4078"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4a4025",
+        "0x4a407a"
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "RegisterClassExW",
+      "iat": "0x56e55c",
+      "directCallOrJumpCandidates": [
+        "0x50d820"
+      ],
+      "absoluteOperandCandidates": [
+        "0x50d822"
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "name": "RegisterClassExA",
+      "iat": "0x56e574",
+      "directCallOrJumpCandidates": [
+        "0x4036fb"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4036fd"
+      ]
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "RegDeleteValueA",
+      "iat": "0x56e000",
+      "directCallOrJumpCandidates": [
+        "0x480715"
+      ],
+      "absoluteOperandCandidates": [
+        "0x480717"
+      ]
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "RegSetValueExA",
+      "iat": "0x56e004",
+      "directCallOrJumpCandidates": [
+        "0x4806a6",
+        "0x486970"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4806a8",
+        "0x486972"
+      ]
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "RegCloseKey",
+      "iat": "0x56e00c",
+      "directCallOrJumpCandidates": [
+        "0x440771",
+        "0x480174",
+        "0x4801e2",
+        "0x480261",
+        "0x480424",
+        "0x480548",
+        "0x4805b0",
+        "0x480638",
+        "0x4806c8",
+        "0x480737",
+        "0x486992",
+        "0x486f00"
+      ],
+      "absoluteOperandCandidates": [
+        "0x440773",
+        "0x480176",
+        "0x4801e4",
+        "0x480263",
+        "0x480426",
+        "0x48054a",
+        "0x4805b2",
+        "0x48063a",
+        "0x4806ca",
+        "0x480739",
+        "0x486994",
+        "0x486f02"
+      ]
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "RegUnLoadKeyA",
+      "iat": "0x56e010",
+      "directCallOrJumpCandidates": [
+        "0x48028c"
+      ],
+      "absoluteOperandCandidates": [
+        "0x48028e"
+      ]
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "RegOpenKeyExA",
+      "iat": "0x56e014",
+      "directCallOrJumpCandidates": [
+        "0x4801a7"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4801a9"
+      ]
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "RegCreateKeyExA",
+      "iat": "0x56e018",
+      "directCallOrJumpCandidates": [
+        "0x480224"
+      ],
+      "absoluteOperandCandidates": [
+        "0x480226"
+      ]
+    },
+    {
+      "dll": "ADVAPI32.dll",
+      "name": "RegQueryValueExA",
+      "iat": "0x56e01c",
+      "directCallOrJumpCandidates": [
+        "0x4802ce",
+        "0x4803ba",
+        "0x4804b6"
+      ],
+      "absoluteOperandCandidates": [
+        "0x4802d0",
+        "0x4803bc",
+        "0x4804b8"
+      ]
+    },
+    {
+      "dll": "SHELL32.dll",
+      "name": "SHGetFolderPathA",
+      "iat": "0x56e4f4",
+      "directCallOrJumpCandidates": [
+        "0x41508d",
+        "0x46ed1b",
+        "0x489bd4"
+      ],
+      "absoluteOperandCandidates": [
+        "0x41508f",
+        "0x46ed1d",
+        "0x489bd6"
+      ]
+    },
+    {
+      "dll": "SHELL32.dll",
+      "name": "SHGetSpecialFolderLocation",
+      "iat": "0x56e4fc",
+      "directCallOrJumpCandidates": [
+        "0x40323b",
+        "0x403399"
+      ],
+      "absoluteOperandCandidates": [
+        "0x40323d",
+        "0x40339b"
+      ]
+    },
+    {
+      "dll": "SHELL32.dll",
+      "name": "SHGetPathFromIDListA",
+      "iat": "0x56e500",
+      "directCallOrJumpCandidates": [
+        "0x40324d",
+        "0x4033ab"
+      ],
+      "absoluteOperandCandidates": [
+        "0x40324f",
+        "0x4033ad"
+      ]
+    }
+  ],
+  "literals": [
+    {
+      "address": "0x5d0408",
+      "width": 1,
+      "text": "\\Rollcage Redux"
+    },
+    {
+      "address": "0x5d0560",
+      "width": 1,
+      "text": "Software\\Psygnosis\\Rollcage\\Installer"
+    },
+    {
+      "address": "0x5d2fb0",
+      "width": 1,
+      "text": "\\Rollcage Redux\\Music Tracks\\Music.m3u"
+    },
+    {
+      "address": "0x5d3468",
+      "width": 1,
+      "text": "ROOTNAME.TXT"
+    },
+    {
+      "address": "0x5d3478",
+      "width": 1,
+      "text": "\\ROOTNAME.TXT"
+    },
+    {
+      "address": "0x5d3488",
+      "width": 1,
+      "text": "C:\\ROOTNAME.TXT"
+    },
+    {
+      "address": "0x5d34d8",
+      "width": 1,
+      "text": "Software\\Psygnosis\\Rollcage\\BootSys"
+    },
+    {
+      "address": "0x5d354c",
+      "width": 1,
+      "text": "Software\\Psygnosis\\Rollcage"
+    },
+    {
+      "address": "0x5d35a0",
+      "width": 1,
+      "text": "\\Rollcage Diagnostics - Last.txt"
+    },
+    {
+      "address": "0x5d35c4",
+      "width": 1,
+      "text": "\\Rollcage Diagnostics - Previous.txt"
+    },
+    {
+      "address": "0x56ffc4",
+      "width": 2,
+      "text": "\\Rollcage Redux"
+    },
+    {
+      "address": "0x570030",
+      "width": 2,
+      "text": "\\Psygnosis\\Rollcage\\System"
+    }
+  ],
+  "limitations": [
+    "Import inventory is complete for the normal PE import directory only; delay/dynamic imports and loaded DLL behavior are not established.",
+    "Absolute operand byte scans can contain non-instruction or embedded-data matches.",
+    "Read-only static inspection establishes possible calls, not runtime reachability."
+  ]
+}

@@ -5,6 +5,9 @@ import {createSimulationRuntimeFixture} from '../tools/lib/simulation-runtime-fi
 import {queryRawRespawnPlacement} from '../src/raw-respawn-query.mjs';
 import {queryTerrainSphere} from '../src/terrain-sphere-query.mjs';
 import {queryTerrainRay} from '../src/terrain-query.mjs';
+import {createCapturedMemory} from '../tools/lib/captured-memory.mjs';
+import {createPhysicsRuntimeViews} from '../src/physics-runtime-views.mjs';
+import {createRawTerrainGrid} from '../src/raw-terrain-query.mjs';
 
 const program = await loadRetainedNativeProgram();
 function fixture(index = 1, {models = false} = {}) {
@@ -75,4 +78,29 @@ test('zero-shape repeated empty queries retain the model appender local count as
   query(f, 1); assert.equal(f.memory.readUInt32LE(f.output), 0);
   const count = f.memory.readInt32LE(f.runtime.scratchBase - 136); assert.ok(count > 0);
   query(f, 1); assert.equal(f.memory.readUInt32LE(f.output), count);
+});
+
+test('sparse captured respawn query preserves the actual saved shape-record pointer and every semantic byte',()=>{
+  const f=fixture();position(f,[2,0,2]);
+  const captured=createCapturedMemory([{address:0,bytes:f.memory}]),memory=captured.memory;
+  const views=createPhysicsRuntimeViews({memory,bodyStorage:[...f.addresses.bodies.map(address=>({address,length:0x4000})),{address:0x70f130,length:0x3e78}],bodyLists:[{address:f.addresses.list,capacity:8}],candidateMapping:f.candidateMapping});
+  const grid=createRawTerrainGrid(f.grid,sector=>f.candidateMapping.terrainVerticesFor(sector),{memory});
+  const actual=queryRawRespawnPlacement(f.body,f.position,0,f.body+0xc4,1,f.output,{...f.runtime,memory,views,grid});
+  const expected=query(f,1);
+  assert.equal(actual,expected);
+  assert.equal(memory.readUInt32LE(f.runtime.scratchBase-136),f.memory.readUInt32LE(f.runtime.scratchBase-136));
+  assert.deepEqual(captured.span(0,f.memory.length),f.memory);
+});
+
+test('relocated captured clone and private arena publish actual pointer values through explicit aliases',()=>{
+  const f=fixture();position(f,[2,0,2]);
+  const start=0x70eb00,end=0x712fa8,actual=0xc0000000,delta=actual-start;
+  const captured=createCapturedMemory([{address:0,bytes:f.memory.subarray(0,start)},{address:actual,bytes:f.memory.subarray(start,end)},{address:end,bytes:f.memory.subarray(end)}],{aliases:[{address:start,targetAddress:actual,length:end-start}]}),memory=captured.memory;
+  const views=createPhysicsRuntimeViews({memory,bodyStorage:[...f.addresses.bodies.map(address=>({address,length:0x4000})),{address:0x70f130,length:0x3e78}],bodyLists:[{address:f.addresses.list,capacity:8}],candidateMapping:f.candidateMapping});
+  const grid=createRawTerrainGrid(f.grid,sector=>f.candidateMapping.terrainVerticesFor(sector),{memory});
+  const result=queryRawRespawnPlacement(f.body,f.position,0,f.body+0xc4,1,f.output,{...f.runtime,memory,views,grid});
+  assert.equal(result,query(f,1));assert.equal(views.bodyAt(0x70f130).address,0x70f130+delta);
+  assert.equal(memory.readUInt32LE(0x70f130+0x154),0x70ed30+delta);
+  const expected=Buffer.from(f.memory);for(const address of [0x70f130+0x154,0x70f130+0x158])expected.writeUInt32LE(expected.readUInt32LE(address)+delta,address);
+  assert.deepEqual(captured.span(0,start),expected.subarray(0,start));assert.deepEqual(captured.span(start,end-start),expected.subarray(start,end));assert.deepEqual(captured.span(end,expected.length-end),expected.subarray(end));
 });

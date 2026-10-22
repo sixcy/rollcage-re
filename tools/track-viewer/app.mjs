@@ -11,10 +11,13 @@ import { SoloController } from './solo-controller.mjs';
 import { formatPracticeTime } from './solo-presentation.mjs';
 
 const element = id => document.getElementById(id);
+const setText = (id, text) => {const output = element(id); if (output.textContent !== text) output.textContent = text;};
+const setDisabled = (id, disabled) => {const output = element(id); if (output.disabled !== disabled) output.disabled = disabled;};
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
 let sourceKind = 'pc';
-let practice = null;
+let practice = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
+const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
 const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
@@ -22,14 +25,16 @@ function clearInput() { keys.clear(); drag = null; }
 function releaseMouse() { if (document.pointerLockElement === canvas) document.exitPointerLock(); clearInput(); }
 function help() {
   const fly = navigation.mode === 'fly';
-  element('help').textContent = navigation.mode === 'follow' ? 'Following the AI car. Choose Orbit & pan or Fly-in to explore while it drives.' : fly
+  setText('help', navigation.mode === 'follow' ? `Following car ${followedCarIndex + 1}. Choose Orbit & pan or Fly-in to explore while the cars race.` : fly
     ? 'Click the view for mouse-look · WASD move · Q/E down/up · Shift faster · Wheel changes speed · Esc releases mouse. If capture is unavailable, drag to look.'
-    : 'Left-drag rotates · Right-drag or Shift-drag pans · Wheel zooms · Arrow keys rotate · WASD pans · +/− zoom · Shift faster. Click the view to use keys.';
-  element('mode').value = navigation.mode;
+    : 'Left-drag rotates · Right-drag or Shift-drag pans · Wheel zooms · Arrow keys rotate · WASD pans · +/− zoom · Shift faster. Click the view to use keys.');
+  if (element('mode').value !== navigation.mode) element('mode').value = navigation.mode;
   element('speed').hidden = !fly;
 }
 function clearScene() {
   practice?.dispose(); practice = null;
+  renderedPractice = null;
+  renderedAlpha = 1; followedCarIndex = 0;
   scene = null; selectedTrack = null; renderer?.clear();
   element('download').disabled = true;
   element('scene-scope').textContent = '';
@@ -39,25 +44,56 @@ function clearScene() {
   updatePractice();
 }
 function updatePractice() {
-  const available = Boolean(practice), running = practice?.state === 'running';
-  element('practice-start').disabled = !available || practice.state === 'error';
-  element('practice-reset').disabled = !available;
-  element('practice-follow').disabled = !available;
-  element('camera-follow').disabled = !available;
-  element('practice-start').textContent = running ? 'Pause' : practice?.state === 'paused' ? 'Resume' : 'Start';
+  const available = Boolean(practice), running = practice?.state === 'running', usable = available && !['error', 'disposed'].includes(practice.state);
+  const value = available ? practice.snapshot : null, car = focusedCar(value), physics = car?.physics;
+  const carCount = value?.cars?.length ?? (value ? 1 : 0);
+  const selector = element('practice-car');
+  if (selector.options.length !== carCount) selector.replaceChildren(...Array.from({length: carCount}, (_, index) => new Option(`Car ${index + 1}`, String(index))));
+  if (selector.value !== String(followedCarIndex)) selector.value = String(followedCarIndex);
+  setDisabled('practice-car', !usable);
+  setText('practice-follow-label', `Follow car ${followedCarIndex + 1}`);
+  setText('camera-follow', `Follow car ${followedCarIndex + 1}`);
+  const difficulty = ['Easy', 'Hard', 'Expert'][value?.aiDifficulty];
+  setDisabled('practice-start', !usable);
+  setDisabled('practice-step', !usable || !['ready', 'paused'].includes(practice.state));
+  setDisabled('practice-recover', !usable || Boolean(physics?.recoveryPending));
+  setDisabled('practice-reset', !usable);
+  setDisabled('practice-follow', !usable);
+  setDisabled('practice-telemetry', !usable);
+  setDisabled('camera-follow', !usable);
+  setText('practice-start', running ? 'Pause' : practice?.state === 'paused' ? 'Resume' : 'Start');
   const excluded = game?.id === 'rollcage' && /\/(?:LEV16|LEV17)\.BLP$/.test(selectedTrack?.name ?? '');
-  element('practice-note').textContent = available ? `Continuous racing test · ${practice.state}.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.';
-  element('practice-error').textContent = practice?.message ?? '';
-  const value = available ? practice.snapshot : null;
-  element('practice-readout').textContent = value ? `${value.speed} km/h · ${value.laps} laps completed · Lap ${formatPracticeTime(value.lapTime)} · Best ${formatPracticeTime(value.bestLap)}` : '';
+  setText('practice-note', practice?.state === 'error' ? 'Racing test stopped. Load this track again to restart.' : available ? `Continuous racing test · ${practice.state}. Step while paused, or test a recovery.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.');
+  const message = practice?.message ?? '';
+  if (element('practice-error').textContent !== message) element('practice-error').textContent = message;
+  setText('practice-readout', car ? `${car.speed} km/h · ${car.laps} laps completed · Lap ${formatPracticeTime(car.lapTime)} · Best ${formatPracticeTime(car.bestLap)}` : '');
+  setText('practice-roster', value ? `${carCount} AI ${carCount === 1 ? 'car' : 'cars'}${difficulty ? ` · ${difficulty}` : ''} · Car ${followedCarIndex + 1} telemetry, follow and recovery.` : '');
+  setText('physics-car-label', value ? `Car ${followedCarIndex + 1} of ${carCount}${difficulty ? ` · ${difficulty}` : ''}` : '');
+  element('physics-hud').hidden = !available || !element('practice-telemetry').checked;
+  const metric = value => Number.isFinite(value) ? Math.trunc(value).toLocaleString() : '—';
+  for (const [id, amount] of [['physics-speed', car?.speed], ['physics-tick', value?.ticks], ['physics-recoveries', car?.recoveries], ['physics-collisions', physics?.collisionEvents], ['physics-terrain-hits', physics?.terrainHits], ['physics-model-hits', physics?.modelHits]]) {
+    const output = element(id), text = metric(amount);
+    if (output.textContent !== text) output.textContent = text;
+  }
+  for (let index = 0; index < 4; index++) {
+    const output = element(`physics-wheel-${index}`), contact = physics?.wheelContacts?.[index], text = contact === true ? 'Contact' : contact === false ? 'Air' : '—';
+    if (output.textContent !== text) output.textContent = text;
+    const flag = typeof contact === 'boolean' ? String(contact) : '';
+    if (output.dataset.contact !== flag) output.dataset.contact = flag;
+  }
+  setText('physics-recovery-state', physics?.recoveryPending ? 'Recovery requested · awaiting the next frame' : practice?.state === 'error' ? 'Stopped · latest completed physics frame' : available ? `${running ? 'Running' : practice.state === 'paused' ? 'Paused' : 'Ready'} · hits from the latest world frame` : 'Latest physics frame');
 }
-function followCar(reset = false, seconds = 0) {
-  if (practice && element('practice-follow').checked) { navigation.follow(practice.snapshot, seconds, reset); help(); }
+function followCar(reset = false, seconds = 0, presentation = practice?.renderSnapshot) {
+  if (practice && element('practice-follow').checked) {
+    const previousMode = navigation.mode;
+    navigation.follow(focusedCar(presentation), seconds, reset);
+    if (reset || previousMode !== navigation.mode) help();
+  }
 }
 function updatePaths() {
   const paths = scene?.paths, available = paths?.status === 'available';
   for (const id of ['paths', 'path-points', 'path-through', 'path-group']) element(id).disabled = !available;
-  element('path-note').textContent = practice && available ? 'Segments show consecutive authored points. The AI car selects its routes independently.' : paths?.message ?? 'Load a track to inspect stored paths.';
+  element('path-note').textContent = practice && available ? 'Segments show consecutive authored points. The AI cars select their routes independently.' : paths?.message ?? 'Load a track to inspect stored paths.';
   const index = Number(element('path-group').value);
   const groups = (paths?.groups ?? []).filter(group => index === -1 || group.index === index);
   const points = groups.reduce((sum, group) => sum + group.positions.length, 0);
@@ -95,7 +131,7 @@ async function loadTrack() {
         const geometry = await source.readResource(track.index);
         const texture = await source.readResource(track.textureIndex);
         if (token !== generation) return;
-        const session = createSession(geometry.data, texture.data);
+        const session = createSession(geometry.data, texture.data, {vehicleTypes: [0,1,2,3,4,5], aiDifficulty: 2});
         try { renderer.setCar(session.assets); } catch (error) {session.dispose(); throw error;}
         practice = new SoloController(session);
       } catch (error) {
@@ -178,16 +214,31 @@ element('mode').addEventListener('change', () => {
   help();
 });
 element('practice-start').addEventListener('click', () => {
-  if (!practice) return;
+  if (!practice || ['error', 'disposed'].includes(practice.state)) return;
   releaseMouse();
   if (practice.state === 'running') practice.pause();
   else {practice.start(); lastFrame = 0; followCar(true);}
   updatePractice();
 });
 element('practice-reset').addEventListener('click', () => {
-  if (!practice) return;
+  if (!practice || ['error', 'disposed'].includes(practice.state)) return;
   practice.reset(); followCar(true); updatePractice();
 });
+element('practice-step').addEventListener('click', () => {
+  if (!practice || !['ready', 'paused'].includes(practice.state)) return;
+  releaseMouse(); practice.stepFrame(); lastFrame = 0; followCar(true); updatePractice();
+});
+element('practice-recover').addEventListener('click', () => {
+  if (!practice || ['error', 'disposed'].includes(practice.state) || focusedCar(practice.snapshot).physics?.recoveryPending) return;
+  releaseMouse(); practice.requestRecovery(followedCarIndex); lastFrame = 0; followCar(true); updatePractice();
+});
+element('practice-car').addEventListener('change', () => {
+  if (!practice || ['error', 'disposed'].includes(practice.state)) return;
+  const index = Number(element('practice-car').value);
+  if (!Number.isInteger(index) || index < 0 || index >= practice.snapshot.cars.length) return;
+  releaseMouse(); followedCarIndex = index; followCar(true); updatePractice(); help();
+});
+element('practice-telemetry').addEventListener('change', updatePractice);
 element('practice-follow').addEventListener('change', () => {
   releaseMouse();
   if (element('practice-follow').checked) followCar(true);
@@ -255,8 +306,10 @@ function frame(time) {
   if (contextLost) return;
   const seconds = lastFrame ? Math.max(0, (time - lastFrame) / 1000) : 0;
   if (!document.hidden) practice?.advance(seconds);
+  renderedPractice = practice?.renderSnapshot ?? null;
+  renderedAlpha = practice?.renderAlpha ?? 1;
   if (scene) {
-    if (navigation.mode === 'follow') followCar(false, seconds);
+    if (navigation.mode === 'follow') followCar(false, seconds, renderedPractice);
     else navigation.step(keys, seconds);
   }
   lastFrame = time;
@@ -264,10 +317,10 @@ function frame(time) {
     textures: element('textures').checked, lighting: element('lighting').checked,
     objects: element('objects').checked, sector: Number(element('sector').value),
     paths: element('paths').checked, pathPoints: element('path-points').checked,
-    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: practice?.snapshot
+    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: renderedPractice
   });
   if (practice) updatePractice();
-  if (navigation.mode === 'fly') element('speed').textContent = `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`;
+  if (navigation.mode === 'fly') setText('speed', `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`);
   requestAnimationFrame(frame);
 }
 // Read-only diagnostics for browser checks; no game data is embedded in the page.
@@ -277,6 +330,12 @@ window.rollcageViewer = { inspect: () => ({
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
   paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,
   practice: practice ? {state: practice.state, ...practice.snapshot} : null, carBuffers: renderer?.carGroups.length ?? 0,
+  followedCarIndex,
+  presentation: renderedPractice ? {ticks: renderedPractice.ticks, alpha: renderedAlpha, carIndex: followedCarIndex,
+    position: [...focusedCar(renderedPractice).position], rotation: [...focusedCar(renderedPractice).rotation]} : null,
+  carInstances: renderer?.carInstances.length ?? 0, renderedCars: renderer?.carDraws.cars ?? 0,
+  carMeshCounts: renderer?.carInstances.map(car => car.groups.length) ?? [], carDraws: renderer ? {...renderer.carDraws} : {cars: 0, groups: 0},
+  worldBuffers: renderer?.worldGroups.length ?? 0, worldDraws: renderer ? {...renderer.worldDraws} : null,
   mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
   yaw: navigation.yaw, pitch: navigation.pitch, distance: navigation.distance, speed: navigation.speed,
   heldKeys: keys.size, loading: element('stage').getAttribute('aria-busy') === 'true'

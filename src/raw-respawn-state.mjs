@@ -8,6 +8,7 @@ import {finishRaceProgress} from './race-completion.mjs';
 import {populateRawVehicleTrackBasis} from './raw-track-basis.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
+import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p);
 const put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
@@ -84,6 +85,13 @@ export function emitRawVehicleRespawnRing(body, code, {memory, scratchBase}) {
 //uses coherent record views; basis outputs occupy449d40's actual local vectors.
 export function applyRawRespawn(body, position, quaternion, rotation, route, index, terrain, runtime) {
   const {memory, scratchBase, progression, completionHandlers = {}} = runtime;
+  if (runtime.onRecoveryApply !== undefined) {
+    if (typeof runtime.onRecoveryApply !== 'function') throw Error('Recovery application observer must be a function.');
+    const hex = (address, length) => memory.subarray(address, address + length).toString('hex');
+    runtime.onRecoveryApply(Object.freeze({bodyAddress: body, bodyHeaderHex: hex(body, 0x180), entryEsp: scratchBase,
+      positionAddress: position, positionHex: hex(position, 12), quaternionAddress: quaternion, quaternionHex: hex(quaternion, 16),
+      rotationAddress: rotation, rotationHex: hex(rotation, 18), routeAddress: route, routeHex: hex(route, 12), index, terrain}));
+  }
   removeBodySpatial(body, {memory});
   const pose = vector(memory, position); put(memory, body + 0x38, pose[1]); put(memory, body + 0x34, pose[0]); put(memory, body + 0x3c, pose[2]);
   const y = get(memory, quaternion + 8), x = get(memory, quaternion + 4), z = get(memory, quaternion + 12);
@@ -171,10 +179,13 @@ export function runRawPostFrameBodyStates(runtime) {
         const math = {}, quaternion = quaternionFromReleaseDirection(direction, math), quaternionAddress = scratchBase - 24, output = scratchBase - 44;
         direction.forEach((value, axis) => put(memory, 0x70eb1c + axis * 4, value)); quaternion.forEach((value, axis) => put(memory, quaternionAddress + axis * 4, value));
         put(memory, 0x91d45c, math.sum91d45c); put(memory, 0x91d460, math.leadingZeros91d460);
-        const accepted = queryRawRespawnPlacement(body, 0x70eb0c, quaternionAddress, body + 0xc4, 1, output, {...runtime, scratchBase: scratchBase - 120});
+        //47cf02/47cf19 publish a module-literal pointer in EDX. Resolve its
+        //actual identity before crossing a child/observer boundary under ASLR.
+        const respawnPosition = resolveNativeMemoryAddress(memory, 0x70eb0c, 12);
+        const accepted = queryRawRespawnPlacement(body, respawnPosition, quaternionAddress, body + 0xc4, 1, output, {...runtime, scratchBase: scratchBase - 120});
         let route = closestRoute, index = closestIndex;
         if (!accepted) {put(memory, 0x70eb18, secondPoint); for (const offset of [0, 2, 4]) put(memory, 0x70eb0c + offset * 2, memory.readInt16LE(secondPoint + offset) << 16); route = secondRoute; index = secondIndex;}
-        applyRawRespawn(body, 0x70eb0c, quaternionAddress, body + 0xc4, route, index, get(memory, output), {...runtime, scratchBase: scratchBase - 124});
+        applyRawRespawn(body, respawnPosition, quaternionAddress, body + 0xc4, route, index, get(memory, output), {...runtime, scratchBase: scratchBase - 124});
         if ((get(memory, body) & 511) === 3) emitRawVehicleRespawnRing(body, 0, {...runtime, scratchBase: scratchBase - 104});
         emitNativeEffect(43, 0, [0, -1, 9000, 6, undefined, 0, 0], {dispatch40ea40: value => dispatchNativeSound(value, runtime.soundRuntime ?? {memory})}); respawnedBodies++;
       }

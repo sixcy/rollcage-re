@@ -1,0 +1,203 @@
+{
+  "authority": "controlled-native-recovery-input",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-capture",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Hash-verify only the complete before/after snapshots; preserve explicit source-known module aliases and actual native pointers. Read-only header/descendant audit, no native process launch.",
+  "reports": [
+    {
+      "stage": "native-recovery-before",
+      "ordinal": 233,
+      "rangeHashesVerified": 105,
+      "contextHashVerified": true,
+      "moduleBaseAddress": 7208960,
+      "aliases": [
+        {
+          "address": 7283732,
+          "targetAddress": 10298388,
+          "length": 12
+        },
+        {
+          "address": 7236564,
+          "targetAddress": 10251220,
+          "length": 4
+        },
+        {
+          "address": 6195344,
+          "targetAddress": 9210000,
+          "length": 4
+        },
+        {
+          "address": 7424776,
+          "targetAddress": 10439432,
+          "length": 4
+        }
+      ],
+      "mappedBytes": 18286226,
+      "ownerAddress": 290239584,
+      "owner": {
+        "templateWrapper": 289711936,
+        "vectorBegin": 0,
+        "vectorEnd": 0,
+        "vectorCapacityEnd": 0,
+        "roundRobinMaximum": 0,
+        "roundRobinIndex": 0,
+        "callablePointer": 0,
+        "mode": 5,
+        "flags": [
+          [
+            1128,
+            0
+          ],
+          [
+            1130,
+            1
+          ],
+          [
+            1132,
+            1
+          ],
+          [
+            1135,
+            1
+          ]
+        ]
+      },
+      "reverbGate": 0,
+      "managerAddress": 149660720,
+      "cookie": 178101872,
+      "threadEnvironment": {
+        "fsSelector": "0x00000053",
+        "descriptorHex": "ff0f00e004f34001",
+        "fsBase": "0x0104e000",
+        "sehWord": "0x012ff890",
+        "tid": 4524,
+        "selectorApi": "Wow64GetThreadSelectorEntry",
+        "contextSelectorOffset": 144,
+        "source": "stopped-owned-thread-selector-query",
+        "validatedSehWord": 19921040
+      },
+      "inspection": {
+        "code": 43,
+        "bankBegin": 401148632,
+        "bankEnd": 401148888,
+        "bankCount": 64,
+        "channelBound": {
+          "maximumObservedPointers": 4096,
+          "nativeCapacityClaim": false
+        },
+        "slotAddress": 401148804,
+        "ownerAddress": 290239584,
+        "channelVector": 0,
+        "channelCount": 0,
+        "channelCapacity": 0,
+        "roundRobinMaximum": 0,
+        "roundRobinIndex": 0,
+        "status": "adaptive-selection-required",
+        "nextDependency": "actual-source-activity-or-channel-allocation"
+      }
+    },
+    {
+      "stage": "native-recovery-after",
+      "ordinal": 235,
+      "rangeHashesVerified": 105,
+      "contextHashVerified": true,
+      "moduleBaseAddress": 7208960,
+      "aliases": [
+        {
+          "address": 7283732,
+          "targetAddress": 10298388,
+          "length": 12
+        },
+        {
+          "address": 7236564,
+          "targetAddress": 10251220,
+          "length": 4
+        },
+        {
+          "address": 6195344,
+          "targetAddress": 9210000,
+          "length": 4
+        },
+        {
+          "address": 7424776,
+          "targetAddress": 10439432,
+          "length": 4
+        }
+      ],
+      "mappedBytes": 18286226,
+      "ownerAddress": 290239584,
+      "owner": {
+        "templateWrapper": 289711936,
+        "vectorBegin": 401314464,
+        "vectorEnd": 401314468,
+        "vectorCapacityEnd": 401314468,
+        "roundRobinMaximum": 0,
+        "roundRobinIndex": 0,
+        "callablePointer": 0,
+        "mode": 6,
+        "flags": [
+          [
+            1128,
+            0
+          ],
+          [
+            1130,
+            0
+          ],
+          [
+            1132,
+            0
+          ],
+          [
+            1135,
+            1
+          ]
+        ]
+      },
+      "reverbGate": 0,
+      "managerAddress": 149660720,
+      "cookie": 178101872,
+      "threadEnvironment": {
+        "fsSelector": "0x00000053",
+        "descriptorHex": "ff0f00e004f34001",
+        "fsBase": "0x0104e000",
+        "sehWord": "0x012ff890",
+        "tid": 4524,
+        "selectorApi": "Wow64GetThreadSelectorEntry",
+        "contextSelectorOffset": 144,
+        "source": "stopped-owned-thread-selector-query",
+        "validatedSehWord": 19921040
+      },
+      "inspection": {
+        "code": 43,
+        "bankBegin": 401148632,
+        "bankEnd": 401148888,
+        "bankCount": 64,
+        "channelBound": {
+          "maximumObservedPointers": 4096,
+          "nativeCapacityClaim": false
+        },
+        "slotAddress": 401148804,
+        "ownerAddress": 290239584,
+        "channelVector": 401314464,
+        "channelCount": 1,
+        "channelCapacity": 1,
+        "roundRobinMaximum": 0,
+        "roundRobinIndex": 0,
+        "status": "adaptive-selection-required",
+        "nextDependency": "actual-source-activity-or-channel-allocation"
+      },
+      "channels": [
+        {
+          "slot": 401314464,
+          "channel": 401311928,
+          "source": 401311968,
+          "position": 0,
+          "velocity": 0,
+          "sourceVtable": 9125728,
+          "voice": 307217112
+        }
+      ]
+    }
+  ]
+}

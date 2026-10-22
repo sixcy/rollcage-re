@@ -1,5 +1,6 @@
 import {abs32} from './fixed-integer.mjs';
 import {emitWheelSurfaceDebris} from './wheel-effects.mjs';
+import {sharesNativeMemorySpan} from './native-memory-spans.mjs';
 const get = (memory, address) => memory.readInt32LE(address);
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
 const nextSeed = seed => Math.imul(seed, 0x41a7) & 0x7fffffff;
@@ -38,7 +39,7 @@ export function filterScriptedCollision(body, other, event, runtime) {
 //view's collisionFilters map. The caller supplies its real native entry stack.
 export function createScriptedCollisionFilter(runtime) {
   return (body, other, event) => {
-    const shared = (value, minimum) => Number.isInteger(value?.address) && Buffer.isBuffer(value.bytes) && value.bytes.buffer === runtime.memory.buffer && value.bytes.byteOffset === runtime.memory.byteOffset + value.address && value.bytes.length >= minimum;
+    const shared = (value, minimum) => Number.isInteger(value?.address) && sharesNativeMemorySpan(runtime.memory, value.bytes, value.address, minimum);
     if (!shared(body, 0x74) || !shared(event, 0x68)) throw Error('Scripted collision filter requires body/event views sharing its native memory.');
     if (other && !shared(other, 0x74)) throw Error('Scripted collision filter requires a shared second body.');
     return filterScriptedCollision(body.address, other?.address ?? 0, event.address, runtime);

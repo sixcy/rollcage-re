@@ -1,0 +1,61 @@
+{
+  "matched": true,
+  "method": "Synthetic x87 hardware capture compared exactly against declared values and bounded exact-rational helper.",
+  "comparisons": [
+    {
+      "precisionBits": 24,
+      "matched": true,
+      "hardware": {
+        "exactIntegerLoad": 16777217,
+        "roundedIntegerAdd": 16777216,
+        "extendedExponentProduct": 1.6069380442589903e+60,
+        "midpointDivision": 1.0000001192092896,
+        "squareRoot": 1.4142135381698608,
+        "storedBinary32": 16777216,
+        "controlWord": 127,
+        "storedInteger32": 2
+      },
+      "reconstructed": {
+        "exactIntegerLoad": 16777217,
+        "roundedIntegerAdd": 16777216,
+        "extendedExponentProduct": 1.6069380442589903e+60,
+        "midpointDivision": 1.0000001192092896,
+        "squareRoot": 1.4142135381698608,
+        "storedBinary32": 16777216,
+        "controlWord": 127,
+        "storedInteger32": 2
+      },
+      "statusWord": 32
+    },
+    {
+      "precisionBits": 53,
+      "matched": true,
+      "hardware": {
+        "exactIntegerLoad": 16777217,
+        "roundedIntegerAdd": 16777217,
+        "extendedExponentProduct": 1.6069380442589903e+60,
+        "midpointDivision": 1.0000000596046448,
+        "squareRoot": 1.4142135623730951,
+        "storedBinary32": 16777216,
+        "controlWord": 639,
+        "storedInteger32": 2
+      },
+      "reconstructed": {
+        "exactIntegerLoad": 16777217,
+        "roundedIntegerAdd": 16777217,
+        "extendedExponentProduct": 1.6069380442589903e+60,
+        "midpointDivision": 1.0000000596046448,
+        "squareRoot": 1.4142135623730951,
+        "storedBinary32": 16777216,
+        "controlWord": 639,
+        "storedInteger32": 2
+      },
+      "statusWord": 32
+    }
+  ],
+  "limitations": [
+    "No game code was executed by this fixture.",
+    "Checks these PC24/PC53 cases only; extended subnormal arithmetic, overflow, exceptions and full status flags are outside the helper.",
+    "This does not prove Redux race-stage numerical context."
+  ]
+}

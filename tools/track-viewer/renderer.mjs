@@ -33,7 +33,9 @@ export class Renderer {
     this.pathUniforms = Object.fromEntries(['mvp', 'color', 'pointSize'].map(key => [key, gl.getUniformLocation(pathProgram, key)]));
     this.groups = []; this.pathGroups = []; this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     this.textures = new Map(); this.smooth = false;
-    this.carGroups = []; this.carTextures = new Map();
+    this.carGroups = []; this.carTextures = new Map(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
+    this.worldGroups = []; this.worldTextures = new Map(); this.worldPlacements = new Set();
+    this.worldDraws = {groups: 0, objects: 0};
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
     gl.uniform1i(this.uniforms.image, 0);
   }
@@ -46,28 +48,45 @@ export class Renderer {
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
   }
   clearCar() {
-    for (const group of this.carGroups) this.gl.deleteBuffer(group.buffer);
-    for (const texture of this.carTextures.values()) this.gl.deleteTexture(texture);
-    this.carGroups = []; this.carTextures.clear();
+    for (const group of [...this.carGroups, ...this.worldGroups]) this.gl.deleteBuffer(group.buffer);
+    for (const texture of [...this.carTextures.values(), ...this.worldTextures.values()]) this.gl.deleteTexture(texture);
+    this.carGroups = []; this.carTextures.clear(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
+    this.worldGroups = []; this.worldTextures.clear(); this.worldPlacements.clear();
+    this.worldDraws = {groups: 0, objects: 0};
+  }
+  uploadRuntimeMeshes(assets, groups, textures, {carIndex} = {}) {
+    const gl = this.gl;
+    for (const group of assets.groups) {
+      const buffer = gl.createBuffer(); groups.push({...group, buffer, ...(carIndex === undefined ? {} : {carIndex})});
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, Uint8Array.from(atob(group.buffer), char => char.charCodeAt(0)), gl.STATIC_DRAW);
+    }
+    for (const [page, image] of assets.textures) {
+      //All roster models use pages from the same selected archive. Keep one
+      //GPU texture per actual page while preserving each car's own mesh.
+      if (textures.has(page)) continue;
+      const texture = gl.createTexture(); textures.set(page, texture);
+      gl.bindTexture(gl.TEXTURE_2D, texture);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, image.width, image.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image.rgba);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    }
   }
   setCar(assets) {
     this.clearCar();
     const gl = this.gl;
     try {
-      for (const group of assets.groups) {
-        const buffer = gl.createBuffer(); this.carGroups.push({...group, buffer});
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, Uint8Array.from(atob(group.buffer), char => char.charCodeAt(0)), gl.STATIC_DRAW);
+      for (const [carIndex, car] of (assets.cars ?? [assets]).entries()) {
+        const first = this.carGroups.length;
+        this.uploadRuntimeMeshes(car, this.carGroups, this.carTextures, {carIndex});
+        this.carInstances.push({index: carIndex, vehicleType: car.vehicleType ?? null, groups: this.carGroups.slice(first)});
       }
-      for (const [page, image] of assets.textures) {
-        const texture = gl.createTexture(); this.carTextures.set(page, texture);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, image.width, image.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image.rgba);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      if (assets.worldObjects) {
+        this.uploadRuntimeMeshes(assets.worldObjects, this.worldGroups, this.worldTextures);
+        this.worldPlacements = new Set(assets.worldObjects.placementIndices);
       }
       this.setFilters(this.smooth);
-      if (gl.getError() !== gl.NO_ERROR) throw Error('The GPU could not load the practice car.');
+      if (gl.getError() !== gl.NO_ERROR) throw Error('The GPU could not load the racing cars.');
     } catch (error) {this.clearCar(); throw error;}
   }
   setScene(scene) {
@@ -102,7 +121,7 @@ export class Renderer {
   setFilters(smooth) {
     this.smooth = smooth;
     const gl = this.gl, filter = smooth ? gl.LINEAR : gl.NEAREST;
-    for (const texture of [...this.textures.values(), ...this.carTextures.values()]) {
+    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values()]) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
@@ -119,22 +138,45 @@ export class Renderer {
     gl.uniformMatrix4fv(this.uniforms.model, false, identity);
     gl.uniform1i(this.uniforms.textured, options.textures); gl.uniform1i(this.uniforms.lit, options.lighting);
     for (const group of this.groups) {
-      if (group.kind === 'object' ? !options.objects : options.sector !== -1 && group.segment !== options.sector) continue;
+      if (group.kind === 'object') {
+        if (!options.objects || options.car?.brokenPlacements?.includes(group.instance) || (options.car?.worldObjects && this.worldPlacements.has(group.instance))) continue;
+      } else if (options.sector !== -1 && group.segment !== options.sector) continue;
       gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
       for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
         gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
       }
       gl.bindTexture(gl.TEXTURE_2D, this.textures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
     }
-    for (const group of options.car ? this.carGroups : []) {
-      const part = options.car.parts[group.instance];
+    // Runtime meshes replace their authored static placements. The immutable
+    // snapshot supplies native visibility and pose; object toggles still apply.
+    const drawnWorldObjects = new Set();
+    this.worldDraws = {groups: 0, objects: 0};
+    for (const group of options.objects && options.car?.worldObjects ? this.worldGroups : []) {
+      const object = options.car.worldObjects[group.instance];
+      if (!object?.visible) continue;
+      gl.uniformMatrix4fv(this.uniforms.model, false, carDisplayMatrix(object));
+      gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
+      for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
+        gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
+      }
+      gl.bindTexture(gl.TEXTURE_2D, this.worldTextures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
+      this.worldDraws.groups++; drawnWorldObjects.add(group.instance);
+    }
+    this.worldDraws.objects = drawnWorldObjects.size;
+    const cars = options.car?.cars ?? (options.car ? [options.car] : []), drawnCars = new Set();
+    this.carDraws = {cars: 0, groups: 0};
+    for (const group of cars.length ? this.carGroups : []) {
+      const part = cars[group.carIndex]?.parts[group.instance];
+      if (!part) continue;
       gl.uniformMatrix4fv(this.uniforms.model, false, carDisplayMatrix(part));
       gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
       for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
         gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
       }
       gl.bindTexture(gl.TEXTURE_2D, this.carTextures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
+      drawnCars.add(group.carIndex); this.carDraws.groups++;
     }
+    this.carDraws.cars = drawnCars.size;
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     if (!options.paths || !this.pathGroups.length) return;
     gl.useProgram(this.pathProgram);

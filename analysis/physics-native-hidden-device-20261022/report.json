@@ -1,0 +1,833 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-process-with-declared-instrumentation",
+  "target": {
+    "name": "Rollcage Redux.exe",
+    "version": "1.3.8.0",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "method": "Windows debugger launched the unchanged workspace copy of the shipped executable; snapshots precede the original breakpoint instruction.",
+  "module": {
+    "type": "module",
+    "kind": "main",
+    "baseAddress": "0x006e0000",
+    "path": "\\\\?\\C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D\\Rollcage Redux.exe",
+    "wow64": true,
+    "elapsedMs": 8
+  },
+  "stages": [
+    {
+      "stage": "launcher-policy",
+      "hit": 1,
+      "ordinal": 1,
+      "registers": {
+        "edi": "0x00d046b8",
+        "esi": "0x6f470000",
+        "ebx": "0x009c63d8",
+        "edx": "0x00850308",
+        "ecx": "0x009f5470",
+        "eax": "0x006e35a0",
+        "ebp": "0x004ffa60",
+        "eip": "0x00722890",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x004ff798",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8097,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "gravityQ16": 65536,
+      "logicalClock": 0,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "launcher-skip",
+          "address": "0x009c66ec",
+          "rootAddress": null,
+          "rootRva": "0x2e66ec",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000001-range-003.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "launcher-config",
+          "address": "0x00b27e0c",
+          "rootAddress": null,
+          "rootRva": "0x1ecefc",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10,
+          "file": "snapshot-000001-range-004.bin",
+          "sha256": "4b3d3fb251f6a7d49bf838f6f136fd6a602ffb7eac6d02964b353a7d7ff0800f"
+        }
+      ]
+    },
+    {
+      "stage": "graphics-policy",
+      "hit": 1,
+      "ordinal": 2,
+      "registers": {
+        "edi": "0x00d046b8",
+        "esi": "0x6f470000",
+        "ebx": "0x009c63d8",
+        "edx": "0x00000200",
+        "ecx": "0x00000000",
+        "eax": "0x00000001",
+        "ebp": "0x004ffa60",
+        "eip": "0x006e35be",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x004ff79c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8097,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "gravityQ16": 65536,
+      "logicalClock": 0,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000002-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000002-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "graphics-mode",
+          "address": "0x009c63fc",
+          "rootAddress": null,
+          "rootRva": "0x2e64a4",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28,
+          "file": "snapshot-000002-range-003.bin",
+          "sha256": "9e2153443c07df443d6917298f2d6e112fa2629094ac914a3026860408f6bf95"
+        }
+      ]
+    },
+    {
+      "stage": "before-device-creation",
+      "hit": 1,
+      "ordinal": 3,
+      "registers": {
+        "edi": "0x00d046b8",
+        "esi": "0x00000020",
+        "ebx": "0x009c63d8",
+        "edx": "0x00130000",
+        "ecx": "0x00d046b8",
+        "eax": "0x0000004b",
+        "ebp": "0x004ffa60",
+        "eip": "0x007f2a30",
+        "cs": "0x00000023",
+        "eflags": "0x00000206",
+        "esp": "0x004ff798",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa1"
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8097,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "gravityQ16": 65536,
+      "logicalClock": 0,
+      "ranges": [
+        {
+          "id": "gravity",
+          "address": "0x008cb5e0",
+          "rootAddress": null,
+          "rootRva": "0x1eb5e0",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000003-range-001.bin",
+          "sha256": "6b1e73a0094b7b812d3b9e22cffb4f8239319847522c4fa103753b6950020f93"
+        },
+        {
+          "id": "clock",
+          "address": "0x00bea548",
+          "rootAddress": null,
+          "rootRva": "0x50a548",
+          "moduleBaseAddress": "0x006e0000",
+          "baseRegister": null,
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 4,
+          "file": "snapshot-000003-range-002.bin",
+          "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+        },
+        {
+          "id": "presentation",
+          "address": "0x00d04a30",
+          "rootAddress": null,
+          "rootRva": null,
+          "moduleBaseAddress": null,
+          "baseRegister": "ecx",
+          "dereferenceOffsets": [],
+          "offset": "0x378",
+          "length": 56,
+          "file": "snapshot-000003-range-003.bin",
+          "sha256": "a222bae3f4b770c5664b55ffd852533ce78b653b232b46d6ef290db964ef7b57"
+        },
+        {
+          "id": "entry-stack",
+          "address": "0x004ff798",
+          "rootAddress": null,
+          "rootRva": null,
+          "moduleBaseAddress": null,
+          "baseRegister": "esp",
+          "dereferenceOffsets": [],
+          "offset": "0",
+          "length": 32,
+          "file": "snapshot-000003-range-004.bin",
+          "sha256": "8d6633966440658253db65e73c90a79920dcc581765e4417c084b2cc7734cd84"
+        }
+      ]
+    }
+  ],
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 159,
+    "snapshots": 3,
+    "elapsedMs": 178
+  },
+  "sourceVerification": {
+    "files": 171,
+    "bytes": 156187383,
+    "allOriginalHashesUnchanged": true
+  },
+  "installedHooks": [
+    {
+      "type": "service-hook-installed",
+      "api": "CreateFileW",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e07c",
+      "address": "0x7704ea10",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 19
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateFileA",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e0d0",
+      "address": "0x7704ea00",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 19
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateProcessA",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e0d8",
+      "address": "0x770607b0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 19
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateProcessW",
+      "dll": "KERNEL32.dll",
+      "iatRva": "0x0016e174",
+      "address": "0x7704d530",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "MessageBoxA",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e514",
+      "address": "0x76ee50b0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "GetForegroundWindow",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e524",
+      "address": "0x76eaaaf0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "DialogBoxParamA",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e540",
+      "address": "0x76ebc800",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "SetActiveWindow",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e550",
+      "address": "0x76e7ac60",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateWindowExW",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e558",
+      "address": "0x76e6e420",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "SetForegroundWindow",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e57c",
+      "address": "0x76e78ee0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "SetFocus",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e584",
+      "address": "0x76e7add0",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "CreateWindowExA",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e588",
+      "address": "0x76f028d0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "ShowWindow",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e590",
+      "address": "0x76e7b090",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "MessageBoxW",
+      "dll": "USER32.dll",
+      "iatRva": "0x0016e59c",
+      "address": "0x76ee55d0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegDeleteValueA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e000",
+      "address": "0x77154990",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegSetValueExA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e004",
+      "address": "0x77154550",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegUnLoadKeyA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e010",
+      "address": "0x7716f940",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "RegCreateKeyExA",
+      "dll": "ADVAPI32.dll",
+      "iatRva": "0x0016e018",
+      "address": "0x771530d0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "SHGetFolderPathA",
+      "dll": "SHELL32.dll",
+      "iatRva": "0x0016e4f4",
+      "address": "0x7604e5c0",
+      "originalBytesHex": "8b",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "ShellExecuteA",
+      "dll": "SHELL32.dll",
+      "iatRva": "0x0016e4f8",
+      "address": "0x7605c240",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    },
+    {
+      "type": "service-hook-installed",
+      "api": "SHGetPathFromIDListA",
+      "dll": "SHELL32.dll",
+      "iatRva": "0x0016e500",
+      "address": "0x7605bbe0",
+      "originalBytesHex": "ff",
+      "patchBytesHex": "cc",
+      "elapsedMs": 20
+    }
+  ],
+  "interventions": [
+    {
+      "type": "environment-intervention",
+      "overrides": {
+        "TEMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp",
+        "TMP": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp"
+      },
+      "otherVariables": "Inherited without modification; values not logged.",
+      "elapsedMs": 1
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 1,
+      "stackAddress": "0x004ff5d0",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 35
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 4,
+      "stackAddress": "0x004ff5dc",
+      "originalBytesHex": "00000088",
+      "replacementBytesHex": "00000088",
+      "changed": false,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 35
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 1,
+      "stackAddress": "0x0373f320",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 36
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 4,
+      "stackAddress": "0x0373f32c",
+      "originalBytesHex": "00000080",
+      "replacementBytesHex": "00000080",
+      "changed": false,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 36
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExA",
+      "argumentIndex": 1,
+      "stackAddress": "0x004ffa08",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 38
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExA",
+      "argumentIndex": 4,
+      "stackAddress": "0x004ffa14",
+      "originalBytesHex": "00000090",
+      "replacementBytesHex": "00000080",
+      "changed": true,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 38
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "ShowWindow",
+      "argumentIndex": 2,
+      "stackAddress": "0x004ffa34",
+      "originalBytesHex": "01000000",
+      "replacementBytesHex": "00000000",
+      "changed": true,
+      "reason": "Force SW_HIDE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 39
+    },
+    {
+      "type": "service-intervention",
+      "api": "SetFocus",
+      "kind": "suppress-window-activation",
+      "tid": 41736,
+      "originalCallSkipped": true,
+      "stackBytesHex": "4a376e00920b9a00",
+      "registersBefore": {
+        "edi": "0x009f5470",
+        "esi": "0x76e64050",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x77db1f83",
+        "eax": "0x00000000",
+        "ebp": "0x004ffa84",
+        "eip": "0x76e7add0",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x004ffa30",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0x009f5470",
+        "esi": "0x76e64050",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x77db1f83",
+        "eax": "0x00000000",
+        "ebp": "0x004ffa84",
+        "eip": "0x006e374a",
+        "cs": "0x00000023",
+        "eflags": "0x00000246",
+        "esp": "0x004ffa38",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 40
+    },
+    {
+      "type": "service-intervention",
+      "api": "RegDeleteValueA",
+      "kind": "deny-registry-write",
+      "tid": 41736,
+      "originalCallSkipped": true,
+      "stackBytesHex": "1b077600440300001c358b00",
+      "registersBefore": {
+        "edi": "0x008b351c",
+        "esi": "0xffffffff",
+        "ebx": "0x00000000",
+        "edx": "0x00130000",
+        "ecx": "0x008b34d8",
+        "eax": "0x00000000",
+        "ebp": "0x004ffa84",
+        "eip": "0x77154990",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x004ff60c",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "registersAfter": {
+        "edi": "0x008b351c",
+        "esi": "0xffffffff",
+        "ebx": "0x00000000",
+        "edx": "0x00130000",
+        "ecx": "0x008b34d8",
+        "eax": "0x00000005",
+        "ebp": "0x004ffa84",
+        "eip": "0x0076071b",
+        "cs": "0x00000023",
+        "eflags": "0x00000202",
+        "esp": "0x004ff618",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000027f",
+        "fpuStatusWord": "0x00000020",
+        "mxcsr": "0x00001fa0"
+      },
+      "targetPath": null,
+      "realForegroundWindow": null,
+      "substitutedOwnedWindow": null,
+      "foregroundWindowSourceAddress": null,
+      "redirectedPath": null,
+      "semantics": null,
+      "elapsedMs": 43
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "address": "0x009c66ec",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "01000000",
+      "acceptedOriginalBytesHex": [
+        "00000000",
+        "01000000"
+      ],
+      "elapsedMs": 140
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "address": "0x00b279ea",
+      "originalBytesHex": "00",
+      "replacementBytesHex": "01",
+      "acceptedOriginalBytesHex": [
+        "00",
+        "01"
+      ],
+      "elapsedMs": 140
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "address": "0x00b279ee",
+      "originalBytesHex": "00",
+      "replacementBytesHex": "01",
+      "acceptedOriginalBytesHex": [
+        "00",
+        "01"
+      ],
+      "elapsedMs": 140
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "address": "0x009c6414",
+      "originalBytesHex": "01",
+      "replacementBytesHex": "00",
+      "acceptedOriginalBytesHex": [
+        "00",
+        "01"
+      ],
+      "elapsedMs": 141
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 1,
+      "stackAddress": "0x004ff710",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000008",
+      "changed": true,
+      "reason": "Strip WS_EX_TOPMOST and add WS_EX_NOACTIVATE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 141
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "CreateWindowExW",
+      "argumentIndex": 4,
+      "stackAddress": "0x004ff71c",
+      "originalBytesHex": "00000090",
+      "replacementBytesHex": "00000080",
+      "changed": true,
+      "reason": "Strip WS_VISIBLE while preserving real native window creation.",
+      "originalCallSkipped": false,
+      "elapsedMs": 141
+    },
+    {
+      "type": "service-argument-intervention",
+      "api": "ShowWindow",
+      "argumentIndex": 2,
+      "stackAddress": "0x004ff73c",
+      "originalBytesHex": "01000000",
+      "replacementBytesHex": "00000000",
+      "changed": true,
+      "reason": "Force SW_HIDE.",
+      "originalCallSkipped": false,
+      "elapsedMs": 142
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "address": "0x00d04a50",
+      "originalBytesHex": "01000000",
+      "replacementBytesHex": "01000000",
+      "acceptedOriginalBytesHex": [
+        "01000000"
+      ],
+      "elapsedMs": 178
+    },
+    {
+      "type": "intervention",
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "address": "0x00d04a60",
+      "originalBytesHex": "00000000",
+      "replacementBytesHex": "00000000",
+      "acceptedOriginalBytesHex": [
+        "00000000"
+      ],
+      "elapsedMs": 178
+    }
+  ],
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 14896,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 189
+  },
+  "limits": [
+    "Startup checkpoints are not race-stage or trajectory equivalence.",
+    "Temporary code breakpoints, process TEMP/TMP redirection, folder/API adapters and registry/child/IPC denial are declared interventions.",
+    "Later Direct3D/library code can change floating-point state; retain separate stage contexts.",
+    "Breakpoint-paused elapsed time cannot prove wall-clock cadence.",
+    "Hook coverage is the enumerated main-executable imports, not every dynamically resolved or third-party API."
+  ]
+}

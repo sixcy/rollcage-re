@@ -47,6 +47,25 @@ test('only exact vehicle flags select direct gravity and signed short drag befor
  const drag=body({flags:0x1c03,linearVelocity:[-1,65535,0],dragCoefficient2f38:65535});prepareOrdinaryBody(drag,environment({gravityQ16:0,specialVehicleState:special()}));assert.deepEqual(drag.momentum,[-1,0,0]);
 });
 
+test('ordinary bodies do not materialize vehicle-only state',()=>{
+ for(const flags of [4,0x1004,0x5c03]){
+  const target=body({flags});
+  prepareOrdinaryBody(target,environment({specialVehicleStateFor:()=>{throw Error('Vehicle state must remain unread.');}}));
+ }
+});
+
+test('vehicle state selection follows protection clearing and signed drag in the exact vehicle branch',()=>{
+ const target=body({flags:0x21c03,linearVelocity:[65536,0,0],dragCoefficient2f38:2});
+ let calls=0;
+ prepareOrdinaryBody(target,environment({effectFlags:{first:1,second:0},specialVehicleStateFor:selected=>{
+  calls++;assert.equal(selected,target);assert.equal(selected.flags,0x1c03);assert.deepEqual(selected.force,[-2,0,0]);return special();
+ }}));
+ assert.equal(calls,1);assert.deepEqual(target.momentum,[-2,65536,0]);
+ const changed=body({flags:0x1c03,dragCoefficient2f38:0});
+ prepareOrdinaryBody(changed,environment({effectFlags:{first:1,second:0},handlers:{applyEffect91cd90:selected=>{selected.flags=0x1004;}},specialVehicleStateFor:()=>{throw Error('Effects removed the vehicle branch.');}}));
+ assert.equal(changed.flags,0x1004);assert.deepEqual(changed.momentum,[0,65536,0]);
+});
+
 test('zero contact coefficient consumes flags and updates the contact radius while skipping friction entirely',()=>{
  const records=contactRecords(),target=body({flags:0x1003,momentum:[65536,0,0],linearVelocity:[65536,0,0],collisionCount10c:1,collisionIds:[0,1]});
  const result=prepareOrdinaryBody(target,environment({records}));assert.deepEqual(result,{contacts:1,friction:null});assert.equal(records[0].readUInt16LE(0x44),0);assert.equal(records[1].readInt32LE(0x3c),65536);

@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "provenance": {
+      "untrusted_content": true,
+      "source": "analysis_target"
+    }
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"evidence_id\":\"ev_1d57f80a6719e72543976ada6304450f2f5c4af2509bf59e44dd0087c186d71c\",\"subject\":{\"name\":\"Rollcage Redux.exe\",\"digest\":{\"sha256\":\"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5\"},\"local_path\":\"C:\\\\Program Files (x86)\\\\Psygnosis\\\\Rollcage\\\\Direct3D\\\\Rollcage Redux.exe\",\"format\":\"pe\",\"architecture\":\"x86\"},\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"analysis_profile\":{\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"parameters\":{\"target_kind\":\"executable\",\"target_format\":\"pe\",\"executable_role\":\"application\",\"managed\":false,\"native_aot_metadata\":{\"contract_revision\":\"rtr-9.1-x64-pe-read-only-v5\",\"source_bytes\":134217728,\"work_units\":67108864,\"working_memory_bytes\":67108864,\"report_bytes\":4194304},\"architecture\":\"x86\",\"available_architectures\":[\"x86\"],\"import_mode\":\"ephemeral-source-immutable\",\"pdb_observations\":\"program-info-v5\",\"annotation_policy\":\"atomic-function-entry-metadata-v1\",\"load_image_observations\":\"source-mappings-entry-context-v2\",\"function_body_evidence\":\"complete-inclusive-ranges-v1\",\"function_references\":\"complete-body-and-entry-reference-manager-v2\",\"call_relationship_coverage\":\"function-body-call-coverage-v5\",\"function_dossier_coverage\":\"observed-facets-and-call-relationships-v1\",\"string_inventory_evidence\":\"defined-data-coverage-v1\",\"location_resolution\":\"explicit-address-exact-entry-symbol-first-v3\",\"procedure_file_offset_resolution\":\"address-first-unique-target-source-mapping-v2\",\"instruction_flow_evidence\":\"decoded-return-pcode-v1\",\"instruction_references\":\"exact-address-incoming-without-synthetic-entry-v2\",\"function_boundary_observations\":\"ghidra-function-boundary-limitations-v4\",\"no_return_repair\":\"disabled-windows-p0\",\"process_launch\":\"official-headless-script-v1\",\"jump_table_evidence\":\"typed-case-default-blocks-v1\",\"decompiler_jump_loads\":true,\"loader\":\"auto-from-header\",\"language_id\":\"auto-from-header\",\"compiler_spec_id\":\"auto-default\",\"analyzer_preset\":\"ghidra-default\"},\"digest\":\"3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896\"},\"predicate_type\":\"rea.analysis\",\"operation\":\"procedure_pseudo_code\",\"parameters\":{\"procedure\":\"0x442210\"},\"raw_result\":{\"value\":\"\\r\\nvoid FUN_00442020(void)\\r\\n\\r\\n{\\r\\n  int in_ECX;\\r\\n  undefined *puVar1;\\r\\n  int in_EDX;\\r\\n  uint uVar2;\\r\\n  uint uVar3;\\r\\n  int yTop;\\r\\n  int xLeft;\\r\\n  float fVar4;\\r\\n  float fVar5;\\r\\n  float fVar6;\\r\\n  undefined8 uVar7;\\r\\n  char *_Format;\\r\\n  int local_134 [3];\\r\\n  uint local_128;\\r\\n  tagRECT local_124;\\r\\n  char local_114 [268];\\r\\n  uint local_8;\\r\\n  \\r\\n  local_8 = DAT_005e8890 ^ (uint)local_134;\\r\\n  local_134[0] = in_EDX;\\r\\n  if (DAT_006e66a4 == 0) {\\r\\n    if ((DAT_006e6be0 == 0) && (DAT_005eb5e4 == -1)) {\\r\\n      uVar2 = 1;\\r\\n      DAT_005eb5e8 = 1;\\r\\n      puVar1 = PTR_DAT_005ecefc;\\r\\n    }\\r\\n    else {\\r\\n      if (in_EDX == 0) {\\r\\n        do {\\r\\n          uVar7 = FUN_00489cd0();\\r\\n          uVar2 = __aulldiv(uVar7,1000,0);\\r\\n          DAT_005eb5e8 = uVar2 % 7 + 10;\\r\\n        } while (DAT_005eb5e8 == (byte)PTR_DAT_005ecefc[0x9e]);\\r\\n      }\\r\\n      puVar1 = PTR_DAT_005ecefc;\\r\\n      uVar2 = DAT_005eb5e8;\\r\\n      PTR_DAT_005ecefc[0x9e] = (char)DAT_005eb5e8;\\r\\n    }\\r\\n    if (puVar1[0x96] == '\\\\0') {\\r\\n      if ((int)uVar2 < 10) {\\r\\n        _Format = \\\"LOAD%d.BMP\\\";\\r\\n      }\\r\\n      else {\\r\\n        _Format = \\\"LOAD%d.JPG\\\";\\r\\n      }\\r\\n    }\\r\\n    else {\\r\\n      uVar2 = 8;\\r\\n      DAT_005eb5e8 = 8;\\r\\n      _Format = \\\"LOAD%d.BMP\\\";\\r\\n    }\\r\\n    sprintf(local_114,_Format,uVar2);\\r\\n    DAT_006e66a4 = FUN_004895d0(0);\\r\\n    DAT_005eb5e4 = FUN_00409bd0((int)DAT_006fbb22,(int)DAT_006fbb26,DAT_006fbb2a,(int)DAT_006fbb24);\\r\\n    if (DAT_006e66a4 == 0) goto LAB_004422a9;\\r\\n  }\\r\\n  local_134[1] = 0xff;\\r\\n  if (0xff < in_ECX) {\\r\\n    in_ECX = 0xff;\\r\\n  }\\r\\n  uVar2 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42c);\\r\\n  uVar3 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42e);\\r\\n  fVar6 = (float)(int)DAT_006fbb22 / (float)(int)DAT_006fbb26;\\r\\n  fVar5 = (float)uVar2;\\r\\n  fVar4 = (float)in_ECX * 0.003921569;\\r\\n  if (local_134[0] == 0) {\\r\\n    fVar4 = 1.0 - fVar4;\\r\\n    fVar4 = fVar5 - (1.0 - fVar4 * fVar4 * fVar4 * fVar4) * fVar5;\\r\\n  }\\r\\n  else {\\r\\n    fVar4 = -(fVar4 * fVar4 * fVar4 * fVar4 * fVar5);\\r\\n  }\\r\\n  if (fVar6 < fVar5 / (float)uVar3) {\\r\\n    local_128 = (uint)((float)uVar3 * fVar6);\\r\\n    local_134[2] = uVar3;\\r\\n  }\\r\\n  else {\\r\\n    local_128 = uVar2;\\r\\n    local_134[2] = (int)(fVar5 / fVar6);\\r\\n  }\\r\\n  xLeft = (int)fVar4 + ((int)(uVar2 - local_128) >> 1);\\r\\n  yTop = (int)(uVar3 - local_134[2]) >> 1;\\r\\n  *(bool *)(DAT_00714ae8 + 0x5c4) = DAT_005eb5f8 != 0;\\r\\n  FUN_00519050();\\r\\n  SetRect(&local_124,xLeft,yTop,local_128 + xLeft,local_134[2] + yTop);\\r\\n  FUN_00409e30((int)DAT_006fbb26,&local_124);\\r\\nLAB_004422a9:\\r\\n  FUN_00568162();\\r\\n  return;\\r\\n}\\r\\n\\r\\n\",\"limitations\":[]},\"normalized_result\":\"\\r\\nvoid FUN_00442020(void)\\r\\n\\r\\n{\\r\\n  int in_ECX;\\r\\n  undefined *puVar1;\\r\\n  int in_EDX;\\r\\n  uint uVar2;\\r\\n  uint uVar3;\\r\\n  int yTop;\\r\\n  int xLeft;\\r\\n  float fVar4;\\r\\n  float fVar5;\\r\\n  float fVar6;\\r\\n  undefined8 uVar7;\\r\\n  char *_Format;\\r\\n  int local_134 [3];\\r\\n  uint local_128;\\r\\n  tagRECT local_124;\\r\\n  char local_114 [268];\\r\\n  uint local_8;\\r\\n  \\r\\n  local_8 = DAT_005e8890 ^ (uint)local_134;\\r\\n  local_134[0] = in_EDX;\\r\\n  if (DAT_006e66a4 == 0) {\\r\\n    if ((DAT_006e6be0 == 0) && (DAT_005eb5e4 == -1)) {\\r\\n      uVar2 = 1;\\r\\n      DAT_005eb5e8 = 1;\\r\\n      puVar1 = PTR_DAT_005ecefc;\\r\\n    }\\r\\n    else {\\r\\n      if (in_EDX == 0) {\\r\\n        do {\\r\\n          uVar7 = FUN_00489cd0();\\r\\n          uVar2 = __aulldiv(uVar7,1000,0);\\r\\n          DAT_005eb5e8 = uVar2 % 7 + 10;\\r\\n        } while (DAT_005eb5e8 == (byte)PTR_DAT_005ecefc[0x9e]);\\r\\n      }\\r\\n      puVar1 = PTR_DAT_005ecefc;\\r\\n      uVar2 = DAT_005eb5e8;\\r\\n      PTR_DAT_005ecefc[0x9e] = (char)DAT_005eb5e8;\\r\\n    }\\r\\n    if (puVar1[0x96] == '\\\\0') {\\r\\n      if ((int)uVar2 < 10) {\\r\\n        _Format = \\\"LOAD%d.BMP\\\";\\r\\n      }\\r\\n      else {\\r\\n        _Format = \\\"LOAD%d.JPG\\\";\\r\\n      }\\r\\n    }\\r\\n    else {\\r\\n      uVar2 = 8;\\r\\n      DAT_005eb5e8 = 8;\\r\\n      _Format = \\\"LOAD%d.BMP\\\";\\r\\n    }\\r\\n    sprintf(local_114,_Format,uVar2);\\r\\n    DAT_006e66a4 = FUN_004895d0(0);\\r\\n    DAT_005eb5e4 = FUN_00409bd0((int)DAT_006fbb22,(int)DAT_006fbb26,DAT_006fbb2a,(int)DAT_006fbb24);\\r\\n    if (DAT_006e66a4 == 0) goto LAB_004422a9;\\r\\n  }\\r\\n  local_134[1] = 0xff;\\r\\n  if (0xff < in_ECX) {\\r\\n    in_ECX = 0xff;\\r\\n  }\\r\\n  uVar2 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42c);\\r\\n  uVar3 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42e);\\r\\n  fVar6 = (float)(int)DAT_006fbb22 / (float)(int)DAT_006fbb26;\\r\\n  fVar5 = (float)uVar2;\\r\\n  fVar4 = (float)in_ECX * 0.003921569;\\r\\n  if (local_134[0] == 0) {\\r\\n    fVar4 = 1.0 - fVar4;\\r\\n    fVar4 = fVar5 - (1.0 - fVar4 * fVar4 * fVar4 * fVar4) * fVar5;\\r\\n  }\\r\\n  else {\\r\\n    fVar4 = -(fVar4 * fVar4 * fVar4 * fVar4 * fVar5);\\r\\n  }\\r\\n  if (fVar6 < fVar5 / (float)uVar3) {\\r\\n    local_128 = (uint)((float)uVar3 * fVar6);\\r\\n    local_134[2] = uVar3;\\r\\n  }\\r\\n  else {\\r\\n    local_128 = uVar2;\\r\\n    local_134[2] = (int)(fVar5 / fVar6);\\r\\n  }\\r\\n  xLeft = (int)fVar4 + ((int)(uVar2 - local_128) >> 1);\\r\\n  yTop = (int)(uVar3 - local_134[2]) >> 1;\\r\\n  *(bool *)(DAT_00714ae8 + 0x5c4) = DAT_005eb5f8 != 0;\\r\\n  FUN_00519050();\\r\\n  SetRect(&local_124,xLeft,yTop,local_128 + xLeft,local_134[2] + yTop);\\r\\n  FUN_00409e30((int)DAT_006fbb26,&local_124);\\r\\nLAB_004422a9:\\r\\n  FUN_00568162();\\r\\n  return;\\r\\n}\\r\\n\\r\\n\",\"confidence\":\"observed\",\"authority\":\"shipped-artifact\",\"environment\":null,\"limitations\":[\"The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.\",\"The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.\",\"Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.\",\"Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.\",\"Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.\",\"External functions and functions without an analyzable body return null; other decompiler failures remain explicit.\",\"Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.\",\"The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.\",\"Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically.\"],\"relationship_coverage\":null,\"locations\":[],\"evidence_links\":[]}"
+    }
+  ],
+  "structuredContent": {
+    "evidence_id": "ev_1d57f80a6719e72543976ada6304450f2f5c4af2509bf59e44dd0087c186d71c",
+    "subject": {
+      "name": "Rollcage Redux.exe",
+      "digest": {
+        "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+      },
+      "local_path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+      "format": "pe",
+      "architecture": "x86"
+    },
+    "provider": {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "version": "12.1.4"
+    },
+    "analysis_profile": {
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "parameters": {
+        "target_kind": "executable",
+        "target_format": "pe",
+        "executable_role": "application",
+        "managed": false,
+        "native_aot_metadata": {
+          "contract_revision": "rtr-9.1-x64-pe-read-only-v5",
+          "source_bytes": 134217728,
+          "work_units": 67108864,
+          "working_memory_bytes": 67108864,
+          "report_bytes": 4194304
+        },
+        "architecture": "x86",
+        "available_architectures": [
+          "x86"
+        ],
+        "import_mode": "ephemeral-source-immutable",
+        "pdb_observations": "program-info-v5",
+        "annotation_policy": "atomic-function-entry-metadata-v1",
+        "load_image_observations": "source-mappings-entry-context-v2",
+        "function_body_evidence": "complete-inclusive-ranges-v1",
+        "function_references": "complete-body-and-entry-reference-manager-v2",
+        "call_relationship_coverage": "function-body-call-coverage-v5",
+        "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+        "string_inventory_evidence": "defined-data-coverage-v1",
+        "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+        "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+        "instruction_flow_evidence": "decoded-return-pcode-v1",
+        "instruction_references": "exact-address-incoming-without-synthetic-entry-v2",
+        "function_boundary_observations": "ghidra-function-boundary-limitations-v4",
+        "no_return_repair": "disabled-windows-p0",
+        "process_launch": "official-headless-script-v1",
+        "jump_table_evidence": "typed-case-default-blocks-v1",
+        "decompiler_jump_loads": true,
+        "loader": "auto-from-header",
+        "language_id": "auto-from-header",
+        "compiler_spec_id": "auto-default",
+        "analyzer_preset": "ghidra-default"
+      },
+      "digest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896"
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "procedure_pseudo_code",
+    "parameters": {
+      "procedure": "0x442210"
+    },
+    "raw_result": {
+      "value": "\r\nvoid FUN_00442020(void)\r\n\r\n{\r\n  int in_ECX;\r\n  undefined *puVar1;\r\n  int in_EDX;\r\n  uint uVar2;\r\n  uint uVar3;\r\n  int yTop;\r\n  int xLeft;\r\n  float fVar4;\r\n  float fVar5;\r\n  float fVar6;\r\n  undefined8 uVar7;\r\n  char *_Format;\r\n  int local_134 [3];\r\n  uint local_128;\r\n  tagRECT local_124;\r\n  char local_114 [268];\r\n  uint local_8;\r\n  \r\n  local_8 = DAT_005e8890 ^ (uint)local_134;\r\n  local_134[0] = in_EDX;\r\n  if (DAT_006e66a4 == 0) {\r\n    if ((DAT_006e6be0 == 0) && (DAT_005eb5e4 == -1)) {\r\n      uVar2 = 1;\r\n      DAT_005eb5e8 = 1;\r\n      puVar1 = PTR_DAT_005ecefc;\r\n    }\r\n    else {\r\n      if (in_EDX == 0) {\r\n        do {\r\n          uVar7 = FUN_00489cd0();\r\n          uVar2 = __aulldiv(uVar7,1000,0);\r\n          DAT_005eb5e8 = uVar2 % 7 + 10;\r\n        } while (DAT_005eb5e8 == (byte)PTR_DAT_005ecefc[0x9e]);\r\n      }\r\n      puVar1 = PTR_DAT_005ecefc;\r\n      uVar2 = DAT_005eb5e8;\r\n      PTR_DAT_005ecefc[0x9e] = (char)DAT_005eb5e8;\r\n    }\r\n    if (puVar1[0x96] == '\\0') {\r\n      if ((int)uVar2 < 10) {\r\n        _Format = \"LOAD%d.BMP\";\r\n      }\r\n      else {\r\n        _Format = \"LOAD%d.JPG\";\r\n      }\r\n    }\r\n    else {\r\n      uVar2 = 8;\r\n      DAT_005eb5e8 = 8;\r\n      _Format = \"LOAD%d.BMP\";\r\n    }\r\n    sprintf(local_114,_Format,uVar2);\r\n    DAT_006e66a4 = FUN_004895d0(0);\r\n    DAT_005eb5e4 = FUN_00409bd0((int)DAT_006fbb22,(int)DAT_006fbb26,DAT_006fbb2a,(int)DAT_006fbb24);\r\n    if (DAT_006e66a4 == 0) goto LAB_004422a9;\r\n  }\r\n  local_134[1] = 0xff;\r\n  if (0xff < in_ECX) {\r\n    in_ECX = 0xff;\r\n  }\r\n  uVar2 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42c);\r\n  uVar3 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42e);\r\n  fVar6 = (float)(int)DAT_006fbb22 / (float)(int)DAT_006fbb26;\r\n  fVar5 = (float)uVar2;\r\n  fVar4 = (float)in_ECX * 0.003921569;\r\n  if (local_134[0] == 0) {\r\n    fVar4 = 1.0 - fVar4;\r\n    fVar4 = fVar5 - (1.0 - fVar4 * fVar4 * fVar4 * fVar4) * fVar5;\r\n  }\r\n  else {\r\n    fVar4 = -(fVar4 * fVar4 * fVar4 * fVar4 * fVar5);\r\n  }\r\n  if (fVar6 < fVar5 / (float)uVar3) {\r\n    local_128 = (uint)((float)uVar3 * fVar6);\r\n    local_134[2] = uVar3;\r\n  }\r\n  else {\r\n    local_128 = uVar2;\r\n    local_134[2] = (int)(fVar5 / fVar6);\r\n  }\r\n  xLeft = (int)fVar4 + ((int)(uVar2 - local_128) >> 1);\r\n  yTop = (int)(uVar3 - local_134[2]) >> 1;\r\n  *(bool *)(DAT_00714ae8 + 0x5c4) = DAT_005eb5f8 != 0;\r\n  FUN_00519050();\r\n  SetRect(&local_124,xLeft,yTop,local_128 + xLeft,local_134[2] + yTop);\r\n  FUN_00409e30((int)DAT_006fbb26,&local_124);\r\nLAB_004422a9:\r\n  FUN_00568162();\r\n  return;\r\n}\r\n\r\n",
+      "limitations": []
+    },
+    "normalized_result": "\r\nvoid FUN_00442020(void)\r\n\r\n{\r\n  int in_ECX;\r\n  undefined *puVar1;\r\n  int in_EDX;\r\n  uint uVar2;\r\n  uint uVar3;\r\n  int yTop;\r\n  int xLeft;\r\n  float fVar4;\r\n  float fVar5;\r\n  float fVar6;\r\n  undefined8 uVar7;\r\n  char *_Format;\r\n  int local_134 [3];\r\n  uint local_128;\r\n  tagRECT local_124;\r\n  char local_114 [268];\r\n  uint local_8;\r\n  \r\n  local_8 = DAT_005e8890 ^ (uint)local_134;\r\n  local_134[0] = in_EDX;\r\n  if (DAT_006e66a4 == 0) {\r\n    if ((DAT_006e6be0 == 0) && (DAT_005eb5e4 == -1)) {\r\n      uVar2 = 1;\r\n      DAT_005eb5e8 = 1;\r\n      puVar1 = PTR_DAT_005ecefc;\r\n    }\r\n    else {\r\n      if (in_EDX == 0) {\r\n        do {\r\n          uVar7 = FUN_00489cd0();\r\n          uVar2 = __aulldiv(uVar7,1000,0);\r\n          DAT_005eb5e8 = uVar2 % 7 + 10;\r\n        } while (DAT_005eb5e8 == (byte)PTR_DAT_005ecefc[0x9e]);\r\n      }\r\n      puVar1 = PTR_DAT_005ecefc;\r\n      uVar2 = DAT_005eb5e8;\r\n      PTR_DAT_005ecefc[0x9e] = (char)DAT_005eb5e8;\r\n    }\r\n    if (puVar1[0x96] == '\\0') {\r\n      if ((int)uVar2 < 10) {\r\n        _Format = \"LOAD%d.BMP\";\r\n      }\r\n      else {\r\n        _Format = \"LOAD%d.JPG\";\r\n      }\r\n    }\r\n    else {\r\n      uVar2 = 8;\r\n      DAT_005eb5e8 = 8;\r\n      _Format = \"LOAD%d.BMP\";\r\n    }\r\n    sprintf(local_114,_Format,uVar2);\r\n    DAT_006e66a4 = FUN_004895d0(0);\r\n    DAT_005eb5e4 = FUN_00409bd0((int)DAT_006fbb22,(int)DAT_006fbb26,DAT_006fbb2a,(int)DAT_006fbb24);\r\n    if (DAT_006e66a4 == 0) goto LAB_004422a9;\r\n  }\r\n  local_134[1] = 0xff;\r\n  if (0xff < in_ECX) {\r\n    in_ECX = 0xff;\r\n  }\r\n  uVar2 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42c);\r\n  uVar3 = (uint)*(ushort *)(PTR_DAT_005ecefc + 0x42e);\r\n  fVar6 = (float)(int)DAT_006fbb22 / (float)(int)DAT_006fbb26;\r\n  fVar5 = (float)uVar2;\r\n  fVar4 = (float)in_ECX * 0.003921569;\r\n  if (local_134[0] == 0) {\r\n    fVar4 = 1.0 - fVar4;\r\n    fVar4 = fVar5 - (1.0 - fVar4 * fVar4 * fVar4 * fVar4) * fVar5;\r\n  }\r\n  else {\r\n    fVar4 = -(fVar4 * fVar4 * fVar4 * fVar4 * fVar5);\r\n  }\r\n  if (fVar6 < fVar5 / (float)uVar3) {\r\n    local_128 = (uint)((float)uVar3 * fVar6);\r\n    local_134[2] = uVar3;\r\n  }\r\n  else {\r\n    local_128 = uVar2;\r\n    local_134[2] = (int)(fVar5 / fVar6);\r\n  }\r\n  xLeft = (int)fVar4 + ((int)(uVar2 - local_128) >> 1);\r\n  yTop = (int)(uVar3 - local_134[2]) >> 1;\r\n  *(bool *)(DAT_00714ae8 + 0x5c4) = DAT_005eb5f8 != 0;\r\n  FUN_00519050();\r\n  SetRect(&local_124,xLeft,yTop,local_128 + xLeft,local_134[2] + yTop);\r\n  FUN_00409e30((int)DAT_006fbb26,&local_124);\r\nLAB_004422a9:\r\n  FUN_00568162();\r\n  return;\r\n}\r\n\r\n",
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+      "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+      "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+      "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+      "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+      "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+      "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+      "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+      "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": []
+  }
+}

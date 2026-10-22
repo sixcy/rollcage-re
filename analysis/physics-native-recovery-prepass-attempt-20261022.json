@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-process-capture-attempt-with-user-reported-input-uncertainty",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/hidden-recovery-prepass-capture",
+  "matched": false,
+  "qualifiesAsPhysicsEvidence": false,
+  "completion": {"reason": "duration-bound", "events": 711, "snapshots": 3},
+  "observedStages": ["launcher-policy", "graphics-policy", "before-device-creation"],
+  "recoveryPairs": 0,
+  "userReport": "The user may have pressed Space as the capture was about to run.",
+  "interpretation": "Potential host-input contamination. Its causal relationship to the missing recovery observations is unproven; the trace has no direct input-state capture.",
+  "sourceVerification": "analysis/physics-native-recovery-prepass-source-verification-20261022.json",
+  "nextStep": "Use a new output path, retain a reached physics breadcrumb and terminal thread diagnostics, and announce a quiet-input interval before retrying."
+}

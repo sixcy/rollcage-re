@@ -4,6 +4,7 @@ import {runPhysicsFrame} from './physics-frame.mjs';
 import {beginPhysicsFrame} from './physics-frame-state.mjs';
 import {prepareOrdinaryBody} from './body-preparation.mjs';
 import {stepScriptedMotion} from './scripted-motion.mjs';
+import {stepRawScriptedMotion} from './raw-scripted-motion.mjs';
 import {buildFrameCandidates,candidateArenaView} from './frame-candidates.mjs';
 import {buildBodyCandidateGroups} from './body-candidate-groups.mjs';
 import {updateVehicleWheelFrame,updateFrameBodyDerivatives} from './vehicle-frame.mjs';
@@ -29,9 +30,33 @@ import {applyActiveVehicleEffect} from './active-vehicle-effect.mjs';
 import {runPostFrameBodyStates} from './post-frame-body-states.mjs';
 import {checkPostFrameVehicles} from './post-frame-vehicle-check.mjs';
 import {multiplyQ16} from './fixed-integer.mjs';
+import {nativeMemoryAddress,nativeCodeAddress,nativeMemorySpan} from './native-memory-spans.mjs';
 
 const decodeQuery=record=>({originQ8:[8,12,16].map(p=>record.readInt32LE(p)),deltaQ8:[20,24,28].map(p=>record.readInt32LE(p)),radiusQ8:record.readInt32LE(64),tag:record.readUInt16LE(70),surfaceRef:record.readInt32LE(56)});
 const specialVehicle=body=>{const state=body.pairCollisionContext?.stateByte6bc;return state!==null&&state!==undefined&&state!==0;};
+
+// Optional observer boundary immediately around474bb0. Copies contain no live
+// body/event references or writable byte buffers. The normal path never calls
+// this helper or reads its extra fields when the observer is absent.
+function collisionDispatchSnapshot(stage,event,deltaQ16,raw) {
+ const array=value=>Array.isArray(value)?Object.freeze(value.slice()):null;
+ const body=value=>value?Object.freeze({address:Number.isInteger(value.address)?value.address:null,flags:value.flags,type:value.flags&0x1ff,positionQ16:array(value.position),linearVelocityQ16:array(value.linearVelocity),momentumQ16:array(value.momentum),angularMomentumQ16:array(value.angularMomentum),angularVelocityQ16:array(value.angularVelocity),frameTimeQ16:value.frameTimeQ16,collisionFlags:value.collisionFlags,collisionCounter168:value.collisionCounter168}):null;
+ const address=Number.isInteger(event.address)?event.address:null;
+ const result={stage,eventAddress:address,deltaQ16,kind:event.kind,classFlags:event.classFlags,tag:event.tag,damping:event.damping,field44:event.field44,scalar:event.scalar,pointQ8:array(event.point),normalQ16:array(event.normal),auxiliaryVectorQ16:array(event.auxiliaryVector),object1:body(event.object1),object2:body(event.object2)};
+ if(raw){
+  if(address===null)throw Error('Native dispatch observer requires the exact event address.');result.eventBytesHex=nativeMemorySpan(raw.memory,address,0x68).toString('hex');
+  if(stage==='before'&&event.kind===1&&event.object1){
+   const target=event.object1,count=target.terrainWord15c,base=raw.memory.readUInt32LE(target.address+0x154),candidates=[];
+   if(!Number.isInteger(count)||count<0||count>64)throw Error('Dispatch observer terrain candidates exceed the native64 bound.');
+   for(let index=0;index<count;index++){
+    const candidate=raw.views.candidateAt(base+index*16);
+    if((candidate.id|0)===(event.field44|0))candidates.push(Object.freeze({address:candidate.address,type:candidate.type,id:candidate.id|0,normalQ16:Object.freeze(candidate.normalQ8.map(value=>value<<8))}));
+   }
+   result.terrainCandidates=Object.freeze(candidates);
+  }
+ }
+ return Object.freeze(result);
+}
 
 // Storage is retained across calls: arena, queue, group lists and both scratch
 // objects preserve native stale fields rather than being silently reset here.
@@ -61,8 +86,8 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
  const report={ordinary:[],scripted:[],candidates:null,vehicles:null,worldUpdatedRecords:null,initialEvents:0,regeneratedEvents:0,storedContacts:0,rejectedContacts:0,terrainQueries:0,terrainHits:0,modelQueries:0,modelHits:0,finishedBodies:0};
  const terrainQuery=(record,body,bound,output)=>{
   if(context.nativeTerrain) {
-   const native=context.nativeTerrain,recordAddress=record.byteOffset-native.memory.byteOffset;
-   if(record.buffer!==native.memory.buffer||native.views.bodyAt(body.address)!==body||!Number.isInteger(output.address))throw Error('Native terrain simulation requires shared body, shape and output storage.');
+   const native=context.nativeTerrain,recordAddress=nativeMemoryAddress(native.memory,record);
+   if(recordAddress===null||native.views.bodyAt(body.address)!==body||!Number.isInteger(output.address))throw Error('Native terrain simulation requires shared body, shape and output storage.');
    const time=queryRawTerrain(body.address,recordAddress,output.address,bound,{...native,roundingMode});
    report.terrainQueries++;if(output.flags)report.terrainHits++;return time;
   }
@@ -74,8 +99,8 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
  };
  const modelQuery=(record,body,bound,output)=>{
   if(context.nativeModels){
-   const native=context.nativeModels,recordAddress=record.byteOffset-native.memory.byteOffset;
-   if(record.buffer!==native.memory.buffer||native.views.bodyAt(body.address)!==body||!Number.isInteger(output.address))throw Error('Native model simulation requires shared body, shape and output storage.');
+   const native=context.nativeModels,recordAddress=nativeMemoryAddress(native.memory,record);
+   if(recordAddress===null||native.views.bodyAt(body.address)!==body||!Number.isInteger(output.address))throw Error('Native model simulation requires shared body, shape and output storage.');
    const time=queryRawPlacedModelSphere(body.address,recordAddress,output.address,bound,{...native,scratchBase:output.address-0x3c,roundingMode,handlers});
    report.modelQueries++;if(output.flags)report.modelHits++;return time;
   }
@@ -93,7 +118,8 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
   //contact fields deliberately retain earlier derivative/query temporaries.
   const scratch=native?{contact:native.views.contactAt(native.scratchBase-(refresh?0x7c:0x84)),tag:native.views.wordAt(native.scratchBase-(refresh?0x80:0x88))}:staticScratch;
   const output=native?native.views.outputAt(native.scratchBase-(refresh?0xdc:0xe4)):queryOutput;
-  return buildStaticCollisionEvents(group,{records,queue,selectionCounter,scratch,prepare,
+  const staticPrepare=native?(body,time,pool)=>prepareBodyShapeCache(body,time,pool,{...timeOptionsFor(body),nativeStack:{memory:native.memory,scratchBase:native.scratchBase-(refresh?0xb0:0xb8)}}):prepare;
+  return buildStaticCollisionEvents(group,{records,queue,selectionCounter,scratch,prepare:staticPrepare,
    terrainBatch:(list,count)=>queryTerrainBodyShapes(list,records,{count,query:terrainQuery,output}),
    modelBody:body=>queryModelBodyShapes(body,records,{query:modelQuery,output})});
  };
@@ -113,8 +139,27 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
  }};
  const stages={queue,effectFlags,
   begin:()=>beginPhysicsFrame(bodies(),vehicles.map(vehicle=>vehicle.body)),
-  prepareOrdinary:body=>report.ordinary.push(prepareOrdinaryBody(body,{records,gravityQ16,effectFlags,timeOptions:timeOptionsFor(body),specialVehicleState:context.vehiclePreparationStateFor?.(body),handlers:preparationHandlers})),
-  stepScripted:body=>{if(typeof context.scriptOptionsFor!=='function')throw Error('Scripted simulation bodies require their native bytecode and state inputs.');const options=context.scriptOptionsFor(body),destroyBody=target=>{const state=context.scriptedReleaseState;if(!state)throw Error('Scripted release requires explicit runtime state.');return releaseScriptedBody(target,{...state,handlers:{...handlers,...state.handlers}});};report.scripted.push(stepScriptedMotion(body,{...options,roundingMode,handlers:{destroyBody,...handlers,...context.scriptHandlers,...options.handlers}}));},
+  prepareOrdinary:(body,index)=>{
+   const localHandlers=typeof context.bodyEffectNativeStackFor==='function'&&!handlers.applyEffect91cd90?{...preparationHandlers,applyEffect91cd90:target=>{
+    if(!context.bodyEffectImpulse)throw Error('First frame effect requires explicit impulse effect state.');
+    const nativeStack=context.bodyEffectNativeStackFor(target,index);
+    if(!nativeStack)throw Error('Native body effect stack provider must supply its actual caller state.');
+    nativeStack.memory.writeInt32LE(nativeCodeAddress(0x47a913,nativeStack)|0,nativeStack.scratchBase);
+    return applyBodyEffectImpulse(target,{...context.bodyEffectImpulse,roundingMode,handlers:effectHandlers,nativeStack});
+   }}:preparationHandlers;
+   report.ordinary.push(prepareOrdinaryBody(body,{records,gravityQ16,effectFlags,timeOptions:timeOptionsFor(body),specialVehicleStateFor:context.vehiclePreparationStateFor,handlers:localHandlers}));
+  },
+  stepScripted:body=>{
+   if(context.nativeScripted){
+    const native=context.nativeScripted;
+    if(native.memory!==raw?.memory||native.views?.bodyAt(body.address)!==body||native.scratchBase!==raw.scratchBase-24)throw Error('Native scripted physics requires coherent body storage and the actual4749e0 child entry ESP.');
+    //Five parent PUSHes, then CALL476550 at474a0a. The pointer/script state
+    //stays live in shared memory, including native release/debris children.
+    native.memory.writeInt32LE(nativeCodeAddress(0x474a0f,native)|0,native.scratchBase);
+    report.scripted.push(stepRawScriptedMotion(body.address,{...native,roundingMode,handlers}));return;
+   }
+   if(typeof context.scriptOptionsFor!=='function')throw Error('Scripted simulation bodies require their native bytecode and state inputs.');const options=context.scriptOptionsFor(body),destroyBody=target=>{const state=context.scriptedReleaseState;if(!state)throw Error('Scripted release requires explicit runtime state.');return releaseScriptedBody(target,{...state,handlers:{...handlers,...state.handlers}});};report.scripted.push(stepScriptedMotion(body,{...options,roundingMode,handlers:{destroyBody,...handlers,...context.scriptHandlers,...options.handlers}}));
+  },
   externalWorld:()=>{if(typeof handlers.externalWorld==='function')return handlers.externalWorld({physicalGroup,vehicles});const state=context.worldEffectState;report.worldUpdatedRecords=updateWorldEffectRecords(state.records,{...state,effectFlag:effectFlags.first});},
   collectCandidates:()=>{report.candidates=buildFrameCandidates(physicalGroup.bodies,{count:physicalGroup.count??physicalGroup.bodies.length,records,grid:environment.grid,models:environment.modelContext,arena:candidateArena,spatialStateFor,nativeState:sharedMath});},
   updateGroups:()=>buildBodyCandidateGroups(bodies(),candidateGroups),
@@ -129,7 +174,11 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
    updateFrameBodyDerivatives(bodies(),native?body=>updateBodyDerived(body,{nativeScratch:{memory:native.memory,scratchBase:native.scratchBase-0x28}}):undefined);
   },
   buildInitialEvents:()=>{report.initialEvents=buildInitialCollisionEvents(physicalGroup,candidateGroups,candidateOptions);},
-  respond:(event,delta)=>dispatchCollisionResponse(event,delta,{handlers:advancementHandlers,gravityQ16,timeOptionsFor}),
+  respond:typeof context.onCollisionDispatch==='function'?(event,delta)=>{
+   context.onCollisionDispatch(collisionDispatchSnapshot('before',event,delta,raw));
+   const result=dispatchCollisionResponse(event,delta,{handlers:advancementHandlers,gravityQ16,timeOptionsFor});
+   context.onCollisionDispatch(collisionDispatchSnapshot('after',event,delta,raw));return result;
+  }:(event,delta)=>dispatchCollisionResponse(event,delta,{handlers:advancementHandlers,gravityQ16,timeOptionsFor}),
   //475630 saves main EBP (the filtered delta) at S-40h. The next4279d0
   //refresh consumes that same word as its intentionally uninitialized scalar.
   beforeInvalidate:raw?(_first,_second,delta)=>raw.memory.writeInt32LE(delta|0,raw.scratchBase-0x40):undefined,

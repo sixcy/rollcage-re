@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-range-diagnostics-20261022\\synthetic-debugger-fixture.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-range-diagnostics-20261022",
+  "arguments": [],
+  "expectedSha256": "42fe2ea14a926cf9c2a612a13f23b75c5682b4a4a5be6265f54ff75a9529d931",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-capture-range-diagnostics-20261022\\matching-window-capture",
+  "maxDurationMs": 10000,
+  "maxEvents": 1000,
+  "maxSnapshots": 10,
+  "showWindow": false,
+  "breakpoints": [
+    {
+      "id": "counter-after-increment",
+      "rva": "0x1015",
+      "ranges": [
+        {
+          "id": "counter",
+          "address": "0x401100",
+          "length": 4
+        }
+      ],
+      "stopAfterHits": 1,
+      "captureWhen": {
+        "range": {
+          "id": "constant-zero-gate",
+          "rva": "0x1104",
+          "length": 4
+        },
+        "equalsBytesHex": "00000000"
+      },
+      "skipMatchingHits": 2
+    }
+  ]
+}

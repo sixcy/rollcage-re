@@ -1,0 +1,1192 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-process-state-and-static-branch-audit",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/hidden-recovery-parent-capture",
+  "replayReport": "analysis/physics-native-recovery-parent-20261022/report.json",
+  "replayReportSha256": "565e57535e0777ffbe3f92ac310d08a955286287cd032629fe9d539e5c665a8b",
+  "sourceVerification": "analysis/physics-native-recovery-parent-source-verification-20261022.json",
+  "method": "Immutable genuine parent entry/preRET pairs validated by exact pairing. Native physical-body states and rejection predicates independently decoded from captured memory; path counts follow retained47ccc0/47e180 guards, not an instruction trace. Source respawn/retirement counts quoted from exact replay report. Captured route/checkpoint ledger and separate profile invariance reported without changing checker scope.",
+  "matched": true,
+  "totals": {
+    "pairs": 3,
+    "comparedBytes": 14709120,
+    "prepassParticipantChecks": 18,
+    "nearestRouteSearchEntries": 0,
+    "respawnedBodies": 0,
+    "retiredBodies": 0
+  },
+  "cases": [
+    {
+      "beforeOrdinal": 4,
+      "afterOrdinal": 5,
+      "clockBefore": 228,
+      "clockAfter": 228,
+      "moduleBaseAddress": 7208960,
+      "comparedBytes": 4903040,
+      "comparisonRegions": 224,
+      "nativeChangedSemanticBytes": 0,
+      "physicalBodyCountBefore": 15,
+      "physicalBodyCountAfter": 15,
+      "physicalStateHistogramBefore": {
+        "0": 15
+      },
+      "physicalStateHistogramAfter": {
+        "0": 15
+      },
+      "physicalBodies": [
+        {
+          "address": 287351936,
+          "type": 20,
+          "state": 0
+        },
+        {
+          "address": 288863360,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289098368,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289098752,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289318912,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289319296,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289512064,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289512448,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289722624,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289723008,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289927424,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289927808,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 290137984,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 287691264,
+          "type": 26,
+          "state": 0
+        },
+        {
+          "address": 287674112,
+          "type": 26,
+          "state": 0
+        }
+      ],
+      "participants": [
+        {
+          "index": 0,
+          "body": 288863360,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 1,
+          "body": 289098752,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 2,
+          "body": 289319296,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 3,
+          "body": 289512448,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 4,
+          "body": 289723008,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 5,
+          "body": 289927808,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        }
+      ],
+      "staticGuardDerivedPathCounts": {
+        "vehiclePrepassChecks": 6,
+        "prepassRejections": 0,
+        "state32PhysicalBranches": 0,
+        "nearestRouteSearchEntries": 0,
+        "placementQueryCalls": 0,
+        "respawnApplications": 0,
+        "vehicleRingCalls": 0,
+        "type7or21Retirements": 0,
+        "type33Retirements": 0
+      },
+      "sourceCounts": {
+        "respawnedBodies": 0,
+        "retiredBodies": 0
+      },
+      "routeCoverage": {
+        "groupCount": 9,
+        "groupsAddress": 68802004,
+        "groupBytes": 108,
+        "pointCounts": [
+          0,
+          57,
+          34,
+          60,
+          12,
+          27,
+          9,
+          6,
+          17
+        ],
+        "pointBytes": 3552,
+        "checkpointCount": 25,
+        "checkpointIdAddress": 68806380,
+        "checkpointIdBytes": 100,
+        "checkpointRecordsAddress": 68805880,
+        "maximumCheckpointId": 24,
+        "checkpointRecordBytes": 500,
+        "ledger": [
+          {
+            "id": "native-recovery-419d5d4-6c-419d5d4",
+            "address": 68802004,
+            "length": 108,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419d640-390-419d640",
+            "address": 68802112,
+            "length": 912,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419d9d0-220-419d9d0",
+            "address": 68803024,
+            "length": 544,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419dbf0-3c0-419dbf0",
+            "address": 68803568,
+            "length": 960,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419dfb0-c0-419dfb0",
+            "address": 68804528,
+            "length": 192,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e070-1b0-419e070",
+            "address": 68804720,
+            "length": 432,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e220-90-419e220",
+            "address": 68805152,
+            "length": 144,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e2b0-60-419e2b0",
+            "address": 68805296,
+            "length": 96,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e310-110-419e310",
+            "address": 68805392,
+            "length": 272,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e6ec-64-419e6ec",
+            "address": 68806380,
+            "length": 100,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e4f8-1f4-419e4f8",
+            "address": 68805880,
+            "length": 500,
+            "matched": true
+          }
+        ]
+      },
+      "profile": {
+        "rootAddress": 12580512,
+        "address": 9219596,
+        "length": 8,
+        "capturedBeforeSha256": "f467d13f9a2158cda0d6f462a2a0013cfb6529c5c9b8e0040824e66c84ce04ec",
+        "capturedAfterSha256": "f467d13f9a2158cda0d6f462a2a0013cfb6529c5c9b8e0040824e66c84ce04ec",
+        "nativeBeforeAfterEqual": true,
+        "mainCheckerSemanticBytes": 0,
+        "rootMainCheckerSemanticBytes": 4,
+        "pathConsumerReached": false
+      },
+      "identity": {
+        "available": true,
+        "sessionAddress": 11704928,
+        "configurationAddress": 11696608,
+        "selectedTrackIndex": 1,
+        "selectedLevelNumber": 2,
+        "qualityByte": 1,
+        "selectedDirectory": "HIGH",
+        "selectedTrackStem": "HIGH/LEV2",
+        "selectedBlpResource": "HIGH/LEV2.BLP",
+        "selectedBtpResource": "HIGH/LEV2.BTP",
+        "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+        "selectedTrackFamilyByte": 2,
+        "selectedTrackLocalByte": 0,
+        "participantCount": 6,
+        "sessionVehicleTypes": [
+          6,
+          4,
+          0,
+          2,
+          3,
+          1
+        ],
+        "activeVehicleTypes": [
+          6,
+          4,
+          0,
+          2,
+          3,
+          1
+        ],
+        "participantModeBytes": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "spawnIndexBytes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "sessionModeByte": 0,
+        "sessionAttractByte": 1,
+        "sessionPhase": 4,
+        "directlyCapturedTrackStem": {
+          "available": false,
+          "reason": "Native track-name buffer6e6660 is not declared."
+        },
+        "limits": [
+          "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+          "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+          "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+        ]
+      }
+    },
+    {
+      "beforeOrdinal": 6,
+      "afterOrdinal": 7,
+      "clockBefore": 229,
+      "clockAfter": 229,
+      "moduleBaseAddress": 7208960,
+      "comparedBytes": 4903040,
+      "comparisonRegions": 224,
+      "nativeChangedSemanticBytes": 0,
+      "physicalBodyCountBefore": 15,
+      "physicalBodyCountAfter": 15,
+      "physicalStateHistogramBefore": {
+        "0": 15
+      },
+      "physicalStateHistogramAfter": {
+        "0": 15
+      },
+      "physicalBodies": [
+        {
+          "address": 287351936,
+          "type": 20,
+          "state": 0
+        },
+        {
+          "address": 288863360,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289098368,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289098752,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289318912,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289319296,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289512064,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289512448,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289722624,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289723008,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289927424,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289927808,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 290137984,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 287691264,
+          "type": 26,
+          "state": 0
+        },
+        {
+          "address": 287674112,
+          "type": 26,
+          "state": 0
+        }
+      ],
+      "participants": [
+        {
+          "index": 0,
+          "body": 288863360,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 1,
+          "body": 289098752,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 2,
+          "body": 289319296,
+          "height": -490,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 3,
+          "body": 289512448,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 4,
+          "body": 289723008,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 5,
+          "body": 289927808,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        }
+      ],
+      "staticGuardDerivedPathCounts": {
+        "vehiclePrepassChecks": 6,
+        "prepassRejections": 0,
+        "state32PhysicalBranches": 0,
+        "nearestRouteSearchEntries": 0,
+        "placementQueryCalls": 0,
+        "respawnApplications": 0,
+        "vehicleRingCalls": 0,
+        "type7or21Retirements": 0,
+        "type33Retirements": 0
+      },
+      "sourceCounts": {
+        "respawnedBodies": 0,
+        "retiredBodies": 0
+      },
+      "routeCoverage": {
+        "groupCount": 9,
+        "groupsAddress": 68802004,
+        "groupBytes": 108,
+        "pointCounts": [
+          0,
+          57,
+          34,
+          60,
+          12,
+          27,
+          9,
+          6,
+          17
+        ],
+        "pointBytes": 3552,
+        "checkpointCount": 25,
+        "checkpointIdAddress": 68806380,
+        "checkpointIdBytes": 100,
+        "checkpointRecordsAddress": 68805880,
+        "maximumCheckpointId": 24,
+        "checkpointRecordBytes": 500,
+        "ledger": [
+          {
+            "id": "native-recovery-419d5d4-6c-419d5d4",
+            "address": 68802004,
+            "length": 108,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419d640-390-419d640",
+            "address": 68802112,
+            "length": 912,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419d9d0-220-419d9d0",
+            "address": 68803024,
+            "length": 544,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419dbf0-3c0-419dbf0",
+            "address": 68803568,
+            "length": 960,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419dfb0-c0-419dfb0",
+            "address": 68804528,
+            "length": 192,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e070-1b0-419e070",
+            "address": 68804720,
+            "length": 432,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e220-90-419e220",
+            "address": 68805152,
+            "length": 144,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e2b0-60-419e2b0",
+            "address": 68805296,
+            "length": 96,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e310-110-419e310",
+            "address": 68805392,
+            "length": 272,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e6ec-64-419e6ec",
+            "address": 68806380,
+            "length": 100,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e4f8-1f4-419e4f8",
+            "address": 68805880,
+            "length": 500,
+            "matched": true
+          }
+        ]
+      },
+      "profile": {
+        "rootAddress": 12580512,
+        "address": 9219596,
+        "length": 8,
+        "capturedBeforeSha256": "f467d13f9a2158cda0d6f462a2a0013cfb6529c5c9b8e0040824e66c84ce04ec",
+        "capturedAfterSha256": "f467d13f9a2158cda0d6f462a2a0013cfb6529c5c9b8e0040824e66c84ce04ec",
+        "nativeBeforeAfterEqual": true,
+        "mainCheckerSemanticBytes": 0,
+        "rootMainCheckerSemanticBytes": 4,
+        "pathConsumerReached": false
+      },
+      "identity": {
+        "available": true,
+        "sessionAddress": 11704928,
+        "configurationAddress": 11696608,
+        "selectedTrackIndex": 1,
+        "selectedLevelNumber": 2,
+        "qualityByte": 1,
+        "selectedDirectory": "HIGH",
+        "selectedTrackStem": "HIGH/LEV2",
+        "selectedBlpResource": "HIGH/LEV2.BLP",
+        "selectedBtpResource": "HIGH/LEV2.BTP",
+        "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+        "selectedTrackFamilyByte": 2,
+        "selectedTrackLocalByte": 0,
+        "participantCount": 6,
+        "sessionVehicleTypes": [
+          6,
+          4,
+          0,
+          2,
+          3,
+          1
+        ],
+        "activeVehicleTypes": [
+          6,
+          4,
+          0,
+          2,
+          3,
+          1
+        ],
+        "participantModeBytes": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "spawnIndexBytes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "sessionModeByte": 0,
+        "sessionAttractByte": 1,
+        "sessionPhase": 4,
+        "directlyCapturedTrackStem": {
+          "available": false,
+          "reason": "Native track-name buffer6e6660 is not declared."
+        },
+        "limits": [
+          "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+          "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+          "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+        ]
+      }
+    },
+    {
+      "beforeOrdinal": 8,
+      "afterOrdinal": 9,
+      "clockBefore": 230,
+      "clockAfter": 230,
+      "moduleBaseAddress": 7208960,
+      "comparedBytes": 4903040,
+      "comparisonRegions": 224,
+      "nativeChangedSemanticBytes": 0,
+      "physicalBodyCountBefore": 15,
+      "physicalBodyCountAfter": 15,
+      "physicalStateHistogramBefore": {
+        "0": 15
+      },
+      "physicalStateHistogramAfter": {
+        "0": 15
+      },
+      "physicalBodies": [
+        {
+          "address": 287351936,
+          "type": 20,
+          "state": 0
+        },
+        {
+          "address": 288863360,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289098368,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289098752,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289318912,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289319296,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289512064,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289512448,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289722624,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289723008,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 289927424,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 289927808,
+          "type": 3,
+          "state": 0
+        },
+        {
+          "address": 290137984,
+          "type": 4,
+          "state": 0
+        },
+        {
+          "address": 287691264,
+          "type": 26,
+          "state": 0
+        },
+        {
+          "address": 287674112,
+          "type": 26,
+          "state": 0
+        }
+      ],
+      "participants": [
+        {
+          "index": 0,
+          "body": 288863360,
+          "height": -489,
+          "threshold": 53,
+          "speed": 120,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 1,
+          "body": 289098752,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 2,
+          "body": 289319296,
+          "height": -490,
+          "threshold": 53,
+          "speed": 7,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 3,
+          "body": 289512448,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 4,
+          "body": 289723008,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        },
+        {
+          "index": 5,
+          "body": 289927808,
+          "height": -489,
+          "threshold": 53,
+          "speed": 0,
+          "wheelFlags": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "slowCounterBefore": 0,
+          "slowCounterAfter": 0,
+          "stateBefore": 0,
+          "stateAfter": 0,
+          "rejectionFromRetainedPredicate": false,
+          "expectedSlowCounter": 0
+        }
+      ],
+      "staticGuardDerivedPathCounts": {
+        "vehiclePrepassChecks": 6,
+        "prepassRejections": 0,
+        "state32PhysicalBranches": 0,
+        "nearestRouteSearchEntries": 0,
+        "placementQueryCalls": 0,
+        "respawnApplications": 0,
+        "vehicleRingCalls": 0,
+        "type7or21Retirements": 0,
+        "type33Retirements": 0
+      },
+      "sourceCounts": {
+        "respawnedBodies": 0,
+        "retiredBodies": 0
+      },
+      "routeCoverage": {
+        "groupCount": 9,
+        "groupsAddress": 68802004,
+        "groupBytes": 108,
+        "pointCounts": [
+          0,
+          57,
+          34,
+          60,
+          12,
+          27,
+          9,
+          6,
+          17
+        ],
+        "pointBytes": 3552,
+        "checkpointCount": 25,
+        "checkpointIdAddress": 68806380,
+        "checkpointIdBytes": 100,
+        "checkpointRecordsAddress": 68805880,
+        "maximumCheckpointId": 24,
+        "checkpointRecordBytes": 500,
+        "ledger": [
+          {
+            "id": "native-recovery-419d5d4-6c-419d5d4",
+            "address": 68802004,
+            "length": 108,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419d640-390-419d640",
+            "address": 68802112,
+            "length": 912,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419d9d0-220-419d9d0",
+            "address": 68803024,
+            "length": 544,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419dbf0-3c0-419dbf0",
+            "address": 68803568,
+            "length": 960,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419dfb0-c0-419dfb0",
+            "address": 68804528,
+            "length": 192,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e070-1b0-419e070",
+            "address": 68804720,
+            "length": 432,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e220-90-419e220",
+            "address": 68805152,
+            "length": 144,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e2b0-60-419e2b0",
+            "address": 68805296,
+            "length": 96,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e310-110-419e310",
+            "address": 68805392,
+            "length": 272,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e6ec-64-419e6ec",
+            "address": 68806380,
+            "length": 100,
+            "matched": true
+          },
+          {
+            "id": "native-recovery-419e4f8-1f4-419e4f8",
+            "address": 68805880,
+            "length": 500,
+            "matched": true
+          }
+        ]
+      },
+      "profile": {
+        "rootAddress": 12580512,
+        "address": 9219596,
+        "length": 8,
+        "capturedBeforeSha256": "f467d13f9a2158cda0d6f462a2a0013cfb6529c5c9b8e0040824e66c84ce04ec",
+        "capturedAfterSha256": "f467d13f9a2158cda0d6f462a2a0013cfb6529c5c9b8e0040824e66c84ce04ec",
+        "nativeBeforeAfterEqual": true,
+        "mainCheckerSemanticBytes": 0,
+        "rootMainCheckerSemanticBytes": 4,
+        "pathConsumerReached": false
+      },
+      "identity": {
+        "available": true,
+        "sessionAddress": 11704928,
+        "configurationAddress": 11696608,
+        "selectedTrackIndex": 1,
+        "selectedLevelNumber": 2,
+        "qualityByte": 1,
+        "selectedDirectory": "HIGH",
+        "selectedTrackStem": "HIGH/LEV2",
+        "selectedBlpResource": "HIGH/LEV2.BLP",
+        "selectedBtpResource": "HIGH/LEV2.BTP",
+        "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+        "selectedTrackFamilyByte": 2,
+        "selectedTrackLocalByte": 0,
+        "participantCount": 6,
+        "sessionVehicleTypes": [
+          6,
+          4,
+          0,
+          2,
+          3,
+          1
+        ],
+        "activeVehicleTypes": [
+          6,
+          4,
+          0,
+          2,
+          3,
+          1
+        ],
+        "participantModeBytes": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "spawnIndexBytes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "sessionModeByte": 0,
+        "sessionAttractByte": 1,
+        "sessionPhase": 4,
+        "directlyCapturedTrackStem": {
+          "available": false,
+          "reason": "Native track-name buffer6e6660 is not declared."
+        },
+        "limits": [
+          "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+          "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+          "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "No rejected state32 body or positive nearest/query/apply/ring/retirement branch is demonstrated in this window.",
+    "Route/checkpoint storage comparison is observation coverage, not evidence that native recovery traversed those tables.",
+    "Eight profile bytes were captured and independently invariant but excluded from main checker semantic ledger; its four-byte root is included. No profile consumer was reached.",
+    "Selected identity is recovered from session/config producers, not a loaded-asset fingerprint.",
+    "Independent parent calls do not establish a closed consecutive whole-game simulation."
+  ]
+}

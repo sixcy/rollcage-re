@@ -1,0 +1,90 @@
+{
+  "authority": "controlled-native-recovery-input",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-capture",
+  "method": "Read-only hash-verified before/after descendant coverage audit. Published pointers are observations, not independent allocator/COM return snapshots.",
+  "reports": [
+    {
+      "stage": "native-recovery-before",
+      "ordinal": 233,
+      "managerHeader": {
+        "address": 149660720,
+        "length": 4,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x8eba430 (4 bytes)."
+      },
+      "managerFactoryTarget": {
+        "address": 149660720,
+        "length": 4,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x8eba430 (4 bytes)."
+      },
+      "managerFields": {
+        "address": 149662816,
+        "length": 100,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x8ebac60 (4 bytes)."
+      },
+      "debuggerCategoryRoots": {
+        "address": 10439448,
+        "length": 8,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x9f4b18 (4 bytes)."
+      }
+    },
+    {
+      "stage": "native-recovery-after",
+      "ordinal": 235,
+      "managerHeader": {
+        "address": 149660720,
+        "length": 4,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x8eba430 (4 bytes)."
+      },
+      "managerFactoryTarget": {
+        "address": 149660720,
+        "length": 4,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x8eba430 (4 bytes)."
+      },
+      "managerFields": {
+        "address": 149662816,
+        "length": 100,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x8ebac60 (4 bytes)."
+      },
+      "channelAddress": 401311928,
+      "sourceAddress": 401311968,
+      "sourceRecord": {
+        "address": 401311968,
+        "length": 2472,
+        "coveredBy": [
+          "debris-free-region",
+          "debris-active-region",
+          "skid-region",
+          "recovery-sound-bank-region"
+        ],
+        "value": {
+          "vtable": 9125728,
+          "state948": 0,
+          "pending94c": 3,
+          "voice97c": 307217112,
+          "waveform964": 290568272,
+          "callback940": 0,
+          "playFlag950": 0
+        }
+      },
+      "sourceVtable": {
+        "address": 9125728,
+        "length": 96,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x8b3f64 (4 bytes)."
+      },
+      "debuggerCategoryRoots": {
+        "address": 10439448,
+        "length": 8,
+        "coveredBy": [],
+        "error": "Uncaptured native memory at 0x9f4b18 (4 bytes)."
+      }
+    }
+  ]
+}

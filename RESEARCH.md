@@ -5,9 +5,15 @@ SHA-256: `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
 
 The goal is a source reconstruction. Recovered pseudocode and inferred names are analysis inputs, not original source. Begin with the archive loader and decompressor, then build asset readers and map the game systems. Each reconstructed component needs checks against the installed artifacts.
 
+The current [physics fidelity goal](re-docs/physics-fidelity.md) tracks original-process acceptance separately from reconstructed instruction checks. Native captures establish normal gravity 65536 and a change from post-CRT x87 PC53 to renderer/race PC24. Ten native frames match 610 exact source stage comparisons (`analysis/physics-native-vehicle-stages-20261022-reviewed/`). One complete active physics frame now matches native EAX and all 4,533,386 declared comparison bytes, preserving six cars, 15 physical bodies, three scripted bodies and 24 successful wheel contacts (`analysis/physics-native-full-frame-20261022-reviewed/`). This exposed and fixed an eager vehicle-state binding outside its native preparation branch. The Racing test uses nominal 30 Hz pacing, exact PC24 attachment arithmetic and native ordinary/nonordinary placement, scripted motion and destruction/fragment lifecycle stages. Continuous native trajectories and remaining interaction scenarios are still open. [Native capture operation](re-docs/native-physics-capture.md) runs unattended with launcher/movie skipping and hidden/windowed guards; no Start press or driving is required. Pause host keyboard/mouse activity during announced captures: hidden windows do not establish DirectInput isolation.
+
 Stage II has a separate, limited investigation for static track viewing and extraction: see [Stage II format notes](re-docs/stage2-formats.md). It targets the supplied Rollcage Stage 2 installation, shares the archive/terrain/texture pipeline where verified, and uses separate placement/material readers. The common standalone viewer supports the original 40 PC track variants and all 66 supplied Stage II environments. Retained structural reports are under `analysis/stage2-layout/` and `analysis/track-games/`; browser comparisons and screenshots are under `analysis/track-games-browser/`. These checks do not establish original-process runtime equivalence.
 
 Firebugs Europe PS1 disc ZIPs are also supported for static viewing/extraction: see [Firebugs format notes](re-docs/firebugs-formats.md). All 229 resources decode, and 33 terrain-bearing disc environments export with ordinary scenery. They include duplicates and variants; resource IDs are retained because original menu names/order remain unestablished. Native evidence comes from direct Ghidra analysis after REA rejected the PS-X format. Browser/Node consistency is not original-process visual equivalence.
+
+Whole-frame validation now includes three windows (launch228..230, moving288..290 and terrain-contact348..350), with exact native returns and expanded geometry coverage. The moving/contact windows preserve six moving cars and compare4,880,872 declared bytes per frame; the contact window processes13/9/7 source responses with exact resulting native state. [Carried replay](re-docs/native-frame-sequence.md) also matches each window while retaining physics output and supplying observed external producer changes explicitly. These short windows do not close AI/input producers, wall/ceiling/inverted/car-pair scenarios, weapon/recovery effects or uninterrupted native trajectories.
+
+Selected original-process scenarios now add direct dispatcher evidence: two wheel-body/type7-border events with4,885,396 matching final bytes, and four actual car-chassis/car-chassis events with4,951,894 matching final bytes (`analysis/physics-native-selected-collision-20261022/`, `analysis/physics-native-selected-body-pair-20261022/`). The latter includes swept and penetration responses; all six native dispatch calls are counted, while raw-record parity is explicitly restricted to its four kind0 pairs. The host observer selects complete frames on real dispatcher activity without gameplay writes; executed synthetic fixtures verify discard/filter/budget/ABI behavior. These bounded scenarios do not close the broader collision matrix, effects, recovery or source-only gameplay. Captured native selections identify HIGH/LEV2, HIGH/LEV3 and HIGH/LEV5 across these runs; see [native identity](re-docs/native-frame-identity.md).
 
 ## Installation
 
@@ -528,3 +534,89 @@ The three existing workers then reported the service/account usage limit and the
 ## 2026-10-22 user clarification: shipped Rollcage Player dependency
 
 The user explicitly clarified: we do not reconstruct Rollcage Player.exe audio code. The reconstruction target remains Rollcage Redux.exe1.3.8.0; using the shipped Rollcage Player.exe from a reconstruction is acceptable. Treat Player's internal implementation as an external executable dependency. Recover Redux-owned launch/configuration, control protocol/arguments, volume/timing/state/error handling and lifecycle wherever it delegates to Player. Establish the actual interface/responsibility split before assuming which audio can be delegated. Redux-owned sound-event selection, descriptor/cache/source policy and game-side audio code remain in the selected target. Shared libaudio strings/classes appearing in Player do not establish that Redux delegates every sound effect or that the reconstructed Redux audio references are unnecessary. No Player process was launched and no installed file changed for this clarification.
+
+## 2026-10-22 native force and post-frame physics checkpoint
+
+The complete captured-frame adapter now preserves the radial producer's actual
+caller registers, shared stack, active consumer and surviving shape-cache locals.
+Strict constructed instruction cases and sparse ASLR regressions remain distinct
+from native execution. The dedicated original force frame now matches all12
+ordered47b020 inputs and4,951,966 semantic bytes/native return at clock513 on
+HIGH/LEV5; eight inputs pass with nonzero capped force and four fail the distance
+gate. No sound dispatch occurs; weapon identity and active-emission coverage are
+still open. Report: analysis/physics-native-selected-force-v2-20261022/.
+
+Original47e180 prepass and47ccc0 parent each match three entry/preRET pairs.
+The complete parent compares4,903,040 bytes per pair plus preserved registers,
+including actual route/checkpoint structures. Neither run contains a rejection,
+respawn or retirement; those transitions remain unproven. Reports and scope:
+re-docs/native-post-frame-replay.md and re-docs/physics-fidelity.md. Earlier failed
+attempts are retained and contribute no fidelity proof, including the potentially
+input-affected run reported by the user. All owned game processes are closed;
+171 installed/copied originals retain their hashes.
+
+Capture support now optionally retains the stopped thread's queried FS descriptor
+and actual hash-backed FS:[0] word. Immediate/buffered synthetic execution verifies
+that observation and strict failure diagnostics; no guessed TLS or unreadable
+memory replacement is admitted. Retirement effect pointers use actual module
+addresses under ASLR. The Track Viewer was rebuilt and passes the final150-tick
+browser/control/moving-mesh check. Full physics fidelity remains incomplete.
+
+Final checkpoint validation is terminal exit0: all2,087 Node tests pass without
+failures or skips, analysis/physics-fidelity-tests-20261022-forces-recovery-final.txt.
+The final browser report is analysis/physics-viewer-forces-recovery-final-20261022/.
+
+## Six-car Expert Racing test,23 October2026
+
+The viewer now runs six native car types0..5 from authored grid slots with
+the recovered Expert selector2, full-roster AI/control stage order and one
+shared collision/progression world. Every car has its own model, wheel poses,
+lap/recovery state and immutable snapshot. Follow/telemetry/test recovery
+identify car1; Reset race rebuilds the whole world. Super experimental and
+LEV16/17 exclusions remain explicit.
+
+All36 allowed LOW/HIGH variants pass300 ticks. LOW/LEV1 continues3,000 ticks,
+finishing `[4,5,4,5,4,4]` laps with zero recoveries and304 naturally generated
+car-chassis pair responses. Initial150 Node/browser ticks match; actual Edge
+checks all six rendered cars, Expert labels, controls/reset/recovery and narrow
+layout. Reports: analysis/solo-roster-six-expert-36tracks-debugfix-20261023.json
+and analysis/physics-viewer-six-expert-final-20261023/. An initial failed matrix
+exposed a diagnostic dereference of the native pre-query terrain sentinel;
+its fix has a LOW/LEV2 observation-parity regression. The original single-car
+API remains Hard by default and completes five matching Node/browser laps in
+4,000 ticks without recoveries. Full suite:2,121 passing, no failures/skips,
+analysis/physics-fidelity-tests-20261023-six-expert.txt.
+
+Controlled native recovery placement now has an exact application-input and
+34,546-byte global-prefix comparison, but its complete parent still stops at
+the sound allocation dependency. The later standalone query attempt failed in
+debugger startup, collected no recovery-leaf evidence and closed its child;
+all171 source/copied hashes remain unchanged. No standalone apply capture has
+run. These limits and the outstanding animated-terrain, destruction, weapons,
+timing and numerical scenarios remain recorded in re-docs/physics-fidelity.md.
+The broader faithful-physics goal remains active.
+
+## Follow selection, frame interpolation and component proofs,23 October2026
+
+The viewer now selects any of the six racers for follow camera, raw telemetry
+and explicit recovery. Paused selection preserves every physics field; running
+selection keeps the race running. Reset retains focus, track changes clear it.
+Car poses previously stepped at30Hz while follow translation eased everyRAF;
+display-only previous/current interpolation now supplies both rendered meshes
+and the selected camera position. Physics/tick arithmetic remains unchanged.
+Pause, stepping, reset, recovery and visibility changes keep exact boundaries.
+Actual Edge records60RAFs with50 same-tick intermediate-pose pairs and identical
+complete raw snapshots, matching camera translations, allsixdraws and allsix
+selector/HUD/recovery checks. Report:
+analysis/physics-viewer-follow-selector-final-20261023/.
+
+Standalone terrain composition now matches retained constructor/update bytes
+for allsixanimatedLOW/HIGH LEV4/14/18 variants. It includes live vertex flags,
+triangulation and surface-mode consumers. It is not integrated: authentic
+416180/4180a0/41a170 physicalcamera lifecycle owns terrain animation eligibility,
+and the viewer currently omits both that lifecycle and phase-zero terrain
+construction. See re-docs/solo-terrain-runtime.md. A separate recovery audio
+call adapter proves actual seven-word publication/survivingECX and relocated
+caller stack, but populated-source allocation services and parent integration
+remain open. No game capture ran for these additions. Combined regression:
+2,135PASS/no failures/skips, analysis/physics-fidelity-tests-20261023-follow-selector.txt.

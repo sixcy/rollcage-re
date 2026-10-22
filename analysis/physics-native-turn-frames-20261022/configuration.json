@@ -1,0 +1,1331 @@
+{
+  "schemaVersion": 1,
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 90000,
+  "maxEvents": 1000000,
+  "maxSnapshots": 9,
+  "showWindow": false,
+  "ranges": [],
+  "breakpoints": [
+    {
+      "id": "launcher-policy",
+      "rva": "0x42890",
+      "ranges": [
+        {
+          "id": "launcher-skip",
+          "rva": "0x2e66ec",
+          "length": 4
+        },
+        {
+          "id": "launcher-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "graphics-policy",
+      "rva": "0x35be",
+      "ranges": [
+        {
+          "id": "graphics-mode",
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28
+        }
+      ]
+    },
+    {
+      "id": "before-device-creation",
+      "rva": "0x112a30",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "presentation",
+          "baseRegister": "ecx",
+          "offset": "0x378",
+          "length": 56
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    },
+    {
+      "id": "native-frame-before",
+      "rva": "0x749e0",
+      "ranges": [
+        {
+          "id": "frame-pools",
+          "rva": "0x502b7c",
+          "length": 884
+        },
+        {
+          "id": "shape-pools-and-planes",
+          "rva": "0x51e780",
+          "length": 2592
+        },
+        {
+          "id": "body-arena-allocation",
+          "rva": "0x2e6b40",
+          "length": 8
+        },
+        {
+          "id": "body-arena-size-input",
+          "rva": "0x309808",
+          "length": 4
+        },
+        {
+          "id": "body-arena-cursor",
+          "rva": "0x30dcf4",
+          "length": 4
+        },
+        {
+          "id": "participant-records",
+          "rva": "0x509300",
+          "length": 4680
+        },
+        {
+          "id": "session-root",
+          "rva": "0x1ecb1c",
+          "length": 4
+        },
+        {
+          "id": "configuration-root",
+          "rva": "0x1ecefc",
+          "length": 4
+        },
+        {
+          "id": "pack-roots",
+          "rva": "0x50b970",
+          "length": 36
+        },
+        {
+          "id": "runtime-geometry-roots",
+          "rva": "0x509240",
+          "length": 132
+        },
+        {
+          "id": "particle-roots",
+          "rva": "0x2e65b4",
+          "length": 24
+        },
+        {
+          "id": "skid-roots",
+          "rva": "0x4495d0",
+          "length": 12
+        },
+        {
+          "id": "effect-rng",
+          "rva": "0x1ec954",
+          "length": 8
+        },
+        {
+          "id": "attachment-count",
+          "rva": "0x2e6ba0",
+          "length": 4
+        },
+        {
+          "id": "attachment-queue",
+          "rva": "0x502040",
+          "length": 1024
+        },
+        {
+          "id": "body-registry",
+          "rva": "0x30e200",
+          "length": 2048
+        },
+        {
+          "id": "time-state",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "gravity",
+          "rva": "0x1eb5e0",
+          "length": 4
+        },
+        {
+          "id": "clock",
+          "rva": "0x50a548",
+          "length": 4
+        },
+        {
+          "id": "first-effect-and-matrix",
+          "rva": "0x51cd60",
+          "length": 144
+        },
+        {
+          "id": "second-effect",
+          "rva": "0x5153cc",
+          "length": 48
+        },
+        {
+          "id": "vector-scratch",
+          "rva": "0x51d360",
+          "length": 260
+        },
+        {
+          "id": "border-scratch",
+          "rva": "0x511c00",
+          "length": 40
+        },
+        {
+          "id": "wheel-query-scratch",
+          "rva": "0x3132e0",
+          "length": 448
+        },
+        {
+          "id": "world-record-count",
+          "rva": "0x5207e4",
+          "length": 4
+        },
+        {
+          "id": "world-records",
+          "rva": "0x520800",
+          "length": 800
+        },
+        {
+          "id": "rotation-scale",
+          "rva": "0x1dc5f4",
+          "length": 4
+        },
+        {
+          "id": "normalization-one",
+          "rva": "0x1dc774",
+          "length": 4
+        },
+        {
+          "id": "normalization-scale",
+          "rva": "0x1dca88",
+          "length": 4
+        },
+        {
+          "id": "sqrt-table",
+          "rva": "0x1eb290",
+          "length": 384
+        },
+        {
+          "id": "surface-effect-threshold",
+          "rva": "0x1dc97c",
+          "length": 4
+        },
+        {
+          "id": "effect-color-scale-first",
+          "rva": "0x1ed2b8",
+          "length": 4
+        },
+        {
+          "id": "effect-color-scale-second",
+          "rva": "0x1ed2c0",
+          "length": 4
+        },
+        {
+          "id": "rear-effect-frame",
+          "rva": "0x519004",
+          "length": 4
+        },
+        {
+          "id": "active-effect-lookup-root",
+          "rva": "0x313180",
+          "length": 4
+        },
+        {
+          "id": "trig-table",
+          "rva": "0x175228",
+          "length": 808
+        },
+        {
+          "id": "yaw-table",
+          "rva": "0x1ed030",
+          "length": 642
+        },
+        {
+          "id": "active-vehicle-owners",
+          "rva": "0x4495e0",
+          "length": 840
+        },
+        {
+          "id": "particle-quality-count",
+          "rva": "0x1eb500",
+          "length": 8
+        },
+        {
+          "id": "particle-allocation-root",
+          "rva": "0x5153c4",
+          "length": 4
+        },
+        {
+          "id": "particle-allocation-end",
+          "rva": "0x51900c",
+          "length": 4
+        },
+        {
+          "id": "contact-thresholds",
+          "rva": "0x170580",
+          "length": 16
+        },
+        {
+          "id": "sound-owner-vector-roots",
+          "rva": "0x2f2414",
+          "length": 12
+        },
+        {
+          "id": "recovery-rng-difficulty",
+          "rva": "0x1ea4d4",
+          "length": 8
+        },
+        {
+          "id": "recovery-profile-root",
+          "rva": "0x51f6a0",
+          "length": 4
+        },
+        {
+          "id": "sound-bank-roots",
+          "rva": "0x2e6bd4",
+          "length": 4
+        },
+        {
+          "id": "sound-manager-root",
+          "rva": "0x314b08",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-first",
+          "rva": "0x1dc5b8",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-second",
+          "rva": "0x1dc5d0",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-third",
+          "rva": "0x1dc5dc",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-fourth",
+          "rva": "0x1dc5e8",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-fifth",
+          "rva": "0x1dc8e0",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-sixth",
+          "rva": "0x1dc920",
+          "length": 4
+        },
+        {
+          "id": "sound-volume-inputs",
+          "rva": "0x1ecdb0",
+          "length": 8
+        },
+        {
+          "id": "retirement-terrain-flag",
+          "rva": "0x1ed2b4",
+          "length": 4
+        },
+        {
+          "id": "retirement-particle-input",
+          "rva": "0x5153c0",
+          "length": 4
+        },
+        {
+          "id": "retirement-effect-input",
+          "rva": "0x519008",
+          "length": 4
+        },
+        {
+          "id": "light-registry-first",
+          "rva": "0x40f210",
+          "length": 4
+        },
+        {
+          "id": "light-registry-second",
+          "rva": "0x40f41c",
+          "length": 4
+        },
+        {
+          "id": "retirement-light-records",
+          "rva": "0x4106e0",
+          "length": 580
+        },
+        {
+          "id": "shape-records",
+          "rva": "0x51e79c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 18432
+        },
+        {
+          "id": "shape-indices",
+          "rva": "0x51e780",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 768
+        },
+        {
+          "id": "candidate-arena",
+          "rva": "0x51e788",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 32768
+        },
+        {
+          "id": "physical-body-list",
+          "rva": "0x502bc0",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 384
+        },
+        {
+          "id": "candidate-group-lists",
+          "rva": "0x502be0",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 8456
+        },
+        {
+          "id": "collision-events",
+          "rva": "0x502ba8",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 10400
+        },
+        {
+          "id": "collision-heap",
+          "rva": "0x502bac",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 404
+        },
+        {
+          "id": "collision-free",
+          "rva": "0x502bb0",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 400
+        },
+        {
+          "id": "session",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 1424
+        },
+        {
+          "id": "configuration",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 112
+        },
+        {
+          "id": "terrain-pack-header",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 160
+        },
+        {
+          "id": "body-arena-region",
+          "rva": "0x2e6b40",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "frame-stack",
+          "baseRegister": "esp",
+          "offset": "-4096",
+          "length": 4100
+        },
+        {
+          "id": "geometry-region",
+          "rva": "0x50b970",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "original-gfxm-region",
+          "rva": "0x50b990",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "terrain-pack-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "sector-table-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "spatial-rows-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x14"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "spatial-nodes-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x38"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "terrain-normals-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x1c"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "zone-regions-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x80"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "static-model-links-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x7c"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "materials-region",
+          "rva": "0x50b988",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "session-region",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "configuration-region",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "particle-region",
+          "rva": "0x2e65b4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "debris-region",
+          "rva": "0x502b84",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "debris-free-region",
+          "rva": "0x502b7c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "debris-active-region",
+          "rva": "0x502b80",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "skid-region",
+          "rva": "0x4495d4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        }
+      ],
+      "captureWhen": {
+        "range": {
+          "id": "active-race-phase",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x57c",
+          "length": 4
+        },
+        "equalsBytesHex": "04000000"
+      },
+      "skipMatchingHits": 120
+    },
+    {
+      "id": "native-frame-after",
+      "rva": "0x74b1e",
+      "ranges": [
+        {
+          "id": "frame-pools",
+          "rva": "0x502b7c",
+          "length": 884
+        },
+        {
+          "id": "shape-pools-and-planes",
+          "rva": "0x51e780",
+          "length": 2592
+        },
+        {
+          "id": "body-arena-allocation",
+          "rva": "0x2e6b40",
+          "length": 8
+        },
+        {
+          "id": "body-arena-size-input",
+          "rva": "0x309808",
+          "length": 4
+        },
+        {
+          "id": "body-arena-cursor",
+          "rva": "0x30dcf4",
+          "length": 4
+        },
+        {
+          "id": "participant-records",
+          "rva": "0x509300",
+          "length": 4680
+        },
+        {
+          "id": "session-root",
+          "rva": "0x1ecb1c",
+          "length": 4
+        },
+        {
+          "id": "configuration-root",
+          "rva": "0x1ecefc",
+          "length": 4
+        },
+        {
+          "id": "pack-roots",
+          "rva": "0x50b970",
+          "length": 36
+        },
+        {
+          "id": "runtime-geometry-roots",
+          "rva": "0x509240",
+          "length": 132
+        },
+        {
+          "id": "particle-roots",
+          "rva": "0x2e65b4",
+          "length": 24
+        },
+        {
+          "id": "skid-roots",
+          "rva": "0x4495d0",
+          "length": 12
+        },
+        {
+          "id": "effect-rng",
+          "rva": "0x1ec954",
+          "length": 8
+        },
+        {
+          "id": "attachment-count",
+          "rva": "0x2e6ba0",
+          "length": 4
+        },
+        {
+          "id": "attachment-queue",
+          "rva": "0x502040",
+          "length": 1024
+        },
+        {
+          "id": "body-registry",
+          "rva": "0x30e200",
+          "length": 2048
+        },
+        {
+          "id": "time-state",
+          "rva": "0x411180",
+          "length": 16
+        },
+        {
+          "id": "gravity",
+          "rva": "0x1eb5e0",
+          "length": 4
+        },
+        {
+          "id": "clock",
+          "rva": "0x50a548",
+          "length": 4
+        },
+        {
+          "id": "first-effect-and-matrix",
+          "rva": "0x51cd60",
+          "length": 144
+        },
+        {
+          "id": "second-effect",
+          "rva": "0x5153cc",
+          "length": 48
+        },
+        {
+          "id": "vector-scratch",
+          "rva": "0x51d360",
+          "length": 260
+        },
+        {
+          "id": "border-scratch",
+          "rva": "0x511c00",
+          "length": 40
+        },
+        {
+          "id": "wheel-query-scratch",
+          "rva": "0x3132e0",
+          "length": 448
+        },
+        {
+          "id": "world-record-count",
+          "rva": "0x5207e4",
+          "length": 4
+        },
+        {
+          "id": "world-records",
+          "rva": "0x520800",
+          "length": 800
+        },
+        {
+          "id": "rotation-scale",
+          "rva": "0x1dc5f4",
+          "length": 4
+        },
+        {
+          "id": "normalization-one",
+          "rva": "0x1dc774",
+          "length": 4
+        },
+        {
+          "id": "normalization-scale",
+          "rva": "0x1dca88",
+          "length": 4
+        },
+        {
+          "id": "sqrt-table",
+          "rva": "0x1eb290",
+          "length": 384
+        },
+        {
+          "id": "surface-effect-threshold",
+          "rva": "0x1dc97c",
+          "length": 4
+        },
+        {
+          "id": "effect-color-scale-first",
+          "rva": "0x1ed2b8",
+          "length": 4
+        },
+        {
+          "id": "effect-color-scale-second",
+          "rva": "0x1ed2c0",
+          "length": 4
+        },
+        {
+          "id": "rear-effect-frame",
+          "rva": "0x519004",
+          "length": 4
+        },
+        {
+          "id": "active-effect-lookup-root",
+          "rva": "0x313180",
+          "length": 4
+        },
+        {
+          "id": "trig-table",
+          "rva": "0x175228",
+          "length": 808
+        },
+        {
+          "id": "yaw-table",
+          "rva": "0x1ed030",
+          "length": 642
+        },
+        {
+          "id": "active-vehicle-owners",
+          "rva": "0x4495e0",
+          "length": 840
+        },
+        {
+          "id": "particle-quality-count",
+          "rva": "0x1eb500",
+          "length": 8
+        },
+        {
+          "id": "particle-allocation-root",
+          "rva": "0x5153c4",
+          "length": 4
+        },
+        {
+          "id": "particle-allocation-end",
+          "rva": "0x51900c",
+          "length": 4
+        },
+        {
+          "id": "contact-thresholds",
+          "rva": "0x170580",
+          "length": 16
+        },
+        {
+          "id": "sound-owner-vector-roots",
+          "rva": "0x2f2414",
+          "length": 12
+        },
+        {
+          "id": "recovery-rng-difficulty",
+          "rva": "0x1ea4d4",
+          "length": 8
+        },
+        {
+          "id": "recovery-profile-root",
+          "rva": "0x51f6a0",
+          "length": 4
+        },
+        {
+          "id": "sound-bank-roots",
+          "rva": "0x2e6bd4",
+          "length": 4
+        },
+        {
+          "id": "sound-manager-root",
+          "rva": "0x314b08",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-first",
+          "rva": "0x1dc5b8",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-second",
+          "rva": "0x1dc5d0",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-third",
+          "rva": "0x1dc5dc",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-fourth",
+          "rva": "0x1dc5e8",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-fifth",
+          "rva": "0x1dc8e0",
+          "length": 4
+        },
+        {
+          "id": "sound-scale-sixth",
+          "rva": "0x1dc920",
+          "length": 4
+        },
+        {
+          "id": "sound-volume-inputs",
+          "rva": "0x1ecdb0",
+          "length": 8
+        },
+        {
+          "id": "retirement-terrain-flag",
+          "rva": "0x1ed2b4",
+          "length": 4
+        },
+        {
+          "id": "retirement-particle-input",
+          "rva": "0x5153c0",
+          "length": 4
+        },
+        {
+          "id": "retirement-effect-input",
+          "rva": "0x519008",
+          "length": 4
+        },
+        {
+          "id": "light-registry-first",
+          "rva": "0x40f210",
+          "length": 4
+        },
+        {
+          "id": "light-registry-second",
+          "rva": "0x40f41c",
+          "length": 4
+        },
+        {
+          "id": "retirement-light-records",
+          "rva": "0x4106e0",
+          "length": 580
+        },
+        {
+          "id": "shape-records",
+          "rva": "0x51e79c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 18432
+        },
+        {
+          "id": "shape-indices",
+          "rva": "0x51e780",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 768
+        },
+        {
+          "id": "candidate-arena",
+          "rva": "0x51e788",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 32768
+        },
+        {
+          "id": "physical-body-list",
+          "rva": "0x502bc0",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 384
+        },
+        {
+          "id": "candidate-group-lists",
+          "rva": "0x502be0",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 8456
+        },
+        {
+          "id": "collision-events",
+          "rva": "0x502ba8",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 10400
+        },
+        {
+          "id": "collision-heap",
+          "rva": "0x502bac",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 404
+        },
+        {
+          "id": "collision-free",
+          "rva": "0x502bb0",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 400
+        },
+        {
+          "id": "session",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 1424
+        },
+        {
+          "id": "configuration",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 112
+        },
+        {
+          "id": "terrain-pack-header",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 160
+        },
+        {
+          "id": "body-arena-region",
+          "rva": "0x2e6b40",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "frame-stack",
+          "baseRegister": "esp",
+          "offset": "-4096",
+          "length": 4100
+        },
+        {
+          "id": "geometry-region",
+          "rva": "0x50b970",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "original-gfxm-region",
+          "rva": "0x50b990",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "terrain-pack-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "sector-table-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "spatial-rows-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x14"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "spatial-nodes-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x38"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "terrain-normals-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x1c"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "zone-regions-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x80"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "static-model-links-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0x7c"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "materials-region",
+          "rva": "0x50b988",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "session-region",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "configuration-region",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "particle-region",
+          "rva": "0x2e65b4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "debris-region",
+          "rva": "0x502b84",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "debris-free-region",
+          "rva": "0x502b7c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "debris-active-region",
+          "rva": "0x502b80",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "skid-region",
+          "rva": "0x4495d4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        }
+      ],
+      "captureWhen": {
+        "range": {
+          "id": "active-race-phase",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x57c",
+          "length": 4
+        },
+        "equalsBytesHex": "04000000"
+      },
+      "skipMatchingHits": 120,
+      "stopAfterHits": 3
+    }
+  ],
+  "phaseActions": [
+    {
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e66ec",
+          "bytesHex": "01000000",
+          "expectedAnyBytesHex": [
+            "00000000",
+            "01000000"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xa",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xe",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x3c",
+          "bytesHex": "00",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "writes": [
+        {
+          "baseRegister": "ecx",
+          "offset": "0x398",
+          "bytesHex": "01000000",
+          "expectedBytesHex": "01000000"
+        },
+        {
+          "baseRegister": "ecx",
+          "offset": "0x3a8",
+          "bytesHex": "00000000",
+          "expectedBytesHex": "00000000"
+        }
+      ]
+    }
+  ],
+  "denyPlayerMailslot": true,
+  "hideOwnedWindows": true,
+  "foregroundWindowSource": {
+    "id": "owned-application-hwnd",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0"
+    ],
+    "offset": "4",
+    "length": 4
+  },
+  "captureThreadsOnStop": true,
+  "stopThreadStackBytes": 128,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\hidden-turn-frames-capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp"
+}

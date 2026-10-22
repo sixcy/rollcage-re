@@ -5,6 +5,8 @@ import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
 import {emitScriptedCollisionDebris} from './scripted-collision-filter.mjs';
 import {addVehicleContactScore, subtractVehicleContactScore, updateVehicleContactForObject, triggerVehicleContactRecovery} from './vehicle-contact-state.mjs';
+import {sharesNativeMemorySpan,nativeCodeAddress} from './native-memory-spans.mjs';
+import {applyNativeActiveVehicleEffect} from './native-active-vehicle-effect.mjs';
 const get = (memory, address) => memory.readInt32LE(address);
 const pointer = (memory, address) => memory.readUInt32LE(address);
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
@@ -22,6 +24,7 @@ function rootFromNativeTable(value, memory) {
 //482730 raw adapter. State identity is captured before sound emission, whereas
 //the lookup pointer and body/vector values are consumed after that child.
 export function applyRawActiveVehicleEffect(body, direction, code, runtime) {
+  if(runtime.nativeStack)return applyNativeActiveVehicleEffect(body,direction,code,runtime);
   const {memory, handlers = {}, scratchBase} = runtime, state = pointer(memory, body + 0x6bc);
   put(memory, scratchBase + 4, code);
   if (!memory[state + 8]) {
@@ -104,13 +107,20 @@ export function filterVehicleCollision(body, other, event, runtime) {
   }
   const state = pointer(memory, body + 0x6bc), active = state !== 0xffffffff && memory[state] !== 0;
   if (memory.readInt16LE(body + 0x668) > 3) emitScriptedCollisionDebris(body, event + 12, active ? 23 : 22, {...runtime, scratchBase: frame - 8});
-  if (active && intensity >= 48) applyRawActiveVehicleEffect(body, frame + 0x1c, intensity, {...runtime, scratchBase: frame - 8});
+  if (active && intensity >= 48) {
+    const child={...runtime,scratchBase:frame-8};
+    if(runtime.nativeStack){
+      put(memory,frame-4,intensity);put(memory,frame-8,nativeCodeAddress(0x41e397,runtime));
+      child.nativeStack={entryRegisters:{ebx:body,ebp:event,esi:1,edi:intensity}};
+    }
+    applyRawActiveVehicleEffect(body, frame + 0x1c, intensity, child);
+  }
   return 1;
 }
 
 export function createVehicleCollisionFilter(runtime) {
   return (body, other, event) => {
-    const shared = (value, minimum) => Number.isInteger(value?.address) && Buffer.isBuffer(value.bytes) && value.bytes.buffer === runtime.memory.buffer && value.bytes.byteOffset === runtime.memory.byteOffset + value.address && value.bytes.length >= minimum;
+    const shared = (value, minimum) => Number.isInteger(value?.address) && sharesNativeMemorySpan(runtime.memory, value.bytes, value.address, minimum);
     if (!shared(body, 0x720) || !shared(event, 0x68) || (other && !shared(other, 0x180))) throw Error('Vehicle collision filter requires shared native body/event storage.');
     return filterVehicleCollision(body.address, other?.address ?? 0, event.address, runtime);
   };

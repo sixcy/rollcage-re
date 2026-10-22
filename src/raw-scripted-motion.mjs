@@ -5,6 +5,7 @@ import {scriptedCurveVelocity} from './scripted-motion.mjs';
 import {removeBodySpatial,emitBodyEffectBurst} from './body-retirement.mjs';
 import {registerRawBodySpatial} from './raw-body-construction.mjs';
 import {registerRawEffectSpatial} from './body-retirement-effects.mjs';
+import {nativeCodeAddress} from './native-memory-spans.mjs';
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 const vector=(m,p)=>[0,4,8].map(o=>get(m,p+o));
 const store=(m,p,v)=>v.forEach((x,i)=>put(m,p+i*4,x));
@@ -55,7 +56,7 @@ export function releaseRawScriptedBody(body,runtime){
   }
   const y=(get(memory,body+0x38)+0x8c0000)|0,x=get(memory,body+0x34);put(memory,frame+0x14,x);const z=get(memory,body+0x3c);put(memory,frame+0x18,y);put(memory,frame+0x1c,z);store(memory,frame+8,[0,-0x400000,0]);
   invoke(runtime,'call435ba0',{ecx:frame+0x14,edx:frame+8,args:[1,0x11229,11],scratchBase:frame-16},()=>emitBodyEffectBurst(frame+0x14,frame+8,1,0x11229,11,{...runtime,scratchBase:frame-16}));
-  put(memory,body+0x148,0x46e470);return 1;
+  put(memory,body+0x148,nativeCodeAddress(0x46e470,runtime));return 1;
 }
 
 function face(memory,body,direction,roundingMode){

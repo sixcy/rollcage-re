@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 90000,
+  "maxEvents": 1000000,
+  "maxSnapshots": 80,
+  "showWindow": false,
+  "ranges": [],
+  "breakpoints": [
+    {
+      "id": "launcher-policy",
+      "rva": "0x42890",
+      "ranges": [
+        {
+          "id": "launcher-skip",
+          "rva": "0x2e66ec",
+          "length": 4
+        },
+        {
+          "id": "launcher-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "graphics-policy",
+      "rva": "0x35be",
+      "ranges": [
+        {
+          "id": "graphics-mode",
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28
+        }
+      ]
+    },
+    {
+      "id": "before-device-creation",
+      "rva": "0x112a30",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "presentation",
+          "baseRegister": "ecx",
+          "offset": "0x378",
+          "length": 56
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    },
+    {
+      "id": "terrain-before",
+      "rva": "0x24ed7",
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "ecx",
+          "length": 384
+        },
+        {
+          "id": "query",
+          "baseRegister": "edx",
+          "length": 72
+        },
+        {
+          "id": "output",
+          "baseRegister": "esp",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 40
+        },
+        {
+          "id": "candidates",
+          "baseRegister": "ecx",
+          "dereferenceOffsets": [
+            "0x154"
+          ],
+          "length": 1024
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 12,
+          "offset": "-4"
+        },
+        {
+          "id": "terrain-local-stack",
+          "baseRegister": "esp",
+          "offset": "-0x108",
+          "length": 260
+        },
+        {
+          "id": "terrain-globals",
+          "rva": "0x50b970",
+          "length": 32
+        },
+        {
+          "id": "terrain-pack",
+          "rva": "0x50b98c",
+          "length": 160,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "geometry-region",
+          "rva": "0x50b970",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "sector-table-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "cross-scratch",
+          "rva": "0x51d360",
+          "length": 260
+        },
+        {
+          "id": "plane-scratch",
+          "rva": "0x51e7a0",
+          "length": 2560
+        },
+        {
+          "id": "border-scratch",
+          "rva": "0x511c00",
+          "length": 40
+        },
+        {
+          "id": "sqrt-table",
+          "rva": "0x1eb290",
+          "length": 384
+        },
+        {
+          "id": "normalization-one",
+          "rva": "0x1dc774",
+          "length": 4
+        },
+        {
+          "id": "normalization-scale",
+          "rva": "0x1dca88",
+          "length": 4
+        },
+        {
+          "id": "clock",
+          "rva": "0x50a548",
+          "length": 4
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        }
+      ],
+      "captureWhen": {
+        "range": {
+          "id": "active-race-phase",
+          "rva": "0x1ecb1c",
+          "length": 4,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x57c"
+        },
+        "equalsBytesHex": "04000000"
+      }
+    },
+    {
+      "id": "terrain-after",
+      "rva": "0x24edc",
+      "stopAfterHits": 16,
+      "ranges": [
+        {
+          "id": "body",
+          "baseRegister": "edi",
+          "length": 384
+        },
+        {
+          "id": "query",
+          "baseRegister": "esp",
+          "dereferenceOffsets": [
+            "0x34"
+          ],
+          "length": 72
+        },
+        {
+          "id": "output",
+          "baseRegister": "esp",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 40
+        },
+        {
+          "id": "candidates",
+          "baseRegister": "edi",
+          "dereferenceOffsets": [
+            "0x154"
+          ],
+          "length": 1024
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "offset": "-4",
+          "length": 12
+        },
+        {
+          "id": "terrain-local-stack",
+          "baseRegister": "esp",
+          "offset": "-0x108",
+          "length": 260
+        },
+        {
+          "id": "terrain-globals",
+          "rva": "0x50b970",
+          "length": 32
+        },
+        {
+          "id": "terrain-pack",
+          "rva": "0x50b98c",
+          "length": 160,
+          "dereferenceOffsets": [
+            "0"
+          ]
+        },
+        {
+          "id": "geometry-region",
+          "rva": "0x50b970",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "sector-table-region",
+          "rva": "0x50b98c",
+          "dereferenceOffsets": [
+            "0",
+            "0"
+          ],
+          "readableRegion": true,
+          "maxRegionBytes": 67108864
+        },
+        {
+          "id": "cross-scratch",
+          "rva": "0x51d360",
+          "length": 260
+        },
+        {
+          "id": "plane-scratch",
+          "rva": "0x51e7a0",
+          "length": 2560
+        },
+        {
+          "id": "border-scratch",
+          "rva": "0x511c00",
+          "length": 40
+        },
+        {
+          "id": "sqrt-table",
+          "rva": "0x1eb290",
+          "length": 384
+        },
+        {
+          "id": "normalization-one",
+          "rva": "0x1dc774",
+          "length": 4
+        },
+        {
+          "id": "normalization-scale",
+          "rva": "0x1dca88",
+          "length": 4
+        },
+        {
+          "id": "clock",
+          "rva": "0x50a548",
+          "length": 4
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        }
+      ],
+      "captureWhen": {
+        "range": {
+          "id": "active-race-phase",
+          "rva": "0x1ecb1c",
+          "length": 4,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x57c"
+        },
+        "equalsBytesHex": "04000000"
+      }
+    }
+  ],
+  "phaseActions": [
+    {
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e66ec",
+          "bytesHex": "01000000",
+          "expectedAnyBytesHex": [
+            "00000000",
+            "01000000"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xa",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xe",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x3c",
+          "bytesHex": "00",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "writes": [
+        {
+          "baseRegister": "ecx",
+          "offset": "0x398",
+          "bytesHex": "01000000",
+          "expectedBytesHex": "01000000"
+        },
+        {
+          "baseRegister": "ecx",
+          "offset": "0x3a8",
+          "bytesHex": "00000000",
+          "expectedBytesHex": "00000000"
+        }
+      ]
+    }
+  ],
+  "denyPlayerMailslot": true,
+  "hideOwnedWindows": true,
+  "foregroundWindowSource": {
+    "id": "owned-application-hwnd",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0"
+    ],
+    "offset": "4",
+    "length": 4
+  },
+  "captureThreadsOnStop": true,
+  "stopThreadStackBytes": 128,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\hidden-terrain-active-body-capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\temp"
+}
