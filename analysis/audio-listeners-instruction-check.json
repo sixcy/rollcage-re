@@ -1,0 +1,47 @@
+{
+  "matched": true,
+  "method": "Actual485130 participant selection → actual484560 listener vector/object construction → actual40f0e0 reserve. Return-free caller policies, all mapped bytes>=10000h plus null reserve output, restored TLS and ordered original CRT requests/exact callee ESP compare. Full seven-DWORD by-value callback input is compared, retaining native unwritten functor fields and actual PUSH/CALL producers. Synthetic split modes, reversed participant IDs, vector growth/reuse, null listener allocation, callback vector replacement/live count mutation and CRT global mutations. SoundManager virtual4c is explicitly a state-mutating GAME contract; concrete sound backend, bank/device lifetime and whole audio startup remain open. Private stack aliases outside published callback inputs and original-process execution are not established.",
+  "fixtures": 1800,
+  "totalCalls": 9157,
+  "managerCalls": 1439,
+  "nullListeners": 121,
+  "growths": 1123,
+  "instructionSteps": 254987,
+  "reachedInstructions": 266,
+  "visits": {
+    "484560": 1200,
+    "485130": 600,
+    "40f0e0": 1198
+  },
+  "source": {
+    "path": "src/audio-listeners.mjs",
+    "sha256": "ea263c0cbd0f6204faa9d86dfeddb6a9e71000909c7b05ce998d8bfdd2d60875"
+  },
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/9081-audio-start-samples-assembly.json",
+      "evidence": "ev_6425a0328420e5acf245adf4b3f963b20bf52940e9f7d9db10d8220b2a94653b",
+      "operation": "procedure_assembly",
+      "sha256": "ddf67c68d0ca1b0f90154c306bfe28ae4acf7ff48369fd3cbaac8e193ea7ae0a"
+    },
+    {
+      "path": "analysis/native-simulation/results/9085-audio-chain-484560-procedure_assembly.json",
+      "evidence": "ev_47bce5b2b100619fdecbbd2cb2ffa7bf8d919b99d6b303bff6cde1a6fe79f86e",
+      "operation": "procedure_assembly",
+      "sha256": "1de2356eda1ad14741ad22c939792290bdde33add487b0ff87fa3991c4c868d0"
+    },
+    {
+      "path": "analysis/native-simulation/results/9098-audio-original-0x485238.json",
+      "evidence": "ev_2de7f35fc6336f23f33ae27de27403d295372d8acaa1b7c3f0cd01760b607f15",
+      "operation": "read_bytes",
+      "sha256": "58137362bd4cefb04bd244dc9203d5363c1d143362eb7881dd7eef5bf99f0f32"
+    },
+    {
+      "path": "analysis/native-simulation/results/9104-audio-listener-vector-assembly.json",
+      "evidence": "ev_c967ae2e5c7c4e8541b9aa6f00ff0c00220acc2f1b5ba43c335efda4a8b3c24c",
+      "operation": "procedure_assembly",
+      "sha256": "f2197caffd8753d241c2bbcd3ecf4f694d4fb5ff3ab6e8b382cf176b6cd10eba"
+    }
+  ],
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+}

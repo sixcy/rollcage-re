@@ -1,0 +1,31 @@
+{
+  "matched": true,
+  "fixtures": 320,
+  "reachedInstructions": 131,
+  "instructionSteps": 2248,
+  "actualGameCalls": {
+    "4ad170": 20,
+    "4ad580": 20,
+    "4ad570": 20,
+    "4ad5b0": 20,
+    "4ad500": 20,
+    "4ad5c0": 20,
+    "4ad6a0": 20,
+    "4ad730": 20,
+    "4ad700": 20,
+    "4ad650": 36,
+    "4ad5f0": 20,
+    "4ad540": 20,
+    "4ad510": 20,
+    "4ad5e0": 20,
+    "4ad410": 20,
+    "4ad4c0": 20
+  },
+  "overlapCopies": 12,
+  "source": {
+    "path": "src/audio-sample-controls.mjs",
+    "sha256": "c53594b282c9b90909f46ecd7a99162c93ebd4f969c21855acc111e55fae4222"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual4ad170 forward REP MOVSD0x118 DWORD secondary-descriptor copy,4ad580 activity query preserving upperEAX/low-byte-only argument,4ad570 exact-state3 query,4ad5b0 deferred-state clear and existing4ad500 raw loop byte. Entire10MiB including all native stack bytes and TLS compare; full defined EAX for both state queries, AL plus untouched highEAX for loop getter. Fixtures cover exact in-place/forward/backward overlaps, source aliasing saved-register/argument stack, unsigned/high-byte state and argument values. No game/CRT/OS callbacks or original process execution. Higher-level names do not establish the complete playback state machine."
+}

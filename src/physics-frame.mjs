@@ -22,6 +22,6 @@ export function runPhysicsFrame(physicalGroup,stages) {
  stages.externalWorld();effectFlags.first=0;effectFlags.second=0;
  stages.collectCandidates();stages.updateGroups();stages.updateVehicles();
  queue.reset();stages.buildInitialEvents(queue);
- const processedEvents=processCollisionEvents(queue,{respond:stages.respond,refresh:stages.refresh,finish:stages.finish});
+ const processedEvents=processCollisionEvents(queue,{respond:stages.respond,refresh:stages.refresh,finish:stages.finish,beforeInvalidate:stages.beforeInvalidate});
  return {nativeReturn:0,preparedBodies:count,scriptedBodies,ordinaryBodies,processedEvents};
 }

@@ -1,0 +1,56 @@
+{
+  "status": "Isolated prototype verified; canonical aggregate files remain unchanged",
+  "prototype": "tools/next-phase/localized-startup/localized-startup.mjs",
+  "checker": "tools/next-phase/localized-startup/verify-localized-startup.mjs",
+  "nativeEntry": "0x479420",
+  "export": "initializeLocalizedRaceMessages(runtime)",
+  "runtime": {
+    "memory": "Shared byte Buffer containing native session, localization and table roots",
+    "scratchBase": "Native entry ESP",
+    "entryRegisters": "Optional actual incoming EBX/EBP/ESI/EDI saved at original offsets",
+    "services.libraryCall": "Optional genuine memcpy/strncpy service; default performs those byte operations directly",
+    "services.securityCookie": "Optional compiler cookie-check service; default asserts the original parent cookie"
+  },
+  "actualChildren": [
+    {"nativeEntry":"0x439780","source":"src/finish-messages.mjs","export":"readLocalizationBlock"},
+    {"nativeEntry":"0x439610","source":"src/finish-messages.mjs","export":"findLocalizationBlock"},
+    {"nativeEntry":"0x439580","source":"src/finish-messages.mjs","export":"searchLocalizationBytes"}
+  ],
+  "behavior": [
+    "Forty-three separate processed-localization lookups under the original PC_IN_GAME_MESSAGES key",
+    "Native CR-row extraction, empty and missing-row distinction, and255-byte truncation",
+    "Captured initial session arena cursor with live session-pointer reloads for each capacity/fallback decision",
+    "Strict unsigned arena-end comparison; equality rejects the copy",
+    "Space fallback and shared final space pointer for indices43 through63",
+    "Original parent probe frame, security cookie, saved registers, partial writes and consumed CRT argument/return slots"
+  ],
+  "comparison": {
+    "fullMappedMemoryAtOrAbove": "0x10000",
+    "additionalParentStringScratchBytes": 4352,
+    "additionalParentCookieCompared": true,
+    "orderedCrtCopiesCompared": true,
+    "nativeGameCallMocks": false,
+    "reports": [
+      "analysis/localized-startup-next-phase-check.json",
+      "analysis/localized-startup-next-phase-alias-check.json",
+      "analysis/localized-startup-next-phase-languages-check.json"
+    ],
+    "aliasReportCases": 24,
+    "aliasReportInterpretedSteps": 87220150,
+    "aliasReportActualLocalizationCalls": 1032,
+    "additionalDistinctLanguageCases": 6,
+    "additionalDistinctLanguageInterpretedSteps": 14065300,
+    "additionalDistinctLanguageActualLocalizationCalls": 258,
+    "aliasCases": "Output arena overlaps message pointer table, or naturally overwrites the session-root pointer; source and native remain byte-identical"
+  },
+  "limits": [
+    "Localization resource loading and native preprocessing that produce6e65f4/6e65e4 remain upstream caller-owned inputs",
+    "TAB in a processed localization block reaches existing named game diagnostic401300; that branch is explicit and not exercised or mocked here",
+    "Private localization-child frames are excluded from the proof; arbitrary input aliases into those unported private frame stores are not certified",
+    "Compiler stack probing/security checks and CRT byte-copy implementations are admitted services",
+    "Synthetic processed localization fixtures and raw aliases are not claims about original process runtime state",
+    "No installed game files changed and no original executable executed",
+    "Canonical source/tests/shared libraries/checkers and retained REA evidence directories were not modified; no new REA requests were queued"
+  ],
+  "promotion": "After aggregate freeze release, move prototype into canonical src with its import adjusted to ./finish-messages.mjs, add focused canonical tests, move checker, and coordinate root race-startup binding. No canonical binding was made during the freeze."
+}

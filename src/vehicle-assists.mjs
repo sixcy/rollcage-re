@@ -19,9 +19,9 @@ export function dampAirborneSpin(body,state) {
 }
 // FUN_0047ae30 rotates the body's second matrix column toward the nearest
 // vertical sign, including the native dead zone and arithmetic-shift damping.
-export function assistAirborneOrientation(body,state) {
+export function assistAirborneOrientation(body,state,{nativeState}={}) {
  if(state.wheels.some(wheel=>wheel.flags&1))return false;
- const up=[1,4,7].map(index=>signedShort(body.rotation[index])<<4),target=[0,up[1]<0?-65536:65536,0],axis=crossQ16(up,target),length=vectorLengthQ16(axis);
+ const up=[1,4,7].map(index=>signedShort(body.rotation[index])<<4),target=[0,up[1]<0?-65536:65536,0],axis=crossQ16(up,target);nativeState?.fixedVectorLength?.(axis);const length=vectorLengthQ16(axis);
  if(length<=512)return false;
  const scale=divideQ16(65536,length),normalized=axis.map(value=>multiplyQ16(value,scale));
  body.angularMomentum=body.angularMomentum.map((value,index)=>add32(subtract32(value,value>>7),normalized[index]>>1));return true;

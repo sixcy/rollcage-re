@@ -42,12 +42,19 @@ export function updateLinearVelocity(body) {
 }
 // FUN_004799f0: R*diag(I^-1)*R^T, angular velocity, then 1/2*(0,w)*q.
 // The native angular velocity path shifts its matrix-vector result right by 8.
-export function updateBodyDerived(body) {
+export function updateBodyDerived(body,{nativeScratch}={}) {
  updateLinearVelocity(body);
  const rotation=body.rotation.map(value=>value<<4);
+ //4799f0 retains these numerical temporaries on its caller's shared stack.
+ //Later static-event scratch can overlap them, so writes must precede queries.
+ const scratch=(offset,values)=>{if(nativeScratch)values.forEach((value,i)=>nativeScratch.memory.writeInt32LE(value|0,nativeScratch.scratchBase+offset+i*4));};
+ scratch(-0x50,rotation);
  const inertiaTimesTranspose=Array.from({length:9},(_,i)=>multiplyQ16(body.inverseInertia[Math.floor(i/3)],rotation[(i%3)*3+Math.floor(i/3)]));
+ scratch(-0x2c,inertiaTimesTranspose);
  body.worldInverseInertia=multiplyMatrixQ16(rotation,inertiaTimesTranspose);
  body.angularVelocity=transformVectorQ16(body.worldInverseInertia,body.angularMomentum).map(value=>value>>8);
+ scratch(-0x5c,body.angularVelocity.slice(0,2));scratch(-0x60,[0]);scratch(-0x54,[body.angularVelocity[2]]);
+ nativeScratch?.beforeQuaternionProduct?.();
  body.quaternionDerivative=multiplyQuaternionQ16([0,...body.angularVelocity],body.quaternion).map(value=>value>>1);
  return body;
 }
@@ -61,13 +68,13 @@ export function advanceBody(body,fractionQ16,{timeScaleQ16=65536,timeScaleActive
 // Collision scheduling also admits signed deltas (and processes a negative one
 // before terminating its loop). Keep that machine domain separate from the
 // convenient bounded-frame API above.
-export function advanceBodyDelta(body,deltaQ16,{timeScaleQ16=65536,timeScaleActive=false,timeScaleExempt=false}={}) {
+export function advanceBodyDelta(body,deltaQ16,{timeScaleQ16=65536,timeScaleActive=false,timeScaleExempt=false,nativeState}={}) {
  if(!Number.isInteger(deltaQ16)||deltaQ16< -2147483648||deltaQ16>2147483647)throw Error('Body time delta must be a signed 32-bit integer.');
  const eligible=[3,7,21].includes(body.flags&0x1ff);
  const fraction=timeScaleActive&&!timeScaleExempt&&eligible?multiplyQ16(deltaQ16,timeScaleQ16):deltaQ16;
  body.position=body.position.map((value,axis)=>add32(value,multiplyQ16(fraction,body.linearVelocity[axis])));
  if(!(body.integrationFlags&1)) {
-  body.quaternion=normalizeQuaternionQ16(body.quaternion.map((value,index)=>add32(value,multiplyQ16(fraction,body.quaternionDerivative[index]))));
+  body.quaternion=normalizeQuaternionQ16(body.quaternion.map((value,index)=>add32(value,multiplyQ16(fraction,body.quaternionDerivative[index]))),nativeState);
   body.rotation=quaternionMatrix(body.quaternion);
  }
  return body;

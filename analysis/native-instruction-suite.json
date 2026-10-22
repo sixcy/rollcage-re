@@ -1,8 +1,17 @@
 {
-  "method": "Sequential full retained-instruction tool sweep plus explicitly listed connected-chain/localization variants on the same shared interpreter. Every check retains its own arithmetic/callee/fixture boundary; aggregate passing does not establish whole-game completeness. Original-resource-row variant separately passed on the same interpreter after this sweep.",
-  "tools": 72,
-  "checks": 76,
-  "passed": 76,
+  "method": "Sequential full retained-instruction tool sweep plus explicitly listed connected-chain/localization variants. Before/after snapshots hash reference sources, literal JSON tables, shared tool libraries and discoverable instruction checkers; a changed snapshot requires a fresh sweep. Every check retains its own arithmetic/callee/fixture boundary; aggregate passing does not establish whole-game completeness.",
+  "snapshotBefore": {
+    "files": 380,
+    "sha256": "6d1cd2d8d487e7b610fd17a6da7ab5ebb3966a84b8f1c36a5239a30aa9258b66"
+  },
+  "snapshotAfter": {
+    "files": 380,
+    "sha256": "6d1cd2d8d487e7b610fd17a6da7ab5ebb3966a84b8f1c36a5239a30aa9258b66"
+  },
+  "unchanged": true,
+  "tools": 161,
+  "checks": 165,
+  "passed": 165,
   "results": [
     {
       "tool": "verify-active-vehicle-effect-instructions.mjs",
@@ -10,7 +19,117 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-attachment-effects-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-attachment-effects-lifetime-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-candidate-builder-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-candidate-costs-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-candidate-modifiers-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-dispatch-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-dispatch-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-nearby-objects-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-opponent-candidates-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-profile-plan-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-recovery-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-route-connectivity-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-route-control-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-route-geometry-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-route-planner-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-route-planner-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-special-candidates-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-steering-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-weapon-decisions-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-autonomous-weapon-policy-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-body-advancement-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-body-attachment-release-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-body-attachments-connected-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -51,6 +170,16 @@
     },
     {
       "tool": "verify-body-preparation-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-body-retirement-effects-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-body-retirement-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -100,6 +229,16 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-dynamic-light-construction-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-dynamic-light-state-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-effect-emitter-instructions.mjs",
       "args": [],
       "exitCode": 0
@@ -111,6 +250,11 @@
     },
     {
       "tool": "verify-finish-messages-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-frame-candidates-connected-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -130,7 +274,22 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-lap-timing-stack-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-model-candidates-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-model-contact-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-model-contact-effects-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -155,6 +314,21 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-particle-lifetime-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-particle-pools-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-persistent-emitter-setup-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-physics-frame-instructions.mjs",
       "args": [],
       "exitCode": 0
@@ -165,7 +339,17 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-physics-runtime-views-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-pickup-award-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-placed-model-effect-update-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -180,6 +364,11 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-placed-object-damage-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-post-frame-body-states-instructions.mjs",
       "args": [],
       "exitCode": 0
@@ -190,7 +379,107 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-race-auxiliary-animation-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-race-completion-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-final-substeps-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-handling-scale-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-model-fragments-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-object-update-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-phase-state-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-physics-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-physics-presentation-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-physics-respawn-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-progress-pass-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-stage-count-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-update-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-race-wheel-render-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-raw-body-construction-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-raw-model-sphere-query-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-raw-respawn-effects-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-raw-respawn-query-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-raw-respawn-state-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-raw-scripted-motion-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-raw-terrain-query-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -235,6 +524,16 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-scripted-collision-filter-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-scripted-light-chain-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-scripted-motion-instructions.mjs",
       "args": [],
       "exitCode": 0
@@ -246,6 +545,16 @@
     },
     {
       "tool": "verify-session-input-flag-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-simulation-frame-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-simulation-vehicle-connected-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -300,7 +609,77 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-track-deformation-constructor-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-track-deformation-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-animation-lights-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-vehicle-assists-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-audio-connected-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-audio-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-autonomous-init-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-auxiliary-animation-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-auxiliary-input-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-collision-filter-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-construction-ai-physics-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-construction-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-construction-physics-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-contact-profile-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-control-state-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -310,7 +689,37 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-vehicle-ground-projection-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-haptics-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-input-packets-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-overlay-grid-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-vehicle-preparation-force-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-runtime-views-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-sound-controls-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -320,7 +729,27 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-vehicle-surface-drive-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-surface-feedback-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-vehicle-surface-mode-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-wheel-construction-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-vehicle-wheel-histories-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -340,12 +769,22 @@
       "exitCode": 0
     },
     {
+      "tool": "verify-wheel-effects-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
       "tool": "verify-wheel-forces-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
     {
       "tool": "verify-wheel-initializer-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-wheel-render-state-instructions.mjs",
       "args": [],
       "exitCode": 0
     },
@@ -361,6 +800,21 @@
     },
     {
       "tool": "verify-world-effect-records-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-world-fragment-registry-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-world-obstacle-registry-instructions.mjs",
+      "args": [],
+      "exitCode": 0
+    },
+    {
+      "tool": "verify-world-physics-pools-instructions.mjs",
       "args": [],
       "exitCode": 0
     },

@@ -51,14 +51,14 @@ export function lookupSqrt(value) {
  const normalized=shift<0?value>>(-shift):value<<shift;
  return (sqrtTable.values[normalized-64]<<((31-evenLeading)>>1))>>>12;
 }
-export function normalizeQuaternionQ16(quaternion) {
+export function normalizeQuaternionQ16(quaternion,nativeState) {
  const large=quaternion.some(value=>abs32(value)>0xb40000);
  let length;
  if(large) {
   const integers=quaternion.map(value=>Math.trunc(value/65536));
   const squared=integers.reduce((sum,value)=>add32(sum,Math.imul(value,value)),0);
-  length=Math.min(lookupSqrt(squared),0x7ff8)<<16;
- }else length=lookupSqrt(dotQ16(quaternion,quaternion))<<8;
+  nativeState?.sqrtLookup(squared);length=Math.min(lookupSqrt(squared),0x7ff8)<<16;
+ }else {const squared=dotQ16(quaternion,quaternion);nativeState?.sqrtLookup(squared);length=lookupSqrt(squared)<<8;}
  if(length===0)return quaternion.slice();
  const scale=divideQ16(65536,length);
  return quaternion.map(value=>multiplyQ16(value,scale));

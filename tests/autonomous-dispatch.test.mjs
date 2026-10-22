@@ -28,6 +28,21 @@ function fixture() {
 }
 const run = f => runAutonomousDispatch(f.body, f);
 
+test('common dispatch binds actual route consistency and recovery planners', () => {
+  const f = fixture(); f.handlers = {}; f.memory[f.body + 0x6d9] = 1;
+  f.memory[f.body + 0x6d8] = 40; f.memory[f.body + 0x6e9] = 25;
+  run(f);
+  assert.equal(f.memory[f.body + 0x6d8], 0); assert.equal(f.memory[f.body + 0x6e9], 0);
+  assert.equal(f.memory.readUInt16LE(f.body + 0x6c4), 0x4000); assert.equal(f.memory[f.body + 0x6d9], 2);
+});
+
+test('dispatcher defaults execute reverse recovery and admitted power slide', () => {
+  const f = fixture(); f.handlers = {}; f.memory.writeUInt16LE(0x80, f.body + 0x6c4); f.memory.writeUInt16LE(120, f.body + 0x6c6);
+  run(f); assert.equal(f.memory.readUInt32LE(f.body + 0x6c4), 0);
+  const g = fixture(); g.handlers = {}; g.memory.writeUInt16LE(1, g.body + 0x6c4); g.memory.writeUInt16LE(1, g.body + 0x6c6);
+  run(g); assert.equal(g.memory.readUInt32LE(g.body + 0x710) & 0x8000, 0x8000); assert.equal(g.memory.readUInt16LE(g.body + 0x6c4) & 0x4000, 0);
+});
+
 test('dispatcher clears output first, keeps a captured unsigned clock, and performs the live common-stage order', () => {
   const f = fixture(); f.memory.writeUInt32LE(120, 0x90a548); f.memory.writeUInt32LE(100, 0x6e6510);
   f.memory.writeUInt16LE(0xc000, f.body + 0x6c4); f.memory.writeInt32LE(-1, f.body + 0x710); f.memory[f.body + 0x6d9] = 5;

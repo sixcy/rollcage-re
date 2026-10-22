@@ -1,0 +1,19 @@
+{
+  "method": "Separate diagnostic of a frozen checker using exactly the listed in-memory replacements and absolute import URLs. No canonical checker or reference input changes; report written to a new diagnostic path. Not a replacement for a corrected canonical sweep.",
+  "sourcePath": "tools/verify-effect-emitter-instructions.mjs",
+  "sourceSHA256": "e89cecc1d5082c9d7e49268b78e7772dd2f212a4785d3d1af5e89fda0aeb911d",
+  "patches": [
+    [
+      "machine.reset(); const bytes = machine.bytes;",
+      "machine.reset(); machine.fs0 = 0x12345678; const bytes = machine.bytes;"
+    ],
+    [
+      "assert.equal(bytes.readUInt32LE(0), sourceMemory.readUInt32LE(0), 'restored exception chain');",
+      "assert.equal(machine.fs0, 0x12345678, 'restored explicit TLS exception chain'); assert.equal(bytes.readUInt32LE(0), sourceMemory.readUInt32LE(0), 'ordinary address zero remains unchanged');"
+    ],
+    [
+      "'analysis/effect-emitter-instruction-check.json'",
+      "\"analysis/effect-emitter-tls-diagnostic-20261022.json\""
+    ]
+  ]
+}

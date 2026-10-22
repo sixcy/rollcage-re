@@ -1,0 +1,31 @@
+{
+  "matched": true,
+  "fixtures": 6400,
+  "reachedInstructions": 131,
+  "instructionSteps": 45062,
+  "actualGameCalls": {
+    "4ad170": 400,
+    "4ad580": 400,
+    "4ad570": 400,
+    "4ad5b0": 400,
+    "4ad500": 400,
+    "4ad5c0": 400,
+    "4ad6a0": 400,
+    "4ad730": 400,
+    "4ad700": 400,
+    "4ad650": 720,
+    "4ad5f0": 400,
+    "4ad540": 400,
+    "4ad510": 400,
+    "4ad5e0": 400,
+    "4ad410": 400,
+    "4ad4c0": 400
+  },
+  "overlapCopies": 240,
+  "source": {
+    "path": "src/audio-sample-controls.mjs",
+    "sha256": "c53594b282c9b90909f46ecd7a99162c93ebd4f969c21855acc111e55fae4222"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual4ad170 forward REP MOVSD0x118 DWORD secondary-descriptor copy,4ad580 activity query preserving upperEAX/low-byte-only argument,4ad570 exact-state3 query,4ad5b0 deferred-state clear,4ad500/4ad5e0 raw bytes,4ad5c0 stop request,4ad6a0/4ad650 distinct float clamps,4ad730/4ad700 live four-DWORD vectors,4ad5f0 unsigned-frame/rate conversion through actual virtual1c setter,4ad540/4ad510 state queries,4ad410 reference-position pointer and4ad4c0 float32 eligibility. Entire10MiB including all native stack bytes and TLS compare; full defined EAX for both state queries, AL plus untouched highEAX for loop getter. Fixtures cover exact in-place/forward/backward overlaps, source aliasing saved-register/argument stack, unsigned/high-byte state and argument values, null waveform, unsigned rates/frames, infinities/NaNs/subnormals/signed zero and vector overlaps. Float {bits} inputs retain original payloads. MXCSR trap/flush modes and complete playback transitions remain outside this proof. No game/CRT/OS callbacks or original process execution. Higher-level names do not establish the complete playback state machine."
+}

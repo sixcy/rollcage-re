@@ -1,0 +1,19 @@
+{
+  "method": "Separate in-memory diagnostic with precisely listed changes, preserving canonical frozen inputs and their report. Corrected aggregate remains required.",
+  "sourcePath": "tools/verify-vehicle-sound-controls-instructions.mjs",
+  "sourceSHA256": "6800efe269b48b4dd55c241003f0eff4e983faf65e33d16565794d7326c779b8",
+  "patches": [
+    [
+      "machine.reset(); const bytes = machine.bytes;",
+      "machine.reset(); machine.fs0 = 0x12345678; const bytes = machine.bytes;"
+    ],
+    [
+      "steps += machine.run();",
+      "steps += machine.run(); assert.equal(machine.fs0, 0x12345678, `fixture${fixture} explicit TLS chain restored`);"
+    ],
+    [
+      "'analysis/vehicle-sound-controls-instruction-check.json'",
+      "'analysis/vehicle-sound-controls-tls-diagnostic-20261022.json'"
+    ]
+  ]
+}

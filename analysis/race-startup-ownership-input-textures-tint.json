@@ -1,0 +1,423 @@
+{
+  "method": "Static inventory of49 distinct direct game callees in original47ea40, reconciled against its actual JavaScript dispatch defaults. Genuine CRT memset and unreachable compiler rangecheck are separately listed; indirect allocation is CRT malloc. Input-manager/device virtuals remain explicit and their game-adapter ownership must be traced. Source binding inventory proves neither execution nor transitive callee/producer/lifecycle closure.",
+  "evidence": [
+    "ev_c39a69909451efe663de2dd317d58d4a778c39999a2060dea599e1d088aa0884"
+  ],
+  "source": {
+    "path": "src/race-startup.mjs",
+    "sha256": "8111a1c4c6c9dfdf65821b0500fbc9578eef4686853410bfe6b3302cc04dca1b"
+  },
+  "directGameCallees": 49,
+  "actualDefaults": 40,
+  "explicitGameHandlers": 9,
+  "directCallees": [
+    {
+      "address": "0x42f2f0",
+      "callSites": [
+        "0x47eb1a"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRaceViewStorage(context)"
+    },
+    {
+      "address": "0x42a600",
+      "callSites": [
+        "0x47eb33"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRaceInputLatches(context)"
+    },
+    {
+      "address": "0x428100",
+      "callSites": [
+        "0x47ebc3"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRawShapePools({...context, allocate: runtime.allocate ?? handlers.allocate})"
+    },
+    {
+      "address": "0x4797a0",
+      "callSites": [
+        "0x47ebe3"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x44c2b0",
+      "callSites": [
+        "0x47ebea"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x450a90",
+      "callSites": [
+        "0x47ebfb"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x44a5c0",
+      "callSites": [
+        "0x47ec00"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeTerrainPointAnimation(context)"
+    },
+    {
+      "address": "0x494c80",
+      "callSites": [
+        "0x47ec05"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeTrackDeformation(context)"
+    },
+    {
+      "address": "0x48ef30",
+      "callSites": [
+        "0x47ec1e"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeDynamicLightStorage(context)"
+    },
+    {
+      "address": "0x44e220",
+      "callSites": [
+        "0x47ec23"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeAuthoredDynamicLights(context)"
+    },
+    {
+      "address": "0x480760",
+      "callSites": [
+        "0x47ec8c"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeWorldFragments({...context, allocate: runtime.allocate ?? handlers.allocate})"
+    },
+    {
+      "address": "0x4428e0",
+      "callSites": [
+        "0x47ec91"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x4900a0",
+      "callSites": [
+        "0x47ec96"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRaceTextures({...context, entryRegisters: {...runtime.entryRegisters, EDI: heapAllocator, ESI: objectList}})"
+    },
+    {
+      "address": "0x499760",
+      "callSites": [
+        "0x47eca4"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeProceduralTextureStorage(context)"
+    },
+    {
+      "address": "0x499a90",
+      "callSites": [
+        "0x47eca9"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeProceduralTexturePalette(context)"
+    },
+    {
+      "address": "0x499de0",
+      "callSites": [
+        "0x47ecae"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "updateProceduralTexture(context)"
+    },
+    {
+      "address": "0x479420",
+      "callSites": [
+        "0x47ecb3"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x477000",
+      "callSites": [
+        "0x47ecca"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x495320",
+      "callSites": [
+        "0x47ece5"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRaceQuadStorage(context)"
+    },
+    {
+      "address": "0x47b580",
+      "callSites": [
+        "0x47ecea"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeWorldPickups(context)"
+    },
+    {
+      "address": "0x46a420",
+      "callSites": [
+        "0x47ecef"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeProjectilePools(context)"
+    },
+    {
+      "address": "0x4820f0",
+      "callSites": [
+        "0x47ed83"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeVehicleContactColorTopology(context)"
+    },
+    {
+      "address": "0x482590",
+      "callSites": [
+        "0x47ed94"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeVehicleContactColorController(ecx, context)"
+    },
+    {
+      "address": "0x469ec0",
+      "callSites": [
+        "0x47eda2"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializePeriodicBody(context)"
+    },
+    {
+      "address": "0x48e800",
+      "callSites": [
+        "0x47eda7"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeModelContactFragments(context)"
+    },
+    {
+      "address": "0x43f130",
+      "callSites": [
+        "0x47edac"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRacePolygonStorage(context)"
+    },
+    {
+      "address": "0x4758d0",
+      "callSites": [
+        "0x47edb1"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRawBodyDebrisPool({...context, allocate: runtime.allocate ?? handlers.allocate})"
+    },
+    {
+      "address": "0x412bb0",
+      "callSites": [
+        "0x47edb6"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRaceRadialStorage(context)"
+    },
+    {
+      "address": "0x43f870",
+      "callSites": [
+        "0x47edbb"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRacePairedStripStorage(context)"
+    },
+    {
+      "address": "0x4356a0",
+      "callSites": [
+        "0x47edc0"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRawParticlePools({...context, allocate: runtime.allocate ?? handlers.allocate})"
+    },
+    {
+      "address": "0x483a00",
+      "callSites": [
+        "0x47edc5"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x429d60",
+      "callSites": [
+        "0x47edca"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x40aeb0",
+      "callSites": [
+        "0x47ef54"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "readRendererViewportExtent(true, context)"
+    },
+    {
+      "address": "0x40ad40",
+      "callSites": [
+        "0x47ef72"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "readRendererViewportExtent(false, context)"
+    },
+    {
+      "address": "0x431dc0",
+      "callSites": [
+        "0x47efc0"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "updateCameraProjection(ecx, context)"
+    },
+    {
+      "address": "0x42f820",
+      "callSites": [
+        "0x47efc7"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "updateCameraProjectionRatios(ecx, context)"
+    },
+    {
+      "address": "0x41dbb0",
+      "callSites": [
+        "0x47f01a"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "constructVehicle(ecx, edx, context)"
+    },
+    {
+      "address": "0x416180",
+      "callSites": [
+        "0x47f031"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "constructCameraController(ecx, edx, args[0], context)"
+    },
+    {
+      "address": "0x410060",
+      "callSites": [
+        "0x47f11f"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeVehicleAutonomousState(ecx, context)"
+    },
+    {
+      "address": "0x433d80",
+      "callSites": [
+        "0x47f1b4"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "selectRaceInputCalibration(ecx, edx, context)"
+    },
+    {
+      "address": "0x45eac0",
+      "callSites": [
+        "0x47f22d"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "readRaceInputButtonMask(ecx, context)"
+    },
+    {
+      "address": "0x41e850",
+      "callSites": [
+        "0x47f288",
+        "0x47f2ab"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeModelVertexNormals(ecx, context)"
+    },
+    {
+      "address": "0x487410",
+      "callSites": [
+        "0x47f2b0"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeVehicleOverlayGrids(context)"
+    },
+    {
+      "address": "0x494060",
+      "callSites": [
+        "0x47f2b5"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeVehicleTrailStorage(context)"
+    },
+    {
+      "address": "0x496290",
+      "callSites": [
+        "0x47f2ba"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeWeather(context)"
+    },
+    {
+      "address": "0x485250",
+      "callSites": [
+        "0x47f2bf"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x42a670",
+      "callSites": [
+        "0x47f2c4"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeVehicleExecutionModes(context)"
+    },
+    {
+      "address": "0x47f8c0",
+      "callSites": [
+        "0x47f337"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "initializeRacePhasePresentation(context)"
+    },
+    {
+      "address": "0x497790",
+      "callSites": [
+        "0x47f34f"
+      ],
+      "status": "actual JavaScript default; transitive closure separately scoped",
+      "defaultExpression": "applyRaceLightingTint(context)"
+    }
+  ],
+  "directLibraryCalls": [
+    {
+      "address": "0x568a50",
+      "callSites": [
+        "0x47eb6e",
+        "0x47ed16"
+      ]
+    },
+    {
+      "address": "0x5684da",
+      "callSites": [
+        "0x47f361"
+      ]
+    }
+  ]
+}

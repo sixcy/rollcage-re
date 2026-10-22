@@ -1,0 +1,45 @@
+{
+  "method": "Actual447ba0 archive/disk selection and temporary game allocator hooks; actual479620 open/seek/read/cache release; actual4512c0 allocation adapter. Original game children, nearest-duplicate selection and GT20 execute. Exact Listing decodes corroborate4512c0 against original bytes;4512b0 is not reached in these allocation/read chains. All mapped bytes>=10000h plus low/null outputs, EAX, TLS and ordered original CRT/Win32 calls compare; memset/memcpy are compared by memory effects. Synthetic aliases include hook-table allocation, cached handles/cursors, service changes, retry/failed open, failed/short reads, null allocation, archive modes and compressed/uncompressed data. ReadFile output pointers use native child ESP. Private stack aliases, surrounding44c2b0 loader, complete archive allocator/free-hook lifecycle and original-process runtime remain open.",
+  "fixtures": 90,
+  "instructionSteps": 224364,
+  "reachedInstructions": 500,
+  "totalCalls": 391,
+  "cachedReads": 12,
+  "nullAllocations": 8,
+  "compressedReads": 7,
+  "visits": {
+    "401160": 22,
+    "401380": 7,
+    "479620": 38,
+    "4512c0": 52,
+    "4795a0": 38,
+    "447d60": 35,
+    "447ba0": 30
+  },
+  "allocatorEvidence": [
+    "ev_b3f55df0d09dc627067ea3bb1c2467383aa6de6ad3a4903b714afc9901e11c43",
+    "ev_e9ef1de4a973f25945845541ea5cba9d7689eeb123edbbfbd720809f1132602a",
+    "ev_9133b4a56383de7e6c5c3538cb956082ea8a63ca0d4bc52b0a9051db97afe8c3",
+    "ev_610d80eb6ba116e730ebb19fb0c550c9b25dbe00cfddd34ba96338fe0aa63fda",
+    "ev_39d0050de3e3333107dce26ae8574c556fb8860826f8cb715dd5087d68a4e434",
+    "ev_d9dcb790bf5b1b5792a978afca0e5622b40644e85e8ca46a4bdc716764c06a80",
+    "ev_fff29cc5bc394b9c1bee35f3cc443f403202d2cb89e34d28b1dca4e51a6f9a57",
+    "ev_6587ebf6b9c6f5f95ed83bf20c853a2775badb5098fcfd39b21e2663f971cabb",
+    "ev_9bd14820bbdec41ab6e398c5e1eca41038e43f44999b4ffa13082fb3d92f26e0",
+    "ev_91a2b7b2f097f1881a7d4ff6a7ad42f7347db758d042b54e3c8f080a79fadf9b",
+    "ev_e414defd44bb77bd115b028cc31c57af0073560b7270f4a2c19a411bccc0fc01",
+    "ev_a4ef873f92538d0d06fe5f0e8616fd42aac2161b1f2e38e88da2f0e087f62e3d",
+    "ev_4a82762b9249821d3236221c54af9724da3baf1e53878b9c14cf944b807fdc81",
+    "ev_dee2bc8ca0e777d16de8a11175c32beb541cd13ec7722c181e72c65b3c45da9d",
+    "ev_72b3f826e98411de1ced04bfeeb5e077779dc1df4718ecbfcbede110487e3cf0",
+    "ev_2f53abf3f788d0c7dd554ab5e441aa98c6ab9e01ceada41460ebf1d07d328f52",
+    "ev_0863edeacb18bfe83a9af55add9998581e659f30cc911184aa628f9868419a43",
+    "ev_ef2ca524c6b7f72bd9b72d93c485c66fb05b89ce52e4eff3ba73b063064c739f"
+  ],
+  "source": {
+    "path": "src/track-resource-loading.mjs",
+    "sha256": "23158d058c74a9c23ada90ad939d983d0d4f5ea4baaf1a5117217b9bb6ee3a92"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "matched": true
+}

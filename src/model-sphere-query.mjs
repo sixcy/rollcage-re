@@ -11,7 +11,7 @@ function fraction(distance,denominator) {
  if(value< -2147483648n||value>2147483647n)throw Error('Model sphere fraction division overflows x86 quotient.');
  return Number(value);
 }
-export function queryModelShapeSphere(collision,shape,query,output,{positionQ16=[0,0,0],maxFractionQ16=65536,roundingMode}={}) {
+export function queryModelShapeSphere(collision,shape,query,output,{positionQ16=[0,0,0],maxFractionQ16=65536,roundingMode,nativeState}={}) {
  output.flags=0;
  const count=shape.faceCount&31,radius=query.radiusQ8??query.radius??0;
  if(!count)return maxFractionQ16;
@@ -38,7 +38,8 @@ export function queryModelShapeSphere(collision,shape,query,output,{positionQ16=
    point=query.originQ8.map((value,i)=>add32(value,multiplyQ8(query.deltaQ8[i],time>>8)));
   }
   const order=face.triangle?[face.indices[0],face.indices[2],face.indices[1]]:[face.indices[0],face.indices[2],face.indices[3],face.indices[1]],vertices=order.map(index=>collision.vertices[index-1].slice(0,3).map((value,i)=>signedShort(value+world[i])));
-  const outside=modelPolygonOutside(vertices,face.normalQ8,point),ids=record.raw;
+  nativeState?.modelVertices(vertices);
+  const outside=modelPolygonOutside(vertices,face.normalQ8,point,nativeState),ids=record.raw;
   if(outside>0x200){const pairs={2:[1,2],4:[3,0],5:[1,3],6:[2,3]},pair=pairs[outside&15]??[0,1];outsideEdges.push(ids[pair[0]],ids[pair[1]]);}
   else if(outside>=0)outsideEdges.push(ids[outside]);
   if(time>0&&outside===-1){output.point=point;output.normal=face.normalQ8.slice();output.scalar=distance;output.flags=1;query.surfaceRef=-100-(shape.slot&15);return time;}
@@ -53,14 +54,15 @@ export function queryModelShapeSphere(collision,shape,query,output,{positionQ16=
   for(let i=0;i<outsideEdges.length&&duplicate===undefined;i++)for(let j=i+1;j<outsideEdges.length;j++)if(outsideEdges[i]===outsideEdges[j]){duplicate=outsideEdges[i];break;}
   if(duplicate!==undefined){
    const edge=collision.edges.find(value=>value.index===duplicate);if(!edge)throw Error(`Model shape references missing edge ${duplicate}.`);
-   const vertices=edge.indices.map(index=>collision.vertices[index-1].slice(0,3).map((value,i)=>signedShort(value+world[i]))),time=queryEdgeSphereContact(query,vertices[0],vertices[1],edge.normalQ8,output,maxFractionQ16,{roundingMode});
+   const vertices=edge.indices.map(index=>collision.vertices[index-1].slice(0,3).map((value,i)=>signedShort(value+world[i])));nativeState?.modelVertices(vertices);
+   const time=queryEdgeSphereContact(query,vertices[0],vertices[1],edge.normalQ8,output,maxFractionQ16,{roundingMode,nativeState});
    if(output.flags&0x80003){query.surfaceRef=-100-(shape.slot&15);return time;}
    if(!(output.flags&0x100000)){output.flags=0;return maxFractionQ16;}
    fallback=edge.indices[output.scalar<0?0:1];
   }
  }
  if(fallback!==-1){
-  const center=fallback===-99?(shape.center??[0,2,4].map(offset=>shape.raw.readInt16LE(offset))):collision.vertices[fallback-1],point=center.slice(0,3).map((value,i)=>add32(value,world[i])<<8),time=queryPointSphereContact(query,point,output,maxFractionQ16,{roundingMode});
+  const center=fallback===-99?(shape.center??[0,2,4].map(offset=>shape.raw.readInt16LE(offset))):collision.vertices[fallback-1],point=center.slice(0,3).map((value,i)=>add32(value,world[i])<<8),time=queryPointSphereContact(query,point,output,maxFractionQ16,{roundingMode,nativeState});
   if(output.flags)query.surfaceRef=-100-maxFractionQ16;
   return output.flags?time:maxFractionQ16;
  }

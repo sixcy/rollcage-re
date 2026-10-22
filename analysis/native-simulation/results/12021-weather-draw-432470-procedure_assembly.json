@@ -1,0 +1,104 @@
+{
+  "_meta": {
+    "provenance": {
+      "untrusted_content": true,
+      "source": "analysis_target"
+    }
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"evidence_id\":\"ev_8b76d265aec3159b9ffb4446c945a4b8c5893cd66dd2a226090f5462fbe2a8ed\",\"subject\":{\"name\":\"Rollcage Redux.exe\",\"digest\":{\"sha256\":\"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5\"},\"local_path\":\"C:\\\\Program Files (x86)\\\\Psygnosis\\\\Rollcage\\\\Direct3D\\\\Rollcage Redux.exe\",\"format\":\"pe\",\"architecture\":\"x86\"},\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"analysis_profile\":{\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"parameters\":{\"target_kind\":\"executable\",\"target_format\":\"pe\",\"executable_role\":\"application\",\"managed\":false,\"native_aot_metadata\":{\"contract_revision\":\"rtr-9.1-x64-pe-read-only-v5\",\"source_bytes\":134217728,\"work_units\":67108864,\"working_memory_bytes\":67108864,\"report_bytes\":4194304},\"architecture\":\"x86\",\"available_architectures\":[\"x86\"],\"import_mode\":\"ephemeral-source-immutable\",\"pdb_observations\":\"program-info-v5\",\"annotation_policy\":\"atomic-function-entry-metadata-v1\",\"load_image_observations\":\"source-mappings-entry-context-v2\",\"function_body_evidence\":\"complete-inclusive-ranges-v1\",\"function_references\":\"complete-body-and-entry-reference-manager-v2\",\"call_relationship_coverage\":\"function-body-call-coverage-v5\",\"function_dossier_coverage\":\"observed-facets-and-call-relationships-v1\",\"string_inventory_evidence\":\"defined-data-coverage-v1\",\"location_resolution\":\"explicit-address-exact-entry-symbol-first-v3\",\"procedure_file_offset_resolution\":\"address-first-unique-target-source-mapping-v2\",\"instruction_flow_evidence\":\"decoded-return-pcode-v1\",\"instruction_references\":\"exact-address-incoming-without-synthetic-entry-v2\",\"function_boundary_observations\":\"ghidra-function-boundary-limitations-v4\",\"no_return_repair\":\"disabled-windows-p0\",\"process_launch\":\"official-headless-script-v1\",\"jump_table_evidence\":\"typed-case-default-blocks-v1\",\"decompiler_jump_loads\":true,\"loader\":\"auto-from-header\",\"language_id\":\"auto-from-header\",\"compiler_spec_id\":\"auto-default\",\"analyzer_preset\":\"ghidra-default\"},\"digest\":\"3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896\"},\"predicate_type\":\"rea.analysis\",\"operation\":\"procedure_assembly\",\"parameters\":{\"procedure\":\"0x432470\"},\"raw_result\":{\"value\":\"0x432470: PUSH EBP\\n0x432471: MOV EBP, ESP\\n0x432473: SUB ESP, 0x8\\n0x432476: PUSH EBX\\n0x432477: MOV dword ptr [EBP + -0x4], ECX\\n0x43247a: MOV EBX, dword ptr [EBP + -0x4]\\n0x43247d: FILD word ptr [0x0091d3e4]\\n0x432483: FILD word ptr [0x0091d3e6]\\n0x432489: FILD word ptr [0x0091d3e8]\\n0x43248f: MOV dword ptr [EBX], 0x10\\n0x432495: FLD float ptr [0x0091cdb8]\\n0x43249b: FLD float ptr [0x0091cde0]\\n0x4324a1: FMUL ST4\\n0x4324a3: FLD float ptr [0x0091cde4]\\n0x4324a9: FMUL ST4\\n0x4324ab: FXCH\\n0x4324ad: FADDP ST2, ST0\\n0x4324af: FLD float ptr [0x0091cde8]\\n0x4324b5: FMUL ST3\\n0x4324b7: FXCH\\n0x4324b9: FADDP ST2, ST0\\n0x4324bb: FADDP\\n0x4324bd: FSTP float ptr [EBX + 0x4]\\n0x4324c0: TEST dword ptr [EBX + 0x4], 0x80000000\\n0x4324c7: JZ 0x004324d0\\n0x4324c9: FCOMPP\\n0x4324cb: FSTP float ptr [EBP + -0x8]\\n0x4324ce: JMP 0x00432542\\n0x4324d0: FLD float ptr [0x0091cdb0]\\n0x4324d6: FLD float ptr [0x0091cdc0]\\n0x4324dc: FMUL ST4\\n0x4324de: FLD float ptr [0x0091cdc4]\\n0x4324e4: FMUL ST4\\n0x4324e6: FXCH\\n0x4324e8: FADDP ST2, ST0\\n0x4324ea: FLD float ptr [0x0091cdc8]\\n0x4324f0: FMUL ST3\\n0x4324f2: FXCH\\n0x4324f4: FADDP ST2, ST0\\n0x4324f6: FADDP\\n0x4324f8: FSTP float ptr [EBX + 0x10]\\n0x4324fb: FLD float ptr [0x0091cdb4]\\n0x432501: FLD float ptr [0x0091cdd0]\\n0x432507: FMUL ST4\\n0x432509: FLD float ptr [0x0091cdd4]\\n0x43250f: FMUL ST4\\n0x432511: FXCH\\n0x432513: FADDP ST2, ST0\\n0x432515: FLD float ptr [0x0091cdd8]\\n0x43251b: FMUL ST3\\n0x43251d: FXCH\\n0x43251f: FADDP ST2, ST0\\n0x432521: FADDP\\n0x432523: FSTP float ptr [EBX + 0x14]\\n0x432526: FCOMPP\\n0x432528: FSTP float ptr [EBP + -0x8]\\n0x43252b: FLD float ptr [EBX + 0x4]\\n0x43252e: MOV EAX, dword ptr [EBX + 0x4]\\n0x432531: CMP EAX, dword ptr [0x0091cda4]\\n0x432537: JL 0x00432542\\n0x432539: FDIVR float ptr [0x0091cda0]\\n0x43253f: AND dword ptr [EBX], 0xffffffef\\n0x432542: MOV dword ptr [0x0091ce18], EBX\\n0x432548: POP EBX\\n0x432549: MOV ESP, EBP\\n0x43254b: POP EBP\\n0x43254c: RET\",\"limitations\":[]},\"normalized_result\":\"0x432470: PUSH EBP\\n0x432471: MOV EBP, ESP\\n0x432473: SUB ESP, 0x8\\n0x432476: PUSH EBX\\n0x432477: MOV dword ptr [EBP + -0x4], ECX\\n0x43247a: MOV EBX, dword ptr [EBP + -0x4]\\n0x43247d: FILD word ptr [0x0091d3e4]\\n0x432483: FILD word ptr [0x0091d3e6]\\n0x432489: FILD word ptr [0x0091d3e8]\\n0x43248f: MOV dword ptr [EBX], 0x10\\n0x432495: FLD float ptr [0x0091cdb8]\\n0x43249b: FLD float ptr [0x0091cde0]\\n0x4324a1: FMUL ST4\\n0x4324a3: FLD float ptr [0x0091cde4]\\n0x4324a9: FMUL ST4\\n0x4324ab: FXCH\\n0x4324ad: FADDP ST2, ST0\\n0x4324af: FLD float ptr [0x0091cde8]\\n0x4324b5: FMUL ST3\\n0x4324b7: FXCH\\n0x4324b9: FADDP ST2, ST0\\n0x4324bb: FADDP\\n0x4324bd: FSTP float ptr [EBX + 0x4]\\n0x4324c0: TEST dword ptr [EBX + 0x4], 0x80000000\\n0x4324c7: JZ 0x004324d0\\n0x4324c9: FCOMPP\\n0x4324cb: FSTP float ptr [EBP + -0x8]\\n0x4324ce: JMP 0x00432542\\n0x4324d0: FLD float ptr [0x0091cdb0]\\n0x4324d6: FLD float ptr [0x0091cdc0]\\n0x4324dc: FMUL ST4\\n0x4324de: FLD float ptr [0x0091cdc4]\\n0x4324e4: FMUL ST4\\n0x4324e6: FXCH\\n0x4324e8: FADDP ST2, ST0\\n0x4324ea: FLD float ptr [0x0091cdc8]\\n0x4324f0: FMUL ST3\\n0x4324f2: FXCH\\n0x4324f4: FADDP ST2, ST0\\n0x4324f6: FADDP\\n0x4324f8: FSTP float ptr [EBX + 0x10]\\n0x4324fb: FLD float ptr [0x0091cdb4]\\n0x432501: FLD float ptr [0x0091cdd0]\\n0x432507: FMUL ST4\\n0x432509: FLD float ptr [0x0091cdd4]\\n0x43250f: FMUL ST4\\n0x432511: FXCH\\n0x432513: FADDP ST2, ST0\\n0x432515: FLD float ptr [0x0091cdd8]\\n0x43251b: FMUL ST3\\n0x43251d: FXCH\\n0x43251f: FADDP ST2, ST0\\n0x432521: FADDP\\n0x432523: FSTP float ptr [EBX + 0x14]\\n0x432526: FCOMPP\\n0x432528: FSTP float ptr [EBP + -0x8]\\n0x43252b: FLD float ptr [EBX + 0x4]\\n0x43252e: MOV EAX, dword ptr [EBX + 0x4]\\n0x432531: CMP EAX, dword ptr [0x0091cda4]\\n0x432537: JL 0x00432542\\n0x432539: FDIVR float ptr [0x0091cda0]\\n0x43253f: AND dword ptr [EBX], 0xffffffef\\n0x432542: MOV dword ptr [0x0091ce18], EBX\\n0x432548: POP EBX\\n0x432549: MOV ESP, EBP\\n0x43254b: POP EBP\\n0x43254c: RET\",\"confidence\":\"observed\",\"authority\":\"shipped-artifact\",\"environment\":null,\"limitations\":[\"The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.\",\"The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.\",\"Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.\",\"Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.\",\"Assembly is Ghidra Listing text and does not claim textual equivalence with Hopper output.\",\"Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.\",\"The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.\",\"Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically.\"],\"relationship_coverage\":null,\"locations\":[],\"evidence_links\":[]}"
+    }
+  ],
+  "structuredContent": {
+    "evidence_id": "ev_8b76d265aec3159b9ffb4446c945a4b8c5893cd66dd2a226090f5462fbe2a8ed",
+    "subject": {
+      "name": "Rollcage Redux.exe",
+      "digest": {
+        "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+      },
+      "local_path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+      "format": "pe",
+      "architecture": "x86"
+    },
+    "provider": {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "version": "12.1.4"
+    },
+    "analysis_profile": {
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "parameters": {
+        "target_kind": "executable",
+        "target_format": "pe",
+        "executable_role": "application",
+        "managed": false,
+        "native_aot_metadata": {
+          "contract_revision": "rtr-9.1-x64-pe-read-only-v5",
+          "source_bytes": 134217728,
+          "work_units": 67108864,
+          "working_memory_bytes": 67108864,
+          "report_bytes": 4194304
+        },
+        "architecture": "x86",
+        "available_architectures": [
+          "x86"
+        ],
+        "import_mode": "ephemeral-source-immutable",
+        "pdb_observations": "program-info-v5",
+        "annotation_policy": "atomic-function-entry-metadata-v1",
+        "load_image_observations": "source-mappings-entry-context-v2",
+        "function_body_evidence": "complete-inclusive-ranges-v1",
+        "function_references": "complete-body-and-entry-reference-manager-v2",
+        "call_relationship_coverage": "function-body-call-coverage-v5",
+        "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+        "string_inventory_evidence": "defined-data-coverage-v1",
+        "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+        "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+        "instruction_flow_evidence": "decoded-return-pcode-v1",
+        "instruction_references": "exact-address-incoming-without-synthetic-entry-v2",
+        "function_boundary_observations": "ghidra-function-boundary-limitations-v4",
+        "no_return_repair": "disabled-windows-p0",
+        "process_launch": "official-headless-script-v1",
+        "jump_table_evidence": "typed-case-default-blocks-v1",
+        "decompiler_jump_loads": true,
+        "loader": "auto-from-header",
+        "language_id": "auto-from-header",
+        "compiler_spec_id": "auto-default",
+        "analyzer_preset": "ghidra-default"
+      },
+      "digest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896"
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "procedure_assembly",
+    "parameters": {
+      "procedure": "0x432470"
+    },
+    "raw_result": {
+      "value": "0x432470: PUSH EBP\n0x432471: MOV EBP, ESP\n0x432473: SUB ESP, 0x8\n0x432476: PUSH EBX\n0x432477: MOV dword ptr [EBP + -0x4], ECX\n0x43247a: MOV EBX, dword ptr [EBP + -0x4]\n0x43247d: FILD word ptr [0x0091d3e4]\n0x432483: FILD word ptr [0x0091d3e6]\n0x432489: FILD word ptr [0x0091d3e8]\n0x43248f: MOV dword ptr [EBX], 0x10\n0x432495: FLD float ptr [0x0091cdb8]\n0x43249b: FLD float ptr [0x0091cde0]\n0x4324a1: FMUL ST4\n0x4324a3: FLD float ptr [0x0091cde4]\n0x4324a9: FMUL ST4\n0x4324ab: FXCH\n0x4324ad: FADDP ST2, ST0\n0x4324af: FLD float ptr [0x0091cde8]\n0x4324b5: FMUL ST3\n0x4324b7: FXCH\n0x4324b9: FADDP ST2, ST0\n0x4324bb: FADDP\n0x4324bd: FSTP float ptr [EBX + 0x4]\n0x4324c0: TEST dword ptr [EBX + 0x4], 0x80000000\n0x4324c7: JZ 0x004324d0\n0x4324c9: FCOMPP\n0x4324cb: FSTP float ptr [EBP + -0x8]\n0x4324ce: JMP 0x00432542\n0x4324d0: FLD float ptr [0x0091cdb0]\n0x4324d6: FLD float ptr [0x0091cdc0]\n0x4324dc: FMUL ST4\n0x4324de: FLD float ptr [0x0091cdc4]\n0x4324e4: FMUL ST4\n0x4324e6: FXCH\n0x4324e8: FADDP ST2, ST0\n0x4324ea: FLD float ptr [0x0091cdc8]\n0x4324f0: FMUL ST3\n0x4324f2: FXCH\n0x4324f4: FADDP ST2, ST0\n0x4324f6: FADDP\n0x4324f8: FSTP float ptr [EBX + 0x10]\n0x4324fb: FLD float ptr [0x0091cdb4]\n0x432501: FLD float ptr [0x0091cdd0]\n0x432507: FMUL ST4\n0x432509: FLD float ptr [0x0091cdd4]\n0x43250f: FMUL ST4\n0x432511: FXCH\n0x432513: FADDP ST2, ST0\n0x432515: FLD float ptr [0x0091cdd8]\n0x43251b: FMUL ST3\n0x43251d: FXCH\n0x43251f: FADDP ST2, ST0\n0x432521: FADDP\n0x432523: FSTP float ptr [EBX + 0x14]\n0x432526: FCOMPP\n0x432528: FSTP float ptr [EBP + -0x8]\n0x43252b: FLD float ptr [EBX + 0x4]\n0x43252e: MOV EAX, dword ptr [EBX + 0x4]\n0x432531: CMP EAX, dword ptr [0x0091cda4]\n0x432537: JL 0x00432542\n0x432539: FDIVR float ptr [0x0091cda0]\n0x43253f: AND dword ptr [EBX], 0xffffffef\n0x432542: MOV dword ptr [0x0091ce18], EBX\n0x432548: POP EBX\n0x432549: MOV ESP, EBP\n0x43254b: POP EBP\n0x43254c: RET",
+      "limitations": []
+    },
+    "normalized_result": "0x432470: PUSH EBP\n0x432471: MOV EBP, ESP\n0x432473: SUB ESP, 0x8\n0x432476: PUSH EBX\n0x432477: MOV dword ptr [EBP + -0x4], ECX\n0x43247a: MOV EBX, dword ptr [EBP + -0x4]\n0x43247d: FILD word ptr [0x0091d3e4]\n0x432483: FILD word ptr [0x0091d3e6]\n0x432489: FILD word ptr [0x0091d3e8]\n0x43248f: MOV dword ptr [EBX], 0x10\n0x432495: FLD float ptr [0x0091cdb8]\n0x43249b: FLD float ptr [0x0091cde0]\n0x4324a1: FMUL ST4\n0x4324a3: FLD float ptr [0x0091cde4]\n0x4324a9: FMUL ST4\n0x4324ab: FXCH\n0x4324ad: FADDP ST2, ST0\n0x4324af: FLD float ptr [0x0091cde8]\n0x4324b5: FMUL ST3\n0x4324b7: FXCH\n0x4324b9: FADDP ST2, ST0\n0x4324bb: FADDP\n0x4324bd: FSTP float ptr [EBX + 0x4]\n0x4324c0: TEST dword ptr [EBX + 0x4], 0x80000000\n0x4324c7: JZ 0x004324d0\n0x4324c9: FCOMPP\n0x4324cb: FSTP float ptr [EBP + -0x8]\n0x4324ce: JMP 0x00432542\n0x4324d0: FLD float ptr [0x0091cdb0]\n0x4324d6: FLD float ptr [0x0091cdc0]\n0x4324dc: FMUL ST4\n0x4324de: FLD float ptr [0x0091cdc4]\n0x4324e4: FMUL ST4\n0x4324e6: FXCH\n0x4324e8: FADDP ST2, ST0\n0x4324ea: FLD float ptr [0x0091cdc8]\n0x4324f0: FMUL ST3\n0x4324f2: FXCH\n0x4324f4: FADDP ST2, ST0\n0x4324f6: FADDP\n0x4324f8: FSTP float ptr [EBX + 0x10]\n0x4324fb: FLD float ptr [0x0091cdb4]\n0x432501: FLD float ptr [0x0091cdd0]\n0x432507: FMUL ST4\n0x432509: FLD float ptr [0x0091cdd4]\n0x43250f: FMUL ST4\n0x432511: FXCH\n0x432513: FADDP ST2, ST0\n0x432515: FLD float ptr [0x0091cdd8]\n0x43251b: FMUL ST3\n0x43251d: FXCH\n0x43251f: FADDP ST2, ST0\n0x432521: FADDP\n0x432523: FSTP float ptr [EBX + 0x14]\n0x432526: FCOMPP\n0x432528: FSTP float ptr [EBP + -0x8]\n0x43252b: FLD float ptr [EBX + 0x4]\n0x43252e: MOV EAX, dword ptr [EBX + 0x4]\n0x432531: CMP EAX, dword ptr [0x0091cda4]\n0x432537: JL 0x00432542\n0x432539: FDIVR float ptr [0x0091cda0]\n0x43253f: AND dword ptr [EBX], 0xffffffef\n0x432542: MOV dword ptr [0x0091ce18], EBX\n0x432548: POP EBX\n0x432549: MOV ESP, EBP\n0x43254b: POP EBP\n0x43254c: RET",
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+      "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+      "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+      "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+      "Assembly is Ghidra Listing text and does not claim textual equivalence with Hopper output.",
+      "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+      "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+      "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": []
+  }
+}

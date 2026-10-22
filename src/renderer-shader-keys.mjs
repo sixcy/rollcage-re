@@ -1,0 +1,12 @@
+import {rendererMaterialAttributeMask} from './renderer-material-values.mjs';
+const ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),wideData=(m,p)=>ptr(m,p+20)>=8?ptr(m,p):p,length=(m,p)=>{let n=0;while(m.readUInt16LE(p+n*2))n++;return n;};
+//525ea0. Registered IDs are signed words. Unregistered legacy IDs depend on
+//the whole attribute mask and two native low-byte flags, not kind/row count.
+export function rendererMaterialShaderKey(material,flags,runtime){const m=runtime.memory,s=runtime.scratchBase;if(Number.isInteger(s)){put(m,s+4,material);put(m,s+8,flags);}const id=m[material+5]?m.readInt16LE(material):0;if(id)return id;const mask=rendererMaterialAttributeMask(material,runtime),code=new Map([[0,1],[1,1],[2,2],[3,6],[0x11,4],[0x21,11],[0x101,5],[0x200,3],[0x201,7]]).get(mask);return code===undefined?0:0x100+code*4+((flags&4)?1:0)+((flags&2)?2:0);}
+//4c40e0. The first native stack word is unused; comparison uses unsigned
+//UTF16 units and metadata-clamped input lengths, preserving embedded NULs.
+export function compareRendererWideStringRange(object,maximum,input,count,runtime){const m=runtime.memory,left=Math.min(ptr(m,object+16),maximum>>>0),right=count>>>0,compared=Math.min(left,right),data=wideData(m,object);for(let i=0;i<compared;i++){const a=m.readUInt16LE(data+i*2),b=m.readUInt16LE(input+i*2);if(a!==b)return a<b?-1:1;}return left<right?-1:left>right?1:0;}
+//5278d0/527450 read the live red-black-tree links; insertion/alias ownership
+//is separate. Node+10h is a wide-string key and+2ch the mapped replacement.
+export function lowerBoundRendererShaderAlias(tree,name,runtime){const m=runtime.memory,s=runtime.scratchBase;if(Number.isInteger(s))put(m,s+4,name);const header=ptr(m,tree);let result=header,node=ptr(m,header+4);while(!m[node+13]){const data=wideData(m,name),compared=compareRendererWideStringRange(node+16,ptr(m,node+32),data,length(m,data),runtime);if(compared<0)node=ptr(m,node+8);else{result=node;node=ptr(m,node);}}return result;}
+export function findRendererShaderAlias(tree,output,name,runtime){const m=runtime.memory,s=runtime.scratchBase;if(Number.isInteger(s)){put(m,s+4,output);put(m,s+8,name);}const node=lowerBoundRendererShaderAlias(tree,name,{...runtime,scratchBase:Number.isInteger(s)?s-20:undefined}),header=ptr(m,tree);let result=header;if(node!==header){const data=wideData(m,node+16);if(compareRendererWideStringRange(name,ptr(m,name+16),data,length(m,data),runtime)>=0)result=node;}put(m,output,result);return output;}

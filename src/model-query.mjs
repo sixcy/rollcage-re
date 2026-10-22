@@ -5,12 +5,15 @@ const dot32=(a,b)=>a.reduce((sum,value,i)=>add32(sum,Math.imul(value,b[i])),0);
 const cross32=(a,b)=>[0,1,2].map(i=>subtract32(Math.imul(a[(i+1)%3],b[(i+2)%3]),Math.imul(a[(i+2)%3],b[(i+1)%3])));
 const productShift8=(a,b)=>Number(BigInt.asIntN(32,(BigInt(a|0)*BigInt(b|0))>>8n));
 // FUN_00424a40. Preserve its edge numbering and two-edge return codes.
-export function modelPolygonOutside(vertices,normalQ8,pointQ8) {
+export function modelPolygonOutside(vertices,normalQ8,pointQ8,nativeState) {
  const relative=vertices.map(vertex=>vertex.map((value,i)=>signedShort(value-signedShort(pointQ8[i]>>8))));
  let first=-1;
- for(let edge=0;edge<vertices.length;edge++)if(dot32(cross32(relative[(edge+1)%vertices.length],relative[edge]),normalQ8)<0) {
+ for(let edge=0;edge<vertices.length;edge++){
+  const a=relative[(edge+1)%vertices.length],b=relative[edge],cross=cross32(a,b);nativeState?.polygonCross(a,b,cross,edge);
+  if(dot32(cross,normalQ8)<0) {
   if(first>=0)return edge===1?0x201:edge===2?0x202:first+0x204;
   first=edge;
+  }
  }
  return first;
 }

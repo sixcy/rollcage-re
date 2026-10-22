@@ -1,0 +1,19 @@
+# Scheduled autonomous profile planning
+
+`src/autonomous-profile-plan.mjs` reconstructs Redux `41f900` and its complete called numerical/policy graph: `434960`, `420090`, `41fd20`, `41fde0`, `41fe80`, `41ff20`, `41ff90`, `41fb30`, `41fa90`, `41f7b0`, and the tail call `4201b0`. There are no remaining game-call callbacks inside this graph.
+
+`updateAutonomousProfilePlan(body, modeFlag, {memory, scratchBase})` operates directly on caller-owned native-addressed bytes. `scratchBase`, when supplied, is native entry ESP: the saved mode dword at ESP−4 is reread for the two late policy functions. The rest of the native ABI stack is separate from game-owned records. `initializeAutonomousProfileTables(memory)` installs the original eight unsigned16 thresholds at `5705f0`; it does not construct bodies, sessions, or registry records. Every callee also has a separate exported reference. `updateNearestAutonomousCompetitor(body,{memory})` writes `6da`/`6dc` and returns the descriptive `{index,distance}` pair.
+
+The parent selects the competing human from registry records at `909300` (780-byte stride), updates the profile tier at body `6f1`, generates the low twelve policy bits at `6ec`, and updates countdown/rate bytes `6f0`/`6f2`. Nearest selection captures own progression and registry count once, considers mode10 cars, and favors the closest nonpositive own-minus-other progression gap. Traffic policy uses a separate scan that excludes mode8, folds progression through the original signed32 arithmetic, and applies category penalties. Signed leader indices, byte wrapping before tier clamps, final-lap bonuses, strict gap thresholds, unsigned clock gates, and stale bytes on early returns are retained.
+
+Random state is the existing global at `5ea4d4`, advanced by signed32 multiplication with `41a7` and masking with `7fffffff`. Policy generation preserves the original transition count and order, including delayed publication of the bit10/bit20 intermediate seed, gates which consume no random transition, and eight countdown distributions consuming zero to three transitions. The parent captures clock `90a548` before its first flag output; `41fd20` rereads the live clock. These differ when output bytes alias the clock, and both behaviors are checked.
+
+Evidence is retained under `analysis/native-simulation/results/380-*` through `407-*`: twelve complete assembly listings, pseudocode for the children, four original jump tables, and the original probability table. Parent assembly evidence is `ev_f4c5d092fc596aea752b20ed1820014a944be88f2ee6bd941b123f0e40a664a4`; nearest competitor assembly is `ev_418062be63fa6093ce1178818b7097e6cccfd58b5934ef364f39f2299caa78d1`. All refer to the installed Redux executable SHA256 `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
+
+Validation:
+
+- `node --test tests/autonomous-profile-plan.test.mjs`: ten focused tests pass.
+- `node tools/verify-autonomous-profile-plan-instructions.mjs`: 779 retained instructions; 17,600 separate helper calls and 8,000 complete parent calls match, executing 3,974,343 interpreted instruction steps without mocked callees. The report is `analysis/autonomous-profile-plan-instruction-check.json`.
+- Comparisons include all 4,096 target body bytes, signed-index record backing memory, session bytes, RNG/mode/difficulty/clock, and probability thresholds. Complete-parent cases include body aliases with records, clock, RNG, and profile words. Registry scans use zero to six cars; arbitrary memory outside valid mapped state is not a claimed runtime producer.
+
+These are synthetic memory fixtures and static instruction comparisons, not original-process runtime evidence. Profile loading, full runtime construction, and later consumers of the generated policy bits remain the responsibility of their own reconstruction modules.

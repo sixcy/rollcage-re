@@ -1,0 +1,20 @@
+{
+  "matched": true,
+  "fixtures": 3000,
+  "reachedInstructions": 30,
+  "instructionSteps": 15602,
+  "actualGameCalls": {
+    "4ad170": 600,
+    "4ad580": 600,
+    "4ad570": 600,
+    "4ad5b0": 600,
+    "4ad500": 600
+  },
+  "overlapCopies": 360,
+  "source": {
+    "path": "src/audio-sample-controls.mjs",
+    "sha256": "6975ee2b88078be4d2a7295af8a398b711b37867f154d4a584760ca24bb3711e"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual4ad170 forward REP MOVSD0x118 DWORD secondary-descriptor copy,4ad580 activity query preserving upperEAX/low-byte-only argument,4ad570 exact-state3 query,4ad5b0 deferred-state clear and existing4ad500 raw loop byte. Entire10MiB including all native stack bytes and TLS compare; full defined EAX for both state queries, AL plus untouched highEAX for loop getter. Fixtures cover exact in-place/forward/backward overlaps, source aliasing saved-register/argument stack, unsigned/high-byte state and argument values. No game/CRT/OS callbacks or original process execution. Higher-level names do not establish the complete playback state machine."
+}

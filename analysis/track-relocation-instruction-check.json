@@ -1,0 +1,39 @@
+{
+  "method": "Exact bounded original44c2b0 section44c46a through44c71d; stop before44c71e with an explicit diagnostic trap, not an invented native return/callee. No game or library calls inside this section. Compares every mapped byte>=10000h, seven parent local words, captured/live base and auxiliary-base registers. Synthetic tables cover empty/nonempty route/model/sector lists, duplicate-child selection, conditional null relative pointers, clamped RGB with retained alpha, wrapping signed indices and live global/color/sector-table aliases. Original surrounding loader, valid authored provenance, allocation/image/material/body/registry graphs remain open; internal helper not yet bound inside a complete runtime loader. No original-process execution.",
+  "targetSHA256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "fixtures": 1200,
+  "reachedInstructions": 202,
+  "instructionSteps": 299518,
+  "baseAliases": 93,
+  "colorAliases": 65,
+  "sectorAliases": 59,
+  "sourceSnapshot": [
+    {
+      "path": "src/track-relocation.mjs",
+      "sha256": "5440070cb9b1382f23d9078d4f149426443737a16a2ddb93d5452ff4420fb057"
+    },
+    {
+      "path": "tools/verify-track-relocation-instructions.mjs",
+      "sha256": "e4552596f2317afbe92b56b91d70f2235b8812e32e7787102714ea5b08934a56"
+    },
+    {
+      "path": "tools/lib/bounded-x86.mjs",
+      "sha256": "49b14172f800a5730512f76a9987a4a9620c50bb304b9fa0e0b44a5982c09426"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "analysis/scene/results/068-loader-assembly.json",
+      "evidence": "ev_f5eddfe878790ed034b165f848b3f30c76f84c3a9ca63310c4a967679e949ff6",
+      "operation": "procedure_assembly",
+      "sha256": "8f03465037096805e2abcf4f9d92ec5e2a7066e05daa5c33b72a341fd28b5702"
+    },
+    {
+      "path": "analysis/native-simulation/results/9068-loader-disk-resource-assembly.json",
+      "evidence": "ev_637f24e626c49a8f13273ff39d509c40f69aae73a733a73ff785973ca0f437da",
+      "operation": "procedure_assembly",
+      "sha256": "676eb094f60cc5bd301e63851b2ae5d2d839160b8167dd3d22241b35e7ee3c83"
+    }
+  ],
+  "matched": true
+}

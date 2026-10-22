@@ -1,0 +1,15 @@
+{
+  "method": "Separate in-memory diagnostic of explicit TLS fixture setup and restoration in standalone and actual450e50-connected periodic-body checks. Frozen canonical inputs and reports remain unchanged; not a replacement for a corrected aggregate.",
+  "sourcePath": "tools/verify-periodic-body-spawn-instructions.mjs",
+  "sourceSHA256": "bbabaac24460de95911762d195b488263223f4cf69d134db7f80756629c7241a",
+  "patches": [
+    [
+      "machine.reset(); memory.copy(machine.bytes);",
+      "machine.reset(); machine.fs0 = 0x12345678; memory.copy(machine.bytes);"
+    ],
+    [
+      "function compare(memory, label) {",
+      "function compare(memory, label) { assert.equal(machine.fs0, 0x12345678, `${label} explicit TLS chain restored`);"
+    ]
+  ]
+}

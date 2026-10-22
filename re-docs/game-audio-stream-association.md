@@ -1,0 +1,9 @@
+# Sample-to-stream association
+
+`src/game-audio-stream-association.mjs` translates actual `4adb20` as `associateGameAudioStream(sample, decoder, runtime)` and `4adbd0` as `createGameAudioStreamChannel(sample, format, callback, runtime)`. Inputs use shared native-address memory and exact native entry `scratchBase`; the original stack argument words remain live.
+
+Association destroys the previous decoder first, publishes the new pointer, applies the actual sample flag policy and updates the original WORD alignment/wrapped byte rate. It uses the stream's actual format getter only for flag1 with a nonnull stream; callback selection still uses a nonnull stream regardless of that flag. Channel setup preserves an existing voice, rejects a zero-rate format, calls actual populated mixer lookup, chooses stream or inline callback, then invokes actual XAudio2 source-voice adapter. Unknown game virtual targets remain explicit errors. Only the genuine COM/Win32/CRT services below these recovered algorithms are external.
+
+Retained11729/11730 and11744/11745 establish this parent/helper; original vtables and dependent functions are retained with the sample/factory/lifecycle packages. Target SHA256 is `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
+
+`tools/verify-game-audio-stream-association-instructions.mjs` passes1,800 cases,454 reached instructions and505,727 steps, including900 old concrete decoder destructions and1,408 actual mixer/channel calls. It compares all10MiB mapped bytes,24KiB private stack, argument mutations and ordered CRT/Win32/COM requests. Cases cover flags0/1/2, absent stream, existing voice, zero-rate formats and sample state policies, with populated block/vector/FFT retirement. Inputs are explicit caller-owned objects and successful COM service results; constructors, asynchronous decoding/playback and COM failure branches have separate coverage/limits. The canonical factory now binds these actual defaults.

@@ -12,13 +12,14 @@ const writeVector=(record,p,values)=>values.forEach((value,index)=>record.writeI
 // 0x429ab0: delta and velocityScale are already selected by 0x429820. A zero
 // scale means "skip scaling" in this helper, including when the global scale
 // was itself zero. Pose remains unchanged; only record +8..+1f is refreshed.
-export function updateBodyShapeCacheEntry(body,record,deltaQ16,velocityScaleQ16=0) {
+export function updateBodyShapeCacheEntry(body,record,deltaQ16,velocityScaleQ16=0,nativeState) {
  signed32(deltaQ16,'Sphere cache delta');signed32(velocityScaleQ16,'Sphere cache velocity scale');
  if(!Buffer.isBuffer(record)||record.length<0x48)throw Error('Sphere cache entry requires 72 bytes.');
  let offset=[0,0,0],velocity=body.linearVelocity.slice();
  if(countOf(body)>1){
   const local=[0,1,2].map(index=>record.readInt16LE(index*2));
   offset=[0,1,2].map(row=>{let sum=0;for(let column=0;column<3;column++)sum=(sum+Math.imul(short(body.rotation[row*3+column]),local[column]))|0;return sum>>12;});
+  nativeState?.shapeTransform?.(record,offset);
   const angular=body.angularVelocity.map(value=>value>>8);
   const cross=[(Math.imul(angular[1],offset[2])-Math.imul(angular[2],offset[1]))|0,(Math.imul(angular[2],offset[0])-Math.imul(angular[0],offset[2]))|0,(Math.imul(angular[0],offset[1])-Math.imul(angular[1],offset[0]))|0];
   velocity=velocity.map((value,index)=>(value+cross[index])|0);
@@ -33,13 +34,14 @@ export function updateBodyShapeCacheEntry(body,record,deltaQ16,velocityScaleQ16=
 // extrapolation or time scaling; individual entries run in descending list order.
 // A negative signed count still selects that explicit collisionIds property,
 // then skips the sphere loop, matching the byte-indexed machine behavior.
-export function prepareBodyShapeCache(body,timeQ16,records,{timeScaleQ16=65536,timeScaleActive=false,timeScaleExempt=false}={}) {
+export function prepareBodyShapeCache(body,timeQ16,records,{timeScaleQ16=65536,timeScaleActive=false,timeScaleExempt=false,nativeState}={}) {
  signed32(timeQ16,'Sphere cache time');signed32(body.frameTimeQ16,'Body frame clock');
  const count=countOf(body),aggregate=recordAt(records,body.collisionIds?.[count]);
  writeVector(aggregate,8,body.position.map(value=>value>>8));writeVector(aggregate,0x14,body.linearVelocity.map(value=>value>>8));
+ nativeState?.cacheRotation(body);
  let delta=(timeQ16-body.frameTimeQ16)|0,scale=0;
  if(timeScaleActive&&!timeScaleExempt&&delta!==0&&[3,7,21].includes(body.flags&0x1ff)){scale=signed32(timeScaleQ16,'Sphere cache global time scale');delta=multiplyQ16(scale,delta);}
- for(let index=count-1;index>=0;index--){const record=recordAt(records,body.collisionIds?.[index]);updateBodyShapeCacheEntry(body,record,delta,scale);if(timeQ16===0&&body.frameTimeQ16===0)record.writeInt32LE(-1,0x38);}
+ for(let index=count-1;index>=0;index--){const record=recordAt(records,body.collisionIds?.[index]);nativeState?.beforeShapeCacheEntry?.(body,record,delta,scale);updateBodyShapeCacheEntry(body,record,delta,scale,nativeState);if(timeQ16===0&&body.frameTimeQ16===0)record.writeInt32LE(-1,0x38);}
  body.collisionCache114=timeQ16;
  return aggregate;
 }

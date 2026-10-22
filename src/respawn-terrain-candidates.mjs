@@ -66,8 +66,13 @@ export function appendRespawnRegionCandidates(grid, region, query, centerS16, ra
       if (metric < closestMetric) {
         closestMetric = metric;
         closestId = cellId(sector.index, row + (nearest >> 1), column + (nearest & 1));
+        if (state.scratch && Object.hasOwn(state.scratch, 'closestMetricLocal')) {state.scratch.closestMetricLocal = metric; state.scratch.nearestLocal = closestId;}
       }
       if (metric > threshold) continue;
+      //Native47dc66/47df4f use local58h for the1/2-form countdown. Optional
+      //raw callers retain its final value because later game code can reuse
+      //these stack bytes; ordinary structured callers gain no new fields.
+      if (state.scratch && Object.hasOwn(state.scratch, 'remainingForms')) state.scratch.remainingForms = 0;
       for (const form of sector.cells[row * sector.columns + column].forms) {
         const packed = grid.normals[form.normal].packed;
         if (packed !== lastPacked) {

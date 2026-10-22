@@ -1,0 +1,11 @@
+# Paired vehicle wheel histories
+
+`src/vehicle-wheel-histories.mjs` implements complete `494140`, now an actual outer `450e50` default. For each participant it captures the body pointer, publishes the packed rotation and float renderer scratch, advances RNG once, then updates two12-position histories at body `+2f4c` and `+3620`. Anchor objects are read live through body `+520` and `+5e8`. The renderer's full interpretation of these histories and their other header fields remains separate.
+
+Offsets `(-8, ±6, 0)` and `(9, ±6, 0)` transform through the captured short matrix. Sign depends on the live body matrix's `+cc` element. Position stores preserve the native paired X/Y capture and later Z write; cursor resets on signed values at least12, count increments only below12, phase performs one signed comparison/subtraction instead of modulo, and byte10 wraps after adding20. Participant count and session pointer are reloaded between participants. Matrix-copy and float-conversion writes remain in the shared address space.
+
+REA replies `2402` and `2403` retain pseudocode and198 assembly instructions. Assembly Evidence is `ev_ab647eb69832e090af9330ba0931a8135daebb4470ced70f1aeb5d93d27effdc`, for the selected Redux SHA-256 `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
+
+`node tools/verify-vehicle-wheel-histories-instructions.mjs` passes1,600 worlds ×4 persistent calls,38,352 history updates,305 matrix/float-scratch alias placements and4,986,428 interpreted steps. All memory at or above `10000h` compares after every call. No game or platform boundary is invoked. The corpus includes six participants, empty registries, signed/overflowed phase/count inputs, indices-1/12 addressing supplied readable body storage, and overlapping anchor/history data. Original finite scale is1/4096. Three focused tests verify history wrap/saturation, single-subtraction phase policy and empty-registry preservation.
+
+These are synthetic shared-memory comparisons, not a native scene or renderer capture. `41dbb0`/`41caf0` now reconstruct vehicle and linked-wheel producers separately; their integration into the complete scene/session/render lifetime remains required. No installed artifact was written or executed.

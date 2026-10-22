@@ -2,12 +2,22 @@
 //are12bytes, points16bytes; the leading group is deliberately skipped. Object
 //identity represents native point/controller/body pointers, including aliases.
 import {quaternionFromReleaseDirection} from './scripted-release.mjs';
+import {unregisterPhysicalBody, removeBodySpatial, retireType33Body} from './body-retirement.mjs';
+import {emitNativeEffect} from './effect-emitter.mjs';
+import {dispatchNativeSound} from './sound-dispatch.mjs';
 
 const handler=(handlers,name)=>{if(typeof handlers[name]!=='function')throw Error(`Post-frame body states require handler ${name}.`);return handlers[name];};
 const pointPosition=point=>{if(!point||!Array.isArray(point.position)||point.position.length!==3)throw Error('Post-frame route point is outside supplied native-readable memory.');return point.position.map(value=>(value<<16)>>16);};
 const pointAt=(route,index)=>typeof route.pointAt==='function'?route.pointAt(index):route.points[index];
 
-export function runPostFrameBodyStates(physicalGroup,{routes,routeState,slots36,mathScratch={},handlers={}}={}) {
+export function runPostFrameBodyStates(physicalGroup,{routes,routeState,slots36,mathScratch={},handlers={},memory,scratchBase,soundRuntime,retirementHandlers={}}={}) {
+ if(memory!==undefined){
+  if(!Buffer.isBuffer(memory))throw Error('Post-frame native retirement requires shared raw memory.');
+  const address=body=>{if(!Number.isInteger(body?.address))throw Error('Post-frame native retirement requires a body address.');return body.address;};
+  const services={...retirementHandlers};
+  if(!services.stopAudioVirtual34&&soundRuntime?.handlers?.sourceCall)services.stopAudioVirtual34=({object})=>soundRuntime.handlers.sourceCall(object,0x34,[],soundRuntime);
+  handlers={unregister:body=>unregisterPhysicalBody(address(body),{memory}),removeSpatial:body=>removeBodySpatial(address(body),{memory}),retireType33:body=>{if(!Number.isInteger(scratchBase))throw Error('Post-frame native retirement requires47ccc0 entry stack.');return retireType33Body(address(body),{memory,scratchBase:scratchBase-104,handlers:services,soundRuntime});},emit:request=>emitNativeEffect(request.code,request.registerEdx,request.args,{dispatch40ea40:value=>dispatchNativeSound(value,soundRuntime??{memory})}),...handlers};
+ }
  handler(handlers,'prepass')();
  //Both the word count and pointer are captured AFTER47e180. Unregister/retire
  //may compact this same array; replacement of the global array is invisible.
@@ -74,8 +84,10 @@ export function runPostFrameBodyStates(physicalGroup,{routes,routeState,slots36,
   }
   let registers=handler(handlers,'apply')(body,{position:routeState.position,quaternion,rotation,route,index,queryValue:queryValue.value});
   if((body.flags&0x1ff)===3)registers=handler(handlers,'vehicleTail')(body,0);
-  if(!registers||!Number.isInteger(registers.registerEcx))throw Error('Post-frame emitter requires the explicit ECX register left by its preceding callback.');
-  handler(handlers,'emit')({code:43,registerEdx:0,args:[0,-1,9000,6,registers.registerEcx|0,0,0]});
+  //484bb0 never reads its fifth stack argument. Preserve a supplied volatile
+  //register observation without requiring an invented result from void callees.
+  const registerEcx=Number.isInteger(registers?.registerEcx)?registers.registerEcx|0:undefined;
+  handler(handlers,'emit')({code:43,registerEdx:0,args:[0,-1,9000,6,registerEcx,0,0]});
   respawnedBodies++;
  }
  return {visitedBodies,respawnedBodies,retiredBodies,stoppedByType4};

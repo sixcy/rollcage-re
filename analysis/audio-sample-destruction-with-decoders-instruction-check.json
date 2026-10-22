@@ -1,0 +1,25 @@
+{
+  "matched": true,
+  "fixtures": 1800,
+  "instructionSteps": 548783,
+  "reachedInstructions": 767,
+  "visits": {
+    "4ad250": 1800,
+    "4ad910": 1200,
+    "4ad8f0": 600,
+    "4afc80": 720,
+    "4a7bb0": 720,
+    "4afc00": 309,
+    "4b2130": 800,
+    "4b2240": 230
+  },
+  "comCalls": 2746,
+  "deletes": 11368,
+  "freePcm": 4893,
+  "source": {
+    "path": "src/audio-sample-destruction.mjs",
+    "sha256": "3a1bf6dd6532eb586e12b593f947cfe49f6c818ace8b97e6271cc36518df83d0"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual4ad250 base destructor,4ad910 voice/source body and4ad8f0 deleting adapter with actual waveformcache removal,callback children, voicepool destruction/removal and three concrete decoder scalar adapters with actual WAV/MP3/uninitializedOGG reset, sample-owner policies, block/FFT/deque/stream cleanup. Full10MiB incl every native privateframe, scalar EAX, TLS and ordered genuine CRT/Win32/XAudio2 COM/calleeESP compare. Nullable/populated voices/pools/decoders, callback ownership, final/shared waveform refs, duplicate/missing cache entries, live COM-side voice/global/callback changes and CRT-side outer flag changes are exercised. No GAME mocks. Initialized OGG vendor teardown, original process/device/library internals and arbitrary unsupported virtuals remain open."
+}

@@ -1,0 +1,13 @@
+const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p);
+const kinds={listener:[0x4ac160,0x5d3d88],'source-filter':[0x4ac220,0x5d3db4],source:[0x4ac2e0,0x5d3de8]};
+function save(runtime,p,name){if(Number.isInteger(runtime.entryRegisters?.[name]))put(runtime.memory,p,runtime.entryRegisters[name]);}
+function library(runtime,name,args,top,returned){const m=runtime.memory;args.forEach((v,i)=>put(m,top-args.length*4+i*4,v));const entry=top-args.length*4-4;put(m,entry,returned);if(!runtime.services?.libraryCall)throw Error('Audio database paths require CRT '+name);return runtime.services.libraryCall(name,args.map((_,i)=>ptr(m,entry+4+i*4)),{...runtime,scratchBase:entry});}
+//4a43d0: actual CRT varargs pointer remains native shared memory.
+export function formatAudioWideString(output,format,values,runtime){const{memory:m,scratchBase:S}=runtime;[output,format,...values].forEach((v,i)=>put(m,S+4+i*4,v));put(m,S-4,S+12);put(m,S-8,get(m,S+8));put(m,S-12,512);put(m,S-16,get(m,S+4));put(m,S-20,0x4a43e8);if(!runtime.services?.libraryCall)throw Error('Audio path formatting requires vswprintf_s');runtime.services.libraryCall('vswprintf_s',[ptr(m,S-16),512,ptr(m,S-8),ptr(m,S-4)],{...runtime,scratchBase:S-20});return ptr(m,S+4);}
+//4ac160/4ac220/4ac2e0. Optional directory expansion recurses through the
+//same actual leaf and forwards a native varargs frame to4a43d0.
+export function getAudioDatabasePath(settings,output,includeDirectory,kind,runtime){const spec=kinds[kind];if(!spec)throw Error('Unknown audio database kind '+kind);const[entry,literal]=spec,{memory:m,scratchBase:S}=runtime,F=S-0x80c;put(m,S+4,output);put(m,S+8,includeDirectory);save(runtime,F,'ESI');
+ if(includeDirectory&255){library(runtime,'memset',[F+8,0,0x400],F,entry+0x24);put(m,F-4,0);put(m,F-8,F+0x408);put(m,F-12,entry+0x38);const name=getAudioDatabasePath(settings,F+0x408,0,kind,{...runtime,scratchBase:F-12,entryRegisters:{...runtime.entryRegisters,ESI:settings}});[F+8,0x5d3a00,settings+0x40e,name].forEach((v,i)=>put(m,F-16+i*4,v));put(m,F-20,entry+0x4f);formatAudioWideString(F+8,0x5d3a00,[settings+0x40e,name],{...runtime,scratchBase:F-20});output=ptr(m,S+4);m.writeUInt16LE(0,output+0x3fe);library(runtime,'wcsncpy_s',[output,512,F+8,511],F-16,entry+0x75);
+ }else{output=ptr(m,S+4);[output,512,literal,511].forEach((v,i)=>put(m,F-16+i*4,v));m.writeUInt16LE(0,output+0x3fe);put(m,F-20,entry+0xaa);if(!runtime.services?.libraryCall)throw Error('Audio paths require wcsncpy_s');runtime.services.libraryCall('wcsncpy_s',[ptr(m,F-16),ptr(m,F-12),ptr(m,F-8),ptr(m,F-4)],{...runtime,scratchBase:F-20});}
+ return output;
+}

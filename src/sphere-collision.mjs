@@ -17,8 +17,9 @@ function integerFloat(value,roundingMode) {
  else throw Error('Contact normalization requires an explicit x87 rounding mode.');
  return Number.isFinite(rounded)&&rounded>= -2147483648&&rounded<=2147483647?rounded:-2147483648;
 }
-export function normalizeCollisionVector(input,roundingMode) {
+export function normalizeCollisionVector(input,roundingMode,nativeState) {
  let bits=input.reduce((mask,value)=>mask|abs32(value),0);if(bits<0)bits=-bits|0;
+ nativeState?.normalizeReduction(bits,Math.clz32(bits));
  const shift=Math.max(0,18-Math.clz32(bits));if(shift)for(let i=0;i<3;i++)input[i]>>=shift;
  return {vector:normalizeUnreducedCollisionVector(input,roundingMode).vector,shift};
 }
@@ -28,48 +29,50 @@ export function normalizeUnreducedCollisionVector(input,roundingMode) {
  return {vector:lanes.map(value=>integerFloat(Math.fround(Math.fround(value*4096)*inverse),roundingMode))};
 }
 // 0x4225d0 quantizes coefficients before taking the lookup-table square root.
-export function contactDiscriminantRoot(a,b,c) {
+export function contactDiscriminantRoot(a,b,c,nativeState) {
  let bits=a|c;if(bits<0)bits=-bits|0;let shift=16-Math.clz32(bits),squared;
+ nativeState?.normalizeReduction(bits,Math.clz32(bits));
  if(shift<=0){shift=0;squared=Math.imul(b>>4,b>>4);}else{const reduced=b>>((shift+4)&31);squared=Math.imul(reduced,reduced);a>>=shift;c>>=shift;}
  const product=multiplyQ8(a,c),difference=(squared-product)|0;if(product<0||difference<0)return -1;
+ nativeState?.sqrtLookup(difference);
  return (lookupSqrt(difference)<<4)<<shift;
 }
-function relativeState(first,second,maxTimeQ16) {
- const a=sphere(first),b=sphere(second),position=subtract(b.position,a.position),velocity=subtract(b.velocity,a.velocity),radius=add32(a.radius,b.radius),shift=Math.max(0,16-Math.clz32(abs32((maxTimeQ16-1)|0))),end=position.map((value,index)=>add32(value,velocity[index]<<shift));
+function relativeState(first,second,maxTimeQ16,nativeState) {
+ const a=sphere(first),b=sphere(second),position=subtract(b.position,a.position),velocity=subtract(b.velocity,a.velocity),radius=add32(a.radius,b.radius),bits=abs32((maxTimeQ16-1)|0);nativeState?.normalizeReduction(bits,Math.clz32(bits));const shift=Math.max(0,16-Math.clz32(bits)),end=position.map((value,index)=>add32(value,velocity[index]<<shift));
  const rejected=position.some((value,index)=>value>radius?(end[index]>radius||velocity[index]>=0):value<(-radius|0)?(end[index]<(-radius|0)||velocity[index]<=0):false);
  return {a,b,position,velocity,radius,rejected};
 }
-export function screenSpherePair(first,second,output,maxTimeQ16) {
- const state=relativeState(first,second,maxTimeQ16);if(state.rejected)return 0;
+export function screenSpherePair(first,second,output,maxTimeQ16,{nativeState}={}) {
+ const state=relativeState(first,second,maxTimeQ16,nativeState);if(state.rejected)return 0;
  const {position,velocity,radius}=state,squared=dot8(position,position),radiusSquared=multiplyQ8(radius,radius);
  if(squared<radiusSquared){output.flags=(output.flags&0xffffff00)+2;return 0;}
- const speedSquared=dot8(velocity,velocity);if(speedSquared!==0){const approach=dot8(position,velocity),root=contactDiscriminantRoot(speedSquared,approach,(squared-radiusSquared)|0);
+ const speedSquared=dot8(velocity,velocity);if(speedSquared!==0){const approach=dot8(position,velocity),root=contactDiscriminantRoot(speedSquared,approach,(squared-radiusSquared)|0,nativeState);
   if(root>=0){const upper=(root-approach)|0,lower=-(approach+root)|0,numerator=Math.min(upper,lower),opposite=Math.max(upper,lower),time=divide8(numerator,speedSquared)<<8;
    if(time>=0||opposite>=0){if((opposite^time)<0){output.flags=(output.flags&0xffffff00)+2;return 0;}output.flags=1;return time;}
   }
  }
  output.flags&=0xffffff00;return 0;
 }
-export function querySpherePair(first,second,output,maxTimeQ16,{roundingMode}={}) {
- const state=relativeState(first,second,maxTimeQ16);if(state.rejected)return maxTimeQ16;
+export function querySpherePair(first,second,output,maxTimeQ16,{roundingMode,nativeState}={}) {
+ const state=relativeState(first,second,maxTimeQ16,nativeState);if(state.rejected)return maxTimeQ16;
  const {a,b,position,velocity,radius}=state,approach=dot8(position,velocity),squared=dot8(position,position),coarseSquared=Math.imul(radius>>4,radius>>4);
  const overlapPoint=(distance,doubleScale=false)=>{
-  const unit=normalizeCollisionVector(position,roundingMode).vector.map(value=>-(value>>4)|0);output.normal=unit;output.scalar=distance;
+  const unit=normalizeCollisionVector(position,roundingMode,nativeState).vector.map(value=>-(value>>4)|0);output.normal=unit;output.scalar=distance;
   // The negative-time recovery branch overwrites its first scaling result.
   output.point=scale(unit,doubleScale?-a.radius|0:-((distance>>1)+a.radius)|0);output.point=add(output.point,a.position);output.flags=(output.flags&0xffffff00)+2;return 0;
  };
  if(squared>coarseSquared) {
   const speedSquared=dot8(velocity,velocity);
   if(approach<=0&&speedSquared!==0) {
-   const root=contactDiscriminantRoot(speedSquared,approach,(squared-(Math.imul(radius,radius)>>8))|0);
+   const root=contactDiscriminantRoot(speedSquared,approach,(squared-(Math.imul(radius,radius)>>8))|0,nativeState);
    if(root<0){output.flags&=0xffffff00;return 0;}
-   const numerator=Math.min((root-approach)|0,-(root+approach)|0),time=divide8(numerator,speedSquared)<<8,distance=((lookupSqrt(squared)<<4)-radius)|0;
+   const numerator=Math.min((root-approach)|0,-(root+approach)|0),time=divide8(numerator,speedSquared)<<8;nativeState?.sqrtLookup(squared);const distance=((lookupSqrt(squared)<<4)-radius)|0;
    if(time<0)return overlapPoint(distance,true);
-   if(time<=maxTimeQ16){output.flags=1;const quantum=time>>8,firstPoint=add(a.position,scale(a.velocity,quantum)),secondPoint=add(b.position,scale(b.velocity,quantum)),difference=subtract(secondPoint,firstPoint),normal=normalizeCollisionVector(difference,roundingMode).vector.map(value=>value>>4);output.normal=normal;output.point=add(firstPoint,scale(normal,a.radius));
+   if(time<=maxTimeQ16){output.flags=1;const quantum=time>>8,firstPoint=add(a.position,scale(a.velocity,quantum)),secondPoint=add(b.position,scale(b.velocity,quantum)),difference=subtract(secondPoint,firstPoint),normal=normalizeCollisionVector(difference,roundingMode,nativeState).vector.map(value=>value>>4);output.normal=normal;output.point=add(firstPoint,scale(normal,a.radius));
     if(distance<256&&(((dot8(normal,velocity)-1)|0)>>>0)<=0xffe){output.flags=(output.flags&0xffffff00)|0x80000;return maxTimeQ16;}
     if(time===0){output.flags=2;output.scalar=-16;}return time;
    }
   }
- }else if(squared<Math.imul((radius-256)>>4,(radius-256)>>4)||squared>coarseSquared||approach<=0)return overlapPoint(((lookupSqrt(squared)<<4)-radius)|0);
+ }else if(squared<Math.imul((radius-256)>>4,(radius-256)>>4)||squared>coarseSquared||approach<=0){nativeState?.sqrtLookup(squared);return overlapPoint(((lookupSqrt(squared)<<4)-radius)|0);}
  output.flags&=0xffffff00;return maxTimeQ16;
 }

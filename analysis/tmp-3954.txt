@@ -1,0 +1,29 @@
+0x4c5750: SUB ESP, 0x2c
+0x4c5753: MOV EAX, dword ptr [ESP + 0x34]
+0x4c5757: PUSH ESI
+0x4c5758: MOV ESI, ECX
+0x4c575a: MOV dword ptr [ESP + 0x4], 0x0
+0x4c5762: MOV EAX, dword ptr [EAX]
+0x4c5764: MOV dword ptr [ESP + 0x38], EAX
+0x4c5768: MOV EAX, dword ptr [ESP + 0x34]
+0x4c576c: MOV EAX, dword ptr [EAX]
+0x4c576e: MOV dword ptr [ESP + 0x34], EAX
+0x4c5772: MOV EAX, dword ptr [ESP + 0x3c]
+0x4c5776: MOVDQU XMM0, xmmword ptr [EAX]
+0x4c577a: MOVDQU xmmword ptr [ESP + 0x8], XMM0
+0x4c5780: MOVDQU XMM0, xmmword ptr [EAX + 0x10]
+0x4c5785: MOVDQU xmmword ptr [ESP + 0x18], XMM0
+0x4c578b: MOVQ XMM0, qword ptr [EAX + 0x20]
+0x4c5790: LEA EAX, [ESP + 0x8]
+0x4c5794: PUSH EAX
+0x4c5795: LEA EAX, [ESP + 0x3c]
+0x4c5799: MOVQ qword ptr [ESP + 0x2c], XMM0
+0x4c579f: PUSH EAX
+0x4c57a0: LEA EAX, [ESP + 0x3c]
+0x4c57a4: PUSH EAX
+0x4c57a5: CALL 0x004c57c0
+0x4c57aa: ADD ESP, 0xc
+0x4c57ad: MOV EAX, ESI
+0x4c57af: POP ESI
+0x4c57b0: ADD ESP, 0x2c
+0x4c57b3: RET

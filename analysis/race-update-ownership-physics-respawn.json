@@ -1,0 +1,353 @@
+{
+  "method": "Static ownership inventory for the42 distinct direct game callees in retained450e50 assembly, reconciled against actual id-dispatch defaults in src/race-update.mjs. Source text matching identifies bindings only; it proves neither executed coverage nor transitive game-callee/producer closure. Every missing default remains a required reached handler. The final audio-manager indirect virtual call is separately a platform/library service; broader indirect targets and whole-game procedure ownership remain open.",
+  "evidence": [
+    "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f"
+  ],
+  "source": {
+    "path": "src/race-update.mjs",
+    "sha256": "2ef5c4677d825deebe4a4ebcc0224630c2b9bf1cd80dd8b85ca4622ecaf083d7"
+  },
+  "directGameCallees": 42,
+  "actualDefaults": 29,
+  "explicitGameHandlers": 13,
+  "directCallees": [
+    {
+      "address": "0x410220",
+      "callSites": [
+        "0x450ebb"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "runAutonomousDispatch(ecx, context)"
+    },
+    {
+      "address": "0x431750",
+      "callSites": [
+        "0x450efb"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateAutonomousRouteControl(ecx, context)"
+    },
+    {
+      "address": "0x485300",
+      "callSites": [
+        "0x450f34"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleAudio(ecx, edx, context)"
+    },
+    {
+      "address": "0x42a6e0",
+      "callSites": [
+        "0x450f64"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleInputBlock(ecx, edx, context)"
+    },
+    {
+      "address": "0x42be80",
+      "callSites": [
+        "0x450f6b"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleAuxiliaryInput(ecx, context)"
+    },
+    {
+      "address": "0x49bbc0",
+      "callSites": [
+        "0x450f88"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "copyLinkedVehicleControls(context)"
+    },
+    {
+      "address": "0x42a9a0",
+      "callSites": [
+        "0x450fa2"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleControlState(ecx, context)"
+    },
+    {
+      "address": "0x494f60",
+      "callSites": [
+        "0x450fb9"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateTrackDeformation(context)"
+    },
+    {
+      "address": "0x429f30",
+      "callSites": [
+        "0x450fbe"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateRaceObjects(context)"
+    },
+    {
+      "address": "0x449640",
+      "callSites": [
+        "0x451008"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "runRaceProgressPass(context)"
+    },
+    {
+      "address": "0x420500",
+      "callSites": [
+        "0x45100d"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateRaceHandlingScale(context)"
+    },
+    {
+      "address": "0x4749e0",
+      "callSites": [
+        "0x451012"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "runRacePhysicsStage(context)"
+    },
+    {
+      "address": "0x44f050",
+      "callSites": [
+        "0x451017"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateRawBodyAttachments(context)"
+    },
+    {
+      "address": "0x47ccc0",
+      "callSites": [
+        "0x45101c"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "runRacePostFrameStage(context)"
+    },
+    {
+      "address": "0x443d90",
+      "callSites": [
+        "0x451038"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleMotionState(ecx, context)"
+    },
+    {
+      "address": "0x48d680",
+      "callSites": [
+        "0x45103f"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleSurfaceDrive(ecx, context)"
+    },
+    {
+      "address": "0x499de0",
+      "callSites": [
+        "0x451088"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x49ac30",
+      "callSites": [
+        "0x45108d"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x48d7c0",
+      "callSites": [
+        "0x451092"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x469fd0",
+      "callSites": [
+        "0x451097"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x41d2b0",
+      "callSites": [
+        "0x4510c2"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "prepareVehicleWheelRender(ecx, context)"
+    },
+    {
+      "address": "0x416400",
+      "callSites": [
+        "0x4510c9"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleAuxiliaryAnimation(ecx, context)"
+    },
+    {
+      "address": "0x48e310",
+      "callSites": [
+        "0x4510e5"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x475e50",
+      "callSites": [
+        "0x4510ea"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "advanceRawBodyDebris(context)"
+    },
+    {
+      "address": "0x41bef0",
+      "callSites": [
+        "0x4510f1",
+        "0x451108"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "getRaceStageCount(context)"
+    },
+    {
+      "address": "0x4180a0",
+      "callSites": [
+        "0x451102"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x496700",
+      "callSites": [
+        "0x451111"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x414060",
+      "callSites": [
+        "0x451116"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x438550",
+      "callSites": [
+        "0x45111b"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "advanceRawEffectParticles(context)"
+    },
+    {
+      "address": "0x481200",
+      "callSites": [
+        "0x451137"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x48edb0",
+      "callSites": [
+        "0x45113c"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateModelContactFragments(context)"
+    },
+    {
+      "address": "0x494140",
+      "callSites": [
+        "0x451141"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x487540",
+      "callSites": [
+        "0x451146"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x44a7a0",
+      "callSites": [
+        "0x45114b"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x415230",
+      "callSites": [
+        "0x451150"
+      ],
+      "status": "required explicit game handler",
+      "defaultExpression": null
+    },
+    {
+      "address": "0x480e90",
+      "callSites": [
+        "0x451155"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "maintainWorldFragments({...context, soundRuntime: runtime.soundRuntime ?? context})"
+    },
+    {
+      "address": "0x44f990",
+      "callSites": [
+        "0x45115a"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateRawPersistentEmitters(context)"
+    },
+    {
+      "address": "0x44f3a0",
+      "callSites": [
+        "0x45115f"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateRawAttachmentEffects(context)"
+    },
+    {
+      "address": "0x44d960",
+      "callSites": [
+        "0x45116f",
+        "0x451180"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateDynamicLights(ecx, context)"
+    },
+    {
+      "address": "0x42b530",
+      "callSites": [
+        "0x451174"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateVehicleSurfaceFeedback(context)"
+    },
+    {
+      "address": "0x484880",
+      "callSites": [
+        "0x4511cd"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateRaceAudioListeners(context)"
+    },
+    {
+      "address": "0x47f370",
+      "callSites": [
+        "0x4511e3"
+      ],
+      "status": "actual JavaScript default; transitive closure is separately scoped",
+      "defaultExpression": "updateRacePhaseState(context)"
+    }
+  ]
+}

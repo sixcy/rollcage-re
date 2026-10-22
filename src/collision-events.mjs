@@ -67,13 +67,13 @@ export function filterCollisionEvent(event,deltaQ16) {
 // Event-processing portion of 0x4749e0. The record is released before callbacks.
 // Invalidation uses the original body references; regeneration uses the surviving
 // references captured after response. Negative deltas still process one event.
-export function processCollisionEvents(queue,{respond,refresh,finish}) {
+export function processCollisionEvents(queue,{respond,refresh,finish,beforeInvalidate}) {
  for(const [name,handler]of Object.entries({respond,refresh,finish}))if(typeof handler!=='function')throw Error(`Collision event handler ${name} is required.`);
  let processed=0;
  while(queue.count){const key=queue.pop(),{slot,timeQ16}=decodeCollisionEventKey(key),event=queue.events[slot],oldFirst=event.object1,oldSecond=event.object2;
   const delta=filterCollisionEvent(event,(timeQ16-oldFirst.frameTimeQ16)|0);
   respond(event,delta,queue);const first=event.object1,second=event.object2;
-  queue.invalidate(oldFirst,oldSecond);if(first||second)refresh(first,second,queue);processed++;
+  beforeInvalidate?.(oldFirst,oldSecond,delta);queue.invalidate(oldFirst,oldSecond);if(first||second)refresh(first,second,queue);processed++;
   if(delta<0)break;
  }
  finish();return processed;

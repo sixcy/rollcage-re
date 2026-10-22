@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "provenance": {
+      "untrusted_content": true,
+      "source": "analysis_target"
+    }
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"result\":{\"address\":\"0x48ef62\",\"document\":\"target-c0582271862e.exe\",\"name\":{\"state\":\"available\",\"value\":\"LAB_0048ef62\"},\"procedure\":{\"state\":\"available\",\"value\":{\"query_address\":\"0x48ef62\",\"found\":true,\"procedure\":{\"address\":\"0x48ef30\",\"name\":\"FUN_0048ef30\",\"classification\":{\"external\":false,\"thunk\":false,\"thunk_target\":null,\"provenance\":\"ghidra-function-manager\"},\"body\":{\"available\":true,\"provenance\":\"ghidra-function-body-address-set\",\"ranges\":[{\"start\":\"0x48ef30\",\"end\":\"0x48efbc\"},{\"start\":\"0x48efc0\",\"end\":\"0x48efd9\"},{\"start\":\"0x48efe0\",\"end\":\"0x48f020\"}],\"total_bytes\":232,\"span_bytes\":241,\"non_contiguous\":true,\"contains_entry\":true}}}},\"comment\":{\"state\":\"unavailable\",\"reason\":\"Provider ghidra cannot execute comment: operation is not declared by this provider\",\"remediation\":\"Call comment directly to inspect provider availability and diagnostics.\"},\"inline_comment\":{\"state\":\"unavailable\",\"reason\":\"Provider ghidra cannot execute inline_comment: operation is not declared by this provider\",\"remediation\":\"Call inline_comment directly to inspect provider availability and diagnostics.\"},\"bookmarks\":{\"state\":\"unavailable\",\"reason\":\"Provider ghidra cannot execute list_bookmarks: operation is not declared by this provider\",\"remediation\":\"Call list_bookmarks directly to inspect provider availability and diagnostics.\"}}}"
+    }
+  ],
+  "structuredContent": {
+    "result": {
+      "address": "0x48ef62",
+      "document": "target-c0582271862e.exe",
+      "name": {
+        "state": "available",
+        "value": "LAB_0048ef62"
+      },
+      "procedure": {
+        "state": "available",
+        "value": {
+          "query_address": "0x48ef62",
+          "found": true,
+          "procedure": {
+            "address": "0x48ef30",
+            "name": "FUN_0048ef30",
+            "classification": {
+              "external": false,
+              "thunk": false,
+              "thunk_target": null,
+              "provenance": "ghidra-function-manager"
+            },
+            "body": {
+              "available": true,
+              "provenance": "ghidra-function-body-address-set",
+              "ranges": [
+                {
+                  "start": "0x48ef30",
+                  "end": "0x48efbc"
+                },
+                {
+                  "start": "0x48efc0",
+                  "end": "0x48efd9"
+                },
+                {
+                  "start": "0x48efe0",
+                  "end": "0x48f020"
+                }
+              ],
+              "total_bytes": 232,
+              "span_bytes": 241,
+              "non_contiguous": true,
+              "contains_entry": true
+            }
+          }
+        }
+      },
+      "comment": {
+        "state": "unavailable",
+        "reason": "Provider ghidra cannot execute comment: operation is not declared by this provider",
+        "remediation": "Call comment directly to inspect provider availability and diagnostics."
+      },
+      "inline_comment": {
+        "state": "unavailable",
+        "reason": "Provider ghidra cannot execute inline_comment: operation is not declared by this provider",
+        "remediation": "Call inline_comment directly to inspect provider availability and diagnostics."
+      },
+      "bookmarks": {
+        "state": "unavailable",
+        "reason": "Provider ghidra cannot execute list_bookmarks: operation is not declared by this provider",
+        "remediation": "Call list_bookmarks directly to inspect provider availability and diagnostics."
+      }
+    }
+  }
+}

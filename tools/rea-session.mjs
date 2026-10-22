@@ -56,14 +56,24 @@ try {
   // replies belong to its earlier session and must never be replayed/overwritten.
   // Queue a NEW open_binary and import_evidence_bundle request when resuming.
   const completed = new Set((await readdir(results)).filter(name => name.endsWith('.json')));
+  const invalidRequests = new Map();
   if (completed.size) console.log(`Preserving ${completed.size} retained replies; queue new target/ledger restoration requests for this server.`);
   let stop = false;
   while (!stop) {
     const names = (await readdir(queue)).filter(name => name.endsWith('.json') && !completed.has(name)).sort();
     for (const name of names) {
-      const request = JSON.parse(await readFile(path.join(queue, name), 'utf8'));
+      const rawRequest = await readFile(path.join(queue, name), 'utf8');
+      let request;
+      try {request = JSON.parse(rawRequest);} catch {
+        if (invalidRequests.get(name) !== rawRequest) console.error(`Skipping ${name}: invalid request JSON; fix the queue file to retry.`);
+        invalidRequests.set(name, rawRequest); continue;
+      }
       if (request.stop === true) { stop = true; break; }
-      if (!toolNames.has(request.tool)) throw new Error(`Unadvertised tool: ${request.tool}`);
+      if (!toolNames.has(request.tool)) {
+        if (invalidRequests.get(name) !== rawRequest) console.error(`Skipping ${name}: unadvertised tool ${request.tool}; fix the queue file to retry.`);
+        invalidRequests.set(name, rawRequest); continue;
+      }
+      invalidRequests.delete(name);
       console.log(`Running ${name}: ${request.tool}`);
       const result = await rpc('tools/call', { name: request.tool, arguments: request.arguments ?? {} });
       await writeFile(path.join(results, name), JSON.stringify(result, null, 2), { flag: 'wx' });

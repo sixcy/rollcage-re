@@ -1,0 +1,51 @@
+{
+  "method": "Staged full4797a0 -> actual4795a0/447d60/447d20/447c50/401230 instruction/source comparison. All mapped bytes>=10000h, return and ordered API/CRT requests compare. Synthetic early-existing-root, invalid finds, first/second/third path success, lock retry, read failure/short read, retained printable tail, cached handles, live classification mutation and failed-open domains. Only original Win32/CRT services are external. Find-data pointer and ReadFile output pointer use native parent/child stack positions. Private stack bytes are excluded; no original process execution. Literal bytes are an independent PE extraction pending provider corroboration; source remains staged outside canonical src.",
+  "targetSHA256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "fixtures": 600,
+  "reachedInstructions": 233,
+  "instructionSteps": 1143694,
+  "totalCalls": 10842,
+  "cachedReads": 60,
+  "visits": {
+    "4797a0": 600,
+    "4795a0": 440,
+    "447d60": 360,
+    "447c50": 720,
+    "447d20": 360
+  },
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/3431-wormhole-log-append-open-assembly.json",
+      "evidence": "ev_86b4f3617c1d04bf7ccb366495934fbc509db45b90f9b589419d6ca33ea9ced4",
+      "operation": "procedure_assembly",
+      "sha256": "ee5b1e58392219d9df02ffb314d4eb4cfe9523193c61505d01ca75e38d786148"
+    },
+    {
+      "path": "analysis/native-simulation/results/3711-weather-447d60-procedure_assembly.json",
+      "evidence": "ev_7aa3b13cd0084f0728521f195f5183dc3a3c298a85221ec4d72ef9e34c362b9f",
+      "operation": "procedure_assembly",
+      "sha256": "0fc9b1aecdf162e8f3f44db6af67533ebf170176a512d7b1abad4ec3f6e672f8"
+    },
+    {
+      "path": "analysis/native-simulation/results/3713-weather-447d20-procedure_assembly.json",
+      "evidence": "ev_a3737df78dadb5cdfeac62ea2640d3bdf17a36808d0f30e96d6a94dcb210fe5d",
+      "operation": "procedure_assembly",
+      "sha256": "3babb1fa01ecb4a09a51bf9f5eb77c1b2a90d1e55a792049496f786d177b7cf1"
+    },
+    {
+      "path": "analysis/native-simulation/results/9042-startup-child-4797a0-procedure_assembly.json",
+      "evidence": "ev_6ff858243b8e10606bf734ecc8e3b386f1ff6b9304da8576228452f48b742c8c",
+      "operation": "procedure_assembly",
+      "sha256": "5c30e99ef732522a752a206ed18b0bb0f8c07d871ae7cf73582a494dc133227a"
+    }
+  ],
+  "literalRecord": {
+    "method": "Independent read-only original-PE byte extraction; not a provider Evidence record. Exact selected file SHA and PE section mapping retained. To be corroborated against a new REA read after the frozen sweep.",
+    "target": "C:/Program Files (x86)/Psygnosis/Rollcage/Direct3D/Rollcage Redux.exe",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "address": "0x5d3468",
+    "fileOffset": 1910376,
+    "bytes_hex": "524f4f544e414d452e545854000000005c524f4f544e414d452e545854000000433a5c524f4f544e414d452e54585400"
+  },
+  "matched": true
+}

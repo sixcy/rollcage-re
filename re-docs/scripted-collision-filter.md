@@ -1,0 +1,19 @@
+# Release-installed collision acceptance and debris
+
+`src/scripted-collision-filter.mjs` implements46e470, the callback pointer installed by actual46e4e0 unscripted release, and its46e760 debris child. The callback always returns1. A nonnull other body skips event access. Otherwise it ORs wrapped absolute event fields64/60/5c and compares the resulting unsigned value with30000hex. INT_MIN therefore qualifies. A qualifying event advances RNG5ec958 once; zero bits30000hex trigger debris.
+
+46e760 reads event point fields through its event+12 argument and promotes them fromQ8 toQ16. Three further RNG samples produce X/Z jitter and upward Y velocity, incorporating the body's wrapped negated X/Z velocity shifted by two. It calls actual475c30 with kind22, which claims the shared128-byte debris pool, spatially registers the particle and retains the native type22 color/lifetime/variant. Pool exhaustion still consumes the preceding RNG steps. The existing wheel-debris implementation is reused rather than supplying a different effect algorithm.
+
+`createScriptedCollisionFilter(runtime)` adapts coherent body/event views to the raw callback. Register the function in the physics views' `collisionFilters` map at46e470. Its runtime requires the callback's native entry ESP and the same memory Buffer; view byte spans are checked. For a standalone474b20 caller at entryS, the callback entry isS−28 after three saved registers, three arguments and CALL. A full physics caller must supply its actual nested stack context.
+
+## Exact evidence without an analyzed procedure
+
+Ghidra identifies46e470 as a Listing label, so procedure queries1282/1283 correctly failed. They remain preserved. The callback is not treated as absent or replaced with an invented function.1285 retains112 exact bytes. `tools/retain-scripted-filter-instructions.mjs` obtained34 exact `inspect_native_instruction` decodes1380..1413 through the firstRET at46e4d4. Every decoded byte matches1285, and each internal branch resolves to an admitted instruction boundary. The derived carrier `analysis/scripted-collision-filter-instructions.json` is explicitly not a fabricated procedure-assembly Evidence record.1414..1416 retain the actual46e760 child and its475c30 callee.
+
+The checker independently reloads those original instruction replies, validates target digest, byte agreement, contiguous boundaries, finalRET and branch destinations, then combines them with the selected target's retained procedures. Available retained addresses are reported separately from executed instruction addresses.
+
+## Validation and remaining scope
+
+`node tools/verify-scripted-collision-filter-instructions.mjs` matches2400 filter/helper fixtures plus120 actual46e4e0→pointer publication→474b20→46e470 chains:1012 executed instruction addresses/779701 steps. There are2040 filter calls,1415 debris-child calls and2870 spatial insertions including release effects. No external calls or game mocks are admitted. Direct fixtures compare event/body/debris/free-active/spatial/RNG bytes, threshold and negative boundaries, exhaustion and event/body/RNG overlaps. Chains consume the installed pointer through coherent physics views and compare every mapped byte at10000hex and above, excluding private stack. The native sound bank is explicitly empty in release chains.
+
+Five focused tests check early acceptance without event dereference, unsigned INT_MIN handling, exact type22 output, exhausted RNG policy and release-pointer resolution through shared views. This closes the previously missing46e470 algorithm and a real producer/consumer chain. It does not establish every full4749e0 scripted-body scenario, arbitrary saved-register stack aliases, nonempty device audio or all other collision-filter targets. The original executable was not run. Report: `analysis/scripted-collision-filter-instruction-check.json`.

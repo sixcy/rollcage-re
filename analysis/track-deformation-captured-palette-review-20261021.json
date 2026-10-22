@@ -1,0 +1,28 @@
+{
+  "method": "Actual1329 constructor instructions with declared CRT malloc/memset services. Starts existing constructorfixture3; malloc sets captured pack+16 and global80df00 tozero, returns30000. Native494cf6 skips sector loop to494f07 without494efb/f01 global reload, preserving originalEDIcount andEBXbase forpalette. This synthetic allocator mutation is a fidelity probe, not evidence originalCRT changesgamepack. No installed writes or original process.",
+  "sourceSHA256": "ba644fd2f300ce9d9cb9a6e7f803af3728812ec6f06eda8f083d5ef5b63b09b9",
+  "evidence": [
+    "ev_e5be44d0b56ed726fe50f39e2387e17b5dac00db51867555f8550e9b0a37f3e7"
+  ],
+  "fixture": 3,
+  "pack": "0x36000",
+  "allocation": "0x30000",
+  "mutations": [
+    {
+      "address": "0x36010",
+      "value": 0
+    },
+    {
+      "address": "0x80df00",
+      "value": 0
+    }
+  ],
+  "beforePalette": "e7fe152c",
+  "nativePalette": "28282848",
+  "sourcePalette": "28282848",
+  "nativeCount": 0,
+  "sourceCount": 0,
+  "steps": 389,
+  "differences": [],
+  "matched": true
+}

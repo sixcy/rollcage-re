@@ -87,6 +87,14 @@ test('derivative refresh reads the physical list after wheel effect callbacks re
  assert.equal(result.preparedBodies,1);assert.deepEqual(f.body.angularMomentum,[U,0,0]);assert.deepEqual(f.body.angularVelocity,[0,0,0]);assert.equal(result.finishedBodies,0);
 });
 
+test('a vehicle with a read-only runtime timeOptions getter receives the frame provider',()=>{
+ const f=vehicleFixture();let reads=0;
+ Object.defineProperty(f.vehicle,'timeOptions',{get:()=>{reads++;return {timeScaleActive:false};}});
+ f.context.timeOptionsFor=body=>{assert.equal(body,f.body);return {timeScaleActive:true,timeScaleExempt:false,timeScaleQ16:U/2};};
+ const result=stepSimulationFrame(f.group,[f.vehicle],f.context);
+ assert.equal(result.preparedBodies,1);assert.equal(f.body.frameTimeQ16,U);assert.equal(reads,0);
+});
+
 test('scripted kinematic bodies retain bytecode progress across frames and bypass ordinary gravity and time scaling',()=>{
  const f=fixture({height:-100,velocity:0,gravity:U,terrain:false}),bytecode=Buffer.alloc(10);bytecode.writeInt16LE(256,2);bytecode.writeInt16LE(8,8);
  Object.assign(f.body,{flags:0xa203,scriptOffset138:0,scriptTimer13a:0,scriptActionTimer13c:0,scriptSegment13e:0,scriptSpawnIndex13f:0});

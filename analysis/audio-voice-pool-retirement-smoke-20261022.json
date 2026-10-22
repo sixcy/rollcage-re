@@ -1,0 +1,29 @@
+{
+  "matched": true,
+  "fixtures": 45,
+  "instructionSteps": 1379,
+  "reachedInstructions": 217,
+  "visits": {
+    "4b2130": 15,
+    "4b2240": 19,
+    "4b21e0": 19,
+    "4a0e80": 11,
+    "4a2290": 11,
+    "4a0e90": 2
+  },
+  "deletes": 19,
+  "comCalls": 22,
+  "moves": 3,
+  "sources": [
+    {
+      "path": "src/audio-voice-pool-retirement.mjs",
+      "sha256": "9d7b701651121272176a032afae08da1793dbcf15e218dd884a67df2492a946b"
+    },
+    {
+      "path": "src/renderer-scene-nodes.mjs",
+      "sha256": "c844125189c196821af4eaa05d900a01c3604e753b6112c3299d8213e3a99985"
+    }
+  ],
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual4b2130 zero-refcount release,4b2240 voice/engine record destruction, actual4a0e80/4a2290 debugger initialization and4b21e0 native pointer erase. Every10MiB byte including native frames, EAX where defined, TLS and ordered genuine CRT/Win32/XAudio2 requests/calleeESP compare. Null/zero/wrapped refs, duplicate/missing/all-matching pointers, empty vectors, guarded debugger initialization, COM-side engine mutation, delete-side vector mutation and memmove-side live output mutation are exercised. Genuine COM/library internals, exceptions and original process/audio-device execution remain outside this proof."
+}

@@ -8,6 +8,7 @@ import {clampVehicleAtRest,dampAirborneSpin,assistAirborneOrientation} from './v
 import {updateVehicleSpecialState} from './vehicle-special.mjs';
 import {readVehicleTrackBasis} from './track-basis.mjs';
 import {updateBodyDerived} from './body-physics.mjs';
+import {updateRawVehicleContacts} from './raw-vehicle-contacts.mjs';
 export function runVehicleWheelStages(vehicles,stages) {
  for(const key of ['directions','contacts','suspension','drive','forces','rest','airSpin','orientation','special'])if(typeof stages[key]!=='function')throw Error(`Vehicle wheel stage ${key} is required.`);
  for(const key of ['directions','contacts','suspension','drive'])for(let i=0;i<vehicles.length;i++)stages[key](vehicles[i],i);
@@ -16,20 +17,29 @@ export function runVehicleWheelStages(vehicles,stages) {
 }
 // Each vehicle supplies caller-owned registration, progression, controls and
 // timers. This function does not advance pose, generate collision events or
-// invent those runtime inputs. Unported effects require explicit handlers.
+// invent those runtime inputs. Native wheel effects bind through supplied
+// coherent views and actual drive/force entry stacks in effectRuntime.
 export function updateVehicleWheelFrame(vehicles,environment,handlers={}) {
- const {data,grid,modelContext}=environment,results=vehicles.map(()=>({}));
- if(vehicles.length&&!handlers.onSurfaceParticles)throw Error('Vehicle wheel frame requires its surface-particle handler.');
+ const {data,grid,modelContext,effectRuntime,wheelRuntime}=environment,results=vehicles.map(()=>({}));
+ let onSurfaceParticles=handlers.onSurfaceParticles;
+ if(effectRuntime) {
+  const {views,driveScratchBase,forceScratchBase}=effectRuntime;
+  if(!views||!Number.isInteger(driveScratchBase)||!Number.isInteger(forceScratchBase))throw Error('Vehicle wheel effects require native41c080 and499e90 entry stacks.');
+  for(const vehicle of vehicles)if(views.bodyAt(vehicle.body.address)!==vehicle.body||views.stateFor(vehicle.body)!==vehicle.state||views.driveFor(vehicle.body)!==vehicle.drive)throw Error('Vehicle wheel frame requires coherent native vehicle views.');
+  const effects=views.effectHandlers({scratchBase:forceScratchBase-0x48,surfaceScratchBase:forceScratchBase-0x48,positionAddress:driveScratchBase-24,directionAddress:driveScratchBase-36});
+  onSurfaceParticles??=effects.onSurfaceParticles;
+ }
+ if(vehicles.length&&!onSurfaceParticles)throw Error('Vehicle wheel frame requires its surface-particle handler.');
  for(const vehicle of vehicles){if(!Number.isInteger(vehicle.registeredCellRef))throw Error('Vehicle wheel frame requires explicit registered cell references.');if(!Number.isInteger(vehicle.steeringAngleQ16)||!Number.isInteger(vehicle.state.airSpinCounter))throw Error('Vehicle wheel frame requires explicit steering and airborne-counter state.');}
  runVehicleWheelStages(vehicles,{
   directions:(v,i)=>{results[i].directions=prepareWheelDriveDirections(v.body,v.state.wheels,v.steeringAngleQ16,{reverseSteering:v.reverseSteering});},
-  contacts:(v,i)=>{results[i].contacts=updateVehicleContacts(data,grid,modelContext,v.body,v.state,{spatialState:v.spatialState,specialType4:v.specialType4,onBreakableContact:handlers.onBreakableContact?args=>handlers.onBreakableContact({...args,vehicle:v,index:i}):undefined});},
+  contacts:(v,i)=>{results[i].contacts=wheelRuntime?updateRawVehicleContacts(v.body.address,wheelRuntime):updateVehicleContacts(data,grid,modelContext,v.body,v.state,{spatialState:v.spatialState,specialType4:v.specialType4,onBreakableContact:handlers.onBreakableContact?args=>handlers.onBreakableContact({...args,vehicle:v,index:i}):undefined});},
   suspension:(v,i)=>{results[i].suspension=applyWheelSuspension(v.body,v.state.wheels,v.state.contacts);},
-  drive:(v,i)=>{results[i].drive=updateWheelDrive(v.body,v.state,v.drive,{...v.driveContext,surfaceMode:readVehicleSurfaceMode(data,grid.scene,v.registeredCellRef)},{timeOptions:v.timeOptions,onTractionEffects:handlers.onTractionEffects?args=>handlers.onTractionEffects({...args,vehicle:v,vehicleIndex:i}):undefined,onEmitEffect:handlers.onEmitEffect?args=>handlers.onEmitEffect({...args,vehicle:v,vehicleIndex:i}):undefined});},
-  forces:all=>{for(let i=0;i<all.length;i++)results[i].forces=applyWheelTractionForces(all[i].body,all[i].state.wheels);for(let i=0;i<all.length;i++)handlers.onSurfaceParticles({vehicle:all[i],index:i});},
+  drive:(v,i)=>{results[i].drive=updateWheelDrive(v.body,v.state,v.drive,{...v.driveContext,surfaceMode:readVehicleSurfaceMode(data,grid.scene,v.registeredCellRef)},{timeOptions:environment.timeOptionsFor?.(v.body)??v.timeOptions,effectRuntime:effectRuntime?{views:effectRuntime.views,scratchBase:effectRuntime.driveScratchBase}:undefined,onTractionEffects:handlers.onTractionEffects?args=>handlers.onTractionEffects({...args,vehicle:v,vehicleIndex:i}):undefined,onEmitEffect:handlers.onEmitEffect?args=>handlers.onEmitEffect({...args,vehicle:v,vehicleIndex:i}):undefined});},
+  forces:all=>{for(let i=0;i<all.length;i++)results[i].forces=applyWheelTractionForces(all[i].body,all[i].state.wheels);for(let i=0;i<all.length;i++)onSurfaceParticles({vehicle:all[i],index:i});},
   rest:(v,i)=>{results[i].rest=clampVehicleAtRest(v.body,v.state,v.drive);},
   airSpin:(v,i)=>{results[i].airSpin=dampAirborneSpin(v.body,v.state);},
-  orientation:(v,i)=>{results[i].orientation=assistAirborneOrientation(v.body,v.state);},
+  orientation:(v,i)=>{results[i].orientation=assistAirborneOrientation(v.body,v.state,environment.timeOptionsFor?.(v.body));},
   special:(v,i)=>{results[i].special=updateVehicleSpecialState(v.body,v.state,v.drive,{readTrackBasis:()=>readVehicleTrackBasis(data,grid,v.registeredCellRef,v.trackContext),onSpecialEvent:handlers.onSpecialEvent?args=>handlers.onSpecialEvent({...args,vehicle:v,index:i}):undefined});}
  });
  return results;

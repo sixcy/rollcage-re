@@ -1,0 +1,49 @@
+# Auxiliary controller pose stage
+
+`src/vehicle-auxiliary-animation.mjs` reconstructs complete `416400` and every reached game child. The public outer entry is `updateVehicleAuxiliaryAnimation(recordAddress, {memory, scratchBase})`. `scratchBase` is native entry ESP; raw records, controller storage, bodies and terrain share the same memory. `initializeVehicleAnimationTables(memory)` maps the original three-entry target tables and recovery direction. No game callback, imported service or host process is required by this call chain.
+
+`race-update.mjs` now binds this actual default immediately after each vehicle's `41d2b0` wheel preparation. Its argument is the record address, and its native nested stack is outer entry ESP minus 20. The binding brings the direct-stage inventory to 26 actual defaults out of 42; this count describes bindings, not complete race-frame or whole-game coverage.
+
+## Parent and controls
+
+The record's `+18` pointer selects a 76-byte auxiliary controller. Its first DWORD selects an auxiliary physical body and its second DWORD selects a source body. `416400` captures that second pointer before clearing the auxiliary body's 17 native dynamics fields. The current record body's held/edge fields `710/714` are captured before those clears. The controller pointer is reloaded for the control helper and again before the final pose stage. Momentum, matrix and other neighboring fields remain untouched unless reached children subsequently write them.
+
+Actual `416da0` adjusts the controller's two low phase bits from edge bits 1/2, preserves other flag bits and clamps phase 3 to 2. Menu/state value `91ff80 == 14` inhibits those edge changes. Original target tables are `[50,50,110]` and `[6,6,40]`; current signed shorts approach them through separate add-four and subtract-four tests, with native wrapping and possible overshoot cancellation. Held bits `10000`, `20000` and `4000` clear pairs of orientation-policy bits unless session byte `58c` is nonzero.
+
+Transitions between phases 0 and 1 set a signed timer step of -1 or +1 at `48`. HUD/session mirrors at `a90..a93` update only for matching controllers in the first two records. The parent subsequently adds that step to signed timer position `4a`, clamps a nonpositive result through DWORD `48 = 0`, and clamps results of at least 8 through `48 = 00080000`.
+
+## Direction, acquisition and pose
+
+`416510` samples the source direction through actual `416fa0`. The raw track basis supplies a tangent and packed normal. Dotting the normal with angular velocity drives a hysteretic blend, with thresholds 7,000 and 5,000, a wrapping multiply by 16, and a seven-to-one history filter. The fallback is the source body's negated third matrix column. Original root scratch writes, reciprocal-then-product normalization and all threshold comparisons are preserved.
+
+Actual `4168d0` sums flagged wheel contact vectors and separately accumulates each contact position divided by four toward zero. It writes the contributor count into controller bits `3..5`. Exactly four contacts and sufficient normal length are needed to acquire a new pose. Missing contributors increase the saturating byte at `38`. Acquisition projects the averaged contact point onto its normal and combines the controller's signed target shorts with the sampled direction, preserving native write order and shared-memory aliases.
+
+Previously acquired states can continue through airborne recovery `416c50`, which applies original position growth/decay and direction mixing. `4165c0` handles a requested snap through actual `474850` removal, world-position publication, pose-cache copies and actual `474600` insertion. `416620` filters cached position through `417390`, applies the original weighted-error hysteresis `416f20`, and derives three forces from quarter-position errors and half momentum. Its collision-disable flag uses a 20-update delay below the lower threshold.
+
+Actual `417490` normalizes weighted direction blends. Opposite directions use original RNG jitter when no source body is supplied, or actual `417590` when one is supplied. That fallback normalizes half the source velocity, crosses it with the previous direction and adds the result without a final normalization. A stationary or sufficiently small source velocity leaves the destination unchanged. The reference preserves that stale-output behavior.
+
+`4166d0` filters direction history, measures the current body separation and applies the controller's held-button quaternion policy. Actual `492900` performs the Hamilton products in their native order; both pending stack arguments are accounted for when reading its final vector. `4167f0` normalizes and crosses twice to construct the auxiliary body's short matrix, publishing only after both length thresholds pass. The initial direction may already have been normalized even when matrix publication later returns zero.
+
+The public lower helpers retain their native roles: `updateAuxiliaryAnimationControls`, `sampleAuxiliaryAnimationDirection`, `blendAuxiliaryAnimationContacts`, `recoverAuxiliaryAnimation`, `snapAuxiliaryAnimationBody`, `applyAuxiliaryAnimationForces`, `updateAuxiliaryAnimationMatrix`, `stepAuxiliaryAnimationPose`, `mixAnimationDirections`, `mixAntipodalAnimationDirection`, `filterAnimationPosition`, `updateAnimationMotionGate`, `rotateAnimationVector` and `publishAnimationMatrix`. These exports preserve raw address inputs and native scratch lifetimes.
+
+## Raw track-basis bridge
+
+`src/raw-track-basis.mjs` exports `populateRawVehicleTrackBasis(bodyAddress, tangentAddress, normalAddress, runtime)`, returning native 0/1. It implements actual `417210` through the existing `44a1c0` axis policy and actual `449cd0` route-sign arithmetic. It reads the runtime pack and segment pointers directly, handles the last row/column neighbor policy, reads signed short vertices, retains wrapping route-dot products and decodes the packed cell normal. Negative registrations return zero with stale outputs preserved. Tangent writes precede the packet/normal reload; output buffers may overlap.
+
+The existing structured track-basis implementation remains available. The new raw bridge avoids inventing a resource parser or synchronizing copied runtime objects during the animation chain.
+
+## Producer ownership and remaining limits
+
+Retained constructor `416180` establishes the controller and auxiliary body. It claims a 384-byte block from the existing arena, zeros 76 controller bytes, fills the body with `ff`, then calls actual existing `4798d0` body initialization and `428270` shape registration. It stores the source body at controller `+4` and a controller back-pointer at auxiliary body `+164`. Session fields `a90..a93` seed phase/timer state; short positions come from the table at `909288`. The constructor also resets four global records beginning at `91ff80` and has mode/configuration branches. This constructor/startup parent is traced but not ported in this package. Its arena, shape pools, registration, resource/configuration tables and larger lifecycle remain caller-owned inputs.
+
+The animation and raw-basis comparisons use successful native arithmetic domains. They do not replace division faults or invalid mapped pointers with invented corrective behavior. Terrain rows/normals/routes and upstream physics contacts are supplied explicitly; persistent fixtures change those contact/edge inputs between ticks without claiming a complete physical simulation.
+
+## Validation
+
+`node tools/verify-vehicle-auxiliary-animation-instructions.mjs` passes **1,402 own animation instructions**, **262 raw track-basis instructions**, **2,170 reached instructions**, **4,400 calls** and **6,891,296 interpreted steps**. This includes 2,400 mixed parent/helper fixtures, 160 scenarios with five persistent full-parent calls, and 1,200 separate raw-basis fixtures. Persistent parent inputs include 320 four-contact cases, 656 active states, 72 already-airborne states and 76 snap requests. Every listed helper executes. There are no external calls or game mocks.
+
+The raw-basis corpus covers varied signed geometry and packed normals, route-dot wrapping, player modes/progression, row/column endpoints, negative references and overlapping output buffers. The animation corpus compares the entire declared non-stack memory, including full controller/body/session/progression/terrain/spatial/RNG/root state. Ten focused tests pass via `node --test tests/vehicle-auxiliary-animation.test.mjs`.
+
+`node tools/verify-race-auxiliary-animation-connected-instructions.mjs` passes **240 scenarios × four persistent outer calls = 960 actual `450e50` → `416400` calls**, **2,228 reached instructions** and **4,740,456 interpreted steps**. Every nested call asserts record ECX and entry ESP `S-20`. It reaches 120 actual airborne recoveries and 160 snaps. Earlier-stage contracts mutate held/edge/contact/position inputs and replace the controller pointer after wheel preparation. All memory at or above `10000h` and caller return values/order compare. The other 41 direct stages and final manager service remain declared caller contracts in this integration check.
+
+Primary reports are `analysis/vehicle-auxiliary-animation-instruction-check.json` and `analysis/race-auxiliary-animation-connected-full-instruction-check.json`. The earlier outer report without forced recovery fixtures is retained separately and is not additional coverage. `analysis/race-update-ownership-vehicle-animation.json` records the new binding and exact source hash. Retained evidence includes `283`, `1512..1538`, `1580..1588` and existing math/spatial/track-basis evidence; original table evidence IDs are in `src/vehicle-animation-tables.json`. Reports record the target digest and instruction evidence IDs. These are interpreted shipped instructions over synthetic mapped state, not original-process observations or a complete runtime/renderer reconstruction.

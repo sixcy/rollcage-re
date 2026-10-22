@@ -1,0 +1,104 @@
+{
+  "_meta": {
+    "provenance": {
+      "untrusted_content": true,
+      "source": "analysis_target"
+    }
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"evidence_id\":\"ev_e9b10a1575210fe6213a8f4a1b5341ac932a70b03bd389e7d1c6a5461373432b\",\"subject\":{\"name\":\"Rollcage Redux.exe\",\"digest\":{\"sha256\":\"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5\"},\"local_path\":\"C:\\\\Program Files (x86)\\\\Psygnosis\\\\Rollcage\\\\Direct3D\\\\Rollcage Redux.exe\",\"format\":\"pe\",\"architecture\":\"x86\"},\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"analysis_profile\":{\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"parameters\":{\"target_kind\":\"executable\",\"target_format\":\"pe\",\"executable_role\":\"application\",\"managed\":false,\"native_aot_metadata\":{\"contract_revision\":\"rtr-9.1-x64-pe-read-only-v5\",\"source_bytes\":134217728,\"work_units\":67108864,\"working_memory_bytes\":67108864,\"report_bytes\":4194304},\"architecture\":\"x86\",\"available_architectures\":[\"x86\"],\"import_mode\":\"ephemeral-source-immutable\",\"pdb_observations\":\"program-info-v5\",\"annotation_policy\":\"atomic-function-entry-metadata-v1\",\"load_image_observations\":\"source-mappings-entry-context-v2\",\"function_body_evidence\":\"complete-inclusive-ranges-v1\",\"function_references\":\"complete-body-and-entry-reference-manager-v2\",\"call_relationship_coverage\":\"function-body-call-coverage-v5\",\"function_dossier_coverage\":\"observed-facets-and-call-relationships-v1\",\"string_inventory_evidence\":\"defined-data-coverage-v1\",\"location_resolution\":\"explicit-address-exact-entry-symbol-first-v3\",\"procedure_file_offset_resolution\":\"address-first-unique-target-source-mapping-v2\",\"instruction_flow_evidence\":\"decoded-return-pcode-v1\",\"instruction_references\":\"exact-address-incoming-without-synthetic-entry-v2\",\"function_boundary_observations\":\"ghidra-function-boundary-limitations-v4\",\"no_return_repair\":\"disabled-windows-p0\",\"process_launch\":\"official-headless-script-v1\",\"jump_table_evidence\":\"typed-case-default-blocks-v1\",\"decompiler_jump_loads\":true,\"loader\":\"auto-from-header\",\"language_id\":\"auto-from-header\",\"compiler_spec_id\":\"auto-default\",\"analyzer_preset\":\"ghidra-default\"},\"digest\":\"3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896\"},\"predicate_type\":\"rea.analysis\",\"operation\":\"procedure_assembly\",\"parameters\":{\"procedure\":\"0x4b11f0\"},\"raw_result\":{\"value\":\"0x4b11f0: PUSH -0x1\\n0x4b11f2: PUSH 0x56a944\\n0x4b11f7: MOV EAX, FS:[0x0]\\n0x4b11fd: PUSH EAX\\n0x4b11fe: MOV dword ptr FS:[0x0], ESP\\n0x4b1205: PUSH ECX\\n0x4b1206: PUSH ESI\\n0x4b1207: MOV ESI, ECX\\n0x4b1209: MOV dword ptr [ESP + 0x4], ESI\\n0x4b120d: MOV dword ptr [ESI], 0x5d4190\\n0x4b1213: MOV dword ptr [ESI + 0x818], 0x5d4188\\n0x4b121d: MOV dword ptr [ESI + 0x81c], 0x5d4180\\n0x4b1227: MOV dword ptr [ESP + 0x10], 0x2\\n0x4b122f: CALL 0x004a5e70\\n0x4b1234: MOV ECX, dword ptr [ESI + 0x914]\\n0x4b123a: TEST ECX, ECX\\n0x4b123c: JZ 0x004b124e\\n0x4b123e: MOV EAX, dword ptr [ECX]\\n0x4b1240: PUSH ECX\\n0x4b1241: CALL dword ptr [EAX + 0x48]\\n0x4b1244: MOV dword ptr [ESI + 0x914], 0x0\\n0x4b124e: MOV ECX, dword ptr [ESI + 0x910]\\n0x4b1254: TEST ECX, ECX\\n0x4b1256: JZ 0x004b1278\\n0x4b1258: MOV EAX, dword ptr [ECX]\\n0x4b125a: PUSH ECX\\n0x4b125b: CALL dword ptr [EAX + 0x30]\\n0x4b125e: MOV ECX, dword ptr [ESI + 0x910]\\n0x4b1264: TEST ECX, ECX\\n0x4b1266: JZ 0x004b1278\\n0x4b1268: MOV EAX, dword ptr [ECX]\\n0x4b126a: PUSH ECX\\n0x4b126b: CALL dword ptr [EAX + 0x8]\\n0x4b126e: MOV dword ptr [ESI + 0x910], 0x0\\n0x4b1278: MOV EAX, dword ptr [ESI + 0xd68]\\n0x4b127e: TEST EAX, EAX\\n0x4b1280: JZ 0x004b12aa\\n0x4b1282: PUSH EAX\\n0x4b1283: CALL dword ptr [0x0056e210]\\n0x4b1289: ADD ESP, 0x4\\n0x4b128c: MOV dword ptr [ESI + 0xd68], 0x0\\n0x4b1296: MOV dword ptr [ESI + 0xd6c], 0x0\\n0x4b12a0: MOV dword ptr [ESI + 0xd70], 0x0\\n0x4b12aa: MOV ECX, ESI\\n0x4b12ac: CALL 0x004a5ad0\\n0x4b12b1: LEA EAX, [ESI + 0x8f0]\\n0x4b12b7: PUSH EAX\\n0x4b12b8: CALL dword ptr [0x0056e098]\\n0x4b12be: MOV ECX, dword ptr [ESP + 0x8]\\n0x4b12c2: POP ESI\\n0x4b12c3: MOV dword ptr FS:[0x0], ECX\\n0x4b12ca: ADD ESP, 0x10\\n0x4b12cd: RET\",\"limitations\":[]},\"normalized_result\":\"0x4b11f0: PUSH -0x1\\n0x4b11f2: PUSH 0x56a944\\n0x4b11f7: MOV EAX, FS:[0x0]\\n0x4b11fd: PUSH EAX\\n0x4b11fe: MOV dword ptr FS:[0x0], ESP\\n0x4b1205: PUSH ECX\\n0x4b1206: PUSH ESI\\n0x4b1207: MOV ESI, ECX\\n0x4b1209: MOV dword ptr [ESP + 0x4], ESI\\n0x4b120d: MOV dword ptr [ESI], 0x5d4190\\n0x4b1213: MOV dword ptr [ESI + 0x818], 0x5d4188\\n0x4b121d: MOV dword ptr [ESI + 0x81c], 0x5d4180\\n0x4b1227: MOV dword ptr [ESP + 0x10], 0x2\\n0x4b122f: CALL 0x004a5e70\\n0x4b1234: MOV ECX, dword ptr [ESI + 0x914]\\n0x4b123a: TEST ECX, ECX\\n0x4b123c: JZ 0x004b124e\\n0x4b123e: MOV EAX, dword ptr [ECX]\\n0x4b1240: PUSH ECX\\n0x4b1241: CALL dword ptr [EAX + 0x48]\\n0x4b1244: MOV dword ptr [ESI + 0x914], 0x0\\n0x4b124e: MOV ECX, dword ptr [ESI + 0x910]\\n0x4b1254: TEST ECX, ECX\\n0x4b1256: JZ 0x004b1278\\n0x4b1258: MOV EAX, dword ptr [ECX]\\n0x4b125a: PUSH ECX\\n0x4b125b: CALL dword ptr [EAX + 0x30]\\n0x4b125e: MOV ECX, dword ptr [ESI + 0x910]\\n0x4b1264: TEST ECX, ECX\\n0x4b1266: JZ 0x004b1278\\n0x4b1268: MOV EAX, dword ptr [ECX]\\n0x4b126a: PUSH ECX\\n0x4b126b: CALL dword ptr [EAX + 0x8]\\n0x4b126e: MOV dword ptr [ESI + 0x910], 0x0\\n0x4b1278: MOV EAX, dword ptr [ESI + 0xd68]\\n0x4b127e: TEST EAX, EAX\\n0x4b1280: JZ 0x004b12aa\\n0x4b1282: PUSH EAX\\n0x4b1283: CALL dword ptr [0x0056e210]\\n0x4b1289: ADD ESP, 0x4\\n0x4b128c: MOV dword ptr [ESI + 0xd68], 0x0\\n0x4b1296: MOV dword ptr [ESI + 0xd6c], 0x0\\n0x4b12a0: MOV dword ptr [ESI + 0xd70], 0x0\\n0x4b12aa: MOV ECX, ESI\\n0x4b12ac: CALL 0x004a5ad0\\n0x4b12b1: LEA EAX, [ESI + 0x8f0]\\n0x4b12b7: PUSH EAX\\n0x4b12b8: CALL dword ptr [0x0056e098]\\n0x4b12be: MOV ECX, dword ptr [ESP + 0x8]\\n0x4b12c2: POP ESI\\n0x4b12c3: MOV dword ptr FS:[0x0], ECX\\n0x4b12ca: ADD ESP, 0x10\\n0x4b12cd: RET\",\"confidence\":\"observed\",\"authority\":\"shipped-artifact\",\"environment\":null,\"limitations\":[\"The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.\",\"The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.\",\"Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.\",\"Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.\",\"Assembly is Ghidra Listing text and does not claim textual equivalence with Hopper output.\",\"Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.\",\"The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.\",\"Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically.\"],\"relationship_coverage\":null,\"locations\":[],\"evidence_links\":[]}"
+    }
+  ],
+  "structuredContent": {
+    "evidence_id": "ev_e9b10a1575210fe6213a8f4a1b5341ac932a70b03bd389e7d1c6a5461373432b",
+    "subject": {
+      "name": "Rollcage Redux.exe",
+      "digest": {
+        "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+      },
+      "local_path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+      "format": "pe",
+      "architecture": "x86"
+    },
+    "provider": {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "version": "12.1.4"
+    },
+    "analysis_profile": {
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "parameters": {
+        "target_kind": "executable",
+        "target_format": "pe",
+        "executable_role": "application",
+        "managed": false,
+        "native_aot_metadata": {
+          "contract_revision": "rtr-9.1-x64-pe-read-only-v5",
+          "source_bytes": 134217728,
+          "work_units": 67108864,
+          "working_memory_bytes": 67108864,
+          "report_bytes": 4194304
+        },
+        "architecture": "x86",
+        "available_architectures": [
+          "x86"
+        ],
+        "import_mode": "ephemeral-source-immutable",
+        "pdb_observations": "program-info-v5",
+        "annotation_policy": "atomic-function-entry-metadata-v1",
+        "load_image_observations": "source-mappings-entry-context-v2",
+        "function_body_evidence": "complete-inclusive-ranges-v1",
+        "function_references": "complete-body-and-entry-reference-manager-v2",
+        "call_relationship_coverage": "function-body-call-coverage-v5",
+        "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+        "string_inventory_evidence": "defined-data-coverage-v1",
+        "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+        "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+        "instruction_flow_evidence": "decoded-return-pcode-v1",
+        "instruction_references": "exact-address-incoming-without-synthetic-entry-v2",
+        "function_boundary_observations": "ghidra-function-boundary-limitations-v4",
+        "no_return_repair": "disabled-windows-p0",
+        "process_launch": "official-headless-script-v1",
+        "jump_table_evidence": "typed-case-default-blocks-v1",
+        "decompiler_jump_loads": true,
+        "loader": "auto-from-header",
+        "language_id": "auto-from-header",
+        "compiler_spec_id": "auto-default",
+        "analyzer_preset": "ghidra-default"
+      },
+      "digest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896"
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "procedure_assembly",
+    "parameters": {
+      "procedure": "0x4b11f0"
+    },
+    "raw_result": {
+      "value": "0x4b11f0: PUSH -0x1\n0x4b11f2: PUSH 0x56a944\n0x4b11f7: MOV EAX, FS:[0x0]\n0x4b11fd: PUSH EAX\n0x4b11fe: MOV dword ptr FS:[0x0], ESP\n0x4b1205: PUSH ECX\n0x4b1206: PUSH ESI\n0x4b1207: MOV ESI, ECX\n0x4b1209: MOV dword ptr [ESP + 0x4], ESI\n0x4b120d: MOV dword ptr [ESI], 0x5d4190\n0x4b1213: MOV dword ptr [ESI + 0x818], 0x5d4188\n0x4b121d: MOV dword ptr [ESI + 0x81c], 0x5d4180\n0x4b1227: MOV dword ptr [ESP + 0x10], 0x2\n0x4b122f: CALL 0x004a5e70\n0x4b1234: MOV ECX, dword ptr [ESI + 0x914]\n0x4b123a: TEST ECX, ECX\n0x4b123c: JZ 0x004b124e\n0x4b123e: MOV EAX, dword ptr [ECX]\n0x4b1240: PUSH ECX\n0x4b1241: CALL dword ptr [EAX + 0x48]\n0x4b1244: MOV dword ptr [ESI + 0x914], 0x0\n0x4b124e: MOV ECX, dword ptr [ESI + 0x910]\n0x4b1254: TEST ECX, ECX\n0x4b1256: JZ 0x004b1278\n0x4b1258: MOV EAX, dword ptr [ECX]\n0x4b125a: PUSH ECX\n0x4b125b: CALL dword ptr [EAX + 0x30]\n0x4b125e: MOV ECX, dword ptr [ESI + 0x910]\n0x4b1264: TEST ECX, ECX\n0x4b1266: JZ 0x004b1278\n0x4b1268: MOV EAX, dword ptr [ECX]\n0x4b126a: PUSH ECX\n0x4b126b: CALL dword ptr [EAX + 0x8]\n0x4b126e: MOV dword ptr [ESI + 0x910], 0x0\n0x4b1278: MOV EAX, dword ptr [ESI + 0xd68]\n0x4b127e: TEST EAX, EAX\n0x4b1280: JZ 0x004b12aa\n0x4b1282: PUSH EAX\n0x4b1283: CALL dword ptr [0x0056e210]\n0x4b1289: ADD ESP, 0x4\n0x4b128c: MOV dword ptr [ESI + 0xd68], 0x0\n0x4b1296: MOV dword ptr [ESI + 0xd6c], 0x0\n0x4b12a0: MOV dword ptr [ESI + 0xd70], 0x0\n0x4b12aa: MOV ECX, ESI\n0x4b12ac: CALL 0x004a5ad0\n0x4b12b1: LEA EAX, [ESI + 0x8f0]\n0x4b12b7: PUSH EAX\n0x4b12b8: CALL dword ptr [0x0056e098]\n0x4b12be: MOV ECX, dword ptr [ESP + 0x8]\n0x4b12c2: POP ESI\n0x4b12c3: MOV dword ptr FS:[0x0], ECX\n0x4b12ca: ADD ESP, 0x10\n0x4b12cd: RET",
+      "limitations": []
+    },
+    "normalized_result": "0x4b11f0: PUSH -0x1\n0x4b11f2: PUSH 0x56a944\n0x4b11f7: MOV EAX, FS:[0x0]\n0x4b11fd: PUSH EAX\n0x4b11fe: MOV dword ptr FS:[0x0], ESP\n0x4b1205: PUSH ECX\n0x4b1206: PUSH ESI\n0x4b1207: MOV ESI, ECX\n0x4b1209: MOV dword ptr [ESP + 0x4], ESI\n0x4b120d: MOV dword ptr [ESI], 0x5d4190\n0x4b1213: MOV dword ptr [ESI + 0x818], 0x5d4188\n0x4b121d: MOV dword ptr [ESI + 0x81c], 0x5d4180\n0x4b1227: MOV dword ptr [ESP + 0x10], 0x2\n0x4b122f: CALL 0x004a5e70\n0x4b1234: MOV ECX, dword ptr [ESI + 0x914]\n0x4b123a: TEST ECX, ECX\n0x4b123c: JZ 0x004b124e\n0x4b123e: MOV EAX, dword ptr [ECX]\n0x4b1240: PUSH ECX\n0x4b1241: CALL dword ptr [EAX + 0x48]\n0x4b1244: MOV dword ptr [ESI + 0x914], 0x0\n0x4b124e: MOV ECX, dword ptr [ESI + 0x910]\n0x4b1254: TEST ECX, ECX\n0x4b1256: JZ 0x004b1278\n0x4b1258: MOV EAX, dword ptr [ECX]\n0x4b125a: PUSH ECX\n0x4b125b: CALL dword ptr [EAX + 0x30]\n0x4b125e: MOV ECX, dword ptr [ESI + 0x910]\n0x4b1264: TEST ECX, ECX\n0x4b1266: JZ 0x004b1278\n0x4b1268: MOV EAX, dword ptr [ECX]\n0x4b126a: PUSH ECX\n0x4b126b: CALL dword ptr [EAX + 0x8]\n0x4b126e: MOV dword ptr [ESI + 0x910], 0x0\n0x4b1278: MOV EAX, dword ptr [ESI + 0xd68]\n0x4b127e: TEST EAX, EAX\n0x4b1280: JZ 0x004b12aa\n0x4b1282: PUSH EAX\n0x4b1283: CALL dword ptr [0x0056e210]\n0x4b1289: ADD ESP, 0x4\n0x4b128c: MOV dword ptr [ESI + 0xd68], 0x0\n0x4b1296: MOV dword ptr [ESI + 0xd6c], 0x0\n0x4b12a0: MOV dword ptr [ESI + 0xd70], 0x0\n0x4b12aa: MOV ECX, ESI\n0x4b12ac: CALL 0x004a5ad0\n0x4b12b1: LEA EAX, [ESI + 0x8f0]\n0x4b12b7: PUSH EAX\n0x4b12b8: CALL dword ptr [0x0056e098]\n0x4b12be: MOV ECX, dword ptr [ESP + 0x8]\n0x4b12c2: POP ESI\n0x4b12c3: MOV dword ptr FS:[0x0], ECX\n0x4b12ca: ADD ESP, 0x10\n0x4b12cd: RET",
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+      "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+      "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+      "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+      "Assembly is Ghidra Listing text and does not claim textual equivalence with Hopper output.",
+      "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+      "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+      "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": []
+  }
+}

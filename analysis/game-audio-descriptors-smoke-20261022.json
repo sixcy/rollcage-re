@@ -1,0 +1,34 @@
+{
+  "matched": true,
+  "method": "Full40cea0 original instructions versus actual game-owned sample descriptor defaults. Entire memory, including low/null output and admitted object/native argument/saved-register frame aliases, return, restored TLS and exact ordered CRT arguments/callee entry ESP compare. Explicit declared secure string-copy services snapshot their inputs and append a terminator; original CRT invalid-parameter/debug-fill/undefined-overlap policy is not claimed. Actual CPU external CALL return stores are published explicitly by the interpreter observer. These defaults do not close sample loading, sound-manager virtuals, bank/voice construction, audio startup or original-process execution.",
+  "fixtures": 14,
+  "aliases": 8,
+  "calls": 42,
+  "instructionSteps": 546,
+  "reachedInstructions": 39,
+  "source": {
+    "path": "src/game-audio-descriptors.mjs",
+    "sha256": "d3c957c926ea32973d952ffd7ae3d20e705bc4659c0c47512066ac29c1be6f17"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/9087-audio-chain-40cea0-procedure_assembly.json",
+      "evidence": "ev_4bab8210a92aac3c447d7ae0f0932b5903b06fb00ce20688637cbc9266267ca9",
+      "operation": "procedure_assembly",
+      "sha256": "6ac9c55e17fe0e3caeb9a7195f48dacfea1e27441de491ab85bfdcf73a2ade09"
+    },
+    {
+      "path": "analysis/native-simulation/results/9101-audio-descriptor-literal-0x5d0320.json",
+      "evidence": "ev_62567cfa9f17c7c057c60d58e57ea3a18beec5770b3a0a86772780e77dde7900",
+      "operation": "read_bytes",
+      "sha256": "d6b31de2125de4a75f9fa5c2ee01026e85c458dec15b0f1361b842844773be37"
+    },
+    {
+      "path": "analysis/native-simulation/results/9102-audio-descriptor-literal-0x56fe60.json",
+      "evidence": "ev_58836afc4ed02b843e5e274ce1edae425fe794bd573f130d5c81039f93aa9604",
+      "operation": "read_bytes",
+      "sha256": "e2c1893ce418718fbbbc166c7da7ab58bcefd01d73d22f25a86652896f29e122"
+    }
+  ]
+}

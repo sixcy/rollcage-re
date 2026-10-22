@@ -2,6 +2,11 @@ import tables from './autonomous-dispatch-tables.json' with {type: 'json'};
 import {dotQ16} from './fixed-integer.mjs';
 import {scaleContactVector} from './body-contact-friction.mjs';
 import {autonomousRouteGroup, stepRoutePoints, writeRouteDirection} from './autonomous-route-geometry.mjs';
+import {updateAutonomousRouteConsistency} from './autonomous-route-connectivity.mjs';
+import {updateAutonomousStuckState, maybeStartAutonomousRandomRecovery, updateAutonomousReverseRecovery, updateAutonomousPowerSlide} from './autonomous-recovery.mjs';
+import {updateAutonomousProfilePlan} from './autonomous-profile-plan.mjs';
+import {updateAutonomousWeaponPolicy} from './autonomous-weapon-policy.mjs';
+import {planAutonomousRoute} from './autonomous-route-planner.mjs';
 
 const rng = seed => Math.imul(seed, 0x41a7) & 0x7fffffff;
 const word = (memory, address, value) => memory.writeUInt16LE(value & 65535, address);
@@ -159,7 +164,14 @@ export function runAutonomousMode20(body, {memory, scratchBase}) {
 export function runAutonomousDispatch(body, {memory, scratchBase, handlers = {}} = {}) {
   const clock = memory.readUInt32LE(0x90a548);
   word(memory, body + 0x6c4, memory.readUInt16LE(body + 0x6c4) & 0xbfff); dword(memory, body + 0x710, 0);
-  const invoke = (name, ecx = body, edx, args = []) => call(handlers, name, {memory, ecx, edx, args});
+  const recovered = {call47fc20: updateAutonomousRouteConsistency, call47ff20: updateAutonomousStuckState, call41f0d0: maybeStartAutonomousRandomRecovery, call47ffb0: updateAutonomousReverseRecovery, call4311e0: updateAutonomousPowerSlide};
+  const invoke = (name, ecx = body, edx, args = []) => {
+    if (handlers[name] === undefined && name === 'call41f900') return updateAutonomousProfilePlan(ecx, edx, {memory, scratchBase: scratchBase - 16});
+    if (handlers[name] === undefined && name === 'call4103f0') return updateAutonomousWeaponPolicy(ecx, {memory, scratchBase: scratchBase - 16});
+    if (handlers[name] === undefined && name === 'call421430') return planAutonomousRoute(ecx, {memory, scratchBase: scratchBase - 16, handlers});
+    if (handlers[name] === undefined && recovered[name]) return recovered[name](ecx, {memory, scratchBase: scratchBase - 16});
+    return call(handlers, name, {memory, ecx, edx, args});
+  };
   if (clock % 120 === memory.readUInt16LE(body + 0x65e) * 16) invoke('call41f900', body, 0);
   const prepared = handlers.call420020 ? invoke('call420020') : prepareAutonomousPickupUse(body, {memory});
   if (memory.readUInt32LE(0x6e6510) < clock) {

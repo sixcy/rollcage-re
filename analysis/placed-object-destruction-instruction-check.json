@@ -1,0 +1,96 @@
+{
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "JavaScript references versus retained x86 interpreted by BoundedX86; original process not executed",
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/1202-persistent-emitter-parent-assembly.json",
+      "evidence": "ev_d59a2c479a1eed2290d3a0d88d20dcbd5f0c76d62e49984a785f3dcf7b9075ae",
+      "operation": "procedure_assembly",
+      "sha256": "8703887f31235fe12bcb202a3932fd0d937f6b930096680f579854524f1b6908"
+    },
+    {
+      "path": "analysis/native-simulation/results/3001-destruction-421f60-procedure_assembly.json",
+      "evidence": "ev_06ac54f3513c5811f66320962caf4ed4163d41a3eec496ffa1e50443681c6ff6",
+      "operation": "procedure_assembly",
+      "sha256": "620d26de89eec57f10764afdabf1c64aefc5f3bfb9e90bfaebf52f346ce7dc7c"
+    },
+    {
+      "path": "analysis/native-simulation/results/3015-destruction-492c00-procedure_assembly.json",
+      "evidence": "ev_c55b4fb640a1a74d7c9286d8a23336b8e1030ef067cb4cc0848955f3fe3633fb",
+      "operation": "procedure_assembly",
+      "sha256": "35b3e35d4ca05ec1740ba2a5bb95f5219db607478c237ec2ac2ff7d8c668f256"
+    },
+    {
+      "path": "analysis/native-simulation/results/3016-destruction-initial-phase.json",
+      "evidence": "ev_7ad05fa1059672c0ea567e86df41935da4f8b1b619d9e00d9a5b7924091485df",
+      "operation": "read_bytes",
+      "sha256": "49d5fc348780de8711f7f44d9aedee46e5159da7cf786757d61e0342d25e6302"
+    },
+    {
+      "path": "analysis/native-simulation/results/3020-destruction-variant-initial-value.json",
+      "evidence": "ev_dfb0150d82c35027d9b6ca733f95608e51258da35aab1bf27b54465f22cfee09",
+      "operation": "read_bytes",
+      "sha256": "68fafa2c637b33b245429ca16bceee9bf7cbeb9525619714af14995234108098"
+    },
+    {
+      "path": "analysis/native-simulation/results/727-world-registry-initialize-assembly.json",
+      "evidence": "ev_052b2951467aa7daa1372f23005ea021bc407635a6fb71de60ec39892b4029c6",
+      "operation": "procedure_assembly",
+      "sha256": "7ae31a9f9b7412112401ab8f6a82460ea0abf084364d0229f0d3709ddff95b3c"
+    }
+  ],
+  "fixtures": 64,
+  "withRaceUpdate": false,
+  "otherOuterContracts": 0,
+  "operations": 3424,
+  "instructionSteps": 8458418,
+  "reachedInstructions": 3929,
+  "comparison": "All mapped bytes [0x10000,0xa00000) after every constructor, queue, preparation and parent call. Private stack excluded; consumed stale locals retain actual producer stores.",
+  "variants": {
+    "preparationForwardCopyAliases": 22,
+    "faceCount260ByteClearCases": 8,
+    "retainedFourthShortCases": 32,
+    "dependentChains": 32,
+    "wrappedQueues": 16,
+    "persistentTicksPerScenario": 48,
+    "completedObjects": 160
+  },
+  "calls": {
+    "0x421f60": 3296,
+    "0x492b50": 224,
+    "0x492c00": 224,
+    "0x415230": 3104,
+    "0x44ef90": 192,
+    "0x432680": 785,
+    "0x433400": 2355,
+    "0x474850": 3469,
+    "0x474600": 3309,
+    "0x4334b0": 1005,
+    "0x480760": 64,
+    "0x415190": 64,
+    "0x435f20": 1567,
+    "0x437aa0": 256,
+    "0x475a10": 267,
+    "0x44f910": 251,
+    "0x436490": 251,
+    "0x480bf0": 201,
+    "0x484bb0": 93
+  },
+  "serviceBoundaries": [
+    "CRT malloc at declared synthetic IAT (sizes0x120/0x2a0/0x2000)",
+    "CRT memset568a50",
+    "stack-cookie568162"
+  ],
+  "fixtureInputs": [
+    "Synthetic placed-object geometry and authored config/tag/route-group tables",
+    "Explicit session camera mode2; separate415190 camera branches are covered by placed-object-damage verifier",
+    "Empty sound bank exercises actual40ea40 early guard without an audio device",
+    "Retained original mutable math/effect tables and static phase initializer",
+    "Actual480760 initialization,415190 queue production and all reached game callees"
+  ],
+  "limits": [
+    "Synthetic mapped-memory execution; no original-process runtime observation",
+    "Does not construct the complete level loader or render/draw the resulting geometry"
+  ],
+  "matched": true
+}

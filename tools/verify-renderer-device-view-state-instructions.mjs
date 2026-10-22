@@ -1,0 +1,23 @@
+import assert from 'node:assert/strict';
+import {readFile, writeFile} from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+import {loadRetainedNativeProgram} from './lib/retained-native-program.mjs';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {constructRendererTransformState, setRendererViewportRectangle, initializeRendererDeviceViewConstants} from '../src/renderer-device-view-state.mjs';
+const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
+export async function verifyRendererDeviceViewState({fixtures = 2400, output = 'analysis/renderer-device-view-state-instruction-check.json'} = {}) {
+  const program = await loadRetainedNativeProgram(), machine = new BoundedX86(program.instructions), reached = new Set(); let steps = 0, requests = 0, aliases = 0;
+  machine.onInstruction = p => {steps++; reached.add(p);}; machine.externalCalls.set(0x568a50, state => {const m = state.bytes, output = ptr(m, state.r.ESP), n = ptr(m, state.r.ESP + 8); m.fill(m[state.r.ESP + 4], output, output + n); state.r.EAX = output;});
+  for (let fixture = 0; fixture < fixtures; fixture++) {
+    const m = program.initializeMemory(Buffer.alloc(0xa00000)), variant = fixture >> 1, selector = fixture & 1, object = !selector && variant % 5 === 0 ? 0x6e6390 : 0x100000, rectangle = [0x110000, object + 0x4ec, object + 0x4e8, object + 0x284][variant % 4], trace = [], nativeTrace = [], r = {memory: m, scratchBase: [0x9000, 0x9200, 0x9400][variant % 3]};
+    assert.deepEqual(initializeRendererDeviceViewConstants(Buffer.from(m)), m); m.fill(0x69, 0x7000, 0x9600); m.fill(0xa7, object, object + 0x600); const values = [0, 1, -1, -2147483648, 2147483647, 640, 1080, 0x76543210]; for (let i = 0; i < 4; i++) put(m, rectangle + i * 4, values[(variant + i) % values.length]); put(m, object + 0x36c, 0x120000); put(m, 0x120000, 0x130000); put(m, 0x1300bc, 0xa24000);
+    const deviceCall = (memory, log, device, method, argument) => {log.push([device, method, argument, ...Array.from({length: 6}, (_, i) => ptr(memory, argument + i * 4))]); if (variant % 3 === 0) put(memory, argument + 8, get(memory, argument + 8) + 1); return -1;}; r.services = {d3d9Call: (device, method, args) => deviceCall(m, trace, device, method, args[0])};
+    machine.reset(); m.copy(machine.bytes); machine.externalCalls.set(0xa24000, state => {state.r.EAX = deviceCall(state.bytes, nativeTrace, ptr(state.bytes, state.r.ESP), 0xbc, ptr(state.bytes, state.r.ESP + 4)); state.r.ESP += 8; requests++;});
+    try {if (!selector) constructRendererTransformState(object, r); else setRendererViewportRectangle(object, rectangle, r); machine.entry = selector ? 0x511380 : 0x50ef40; machine.r.ECX = object; machine.r.ESP = r.scratchBase; put(machine.bytes, r.scratchBase, -1); if (selector) put(machine.bytes, r.scratchBase + 4, rectangle); machine.run(); if (!selector) assert.equal(machine.r.EAX, object); assert.deepEqual(nativeTrace, trace);
+      if (!m.subarray(0x10000).equals(machine.bytes.subarray(0x10000))) {let p = 0x10000; while (m[p] === machine.bytes[p]) p++; throw Error(`Mismatch0x${p.toString(16)} JS=${m.subarray(p, p + 16).toString('hex')} native=${machine.bytes.subarray(p, p + 16).toString('hex')}`);} if (rectangle !== 0x110000 || object === 0x6e6390) aliases++;
+    } catch (error) {console.error({fixture, selector, rectangle: rectangle.toString(16), object: object.toString(16), trace, nativeTrace}); throw error;}
+  }
+  const report = {method: 'Actual transform-state constructor50ef40 through402160/402260/402100 and game-owned viewport rectangle adapter511380. LowerIDirect3DDevice9::SetViewport is the explicit genuine COM/platform service, established by actual512a30 CreateDevice producer. All mapped memory>=10000h,defined EAX,ordered platform payloads,original literals and unsigned32→float32 conversion compared. Same/partial input aliases,shared identity overlap,three entryESPs and callback-mutated native private viewport width included. No game mocks or original device/process execution.', targetSha256: program.sha256, fixtures, reachedInstructions: reached.size, instructionSteps: steps, deviceRequests: requests, aliases, matched: true};
+  if (output) {try {await writeFile(output, JSON.stringify(report, null, 2), {flag: 'wx'});} catch (error) {if (error.code !== 'EEXIST') throw error; assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), report);}} return report;
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) console.log(JSON.stringify(await verifyRendererDeviceViewState()));

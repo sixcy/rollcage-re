@@ -6,6 +6,11 @@ import {updateLapAdvance} from './lap-timing.mjs';
 import {finishRaceProgress} from './race-completion.mjs';
 
 const indexFor=key=>typeof key==='string'&&/^(0|[1-9][0-9]*)$/.test(key)?Number(key):null;
+export function packNativeTerrainReference(value){
+ if(Number.isInteger(value))return value|0;
+ if(!value||!Number.isInteger(value.sector)||value.sector<0||value.sector>255||!Number.isInteger(value.column)||value.column< -128||value.column>127||!Number.isInteger(value.row)||value.row< -32768||value.row>32767)throw Error('Native terrain reference requires an integer or sector byte, signed column byte and signed row word.');
+ return(value.sector|((value.column&255)<<8)|((value.row&65535)<<16))|0;
+}
 export function createRespawnRuntime({memory,recordCount,bodyStorage,routeAddresses=new Map(),scratchBase,trackBasis,completionHandlers={},spatialRegistry,spatialHandlers={}}={}) {
  if(!Buffer.isBuffer(memory)||!Number.isInteger(recordCount)||recordCount<0||recordCount>65535||!Array.isArray(bodyStorage)||!(routeAddresses instanceof Map))throw Error('Respawn runtime requires explicit memory, record capacity, body storage and route-address mapping.');
  const range=(address,length,label)=>{if(!Number.isInteger(address)||!Number.isInteger(length)||address<0||length<0||address+length>memory.length)throw Error(`Respawn runtime ${label} exceeds supplied memory.`);};
@@ -43,7 +48,8 @@ export function createRespawnRuntime({memory,recordCount,bodyStorage,routeAddres
  }
  function bodyAt(address){
   if(bodies.has(address))return bodies.get(address);const length=storage.get(address);if(length===undefined)throw Error(`Respawn runtime body0x${address.toString(16)} has no supplied storage extent.`);const body={address,bytes:memory.subarray(address,address+length)};
-  for(const [name,offset,type]of [['flags',0,'s32'],['spatialNextId',4,'u16'],['spatialPreviousId',6,'u16'],['collisionFlags',0x110,'s32'],['collisionCache114',0x114,'s32'],['frameTimeQ16',0x118,'s32'],['closestTerrain11c',0x11c,'s32'],['collisionState128',0x128,'s32'],['field160',0x160,'u16'],['vehicleIndex65e',0x65e,'u16'],['speed668',0x668,'s16'],['field699',0x699,'u8'],['checkpoint6c0',0x6c0,'u16'],['checkpoint6c2',0x6c2,'u16'],['mode718',0x718,'u8']])scalar(body,name,address+offset,type);
+  for(const [name,offset,type]of [['flags',0,'s32'],['spatialNextId',4,'u16'],['spatialPreviousId',6,'u16'],['collisionFlags',0x110,'s32'],['collisionCache114',0x114,'s32'],['frameTimeQ16',0x118,'s32'],['collisionState128',0x128,'s32'],['field160',0x160,'u16'],['vehicleIndex65e',0x65e,'u16'],['speed668',0x668,'s16'],['field699',0x699,'u8'],['checkpoint6c0',0x6c0,'u16'],['checkpoint6c2',0x6c2,'u16'],['mode718',0x718,'u8']])scalar(body,name,address+offset,type);
+  Object.defineProperty(body,'closestTerrain11c',{enumerable:true,get:()=>read(address+0x11c,'s32'),set:value=>write(address+0x11c,'s32',packNativeTerrainReference(value))});
   for(const [name,offset,length,type]of [['position',0x34,3,'s32'],['momentum',0x40,3,'s32'],['angularMomentum',0x4c,3,'s32'],['quaternion',0x58,4,'s32'],['linearVelocity',0x68,3,'s32'],['force',0x74,3,'s32'],['torque',0x80,3,'s32'],['angularVelocity',0xb8,3,'s32'],['rotation',0xc4,9,'s16']])vector(body,name,address+offset,length,type);
   Object.defineProperties(body,{
    controller164:{enumerable:true,get:()=>controllerAt(read(address+0x164,'u32')),set:value=>write(address+0x164,'u32',pointer(value))},

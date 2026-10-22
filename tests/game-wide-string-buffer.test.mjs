@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {growGameWideStringBuffer,assignGameWideString} from '../src/game-wide-string-buffer.mjs';
+import {constructAudioDeviceName,cacheAudioDeviceName} from '../src/xaudio-manager-construction.mjs';
+const ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p);
+test('raw device construction clears inline storage before measuring an aliased source',()=>{
+ const memory=Buffer.alloc(0x800000),object=0x100000;memory.write('Before\0',object,'utf16le');const services={libraryCall(){throw Error('unexpected allocation or copy');}};constructAudioDeviceName(object,object,{memory,scratchBase:0x9000,nativeAudioDeviceNames:true,entryRegisters:{ESI:17,EDI:19},services});assert.equal(ptr(memory,object+16),0);assert.equal(ptr(memory,object+20),7);assert.equal(memory.readUInt16LE(object),0);assert.equal(ptr(memory,object+24),0);
+});
+test('wide assignment emits real memcpy and preserves UTF16 capacity units',()=>{
+ const memory=Buffer.alloc(0x800000),object=0x100000,input=0x110000,output=0x120000,calls=[];put(memory,object+20,7);memory.write('12345678\0',input,'utf16le');const services={libraryCall(name,args,r){calls.push([name,...args,r.scratchBase]);if(name==='operatorNew'){assert.equal(args[0],32);return output;}if(name==='memcpy'){memory.copy(memory,args[0],args[1],args[1]+args[2]);return args[0];}throw Error(name);}};assignGameWideString(object,input,8,{memory,scratchBase:0x9000,entryRegisters:{EBX:11,EBP:13,ESI:17,EDI:19},sehWord:23,services});assert.equal(ptr(memory,object),output);assert.equal(ptr(memory,object+20),15);assert.equal(ptr(memory,object+16),8);assert.equal(memory.toString('utf16le',output,output+16),'12345678');assert(calls.some(([name,to,from,bytes])=>name==='memcpy'&&to===output&&from===input&&bytes===16));
+});
+test('ACP cache reloads wide storage after releasing its prior conversion owner',()=>{
+ const memory=Buffer.alloc(0x800000),object=0x100000,input=0x110000,output=0x120000;put(memory,object+20,7);put(memory,object+24,0x130000);memory.write('old\0',object,'utf16le');memory.write('changed\0',input,'utf16le');const calls=[];const services={libraryCall(name,args){calls.push([name,...args]);if(name==='operatorDeleteArray'){put(memory,object+20,31);put(memory,object,input);return 0;}if(name==='operatorNewArray'){assert.equal(args[0],8);return output;}throw Error(name);},platformCall(name,args){assert.equal(name,'WideCharToMultiByte');assert.equal(args[2],input);assert.equal(args[3],8);assert.equal(memory[output],0);return 0;}};assert.equal(cacheAudioDeviceName(object,{memory,scratchBase:0x9000,nativeAudioDeviceNames:true,services}),output);assert.equal(ptr(memory,object+24),output);assert.deepEqual(calls,[['operatorDeleteArray',0x130000],['operatorNewArray',8]]);
+});

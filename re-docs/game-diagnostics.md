@@ -1,0 +1,15 @@
+# Game diagnostic adapters
+
+`src/game-diagnostics.mjs` reconstructs42c0f0 integer formatting,42c2a0 custom formatting,42bfb0 ordinary diagnostic,42c050 fatal exit adapter,4893e0 CRT-format diagnostic,489b80 output/rotation/timestamp,489360/4795a0 open/retry,479750 truncate,4796d0 append and447c50/401230 resource lookup/release. Original switch/literal bytes and evidence identities are retained in `src/game-diagnostics-tables.json` (3436–3440).
+
+Numeric decisions, prefixes, live memory copies, CR/LF stripping, first-log path construction and rotation, ERROR_LOCK_VIOLATION33 retries and ownership policies are game algorithms. Platform operations are explicit `runtime.services.platformCall(name,args,runtime)`; CRT operations use `crtCall`. No implementation calls the host OS or writes diagnostic files itself. Raw addresses passed in requests refer to the caller's `runtime.memory`; `scratchBase` is native entryESP.
+
+Native quirks retained: sign falls outside zero-padding width; `%p` has uppercase8-digit hexadecimal after lowercase`0x`; short `%s` appends WIDTH spaces rather than WIDTH-minus-length; repeated trailing newlines are stripped only while beyond the first character. The null-string path writes `(null)` then dereferences the null address while measuring length, so mapped raw memory retains that behavior instead of adding null recovery.
+
+`analysis/game-diagnostics-instruction-check.json`:760 retained own instructions,2000 returning-call cases,680 reached instructions,4,169,782steps. All mapped memory>=10000h and exact ordered platform/CRT requests match. Tests cover initialization and reuse, successful/failed/retried file opens, mapped resource free versus CloseHandle, format widths and signed/unsigned limits. Imported time/file/debug/CRT services are declared deterministic test inputs, not original-process evidence.
+
+The integer formatter's valid bounded width domain is0..33. Negative widths do not terminate in a readable native stack domain; very large widths corrupt stack before the native range check. Source fails explicitly there rather than inventing safe output. Fatal exit and unknown-format nonreturning adapters are retained as source but are not covered by returning-call native fixtures. CRT `vsprintf`/`sprintf` remain real library boundaries. General diagnostics are useful infrastructure but do not close the wormhole parent's remaining transport state machine.
+
+The logger now publishes its actual 489c9e timestamp-length PUSH and 489ca8 message-length PUSH at loggerFrame-4/-8 before their append calls. The actual protocol-item receiver to weapon-launch proof consumes the latter word as later light-payload padding; source retains the producer rather than supplying expected payload bytes. A focused regression checks both retained words.
+
+Formatter 42c2a0 publishes optional incoming EBX/EBP at its real prolog PUSH addresses when the caller supplies known entry registers. Failed wormhole activation supplies the owner EBP established by 49a836. The connected outer weapon-stage proof observes these saved words later; unknown incoming registers remain undeclared rather than guessed.

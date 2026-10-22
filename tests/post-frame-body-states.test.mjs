@@ -15,6 +15,12 @@ test('route selection skips the header and the current point by pointer identity
  assert.equal(fixture.calls[0].route,fixture.route);assert.equal(fixture.calls[0].index,1);assert.equal(fixture.routeState.currentPoint,fixture.route.points[1]);assert.deepEqual(fixture.calls[0].position,[10*65536,0,0]);
 });
 
+test('void placement result reaches actual sound defaults without inventing an unused register',()=>{
+ const target=body(),f=setup([target]),memory=Buffer.alloc(0xa00000);f.handlers.apply=()=>{};delete f.handlers.emit;
+ const result=runPostFrameBodyStates(f.group,{routes:f.routes,routeState:f.routeState,slots36:f.slots36,handlers:f.handlers,memory,scratchBase:0x9000});
+ assert.equal(result.respawnedBodies,1);
+});
+
 test('nearest and second-nearest scratch persist between rejected bodies',()=>{
  const first=body(11,0),second=body(11,10),fixture=setup([first,second]);fixture.run();
  assert.equal(fixture.calls.length,2);assert.equal(fixture.calls[0].index,0);

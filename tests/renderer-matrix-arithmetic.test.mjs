@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {initializeRendererSceneConstants} from '../src/renderer-scene-nodes.mjs';
+import {determinantRendererMatrix, invertRendererMatrix, copyTransposedRendererMatrix} from '../src/renderer-matrix-arithmetic.mjs';
+import {verifyRendererMatrixArithmetic} from '../tools/verify-renderer-matrix-arithmetic-instructions.mjs';
+const make = () => ({memory: initializeRendererSceneConstants(Buffer.alloc(0xa00000)), scratchBase: 0x9000});
+test('renderer determinant expands the first column with a fixed four-word row stride', () => {const r = make(), m = r.memory; [1, 2, 3, 99, 0, 4, 5, 99, 1, 0, 6, 99].forEach((v, i) => m.writeFloatLE(v, 0x100000 + i * 4)); assert.equal(determinantRendererMatrix(0x100000, 3, r), 22); assert.equal(determinantRendererMatrix(0x100000, 0, r), 1);});
+test('singular renderer inverse returns shared identity while ordinary inverse keeps binary32 divisions', () => {const r = make(), m = r.memory; invertRendererMatrix(0x100000, 0x110000, r); for (let i = 0; i < 16; i++) assert.equal(m.readFloatLE(0x110000 + i * 4), i % 5 ? 0 : 1); [2, 4, 8, 16].forEach((v, i) => m.writeFloatLE(v, 0x100000 + i * 20)); invertRendererMatrix(0x100000, 0x110000, r); assert.deepEqual([0, 20, 40, 60].map(o => m.readFloatLE(0x110000 + o)), [0.5, 0.25, 0.125, 0.0625]);});
+test('copied renderer transpose snapshots inputs before a partial overlapping output', () => {const r = make(), m = r.memory; for (let i = 0; i < 16; i++) m.writeInt32LE(i, 0x100000 + i * 4); copyTransposedRendererMatrix(0x100000, 0x100004, r); assert.deepEqual(Array.from({length: 16}, (_, i) => m.readInt32LE(0x100004 + i * 4)), [0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15]);});
+test('renderer determinant/inverse/transpose match actual retained instructions and alias order', async () => {assert.equal((await verifyRendererMatrixArithmetic({fixtures: 40, output: null})).matched, true);});

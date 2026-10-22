@@ -2,18 +2,19 @@
 import {unpackCollisionNormal} from './collision-grid.mjs';
 import {terrainPolygon,terrainOutsideEdges,terrainEdgeCode} from './terrain-query.mjs';
 import {resolveTerrainSphereEdge} from './terrain-sphere-edge.mjs';
+import {initializeTerrainQueryState} from './terrain-query-state.mjs';
 const signedByte=value=>value<<24>>24,signedShort=value=>value<<16>>16;
 const dot32=(a,b)=>a.reduce((sum,value,axis)=>(sum+Math.imul(value,b[axis]))|0,0);
-export function queryTerrainSphere(grid,candidates,query,{parameter=65536,bodyFlags=3,roundingMode,output={},scratch={},frameCounter=0}={}) {
+export function queryTerrainSphere(grid,candidates,query,{parameter=65536,bodyFlags=3,roundingMode,output={},scratch={},frameCounter=0,nativeState,maxCandidates=64}={}) {
  const radius=query.radiusQ8??query.radius??0;if(!radius)throw Error('Terrain sphere query requires nonzero radius; use queryTerrainRay for wheel rays.');
- if(candidates.length>64)throw Error('Native terrain query admits at most64 candidates.');
- const visited=candidates.map(candidate=>!!(parameter>>24)&&(candidate.type&15)>5),edges=candidates.map(()=>-1),planes=[];
- Object.assign(scratch,{visited,edges,planes});let remaining=visited.filter(value=>!value).length;
- output.flags=0;output.fractionQ16=parameter|0;if(!remaining)return output;
+ if(!Number.isInteger(maxCandidates)||maxCandidates<0||maxCandidates>65535||candidates.length>maxCandidates)throw Error('Terrain query exceeds the declared native candidate bound.');
+ const state=initializeTerrainQueryState(candidates,parameter,scratch,nativeState),{visited,edges,planes}=state;let remaining=visited.filter(value=>!value).length;
+ output.flags=0;output.fractionQ16=parameter|0;if(!remaining){nativeState?.finish(0);return output;}
+ query=nativeState?.captureQuery()??query;
  const limit=parameter&0x7fffff;output.fractionQ16=limit;
  let sequence=0,packed=-1,planeType=0,lastBase=null,lastId=0,normal=[0,0,0],distance=0x7fffffff,classification=0,fraction=limit,point=[0,0,0],outsideCount=0;
  for(;remaining;){
-  while(visited[sequence])sequence++;const index=sequence++,candidate=candidates[index],type=candidate.type&15,sector=grid.sectors[candidate.sector],base=sector.vertices[candidate.vertexBase];visited[index]=true;remaining--;
+  while(state.isVisited(sequence))sequence++;const index=sequence++,candidate=candidates[index],type=candidate.type&15,sector=grid.sectors[candidate.sector],base=sector.vertices[candidate.vertexBase];state.markVisited(index);remaining--;
   const neighboring=Math.abs(signedByte(lastId>>>8)-signedByte(candidate.id>>>8))<=1&&Math.abs(signedShort(lastId>>>16)-signedShort(candidate.id>>>16))<=1;
   const samePlane=packed===(candidate.packedNormal|0)&&planeType<6&&(neighboring||dot32(base.slice(0,3).map((value,axis)=>(value-lastBase[axis])|0),normal)===0);
   if(!samePlane){
@@ -23,7 +24,7 @@ export function queryTerrainSphere(grid,candidates,query,{parameter=65536,bodyFl
    if(distance>0)endpoint=((dot32(relative.map((value,axis)=>(value+query.deltaQ8[axis])|0),normal)>>8)-radius)|0;
    if(distance<=0||endpoint>=0){
     if((distance<=0||endpoint<256)&&distance<256){
-     if(distance<=0&&distance!==endpoint){classification=2;fraction=0;}else if((bodyFlags&0x1ff)!==4)classification=0x80000;
+     if(distance<=0&&distance!==endpoint){classification=2;fraction=0;}else if(((nativeState?nativeState.bodyFlags():bodyFlags)&0x1ff)!==4)classification=0x80000;
      if(classification)point=normal.map(value=>(-Math.imul(centerDistance,value))>>8);
     }
    }else{
@@ -35,17 +36,17 @@ export function queryTerrainSphere(grid,candidates,query,{parameter=65536,bodyFl
   }
   const eligible=classification!==0&&(!(classification&0x80000)||limit<=output.fractionQ16)&&(classification!==2||output.fractionQ16!==0||distance<=output.distanceQ8);
   if(eligible){
-   planes[index]={pointQ8:point.slice(),normalQ8:normal.slice(),distanceQ8:distance,fractionQ16:fraction};
-   const vertices=terrainPolygon(grid,candidate),outside=terrainOutsideEdges(vertices,point,normal),accept=outside===-1||(type===6?outside===3:type>5&&outside===1);
+   const plane={pointQ8:point.slice(),normalQ8:normal.slice(),distanceQ8:distance,fractionQ16:fraction};if(nativeState)nativeState.writePlane(index,plane);else planes[index]=plane;
+   const vertices=terrainPolygon(grid,candidate),outside=terrainOutsideEdges(vertices,point,normal,nativeState),accept=outside===-1||(type===6?outside===3:type>5&&outside===1);
    if(accept){
-    Object.assign(output,{pointQ8:point.slice(),normalQ16:normal.map(value=>value<<8),distanceQ8:distance,fractionQ16:fraction,flags:classification,cellRef:candidate.id>>>0});
-    if(type>5&&(bodyFlags&0x1ff)!==4)scratch.borderContact={pointQ8:point.slice(),normalQ16:output.normalQ16.slice(),anchorS16:base.slice(0,3).map(signedShort),frameCounter};
-   }else{outsideCount++;edges[index]=terrainEdgeCode(outside,type,vertices.length===3);}
+    const result={pointQ8:point.slice(),normalQ16:normal.map(value=>value<<8),distanceQ8:distance,fractionQ16:fraction,flags:classification,cellRef:candidate.id>>>0};if(nativeState){nativeState.writeContact(result);output.fractionQ16=fraction;output.flags=classification;}else Object.assign(output,result);
+    if(type>5&&((nativeState?nativeState.bodyFlags():bodyFlags)&0x1ff)!==4){if(nativeState)nativeState.writeBorder(point,base);else scratch.borderContact={pointQ8:point.slice(),normalQ16:output.normalQ16.slice(),anchorS16:base.slice(0,3).map(signedShort),frameCounter};}
+   }else{outsideCount++;state.setEdge(index,terrainEdgeCode(outside,type,vertices.length===3));}
   }
   lastId=candidate.id;
  }
  for(let index=0;index<candidates.length&&outsideCount;index++){
-  const code=signedByte(edges[index]);if(code<0)continue;outsideCount--;if(code>=6)continue;
+  const code=state.edgeAt(index);if(code<0)continue;outsideCount--;if(code>=6)continue;
   const candidate=candidates[index],type=candidate.type&15;
   let column=signedByte(candidate.id>>>8),row=signedShort(candidate.id>>>16),opposite;
   switch(code){
@@ -60,9 +61,9 @@ export function queryTerrainSphere(grid,candidates,query,{parameter=65536,bodyFl
   if(type<6&&(row<0||grid.sectors[candidate.sector].rows<=row))run=true;
   else if(type<6||(code!==0&&code!==2)){
    const id=((candidate.id&255)|((column&255)<<8)|((row&65535)<<16))>>>0;
-   for(let other=0;other<candidates.length;other++)if(other!==index&&candidates[other].id===id){const edge=signedByte(edges[other]);if((edge>15&&(edge>>4)===opposite)||(edge&15)===opposite){neighborIndex=other;run=true;break;}}
+   for(let other=0;other<candidates.length;other++)if(other!==index&&candidates[other].id===id){const edge=state.edgeAt(other);if((edge>15&&(edge>>4)===opposite)||(edge&15)===opposite){neighborIndex=other;run=true;break;}}
   }
-  if(run){resolveTerrainSphereEdge(grid,{...candidate,edgeCode:code},neighborIndex<0?null:{...candidates[neighborIndex],edgeCode:edges[neighborIndex]},planes[index],planes[neighborIndex],query,output,{roundingMode});}
+  if(run){resolveTerrainSphereEdge(grid,{...candidate,edgeCode:code},neighborIndex<0?null:{...candidates[neighborIndex],edgeCode:state.edgeAt(neighborIndex)},planes[index],planes[neighborIndex],query,output,{roundingMode,nativeState});}
  }
- return output;
+ nativeState?.finish(output.flags);return output;
 }

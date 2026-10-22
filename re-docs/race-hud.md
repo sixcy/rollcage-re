@@ -1,0 +1,31 @@
+# Race HUD layout, gauges and fonts
+
+`src/race-hud-layout.mjs` exports `initializeRaceHudLayout(runtime)`, the complete retained1,063-instruction4428e0 parent. Runtime carries shared raw `memory`, native entry `scratchBase`, the actual incoming `entryRegisters` and existing viewport/CRT/image services. Startup47ea40 binds it at the actual child ESP with its captured allocator/object-list registers. This direct binding is distinct from proving an entire native startup session.
+
+The parent runs actual40ab70 viewport queries, initializes67 atlas selectors and flags, signed-short screen coordinates, four eight-digit rows, tagged pools,134 packed120-byte quad records and participant primitives. It retains native wrap, signed division, f32 rounding, partial/padding writes and the special horizontal UV reversal. The default divisor is400; nonzero session+552 selects550. Original4439a0 switch bytes and5eb5fc divisor were independently extracted from the exact SHA-verified PE and then corroborated byte-for-byte by retained11488/11489. A zero divisor remains a native failure domain.
+
+`src/race-hud-state.mjs` supplies445e30 brightness/timers and47e760/47e890 gauges. Brightness uses an unsigned255 clamp and selective RGB masks; it touches the first quad of each pair and skips indices2,3,65. Timer writes preserve their original widths. Gauge targets use signed wrapped multiplication/division and WORD smoothing in16-unit increments. The displayed panel follows the selected double buffer, while smoothing always updates the first panel. The actual47e240 vehicle-presentation constructor produces both panel buffers and the selected-body root in the connected producer proof.
+
+`src/race-hud-fonts.mjs` supplies44fbc0 glyph scanning/atlas packing,439150 registry construction and48b750 primitive initialization. The glyph constructor preserves the native empty-glyph fallback,256-pixel page placement, odd-byte/WORD/DWORD copy order, packed texture IDs, palette filtering and retain/reuse/free policy. Registry initialization builds the character maps and copies the large font record before its partial metadata changes.48b750 publishes82dfa0 and initializes224 primitive header groups plus28 flags. Image loading4895d0, texture construction408680 and all reached image conversion/resampling workers execute their existing actual algorithms.
+
+The font fixture reads installed archive resource9 `FONT_BMP` without modifying it. Its decoded bitmap is5200×74,384972bytes, SHA256 `e5d0bea767bc757f61a979dec53f2471966323f0c141efc61bf68b84516d465b`. The supplied predecoded resource cache, viewport/configuration/atlas/session roots and serialized STL worker schedule are declared constructed inputs, not an original-process capture. Renderer virtual78/88 are still explicit **game adapter boundaries** in these HUD checks; their texture pool/upload graph is being closed separately. No complete renderer/backend or whole-game claim follows from this package.
+
+## Retained-instruction checks
+
+Every check compares all mapped bytes at/above10000h and defined returns. Image/font checks additionally compare ordered CRT/platform/STL requests and complete uploaded image levels. The actual target SHA256 is `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
+
+- `verify-race-hud-state-instructions.mjs`:3000 cases,248 reached instructions,3740217 steps; actual445e30/47e760/47e890, without game mocks.
+- `verify-race-hud-gauge-construction-instructions.mjs`:120 worlds,1080 calls,902 reached instructions,3760100 steps; actual vehicle-presentation constructor followed by eight gauge/brightness updates per world.
+- `verify-race-hud-fonts-instructions.mjs`:4 fixtures,8 bootstrap/font calls,6 uploads,2533 reached instructions,20559368 steps. It covers direct glyph construction, both font modes, retained atlas reuse and primitive initialization, alternating16/32-bit formats.
+- `verify-race-hud-font-mipmaps-instructions.mjs`:the same4 fixtures and6 uploads with actual default mipmap settings,264 actual worker calls,4354 reached instructions and20763662 steps.
+- `verify-race-hud-parent-connected-instructions.mjs`:12 populated viewport/atlas/configuration worlds,24 bootstrap/parent calls,12 uploads,3920 reached instructions,55563100 steps. Actual4428e0→445e30→48b750→439150→44fbc0→4895d0/408680 executes; absent selected-body state legitimately takes the gauge guard. The separate producer proof covers populated gauges.
+
+The counts overlap and must not be added as coverage percentages. Three native entry ESPs are exercised. The historical staged checker under `tools/next-phase/race-hud/` retains a broader1280×2 parent-only contract corpus, including all session-mode bytes and live state mutations; its missing-child contracts are not evidence of connected closure.
+
+The later [real renderer upload connection](renderer-texture-upload.md) replaces78/88 contracts in a separate corpus. Actual pool constructors→installed fonts→renderer acquisition/upload now pass four font worlds and six full-layout worlds, including default mipmaps and complete declared Direct3D pixel storage. Canonical408680 uses those exact-target defaults when no scoped service override is supplied. The earlier reports above keep their original boundary scope.
+
+## Consumed private-stack producers
+
+The connected16-bit path exposed4c2270 packed-RGBA call arguments and return-slot bytes later copied into cleared images. `game-image-format.mjs` now publishes only those actual optional-native-stack stores, preserving callers without an entry ESP.36 native fixtures cover three ESPs, four depths and output aliases with both argument slots; the full2400-case format oracle still passes.
+
+Default mipmaps similarly consume4c4c20's saved exception-chain word, handler56b522 and state markers. `game-image-resampling.mjs` publishes the actual prolog/saved-register and exception-state stores. `runtime.sehWord` is explicit inherited chain input, distinct from interpreter FS/TLS state.36 zero-size native fixtures cover saved-word aliases; the existing240-case resampling oracle passes2426 reached instructions and618299 steps. No OS/device execution, exception unwinding or installed-file writes are used.

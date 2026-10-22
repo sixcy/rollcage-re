@@ -1,0 +1,11 @@
+# Material value storage and attribute fields
+
+`src/renderer-material-values.mjs` reconstructs `402590` typed value storage, `402460/4060d0` scalar/range destruction, `50dd70` material attribute append and `50dce0` attribute mask. Evidence: retained 13394/13395, 13404/13405, 13410–13413, 13420/13421 and original enum table 13437. Target SHA-256 is `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
+
+Typed value storage operates on a 40-byte record: narrow string at `+0`, independent owner `+18`, type DWORD `+1c`, value pointer `+20` and signed capacity DWORD `+24`. Types 0–4 select 1, 2, 4, 16 and 1 DWORD elements; other types select zero. Existing capacity does not shrink. Signed negative capacity can therefore cause a zero-byte array-new even for an unknown type. The incoming source pointer is reloaded after allocation before the memcpy. Destructors reload each later owned pointer and name capacity after preceding free calls, then reset the original SSO name fields without inventing resets to other fields.
+
+Attribute append uses material's **signed byte** count at `+4`, rejects counts at least eight and retains native negative-row addressing for negative counts. It stores the type DWORD, index WORD, mode byte and a zero byte in original order, with an unread fourth argument. Attribute masks do not clamp positive counts to eight; they skip only type DWORD `ffffffff` and use x86's low-five-bit shift count. Negative signed counts produce a zero mask.
+
+`tools/verify-renderer-material-values-instructions.mjs` passes **6,000 calls, 164 reached instructions and 365,922 steps** in 1,200 fixture worlds. It compares all mapped bytes at and above `10000h`, defined returns, and ordered genuine CRT allocation/free/copy requests with child ESPs. Fixtures cover every type, zero sizes, signed capacity, retained allocation sizes, pointer/header mutation at frees and allocation, negative attribute rows, counts through 127 and raw shift types. Five focused tests cover these rules. No game callee is mocked or original process executed.
+
+These are complete bounded value/attribute algorithms. Full material construction, property-vector copies/growth, shader-name ownership and shader program compilation remain separate work; this note does not claim full material/renderer startup closure.

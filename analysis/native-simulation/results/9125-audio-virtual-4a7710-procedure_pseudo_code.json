@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "provenance": {
+      "untrusted_content": true,
+      "source": "analysis_target"
+    }
+  },
+  "content": [
+    {
+      "type": "text",
+      "text": "{\"evidence_id\":\"ev_4e853ed329e61629504d18807ec61567a7b276d7db4777b1dd027fe7f61aa5b1\",\"subject\":{\"name\":\"Rollcage Redux.exe\",\"digest\":{\"sha256\":\"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5\"},\"local_path\":\"C:\\\\Program Files (x86)\\\\Psygnosis\\\\Rollcage\\\\Direct3D\\\\Rollcage Redux.exe\",\"format\":\"pe\",\"architecture\":\"x86\"},\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"analysis_profile\":{\"provider\":{\"id\":\"ghidra\",\"name\":\"Ghidra\",\"version\":\"12.1.4\"},\"parameters\":{\"target_kind\":\"executable\",\"target_format\":\"pe\",\"executable_role\":\"application\",\"managed\":false,\"native_aot_metadata\":{\"contract_revision\":\"rtr-9.1-x64-pe-read-only-v5\",\"source_bytes\":134217728,\"work_units\":67108864,\"working_memory_bytes\":67108864,\"report_bytes\":4194304},\"architecture\":\"x86\",\"available_architectures\":[\"x86\"],\"import_mode\":\"ephemeral-source-immutable\",\"pdb_observations\":\"program-info-v5\",\"annotation_policy\":\"atomic-function-entry-metadata-v1\",\"load_image_observations\":\"source-mappings-entry-context-v2\",\"function_body_evidence\":\"complete-inclusive-ranges-v1\",\"function_references\":\"complete-body-and-entry-reference-manager-v2\",\"call_relationship_coverage\":\"function-body-call-coverage-v5\",\"function_dossier_coverage\":\"observed-facets-and-call-relationships-v1\",\"string_inventory_evidence\":\"defined-data-coverage-v1\",\"location_resolution\":\"explicit-address-exact-entry-symbol-first-v3\",\"procedure_file_offset_resolution\":\"address-first-unique-target-source-mapping-v2\",\"instruction_flow_evidence\":\"decoded-return-pcode-v1\",\"instruction_references\":\"exact-address-incoming-without-synthetic-entry-v2\",\"function_boundary_observations\":\"ghidra-function-boundary-limitations-v4\",\"no_return_repair\":\"disabled-windows-p0\",\"process_launch\":\"official-headless-script-v1\",\"jump_table_evidence\":\"typed-case-default-blocks-v1\",\"decompiler_jump_loads\":true,\"loader\":\"auto-from-header\",\"language_id\":\"auto-from-header\",\"compiler_spec_id\":\"auto-default\",\"analyzer_preset\":\"ghidra-default\"},\"digest\":\"3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896\"},\"predicate_type\":\"rea.analysis\",\"operation\":\"procedure_pseudo_code\",\"parameters\":{\"procedure\":\"0x4a7710\"},\"raw_result\":{\"value\":\"\\r\\nundefined4 FUN_004a7710(int param_1)\\r\\n\\r\\n{\\r\\n  char cVar1;\\r\\n  BOOL BVar2;\\r\\n  DWORD DVar3;\\r\\n  undefined4 uVar4;\\r\\n  int *in_stack_00000018;\\r\\n  wchar_t awStack_844 [496];\\r\\n  undefined4 uStack_464;\\r\\n  undefined1 *puStack_460;\\r\\n  undefined1 auStack_45c [4];\\r\\n  undefined4 uStack_458;\\r\\n  undefined1 local_43c [1024];\\r\\n  LARGE_INTEGER local_3c;\\r\\n  HANDLE local_30;\\r\\n  undefined1 local_2c;\\r\\n  DWORD local_28;\\r\\n  DWORD local_24;\\r\\n  _OVERLAPPED local_20;\\r\\n  void *local_c;\\r\\n  undefined1 *puStack_8;\\r\\n  uint local_4;\\r\\n  \\r\\n  puStack_8 = &LAB_0056a448;\\r\\n  local_c = ExceptionList;\\r\\n  local_4 = 0;\\r\\n  ExceptionList = &local_c;\\r\\n  cVar1 = FUN_004a7f40();\\r\\n  if (cVar1 != '\\\\0') {\\r\\n    local_30 = (HANDLE)0xffffffff;\\r\\n    local_2c = 0;\\r\\n    local_28 = 0;\\r\\n    local_24 = 0;\\r\\n    local_4 = CONCAT31(local_4._1_3_,1);\\r\\n    wcsncpy_s(awStack_844,0x200,(wchar_t *)(param_1 + 0x30),0x1ff);\\r\\n    FUN_004a7fc0(local_43c);\\r\\n    local_2c = 0;\\r\\n    local_20.hEvent = (HANDLE)0x0;\\r\\n    local_20.Internal = 0;\\r\\n    local_20.InternalHigh = 0;\\r\\n    local_20.u.s.Offset = 0;\\r\\n    local_20.u.s.OffsetHigh = 0;\\r\\n    cVar1 = FUN_004a3b40();\\r\\n    if (cVar1 != '\\\\0') {\\r\\n      BVar2 = GetFileSizeEx(local_30,&local_3c);\\r\\n      if ((BVar2 == 0) || ((local_3c.s.HighPart == 0 && (local_3c.s.LowPart < 0x100000)))) {\\r\\n        *(undefined1 *)(param_1 + 0x459) = 0;\\r\\n      }\\r\\n      FUN_004a2af0();\\r\\n    }\\r\\n    local_4 = local_4 & 0xffffff00;\\r\\n    if ((local_28 != 0) && (local_24 != local_28)) {\\r\\n      uStack_458 = 0x4a7878;\\r\\n      BVar2 = GetOverlappedResult(local_30,&local_20,&local_24,0);\\r\\n      if ((BVar2 == 0) && (DVar3 = GetLastError(), DVar3 == 0x3e4)) {\\r\\n        CancelIo(local_30);\\r\\n      }\\r\\n    }\\r\\n    CloseHandle(local_30);\\r\\n    local_30 = (HANDLE)0xffffffff;\\r\\n  }\\r\\n  puStack_460 = auStack_45c;\\r\\n  local_4._0_1_ = 2;\\r\\n  if (in_stack_00000018 != (int *)0x0) {\\r\\n    if (in_stack_00000018 != (int *)&stack0x00000008) {\\r\\n      puStack_460 = (undefined1 *)0x0;\\r\\n    }\\r\\n    uStack_464 = 0x4a78ef;\\r\\n    (**(code **)*in_stack_00000018)();\\r\\n  }\\r\\n  puStack_460 = (undefined1 *)param_1;\\r\\n  local_4 = (uint)local_4._1_3_ << 8;\\r\\n  uStack_464 = 0x4a7907;\\r\\n  uVar4 = FUN_004a7460();\\r\\n  local_4 = 0xffffffff;\\r\\n  if (in_stack_00000018 != (int *)0x0) {\\r\\n    (**(code **)(*in_stack_00000018 + 0x10))();\\r\\n  }\\r\\n  ExceptionList = local_c;\\r\\n  return uVar4;\\r\\n}\\r\\n\\r\\n\",\"limitations\":[]},\"normalized_result\":\"\\r\\nundefined4 FUN_004a7710(int param_1)\\r\\n\\r\\n{\\r\\n  char cVar1;\\r\\n  BOOL BVar2;\\r\\n  DWORD DVar3;\\r\\n  undefined4 uVar4;\\r\\n  int *in_stack_00000018;\\r\\n  wchar_t awStack_844 [496];\\r\\n  undefined4 uStack_464;\\r\\n  undefined1 *puStack_460;\\r\\n  undefined1 auStack_45c [4];\\r\\n  undefined4 uStack_458;\\r\\n  undefined1 local_43c [1024];\\r\\n  LARGE_INTEGER local_3c;\\r\\n  HANDLE local_30;\\r\\n  undefined1 local_2c;\\r\\n  DWORD local_28;\\r\\n  DWORD local_24;\\r\\n  _OVERLAPPED local_20;\\r\\n  void *local_c;\\r\\n  undefined1 *puStack_8;\\r\\n  uint local_4;\\r\\n  \\r\\n  puStack_8 = &LAB_0056a448;\\r\\n  local_c = ExceptionList;\\r\\n  local_4 = 0;\\r\\n  ExceptionList = &local_c;\\r\\n  cVar1 = FUN_004a7f40();\\r\\n  if (cVar1 != '\\\\0') {\\r\\n    local_30 = (HANDLE)0xffffffff;\\r\\n    local_2c = 0;\\r\\n    local_28 = 0;\\r\\n    local_24 = 0;\\r\\n    local_4 = CONCAT31(local_4._1_3_,1);\\r\\n    wcsncpy_s(awStack_844,0x200,(wchar_t *)(param_1 + 0x30),0x1ff);\\r\\n    FUN_004a7fc0(local_43c);\\r\\n    local_2c = 0;\\r\\n    local_20.hEvent = (HANDLE)0x0;\\r\\n    local_20.Internal = 0;\\r\\n    local_20.InternalHigh = 0;\\r\\n    local_20.u.s.Offset = 0;\\r\\n    local_20.u.s.OffsetHigh = 0;\\r\\n    cVar1 = FUN_004a3b40();\\r\\n    if (cVar1 != '\\\\0') {\\r\\n      BVar2 = GetFileSizeEx(local_30,&local_3c);\\r\\n      if ((BVar2 == 0) || ((local_3c.s.HighPart == 0 && (local_3c.s.LowPart < 0x100000)))) {\\r\\n        *(undefined1 *)(param_1 + 0x459) = 0;\\r\\n      }\\r\\n      FUN_004a2af0();\\r\\n    }\\r\\n    local_4 = local_4 & 0xffffff00;\\r\\n    if ((local_28 != 0) && (local_24 != local_28)) {\\r\\n      uStack_458 = 0x4a7878;\\r\\n      BVar2 = GetOverlappedResult(local_30,&local_20,&local_24,0);\\r\\n      if ((BVar2 == 0) && (DVar3 = GetLastError(), DVar3 == 0x3e4)) {\\r\\n        CancelIo(local_30);\\r\\n      }\\r\\n    }\\r\\n    CloseHandle(local_30);\\r\\n    local_30 = (HANDLE)0xffffffff;\\r\\n  }\\r\\n  puStack_460 = auStack_45c;\\r\\n  local_4._0_1_ = 2;\\r\\n  if (in_stack_00000018 != (int *)0x0) {\\r\\n    if (in_stack_00000018 != (int *)&stack0x00000008) {\\r\\n      puStack_460 = (undefined1 *)0x0;\\r\\n    }\\r\\n    uStack_464 = 0x4a78ef;\\r\\n    (**(code **)*in_stack_00000018)();\\r\\n  }\\r\\n  puStack_460 = (undefined1 *)param_1;\\r\\n  local_4 = (uint)local_4._1_3_ << 8;\\r\\n  uStack_464 = 0x4a7907;\\r\\n  uVar4 = FUN_004a7460();\\r\\n  local_4 = 0xffffffff;\\r\\n  if (in_stack_00000018 != (int *)0x0) {\\r\\n    (**(code **)(*in_stack_00000018 + 0x10))();\\r\\n  }\\r\\n  ExceptionList = local_c;\\r\\n  return uVar4;\\r\\n}\\r\\n\\r\\n\",\"confidence\":\"observed\",\"authority\":\"shipped-artifact\",\"environment\":null,\"limitations\":[\"The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.\",\"The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.\",\"Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.\",\"Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.\",\"Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.\",\"External functions and functions without an analyzable body return null; other decompiler failures remain explicit.\",\"Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.\",\"The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.\",\"Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically.\"],\"relationship_coverage\":null,\"locations\":[],\"evidence_links\":[]}"
+    }
+  ],
+  "structuredContent": {
+    "evidence_id": "ev_4e853ed329e61629504d18807ec61567a7b276d7db4777b1dd027fe7f61aa5b1",
+    "subject": {
+      "name": "Rollcage Redux.exe",
+      "digest": {
+        "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+      },
+      "local_path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+      "format": "pe",
+      "architecture": "x86"
+    },
+    "provider": {
+      "id": "ghidra",
+      "name": "Ghidra",
+      "version": "12.1.4"
+    },
+    "analysis_profile": {
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "parameters": {
+        "target_kind": "executable",
+        "target_format": "pe",
+        "executable_role": "application",
+        "managed": false,
+        "native_aot_metadata": {
+          "contract_revision": "rtr-9.1-x64-pe-read-only-v5",
+          "source_bytes": 134217728,
+          "work_units": 67108864,
+          "working_memory_bytes": 67108864,
+          "report_bytes": 4194304
+        },
+        "architecture": "x86",
+        "available_architectures": [
+          "x86"
+        ],
+        "import_mode": "ephemeral-source-immutable",
+        "pdb_observations": "program-info-v5",
+        "annotation_policy": "atomic-function-entry-metadata-v1",
+        "load_image_observations": "source-mappings-entry-context-v2",
+        "function_body_evidence": "complete-inclusive-ranges-v1",
+        "function_references": "complete-body-and-entry-reference-manager-v2",
+        "call_relationship_coverage": "function-body-call-coverage-v5",
+        "function_dossier_coverage": "observed-facets-and-call-relationships-v1",
+        "string_inventory_evidence": "defined-data-coverage-v1",
+        "location_resolution": "explicit-address-exact-entry-symbol-first-v3",
+        "procedure_file_offset_resolution": "address-first-unique-target-source-mapping-v2",
+        "instruction_flow_evidence": "decoded-return-pcode-v1",
+        "instruction_references": "exact-address-incoming-without-synthetic-entry-v2",
+        "function_boundary_observations": "ghidra-function-boundary-limitations-v4",
+        "no_return_repair": "disabled-windows-p0",
+        "process_launch": "official-headless-script-v1",
+        "jump_table_evidence": "typed-case-default-blocks-v1",
+        "decompiler_jump_loads": true,
+        "loader": "auto-from-header",
+        "language_id": "auto-from-header",
+        "compiler_spec_id": "auto-default",
+        "analyzer_preset": "ghidra-default"
+      },
+      "digest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896"
+    },
+    "predicate_type": "rea.analysis",
+    "operation": "procedure_pseudo_code",
+    "parameters": {
+      "procedure": "0x4a7710"
+    },
+    "raw_result": {
+      "value": "\r\nundefined4 FUN_004a7710(int param_1)\r\n\r\n{\r\n  char cVar1;\r\n  BOOL BVar2;\r\n  DWORD DVar3;\r\n  undefined4 uVar4;\r\n  int *in_stack_00000018;\r\n  wchar_t awStack_844 [496];\r\n  undefined4 uStack_464;\r\n  undefined1 *puStack_460;\r\n  undefined1 auStack_45c [4];\r\n  undefined4 uStack_458;\r\n  undefined1 local_43c [1024];\r\n  LARGE_INTEGER local_3c;\r\n  HANDLE local_30;\r\n  undefined1 local_2c;\r\n  DWORD local_28;\r\n  DWORD local_24;\r\n  _OVERLAPPED local_20;\r\n  void *local_c;\r\n  undefined1 *puStack_8;\r\n  uint local_4;\r\n  \r\n  puStack_8 = &LAB_0056a448;\r\n  local_c = ExceptionList;\r\n  local_4 = 0;\r\n  ExceptionList = &local_c;\r\n  cVar1 = FUN_004a7f40();\r\n  if (cVar1 != '\\0') {\r\n    local_30 = (HANDLE)0xffffffff;\r\n    local_2c = 0;\r\n    local_28 = 0;\r\n    local_24 = 0;\r\n    local_4 = CONCAT31(local_4._1_3_,1);\r\n    wcsncpy_s(awStack_844,0x200,(wchar_t *)(param_1 + 0x30),0x1ff);\r\n    FUN_004a7fc0(local_43c);\r\n    local_2c = 0;\r\n    local_20.hEvent = (HANDLE)0x0;\r\n    local_20.Internal = 0;\r\n    local_20.InternalHigh = 0;\r\n    local_20.u.s.Offset = 0;\r\n    local_20.u.s.OffsetHigh = 0;\r\n    cVar1 = FUN_004a3b40();\r\n    if (cVar1 != '\\0') {\r\n      BVar2 = GetFileSizeEx(local_30,&local_3c);\r\n      if ((BVar2 == 0) || ((local_3c.s.HighPart == 0 && (local_3c.s.LowPart < 0x100000)))) {\r\n        *(undefined1 *)(param_1 + 0x459) = 0;\r\n      }\r\n      FUN_004a2af0();\r\n    }\r\n    local_4 = local_4 & 0xffffff00;\r\n    if ((local_28 != 0) && (local_24 != local_28)) {\r\n      uStack_458 = 0x4a7878;\r\n      BVar2 = GetOverlappedResult(local_30,&local_20,&local_24,0);\r\n      if ((BVar2 == 0) && (DVar3 = GetLastError(), DVar3 == 0x3e4)) {\r\n        CancelIo(local_30);\r\n      }\r\n    }\r\n    CloseHandle(local_30);\r\n    local_30 = (HANDLE)0xffffffff;\r\n  }\r\n  puStack_460 = auStack_45c;\r\n  local_4._0_1_ = 2;\r\n  if (in_stack_00000018 != (int *)0x0) {\r\n    if (in_stack_00000018 != (int *)&stack0x00000008) {\r\n      puStack_460 = (undefined1 *)0x0;\r\n    }\r\n    uStack_464 = 0x4a78ef;\r\n    (**(code **)*in_stack_00000018)();\r\n  }\r\n  puStack_460 = (undefined1 *)param_1;\r\n  local_4 = (uint)local_4._1_3_ << 8;\r\n  uStack_464 = 0x4a7907;\r\n  uVar4 = FUN_004a7460();\r\n  local_4 = 0xffffffff;\r\n  if (in_stack_00000018 != (int *)0x0) {\r\n    (**(code **)(*in_stack_00000018 + 0x10))();\r\n  }\r\n  ExceptionList = local_c;\r\n  return uVar4;\r\n}\r\n\r\n",
+      "limitations": []
+    },
+    "normalized_result": "\r\nundefined4 FUN_004a7710(int param_1)\r\n\r\n{\r\n  char cVar1;\r\n  BOOL BVar2;\r\n  DWORD DVar3;\r\n  undefined4 uVar4;\r\n  int *in_stack_00000018;\r\n  wchar_t awStack_844 [496];\r\n  undefined4 uStack_464;\r\n  undefined1 *puStack_460;\r\n  undefined1 auStack_45c [4];\r\n  undefined4 uStack_458;\r\n  undefined1 local_43c [1024];\r\n  LARGE_INTEGER local_3c;\r\n  HANDLE local_30;\r\n  undefined1 local_2c;\r\n  DWORD local_28;\r\n  DWORD local_24;\r\n  _OVERLAPPED local_20;\r\n  void *local_c;\r\n  undefined1 *puStack_8;\r\n  uint local_4;\r\n  \r\n  puStack_8 = &LAB_0056a448;\r\n  local_c = ExceptionList;\r\n  local_4 = 0;\r\n  ExceptionList = &local_c;\r\n  cVar1 = FUN_004a7f40();\r\n  if (cVar1 != '\\0') {\r\n    local_30 = (HANDLE)0xffffffff;\r\n    local_2c = 0;\r\n    local_28 = 0;\r\n    local_24 = 0;\r\n    local_4 = CONCAT31(local_4._1_3_,1);\r\n    wcsncpy_s(awStack_844,0x200,(wchar_t *)(param_1 + 0x30),0x1ff);\r\n    FUN_004a7fc0(local_43c);\r\n    local_2c = 0;\r\n    local_20.hEvent = (HANDLE)0x0;\r\n    local_20.Internal = 0;\r\n    local_20.InternalHigh = 0;\r\n    local_20.u.s.Offset = 0;\r\n    local_20.u.s.OffsetHigh = 0;\r\n    cVar1 = FUN_004a3b40();\r\n    if (cVar1 != '\\0') {\r\n      BVar2 = GetFileSizeEx(local_30,&local_3c);\r\n      if ((BVar2 == 0) || ((local_3c.s.HighPart == 0 && (local_3c.s.LowPart < 0x100000)))) {\r\n        *(undefined1 *)(param_1 + 0x459) = 0;\r\n      }\r\n      FUN_004a2af0();\r\n    }\r\n    local_4 = local_4 & 0xffffff00;\r\n    if ((local_28 != 0) && (local_24 != local_28)) {\r\n      uStack_458 = 0x4a7878;\r\n      BVar2 = GetOverlappedResult(local_30,&local_20,&local_24,0);\r\n      if ((BVar2 == 0) && (DVar3 = GetLastError(), DVar3 == 0x3e4)) {\r\n        CancelIo(local_30);\r\n      }\r\n    }\r\n    CloseHandle(local_30);\r\n    local_30 = (HANDLE)0xffffffff;\r\n  }\r\n  puStack_460 = auStack_45c;\r\n  local_4._0_1_ = 2;\r\n  if (in_stack_00000018 != (int *)0x0) {\r\n    if (in_stack_00000018 != (int *)&stack0x00000008) {\r\n      puStack_460 = (undefined1 *)0x0;\r\n    }\r\n    uStack_464 = 0x4a78ef;\r\n    (**(code **)*in_stack_00000018)();\r\n  }\r\n  puStack_460 = (undefined1 *)param_1;\r\n  local_4 = (uint)local_4._1_3_ << 8;\r\n  uStack_464 = 0x4a7907;\r\n  uVar4 = FUN_004a7460();\r\n  local_4 = 0xffffffff;\r\n  if (in_stack_00000018 != (int *)0x0) {\r\n    (**(code **)(*in_stack_00000018 + 0x10))();\r\n  }\r\n  ExceptionList = local_c;\r\n  return uVar4;\r\n}\r\n\r\n",
+    "confidence": "observed",
+    "authority": "shipped-artifact",
+    "environment": null,
+    "limitations": [
+      "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+      "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+      "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+      "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+      "Pseudocode is Ghidra decompiler output, not original source and not text-equivalent to Hopper output.",
+      "External functions and functions without an analyzable body return null; other decompiler failures remain explicit.",
+      "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+      "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+      "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+    ],
+    "relationship_coverage": null,
+    "locations": [],
+    "evidence_links": []
+  }
+}

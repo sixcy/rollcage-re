@@ -1,12 +1,13 @@
 // FUN_00424ff0's zero-radius path, used by wheel probes. Sphere/edge contacts
 // use the separate FUN_00425f10 path and are not admitted by this entry point.
 import {add32,subtract32,signedShort} from './fixed-integer.mjs';
+import {initializeTerrainQueryState} from './terrain-query-state.mjs';
 const dot32=(a,b)=>a.reduce((sum,value,i)=>add32(sum,Math.imul(value,b[i])),0);
 const cross32=(a,b)=>[0,1,2].map(i=>subtract32(Math.imul(a[(i+1)%3],b[(i+2)%3]),Math.imul(a[(i+2)%3],b[(i+1)%3])));
 const signedByte=value=>(value<<24)>>24;
 function polygon(grid,candidate) {
  const sector=grid.sectors[candidate.sector],base=candidate.vertexBase,stride=candidate.columns+1;
- const vertex=offset=>sector.vertices[base+offset].slice(0,3);
+ const vertex=offset=>sector.vertices[base+offset];
  switch(candidate.type) {
   case 2:return [vertex(stride),vertex(0),vertex(1)];
   case 3:return [vertex(1),vertex(stride+1),vertex(stride)];
@@ -20,11 +21,12 @@ function polygon(grid,candidate) {
 // Native side-wall construction subtracts 0x01000000 from packed x/y, so
 // subtracting 256 from the signed y short wraps without modifying x.
 const raised=vertex=>[vertex[0],signedShort(vertex[1]-256),vertex[2]];
-function outsideEdges(vertices,pointQ8,normal) {
- const point=pointQ8.map(value=>value>>8),relative=vertices.map(vertex=>vertex.map((value,i)=>signedShort(subtract32(value,point[i]))));
- let first=-1;
- for(let edge=0;edge<relative.length;edge++)if(dot32(cross32(relative[(edge+1)%relative.length],relative[edge]),normal)<0) {
-  if(first!==-1)return first|(edge<<4);first=edge;
+function outsideEdges(vertices,pointQ8,normal,nativeState) {
+ const point=pointQ8.map(value=>value>>8),relative=vertex=>[0,1,2].map(i=>signedShort(subtract32(vertex[i],point[i]))),initial=relative(vertices[0]);
+ let first=-1,previous=initial;
+ for(let edge=0;edge<vertices.length;edge++){
+  const next=edge+1===vertices.length?initial:relative(vertices[edge+1]),cross=cross32(next,previous);nativeState?.polygonCross(next,previous,cross);
+  if(dot32(cross,normal)<0){if(first!==-1)return first|(edge<<4);first=edge;}previous=next;
  }
  return first;
 }
@@ -59,20 +61,21 @@ function sharedEdge(current,other) {
 // Shared native polygon bookkeeping; the radius-bearing path keeps its own
 // plane-selection and edge pass while using the same authored topology.
 export {polygon as terrainPolygon,outsideEdges as terrainOutsideEdges,edgeCode as terrainEdgeCode};
-export function queryTerrainRay(grid,candidates,query,{parameter=0x1010000,bodyFlags=3}={}) {
+export function queryTerrainRay(grid,candidates,query,{parameter=0x1010000,bodyFlags=3,scratch={},nativeState,maxCandidates=64}={}) {
  if((query.radiusQ8??query.radius??0)!==0)throw Error('Terrain ray query requires zero radius; sphere edge contacts are not reconstructed.');
- if(candidates.length>64)throw Error('Native terrain query admits at most 64 candidates.');
- const visited=candidates.map(candidate=>!!(parameter>>24)&&candidate.type>5),edges=candidates.map(()=>-1);
+ if(!Number.isInteger(maxCandidates)||maxCandidates<0||maxCandidates>65535||candidates.length>maxCandidates)throw Error('Terrain query exceeds the declared native candidate bound.');
+ const state=initializeTerrainQueryState(candidates,parameter,scratch,nativeState),{visited,edges}=state;
  let remaining=visited.filter(value=>!value).length;
- if(!remaining)return {flags:0,fractionQ16:parameter|0};
+ if(!remaining){nativeState?.finish(0);return {flags:0,fractionQ16:parameter|0};}
+ query=nativeState?.captureQuery()??query;
  const initialLimit=parameter&0x7fffff,result={flags:0,fractionQ16:initialLimit};
  let sequence=0,next=-1,packed=-1,planeType=0,lastBase=null,lastId=0,normal=[0,0,0],distance=0x7fffffff;
  let classification=0,fraction=initialLimit,point=[0,0,0];
  while(remaining) {
   let index=next;next=-1;
-  if(index<0){while(visited[sequence])sequence++;index=sequence++;}
+  if(index<0){while(state.isVisited(sequence))sequence++;index=sequence++;}
   const candidate=candidates[index],sector=grid.sectors[candidate.sector],base=sector.vertices[candidate.vertexBase];
-  visited[index]=true;remaining--;
+  state.markVisited(index);remaining--;
   const neighboring=Math.abs(signedByte(lastId>>>8)-signedByte(candidate.id>>>8))<=1&&Math.abs(signedShort(lastId>>>16)-signedShort(candidate.id>>>16))<=1;
   const samePlane=packed===(candidate.packedNormal|0)&&planeType<6&&(neighboring||dot32(base.slice(0,3).map((value,i)=>subtract32(value,lastBase[i])),normal)===0);
   if(!samePlane) {
@@ -85,7 +88,7 @@ export function queryTerrainRay(grid,candidates,query,{parameter=0x1010000,bodyF
    if(distance<=0||endpoint>=0) {
     if((distance<=0||endpoint<256)&&distance<256) {
      if(distance<=0&&distance!==endpoint){classification=2;fraction=0;}
-     else if((bodyFlags&0x1ff)!==4)classification=0x80000;
+     else if(((nativeState?nativeState.bodyFlags():bodyFlags)&0x1ff)!==4)classification=0x80000;
      if(classification)point=normal.map(value=>(-Math.imul(distance,value))>>8);
     }
    }else {
@@ -99,22 +102,22 @@ export function queryTerrainRay(grid,candidates,query,{parameter=0x1010000,bodyF
   }
   let eligible=classification!==0;
   if(classification===0x80000&&initialLimit>result.fractionQ16)eligible=false;
-  if(classification===2&&result.fractionQ16===0&&distance>result.distanceQ8)eligible=false;
+  if(classification===2&&result.fractionQ16===0&&distance>(nativeState?nativeState.distanceQ8():result.distanceQ8))eligible=false;
   if(eligible) {
-   const vertices=polygon(grid,candidate),outside=outsideEdges(vertices,point,normal);
+   const vertices=polygon(grid,candidate),outside=outsideEdges(vertices,point,normal,nativeState);
    let accept=outside===-1||(candidate.type===6?outside===3:candidate.type>5&&outside===1);
    if(!accept) {
-    const code=edgeCode(outside,candidate.type,vertices.length===3);edges[index]=code;
+    const code=edgeCode(outside,candidate.type,vertices.length===3);state.setEdge(index,code);
     if(!remaining)break;
     const id=adjacentId(candidate,code);
     for(let other=0;other<candidates.length;other++)if(candidates[other].id===id) {
-     if(!visited[other]){next=other;break;}
-     if(edges[other]>=0&&sharedEdge(code,edges[other])){accept=true;break;}
+     if(!state.isVisited(other)){next=other;break;}
+     if(state.edgeAt(other)>=0&&sharedEdge(code,state.edgeAt(other))){accept=true;break;}
     }
    }
-   if(accept)return {flags:classification,fractionQ16:fraction,pointQ8:point.slice(),normalQ16:normal.map(value=>value<<8),distanceQ8:distance,cellRef:candidate.id,candidateIndex:index};
+   if(accept){const type=candidate.type,result={flags:classification,fractionQ16:fraction,pointQ8:point.slice(),normalQ16:normal.map(value=>value<<8),distanceQ8:distance,cellRef:candidate.id,candidateIndex:index};nativeState?.writeContact(result);if(type>5&&((nativeState?nativeState.bodyFlags():bodyFlags)&0x1ff)!==4)nativeState?.writeBorder(point,base);nativeState?.finish(classification);return result;}
   }
   lastId=candidate.id;
  }
- return result;
+ nativeState?.finish(result.flags);return result;
 }

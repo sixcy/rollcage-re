@@ -69,9 +69,17 @@ export function prepareWheelDriveInputs(body,drive,{gameMode,modeFlags}={}) {
 export function wheelDriveEffectColor(mode) {
  switch(mode&255){case 1:case 8:case 10:return 0x404040;case 2:case 5:case 7:case 11:return 0x1b1bbf;default:return 0;}
 }
-// FUN_0041c080. The native effect callees can mutate wheel/effect state and
-// must be supplied explicitly; no implicit audio/particle approximation.
-export function updateWheelDrive(body,state,drive,context,{timeOptions={},onTractionEffects,onEmitEffect}={}) {
+// FUN_0041c080. Native effects use coherent views and caller-supplied entryESP.
+// Explicit handlers retain the interface-probe path for structured callers.
+export function updateWheelDrive(body,state,drive,context,{timeOptions={},onTractionEffects,onEmitEffect,effectRuntime}={}) {
+ if(effectRuntime) {
+  const {views,scratchBase}=effectRuntime;
+  if(!Number.isInteger(scratchBase)||!views||views.bodyAt(body.address)!==body||views.stateFor(body)!==state||views.driveFor(body)!==drive)throw Error('Wheel effects require coherent native vehicle views and the41c080 entry stack.');
+  //SUB4c and four saved registers: parent ESP=S-5c. Traction enters
+  //41c720 atS-74, then483b90 atS-90. Rear436630 enters atS-70.
+  const effects=views.effectHandlers({body,scratchBase:scratchBase-0x70,tractionScratchBase:scratchBase-0x90,rearScratchBase:scratchBase-0x70,positionAddress:scratchBase-24,directionAddress:scratchBase-36});
+  onTractionEffects??=effects.onTractionEffects;onEmitEffect??=effects.onEmitEffect;
+ }
  const {wheels,descriptors,driveEffects}=state;
  if(wheels.length!==4||descriptors.length!==4||driveEffects?.length!==6)throw Error('Wheel drive requires four wheels/descriptors and six effect slots.');
  const {specialMode,surfaceMode,effectLevel,effectMode}=context;

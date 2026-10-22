@@ -1,6 +1,7 @@
 import {lookupSqrt,signedShort,abs32} from './fixed-integer.mjs';
-import {formatLapTimeDigits} from './lap-timing.mjs';
+import {formatLapTimeDigits,formatRawLapTimeDigits} from './lap-timing.mjs';
 import {stepReplayControl} from './replay-codec.mjs';
+import {pollInputPacket, decodeAnalogVehicleInput} from './vehicle-input-packets.mjs';
 
 //42a870: digital controls become byte-valued steering/throttle/brake axes.
 //recordAddress is909300+index*30c; inputAddress is the body's708 control block.
@@ -39,17 +40,17 @@ export function updateVehicleControlState(bodyAddress,{memory}) {
 }
 
 //42a6e0 routes packet, autonomous and replay inputs into the common708 block.
-//Physical packet polling/analog decoding remain explicit reached boundaries.
+//Physical packet polling and analog decoding use recovered game algorithms;
+//device sample/configuration producers remain caller-owned runtime state.
 export function updateVehicleInputBlock(bodyAddress,vehicleIndex,{memory,scratchBase,handlers={}}) {
  const u32=p=>memory.readUInt32LE(p),s32=p=>memory.readInt32LE(p),d=(p,value)=>memory.writeInt32LE(value|0,p),input=bodyAddress+0x708;
- const required=name=>{if(typeof handlers[name]!=='function')throw Error(`Vehicle input requires reached handler ${name}.`);return handlers[name];};
- const poll=()=>{if(!Number.isInteger(scratchBase))throw Error('Vehicle packet input requires native entry stack.');required('pollInput471250')({memory,bodyAddress,vehicleIndex,pointerAddress:bodyAddress+0x724,statusAddress:scratchBase-12});return u32(bodyAddress+0x724);};
+ const poll=()=>{if(!Number.isInteger(scratchBase))throw Error('Vehicle packet input requires native entry stack.');if(handlers.pollInput471250)handlers.pollInput471250({memory,bodyAddress,vehicleIndex,pointerAddress:bodyAddress+0x724,statusAddress:scratchBase-12});else pollInputPacket(vehicleIndex,bodyAddress+0x724,scratchBase-12,{memory});return u32(bodyAddress+0x724);};
  const replay=()=>{if(handlers.replay42ab90)return handlers.replay42ab90({memory,bodyAddress});return stepReplayControl(bodyAddress,{memory});};
  const mode=memory[bodyAddress+0x718];let session;
  if(mode===9){const packet=poll();memory[bodyAddress+0x719]=memory[packet+1]!==0x41?1:0;d(bodyAddress+0x710,~((memory[packet+2]<<8)+memory[packet+3]));return 0;}
  if(mode===10){
   const packet=poll();memory[bodyAddress+0x719]=memory[packet+1]!==0x41?1:0;d(bodyAddress+0x710,(memory.readUInt16LE(packet+4)<<16)|(~((memory[packet+2]<<8)+memory[packet+3])&65535));
-  required('decodeAnalog434360')({memory,bodyAddress,vehicleIndex});session=u32(0x5ecb1c);
+  if(handlers.decodeAnalog434360)handlers.decodeAnalog434360({memory,bodyAddress,vehicleIndex});else decodeAnalogVehicleInput(vehicleIndex,{memory});session=u32(0x5ecb1c);
   if(memory[session+0x58b]){const original=u32(bodyAddress+0x710);memory[input]=255-memory[input];d(bodyAddress+0x710,original&0xffff5fff);if(original&0x8000)d(bodyAddress+0x710,(original&0xffff5fff)|0x2000);if(original&0x2000)d(bodyAddress+0x710,u32(bodyAddress+0x710)|0x8000);}
  }else session=u32(0x5ecb1c);
  const controller=u32(bodyAddress+0x660),state=controller?s32(controller+0x1e880):null;
@@ -66,7 +67,7 @@ export function updateVehicleInputBlock(bodyAddress,vehicleIndex,{memory,scratch
 
 //443d90 produces664/668/66a AFTER physics/recovery in450e50. Those values feed
 //the following frame's handling and autonomous callers, not the preceding one.
-export function updateVehicleMotionState(recordAddress,{memory}) {
+export function updateVehicleMotionState(recordAddress,{memory,scratchBase}) {
  const initialSession=memory.readUInt32LE(0x5ecb1c),initialState=memory.readInt32LE(initialSession+0x57c),body=memory.readUInt32LE(recordAddress),components=[0x68,0x6c,0x70].map(offset=>memory.readInt32LE(body+offset)>>8),squared=components.reduce((sum,value)=>(sum+Math.imul(value,value))|0,0),speed=lookupSqrt(squared)<<8;
  memory.writeInt32LE(abs32(squared),0x91d45c);memory.writeInt32LE(Math.clz32(abs32(squared)),0x91d460);
  memory.writeInt32LE(speed,body+0x664);const session=memory.readUInt32LE(0x5ecb1c);
@@ -75,9 +76,24 @@ export function updateVehicleMotionState(recordAddress,{memory}) {
   const product=Math.imul(speed,108),scaled=((product+((product>>31)&15))|0)>>4,display=signedShort(scaled>>16);memory.writeInt16LE(display,body+0x668);if(display>memory.readInt16LE(body+0x66a))memory.writeInt16LE(display,body+0x66a);
  }
  if(initialState>=4&&memory[recordAddress+0x1c]<=memory[session+0x586]){
-  const time=Math.trunc(((memory.readInt32LE(0x90a548)<<11)>>>0)/3);memory.writeInt32LE((time-memory.readInt32LE(recordAddress+0x4c))|0,recordAddress+0x2c);memory.writeInt32LE((time-memory.readInt32LE(recordAddress+0x50))|0,recordAddress+0x34);formatLapTimeDigits(memory.subarray(recordAddress,recordAddress+0x30c),0);
+  const time=Math.trunc(((memory.readInt32LE(0x90a548)<<11)>>>0)/3);memory.writeInt32LE((time-memory.readInt32LE(recordAddress+0x4c))|0,recordAddress+0x2c);memory.writeInt32LE((time-memory.readInt32LE(recordAddress+0x50))|0,recordAddress+0x34);if(Number.isInteger(scratchBase))formatRawLapTimeDigits(recordAddress,0,{memory,scratchBase});else formatLapTimeDigits(memory.subarray(recordAddress,recordAddress+0x30c),0);
  }
  return speed;
+}
+
+//48d680 follows speed/timer publication in450e50. One category1 wheel contact
+//adds drive force once per participant; throttle bit40 selects the lower gain.
+//Stop after the first hit, preserving the native early return before later
+//descriptor pointers are read. Category is the low byte of material+0xc.
+export function updateVehicleSurfaceDrive(recordAddress,{memory}) {
+ const body=memory.readUInt32LE(recordAddress),input=memory.readUInt32LE(body+0x710);
+ for(let index=0;index<4;index++) {
+  const material=memory.readUInt32LE(body+0x198+index*28);
+  if(material&&memory[material+12]===1) {
+   memory.writeInt32LE((memory.readInt32LE(body+0x6a8)+(input&0x40?0x3000:0x5000))|0,body+0x6a8);
+   return;
+  }
+ }
 }
 
 //49bbc0: linked controls retain local mode/metadata bytes and clear unrelated

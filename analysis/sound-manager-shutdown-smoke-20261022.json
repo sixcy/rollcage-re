@@ -1,0 +1,30 @@
+{
+  "matched": true,
+  "fixtures": 30,
+  "instructionSteps": 26456,
+  "reachedInstructions": 889,
+  "actualGameCalls": {
+    "4a5e70": 30,
+    "4afc00": 120,
+    "4a34c0": 5,
+    "4aa250": 30,
+    "4a7950": 30,
+    "4ad8f0": 43,
+    "4ad910": 43,
+    "4b2130": 28,
+    "4b2240": 15,
+    "4ad250": 43,
+    "4afc80": 29,
+    "4aa000": 60,
+    "4a34a0": 5
+  },
+  "allocated": 10,
+  "deleted": 491,
+  "comCalls": 144,
+  "source": {
+    "path": "src/sound-manager-shutdown.mjs",
+    "sha256": "ff92c8220744e549d719f0c8a2c76b68f5a1ec80241e5aac69b6fd18ae58e593"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual4a5e70 stop sequence with real managed-thread, queued wrapper, deferred callback/vector, sample/voicepool, waveform-cache, listener and inline mixer/COM/callable destruction. Full10MiB including every privateframe and TLS plus ordered genuine CRT/Win32/XAudio2 calls and calleeESP compare. Caller-owned initialized headers/objects, completed/null thread handles, inline/heap/empty known callbacks, shared source references, nullable voices and actual pool-record retirement are exercised. Decoder child destruction is covered separately; these stop fixtures use nonstreaming source objects. RTTI results are declared genuine MSVC service inputs; original process, host threads/device and unknown game virtuals are unclaimed. Deferred vector840h is intentionally left populated."
+}

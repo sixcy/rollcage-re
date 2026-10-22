@@ -27,7 +27,7 @@ let instructionSteps = 0, invalid = 0, created = 0, reused = 0, positional = 0, 
 const fixtures = 3000, adapterFixtures = 2400;
 for (let fixture = 0; fixture < fixtures; fixture++) {
   const directSetup = fixture >= adapterFixtures;
-  machine.reset(); const bytes = machine.bytes;
+  machine.reset(); machine.fs0 = 0x12345678; const bytes = machine.bytes;
   bytes.fill(0xa5, 0x8000, 0x9000); bytes.writeUInt32LE(0x12345678, 0);
   byteEvidence.forEach(item => Buffer.from(item.normalized_result.bytes_hex, 'hex').copy(bytes, Number(item.normalized_result.address)));
   bytes.writeFloatLE(fixture % 2 ? -(2 ** -20) : 2 ** -20, 0x5ecdb4);
@@ -149,7 +149,8 @@ for (let fixture = 0; fixture < fixtures; fixture++) {
     assert.deepEqual(bytes.subarray(CHANNELS, CHANNELS + 16 * 16), sourceMemory.subarray(CHANNELS, CHANNELS + 16 * 16), `retained channels ${fixture}`);
     assert.deepEqual(bytes.subarray(NEW, NEW + 16), sourceMemory.subarray(NEW, NEW + 16), `allocated channel ${fixture}`);
     assert.deepEqual(bytes.subarray(EFFECTS, EFFECTS + 17 * 32), sourceMemory.subarray(EFFECTS, EFFECTS + 17 * 32), `effect state ${fixture}`);
-    assert.equal(bytes.readUInt32LE(0), sourceMemory.readUInt32LE(0), 'restored exception chain');
+    assert.equal(machine.fs0, 0x12345678, 'restored explicit TLS exception chain');
+    assert.equal(bytes.readUInt32LE(0), sourceMemory.readUInt32LE(0), 'ordinary address zero remains unchanged');
     if (sourceParameters) assert.deepEqual(nativeParameters(), sourceParameters, `mutable parameter block ${fixture}`);
   } catch (error) {console.error(JSON.stringify({fixture, code, registerEdx, args, count, roundRobin, nativeLog, sourceLog})); throw error;}
   if (!directSetup && !nativeLog.length) invalid++;

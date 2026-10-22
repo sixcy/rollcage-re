@@ -1,0 +1,27 @@
+{
+  "matched": true,
+  "fixtures": 120,
+  "warmCategory": true,
+  "streaming": true,
+  "reachedInstructions": 2329,
+  "instructionSteps": 124753,
+  "actualGameCalls": {
+    "4addc0": 120,
+    "4ad580": 119,
+    "40cf70": 13,
+    "4a7fc0": 13,
+    "4b48f0": 13,
+    "4af2a0": 13,
+    "4b4720": 10,
+    "4a91d0": 13,
+    "4aefc0": 9,
+    "4ad5b0": 4
+  },
+  "comCalls": 48,
+  "source": {
+    "path": "src/audio-sample-stream-reopen.mjs",
+    "sha256": "262207deeaa459701e6a25972f3c310effc0a1f5f63b2308eed65ee1ce24cd37"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual4addc0 voice flush/GetState and early-buffer rejection, actual40cf70/4a7fc0 path construction, actual4b48f0 WAV/AIFF reset/reopen/parser/PCM population,4029b0 readiness and4aefc0 poll, actual source activity/pending-clear and debugger/category/record producers. All10MiB including private stacks/TLS, AL and ordered genuine CRT/Win32/XAudio2/calleeESP compare. Synthetic caller-owned nonstreaming WAV decoder state, file/error variants and live voice replacement define this domain; successful polling currently exercises null stream, with populated streaming buffers separately required. No game callbacks or original device/process execution."
+}

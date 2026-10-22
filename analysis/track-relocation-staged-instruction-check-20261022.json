@@ -1,0 +1,33 @@
+{
+  "method": "Exact bounded original44c2b0 section44c46a through44c71d; stop before44c71e with an explicit diagnostic trap, not an invented native return/callee. No game or library calls inside this section. Compares every mapped byte>=10000h, seven parent local words, captured/live base and auxiliary-base registers. Synthetic tables cover empty/nonempty route/model/sector lists, duplicate-child selection, conditional null relative pointers, clamped RGB with retained alpha, wrapping signed indices and live global/color/sector-table aliases. Original surrounding loader, valid authored provenance, allocation/image/material/body/registry graphs remain open; staged helper not yet integrated. No original-process execution.",
+  "targetSHA256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "fixtures": 1200,
+  "reachedInstructions": 202,
+  "instructionSteps": 299518,
+  "baseAliases": 93,
+  "colorAliases": 65,
+  "sectorAliases": 59,
+  "sourceSnapshot": [
+    {
+      "path": "tools/next-phase/track-relocation.mjs",
+      "sha256": "5440070cb9b1382f23d9078d4f149426443737a16a2ddb93d5452ff4420fb057"
+    },
+    {
+      "path": "tools/next-phase/check-track-relocation.mjs",
+      "sha256": "83da98a820366c0811874fab8c3e4991572543e84bd8ab2d45b42dd74e816582"
+    },
+    {
+      "path": "tools/lib/bounded-x86.mjs",
+      "sha256": "27c96315ad42e1a31cab5478b255f530ac59b623111edf5e29b7e17e19274128"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "analysis/scene/results/068-loader-assembly.json",
+      "evidence": "ev_f5eddfe878790ed034b165f848b3f30c76f84c3a9ca63310c4a967679e949ff6",
+      "operation": "procedure_assembly",
+      "sha256": "8f03465037096805e2abcf4f9d92ec5e2a7066e05daa5c33b72a341fd28b5702"
+    }
+  ],
+  "matched": true
+}

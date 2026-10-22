@@ -1,0 +1,85 @@
+// Native storage adapters for the structured 4749e0 components. These neither
+// allocate game storage nor establish a complete reconstructed physics tick.
+import {CollisionEventQueue} from './collision-events.mjs';
+import {BodyShapePool,registerBodyCollisionShapes} from './body-shape-registration.mjs';
+import {unpackCollisionNormal} from './collision-grid.mjs';
+import {packNativeTerrainReference} from './respawn-runtime.mjs';
+const indexFor=key=>typeof key==='string'&&/^-?(0|[1-9][0-9]*)$/.test(key)?Number(key):null;
+
+export function createPhysicsRuntimeViews({memory,bodyAt:bodyFactory,bodyStorage=[],bodyLists,groupCapacity=65,shapeCapacity=256,candidateCapacity=2048,bucketAt:bucketFactory,collisionFilters=new Map(),candidateMapping={}}={}){
+ if(!Buffer.isBuffer(memory)||!Array.isArray(bodyStorage)||!Array.isArray(bodyLists)||!Number.isInteger(groupCapacity)||groupCapacity<1||groupCapacity>65||!Number.isInteger(shapeCapacity)||shapeCapacity<1||shapeCapacity>256||!Number.isInteger(candidateCapacity)||candidateCapacity<1)throw Error('Physics views require explicit memory, pointer-list capacities and bounded pool capacities.');
+ const range=(p,n)=>{if(!Number.isInteger(p)||p<0||!Number.isInteger(n)||n<0||p+n>memory.length)throw Error('Physics view exceeds supplied native storage.');};
+ const size=type=>type==='u8'?1:type==='u16'||type==='s16'?2:4;
+ const read=(p,type='s32')=>{range(p,size(type));return type==='u8'?memory[p]:type==='u16'?memory.readUInt16LE(p):type==='s16'?memory.readInt16LE(p):type==='u32'?memory.readUInt32LE(p):memory.readInt32LE(p);};
+ const write=(p,type,value)=>{range(p,size(type));if(!Number.isInteger(value))throw Error('Physics native field requires an integer.');if(type==='u8')memory[p]=value&255;else if(type==='u16'||type==='s16')memory.writeUInt16LE(value&65535,p);else if(type==='u32')memory.writeUInt32LE(value>>>0,p);else memory.writeInt32LE(value|0,p);};
+ const define=(object,name,descriptor)=>{const old=Object.getOwnPropertyDescriptor(object,name);if(old&&!old.configurable){if(typeof old.get!=='function'||typeof old.set!=='function')throw Error(`Physics ${name} cannot be bound to native storage.`);return;}Object.defineProperty(object,name,{enumerable:true,...descriptor});};
+ const scalar=(object,name,p,type='s32')=>define(object,name,{get:()=>read(typeof p==='function'?p():p,type),set:value=>write(typeof p==='function'?p():p,type,value)});
+ const addressOf=value=>value===null||value===0?0:Number.isInteger(value)?value:value?.address;
+ const arrays=new Map();
+ function arrayAt(key,length,get,set,{negativeMinimum=0}={}){
+  if(arrays.has(key))return arrays.get(key);const array=new Proxy(Array(length).fill(0),{
+   get:(target,name,receiver)=>{const i=indexFor(name);if(i!==null)return i>=negativeMinimum&&i<length?get(i):undefined;if(name==='set')return(values,offset=0)=>{for(let n=0;n<values.length;n++)set(n+offset,values[n]);};return Reflect.get(target,name,receiver);},
+   set:(target,name,value,receiver)=>{const i=indexFor(name);if(i!==null){if(i<negativeMinimum||i>=length)throw Error('Physics native array index exceeds its fixed span.');set(i,value);return true;}if(name==='length'&&value!==length)throw Error('Physics native arrays have fixed spans.');return Reflect.set(target,name,value,receiver);},
+   deleteProperty:()=>{throw Error('Physics native array lanes cannot be deleted.');}
+  });arrays.set(key,array);return array;
+ }
+ const numericArray=(p,length,type='s32',negativeMinimum=0)=>arrayAt(`numeric:${p}:${length}:${type}:${negativeMinimum}`,length,i=>read(p+i*size(type),type),(i,value)=>write(p+i*size(type),type,value),{negativeMinimum});
+ const vector=(object,name,p,length=3,type='s32')=>define(object,name,{get:()=>numericArray(p,length,type),set:values=>{if(!Array.isArray(values)||values.length!==length)throw Error(`Physics ${name} requires ${length} native lanes.`);for(let i=0;i<length;i++)write(p+i*size(type),type,values[i]);}});
+ const storage=new Map(bodyStorage.map(({address,length})=>{range(address,length);if(length<0x180)throw Error('Physics body storage must contain the common 180h body.');return[address,length];}));
+ const listCapacities=new Map(bodyLists.map(({address,capacity})=>{if(!Number.isInteger(capacity)||capacity<1||capacity>65536)throw Error('Physics pointer-list capacity is invalid.');range(address,capacity*4);return[address,capacity];}));
+ const bodies=new Map(),groups=new Map(),buckets=new Map(),events=new Map(),contacts=new Map(),outputs=new Map(),candidates=new Map();
+ function attach(object,p,n){range(p,n);if(object.address!==undefined&&object.address!==p)throw Error('Physics supplied object identity has a different native address.');object.address=p;if(object.bytes!==undefined&&(!Buffer.isBuffer(object.bytes)||object.bytes.buffer!==memory.buffer||object.bytes.byteOffset!==memory.byteOffset+p||object.bytes.length<n))throw Error('Physics object bytes must alias supplied memory.');object.bytes??=memory.subarray(p,p+n);return object;}
+ function bodyAt(value){
+  const p=addressOf(value);if(!p)return null;if(bodies.has(p))return bodies.get(p);const body=bodyFactory?bodyFactory(p):storage.has(p)?{address:p,bytes:memory.subarray(p,p+storage.get(p))}:null;if(!body)throw Error('Physics body pointer has no supplied storage/factory.');attach(body,p,0x180);
+  for(const[name,offset,type]of[['flags',0,'s32'],['spatialNextId',4,'u16'],['spatialPreviousId',6,'u16'],['mass',0xa8,'s32'],['inverseMass',0xac,'s32'],['coefficient7c',0xb0,'s32'],['contactFrictionB4',0xb4,'s32'],['integrationFlags',0x108,'s32'],['collisionCount10c',0x10c,'u8'],['collisionFlags',0x110,'s32'],['collisionCache114',0x114,'s32'],['frameTimeQ16',0x118,'s32'],['collisionBound120',0x120,'s32'],['collisionDelta124',0x124,'s32'],['collisionState128',0x128,'s32'],['terrainWord15c',0x15c,'u16'],['modelCandidateCount15e',0x15e,'u16'],['collisionCounter168',0x168,'u8'],['attachmentCount',0x16a,'u16'],['collisionCooldown66f',0x66f,'u8'],['dragCoefficient2f38',0x2f38,'s16'],['scriptOffset138',0x138,'u16'],['scriptTimer13a',0x13a,'u16'],['scriptActionTimer13c',0x13c,'u16'],['scriptSegment13e',0x13e,'u8'],['scriptSpawnIndex13f',0x13f,'u8'],['scriptField180',0x180,'s32'],['scriptField184',0x184,'u16']])scalar(body,name,p+offset,type);
+  for(const[name,offset,length,type]of[['position',0x34,3,'s32'],['momentum',0x40,3,'s32'],['angularMomentum',0x4c,3,'s32'],['quaternion',0x58,4,'s32'],['linearVelocity',0x68,3,'s32'],['force',0x74,3,'s32'],['torque',0x80,3,'s32'],['quaternionDerivative',0x8c,4,'s32'],['inverseInertia',0x9c,3,'s32'],['angularVelocity',0xb8,3,'s32'],['rotation',0xc4,9,'s16'],['worldInverseInertia',0xe4,9,'s32'],['attachmentHandles',0x16a,9,'u16']])vector(body,name,p+offset,length,type);
+  define(body,'collisionIds',{get:()=>numericArray(p+0x140,128,'u8',-128),set:values=>{if(!Array.isArray(values)||values.length>128)throw Error('Physics collision IDs exceed their signed-byte domain.');for(let i=0;i<values.length;i++)write(p+0x140+i,'u8',values[i]);}});
+  define(body,'closestTerrain11c',{get:()=>read(p+0x11c),set:value=>write(p+0x11c,'s32',packNativeTerrainReference(value))});
+  for(const[name,offset]of[['terrainCandidateOffset154',0x154],['modelCandidateOffset158',0x158]])define(body,name,{get:()=>(read(p+offset,'u32')-read(0x91e788,'u32'))|0,set:value=>write(p+offset,'u32',(read(0x91e788,'u32')+value)>>>0)});
+  define(body,'spatialBucket',{get:()=>bucketAt(read(p+12,'u32')&0xfffffffe),set:value=>write(p+12,'u32',addressOf(value)|(read(p+12,'u32')&1))});define(body,'spatialOutside',{get:()=>!!(read(p+12,'u32')&1),set:value=>write(p+12,'u32',(read(p+12,'u32')&0xfffffffe)|(value?1:0))});
+  define(body,'collisionGroup130',{get:()=>groupAt(read(p+0x130,'u32')),set:value=>write(p+0x130,'u32',addressOf(value))});
+  for(const[name,offset]of[['pointer180',0x180],['pointer194',0x194],['pointer198',0x198]])define(body,name,{get:()=>bodyAt(read(p+offset,'u32')),set:value=>write(p+offset,'u32',addressOf(value))});
+  define(body,'collisionFilter',{get:()=>{const address=read(p+0x148,'u32');if(!address)return null;const handler=collisionFilters.get(address);if(typeof handler!=='function')throw Error(`Physics collision filter 0x${address.toString(16)} has no supplied implementation.`);return handler;},set:value=>{if(value===null){write(p+0x148,'u32',0);return;}const found=[...collisionFilters].find(([,handler])=>handler===value);if(!found)throw Error('Physics collision filter has no supplied native address.');write(p+0x148,'u32',found[0]);}});
+  const pairContext=body.pairCollisionContext??{};scalar(pairContext,'field3d00',p+0x3d00);define(pairContext,'stateByte6bc',{get:()=>{const state=read(p+0x6bc,'u32');return state===0xffffffff?null:read(state,'u8');},set:value=>{const state=read(p+0x6bc,'u32');if(value===null){write(p+0x6bc,'u32',0xffffffff);return;}if(state===0xffffffff)throw Error('Physics vehicle state pointer requires supplied storage before a byte write.');write(state,'u8',value);}});body.pairCollisionContext=pairContext;
+  bodies.set(p,body);return body;
+ }
+ function bucketAt(p){if(!p)return null;if(buckets.has(p))return buckets.get(p);const bucket=attach(bucketFactory?.(p)??{},p,12);scalar(bucket,'headId',p+8,'u16');buckets.set(p,bucket);return bucket;}
+ function bodyArrayAt(p){const capacity=listCapacities.get(p);if(capacity===undefined)throw Error(`Physics body list 0x${p.toString(16)} has no supplied capacity.`);return arrayAt(`bodies:${p}`,capacity,i=>bodyAt(read(p+i*4,'u32')),(i,value)=>write(p+i*4,'u32',addressOf(value)));}
+ function groupAt(p){
+  if(!p)return null;if(groups.has(p))return groups.get(p);const group=attach({},p,12);scalar(group,'count',p+4,'u16');define(group,'bodies',{get:()=>bodyArrayAt(read(p,'u32')),set:value=>{const address=Number.isInteger(value)?value:[...listCapacities].find(([address])=>bodyArrayAt(address)===value)?.[0];if(!listCapacities.has(address))throw Error('Physics group list must be an existing declared native array.');write(p,'u32',address);}});define(group,'spatialBucket',{get:()=>bucketAt(read(p+8,'u32')),set:value=>write(p+8,'u32',addressOf(value))});group.isRefreshGroup=p===0x902ee0;groups.set(p,group);return group;
+ }
+ const physicalGroup=groupAt(0x902bc0),candidateGroups={groups:Array.from({length:groupCapacity},(_,i)=>groupAt(0x902be0+i*12)),refreshGroup:groupAt(0x902ee0)};scalar(candidateGroups,'count',0x902bcc);
+ const effectFlags={};scalar(effectFlags,'first',0x91cd90);scalar(effectFlags,'second',0x9153d0);
+ function eventAt(p){
+  if(events.has(p))return events.get(p);const event=attach({},p,0x68);for(const[name,offset,type]of[['kind',0,'s32'],['field44',0x44,'s32'],['scalar',0x48,'s32'],['classFlags',0x54,'s32'],['tag',0x58,'u16'],['damping',0x5a,'u16']])scalar(event,name,p+offset,type);
+  for(const[name,offset]of[['object1',4],['object2',8]])define(event,name,{get:()=>bodyAt(read(p+offset,'u32')),set:value=>write(p+offset,'u32',addressOf(value))});for(const[name,offset]of[['point',0x2c],['normal',0x38],['auxiliaryVector',0x5c]])vector(event,name,p+offset);events.set(p,event);return event;
+ }
+ const queue=Object.create(CollisionEventQueue.prototype);scalar(queue,'count',0x902ba0);scalar(queue,'freeTop',0x902bb4);
+ Object.defineProperties(queue,{
+  capacity:{enumerable:true,get:()=>{const count=read(0x902ba4,'u32');if(count>4096)throw Error('Physics event capacity exceeds its native twelve-bit index.');return count;}},
+  heap:{enumerable:true,get:()=>numericArray(read(0x902bac,'u32'),queue.capacity+1,'u32')},free:{enumerable:true,get:()=>numericArray(read(0x902bb0,'u32'),queue.capacity,'u32')},
+  events:{enumerable:true,get:()=>{const base=read(0x902ba8,'u32'),capacity=queue.capacity;range(base,capacity*0x68);return arrayAt(`events:${base}:${capacity}`,capacity,i=>eventAt(base+i*0x68),()=>{throw Error('Physics event identities are fixed native records.');});}}
+ });
+ const shapePool=Object.create(BodyShapePool.prototype);scalar(shapePool,'freeTop',0x91e794);scalar(shapePool,'activeTop',0x91e784);scalar(shapePool,'allocatedCount',0x91e798);
+ for(const[name,global]of[['freeIds',0x91e780],['activeIds',0x91e78c],['reverseIndices',0x91e790]])Object.defineProperty(shapePool,name,{enumerable:true,get:()=>numericArray(read(global,'u32'),name==='reverseIndices'?256:shapeCapacity,'u8')});
+ Object.defineProperty(shapePool,'records',{enumerable:true,get:()=>{const base=read(0x91e79c,'u32');range(base,shapeCapacity*72);return memory.subarray(base,base+shapeCapacity*72);}});
+ function registerShapes(body,descriptors){const array=[];array.push=body=>{const index=physicalGroup.count,list=physicalGroup.bodies;if(index+1>=list.length)throw Error('Physics physical list has no room for its trailing null.');list[index]=body;list[index+1]=null;physicalGroup.count=index+1;return index+1;};return registerBodyCollisionShapes(bodyAt(body),descriptors,shapePool,array);}
+ const candidateBase=()=>read(0x91e788,'u32');
+ function candidateAt(p){
+  if(candidates.has(p))return candidates.get(p);range(p,16);const candidate={address:p,bytes:memory.subarray(p,p+16)};
+  scalar(candidate,'flagsByte0',p,'u8');scalar(candidate,'byte2',p+2,'u8');scalar(candidate,'pointOffset',p+1,'u8');scalar(candidate,'columns',p+3,'u8');scalar(candidate,'id',p+4,'u32');scalar(candidate,'packedNormal',p+8,'u32');
+  Object.defineProperties(candidate,{type:{enumerable:true,get:()=>read(p,'u8')&15,set:value=>write(p,'u8',(read(p,'u8')&240)|(value&15))},sector:{enumerable:true,get:()=>read(p+4,'u8')},row:{enumerable:true,get:()=>read(p+6,'s16')},column:{enumerable:true,get:()=>read(p+5,'u8')<<24>>24},normalQ8:{enumerable:true,get:()=>unpackCollisionNormal(read(p+8,'u32'))},vertexBase:{enumerable:true,get:()=>{const base=candidateMapping.terrainVerticesFor?.(candidate.sector);if(!Number.isInteger(base))throw Error('Physics terrain candidate requires a supplied native vertex-base mapping.');const offset=(read(p+12,'u32')-base)>>>0;if(offset&7)throw Error('Physics terrain vertex pointer is not on its native eight-byte boundary.');return offset/8;}},...Object.fromEntries(['collision','shape','settings'].map(name=>[name,{get:()=>{const value=candidateMapping.modelForPointers?.(read(p+8,'u32'),read(p+12,'u32'));if(!value?.[name])throw Error('Physics model candidate requires supplied parsed/native object and shape mappings.');return value[name];}}]))});
+  candidates.set(p,candidate);return candidate;
+ }
+ function writeCandidate(p,value){
+  if(value?.bytes?.buffer===memory.buffer&&value.bytes.length===16){value.bytes.copy(memory,p);return;}
+  if(value?.collision&&value?.shape&&value?.settings){const pointers=candidateMapping.modelPointersFor?.(value);if(!Number.isInteger(pointers?.object)||!Number.isInteger(pointers?.shape))throw Error('Physics model append requires supplied native object/shape addresses.');write(p,'u8',(read(p,'u8')&240)|1);write(p+1,'u8',value.settings.yaw);write(p+4,'s32',-4);write(p+8,'u32',pointers.object);write(p+12,'u32',pointers.shape);}
+  else{const base=candidateMapping.terrainVerticesFor?.(value?.sector);if(!Number.isInteger(base))throw Error('Physics terrain append requires supplied native sector vertex storage.');write(p,'u8',(read(p,'u8')&240)|(value.type&15));write(p+1,'u8',value.pointOffset);write(p+3,'u8',value.columns);write(p+4,'u32',value.id);write(p+8,'u32',value.packedNormal);write(p+12,'u32',base+value.vertexBase*8);}
+ }
+ const candidateArena={startOffset:0};Object.defineProperty(candidateArena,'entries',{enumerable:true,get:()=>{const base=candidateBase();range(base,candidateCapacity*16);return arrayAt(`candidates:${base}`,candidateCapacity,i=>candidateAt(base+i*16),(i,value)=>writeCandidate(base+i*16,value));}});
+ function contactAt(p){if(contacts.has(p))return contacts.get(p);const contact=attach({},p,72);vector(contact,'point',p+0x20);vector(contact,'normal',p+0x2c);scalar(contact,'field38',p+0x38);scalar(contact,'scalar',p+0x3c);scalar(contact,'flags44',p+0x44);contacts.set(p,contact);return contact;}
+ function outputAt(p){if(outputs.has(p))return outputs.get(p);const output=attach({},p,36);vector(output,'point',p);vector(output,'normal',p+12);scalar(output,'scalar',p+24);scalar(output,'flags',p+28);scalar(output,'contactTime',p+32);outputs.set(p,output);return output;}
+ const wordAt=p=>{const value={address:p};scalar(value,'value',p,'u16');return value;};
+ const timeOptionsFor=body=>({timeScaleActive:read(0x811180)!==0,timeScaleQ16:read(0x81118c),timeScaleExempt:addressOf(body)===read(0x811184,'u32')});
+ return {memory,bodyAt,bodyArrayAt,groupAt,bucketAt,physicalGroup,candidateGroups,effectFlags,queue,shapePool,get records(){return shapePool.records;},candidateArena,candidateAt,eventAt,contactAt,outputAt,wordAt,timeOptionsFor,registerShapes,get gravityQ16(){return read(0x5eb5e0);},get selectionCounter(){return read(0x90a548);}};
+}

@@ -1,0 +1,21 @@
+{
+  "matched": true,
+  "fixtures": 40,
+  "instructionSteps": 3146,
+  "reachedInstructions": 252,
+  "visits": {
+    "405150": 6,
+    "405310": 20,
+    "405410": 6,
+    "405860": 26
+  },
+  "allocations": 26,
+  "mutations": 5,
+  "selfAssignments": 6,
+  "source": {
+    "path": "src/game-string-buffer.mjs",
+    "sha256": "4d4c0a8a06484f5f9c4ebd6e68cc373f915d1b37c977f83843b6343056c890bb"
+  },
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Actual405310 and405860 native-frame producers with actual405150/405410 self-substring/erase. Entire10MiB memory including complete native stack, EAX for assignment, explicitTLS restoration and ordered genuineCRT/calleeESP compare. Inline/heap/zero/embedded-NUL inputs, aliased selfassignment, live retained argument mutation during allocation and allocation-local mutation during free. Exceptions/nonreturningbadalloc and arbitrary invalid pointers remain outside the fixtures; no originalprocess."
+}

@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {readFile,writeFile} from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+import {loadRetainedNativeProgram} from './lib/retained-native-program.mjs';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {constructBaseSoundManager} from '../src/sound-manager-construction.mjs';
+import {initializeSoundManagerPolling} from '../src/sound-manager-polling.mjs';
+import {createSoundManagerServices,soundManagerImports} from './verify-sound-manager-construction-instructions.mjs';
+import {createGameAudioFilePathServices} from './verify-game-audio-file-paths-instructions.mjs';
+const ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p);
+export async function verifySoundManagerPolling({fixtures=240,compareStack=true,output='analysis/sound-manager-polling-instruction-check.json'}={}){
+ const p=await loadRetainedNativeProgram(),machine=new BoundedX86(p.instructions),memory=Buffer.alloc(0xa00000),reached=new Set(),visits={},by=new Map(p.instructions.map(i=>[i.address,i])),next=new Map(p.instructions.slice(0,-1).map((i,n)=>[i.address,p.instructions[n+1].address]));let steps=0;
+ const entries=[0x4a5d50,0x4b1dd0,0x4a7d70,0x4aa140,0x4a7460,0x4ad7e0,0x4a4bf0,0x4a4ad0,0x4a33c0];
+ machine.onInstruction=a=>{reached.add(a);if(entries.includes(a))visits[a.toString(16)]=(visits[a.toString(16)]??0)+1;const i=by.get(a);if(i?.op==='CALL'&&machine.externalCalls.has(machine.get(i.args[0])>>>0))put(machine.bytes,machine.r.ESP-4,next.get(a));};
+ const extras=[[0x56e2c8,'_wcsicmp',2],[0x56e2bc,'_wcslwr_s',2],[0x56e23c,'free',1],[0x56e084,'FindFirstFileW',2,1],[0x56e110,'FindClose',1,1],[0x56e114,'QueryPerformanceFrequency',1,1],[0x56e0fc,'QueryPerformanceCounter',1,1],[0x56e2c0,'_beginthreadex',6],[0x56e128,'SetThreadPriority',2,1],[0x56e124,'ResumeThread',1,1],[0x56e0a4,'SetEvent',1,1]];
+ const imports=[...soundManagerImports,...extras];
+ for(let fixture=0;fixture<fixtures;fixture++){
+  const S=[0x9000,0x9200,0x9400][fixture%3],manager=0x100000,registers={EBX:0x121212+fixture,EBP:0x232323+fixture,ESI:0x343434+fixture,EDI:0x454545+fixture};memory.fill(0);p.initializeMemory(memory);memory.fill(0x36,S-0x6000,S+128);put(memory,S,-1);put(memory,0x5ed314,0x4a0780);put(memory,0x714b08,manager);put(memory,0x714b18,1);put(memory,0x714b1c,99);put(memory,0x715b08,1);put(memory,0x714afc,0x715b30);imports.forEach(([slot],i)=>put(memory,slot,0x760000+i*16));
+  const services=m=>{const base=createSoundManagerServices(m,0),paths=createGameAudioFilePathServices(m,{fixture}),trace=base.calls,wide=q=>{let e=q;while(m.readUInt16LE(e))e+=2;return m.toString('utf16le',q,e);};let qpc=0;
+   return {trace,libraryCall(name,args,r){if(name==='_wcsicmp'){trace.push([name,...args]);const a=wide(args[0]).toLowerCase(),b=wide(args[1]).toLowerCase();return a===b?0:a<b?-1:1;}if(name==='_wcslwr_s'){trace.push([name,...args]);m.write(wide(args[0]).toLowerCase()+'\0',args[0],'utf16le');return 0;}if(name==='free'){trace.push([name,...args]);return 0;}if(name==='_beginthreadex'){trace.push([name,...args]);put(m,args[5],0x4567+fixture);return fixture%11===2?0:0x680000;}if(name==='operatorNew'&&r&&ptr(m,r.scratchBase)===0x4a5ddb&&fixture%13===3){trace.push([name,...args]);return 0;}return base.libraryCall(name,args,r);},
+    platformCall(name,args,r){if(['QueryPerformanceFrequency','QueryPerformanceCounter','SetThreadPriority','ResumeThread','SetEvent'].includes(name)){trace.push([name,...args]);if(name==='QueryPerformanceFrequency'){m.writeBigUInt64LE([1000000n,3579545n,10000000n][fixture%3],args[0]);return 1;}if(name==='QueryPerformanceCounter'){m.writeBigUInt64LE(BigInt(100000+fixture*7919+qpc++*1234567),args[0]);return 1;}return 1;}if(['FindFirstFileW','FindClose'].includes(name)){const n=paths.trace.length,result=paths.platformCall(name,args,r);trace.push(...paths.trace.slice(n));return result;}return base.platformCall(name,args,r);}};
+  };
+  const source=services(memory);machine.reset();machine.fs0=0x12345678;memory.copy(machine.bytes);const native=services(machine.bytes);imports.forEach(([slot,name,count,os],i)=>machine.externalCalls.set(0x760000+i*16,cpu=>{const args=Array.from({length:count},(_,i)=>ptr(cpu.bytes,cpu.r.ESP+i*4));cpu.r.EAX=(os?native.platformCall:native.libraryCall)(name,args,{scratchBase:cpu.r.ESP-4});if(os)cpu.r.ESP+=count*4;}));
+  for(const[a,name,n]of[[0x568a50,'memset',3],[0x568a48,'memcpy',3],[0x56832a,'registerExit',1]])machine.externalCalls.set(a,cpu=>{cpu.r.EAX=native.libraryCall(name,Array.from({length:n},(_,i)=>ptr(cpu.bytes,cpu.r.ESP+i*4)),{scratchBase:cpu.r.ESP-4});});machine.externalCalls.set(0x568980,cpu=>{cpu.r.ESP-=cpu.r.EAX;});machine.externalCalls.set(0x568162,()=>{});
+  for(const[a,kind]of[[0x5689e0,'unsignedDivide'],[0x569380,'signedDivide'],[0x568f10,'multiply']])machine.externalCalls.set(a,cpu=>{const m=cpu.bytes,l=kind==='signedDivide'?m.readBigInt64LE(cpu.r.ESP):m.readBigUInt64LE(cpu.r.ESP),r=kind==='signedDivide'?m.readBigInt64LE(cpu.r.ESP+8):m.readBigUInt64LE(cpu.r.ESP+8),out=BigInt.asUintN(64,kind==='multiply'?l*r:l/r);cpu.r.EAX=Number(out&0xffffffffn)|0;cpu.r.EDX=Number(out>>32n)|0;cpu.r.ESP+=16;});
+  const runtime={memory,scratchBase:S,entryRegisters:registers,sehWord:0x12345678,nativeDequeCopies:true,nativePointerVector:true,services:source};
+  const operate=(entry,invoke)=>{invoke();machine.entry=entry;machine.r.ESP=S;machine.r.ECX=manager;Object.assign(machine.r,registers);steps+=machine.run(10000000);assert.equal(machine.fs0,0x12345678);assert.deepEqual(source.trace,native.trace,'fixture'+fixture+' orderedservices');for(const[from,to]of[[0x10000,memory.length],...(compareStack&&entry===0x4a5d50?[[S-0x6000,S+4]]:[])])if(!memory.subarray(from,to).equals(machine.bytes.subarray(from,to))){let q=from;while(memory[q]===machine.bytes[q])q++;throw Error('fixture'+fixture+' entry'+entry.toString(16)+' diff'+q.toString(16)+' JS'+memory.subarray(q,q+24).toString('hex')+' native'+machine.bytes.subarray(q,q+24).toString('hex'));}};
+  operate(0x4a57a0,()=>constructBaseSoundManager(manager,runtime));
+  //Caller-owned derived vtable is the original XAAudioManager table. This
+  //fixture does not claim to construct a device or execute a host thread.
+  for(const m of[memory,machine.bytes]){put(m,manager,0x5d4190);put(m,S,-1);}
+  operate(0x4a5d50,()=>initializeSoundManagerPolling(manager,runtime));
+ }
+ const report={fixtures,instructionSteps:steps,reachedInstructions:reached.size,actualGameCalls:visits,compareStack,matched:true,domain:'Actualbase4a57a0 then4a5d50 polling initializer with originalderived vtable, four real persistentmixers, queuedsource?actual4a7460 emptydescriptor/null-decoder rejection andregistration, realstopwatch andManagedThread/string constructors. Allmappedbytes>=10000h, complete24KiB privateframe andorderedCRT/Win32. Genuine _beginthreadex creates fixturehandles only; no asynchronousworker/gameupdate/deviceexecution; format/backend factorypaths outside startup remain explicit gaps.'};if(output)try{await writeFile(output,JSON.stringify(report,null,2),{flag:'wx'});}catch(error){if(error.code!=='EEXIST')throw error;assert.deepEqual(JSON.parse(await readFile(output,'utf8')),report);}return report;
+}
+if(process.argv[1]&&import.meta.url===pathToFileURL(process.argv[1]).href)console.log(JSON.stringify(await verifySoundManagerPolling()));

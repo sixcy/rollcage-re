@@ -1,0 +1,11 @@
+# Audio spectrum workspace constructor
+
+`constructGameAudioSpectrumState(object, runtime)` in `src/game-audio-spectrum-state.mjs` reconstructs `4b2ee0`, a reached constructor child of the common audio stream. It owns seven original arrays, sets the default nine-bit/512-point/256-half-point shape, clears four work arrays, builds the forward nine-bit permutation and produces float32 sine/cosine coefficient arrays.
+
+Allocation sizes and order remain native. Subsequent allocations and loops reload the live count fields, so explicit allocator mutation probes also match. Float32 rounding occurs after unsigned integer conversion, multiplication by the original `5dc994` two-pi literal and division by the live point count. The saved angle is reloaded before cosine. `401c70`/`401c60` are retained jump adapters to genuine `__libm_sse2_sinf`/`__libm_sse2_cosf`; those library computations remain explicit services, rather than game callback substitutes.
+
+Runtime supplies the shared memory, native `scratchBase`, optional incoming saved registers and `services.libraryCall`. Service names are `operatorNewArray`, `memset`, `sinf` and `cosf`; trigonometric arguments/results are numbers, with original float32 input/output. The caller must install original literal `5dc994`, as retained in `11712`. This is ordinary game image data, not a newly chosen parameter.
+
+Evidence: `11699/11700` constructor, `11717/11718` and `11720/11721` libm adapters; target SHA256 `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
+
+`node tools/verify-game-audio-spectrum-instructions.mjs` passes120 scenarios,156 reached instructions and2,161,800 steps, comparing all mapped memory, complete private frame and ordered services. Three quarters of the declared allocator probes change the native live dimensions to smaller consistent powers of two; the rest use the actual fixed constructor defaults. Sine-service mutation of the saved angle checks the later live cosine load. Two focused tests pass, including original allocation sizes and known permutation entries. These are interpreted retained-instruction matches, without audio-device/original-process execution. The full decoder and sample factories remain separate ongoing work.

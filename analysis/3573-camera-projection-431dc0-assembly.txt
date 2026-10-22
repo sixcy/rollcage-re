@@ -1,0 +1,64 @@
+0x431dc0: SUB ESP, 0x8
+0x431dc3: PUSH EBX
+0x431dc4: PUSH ESI
+0x431dc5: PUSH EDI
+0x431dc6: MOV EBX, ECX
+0x431dc8: CALL 0x0040ad40
+0x431dcd: MOV EDI, EAX
+0x431dcf: CALL 0x0040aeb0
+0x431dd4: MOV ESI, EAX
+0x431dd6: MOV EDX, EDI
+0x431dd8: MOV ECX, 0x280
+0x431ddd: CMP EDI, ESI
+0x431ddf: JGE 0x00431de8
+0x431de1: MOV EDX, ESI
+0x431de3: MOV ECX, 0x1e0
+0x431de8: MOV dword ptr [ESP + 0xc], EBX
+0x431dec: FILD dword ptr [ESP + 0xc]
+0x431df0: FSTP float ptr [0x0091ceac]
+0x431df6: MOV dword ptr [ESP + 0xc], EDX
+0x431dfa: FILD dword ptr [ESP + 0xc]
+0x431dfe: MOV EAX, ECX
+0x431e00: SAR EAX, 0x1
+0x431e02: FSTP float ptr [ESP + 0xc]
+0x431e06: MOVSS XMM1, dword ptr [ESP + 0xc]
+0x431e0c: MOV dword ptr [ESP + 0xc], EDX
+0x431e10: MOVD XMM0, EAX
+0x431e14: CVTDQ2PS XMM0, XMM0
+0x431e17: DIVSS XMM1, XMM0
+0x431e1b: MULSS XMM1, dword ptr [0x0091ceac]
+0x431e23: CVTTSS2SI EAX, XMM1
+0x431e27: MOVSS dword ptr [0x0091cda0], XMM1
+0x431e2f: MOV [0x0091d3c8], AX
+0x431e35: FILD dword ptr [ESP + 0xc]
+0x431e39: MOVD XMM0, ECX
+0x431e3d: MOV ECX, EBX
+0x431e3f: FSTP float ptr [ESP + 0xc]
+0x431e43: MOVSS XMM1, dword ptr [ESP + 0xc]
+0x431e49: MULSS XMM1, dword ptr [0x005dc6c8]
+0x431e51: CVTDQ2PS XMM0, XMM0
+0x431e54: DIVSS XMM1, XMM0
+0x431e58: MOVSS dword ptr [0x0091d340], XMM1
+0x431e60: MULSS XMM1, dword ptr [0x005dc888]
+0x431e68: MOVSS dword ptr [0x0091d33c], XMM1
+0x431e70: CALL 0x0042f820
+0x431e75: MOV dword ptr [ESP + 0xc], ESI
+0x431e79: FILD dword ptr [ESP + 0xc]
+0x431e7d: FSTP float ptr [ESP + 0x10]
+0x431e81: MOV dword ptr [ESP + 0xc], EDI
+0x431e85: FILD dword ptr [ESP + 0xc]
+0x431e89: MOVSS XMM0, dword ptr [0x0091cda0]
+0x431e91: XORPS XMM1, XMM1
+0x431e94: MOVSS XMM3, dword ptr [ESP + 0x10]
+0x431e9a: PUSH ECX
+0x431e9b: MOVSS dword ptr [ESP], XMM0
+0x431ea0: XORPS XMM0, XMM0
+0x431ea3: FSTP float ptr [ESP + 0x10]
+0x431ea7: MOVSS XMM2, dword ptr [ESP + 0x10]
+0x431ead: CALL 0x00426e20
+0x431eb2: ADD ESP, 0x4
+0x431eb5: POP EDI
+0x431eb6: POP ESI
+0x431eb7: POP EBX
+0x431eb8: ADD ESP, 0x8
+0x431ebb: RET

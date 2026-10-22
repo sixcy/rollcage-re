@@ -1,0 +1,68 @@
+import assert from 'node:assert/strict';
+import {writeFile, readFile} from 'node:fs/promises';
+import {pathToFileURL} from 'node:url';
+import {loadRetainedNativeProgram} from './lib/retained-native-program.mjs';
+import {BoundedX86} from './lib/bounded-x86.mjs';
+import {createRaceTextureServices} from './lib/race-texture-fixtures.mjs';
+import {bindGameImageServices} from './lib/game-image-fixtures.mjs';
+import {createGameImageAsyncFixtures} from './lib/game-image-async-fixtures.mjs';
+import {bindNativeGameImageAsync, gameImageExternalReturnStores} from './lib/game-image-native-async.mjs';
+import {rendererTextureExternalReturnStores} from './lib/renderer-texture-native.mjs';
+import {setGameImageMasks} from '../src/game-image-format.mjs';
+import {constructRendererTextureResource} from '../src/renderer-resource-pools.mjs';
+import {rendererSupportsTextureFormat, selectRendererTextureCategory, selectRendererTextureFormat, commitRendererTexture, constructRendererUploadImage, copyRendererTexturePixels, copyRendererUploadImages, convertRendererUploadImages, uploadRendererTextureLevels, uploadRendererTexture} from '../src/renderer-texture-upload.mjs';
+const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
+export async function verifyRendererTextureUpload({fixtures = 120, selectors, withPalettes = false, output = 'analysis/renderer-texture-upload-instruction-check.json'} = {}) {
+  const program = await loadRetainedNativeProgram(), machine = new BoundedX86(program.instructions.filter(i => ![0x4bde50, 0x4c57c0, 0x4c8850].includes(i.address))), worker = new BoundedX86(program.instructions), reached = new Set(), visits = {}; let calls = 0, steps = 0, workerCalls = 0;
+  const entries = [0x51f230, 0x51f510, 0x51f5c0, 0x51f2a0, 0x4c4150, 0x51fb10, 0x4bc770, 0x4bc720, 0x51ff30, 0x520940];
+  let previous, traced; const traceAddress = process.env.TRACE_NATIVE_ADDRESS ? Number(process.env.TRACE_NATIVE_ADDRESS) : undefined;
+  machine.onInstruction = p => {if (traceAddress !== undefined) {const value = ptr(machine.bytes, traceAddress); if (value !== traced) {console.error('upload trace', {previous: previous?.toString(16), p: p.toString(16), value: value.toString(16), ...machine.r}); traced = value;} previous = p;} reached.add(p); if (entries.includes(p) || p === 0x4a3290) visits[p.toString(16)] = (visits[p.toString(16)] ?? 0) + 1; const ret = gameImageExternalReturnStores.get(p) ?? rendererTextureExternalReturnStores.get(p); if (ret !== undefined) put(machine.bytes, machine.r.ESP - 4, ret);}; worker.onInstruction = p => reached.add(p);
+  const MANAGER = 0x100000, RESOURCE = 0x110000, CAPS = 0x120000, DESCRIPTOR = 0x130000, DEVICE = 0x140000, DEVICE_VTABLE = 0x141000, PRIMARY = 0x142000, PRIMARY_VTABLE = 0x143000, SURFACE_VTABLE = 0x144000, LIST = 0x153000, ARRAY = 0x160000, OUT = 0x165000, IMAGE = 0x170000;
+  for (let fixture = 0; fixture < fixtures; fixture++) for (const selector of selectors ?? entries.keys()) {
+    const m = program.initializeMemory(Buffer.alloc(0xa00000)), S = [0x9000, 0x9200, 0x9400][fixture % 3], imageType = (withPalettes ? [0, 2, 1, 1, 3, 5, 7] : [0, 0, 1, 1, 3, 5, 7])[fixture % 7], depth = imageType === 2 ? 8 : imageType === 1 ? fixture & 1 ? 64 : 128 : fixture & 1 ? 16 : 32, formats = [21, 0x31545844, 0x32545844, 0x33545844, 0x34545844, 0x35545844, 113, 116];
+    m.fill(0x36, 0x1000, S + 128); put(m, 0x714ae8, MANAGER); put(m, MANAGER, 0x5db278); put(m, MANAGER + 0x48c, ARRAY + 0x100); put(m, ARRAY + 0x100, RESOURCE); put(m, MANAGER + 0x890, ARRAY + 0x200); put(m, ARRAY + 0x200, OUT + 0x100); put(m, MANAGER + 0x488, CAPS); put(m, MANAGER + 0x36c, DEVICE); put(m, DEVICE, DEVICE_VTABLE); put(m, PRIMARY, PRIMARY_VTABLE);
+    constructRendererTextureResource(RESOURCE, {memory: m}); put(m, RESOURCE + 8, 0); put(m, RESOURCE + 0x438, PRIMARY); put(m, RESOURCE + 0x43c, fixture % 2 ? PRIMARY : PRIMARY + 0x100); put(m, PRIMARY + 0x100, PRIMARY_VTABLE); put(m, RESOURCE + 16, fixture % 3); put(m, RESOURCE + 0x420, 8); put(m, RESOURCE + 0x424, 8); put(m, RESOURCE + 0x428, 2); put(m, RESOURCE + 0x444, 21); put(m, RESOURCE + 0x458, 0);
+    put(m, CAPS + 0x45c, 1024); put(m, CAPS + 0x460, 1024); put(m, CAPS + 0x440, 0x4000); put(m, CAPS + 0x410, 0);
+    for (let i = 0; i < 16; i++) {put(m, MANAGER + 0x43c + i * 4, DESCRIPTOR); [0xff0000, 0xff00, 255, -16777216].forEach((v, n) => put(m, DESCRIPTOR + 12 + n * 4, v)); put(m, DESCRIPTOR + 28, 32);}
+    for (const [category, bits] of [[12, 64], [13, 128]]) {const descriptor = DESCRIPTOR + category * 64; put(m, MANAGER + 0x43c + category * 4, descriptor); put(m, descriptor, bits === 64 ? 113 : 116); [0, 1, 2, 3].forEach((v, i) => put(m, descriptor + 12 + i * 4, v)); put(m, descriptor + 28, bits);}
+    put(m, MANAGER + 0x4c0, OUT + 0x200); put(m, MANAGER + 0x4c4, OUT + 0x200 + formats.length * 36); formats.forEach((v, i) => put(m, OUT + 0x200 + i * 36, v)); put(m, LIST, ARRAY); put(m, LIST + 4, ARRAY + 12); put(m, LIST + 8, ARRAY + 12);
+    for (let level = 0; level < 3; level++) {const image = IMAGE + level * 0x200; put(m, ARRAY + level * 4, image); put(m, image + 4, 0x180000 + level * 0x1000); put(m, image + 8, 8 >> level); put(m, image + 12, 8 >> level); put(m, image + 16, imageType); put(m, image + 0x44, depth); if (imageType === 2) {put(m, image, 0x190000 + level * 0x400); for (let i = 0; i < 256; i++) put(m, 0x190000 + level * 0x400 + i * 4, (i * 0x010101 | 0xff000000));} setGameImageMasks(image, -1, -1, -1, -1, {memory: m, scratchBase: S}); for (const o of [0, 28]) put(m, image + 0xa0 + o + 20, 15); for (const o of [0x80, 0x9c, 0xb8]) put(m, image + 0xa0 + o + 20, 7); for (let j = 0; j < 1024; j++) m[0x180000 + level * 0x1000 + j] = (j * 7 + level) & 255; if (imageType === 1) {for (let j = 0; j < 256; j++) if (depth === 128) m.writeFloatLE((j % 4) / 3, 0x180000 + level * 0x1000 + j * 4); else m.writeUInt16LE([0, 0x3400, 0x3800, 0x3c00][j % 4], 0x180000 + level * 0x1000 + j * 2);}}
+    put(m, 0x6eb038, OUT + 0x1000); put(m, OUT + 0x1008, 0x101); put(m, OUT + 0x1010, 0x102); put(m, OUT + 0x1014, 0x103); put(m, OUT + 0x1018, OUT + 0x1100); for (const o of [0, 4, 8]) put(m, OUT + 0x1100 + o, OUT + 0x1100); m[OUT + 0x110d] = 1;
+    const service = (memory, trace) => ({direct3DCall(object, method, args) {
+      trace.push([object >>> 0, method, args.map(v => v >>> 0)]);
+      if ([0x5c, 0x60, 0x64, 0x74].includes(method)) {if (fixture % 13 === 0) return -1; put(memory, args.at(-2), PRIMARY); return 0;}
+      if (object === PRIMARY || object === PRIMARY + 0x100) {
+        if (method === 0x44) {const level = args[1], out = args[2]; put(memory, out + 24, Math.max(1, get(memory, RESOURCE + 0x420) >> level)); put(memory, out + 28, Math.max(1, get(memory, RESOURCE + 0x424) >> level));}
+        if (method === 0x48) {const level = args.at(-2), surface = 0x1a0000 + level * 256; put(memory, args.at(-1), fixture % 11 === 0 ? 0 : surface); put(memory, surface, SURFACE_VTABLE);}
+        if (method === 0x4c) {put(memory, args[2], 32); put(memory, args[2] + 4, 256); put(memory, args[2] + 8, 0x1c0000 + args[1] * 4096);}
+      }
+      if (method === 0x34) {if (fixture % 7 === 0) return -1; put(memory, args[1], 32); put(memory, args[1] + 4, 0x1c0000 + ((object - 0x1a0000) / 256) * 4096);}
+      return 0;
+    }});
+    const maps = [[DEVICE_VTABLE, [[8, 1], [0x5c, 9], [0x60, 10], [0x64, 8], [0x74, 9], [0x7c, 3], [0xd0, 3]]], [PRIMARY_VTABLE, [[8, 1], [0x44, 3], [0x48, get(m, RESOURCE + 16) === 1 && selector !== 9 ? 4 : 3], [0x4c, 5], [0x50, 2], [0x54, get(m, RESOURCE + 16) === 1 && selector !== 9 ? 3 : 2]]], [SURFACE_VTABLE, [[8, 1], [0x34, 4], [0x38, 1]]]];
+    machine.reset(); machine.fs0 = 0; m.copy(machine.bytes); const native = createRaceTextureServices(machine.bytes), nativeTrace = [], nativeDevice = service(machine.bytes, nativeTrace); bindGameImageServices(machine, native); let serial = 0;
+    for (const [vtable, rows] of maps) for (const [method, count] of rows) {const address = 0x597000 + serial++ * 16; put(machine.bytes, vtable + method, address); machine.externalCalls.set(address, cpu => {cpu.r.EAX = nativeDevice.direct3DCall(ptr(cpu.bytes, cpu.r.ESP), method, Array.from({length: count}, (_, i) => ptr(cpu.bytes, cpu.r.ESP + i * 4))); cpu.r.ESP += count * 4;});}
+    for (const [i, [slot, name, count]] of [[0x56e164, 'GetCurrentProcess', 0], [0x56e168, 'GetProcessAffinityMask', 3], [0x56e09c, 'GetCurrentThreadId', 0], [0x56e0b0, 'WaitForMultipleObjects', 4], [0x56e0ac, 'SetEvent', 1], [0x56e0b8, 'ReleaseMutex', 1], [0x56e0a0, 'WaitForSingleObject', 2], [0x56e0a4, 'ResetEvent', 1]].entries()) {const address = 0x598000 + i * 16; put(machine.bytes, slot, address); machine.externalCalls.set(address, cpu => {cpu.r.EAX = native.platformCall(name, Array.from({length: count}, (_, j) => ptr(cpu.bytes, cpu.r.ESP + j * 4))); cpu.r.ESP += count * 4;});}
+    machine.externalCalls.set(0x568f10, cpu => {const v = BigInt.asUintN(64, cpu.bytes.readBigUInt64LE(cpu.r.ESP) * cpu.bytes.readBigUInt64LE(cpu.r.ESP + 8)); cpu.r.EAX = Number(v & 0xffffffffn); cpu.r.EDX = Number(v >> 32n); cpu.r.ESP += 16;}); machine.bytes.copy(m);
+    const source = createRaceTextureServices(m), sourceTrace = [], sourceAsync = createGameImageAsyncFixtures(m), nativeAsync = bindNativeGameImageAsync(machine, worker, {onSteps: n => {steps += n;}, onWorker: () => {workerCalls++;}}), runtime = {memory: m, scratchBase: S, sehWord: 0, entryRegisters: {EBX: 0, EBP: 0, ESI: 0, EDI: 0}, services: {...source, ...sourceAsync, ...service(m, sourceTrace)}};
+    let ecx = 0, args = [], action, returnMask = 0;
+    if (selector === 0) {ecx = MANAGER; args = [formats[fixture % formats.length]]; action = () => rendererSupportsTextureFormat(ecx, ...args, runtime); returnMask = -1;}
+    else if (selector === 1 || selector === 2) {ecx = RESOURCE; args = [IMAGE]; action = () => (selector === 1 ? selectRendererTextureCategory : selectRendererTextureFormat)(ecx, ...args, runtime);}
+    else if (selector === 3) {ecx = RESOURCE; action = () => commitRendererTexture(ecx, runtime);}
+    else if (selector === 4) {ecx = OUT + 0x2000; args = [IMAGE]; action = () => constructRendererUploadImage(ecx, ...args, runtime); returnMask = -1;}
+    else if (selector === 5) {ecx = MANAGER; put(m, OUT, 32); put(m, OUT + 4, 0x1c0000); args = [IMAGE, imageType === 1 ? depth === 128 ? 13 : 12 : 2, fixture % 2 ? 21 : 0, OUT]; action = () => copyRendererTexturePixels(ecx, ...args, runtime);}
+    else if (selector === 6) {ecx = OUT + 0x2000; args = [LIST]; action = () => copyRendererUploadImages(ecx, ...args, runtime);}
+    else if (selector === 7) {ecx = LIST; args = Array(7).fill(0x12345678); if (imageType >= 3) continue; action = () => convertRendererUploadImages(ecx, runtime); returnMask = 255;}
+    else if (selector === 8) {ecx = MANAGER; args = [RESOURCE, LIST, fixture % 6, 0]; action = () => uploadRendererTextureLevels(ecx, ...args, runtime); returnMask = 255;}
+    else {ecx = MANAGER; args = [0, LIST, fixture % 3, fixture % 4, fixture % 3 === 0 ? 1 : 0, OUT]; action = () => uploadRendererTexture(ecx, ...args, runtime); returnMask = 255;}
+    //Fixture outputs added after service setup must be identical before either implementation runs.
+    m.copy(machine.bytes); let actual; try {actual = action();} catch (error) {console.error({list: m.subarray(LIST, LIST+12).toString('hex'), array: m.subarray(ARRAY, ARRAY+16).toString('hex')}); throw Error(`JS fixture${fixture} selector${selector}: ${error.message}`, {cause: error});}
+    machine.entry = entries[selector]; machine.r.ESP = S; machine.r.ECX = ecx; put(machine.bytes, S, -1); args.forEach((v, i) => put(machine.bytes, S + 4 + i * 4, v));
+    try {steps += machine.run(20_000_000);} catch (error) {throw Error(`Native fixture${fixture} selector${selector}: ${error.message}`, {cause: error});}
+    calls++; assert.equal(machine.fs0, 0, `fixture${fixture} selector${selector} FS`); if (returnMask) assert.equal(machine.r.EAX & returnMask, actual & returnMask, `fixture${fixture} selector${selector} return`);
+    if (!m.subarray(0x10000).equals(machine.bytes.subarray(0x10000))) {let p = 0x10000; while (m[p] === machine.bytes[p]) p++; throw Error(`fixture${fixture} selector${selector} diff0x${p.toString(16)} JS=${m.subarray(p,p+32).toString('hex')} native=${machine.bytes.subarray(p,p+32).toString('hex')}`);}
+    assert.deepEqual(sourceTrace, nativeTrace, `fixture${fixture} selector${selector} COM`); const filtered = rows => rows.filter(([name]) => !['memcpy', 'memset', 'memmove'].includes(name)); assert.deepEqual(filtered(source.calls), filtered(native.calls), `fixture${fixture} selector${selector} CRT`); assert.deepEqual(sourceAsync.calls, nativeAsync.calls, `fixture${fixture} selector${selector} STL`);
+  }
+  const report = {method: 'Actual renderer520940 upload and51ff30/51fb10 image/locking graph, populated raw image lists and Direct3D COM fixtures; all mapped bytes>=10000h, defined EAX, ordered COM/CRT/STL requests. Native instructions interpreted, no process/device execution.', targetSHA256: program.sha256, fixtures, ...(selectors ? {selectors} : {}), ...(withPalettes ? {withPalettes: true} : {}), calls, workerCalls, reachedInstructions: reached.size, instructionSteps: steps, actualGameCalls: visits, matched: true}; if (output) {try {await writeFile(output, JSON.stringify(report, null, 2), {flag: 'wx'});} catch (error) {if (error.code !== 'EEXIST') throw error; assert.deepEqual(JSON.parse(await readFile(output, 'utf8')), report);}} return report;
+}
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) console.log(JSON.stringify(await verifyRendererTextureUpload()));
