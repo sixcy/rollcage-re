@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "authority": "controlled-native-recovery-input",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-sound-v12-20261023",
+  "constructorMatched": true,
+  "sourceReplayComplete": false,
+  "boundaryEvidence": [
+    "ev_04b59e84dba4c5d1e6dfdd491c1be2caf3717f5926355c0bd1dc024b29f18d12",
+    "ev_1db4e592e803ec83d5367ba1bab6642a556ffd15c8912f3c3cfb0d55fdfed1a8"
+  ],
+  "constructor": {
+    "matched": true,
+    "comparedBytes": 3720,
+    "firstDivergence": null,
+    "comparisons": [
+      {
+        "id": "source",
+        "address": 386372872,
+        "length": 2472,
+        "readOnly": false,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "descriptor",
+        "address": 278631640,
+        "length": 1120,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "literal-56fe60",
+        "address": 8715872,
+        "length": 96,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "literal-5d0320",
+        "address": 9110304,
+        "length": 24,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "literal-5dc774",
+        "address": 9160564,
+        "length": 4,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "thread-seh-head",
+        "address": 3452928,
+        "length": 4,
+        "comparison": "mutable",
+        "evidence": "Stopped owned-thread selector descriptor and hash-verified FS:[0] bytes; context DWORD144.",
+        "readOnly": false,
+        "divergence": null,
+        "readOnlyDivergence": null
+      }
+    ],
+    "registers": [
+      {
+        "name": "eax",
+        "expected": 386372872,
+        "actual": 386372872
+      },
+      {
+        "name": "ebx",
+        "expected": 386372872,
+        "actual": 386372872
+      },
+      {
+        "name": "ebp",
+        "expected": 5504132,
+        "actual": 5504132
+      },
+      {
+        "name": "esi",
+        "expected": 5500732,
+        "actual": 5500732
+      },
+      {
+        "name": "edi",
+        "expected": 278631640,
+        "actual": 278631640
+      },
+      {
+        "name": "esp",
+        "expected": 5500724,
+        "actual": 5500724
+      }
+    ],
+    "moduleBaseAddress": 7208960,
+    "input": {
+      "object": 386372872,
+      "descriptor": 278631640,
+      "entryEsp": 5500724,
+      "caller": 7894243
+    },
+    "crtCalls": [
+      {
+        "name": "strncpy_s",
+        "args": [
+          386372876,
+          24,
+          8715883,
+          23
+        ],
+        "entryEsp": 5500608,
+        "returnAddress": 7261879,
+        "result": 0
+      },
+      {
+        "name": "strncpy_s",
+        "args": [
+          386372900,
+          24,
+          9110304,
+          23
+        ],
+        "entryEsp": 5500592,
+        "returnAddress": 7261902,
+        "result": 0
+      },
+      {
+        "name": "wcsncpy_s",
+        "args": [
+          386372924,
+          512,
+          8715952,
+          511
+        ],
+        "entryEsp": 5500576,
+        "returnAddress": 7261936,
+        "result": 0
+      },
+      {
+        "name": "strncpy_s",
+        "args": [
+          386374048,
+          24,
+          8715883,
+          23
+        ],
+        "entryEsp": 5500608,
+        "returnAddress": 7261879,
+        "result": 0
+      },
+      {
+        "name": "strncpy_s",
+        "args": [
+          386374072,
+          24,
+          9110304,
+          23
+        ],
+        "entryEsp": 5500592,
+        "returnAddress": 7261902,
+        "result": 0
+      },
+      {
+        "name": "wcsncpy_s",
+        "args": [
+          386374096,
+          512,
+          8715952,
+          511
+        ],
+        "entryEsp": 5500576,
+        "returnAddress": 7261936,
+        "result": 0
+      }
+    ],
+    "limits": [
+      "This is the actual empty-callable4ad7e0 constructor boundary, not the surrounding factory/COM/playback or complete recovery parent.",
+      "Only source storage, actual read-only descriptor/literals and restored FS:[0] plus declared return/preserved registers are compared; private scratch and volatile ECX/EDX/EFLAGS are excluded.",
+      "Valid bounded CRT string-copy behavior is supplied explicitly. No allocator, game-child result, final initialized source or callback answer is injected."
+    ]
+  },
+  "services": {
+    "verified": true,
+    "sourceServiceComparisonComplete": false,
+    "com": {
+      "callOrdinal": 308,
+      "returnOrdinal": 309,
+      "callEsp": 5500664,
+      "serviceEntryEsp": 5500660,
+      "callerReturn": 7937458,
+      "args": [
+        242877880,
+        386375300,
+        278960888,
+        0,
+        1149239296,
+        386375296,
+        5500712,
+        0
+      ],
+      "interfaceTarget": 1706520064,
+      "result": 0,
+      "outputVoiceAddress": 386375300,
+      "voiceAddress": 245680504,
+      "sendListHex": "0100000020ef5300",
+      "sendDescriptorHex": "0000000070b07a0e"
+    },
+    "criticalSections": [
+      {
+        "kind": "mixer",
+        "address": 141353596,
+        "enteredOrdinal": 303,
+        "threadOrdinal": 304,
+        "leftOrdinal": 307,
+        "threadId": 30484,
+        "enteredWin32BytesHex": "fffffffffeffffff01000000147700000000000000100000",
+        "afterThreadIdWin32BytesHex": "fffffffffeffffff01000000147700000000000000100000",
+        "leftWin32BytesHex": "ffffffffffffffff00000000000000000000000000100000",
+        "lockCountBefore": -2,
+        "lockCountAfter": -2,
+        "waitersBefore": 0,
+        "waitersAfter": 0,
+        "changedWin32ByteOffsets": [],
+        "enteredNativeDepth": 0,
+        "enteredNativeOwner": 0,
+        "leftNativeDepth": 0,
+        "leftNativeOwner": 0
+      },
+      {
+        "kind": "factory",
+        "address": 141353596,
+        "enteredOrdinal": 310,
+        "threadOrdinal": 311,
+        "leftOrdinal": 316,
+        "threadId": 30484,
+        "enteredWin32BytesHex": "c89e0717feffffff0100000014770000ffffffff00100000",
+        "afterThreadIdWin32BytesHex": "c89e0717faffffff0100000014770000ffffffff00100000",
+        "leftWin32BytesHex": "c89e0717feffffff01000000740e0000ffffffff00100000",
+        "lockCountBefore": -2,
+        "lockCountAfter": -6,
+        "waitersBefore": 0,
+        "waitersAfter": 1,
+        "changedWin32ByteOffsets": [
+          4
+        ],
+        "enteredNativeDepth": 0,
+        "enteredNativeOwner": 0,
+        "leftNativeDepth": 1,
+        "leftNativeOwner": 3700
+      },
+      {
+        "kind": "playback",
+        "address": 141353628,
+        "enteredOrdinal": 329,
+        "threadOrdinal": 330,
+        "leftOrdinal": 331,
+        "threadId": 30484,
+        "enteredWin32BytesHex": "fffffffffeffffff01000000147700000000000000100000",
+        "afterThreadIdWin32BytesHex": "fffffffffeffffff01000000147700000000000000100000",
+        "leftWin32BytesHex": "ffffffffffffffff00000000000000000000000000100000",
+        "lockCountBefore": -2,
+        "lockCountAfter": -2,
+        "waitersBefore": 0,
+        "waitersAfter": 0,
+        "changedWin32ByteOffsets": [],
+        "enteredNativeDepth": 0,
+        "enteredNativeOwner": 0,
+        "leftNativeDepth": 0,
+        "leftNativeOwner": 0
+      }
+    ],
+    "limits": [
+      "These are original external COM/Win32 outcomes, not a complete source factory or playback comparison.",
+      "Only post-EnterCriticalSection and post-LeaveCriticalSection states are observed; their pre-call state/ABI must still be admitted when binding a complete source execution.",
+      "Observed Win32 waiter-bit transitions between GetCurrentThreadId boundaries are retained separately; they are not attributed to that API or injected as a service result. Concurrent producer binding remains open.",
+      "No initialized source output or opaque voice object is supplied as a game-child result."
+    ]
+  },
+  "method": "Original4ad7e0 entry/preRET4ad8de paired inside the declared controlled parent; full9a8 input source, actual descriptor, literals, PC24 and thread SEH are independent constructor inputs. Genuine bounded CRT string operations supplied explicitly. COM/critical-section observations are inspected separately.",
+  "limits": [
+    "Constructor equality and observed external service outcomes do not prove full factory, channel append/play request or recovery-parent equality.",
+    "No finished source, native waveform answer, game-child result or null replacement service is supplied as constructor input."
+  ]
+}

@@ -6,6 +6,7 @@ import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
 import {createPhysicsRuntimeViews} from '../../src/physics-runtime-views.mjs';
 import {resolveNativeMemoryAddress} from '../../src/native-memory-spans.mjs';
 import {decodePhysicsNumericalContext} from '../../src/race-clock.mjs';
+import {bindCapturedNativeThreadEnvironment, createNativeFrameSoundBindings, nativeFrameSoundAdditionalRegions} from './native-frame-sound.mjs';
 
 //70ed30's candidate workflow may overwrite clone70f130; that native alias is
 //preserved. The span covers all3e78 clone bytes through712fa7 inclusively.
@@ -17,7 +18,28 @@ export const nativeRecoveryGlobalRegions=Object.freeze([
   Object.freeze({id:'recovery-effect-position-queue',preferredAddress:0x919020,length:24*12,comparison:'mutable',evidence:'435ba0 writes the observed9153dc ring index into24 native12-byte position rows before484bb0.'}),
 ]);
 
-export function createNativeRecoveryContext({memory,manifest,geometry,entryEsp,numericalContext,completionHandlers={},soundRuntime,retirementHandlers={},onRecoveryApply}={}){
+// Source-known audio image inputs can extend the core physics alias coverage.
+// Compatible overlaps share one actual route; conflicting translations fail.
+// The strict memory facade still verifies captured targets and heap shadows.
+function mergeInputAliases(core, extra, moduleBaseAddress) {
+  if (extra === undefined) return core;
+  if (!Array.isArray(extra)) throw Error('Recovery input aliases require explicit observed module spans.');
+  const aliases = [...core, ...extra].map(row => {
+    const address = Number(row.address), targetAddress = Number(row.targetAddress), length = Number(row.length);
+    if (!Number.isSafeInteger(address) || address < 0x400000 || !Number.isSafeInteger(targetAddress) || targetAddress !== moduleBaseAddress + address - 0x400000
+      || !Number.isSafeInteger(length) || length < 1 || address + length > 0x100000000 || targetAddress + length > 0x100000000) throw Error('Recovery input alias differs from the observed module translation.');
+    return {address, targetAddress, length};
+  }).sort((a, b) => a.address - b.address);
+  const merged = [];
+  for (const row of aliases) {
+    const previous = merged.at(-1);
+    if (previous && row.address <= previous.address + previous.length) previous.length = Math.max(previous.length, row.address + row.length - previous.address);
+    else merged.push({...row});
+  }
+  return merged;
+}
+
+export function createNativeRecoveryContext({memory,manifest,geometry,entryEsp,numericalContext,completionHandlers={},soundRuntime,retirementHandlers={},onRecoveryApply,nativeRecoveryAudio,onRecoveryAudioCall}={}){
   if(!Buffer.isBuffer(memory)||!manifest?.observed||!geometry?.grid||!Number.isInteger(entryEsp))throw Error('Native recovery requires coherent captured memory, geometry, manifest and entry ESP.');
   if(numericalContext?.x87?.precisionBits!==24||numericalContext.x87.roundingMode!=='nearest-even'||numericalContext.x87.exceptionMask!==63||numericalContext.sse?.roundingMode!=='nearest-even'||numericalContext.sse.exceptionMask!==63||numericalContext.sse.flushToZero||numericalContext.sse.denormalsAreZero)throw Error('Native recovery query requires captured PC24/nearest-even, masked exceptions and noFTZ/DAZ.');
   if(soundRuntime&&soundRuntime.memory!==memory)throw Error('Native recovery sound must share its captured memory.');
@@ -56,18 +78,28 @@ export function createNativeRecoveryContext({memory,manifest,geometry,entryEsp,n
     clock90a548:{enumerable:true,get:()=>read(0x90a548)},
   });
   const progression={memory,recordAt,runtime:progressionRuntime};
-  const runtime={memory,views,grid:geometry.grid,models:geometry.modelContext,modelPointersFor:geometry.candidateMapping.modelPointersFor,scratchBase:entryEsp,roundingMode:'nearest-even',x87PrecisionBits:24,progression,completionHandlers,soundRuntime,handlers:retirementHandlers,...(onRecoveryApply===undefined?{}:{onRecoveryApply})};
+  const runtime={memory,views,grid:geometry.grid,models:geometry.modelContext,modelPointersFor:geometry.candidateMapping.modelPointersFor,scratchBase:entryEsp,roundingMode:'nearest-even',x87PrecisionBits:24,progression,completionHandlers,soundRuntime,handlers:retirementHandlers,nativeRecoveryAudio,onRecoveryAudioCall,...(onRecoveryApply===undefined?{}:{onRecoveryApply})};
   return {memory,views,geometry,progression,runtime,cloneAddress:clone,
     limits:['Reached completion/audio services remain their real required handlers; none are replaced with inert callbacks.', 'Checkpoint backing is bounded by actual captured IDs; missing rows/storage fail instead of supplying authored or zero-filled data.', 'The caller must compare route/checkpoint/controller/emission descendants reached beyond core/geometry declarations.']};
 }
 
 export function bindCapturedNativeRecovery(snapshot,options={}){
+  if(options.nativeAudio!==undefined&&typeof options.nativeAudio!=='boolean')throw Error('Native recovery audio binding option must be boolean.');
+  if(options.nativeSoundContinuations!==undefined&&(!options.nativeAudio||!options.nativeSoundContinuations||typeof options.nativeSoundContinuations!=='object'||Object.keys(options.nativeSoundContinuations).some(key=>!['selectAdaptiveSoundChannelOnStack','playSelectedNativeSoundOnStack'].includes(key))))throw Error('Native recovery sound continuations require explicit native audio and only declared game-source handlers.');
   const bases=new Set([snapshot.moduleBaseAddress,...(snapshot.ranges instanceof Map?[...snapshot.ranges.values()]:snapshot.ranges).map(row=>row.moduleBaseAddress),options.moduleBaseAddress].filter(value=>value!==undefined&&value!==null).map(Number));
   if(bases.size!==1)throw Error('Native recovery requires one observed module base.');const moduleBaseAddress=[...bases][0];
-  const additionalRegions=[...nativeRecoveryGlobalRegions.map(row=>({...row,address:moduleBaseAddress+row.preferredAddress-0x400000})),...(options.additionalRegions??[])];
+  const additionalRegions=[...nativeRecoveryGlobalRegions.map(row=>({...row,address:moduleBaseAddress+row.preferredAddress-0x400000})),...(options.nativeAudio?nativeFrameSoundAdditionalRegions({moduleBaseAddress}):[]),...(options.additionalRegions??[])];
   const manifest=buildNativeFrameManifest(snapshot,{...options,moduleBaseAddress,additionalRegions});manifest.boundary='0x47ccc0-or-declared-child';
+  manifest.aliases=mergeInputAliases(manifest.aliases,options.additionalInputAliases,moduleBaseAddress);
   const rows=snapshot.ranges instanceof Map?[...snapshot.ranges.values()]:snapshot.ranges,captured=createCapturedMemory(rows,{aliases:manifest.aliases});
   const numericalContext=decodePhysicsNumericalContext({x87ControlWord:Number(snapshot.registers?.fpuControlWord),mxcsr:Number(snapshot.registers?.mxcsr)});
   const geometry=createNativeFrameGeometry({...options.geometryOptions,memory:captured.memory});
-  return {...captured,manifest,numericalContext,...createNativeRecoveryContext({memory:captured.memory,manifest,geometry,entryEsp:Number(snapshot.registers?.esp),numericalContext,completionHandlers:options.completionHandlers,soundRuntime:options.soundRuntime,retirementHandlers:options.retirementHandlers,onRecoveryApply:options.onRecoveryApply})};
+  let nativeAudio;
+  if(options.nativeAudio){
+    const tls=bindCapturedNativeThreadEnvironment(snapshot,{memory:captured.memory});
+    if(!tls.nativeTls)throw Error('Native recovery audio requires its actual captured thread environment.');
+    const binding=createNativeFrameSoundBindings({memory:captured.memory,moduleBaseAddress,numericalContext,nativeTls:tls.nativeTls,...options.nativeSoundContinuations});
+    nativeAudio={...binding,moduleBaseAddress,numericalContext,nativeTls:tls.nativeTls};
+  }
+  return {...captured,manifest,numericalContext,nativeAudio,...createNativeRecoveryContext({memory:captured.memory,manifest,geometry,entryEsp:Number(snapshot.registers?.esp),numericalContext,completionHandlers:options.completionHandlers,soundRuntime:options.soundRuntime,retirementHandlers:options.retirementHandlers,onRecoveryApply:options.onRecoveryApply,nativeRecoveryAudio:nativeAudio,onRecoveryAudioCall:options.onRecoveryAudioCall})};
 }

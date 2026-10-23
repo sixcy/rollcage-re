@@ -20,7 +20,7 @@ export class ByteBuffer extends Uint8Array {
     if (!Number.isInteger(offset) || offset < 0 || offset + bytes > this.length) throw new RangeError('Read exceeds buffer bounds.');
     return new DataView(this.buffer, this.byteOffset + offset, bytes);
   }
-  readUInt32LE(offset) { return this.view(offset, 4).getUint32(0, true); }
+  readUInt32LE(offset = 0) { return this.view(offset, 4).getUint32(0, true); }
   readUIntLE(offset, length) {
     if (!Number.isInteger(length) || length < 1 || length > 6) throw new RangeError('Integer reads require 1..6 bytes.');
     this.view(offset, length);
@@ -28,15 +28,15 @@ export class ByteBuffer extends Uint8Array {
     for (let index = length - 1; index >= 0; index--) value = value * 256 + this[offset + index];
     return value;
   }
-  readUInt16LE(offset) { return this.view(offset, 2).getUint16(0, true); }
-  readInt16LE(offset) { return this.view(offset, 2).getInt16(0, true); }
-  readInt32LE(offset) { return this.view(offset, 4).getInt32(0, true); }
-  readUInt8(offset) { return this.view(offset, 1).getUint8(0); }
-  readInt8(offset) { return this.view(offset, 1).getInt8(0); }
-  readFloatLE(offset) { return this.view(offset, 4).getFloat32(0, true); }
-  readDoubleLE(offset) { return this.view(offset, 8).getFloat64(0, true); }
-  readBigUInt64LE(offset) { return this.view(offset, 8).getBigUint64(0, true); }
-  writeBigUInt64LE(value, offset) {
+  readUInt16LE(offset = 0) { return this.view(offset, 2).getUint16(0, true); }
+  readInt16LE(offset = 0) { return this.view(offset, 2).getInt16(0, true); }
+  readInt32LE(offset = 0) { return this.view(offset, 4).getInt32(0, true); }
+  readUInt8(offset = 0) { return this.view(offset, 1).getUint8(0); }
+  readInt8(offset = 0) { return this.view(offset, 1).getInt8(0); }
+  readFloatLE(offset = 0) { return this.view(offset, 4).getFloat32(0, true); }
+  readDoubleLE(offset = 0) { return this.view(offset, 8).getFloat64(0, true); }
+  readBigUInt64LE(offset = 0) { return this.view(offset, 8).getBigUint64(0, true); }
+  writeBigUInt64LE(value, offset = 0) {
     if (value < 0n || value > 0xffffffffffffffffn) throw new RangeError('Value exceeds buffer integer range.');
     this.view(offset, 8).setBigUint64(0, value, true); return offset + 8;
   }
@@ -44,14 +44,21 @@ export class ByteBuffer extends Uint8Array {
     if (min !== undefined && !(value >= min && value <= max)) throw new RangeError('Value exceeds buffer integer range.');
     this.view(offset, bytes)[setter](0, value, true); return offset + bytes;
   }
-  writeUInt8(value, offset) { return this.writeNumber(value, offset, 1, 'setUint8', 0, 255); }
-  writeInt8(value, offset) { return this.writeNumber(value, offset, 1, 'setInt8', -128, 127); }
-  writeUInt16LE(value, offset) { return this.writeNumber(value, offset, 2, 'setUint16', 0, 65535); }
-  writeInt16LE(value, offset) { return this.writeNumber(value, offset, 2, 'setInt16', -32768, 32767); }
-  writeUInt32LE(value, offset) { return this.writeNumber(value, offset, 4, 'setUint32', 0, 0xffffffff); }
-  writeInt32LE(value, offset) { return this.writeNumber(value, offset, 4, 'setInt32', -2147483648, 2147483647); }
-  writeFloatLE(value, offset) { return this.writeNumber(value, offset, 4, 'setFloat32'); }
-  writeDoubleLE(value, offset) { return this.writeNumber(value, offset, 8, 'setFloat64'); }
+  writeUInt8(value, offset = 0) { return this.writeNumber(value, offset, 1, 'setUint8', 0, 255); }
+  writeInt8(value, offset = 0) { return this.writeNumber(value, offset, 1, 'setInt8', -128, 127); }
+  writeUInt16LE(value, offset = 0) { return this.writeNumber(value, offset, 2, 'setUint16', 0, 65535); }
+  writeInt16LE(value, offset = 0) { return this.writeNumber(value, offset, 2, 'setInt16', -32768, 32767); }
+  writeUInt32LE(value, offset = 0) { return this.writeNumber(value, offset, 4, 'setUint32', 0, 0xffffffff); }
+  writeInt32LE(value, offset = 0) { return this.writeNumber(value, offset, 4, 'setInt32', -2147483648, 2147483647); }
+  writeFloatLE(value, offset = 0) { return this.writeNumber(value, offset, 4, 'setFloat32'); }
+  writeDoubleLE(value, offset = 0) { return this.writeNumber(value, offset, 8, 'setFloat64'); }
+  write(text, offset = 0, length = this.length - offset, encoding = 'utf8') {
+    if (typeof text !== 'string' || !Number.isInteger(offset) || offset < 0 || offset > this.length || !Number.isInteger(length) || length < 0) throw new RangeError('String write exceeds buffer bounds.');
+    const output = this.subarray(offset, offset + Math.min(length, this.length - offset));
+    if (encoding === 'utf8' || encoding === 'utf-8') return new TextEncoder().encodeInto(text, output).written;
+    const bytes = ByteBuffer.from(text, encoding), count = Math.min(bytes.length, output.length);
+    output.set(bytes.subarray(0, count)); return count;
+  }
   copy(target, targetStart = 0, sourceStart = 0, sourceEnd = this.length) {
     if (![targetStart, sourceStart, sourceEnd].every(Number.isInteger) || targetStart < 0 || sourceStart < 0 || sourceEnd < 0 || sourceStart > this.length) throw new RangeError('Copy exceeds buffer bounds.');
     const count = Math.max(0, Math.min(sourceEnd, this.length) - sourceStart);

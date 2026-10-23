@@ -137,14 +137,16 @@ The subsequent dedicated native report is
 `analysis/physics-native-selected-force-v2-20261022/`: all 12 ordered `47b020`
 entry inputs and all 4,951,966 declared semantic frame bytes/native return
 match at clock 513 (HIGH/LEV5). Eight entries pass with nonzero capped input;
-four return at the distance gate. Both type3 chassis and type4 wheel bodies
+four return at the distance gate. Both type3 chassis and type4 physical camera bodies
 occur. The frame includes the actual observed FS:[0], explicit cookie alias
 and full64-byte lookup; none is synthesized. No sound dispatch is reached,
 so this does not close the populated sound/active-emission obligation.
 The entry-only stream does not isolate native force return writes or identify
 the weapon/event producer. `tests/native-force-frame-retained.test.mjs`
 independently replays the saved positive case and checks its full semantic
-result as well as the ordered force inputs.
+result as well as the ordered force inputs. The [2026-10-23 ownership audit](native-camera-body-identity.md)
+proves each camera's participant/controller backlinks and distinguishes the
+separate type11 wheel render bodies, correcting the earlier wheel label.
 
 All replies are for Redux SHA-256 `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
 

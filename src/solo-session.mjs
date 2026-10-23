@@ -15,7 +15,9 @@ import {updateVehicleInputBlock, updateVehicleControlState, updateVehicleMotionS
 import {createRespawnRuntime} from './respawn-runtime.mjs';
 import {createPhysicsRuntimeViews} from './physics-runtime-views.mjs';
 import {createVehicleRuntimeViews} from './vehicle-runtime-views.mjs';
-import {createRawTerrainGrid} from './raw-terrain-query.mjs';
+import {initializeSoloTerrainRuntime} from './solo-terrain-runtime.mjs';
+import {publishTerrainPointStartupSeed, initializeSoloTerrainPointRuntime} from './solo-terrain-point-runtime.mjs';
+import {createSoloCameraRuntime, initializeSoloCameraConstants} from './solo-camera-runtime.mjs';
 import {createVehicleCollisionFilter} from './vehicle-collision-filter.mjs';
 import {registerRawBodySpatial} from './raw-body-construction.mjs';
 import {removeBodySpatial} from './body-retirement.mjs';
@@ -43,12 +45,16 @@ import {updatePlacedObjectDestruction} from './placed-object-destruction.mjs';
 import {maintainWorldFragments} from './world-fragment-registry.mjs';
 import {updateRawBodyAttachments} from './body-attachments.mjs';
 import {updateRawPersistentEmitters, updateRawAttachmentEffects} from './attachment-effects.mjs';
-import {initializeDynamicLightStorage, initializeAuthoredDynamicLights} from './dynamic-light-state.mjs';
+import {initializeDynamicLightStorage, initializeAuthoredDynamicLights, updateDynamicLights} from './dynamic-light-state.mjs';
 import {updatePlacedModelContactEffects} from './placed-model-effect-update.mjs';
 import {initializeRaceObjectList} from './race-object-startup.mjs';
 import {updateRaceObjects} from './race-object-update.mjs';
 import {createRaceObjectCollisionFilters} from './race-object-collision-filters.mjs';
 import {createRawAttachmentQueue} from './raw-attachment-queue.mjs';
+import {initializeVehicleExecutionModes} from './race-startup-storage.mjs';
+import {updateVehicleAnimationLights} from './vehicle-animation-lights.mjs';
+import {updateVehicleWheelHistories} from './vehicle-wheel-histories.mjs';
+import {initializeSoloWeaponConstants, initializeSoloWeaponRuntime} from './solo-weapon-runtime.mjs';
 
 const RECORD = 0x909300, STACK = 0x9000, PACK = 0x909240;
 export const SOLO_STEP_SECONDS = 1 / REDUX_LOGICAL_TICKS_PER_SECOND;
@@ -83,9 +89,10 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   const word = (p, v) => memory.writeUInt16LE(v & 65535, p);
   const ptr = p => memory.readUInt32LE(p);
   let cursor = 0xa00000;
+  const allocations = new Set();
   const allocate = size => {
     if (!Number.isInteger(size) || size < 0 || cursor + size > memory.length) throw Error('Racing test exhausted its runtime storage.');
-    const address = cursor; cursor += (size + 127) & ~127; return address;
+    const address = cursor; cursor += (size + 127) & ~127; allocations.add(address); return address;
   };
   for (const table of constants.tables) Buffer.from(table.bytes_hex, 'hex').copy(memory, Number(table.address));
   initializeWorldPhysicsConstants(memory);
@@ -99,12 +106,15 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   initializeBodyRetirementEffectTables(memory);
   initializeParticlePoolConstants(memory);
   initializeSoloWorldConstants(memory);
+  initializeSoloCameraConstants(memory);
+  initializeSoloWeaponConstants(memory);
   Buffer.from(skill.hex, 'hex').copy(memory, 0x570680);
   sqrt.values.forEach((value, i) => word(0x5eb290 + i * 2, value));
   const base = allocate(data.length); data.copy(memory, base);
   const session = allocate(0x1000), config = allocate(0x1000);
   put(0x5ecb1c, session); put(0x5ecefc, config);
   memory.writeFloatLE(1, config + 0x68);
+  word(config + 0x42c, 640); word(config + 0x42e, 480);
   memory[session + 0x54d] = vehicleTypes.length;
   //41dbb0 selects body/animation/drive parameters from this native type byte;
   //41ebb0 later reads the same selection for the autonomous contact profile.
@@ -131,6 +141,7 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   for (const [to, from] of [[0x70,160],[0x90,188],[0x7c,172],[0x84,176],[0x8c,184],[0x98,204],[0x9c,216]]) put(PACK + to, base + data.readUInt32LE(from));
   put(PACK + 0x80, base + data.readUInt32LE(0x28));
   put(PACK + 0x60, relocated.groups);
+  memory[PACK + 0x36] = data[0x94]; //44c2b0 authored pickup count publication.
   memory[PACK + 0x44] = data[0x95]; memory[PACK + 0x46] = data[0x79];
   memory[PACK + 0x47] = data[0x78];
   // Header+84 is relocated by a later loader section.
@@ -149,8 +160,40 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   put(0x5eb5e0, REDUX_INITIAL_GRAVITY_Q16);
   const gravityQ16 = initializeRaceGravity({memory});
   // Original 4749e0 entry captured CW007f: nearest-even, 24-bit x87 PC.
-  const runtime = {memory, scratchBase: STACK, handlers: {allocate}, roundingMode: 'nearest-even', x87PrecisionBits: 24};
+  //The viewer supplies external CRT/libm and a single-thread host platform.
+  //All reached game-owned renderer/Application constructors still execute.
+  const criticalSections = new Map(), exitHandlers = [];
+  const runtime = {memory, scratchBase: STACK, handlers: {allocate,
+    free(address) {if (address && !allocations.delete(address)) throw Error('Racing runtime CRT free received an unowned pointer.');},
+    registerExit(address) {exitHandlers.push(address); return 0;},
+    dynamicCast(application, offset, sourceType, targetType, flags) {
+      if (offset || flags || sourceType !== 0x6e213c || targetType !== 0x6e20a4 || application !== ptr(0x6efb38) || ptr(application) !== 0x570308) throw Error('Racing camera reached an unsupported CRT RTTI conversion.');
+      return application;
+    },
+    formatCameraName(output, format, index) {
+      if (memory.toString('ascii', format, format + 10) !== '%d Player\0') throw Error('Racing camera reached an unsupported CRT format.');
+      memory.write(`${index} Player\0`, output);
+    },
+    projectionMath(operation, value) {if (!['atan', 'sin', 'cos'].includes(operation)) throw Error('Unsupported projection libm operation.'); return Math.fround(Math[operation](value));},
+    projectionInteger(value) {return !Number.isFinite(value) || value < -(2 ** 63) || value >= 2 ** 63 ? -(1n << 63n) : BigInt(Math.trunc(value));}
+  }, services: {
+    rendererMath(operation, value, precision) {if (!['sqrt', 'atan', 'tan', 'sin', 'cos'].includes(operation)) throw Error('Unsupported renderer libm operation.'); const valueOut = Math[operation](value); return precision === 32 ? Math.fround(valueOut) : valueOut;},
+    platformCall(name, args) {
+      if (name === 'GetCurrentThreadId') return 1;
+      const address = args[0];
+      if (name === 'InitializeCriticalSectionAndSpinCount') {criticalSections.set(address, 0); return 1;}
+      if (!criticalSections.has(address)) throw Error('Racing camera used an uninitialized host critical section.');
+      if (name === 'EnterCriticalSection') {criticalSections.set(address, criticalSections.get(address) + 1); return 0;}
+      if (name === 'LeaveCriticalSection' && criticalSections.get(address) > 0) {criticalSections.set(address, criticalSections.get(address) - 1); return 0;}
+      throw Error(`Racing camera requires unsupported host service ${name}.`);
+    }
+  }, roundingMode: 'nearest-even', x87PrecisionBits: 24};
+  publishTerrainPointStartupSeed(session, runtime);
   initializeSoloAuthoredObjectList(runtime);
+  const camera = createSoloCameraRuntime(runtime);
+  camera.initializeViewportRuntime(allocate(56));
+  //47ebea constructs placements in44c2b0 before47ebfb selects views.
+  //The separate48ef30 light storage follows both terrain constructors.
   const textureAddress = allocate(textureData.length); textureData.copy(memory, textureAddress);
   const world = constructSoloWorldPlacements({...runtime, textureAddress, geometry: relocated.geometry,
     configurationBase: relocated.auxiliary, modelContext: models, roundingMode: 'nearest-even', includeNonordinary: true,
@@ -162,23 +205,37 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     }}});
   models = world.modelContext;
   const placedModels = [...models.instances];
-  const mapping = {...world.candidateMapping, terrainVerticesFor: index => base + grid.scene.segments[index].verticesOffset};
+  camera.initializeViewSelection();
+  //47ec00..47ec05 captures point bases before phase-zero deformation.
+  const terrainPoints = initializeSoloTerrainPointRuntime(runtime);
+  const terrain = initializeSoloTerrainRuntime(runtime);
+  const mapping = {...world.candidateMapping, terrainVerticesFor: terrain.terrainVerticesFor};
   initializeDynamicLightStorage(runtime); initializeAuthoredDynamicLights(runtime);
   const destruction = initializeSoloWorldDestruction(runtime);
+  const weapons = initializeSoloWeaponRuntime(runtime);
   //47ea40 relative startup order: authored objects, lights, fragment banks,
   //debris, particles,429d60 physical/script activation, then vehicle creation.
   initializeRawBodyDebrisPool({memory, allocate});
   initializeRawParticlePools({memory, allocate, roundingMode: 'nearest-even'});
   initializeRaceObjectList(runtime);
+  camera.initializeProjection();
+  camera.beginParticipants();
   const cars = vehicleTypes.map((vehicleType, index) => {
     const record = RECORD + index * 0x30c, address = constructVehicle(record, index, runtime);
-    put(record + 0x18, 0x12345678);
-    memory[address + 0x718] = 8; memory[address + 0x708] = 128; memory[address + 0x720] = 16;
+    camera.constructParticipant(index);
+    //47f11f runs410060 immediately after this car's416180, before the next
+    //participant constructor.42a670 publishes input modes after the loop.
+    initializeVehicleAutonomousState(record, runtime);
     const renderAddresses = [address, ...Array.from({length: 4}, (_, i) => ptr(address + 0x390 + i * 200))];
     return {index, vehicleType, record, address, renderAddresses, laps: 0, lapStart: 0, bestLap: null, recoveries: 0, checkpointTransitions: 0, recoveryPending: false};
   });
   const carAssets = cars.map(car => Object.freeze({...buildSoloCarMesh(data, textureData, car.renderAddresses.map(value => ptr(value + 0x10) - base)), index: car.index, vehicleType: car.vehicleType}));
   const assets = {...carAssets[0], cars: Object.freeze(carAssets)};
+  const animatedSectors = new Set([...terrain.snapshot.segments, ...terrainPoints.snapshot.segments].map(row => row.index));
+  assets.terrain = Object.freeze({segments: Object.freeze(grid.scene.segments.filter(row => animatedSectors.has(row.index)).map(row => Object.freeze({
+    index: row.index, columns: row.columns, rows: row.rows,
+    faces: Object.freeze(row.faces.map(face => Object.freeze({page: face.page, uv: Object.freeze(face.uv.map(pair => Object.freeze(pair.slice()))), gridIndices: Object.freeze(face.gridIndices.slice())})))
+  })))});
   const worldRenderObjects = world.authoredObjects.filter(row => (ptr(row.bodyAddress) & 511) !== 32);
   const worldAssets = buildSoloCarMesh(data, textureData, worldRenderObjects.map(row => ptr(row.bodyAddress + 0x10) - base));
   assets.worldObjects = Object.freeze({...worldAssets, modelIndices: Object.freeze(worldAssets.modelIndices),
@@ -189,9 +246,10 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   const filterRuntime = {memory, scratchBase: STACK - 52};
   const filter = createVehicleCollisionFilter(filterRuntime);
   const list = ptr(0x902bc0);
-  const views = createPhysicsRuntimeViews({memory, bodyAt: value => world.authoredBodyAt(value) ?? destruction.bodyAt(value) ?? respawn.bodyAt(value), bucketAt: respawn.bucketAt,
+  const collisionFilters = new Map([[0x41e080, filter], ...destruction.collisionFilters, ...createRaceObjectCollisionFilters(filterRuntime)]);
+  const views = createPhysicsRuntimeViews({memory, bodyAt: value => camera.bodyAt(value) ?? world.authoredBodyAt(value) ?? weapons.bodyAt(value) ?? destruction.bodyAt(value) ?? respawn.bodyAt(value), bucketAt: respawn.bucketAt,
     bodyLists: [{address: list, capacity: 96}, ...Array.from({length: 65}, (_, i) => ({address: ptr(0x902be0 + i * 12), capacity: 33}))],
-    candidateMapping: mapping, collisionFilters: new Map([[0x41e080, filter], ...destruction.collisionFilters, ...createRaceObjectCollisionFilters(filterRuntime)])});
+    candidateMapping: mapping, collisionFilters});
   const vehicleViews = createVehicleRuntimeViews({memory, bodyAt: views.bodyAt});
   const interactions = createPhysicsInteractionRuntime({memory});
   const vehicles = cars.map(car => {
@@ -200,9 +258,10 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     Object.defineProperty(vehicle, 'trackContext', {get: () => ({mode: memory[session + 0x579], progressStage: memory[car.record + 0x20], routeIndex: memory[car.record + 0x22]})});
     return vehicle;
   });
-  const rawGrid = createRawTerrainGrid(grid, mapping.terrainVerticesFor, {memory});
+  const rawGrid = terrain.bindCollisionGrid(grid);
+  for (const [address, callback] of weapons.createCollisionFilters({...filterRuntime, views, grid: rawGrid, models, modelPointersFor: mapping.modelPointersFor})) collisionFilters.set(address, callback);
   const context = {
-    environment: {data, grid: rawGrid, modelContext: models, wheelRuntime: {memory, views, grid: rawGrid, scratchBase: STACK - 56, handlers: {modelEffects}},
+    environment: {data, grid: rawGrid, modelContext: models, surfaceModeFor: terrain.surfaceModeFor, wheelRuntime: {memory, views, grid: rawGrid, scratchBase: STACK - 56, handlers: {modelEffects}},
       effectRuntime: {views: vehicleViews, driveScratchBase: STACK - 56, forceScratchBase: STACK - 56}},
     records: views.records, queue: views.queue, candidateArena: views.candidateArena, candidateGroups: views.candidateGroups, onCollisionDispatch,
     effectFlags: views.effectFlags, gravityQ16, roundingMode: 'nearest-even', selectionCounter: 0,
@@ -217,7 +276,10 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
       attachmentQueue: createRawAttachmentQueue({memory, bodyAt: views.bodyAt}),
       modelEffects, onSpecialEvent: () => {throw Error('Racing test reached an unsupported special vehicle event.');}}
   };
-  for (const car of cars) initializeVehicleAutonomousState(car.record, runtime);
+  //47ea40's final42a670 clears the complete32-byte708 block and initializes
+  //the native steering counter/mode.42a870 supplies the first byte-valued
+  //steering sample on the first update; ready state must not fabricate it.
+  initializeVehicleExecutionModes(runtime);
   // 41dbb0 changes the spawn quaternion after its initial body-cache update.
   // Publish a coherent ready pose before the first viewer render/physics tick.
   for (const car of cars) {
@@ -280,7 +342,11 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
       for (const car of cars) updateAutonomousRouteControl(car.address, runtime);
       for (const car of cars) {updateVehicleInputBlock(car.address, car.index, runtime); updateVehicleControlState(car.address, runtime);}
       debugFrame('after-controls');
+      terrain.step();
       updateRaceObjects(runtime);
+      //450fc3..451006 restores only XYZ. The late point palette/material
+      //flags remain live for the following physical surface queries.
+      terrainPoints.restoreForPhysics();
       const previousCheckpoints = cars.map(car => memory[car.record + 0x20]);
       runRaceProgressPass({...runtime, progression: respawn, checkpointOptions});
       for (const car of cars) if (memory[car.record + 0x20] !== previousCheckpoints[car.index]) car.checkpointTransitions++;
@@ -300,14 +366,30 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
         onRecoveryApply: value => {const car = cars.find(car => car.address === value.bodyAddress); if (car) car.recoveries++;}});
       debugFrame('after-postframe', {respawnedBodies: recovery.respawnedBodies, retiredBodies: recovery.retiredBodies});
       for (const car of cars) {updateVehicleMotionState(car.record, runtime); updateVehicleSurfaceDrive(car.record, runtime);}
-      for (const car of cars) prepareVehicleWheelRender(car.address, runtime);
+      //451092/48d7c0 follows the completed motion pass. Its incoming EDI is
+      //that pass's iteration count, and it owns real surface-drive decay/caps.
+      weapons.step({scratchBase: STACK, entryRegisters: {EDI: cars.length}, views, grid: rawGrid, models, modelPointersFor: mapping.modelPointersFor});
+      for (const car of cars) {prepareVehicleWheelRender(car.address, runtime); camera.updateParticipant(car.index);}
+      updateVehicleAnimationLights(runtime);
       //450e50 relative stage order: debris, placed contacts, particles, model
       //fragments, queued destruction, physical fragments, persistent emitters.
       advanceRawBodyDebris({memory});
+      camera.step({views, grid: rawGrid, models, modelPointersFor: mapping.modelPointersFor});
       updatePlacedModelContactEffects({...runtime, roundingMode: 'nearest-even'});
       advanceRawEffectParticles({memory});
-      updateModelContactFragments(runtime); updatePlacedObjectDestruction(runtime); maintainWorldFragments(runtime);
+      updateModelContactFragments(runtime);
+      //494140 advances each participant's real rear-wheel histories and the
+      //shared5ec958 stream before44a7a0 consumes it for point emissions.
+      updateVehicleWheelHistories(runtime);
+      //44a7a0 supplies late display coordinates and genuine particle/debris
+      //emissions. Those displaced coordinates are restored before physics.
+      terrainPoints.step();
+      updatePlacedObjectDestruction(runtime); maintainWorldFragments(runtime);
       updateRawPersistentEmitters(runtime); updateRawAttachmentEffects(runtime);
+      //One session step is one450e50 outer update with one physics substep.
+      //Its final44d960(0) owns dirty-range aging, queued light allocation and
+      //authored/attached light motion. Do not replace it with a queue clear.
+      updateDynamicLights(0, runtime);
       ticks++; put(0x90a548, ticks);
       return report;
     },
@@ -326,6 +408,7 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
           checkpoint: memory[record + 0x20], checkpointCount: memory[PACK + 0x44], checkpointTransitions: car.checkpointTransitions,
           laps: car.laps, lapTime: (ticks - car.lapStart) * SOLO_STEP_SECONDS, bestLap: car.bestLap, recoveries: car.recoveries,
           physics: Object.freeze({...lastPhysics, recoveryPending: car.recoveryPending,
+            driveQ16: memory.readInt32LE(address + 0x6a8), baseDriveQ16: memory.readInt32LE(address + 0x6ac),
             wheelContacts: Object.freeze(Array.from({length: 4}, (_, index) => Boolean(memory[address + 0x324 + index * 200] & 1)))})});
       }));
       const worldObjects = worldRenderObjects.map((row, index) => {
@@ -335,7 +418,20 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
           position: Object.freeze([0,4,8].map(offset => memory.readInt32LE(value + 0x34 + offset) / 65536)),
           rotation: Object.freeze(Array.from({length: 9}, (_, i) => memory.readInt16LE(value + 0xc4 + i * 2) / 4096))});
       });
-      return Object.freeze({...snapshots[0], ticks, cars: snapshots, aiDifficulty,
+      const terrainState = terrain.snapshot, {segments: pointSegments, ...pointState} = terrainPoints.snapshot;
+      const segments = Object.freeze([...new Map([...terrainState.segments, ...pointSegments].map(row => [row.index, row])).values()].sort((a,b) => a.index-b.index));
+      const palette = segments.length ? Object.freeze(Array.from({length: 1024}, (_, index) => {
+        const offset = ptr(0x909270) + index * 4;
+        return Object.freeze([memory[offset], memory[offset + 1], memory[offset + 2], memory[offset + 3]]);
+      })) : Object.freeze([]);
+      const cameraState = Object.freeze({...camera.snapshot, bodies: Object.freeze(camera.controllers.map(row => Object.freeze({...row,
+        flags: ptr(row.bodyAddress), controllerBacklink: ptr(row.bodyAddress + 0x164),
+        positionQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(row.bodyAddress + 0x34 + offset)))
+      }))), physicalBodyCount: views.physicalGroup.count});
+      return Object.freeze({...snapshots[0], ticks, cars: snapshots, aiDifficulty, camera: cameraState,
+        weapons: Object.freeze({mode: memory[session + 0x551], pickupOption: memory[session + 0xa86], authoredPickupCount: memory[PACK + 0x36], pickupCount: ptr(0x902024), poolBodyCount: weapons.bodyStorage.length, contactVertexCount: ptr(0x7130f8)}),
+        terrain: Object.freeze({...terrainState, segments, points: Object.freeze(pointState), palette}),
+        lighting: Object.freeze({highWaterCount: ptr(0x80f20c), dirtyRangeCount: ptr(0x80f210), queuedAllocationCount: ptr(0x810920)}),
         worldObjects: Object.freeze(worldObjects),
         //Class5 also denotes an in-flight collapse. Its original authored mesh
         //remains visible until the controller removes the body at completion.

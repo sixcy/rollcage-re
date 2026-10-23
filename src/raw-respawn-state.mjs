@@ -9,6 +9,7 @@ import {populateRawVehicleTrackBasis} from './raw-track-basis.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
 import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
+import {callNativeRecoveryAudio} from './native-recovery-audio-call.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p);
 const put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
@@ -135,6 +136,9 @@ export function applyRawRespawn(body, position, quaternion, rotation, route, ind
   put(memory, body + 12, tagged);
   const head = memory.readUInt16LE(bucket + 8), id = ((body - base + 128 >>> 0) >>> 7) & 65535;
   put(memory, body + 4, head); if (head) word(memory, base - 122 + head * 128, id); word(memory, bucket + 8, id);
+  //47d6c0/47d6c5 leave the untagged spatial bucket in volatile ECX on
+  //both preRET branches. The caller retains it when no vehicle ring runs.
+  return {registerEcx: bucket};
 }
 
 //47ccc0 with actual prepass, retirement, query, placement, ring and sound.
@@ -185,9 +189,16 @@ export function runRawPostFrameBodyStates(runtime) {
         const accepted = queryRawRespawnPlacement(body, respawnPosition, quaternionAddress, body + 0xc4, 1, output, {...runtime, scratchBase: scratchBase - 120});
         let route = closestRoute, index = closestIndex;
         if (!accepted) {put(memory, 0x70eb18, secondPoint); for (const offset of [0, 2, 4]) put(memory, 0x70eb0c + offset * 2, memory.readInt16LE(secondPoint + offset) << 16); route = secondRoute; index = secondIndex;}
-        applyRawRespawn(body, respawnPosition, quaternionAddress, body + 0xc4, route, index, get(memory, output), {...runtime, scratchBase: scratchBase - 124});
-        if ((get(memory, body) & 511) === 3) emitRawVehicleRespawnRing(body, 0, {...runtime, scratchBase: scratchBase - 104});
-        emitNativeEffect(43, 0, [0, -1, 9000, 6, undefined, 0, 0], {dispatch40ea40: value => dispatchNativeSound(value, runtime.soundRuntime ?? {memory})}); respawnedBodies++;
+        let registers = applyRawRespawn(body, respawnPosition, quaternionAddress, body + 0xc4, route, index, get(memory, output), {...runtime, scratchBase: scratchBase - 124});
+        if ((get(memory, body) & 511) === 3) registers = emitRawVehicleRespawnRing(body, 0, {...runtime, scratchBase: scratchBase - 104});
+        if (runtime.nativeRecoveryAudio) {
+          //The query/apply/ring callees preserve these four live registers.
+          //EBX is the selected point, EBP the retained second distance.
+          callNativeRecoveryAudio({...runtime.nativeRecoveryAudio, memory, parentEntryEsp: scratchBase, registerEcx: registers.registerEcx,
+            nativeStack: {entryRegisters: {ebx: accepted ? closestPoint : secondPoint, ebp: secondDistance, esi: body + 0xc4, edi: body}},
+            onRecoveryAudioCall: runtime.onRecoveryAudioCall});
+        } else emitNativeEffect(43, 0, [0, -1, 9000, 6, registers.registerEcx, 0, 0], {dispatch40ea40: value => dispatchNativeSound(value, runtime.soundRuntime ?? {memory})});
+        respawnedBodies++;
       }
     }
     cursor += 4; remaining--;

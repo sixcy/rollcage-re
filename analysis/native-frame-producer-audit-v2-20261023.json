@@ -1,0 +1,1223 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "retained-after-to-next-entry-storage-and-selected-producer-audit",
+  "evidenceIds": [
+    "ev_46d22bb690247378da4f778dc7ea56d10aafe43ef53e5bf7d3f0e5974134e7fe",
+    "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+    "ev_88b898cc65970e7805a5785092f1afe8574f2268e88a60993ce2f64de3d8905d",
+    "ev_8d7874b8634fd2e83d22ee158a9bb765f75ac17b45f7fd77dd973d0d53837199",
+    "ev_a46c16720858b398ecf670fe9ab6e62801d3c478269268efd4aac2efa93f0f3f",
+    "ev_25d0e08b400dae142d89ded057f0f7b25b9df9eed938ad18ddd58fa099caa2ac"
+  ],
+  "sourceFiles": [
+    {
+      "filename": "src/vehicle-control-state.mjs",
+      "sha256": "2e8bfb5f29e168a1f12bca86a98269f79a567d8df0e444636d446bf197b73b8f"
+    },
+    {
+      "filename": "src/lap-timing.mjs",
+      "sha256": "c5c01084e02967aa34e83b5777a248be36b148df3a6788684e5332f0e2d7ce99"
+    },
+    {
+      "filename": "src/fixed-integer.mjs",
+      "sha256": "01cd72454227d979d2ba132e682c0ea9b80b9815926a631d79e12fb7cedd84fc"
+    },
+    {
+      "filename": "src/sqrt-table.json",
+      "sha256": "9bbc0384e792a6a56ea8adad825de278951c117fc8e8475a6101f2856bbc8111"
+    },
+    {
+      "filename": "tools/lib/native-frame-motion-continuation.mjs",
+      "sha256": "32119af3ffb638a3399337e8a7a11232deef7cfc2490334be36f7798d5531b29"
+    },
+    {
+      "filename": "tools/lib/native-frame-sequence.mjs",
+      "sha256": "92ca5312b76db1d248a358ec12ed37c7425bd66f3b468d707606b2b2a536216c"
+    },
+    {
+      "filename": "tools/audit-native-frame-producers.mjs",
+      "sha256": "4647375d8c9850d9ba6f394e950a61457b0930946c552c20102b90ca6941b0cd"
+    }
+  ],
+  "windows": [
+    {
+      "baselineReport": "analysis/native-frame-sequence-three-compact-20261022/report.json",
+      "baselineReportSha256": "6d5c77bd68f36568e6247ee4b34773abc445bb9732ab5fd7d76bc779bdbff917",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\hidden-three-frames-capture",
+      "identity": {
+        "available": true,
+        "stable": true,
+        "changedFields": [],
+        "before": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 2,
+          "selectedLevelNumber": 3,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV3",
+          "selectedBlpResource": "HIGH/LEV3.BLP",
+          "selectedBtpResource": "HIGH/LEV3.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 3,
+          "selectedTrackLocalByte": 0,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            3,
+            5,
+            0,
+            4,
+            1
+          ],
+          "activeVehicleTypes": [
+            6,
+            3,
+            5,
+            0,
+            4,
+            1
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        },
+        "after": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 2,
+          "selectedLevelNumber": 3,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV3",
+          "selectedBlpResource": "HIGH/LEV3.BLP",
+          "selectedBtpResource": "HIGH/LEV3.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 3,
+          "selectedTrackLocalByte": 0,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            3,
+            5,
+            0,
+            4,
+            1
+          ],
+          "activeVehicleTypes": [
+            6,
+            3,
+            5,
+            0,
+            4,
+            1
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        }
+      },
+      "transitions": [
+        {
+          "transition": 1,
+          "clock": 228,
+          "externalPatchBytes": 191587,
+          "abiRefreshBytes": 4100,
+          "groups": [
+            {
+              "storageClass": "other-used-body-arena",
+              "changedBytes": 95958
+            },
+            {
+              "storageClass": "observation-only",
+              "changedBytes": 66474
+            },
+            {
+              "storageClass": "participant-inline-effect-storage",
+              "changedBytes": 21790
+            },
+            {
+              "storageClass": "particle-storage",
+              "changedBytes": 3765
+            },
+            {
+              "storageClass": "participant-other-tail-storage",
+              "changedBytes": 3039
+            },
+            {
+              "storageClass": "other-semantic:participant-records",
+              "changedBytes": 172
+            },
+            {
+              "storageClass": "other-semantic:retirement-light-records",
+              "changedBytes": 152
+            },
+            {
+              "storageClass": "participant-body-and-controls",
+              "changedBytes": 74
+            },
+            {
+              "storageClass": "other-semantic:vector-scratch",
+              "changedBytes": 63
+            },
+            {
+              "storageClass": "other-semantic:candidate-arena",
+              "changedBytes": 46
+            },
+            {
+              "storageClass": "other-semantic:first-effect-and-matrix",
+              "changedBytes": 30
+            },
+            {
+              "storageClass": "other-semantic:shape-records",
+              "changedBytes": 10
+            },
+            {
+              "storageClass": "other-semantic:recovery-rng-difficulty",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:effect-rng",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:session",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:particle-roots",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:attachment-count",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:light-registry-first",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:clock",
+              "changedBytes": 1
+            }
+          ],
+          "spatialNodeChangedByteOffsets": {},
+          "motionProducer": {
+            "matched": true,
+            "comparedBytes": 144,
+            "changedBytes": 102,
+            "calls": 6
+          },
+          "sourceMotionIntermediateScratchLaterOverwritten": [
+            {
+              "address": 12571740,
+              "preferredAddress": 9557084,
+              "producedByte": 166,
+              "nextNativeByte": 15,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571741,
+              "preferredAddress": 9557085,
+              "producedByte": 16,
+              "nextNativeByte": 0,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571742,
+              "preferredAddress": 9557086,
+              "producedByte": 0,
+              "nextNativeByte": 0,
+              "changesSourceByte": false
+            },
+            {
+              "address": 12571744,
+              "preferredAddress": 9557088,
+              "producedByte": 19,
+              "nextNativeByte": 28,
+              "changesSourceByte": true
+            }
+          ],
+          "nextCandidateSurfaceDrive": {
+            "matched": false,
+            "comparedBytes": 24,
+            "changedBytes": 12,
+            "policy": "Independent read-only candidate probe; not integrated or removed from supplied patch inputs."
+          }
+        },
+        {
+          "transition": 2,
+          "clock": 229,
+          "externalPatchBytes": 192765,
+          "abiRefreshBytes": 4100,
+          "groups": [
+            {
+              "storageClass": "other-used-body-arena",
+              "changedBytes": 97209
+            },
+            {
+              "storageClass": "observation-only",
+              "changedBytes": 65152
+            },
+            {
+              "storageClass": "participant-inline-effect-storage",
+              "changedBytes": 22552
+            },
+            {
+              "storageClass": "particle-storage",
+              "changedBytes": 4332
+            },
+            {
+              "storageClass": "participant-other-tail-storage",
+              "changedBytes": 3147
+            },
+            {
+              "storageClass": "other-semantic:participant-records",
+              "changedBytes": 116
+            },
+            {
+              "storageClass": "participant-body-and-controls",
+              "changedBytes": 78
+            },
+            {
+              "storageClass": "other-semantic:vector-scratch",
+              "changedBytes": 54
+            },
+            {
+              "storageClass": "other-semantic:candidate-arena",
+              "changedBytes": 48
+            },
+            {
+              "storageClass": "other-semantic:first-effect-and-matrix",
+              "changedBytes": 30
+            },
+            {
+              "storageClass": "other-semantic:native-geometry-3c4bfb0-3c4bfb0",
+              "changedBytes": 22
+            },
+            {
+              "storageClass": "other-semantic:shape-records",
+              "changedBytes": 10
+            },
+            {
+              "storageClass": "other-semantic:recovery-rng-difficulty",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:effect-rng",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:particle-roots",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:session",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:attachment-count",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:light-registry-first",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:clock",
+              "changedBytes": 1
+            }
+          ],
+          "spatialNodeChangedByteOffsets": {
+            "10": 11,
+            "11": 11
+          },
+          "motionProducer": {
+            "matched": true,
+            "comparedBytes": 144,
+            "changedBytes": 41,
+            "calls": 6
+          },
+          "sourceMotionIntermediateScratchLaterOverwritten": [
+            {
+              "address": 12571740,
+              "preferredAddress": 9557084,
+              "producedByte": 150,
+              "nextNativeByte": 255,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571741,
+              "preferredAddress": 9557085,
+              "producedByte": 13,
+              "nextNativeByte": 104,
+              "changesSourceByte": true
+            }
+          ],
+          "nextCandidateSurfaceDrive": {
+            "matched": false,
+            "comparedBytes": 24,
+            "changedBytes": 12,
+            "policy": "Independent read-only candidate probe; not integrated or removed from supplied patch inputs."
+          }
+        }
+      ]
+    },
+    {
+      "baselineReport": "analysis/native-frame-sequence-moving-union-20261022/report.json",
+      "baselineReportSha256": "d407c414b147a686b6dec2cd24063f11f117980348cf784ff8345a0cf72868db",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\hidden-moving-frames-capture",
+      "identity": {
+        "available": true,
+        "stable": true,
+        "changedFields": [],
+        "before": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 1,
+          "selectedLevelNumber": 2,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV2",
+          "selectedBlpResource": "HIGH/LEV2.BLP",
+          "selectedBtpResource": "HIGH/LEV2.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 2,
+          "selectedTrackLocalByte": 0,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            0,
+            5,
+            2,
+            4,
+            3
+          ],
+          "activeVehicleTypes": [
+            6,
+            0,
+            5,
+            2,
+            4,
+            3
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        },
+        "after": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 1,
+          "selectedLevelNumber": 2,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV2",
+          "selectedBlpResource": "HIGH/LEV2.BLP",
+          "selectedBtpResource": "HIGH/LEV2.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 2,
+          "selectedTrackLocalByte": 0,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            0,
+            5,
+            2,
+            4,
+            3
+          ],
+          "activeVehicleTypes": [
+            6,
+            0,
+            5,
+            2,
+            4,
+            3
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        }
+      },
+      "transitions": [
+        {
+          "transition": 1,
+          "clock": 288,
+          "externalPatchBytes": 202136,
+          "abiRefreshBytes": 4100,
+          "groups": [
+            {
+              "storageClass": "other-used-body-arena",
+              "changedBytes": 120857
+            },
+            {
+              "storageClass": "observation-only",
+              "changedBytes": 42624
+            },
+            {
+              "storageClass": "participant-inline-effect-storage",
+              "changedBytes": 21825
+            },
+            {
+              "storageClass": "particle-storage",
+              "changedBytes": 13147
+            },
+            {
+              "storageClass": "participant-other-tail-storage",
+              "changedBytes": 3260
+            },
+            {
+              "storageClass": "other-semantic:participant-records",
+              "changedBytes": 129
+            },
+            {
+              "storageClass": "participant-body-and-controls",
+              "changedBytes": 128
+            },
+            {
+              "storageClass": "other-semantic:vector-scratch",
+              "changedBytes": 62
+            },
+            {
+              "storageClass": "other-semantic:candidate-arena",
+              "changedBytes": 53
+            },
+            {
+              "storageClass": "other-semantic:first-effect-and-matrix",
+              "changedBytes": 21
+            },
+            {
+              "storageClass": "other-semantic:native-geometry-41fe740-41fe740",
+              "changedBytes": 15
+            },
+            {
+              "storageClass": "other-semantic:recovery-rng-difficulty",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:effect-rng",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:particle-roots",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:session",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:attachment-count",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:light-registry-first",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:clock",
+              "changedBytes": 1
+            }
+          ],
+          "spatialNodeChangedByteOffsets": {
+            "8": 2,
+            "9": 2,
+            "10": 7,
+            "11": 4
+          },
+          "motionProducer": {
+            "matched": true,
+            "comparedBytes": 144,
+            "changedBytes": 53,
+            "calls": 6
+          },
+          "sourceMotionIntermediateScratchLaterOverwritten": [
+            {
+              "address": 12571740,
+              "preferredAddress": 9557084,
+              "producedByte": 46,
+              "nextNativeByte": 20,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571741,
+              "preferredAddress": 9557085,
+              "producedByte": 75,
+              "nextNativeByte": 14,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571742,
+              "preferredAddress": 9557086,
+              "producedByte": 14,
+              "nextNativeByte": 9,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571744,
+              "preferredAddress": 9557088,
+              "producedByte": 4,
+              "nextNativeByte": 12,
+              "changesSourceByte": true
+            }
+          ],
+          "nextCandidateSurfaceDrive": {
+            "matched": false,
+            "comparedBytes": 24,
+            "changedBytes": 12,
+            "policy": "Independent read-only candidate probe; not integrated or removed from supplied patch inputs."
+          }
+        },
+        {
+          "transition": 2,
+          "clock": 289,
+          "externalPatchBytes": 200166,
+          "abiRefreshBytes": 4100,
+          "groups": [
+            {
+              "storageClass": "other-used-body-arena",
+              "changedBytes": 117808
+            },
+            {
+              "storageClass": "observation-only",
+              "changedBytes": 43085
+            },
+            {
+              "storageClass": "participant-inline-effect-storage",
+              "changedBytes": 21188
+            },
+            {
+              "storageClass": "particle-storage",
+              "changedBytes": 14544
+            },
+            {
+              "storageClass": "participant-other-tail-storage",
+              "changedBytes": 3087
+            },
+            {
+              "storageClass": "participant-body-and-controls",
+              "changedBytes": 126
+            },
+            {
+              "storageClass": "other-semantic:participant-records",
+              "changedBytes": 118
+            },
+            {
+              "storageClass": "other-semantic:vector-scratch",
+              "changedBytes": 76
+            },
+            {
+              "storageClass": "other-semantic:candidate-arena",
+              "changedBytes": 57
+            },
+            {
+              "storageClass": "debris-storage",
+              "changedBytes": 35
+            },
+            {
+              "storageClass": "other-semantic:first-effect-and-matrix",
+              "changedBytes": 20
+            },
+            {
+              "storageClass": "other-semantic:native-geometry-41fe740-41fe740",
+              "changedBytes": 6
+            },
+            {
+              "storageClass": "other-semantic:recovery-rng-difficulty",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:effect-rng",
+              "changedBytes": 3
+            },
+            {
+              "storageClass": "other-semantic:particle-roots",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:session",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:frame-pools",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:attachment-count",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:light-registry-first",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:clock",
+              "changedBytes": 1
+            }
+          ],
+          "spatialNodeChangedByteOffsets": {
+            "10": 3,
+            "11": 3
+          },
+          "motionProducer": {
+            "matched": true,
+            "comparedBytes": 144,
+            "changedBytes": 57,
+            "calls": 6
+          },
+          "sourceMotionIntermediateScratchLaterOverwritten": [
+            {
+              "address": 12571740,
+              "preferredAddress": 9557084,
+              "producedByte": 158,
+              "nextNativeByte": 97,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571741,
+              "preferredAddress": 9557085,
+              "producedByte": 166,
+              "nextNativeByte": 41,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571742,
+              "preferredAddress": 9557086,
+              "producedByte": 41,
+              "nextNativeByte": 9,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571744,
+              "preferredAddress": 9557088,
+              "producedByte": 4,
+              "nextNativeByte": 12,
+              "changesSourceByte": true
+            }
+          ],
+          "nextCandidateSurfaceDrive": {
+            "matched": false,
+            "comparedBytes": 24,
+            "changedBytes": 12,
+            "policy": "Independent read-only candidate probe; not integrated or removed from supplied patch inputs."
+          }
+        }
+      ]
+    },
+    {
+      "baselineReport": "analysis/native-frame-sequence-turn-compact-20261022/report.json",
+      "baselineReportSha256": "baa04a458cdb0477f23b421353d01ddae9fece397f46a54ae37c65d8e83f1acb",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\hidden-turn-frames-capture",
+      "identity": {
+        "available": true,
+        "stable": true,
+        "changedFields": [],
+        "before": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 1,
+          "selectedLevelNumber": 2,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV2",
+          "selectedBlpResource": "HIGH/LEV2.BLP",
+          "selectedBtpResource": "HIGH/LEV2.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 2,
+          "selectedTrackLocalByte": 0,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            4,
+            0,
+            2,
+            1,
+            3
+          ],
+          "activeVehicleTypes": [
+            6,
+            4,
+            0,
+            2,
+            1,
+            3
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        },
+        "after": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 1,
+          "selectedLevelNumber": 2,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV2",
+          "selectedBlpResource": "HIGH/LEV2.BLP",
+          "selectedBtpResource": "HIGH/LEV2.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 2,
+          "selectedTrackLocalByte": 0,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            4,
+            0,
+            2,
+            1,
+            3
+          ],
+          "activeVehicleTypes": [
+            6,
+            4,
+            0,
+            2,
+            1,
+            3
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        }
+      },
+      "transitions": [
+        {
+          "transition": 1,
+          "clock": 348,
+          "externalPatchBytes": 39230,
+          "abiRefreshBytes": 4100,
+          "groups": [
+            {
+              "storageClass": "other-used-body-arena",
+              "changedBytes": 12002
+            },
+            {
+              "storageClass": "participant-inline-effect-storage",
+              "changedBytes": 8926
+            },
+            {
+              "storageClass": "particle-storage",
+              "changedBytes": 7669
+            },
+            {
+              "storageClass": "observation-only",
+              "changedBytes": 7219
+            },
+            {
+              "storageClass": "participant-other-tail-storage",
+              "changedBytes": 1582
+            },
+            {
+              "storageClass": "debris-storage",
+              "changedBytes": 1386
+            },
+            {
+              "storageClass": "participant-body-and-controls",
+              "changedBytes": 119
+            },
+            {
+              "storageClass": "other-semantic:participant-records",
+              "changedBytes": 117
+            },
+            {
+              "storageClass": "other-semantic:vector-scratch",
+              "changedBytes": 83
+            },
+            {
+              "storageClass": "other-semantic:candidate-arena",
+              "changedBytes": 65
+            },
+            {
+              "storageClass": "other-semantic:first-effect-and-matrix",
+              "changedBytes": 31
+            },
+            {
+              "storageClass": "other-semantic:native-geometry-430c740-430c740",
+              "changedBytes": 10
+            },
+            {
+              "storageClass": "other-semantic:recovery-rng-difficulty",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:effect-rng",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:particle-roots",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:physical-body-list",
+              "changedBytes": 3
+            },
+            {
+              "storageClass": "other-semantic:session",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:attachment-count",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:light-registry-first",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:frame-pools",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:clock",
+              "changedBytes": 1
+            }
+          ],
+          "spatialNodeChangedByteOffsets": {
+            "8": 1,
+            "9": 1,
+            "10": 6,
+            "11": 2
+          },
+          "motionProducer": {
+            "matched": true,
+            "comparedBytes": 144,
+            "changedBytes": 49,
+            "calls": 6
+          },
+          "sourceMotionIntermediateScratchLaterOverwritten": [
+            {
+              "address": 12571740,
+              "preferredAddress": 9557084,
+              "producedByte": 187,
+              "nextNativeByte": 214,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571741,
+              "preferredAddress": 9557085,
+              "producedByte": 96,
+              "nextNativeByte": 121,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571742,
+              "preferredAddress": 9557086,
+              "producedByte": 122,
+              "nextNativeByte": 12,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571744,
+              "preferredAddress": 9557088,
+              "producedByte": 4,
+              "nextNativeByte": 12,
+              "changesSourceByte": true
+            }
+          ],
+          "nextCandidateSurfaceDrive": {
+            "matched": false,
+            "comparedBytes": 24,
+            "changedBytes": 8,
+            "policy": "Independent read-only candidate probe; not integrated or removed from supplied patch inputs."
+          }
+        },
+        {
+          "transition": 2,
+          "clock": 349,
+          "externalPatchBytes": 43046,
+          "abiRefreshBytes": 4100,
+          "groups": [
+            {
+              "storageClass": "other-used-body-arena",
+              "changedBytes": 14158
+            },
+            {
+              "storageClass": "participant-inline-effect-storage",
+              "changedBytes": 13974
+            },
+            {
+              "storageClass": "particle-storage",
+              "changedBytes": 8793
+            },
+            {
+              "storageClass": "observation-only",
+              "changedBytes": 2325
+            },
+            {
+              "storageClass": "debris-storage",
+              "changedBytes": 1698
+            },
+            {
+              "storageClass": "participant-other-tail-storage",
+              "changedBytes": 1668
+            },
+            {
+              "storageClass": "other-semantic:participant-records",
+              "changedBytes": 130
+            },
+            {
+              "storageClass": "participant-body-and-controls",
+              "changedBytes": 120
+            },
+            {
+              "storageClass": "other-semantic:vector-scratch",
+              "changedBytes": 70
+            },
+            {
+              "storageClass": "other-semantic:candidate-arena",
+              "changedBytes": 62
+            },
+            {
+              "storageClass": "other-semantic:first-effect-and-matrix",
+              "changedBytes": 31
+            },
+            {
+              "storageClass": "other-semantic:recovery-rng-difficulty",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:effect-rng",
+              "changedBytes": 4
+            },
+            {
+              "storageClass": "other-semantic:particle-roots",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:session",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:native-geometry-430c740-430c740",
+              "changedBytes": 2
+            },
+            {
+              "storageClass": "other-semantic:attachment-count",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:light-registry-first",
+              "changedBytes": 1
+            },
+            {
+              "storageClass": "other-semantic:clock",
+              "changedBytes": 1
+            }
+          ],
+          "spatialNodeChangedByteOffsets": {
+            "10": 1,
+            "11": 1
+          },
+          "motionProducer": {
+            "matched": true,
+            "comparedBytes": 144,
+            "changedBytes": 51,
+            "calls": 6
+          },
+          "sourceMotionIntermediateScratchLaterOverwritten": [
+            {
+              "address": 12571740,
+              "preferredAddress": 9557084,
+              "producedByte": 213,
+              "nextNativeByte": 181,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571741,
+              "preferredAddress": 9557085,
+              "producedByte": 41,
+              "nextNativeByte": 191,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571742,
+              "preferredAddress": 9557086,
+              "producedByte": 192,
+              "nextNativeByte": 12,
+              "changesSourceByte": true
+            },
+            {
+              "address": 12571744,
+              "preferredAddress": 9557088,
+              "producedByte": 4,
+              "nextNativeByte": 12,
+              "changesSourceByte": true
+            }
+          ],
+          "nextCandidateSurfaceDrive": {
+            "matched": false,
+            "comparedBytes": 24,
+            "changedBytes": 8,
+            "policy": "Independent read-only candidate probe; not integrated or removed from supplied patch inputs."
+          }
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "Storage classes are not individual-writer attribution. Other-used arena and observation-only changes remain unresolved.",
+    "The selected443d90 producer is executed from carried physics exit state and matches owned outputs; intervening attachment/recovery and other race stages remain separate.",
+    "Async audio/clock/device/render causality is not established by broad commit-region changes. Caller ABI bytes remain explicit inputs.",
+    "Spatial-node offsets8/9 and10/11 are body/particle list heads; identifying the exact intervening writer requires its actual stage boundary.",
+    "No target, GUI or browser process is launched, and no retained report/capture is overwritten."
+  ]
+}

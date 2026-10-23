@@ -8,7 +8,17 @@ const validSpan = (address, length) => Number.isSafeInteger(address) && address 
 
 export function createCapturedMemory(input, {aliases = [], maxMappedBytes = 128 * 1024 * 1024} = {}) {
   if (!Array.isArray(input) || !input.length || !Number.isSafeInteger(maxMappedBytes) || maxMappedBytes < 1) throw Error('Captured memory requires explicit bounded regions.');
-  const sorted = input.map(({address, bytes}) => {
+  const emptyVectors = [];
+  const sorted = input.filter(row => {
+    if (Buffer.isBuffer(row.bytes) && row.bytes.length === 0) {
+      const begin = Number(row.vectorBegin), header = Buffer.alloc(12);
+      if (!validSpan(begin, 0) || begin >= addressSpace) throw Error('Invalid empty captured vector region.');
+      for (const offset of [0, 4, 8]) header.writeUInt32LE(begin, offset);
+      if (row.rangeMode !== 'vector-storage' || Number(row.address) !== begin || row.length !== 0 || !Number.isSafeInteger(Number(row.vectorHeaderAddress)) || Number(row.vectorHeaderAddress) <= 0 || Number(row.vectorHeaderAddress) + 12 > addressSpace || row.vectorHeaderHex !== header.toString('hex') || Number(row.vectorEnd) !== begin || Number(row.vectorCapacity) !== begin || !Number.isSafeInteger(row.maxVectorBytes) || row.maxVectorBytes < 1 || row.maxVectorBytes > 64 * 1024 * 1024) throw Error('Invalid empty captured vector region.');
+      emptyVectors.push(row); return false;
+    }
+    return true;
+  }).map(({address, bytes}) => {
     address = Number(address);
     if (!Buffer.isBuffer(bytes) || !bytes.length || !validSpan(address, bytes.length)) throw Error('Invalid captured region.');
     return {address, bytes};
@@ -30,6 +40,14 @@ export function createCapturedMemory(input, {aliases = [], maxMappedBytes = 128 
       last.bytes = Buffer.concat([last.bytes, row.bytes.subarray(row.bytes.length - extra)]); mapped += extra;
     }
   }
+  //An observed empty vector grants no readable bytes at NULL. Its real header
+  //must also be captured; the descriptor is not replacement native storage.
+  for (const row of emptyVectors) {
+    const address = Number(row.vectorHeaderAddress);
+    const header = regions.find(part => address >= part.address && address + 12 <= part.address + part.bytes.length);
+    if (!header || header.bytes.subarray(address - header.address, address - header.address + 12).toString('hex') !== row.vectorHeaderHex) throw Error('Empty captured vector requires its actual matching header bytes.');
+  }
+  if (!regions.length) throw Error('Captured memory requires nonempty readable regions.');
   const declaredRoutes = aliases.map(({address, targetAddress, length}) => {
     address = Number(address); targetAddress = Number(targetAddress);
     if (!validSpan(address, length) || !validSpan(targetAddress, length) || !length) throw Error('Invalid captured-memory alias.');

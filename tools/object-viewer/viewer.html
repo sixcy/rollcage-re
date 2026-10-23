@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D Object Viewer · Rollcage, Stage II &amp; Firebugs</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c121d;color:#e6edf7;font:14px/1.5 system-ui,sans-serif;height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr)}header{padding:14px 22px;border-bottom:1px solid #344457;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:#111d2a}h1{font-size:19px;margin:0}header p{margin:2px 0 0;font-size:12px;color:#b4c4d7}a{color:#91dce4}nav{display:flex;gap:16px;font-size:13px}.workspace{display:grid;grid-template-columns:350px minmax(0,1fr);min-height:0}aside{padding:18px;overflow:auto;border-right:1px solid #344457;background:#111d2a}h2{font-size:14px;margin:18px 0 8px}p{color:#b4c4d7;margin:8px 0}.note{font-size:12px;color:#b4c4d7}label.field{display:block;font-weight:600;margin:12px 0}input[type=file]{display:block;width:100%;font-size:12px;margin-top:6px}select,input[type=search]{width:100%;margin:6px 0;padding:8px;background:#172638;color:#e6edf7;border:1px solid #4b6078;border-radius:5px;font:inherit}select[size]{min-height:190px}option{padding:5px}button,input::file-selector-button{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:8px 11px;font:inherit;cursor:pointer}button:hover,input::file-selector-button:hover{background:#36516b}button:disabled,select:disabled,input:disabled{opacity:.5;cursor:default}button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid #75d7df;outline-offset:2px}.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.checks{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}.checks label{font-size:12px}summary{cursor:pointer;color:#c3d5e8}details{margin:10px 0}#download{width:100%;margin:10px 0 5px;background:#17434d;border-color:#3d7b83}#download:hover{background:#225966}#status{color:#91dce4}#error{color:#ffb4ac;white-space:pre-wrap;overflow-wrap:anywhere}#error:empty{display:none}#stage{position:relative;min-width:0;min-height:0;overflow:hidden}canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}canvas:focus-visible{outline:2px solid #75d7df;outline-offset:-3px}.overlay{position:absolute;left:24px;right:24px;pointer-events:none}#empty{top:40%;text-align:center;color:#b4c4d7}#empty strong{font-size:21px;display:block;color:#e6edf7;margin-bottom:8px}#model-title{bottom:40px;font-size:18px;font-weight:600;text-shadow:0 1px 6px #000}#help{bottom:10px;font-size:12px;color:#b4c4d7;text-shadow:0 1px 6px #000}#counts{font-variant-numeric:tabular-nums}#limits{padding-left:18px;color:#b4c4d7;font-size:12px}#model-mode{width:auto;flex:1;min-width:100px}[hidden]{display:none!important}@media(max-width:700px){header{padding:10px 14px}h1{font-size:17px}.workspace{grid-template-columns:1fr;grid-template-rows:minmax(0,45dvh) minmax(0,1fr)}aside{padding:12px 16px;border-right:0;border-bottom:1px solid #344457}select[size]{min-height:120px}#help{display:none}#model-title{bottom:12px;font-size:15px}.overlay{left:14px;right:14px}#empty{top:30%}#empty strong{font-size:18px}}
+</style>
+</head>
+<body>
+<header><div><h1>3D Object Viewer</h1><p>Rollcage · Rollcage Stage II · Firebugs</p></div><nav aria-label="Tools"><a href="index.html">Home</a><a href="track-viewer.html">Track Viewer</a></nav></header>
+<main class="workspace">
+<aside aria-label="Model library">
+<details id="files" open><summary>Your game files</summary>
+<p class="note">Files stay on your computer. Nothing is uploaded.</p>
+<label class="field" for="game">Game<select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option><option value="firebugs">Firebugs (PS1)</option></select></label>
+<div id="pc-files"><label class="field">ROLLCAGE.IMG<input id="image" type="file" accept=".img"></label><label class="field">ROLLCAGE.IDX<input id="index" type="file" accept=".idx"></label><p class="note">From your game's IDXData folder.</p></div>
+<div id="disc-files"><label class="field">Firebugs disc ZIP<input id="disc" type="file" accept=".zip"></label><p class="note">Select the ZIP with its CUE and referenced data BIN. Audio tracks are skipped.</p></div>
+</details>
+<p id="game-info" class="note"></p>
+<label class="field" for="resource">Model library<select id="resource" disabled><option>Load game files first</option></select></label>
+<label class="field" for="kind">Show<select id="kind" disabled><option value="cars">Complete cars</option><option value="all">All models</option><option value="parts">Individual vehicle parts</option><option value="scenery">Scenery</option></select></label>
+<label class="field" for="search">Find a model<input id="search" type="search" placeholder="Model number, type or name…" disabled></label>
+<div class="checks"><label><input id="show-unavailable" type="checkbox" disabled> Include unavailable models</label></div>
+<label class="field" for="object">Models<select id="object" size="9" disabled aria-describedby="library-counts"></select></label>
+<p id="library-counts" class="note">Choose your archive files to browse models.</p>
+<p id="counts" class="note"></p>
+<button id="download" disabled>Download textured model (.zip)</button>
+<p class="note">OBJ + MTL + PNG textures, ready to import into Blender.</p>
+<h2>View</h2>
+<div class="row"><select id="model-mode" aria-label="Camera"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option></select><button id="fit" disabled>Fit model</button></div>
+<div class="checks"><label><input id="textures" type="checkbox" checked> Textures</label><label><input id="lighting" type="checkbox" checked> Lighting</label><label><input id="smooth" type="checkbox"> Smooth textures</label><label><input id="rotate" type="checkbox"> Turntable</label></div>
+<details><summary>Model support &amp; export details</summary><p class="note">Choose Complete cars to view and download assembled Rollcage vehicles. Individual models retain local coordinates. Static textures use the recovered initial material state.</p><ul id="limits"><li>Load a library to see its supported model types.</li></ul></details>
+<p id="status" role="status" aria-live="polite">Select matching IMG and IDX files, or a Firebugs disc ZIP.</p><p id="error" role="alert"></p>
+</aside>
+<section id="stage" aria-label="3D preview" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Interactive 3D model preview"></canvas><div id="empty" class="overlay"><strong id="empty-title">Your models, up close.</strong><span id="empty-note">Select your game files to begin.</span></div><div id="model-title" class="overlay"></div><div id="help" class="overlay">Drag to orbit · Right-drag to pan · Scroll to zoom</div></section>
+</main>
+<script>
+__VIEWER_BUNDLE__
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-process-declared-startup-instrumentation",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/mouse-device-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "beforeOrdinal": 4,
+  "afterOrdinal": 5,
+  "tid": 19192,
+  "beforeEsp": 6289436,
+  "afterEsp": 6289452,
+  "createDeviceArguments": [
+    143473640,
+    8714120,
+    6289464,
+    0
+  ],
+  "hresultHex": "0x80040154",
+  "outputAddress": 6289464,
+  "outputBefore": 143490888,
+  "outputAfter": 0,
+  "guidHex": "602b1d6fa0d5cf11bfc7444553540000",
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 248,
+    "snapshots": 5,
+    "elapsedMs": 483
+  },
+  "limits": [
+    "Independent short probe; it does not recover the missing HRESULT or pointer from the failedv6 process.",
+    "No CreateDevice result/pointer or physics input is synthesized.",
+    "The probe terminates immediately after CreateDevice and does not test acquisition or racing."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "authority": "failed-original-process-observation",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-sound-v6-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "matched": false,
+  "completeParentObserved": false,
+  "reason": "Original process raised an unhandled access violation during graphics startup, before active recovery/audio observation. Fault input registers/access address were not retained; cause remains unclassified.",
+  "fault": {
+    "type": "fatal-exception",
+    "code": "0xc0000005",
+    "address": "0x007f869e",
+    "elapsedMs": 476
+  },
+  "completion": {
+    "type": "complete",
+    "reason": "unhandled-exception",
+    "events": 282,
+    "snapshots": 3,
+    "elapsedMs": 2410
+  },
+  "module": {
+    "type": "module",
+    "kind": "main",
+    "baseAddress": "0x006e0000",
+    "path": "\\\\?\\C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\installation\\Direct3D\\Rollcage Redux.exe",
+    "wow64": true,
+    "elapsedMs": 7
+  },
+  "preferredFaultAddress": "0x0051869e",
+  "snapshotIds": [
+    "launcher-policy",
+    "graphics-policy",
+    "before-device-creation"
+  ],
+  "queuedDeferrals": 0,
+  "limits": [
+    "No recovery/audio comparison evidence.",
+    "Zero queued deferrals occurred; this run does not exercise the new chain handling.",
+    "No game source/physics/graphics outcome is synthesized to bypass this failure."
+  ]
+}

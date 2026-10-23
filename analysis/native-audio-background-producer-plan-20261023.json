@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "authority": "retained-target-read-only-audit",
+  "runtimeCallerProved": false,
+  "gameLaunched": false,
+  "frozenCodeModified": false,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidence": [
+    {
+      "filename": "12214-audio-thread-entry-listing-4a3320.json",
+      "id": "ev_3c1e4ef3d0b434d9f64f2ca879871dc07e25d80b5a2d8057c8c770b353a97f25",
+      "operation": "inspect_native_instruction",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12215-audio-thread-entry-listing-4a3324.json",
+      "id": "ev_2e0da30d650ae8e4b3a05d19cf87ed5b5feb2da3bc6adc97e67e6b53e956e07b",
+      "operation": "inspect_native_instruction",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12240-managed-thread-loop-procedure_assembly.json",
+      "id": "ev_dad759c17554930b04321a55a93e59dc200ead174d1702a8ad2adac2aee793aa",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12195-audio-polling-0x4a3790-procedure_assembly.json",
+      "id": "ev_82893c2e2280754a74e35fc3b3a4282f9713a7ed8a97461b20713906654881f1",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12231-audio-manager-poll-listing-4a94a4.json",
+      "id": "ev_7f1b2cc219f80d110b95f3743ff4400bd0438b61f36837ece4ce00263c123d74",
+      "operation": "inspect_native_instruction",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12234-audio-poll-continuation-0x4a6600-procedure_assembly.json",
+      "id": "ev_95b7530e7bfbbff9ab50c99c69ebc5e143f8a9cf0490d0744c1196f3360f47f4",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12289-sound-manager-update-sources-assembly.json",
+      "id": "ev_ecc4ad5681760ee00fa25aa933375447ca7d02322a2e7d181b4f5a5412ff2605",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12339-audio-selection-4b12d0-assembly.json",
+      "id": "ev_35935a81e3d27abdbe4c01dcb9472274a0946bbf0aa0f131b3ef48f0122ed686",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "12361-audio-spatial-4a7c10-assembly.json",
+      "id": "ev_eeb10330a2806c100dc56b346e60938e556d1d7106cd62279eaf87e0cbc1a181",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "filename": "3874-image-pointer-reserve-assembly.json",
+      "id": "ev_82c1a7dc4da9ffe5fc190129a61df7dd0fbf7eb8b3c4d3af842025a702bbf6cc",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    }
+  ],
+  "staticRoute": [
+    {
+      "from": "4a5d50",
+      "to": "4a33c0",
+      "meaning": "Construct80-byte managed polling thread; manager+824 points at it."
+    },
+    {
+      "from": "4a3320",
+      "to": "4a38c0",
+      "meaning": "Static thread-start wrapper; not observed as the V12 owner3700 start."
+    },
+    {
+      "from": "4a38c0",
+      "to": "4a3790",
+      "meaning": "After wake, invoke thread+34 with thread+38."
+    },
+    {
+      "from": "4a3790",
+      "to": "4a94a0",
+      "meaning": "Invoke thread+44 with manager stored at thread+48."
+    },
+    {
+      "from": "4a94a0",
+      "to": "4a6600",
+      "meaning": "LoadECX fromstackarg then tail-JMP."
+    },
+    {
+      "from": "4a6600",
+      "to": "4a6b60",
+      "at": "4a6a53",
+      "meaning": "Manager source update inside +854 lock."
+    },
+    {
+      "from": "4a6b60",
+      "to": "4b12d0",
+      "at": [
+        "4a7229",
+        "4a72f3"
+      ],
+      "meaning": "Manager vtable+60 from retained main vtable5d4190."
+    },
+    {
+      "from": "4b12d0",
+      "to": "4a79f0",
+      "at": "4b1301",
+      "return": "4b1304",
+      "meaning": "Per-source gain mixer lookup."
+    },
+    {
+      "from": "4b12d0",
+      "to": "4a7c10",
+      "at": "4b192b",
+      "meaning": "Nonspatial frequency/sample-rate path, XMM2=1."
+    },
+    {
+      "from": "4a7c10",
+      "to": "4a79f0",
+      "at": "4a7c9e",
+      "return": "4a7ca1",
+      "meaning": "Frequency mixer lookup."
+    }
+  ],
+  "v12": {
+    "mainTid": 30484,
+    "otherObservedOwnerTid": 3700,
+    "managerAddress": "0x086cda28",
+    "threadObjectAddress": "0x086dfa28",
+    "threadObjectBytesCaptured": 0,
+    "missingThreadObjectBytes": 80,
+    "ownerAssociation": "Candidate until original thread+24 TID/callback fields and lookup return word are observed."
+  },
+  "requiredThreadObjectFields": {
+    "extent": 80,
+    "fields": {
+      "0x20": "thread handle",
+      "0x24": "original_beginthreadex threadID output",
+      "0x28": "stop event",
+      "0x2c": "completion event",
+      "0x30": "wake event",
+      "0x34": "worker callback4a3790",
+      "0x38": "worker argument/self",
+      "0x3c": "flags",
+      "0x40": "finished byte",
+      "0x44": "poll callback4a94a0",
+      "0x48": "manager argument",
+      "0x4c": "poll interval20"
+    }
+  },
+  "nextSourceTargets": [
+    {
+      "address": "4a7c10",
+      "status": "No source implementation found",
+      "scope": "Frequency/sample-rate derivation, actual mixer lookup/getter, guarded native XAudio2 setters."
+    },
+    {
+      "address": "4b12d0",
+      "status": "No source implementation found",
+      "scope": "Initially explicit nonspatial/reverb-free branch; full spatial/reverb graph remains separate."
+    },
+    {
+      "address": "4a6600/4a6b60",
+      "status": "No source implementation found",
+      "scope": "Actual locked manager queue/vector consumer; required to explain game wrapper writes, not substituted by OS lock updates."
+    }
+  ],
+  "allocatorPlan": {
+    "site": "40f085",
+    "preCall": "40f07f",
+    "requestedBytes": "original [ESP], cross-checkedEBX*4",
+    "actualV12RequestedBytes": 564,
+    "actualCapturedPreimageBytes": 4,
+    "missingBytes": 560,
+    "association": "mainframe; EDI==manager active-vector header; ESP==innerFactoryEntry-0x858; published caller return chain4a76ad/40ec0b",
+    "existingHelperOption": {
+      "mode": "readableRegion at returnedEAX; posthoc requested-span slice",
+      "proposedRegionByteBound": 16777216,
+      "requestedSpanByteBound": 65536,
+      "pendingBytesBound": 134217728,
+      "unboundedFallback": false,
+      "codePreparation": "none; design only"
+    },
+    "futureExactReaderOption": {
+      "status": "notimplemented",
+      "contract": "checked requested length from preserved [ESP] orEBX*4, exact returnedEAX root, reject zero/overflow/excess and invalid readable coverage; do not fake a vector header"
+    },
+    "preservedLifetime": "Old active-array109bfd00 is later owner-channel4B allocation: never seed its later BAADF00D bytes before copy/free/reuse."
+  },
+  "limits": [
+    "Static route is established; original V12 TID3700 caller/start remains unproved.",
+    "No future profile, helper, game source, test or canonical note was modified.",
+    "Current frame-thread policy deliberately excludes worker snapshots; a separately declared bounded worker observation policy is needed.",
+    "No Win32 waiter observation is promoted to a game-wrapper or manager answer.",
+    "No subsequent favorable schedule can replace a missing original game producer."
+  ]
+}

@@ -41,6 +41,14 @@ export function publishNativeRecoveryAudioCall({memory, parentEntryEsp, register
 //preserved, with no fabricated allocations, empty source or absent-bank fallback.
 export function callNativeRecoveryAudio(runtime) {
   if (runtime.soundRuntime && runtime.soundRuntime.memory !== runtime.memory) throw Error('Recovery audio sound runtime must share actual memory.');
+  if (runtime.onRecoveryAudioCall !== undefined && typeof runtime.onRecoveryAudioCall !== 'function') throw Error('Recovery audio observer must be a function.');
   const request = publishNativeRecoveryAudioCall(runtime);
+  if (runtime.onRecoveryAudioCall) runtime.onRecoveryAudioCall(Object.freeze({
+    parentEntryEsp: runtime.parentEntryEsp, entryEsp: request.scratchBase, code: 43, registerEdx: 0,
+    survivingEcx: request.args[4], args: request.args,
+    argumentHex: runtime.memory.subarray(request.scratchBase + 4, request.scratchBase + 32).toString('hex'),
+    returnAddress: runtime.memory.readUInt32LE(request.scratchBase),
+    entryRegisters: request.nativeStack.entryRegisters
+  }));
   return emitNativeEffectOnStack(43, 0, request.args, {...runtime, ...request});
 }

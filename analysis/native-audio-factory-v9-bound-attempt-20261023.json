@@ -1,0 +1,1557 @@
+{
+  "complete": false,
+  "matchedFullFactory": false,
+  "moduleBaseAddress": 7208960,
+  "entry": 7894800,
+  "entryEsp": 14416328,
+  "description": {
+    "descriptorAddress": 283481728,
+    "name": "SFX_PINKPURP",
+    "path": "..\\IDXData\\Redux\\Sound\\SFX_PINKPURP.wav",
+    "streaming": false
+  },
+  "descriptorProducer": {
+    "comparedBytes": 1120,
+    "matched": true,
+    "boundary": "Existing numeric484bb0/40ea40 prefix through first operatorNew12 request; no result returned. Privately saved caller frames are not claimed."
+  },
+  "allocationPreimage": {
+    "address": 360387688,
+    "bytes": 2472,
+    "sha256": "3c0ae51927d50b0b889e41eb3915c738e92d4463bb6a78fc056747fc7a68b1ca",
+    "file": "snapshot-000252-range-039.bin"
+  },
+  "inputSnapshots": {
+    "parent": 233,
+    "caller": 238,
+    "allocator": 252,
+    "immutableLiterals": 253
+  },
+  "stop": {
+    "kind": "input-divergence",
+    "message": "FindFirstFileW output preimage differs before the original external call.",
+    "address": 14406344,
+    "offset": 0,
+    "sourceHex": "feffffff0cd3db001e028777000015010000000098d66d10",
+    "originalHex": "1935e17760147b15000015010000000068147b1500001501"
+  },
+  "calls": [
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14414200,
+        512,
+        283481848,
+        511
+      ],
+      "entryEsp": 14414160,
+      "returnAddress": 7899322
+    },
+    {
+      "kind": "CRT",
+      "name": "_wcsicmp",
+      "args": [
+        14414200,
+        9124648
+      ],
+      "entryEsp": 14414180,
+      "returnAddress": 7896938
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14414212,
+        512,
+        283481776,
+        511
+      ],
+      "entryEsp": 14414192,
+      "returnAddress": 7894955
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14409064,
+        512,
+        14414212,
+        511
+      ],
+      "entryEsp": 14408452,
+      "returnAddress": 7879419
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14399240,
+        512,
+        9124372,
+        511
+      ],
+      "entryEsp": 14399180,
+      "returnAddress": 7881883
+    },
+    {
+      "kind": "CRT",
+      "name": "wcscat_s",
+      "args": [
+        14399240,
+        512,
+        14409064
+      ],
+      "entryEsp": 14399168,
+      "returnAddress": 7881900
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14399240,
+        9124420
+      ],
+      "entryEsp": 14399168,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14399240,
+        9124428
+      ],
+      "entryEsp": 14399168,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14401288,
+        512,
+        8715952,
+        511
+      ],
+      "entryEsp": 14399180,
+      "returnAddress": 7881961
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14400264,
+        512,
+        14409064,
+        511
+      ],
+      "entryEsp": 14399180,
+      "returnAddress": 7882055
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14400264,
+        9124420
+      ],
+      "entryEsp": 14399168,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14400264,
+        9124428
+      ],
+      "entryEsp": 14399168,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14403336,
+        512,
+        8716064,
+        511
+      ],
+      "entryEsp": 14399180,
+      "returnAddress": 7882221
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14404360,
+        512,
+        8716116,
+        511
+      ],
+      "entryEsp": 14399164,
+      "returnAddress": 7882256
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14405384,
+        512,
+        8716300,
+        511
+      ],
+      "entryEsp": 14399148,
+      "returnAddress": 7882291
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14406408,
+        512,
+        8716168,
+        511
+      ],
+      "entryEsp": 14399132,
+      "returnAddress": 7882326
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14407432,
+        512,
+        8716260,
+        511
+      ],
+      "entryEsp": 14399180,
+      "returnAddress": 7882364
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14400264,
+        14403336,
+        12
+      ],
+      "entryEsp": 14399184,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14400264,
+        14404360,
+        15
+      ],
+      "entryEsp": 14399184,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14400264,
+        14405384,
+        17
+      ],
+      "entryEsp": 14399184,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14400264,
+        14406408,
+        15
+      ],
+      "entryEsp": 14399184,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14400264,
+        14407432,
+        19
+      ],
+      "entryEsp": 14399184,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14410088,
+        512,
+        14400264,
+        511
+      ],
+      "entryEsp": 14399180,
+      "returnAddress": 7882760
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14401888,
+        512,
+        9124372,
+        511
+      ],
+      "entryEsp": 14401828,
+      "returnAddress": 7881883
+    },
+    {
+      "kind": "CRT",
+      "name": "wcscat_s",
+      "args": [
+        14401888,
+        512,
+        14414212
+      ],
+      "entryEsp": 14401816,
+      "returnAddress": 7881900
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14401888,
+        9124420
+      ],
+      "entryEsp": 14401816,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14401888,
+        9124428
+      ],
+      "entryEsp": 14401816,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14403936,
+        512,
+        8715952,
+        511
+      ],
+      "entryEsp": 14401828,
+      "returnAddress": 7881961
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14402912,
+        512,
+        14414212,
+        511
+      ],
+      "entryEsp": 14401828,
+      "returnAddress": 7882055
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14402912,
+        9124420
+      ],
+      "entryEsp": 14401816,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14402912,
+        9124428
+      ],
+      "entryEsp": 14401816,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14405984,
+        512,
+        8716064,
+        511
+      ],
+      "entryEsp": 14401828,
+      "returnAddress": 7882221
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14407008,
+        512,
+        8716116,
+        511
+      ],
+      "entryEsp": 14401812,
+      "returnAddress": 7882256
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14408032,
+        512,
+        8716300,
+        511
+      ],
+      "entryEsp": 14401796,
+      "returnAddress": 7882291
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14409056,
+        512,
+        8716168,
+        511
+      ],
+      "entryEsp": 14401780,
+      "returnAddress": 7882326
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14410080,
+        512,
+        8716260,
+        511
+      ],
+      "entryEsp": 14401828,
+      "returnAddress": 7882364
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14402912,
+        14405984,
+        12
+      ],
+      "entryEsp": 14401832,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14402912,
+        14407008,
+        15
+      ],
+      "entryEsp": 14401832,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14402912,
+        14408032,
+        17
+      ],
+      "entryEsp": 14401832,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14402912,
+        14409056,
+        15
+      ],
+      "entryEsp": 14401832,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14402912,
+        14410080,
+        19
+      ],
+      "entryEsp": 14401832,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14411128,
+        512,
+        14402912,
+        511
+      ],
+      "entryEsp": 14401828,
+      "returnAddress": 7882760
+    },
+    {
+      "kind": "CRT",
+      "name": "_wcslwr_s",
+      "args": [
+        14414212,
+        512
+      ],
+      "entryEsp": 14411108,
+      "returnAddress": 7897229
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14415244,
+        512,
+        14414212,
+        511
+      ],
+      "entryEsp": 14411100,
+      "returnAddress": 7897265
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14413168,
+        512,
+        14415244,
+        511
+      ],
+      "entryEsp": 14413116,
+      "returnAddress": 7879646
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14403904,
+        512,
+        9124372,
+        511
+      ],
+      "entryEsp": 14403844,
+      "returnAddress": 7881883
+    },
+    {
+      "kind": "CRT",
+      "name": "wcscat_s",
+      "args": [
+        14403904,
+        512,
+        14413168
+      ],
+      "entryEsp": 14403832,
+      "returnAddress": 7881900
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14403904,
+        9124420
+      ],
+      "entryEsp": 14403832,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14403904,
+        9124428
+      ],
+      "entryEsp": 14403832,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14405952,
+        512,
+        8715952,
+        511
+      ],
+      "entryEsp": 14403844,
+      "returnAddress": 7881961
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14404928,
+        512,
+        14413168,
+        511
+      ],
+      "entryEsp": 14403844,
+      "returnAddress": 7882055
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14404928,
+        9124420
+      ],
+      "entryEsp": 14403832,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14404928,
+        9124428
+      ],
+      "entryEsp": 14403832,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14408000,
+        512,
+        8716064,
+        511
+      ],
+      "entryEsp": 14403844,
+      "returnAddress": 7882221
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14409024,
+        512,
+        8716116,
+        511
+      ],
+      "entryEsp": 14403828,
+      "returnAddress": 7882256
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14410048,
+        512,
+        8716300,
+        511
+      ],
+      "entryEsp": 14403812,
+      "returnAddress": 7882291
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14411072,
+        512,
+        8716168,
+        511
+      ],
+      "entryEsp": 14403796,
+      "returnAddress": 7882326
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14412096,
+        512,
+        8716260,
+        511
+      ],
+      "entryEsp": 14403844,
+      "returnAddress": 7882364
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14404928,
+        14408000,
+        12
+      ],
+      "entryEsp": 14403848,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14404928,
+        14409024,
+        15
+      ],
+      "entryEsp": 14403848,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14404928,
+        14410048,
+        17
+      ],
+      "entryEsp": 14403848,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14404928,
+        14411072,
+        15
+      ],
+      "entryEsp": 14403848,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14404928,
+        14412096,
+        19
+      ],
+      "entryEsp": 14403848,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14414192,
+        512,
+        14404928,
+        511
+      ],
+      "entryEsp": 14403844,
+      "returnAddress": 7882760
+    },
+    {
+      "kind": "CRT",
+      "name": "strncpy_s",
+      "args": [
+        360387692,
+        24,
+        8715883,
+        23
+      ],
+      "entryEsp": 14412960,
+      "returnAddress": 7261879
+    },
+    {
+      "kind": "CRT",
+      "name": "strncpy_s",
+      "args": [
+        360387716,
+        24,
+        9110304,
+        23
+      ],
+      "entryEsp": 14412944,
+      "returnAddress": 7261902
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        360387740,
+        512,
+        8715952,
+        511
+      ],
+      "entryEsp": 14412928,
+      "returnAddress": 7261936
+    },
+    {
+      "kind": "CRT",
+      "name": "strncpy_s",
+      "args": [
+        360388864,
+        24,
+        8715883,
+        23
+      ],
+      "entryEsp": 14412960,
+      "returnAddress": 7261879
+    },
+    {
+      "kind": "CRT",
+      "name": "strncpy_s",
+      "args": [
+        360388888,
+        24,
+        9110304,
+        23
+      ],
+      "entryEsp": 14412944,
+      "returnAddress": 7261902
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        360388912,
+        512,
+        8715952,
+        511
+      ],
+      "entryEsp": 14412928,
+      "returnAddress": 7261936
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14412084,
+        512,
+        283481776,
+        511
+      ],
+      "entryEsp": 14412064,
+      "returnAddress": 7894345
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14406936,
+        512,
+        14412084,
+        511
+      ],
+      "entryEsp": 14406324,
+      "returnAddress": 7879419
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14397112,
+        512,
+        9124372,
+        511
+      ],
+      "entryEsp": 14397052,
+      "returnAddress": 7881883
+    },
+    {
+      "kind": "CRT",
+      "name": "wcscat_s",
+      "args": [
+        14397112,
+        512,
+        14406936
+      ],
+      "entryEsp": 14397040,
+      "returnAddress": 7881900
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14397112,
+        9124420
+      ],
+      "entryEsp": 14397040,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14397112,
+        9124428
+      ],
+      "entryEsp": 14397040,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14399160,
+        512,
+        8715952,
+        511
+      ],
+      "entryEsp": 14397052,
+      "returnAddress": 7881961
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14398136,
+        512,
+        14406936,
+        511
+      ],
+      "entryEsp": 14397052,
+      "returnAddress": 7882055
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14398136,
+        9124420
+      ],
+      "entryEsp": 14397040,
+      "returnAddress": 7883013
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsstr",
+      "args": [
+        14398136,
+        9124428
+      ],
+      "entryEsp": 14397040,
+      "returnAddress": 7883105
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14401208,
+        512,
+        8716064,
+        511
+      ],
+      "entryEsp": 14397052,
+      "returnAddress": 7882221
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14402232,
+        512,
+        8716116,
+        511
+      ],
+      "entryEsp": 14397036,
+      "returnAddress": 7882256
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14403256,
+        512,
+        8716300,
+        511
+      ],
+      "entryEsp": 14397020,
+      "returnAddress": 7882291
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14404280,
+        512,
+        8716168,
+        511
+      ],
+      "entryEsp": 14397004,
+      "returnAddress": 7882326
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14405304,
+        512,
+        8716260,
+        511
+      ],
+      "entryEsp": 14397052,
+      "returnAddress": 7882364
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14398136,
+        14401208,
+        12
+      ],
+      "entryEsp": 14397056,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14398136,
+        14402232,
+        15
+      ],
+      "entryEsp": 14397056,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14398136,
+        14403256,
+        17
+      ],
+      "entryEsp": 14397056,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14398136,
+        14404280,
+        15
+      ],
+      "entryEsp": 14397056,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncmp",
+      "args": [
+        14398136,
+        14405304,
+        19
+      ],
+      "entryEsp": 14397056,
+      "returnAddress": 7882420
+    },
+    {
+      "kind": "CRT",
+      "name": "wcsncpy_s",
+      "args": [
+        14407960,
+        512,
+        14398136,
+        511
+      ],
+      "entryEsp": 14397052,
+      "returnAddress": 7882760
+    }
+  ],
+  "externalCalls": [
+    {
+      "name": "FindFirstFileW",
+      "kind": "file",
+      "callOrdinal": 239,
+      "returnOrdinal": 240,
+      "entryEsp": 14408460,
+      "args": [
+        14410088,
+        14408472
+      ]
+    },
+    {
+      "name": "FindClose",
+      "kind": "file",
+      "callOrdinal": 241,
+      "returnOrdinal": 242,
+      "entryEsp": 14408464,
+      "args": [
+        275633920
+      ]
+    },
+    {
+      "name": "CreateFileW",
+      "kind": "file",
+      "callOrdinal": 243,
+      "returnOrdinal": 244,
+      "entryEsp": 14413104,
+      "args": [
+        14414192,
+        2147483648,
+        1,
+        0,
+        3,
+        134217856,
+        0
+      ]
+    },
+    {
+      "name": "GetFileSizeEx",
+      "kind": "file",
+      "callOrdinal": 245,
+      "returnOrdinal": 246,
+      "entryEsp": 14415224,
+      "args": [
+        3472,
+        14416268
+      ]
+    },
+    {
+      "name": "CloseHandle",
+      "kind": "file",
+      "callOrdinal": 247,
+      "returnOrdinal": 248,
+      "entryEsp": 14415220,
+      "args": [
+        3472
+      ]
+    },
+    {
+      "name": "CloseHandle",
+      "kind": "file",
+      "callOrdinal": 249,
+      "returnOrdinal": 250,
+      "entryEsp": 14415228,
+      "args": [
+        4294967295
+      ]
+    },
+    {
+      "name": "operatorNew",
+      "kind": "allocation",
+      "callOrdinal": 251,
+      "returnOrdinal": 252,
+      "entryEsp": 14413100,
+      "args": [
+        2472
+      ]
+    },
+    {
+      "name": "FindFirstFileW",
+      "kind": "file",
+      "callOrdinal": 255,
+      "returnOrdinal": 256,
+      "entryEsp": 14406332,
+      "args": [
+        14407960,
+        14406344
+      ]
+    }
+  ],
+  "privateOutputPreimages": [
+    {
+      "address": 14416268,
+      "length": 8,
+      "sourcePreimageHex": "000000001f1af8ff",
+      "originalPreimageHex": "0a00000008fadb00",
+      "preimageMatched": false,
+      "contract": "Successful GetFileSizeEx fully written8B [out] LARGE_INTEGER; pre-call scratch is not compared as an API input."
+    }
+  ],
+  "checkpoints": [
+    {
+      "kind": "constructor-source",
+      "originalOrdinal": 254,
+      "beforeServiceOrdinal": 255,
+      "address": 360387688,
+      "comparedBytes": 2472,
+      "matched": true
+    }
+  ],
+  "consumedExternalEvents": 7,
+  "expectedExternalEvents": 16,
+  "externalLimits": [
+    "Enter/Leave outcomes own only their24 Win32 bytes; game wrapper depth/owner and manager/vector changes execute in source.",
+    "Pre-Enter native API snapshots are unavailable: source Win32 input is checked against the original manager input or preceding observed own Leave, not an invented immediate native sample.",
+    "GetCurrentThreadId writes no lock/manager bytes. Any observed waiter transition remains an explicit separate producer."
+  ],
+  "cache": {
+    "matched": true,
+    "sourceResult": 283376936,
+    "requestedPath": "..\\idxdata\\redux\\sound\\sfx_pinkpurp.wav",
+    "comparedEntries": 44,
+    "inputBoundary": "Actual per-read pre-comparison inputs; not a full factory entry/exit replay.",
+    "entries": [
+      {
+        "snapshotOrdinal": 259,
+        "debugEventOrdinal": 2460,
+        "slotAddress": 355736976,
+        "waveformAddress": 147178960,
+        "file": "snapshot-000259-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_engine1.wav"
+      },
+      {
+        "snapshotOrdinal": 260,
+        "debugEventOrdinal": 2462,
+        "slotAddress": 355736980,
+        "waveformAddress": 282427480,
+        "file": "snapshot-000260-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_turbo.wav"
+      },
+      {
+        "snapshotOrdinal": 261,
+        "debugEventOrdinal": 2464,
+        "slotAddress": 355736984,
+        "waveformAddress": 147177312,
+        "file": "snapshot-000261-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_skid_tarmacinit.wav"
+      },
+      {
+        "snapshotOrdinal": 262,
+        "debugEventOrdinal": 2466,
+        "slotAddress": 355736988,
+        "waveformAddress": 147233832,
+        "file": "snapshot-000262-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_skid_tarmac.wav"
+      },
+      {
+        "snapshotOrdinal": 263,
+        "debugEventOrdinal": 2468,
+        "slotAddress": 355736992,
+        "waveformAddress": 147227616,
+        "file": "snapshot-000263-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_skid_gravinit.wav"
+      },
+      {
+        "snapshotOrdinal": 264,
+        "debugEventOrdinal": 2470,
+        "slotAddress": 355736996,
+        "waveformAddress": 282598176,
+        "file": "snapshot-000264-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_skid_grav.wav"
+      },
+      {
+        "snapshotOrdinal": 265,
+        "debugEventOrdinal": 2472,
+        "slotAddress": 355737000,
+        "waveformAddress": 269909872,
+        "file": "snapshot-000265-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_skid_sandinit.wav"
+      },
+      {
+        "snapshotOrdinal": 266,
+        "debugEventOrdinal": 2474,
+        "slotAddress": 355737004,
+        "waveformAddress": 282596528,
+        "file": "snapshot-000266-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_skid_sand.wav"
+      },
+      {
+        "snapshotOrdinal": 267,
+        "debugEventOrdinal": 2476,
+        "slotAddress": 355737008,
+        "waveformAddress": 282583328,
+        "file": "snapshot-000267-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_power_in.wav"
+      },
+      {
+        "snapshotOrdinal": 268,
+        "debugEventOrdinal": 2478,
+        "slotAddress": 355737012,
+        "waveformAddress": 282581680,
+        "file": "snapshot-000268-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_power_up.wav"
+      },
+      {
+        "snapshotOrdinal": 269,
+        "debugEventOrdinal": 2480,
+        "slotAddress": 355737016,
+        "waveformAddress": 282737504,
+        "file": "snapshot-000269-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_explo_small.wav"
+      },
+      {
+        "snapshotOrdinal": 270,
+        "debugEventOrdinal": 2482,
+        "slotAddress": 355737020,
+        "waveformAddress": 282473832,
+        "file": "snapshot-000270-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_explo_big.wav"
+      },
+      {
+        "snapshotOrdinal": 271,
+        "debugEventOrdinal": 2484,
+        "slotAddress": 355737024,
+        "waveformAddress": 282461384,
+        "file": "snapshot-000271-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_explo_build1.wav"
+      },
+      {
+        "snapshotOrdinal": 272,
+        "debugEventOrdinal": 2486,
+        "slotAddress": 355737028,
+        "waveformAddress": 147236136,
+        "file": "snapshot-000272-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_explo_build2.wav"
+      },
+      {
+        "snapshotOrdinal": 273,
+        "debugEventOrdinal": 2488,
+        "slotAddress": 355737032,
+        "waveformAddress": 282958032,
+        "file": "snapshot-000273-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_explo_tree.wav"
+      },
+      {
+        "snapshotOrdinal": 274,
+        "debugEventOrdinal": 2490,
+        "slotAddress": 355737036,
+        "waveformAddress": 282911440,
+        "file": "snapshot-000274-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_rumble1.wav"
+      },
+      {
+        "snapshotOrdinal": 275,
+        "debugEventOrdinal": 2492,
+        "slotAddress": 355737040,
+        "waveformAddress": 282912552,
+        "file": "snapshot-000275-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_rumble2.wav"
+      },
+      {
+        "snapshotOrdinal": 276,
+        "debugEventOrdinal": 2494,
+        "slotAddress": 355737044,
+        "waveformAddress": 282909792,
+        "file": "snapshot-000276-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_support_coll.wav"
+      },
+      {
+        "snapshotOrdinal": 277,
+        "debugEventOrdinal": 2496,
+        "slotAddress": 355737048,
+        "waveformAddress": 282983256,
+        "file": "snapshot-000277-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_metal_coll.wav"
+      },
+      {
+        "snapshotOrdinal": 278,
+        "debugEventOrdinal": 2498,
+        "slotAddress": 355737052,
+        "waveformAddress": 282908144,
+        "file": "snapshot-000278-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_norm_coll.wav"
+      },
+      {
+        "snapshotOrdinal": 279,
+        "debugEventOrdinal": 2500,
+        "slotAddress": 355737056,
+        "waveformAddress": 282479088,
+        "file": "snapshot-000279-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_ice_fire.wav"
+      },
+      {
+        "snapshotOrdinal": 280,
+        "debugEventOrdinal": 2502,
+        "slotAddress": 355737060,
+        "waveformAddress": 283048336,
+        "file": "snapshot-000280-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_ice_loop.wav"
+      },
+      {
+        "snapshotOrdinal": 281,
+        "debugEventOrdinal": 2504,
+        "slotAddress": 355737064,
+        "waveformAddress": 282482272,
+        "file": "snapshot-000281-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_turbo_power.wav"
+      },
+      {
+        "snapshotOrdinal": 282,
+        "debugEventOrdinal": 2506,
+        "slotAddress": 355737068,
+        "waveformAddress": 282485456,
+        "file": "snapshot-000282-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_shield_on.wav"
+      },
+      {
+        "snapshotOrdinal": 283,
+        "debugEventOrdinal": 2508,
+        "slotAddress": 355737072,
+        "waveformAddress": 283082408,
+        "file": "snapshot-000283-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_shield_hit.wav"
+      },
+      {
+        "snapshotOrdinal": 284,
+        "debugEventOrdinal": 2510,
+        "slotAddress": 355737076,
+        "waveformAddress": 283080760,
+        "file": "snapshot-000284-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_lock_on.wav"
+      },
+      {
+        "snapshotOrdinal": 285,
+        "debugEventOrdinal": 2512,
+        "slotAddress": 355737080,
+        "waveformAddress": 282984424,
+        "file": "snapshot-000285-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_missile_eject.wav"
+      },
+      {
+        "snapshotOrdinal": 286,
+        "debugEventOrdinal": 2514,
+        "slotAddress": 355737084,
+        "waveformAddress": 282987608,
+        "file": "snapshot-000286-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_missile_launch.wav"
+      },
+      {
+        "snapshotOrdinal": 287,
+        "debugEventOrdinal": 2516,
+        "slotAddress": 355737088,
+        "waveformAddress": 283013360,
+        "file": "snapshot-000287-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_driller_launch.wav"
+      },
+      {
+        "snapshotOrdinal": 288,
+        "debugEventOrdinal": 2518,
+        "slotAddress": 355737092,
+        "waveformAddress": 283297792,
+        "file": "snapshot-000288-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_leader_launch.wav"
+      },
+      {
+        "snapshotOrdinal": 289,
+        "debugEventOrdinal": 2520,
+        "slotAddress": 355737096,
+        "waveformAddress": 283011712,
+        "file": "snapshot-000289-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_missile_fly.wav"
+      },
+      {
+        "snapshotOrdinal": 290,
+        "debugEventOrdinal": 2522,
+        "slotAddress": 355737100,
+        "waveformAddress": 282608000,
+        "file": "snapshot-000290-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_wormstart.wav"
+      },
+      {
+        "snapshotOrdinal": 291,
+        "debugEventOrdinal": 2524,
+        "slotAddress": 355737104,
+        "waveformAddress": 282611608,
+        "file": "snapshot-000291-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_wormfire.wav"
+      },
+      {
+        "snapshotOrdinal": 292,
+        "debugEventOrdinal": 2526,
+        "slotAddress": 355737108,
+        "waveformAddress": 282606352,
+        "file": "snapshot-000292-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_wormfly.wav"
+      },
+      {
+        "snapshotOrdinal": 293,
+        "debugEventOrdinal": 2528,
+        "slotAddress": 355737112,
+        "waveformAddress": 283371256,
+        "file": "snapshot-000293-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_wormlock.wav"
+      },
+      {
+        "snapshotOrdinal": 294,
+        "debugEventOrdinal": 2530,
+        "slotAddress": 355737116,
+        "waveformAddress": 283369608,
+        "file": "snapshot-000294-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_wormtele.wav"
+      },
+      {
+        "snapshotOrdinal": 295,
+        "debugEventOrdinal": 2532,
+        "slotAddress": 355737120,
+        "waveformAddress": 283182736,
+        "file": "snapshot-000295-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_thunder.wav"
+      },
+      {
+        "snapshotOrdinal": 296,
+        "debugEventOrdinal": 2534,
+        "slotAddress": 355737124,
+        "waveformAddress": 283164376,
+        "file": "snapshot-000296-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_wind1.wav"
+      },
+      {
+        "snapshotOrdinal": 297,
+        "debugEventOrdinal": 2536,
+        "slotAddress": 355737128,
+        "waveformAddress": 283588896,
+        "file": "snapshot-000297-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_wind2.wav"
+      },
+      {
+        "snapshotOrdinal": 298,
+        "debugEventOrdinal": 2538,
+        "slotAddress": 355737132,
+        "waveformAddress": 283634000,
+        "file": "snapshot-000298-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_rain.wav"
+      },
+      {
+        "snapshotOrdinal": 299,
+        "debugEventOrdinal": 2540,
+        "slotAddress": 355737136,
+        "waveformAddress": 283378584,
+        "file": "snapshot-000299-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_hooter.wav"
+      },
+      {
+        "snapshotOrdinal": 300,
+        "debugEventOrdinal": 2542,
+        "slotAddress": 355737140,
+        "waveformAddress": 283480600,
+        "file": "snapshot-000300-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_getready.wav"
+      },
+      {
+        "snapshotOrdinal": 301,
+        "debugEventOrdinal": 2544,
+        "slotAddress": 355737144,
+        "waveformAddress": 283483784,
+        "file": "snapshot-000301-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_go.wav"
+      },
+      {
+        "snapshotOrdinal": 302,
+        "debugEventOrdinal": 2546,
+        "slotAddress": 355737148,
+        "waveformAddress": 283376936,
+        "file": "snapshot-000302-range-040.bin",
+        "path": "..\\idxdata\\redux\\sound\\sfx_pinkpurp.wav"
+      }
+    ]
+  },
+  "limits": [
+    "Original parent-before private-stack bytes and descriptor input plus actual caller arguments are used; allocator preimage is not initialized output.",
+    "Only verified original external service outcomes and bounded CRT semantics are supplied. No game child, empty bank or initialized source/voice answer is injected.",
+    "The stopped attempt has no final factory comparison. Subsequent cache audit consumes actual per-read pre-comparison input fields separately.",
+    "Concurrent post-Leave manager changes are outside this stopped attempt and are not attributed to an external service."
+  ]
+}

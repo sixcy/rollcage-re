@@ -336,6 +336,7 @@ window.rollcageViewer = { inspect: () => ({
   carInstances: renderer?.carInstances.length ?? 0, renderedCars: renderer?.carDraws.cars ?? 0,
   carMeshCounts: renderer?.carInstances.map(car => car.groups.length) ?? [], carDraws: renderer ? {...renderer.carDraws} : {cars: 0, groups: 0},
   worldBuffers: renderer?.worldGroups.length ?? 0, worldDraws: renderer ? {...renderer.worldDraws} : null,
+  terrainBuffers: renderer?.terrainGroups.size ?? 0, terrainDraws: renderer ? {...renderer.terrainDraws} : null,
   mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
   yaw: navigation.yaw, pitch: navigation.pitch, distance: navigation.distance, speed: navigation.speed,
   heldKeys: keys.size, loading: element('stage').getAttribute('aria-busy') === 'true'

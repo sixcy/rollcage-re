@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "auditDate": "2026-10-23",
+  "authority": "read-only-host-rejection-and-static-fixture-audit",
+  "sources": [
+    {
+      "path": "tests/native-deferred-breakpoint.test.mjs",
+      "sha256": "3ba5a015695cd0dfcc7819200ca5cb9458cce5a00b0f82b7a0039cadcf501839"
+    },
+    {
+      "path": "tools/prepare-native-capture-fixture.mjs",
+      "sha256": "442650113f31f55672cebd584cc3f422656698ef381ed2f24de00f54bf211009"
+    }
+  ],
+  "builderExtraction": {
+    "source": "tests/native-deferred-breakpoint.test.mjs",
+    "startCharacter": 3838,
+    "endCharacter": 6729,
+    "sha256": "82f362ff9fd63b8f540e16ce9e8d3adb46b41241330b7b50f2919166848b1b63",
+    "method": "Evaluate only the inspected pure function in a VM with Buffer,assert,and buildNativeCaptureFixture; never import or run the test module; no executable written or launched."
+  },
+  "fixtures": [
+    {
+      "name": "distinct",
+      "sha256": "9decf84bd7f5fbcaffeda7fb5d02094248687745f7985ff0e8b127a3636b6bc2",
+      "bytes": 1536,
+      "iterations": 96,
+      "sites": [
+        {
+          "id": "main-a",
+          "rva": "0x106d"
+        },
+        {
+          "id": "main-b",
+          "rva": "0x106f"
+        },
+        {
+          "id": "worker-a",
+          "rva": "0x1073"
+        },
+        {
+          "id": "worker-b",
+          "rva": "0x1075"
+        }
+      ],
+      "final": "0x103b",
+      "pe": {
+        "machine": "0x14c",
+        "sectionCount": 1,
+        "imageBase": "0x400000",
+        "entryRva": "0x1000",
+        "dllCharacteristics": "0x0",
+        "relocationDirectory": {
+          "rva": 0,
+          "size": 0
+        },
+        "sections": [
+          {
+            "name": ".fixture",
+            "rva": "0x1000",
+            "virtualBytes": 1024,
+            "rawOffset": 512,
+            "rawBytes": 1024,
+            "flags": "0xe0000060",
+            "read": true,
+            "write": true,
+            "execute": true
+          }
+        ],
+        "imports": [
+          "ExitProcess",
+          "CreateThread",
+          "WaitForSingleObject",
+          "CloseHandle"
+        ],
+        "countersRva": "0x1380",
+        "barrierRva": "0x138c",
+        "threadHandleRva": "0x1390"
+      }
+    },
+    {
+      "name": "shared",
+      "sha256": "67f943e2f8379c77342ddf1c0fed85d59053b8392a6bda54a611d5a012ed663a",
+      "bytes": 1536,
+      "iterations": 96,
+      "sites": [
+        {
+          "id": "shared-a",
+          "rva": "0x1068"
+        },
+        {
+          "id": "shared-b",
+          "rva": "0x106a"
+        }
+      ],
+      "final": "0x103b",
+      "pe": {
+        "machine": "0x14c",
+        "sectionCount": 1,
+        "imageBase": "0x400000",
+        "entryRva": "0x1000",
+        "dllCharacteristics": "0x0",
+        "relocationDirectory": {
+          "rva": 0,
+          "size": 0
+        },
+        "sections": [
+          {
+            "name": ".fixture",
+            "rva": "0x1000",
+            "virtualBytes": 1024,
+            "rawOffset": 512,
+            "rawBytes": 1024,
+            "flags": "0xe0000060",
+            "read": true,
+            "write": true,
+            "execute": true
+          }
+        ],
+        "imports": [
+          "ExitProcess",
+          "CreateThread",
+          "WaitForSingleObject",
+          "CloseHandle"
+        ],
+        "countersRva": "0x1380",
+        "barrierRva": "0x138c",
+        "threadHandleRva": "0x1390"
+      }
+    }
+  ],
+  "fullSuite": {
+    "path": "analysis/physics-fidelity-tests-20261023-weapons-audio-v9-full.txt",
+    "sha256": "f8be8a301d9df5b06bde6d857dea3d2afdda1a46bb7048cdf4591d49512704ca",
+    "pass": 2218,
+    "fail": 1,
+    "skipped": 0,
+    "durationMs": 104336.4575,
+    "failingTest": "owned native threads execute each increment once and reobserve any queued breakpoint without duplicate writes",
+    "sourceLocation": "tests/native-deferred-breakpoint.test.mjs:99",
+    "error": "CreateProcess DEBUG_ONLY_THIS_PROCESS",
+    "defenderNameInFullSuiteLog": false
+  },
+  "reconstructedFixtureHashLimit": "These hashes identify the unchanged current-source builder outputs held only in memory. They were not read from quarantined executable files or supplied by Defender; the targeted detection records establish matching temporary fixture paths, not a cryptographic sample association.",
+  "targetedDefenderQuery": {
+    "method": "Get-MpThreatDetection filtered before output to resources matching rollcage-deferred-*/distinct.exe or shared.exe; Get-MpThreat restricted to those ThreatIDs.",
+    "queriedOnAuditDate": true,
+    "detections": [
+      {
+        "DetectionID": "{5AF86671-8412-4483-9A2C-2CAC20746FAB}",
+        "ThreatID": 2147814523,
+        "InitialDetectionTime": "2026-10-23T11:02:47.6610000Z",
+        "LastThreatStatusChangeTime": "2026-10-23T11:02:52.6800000Z",
+        "RemediationTime": "2026-10-23T11:02:52.6800000Z",
+        "ActionSuccess": true,
+        "CleaningActionID": 3,
+        "CurrentThreatExecutionStatusID": 1,
+        "ThreatStatusID": 4,
+        "ThreatStatusErrorCode": 0,
+        "Resources": [
+          "file:_C:\\Users\\Cyril\\AppData\\Local\\Temp\\rollcage-deferred-J70Ve0\\distinct.exe"
+        ],
+        "ProcessName": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+      },
+      {
+        "DetectionID": "{8A3A1740-00D1-476C-8198-C6AAD948D55F}",
+        "ThreatID": 2147814523,
+        "InitialDetectionTime": "2026-10-23T10:56:21.2500000Z",
+        "LastThreatStatusChangeTime": "2026-10-23T10:56:26.3140000Z",
+        "RemediationTime": "2026-10-23T10:56:26.3140000Z",
+        "ActionSuccess": true,
+        "CleaningActionID": 3,
+        "CurrentThreatExecutionStatusID": 1,
+        "ThreatStatusID": 4,
+        "ThreatStatusErrorCode": 0,
+        "Resources": [
+          "file:_C:\\Users\\Cyril\\AppData\\Local\\Temp\\rollcage-deferred-SzN52P\\distinct.exe"
+        ],
+        "ProcessName": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+      }
+    ],
+    "threats": [
+      {
+        "ThreatID": 2147814523,
+        "ThreatName": "Trojan:Win32/Wacatac.H!ml",
+        "SeverityID": 5,
+        "CategoryID": 8,
+        "DidThreatExecute": false,
+        "IsActive": false
+      }
+    ],
+    "limits": [
+      "The service name is retained exactly; it is not a PUA classification.",
+      "No matching shared.exe detection was observed in this filtered result.",
+      "The full-suite text itself reports CreateProcess failure, without the Defender name or sample hash.",
+      "No claim is made about which PE feature triggered detection or about malicious intent/false-positive adjudication."
+    ]
+  },
+  "compilerInventory": {
+    "method": "Get-Command for native/managed build tools and bounded standard Visual Studio/LLVM/MinGW/MSYS install-root checks; file/version inspection of Framework compilers; dotnet --list-sdks/--list-runtimes.",
+    "nativeToolsNotFoundOnPath": [
+      "cl.exe",
+      "clang.exe",
+      "clang-cl.exe",
+      "gcc.exe",
+      "g++.exe",
+      "link.exe",
+      "msbuild.exe",
+      "dumpbin.exe",
+      "llvm-readobj.exe",
+      "llvm-mc.exe",
+      "lld-link.exe",
+      "nasm.exe",
+      "yasm.exe",
+      "tcc.exe",
+      "zig.exe"
+    ],
+    "nativeStandardRootsFound": [],
+    "frameworkTools": [
+      {
+        "path": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe",
+        "productVersion": "4.8.9221.0"
+      },
+      {
+        "path": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe",
+        "productVersion": "4.8.9221.0"
+      },
+      {
+        "path": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\ilasm.exe",
+        "productVersion": "4.8.9221.0"
+      }
+    ],
+    "dotnetPath": "C:\\Program Files\\dotnet\\dotnet.exe",
+    "dotnetSdks": [],
+    "dotnetRuntimes": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "versions": [
+          "6.0.11",
+          "10.0.9"
+        ]
+      },
+      {
+        "name": "Microsoft.WindowsDesktop.App",
+        "versions": [
+          "6.0.11",
+          "10.0.9"
+        ]
+      }
+    ],
+    "limits": [
+      "This bounded inventory does not prove no compiler exists anywhere on disk.",
+      "Framework C# compilers build managed executables, not a direct replacement for the fixed native x86 INC [ESI]/INT3/ESP integration contract."
+    ]
+  },
+  "interpretation": {
+    "peFinding": "Code, imports/IAT, counters, rendezvous state and owned-thread handle occupy one readable/writable/executable .fixture image section. No relocation directory or NX_COMPAT/DYNAMIC_BASE flags are present.",
+    "causalConclusion": "Unknown. The structural findings do not establish why Defender rejected the fixture.",
+    "testConclusion": "2218 tests passed and one native integration test failed during child creation. This is not a completely passing suite or a successful deferred-breakpoint runtime validation."
+  },
+  "recommendation": [
+    "Retain the original blocked-fixture identity and targeted host records; leave protection and the rejection intact.",
+    "Record this native integration case as a host-blocked verification gap. Continue reporting deterministic admission and encoding tests separately from actual native execution.",
+    "Do not vary payloads/hashes, obfuscate, add exclusions, disable protection or retry the rejected executable to obtain a passing result.",
+    "If this test is redesigned for ordinary maintainability later, prefer reviewed native C/assembler source and a standard x86 compiler/linker, with separate RX code and RW data/import storage, verified labels and normal PE metadata. A redesign would still require independent security acceptance and runtime validation; no such redesign or launch was performed here."
+  ],
+  "references": [
+    {
+      "title": "Microsoft PE/COFF format: section memory flags and DLL characteristics",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/debug/pe-format"
+    }
+  ],
+  "actions": {
+    "executableFilesWritten": false,
+    "executableFilesLaunched": false,
+    "existingFixtureOrTestsEdited": false,
+    "protectionSettingsChanged": false,
+    "exclusionsAdded": false,
+    "hashVariationAttempts": false,
+    "existingEvidenceOverwritten": false,
+    "compilerInstalled": false
+  }
+}

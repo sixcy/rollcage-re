@@ -5,9 +5,18 @@ const eventId='native-recovery-apply-entry',proofKeys=['candidateIndex','frameTi
 export function verifyNativeRecoverySelection(configuration){
   const pending=configuration.pendingFrameObserver;
   if(pending===undefined||pending===null)return {mode:'all'};
-  const keys=['beforeBreakpointId','afterBreakpointId','eventBreakpointId','maxPendingBytes','maxCandidateFrames','maxEventSnapshots','eventStackOffset','eventReturnRva','eventPointerRegister','eventRecordBytes','eventPoolRoot','eventPoolCapacity'];
+  const keys=['beforeBreakpointId','afterBreakpointId','eventBreakpointId','maxPendingBytes','maxCandidateFrames','maxEventSnapshots','eventStackOffset','eventReturnRva','eventPointerRegister','eventRecordBytes','eventPoolRoot','eventPoolCapacity','nestedBreakpointIds','maxNestedSnapshots','nestedCaptureScope'];
   if(Object.keys(pending).some(key=>!keys.includes(key))||pending.beforeBreakpointId!=='native-recovery-before'||pending.afterBreakpointId!=='native-recovery-after'||pending.eventBreakpointId!==eventId||pending.eventStackOffset!==-124||Number(pending.eventReturnRva)!==0x7cf3c||pending.eventPointerRegister!=='ecx'||pending.eventRecordBytes!==1)throw Error('Pending recovery observer differs from the exact application ABI.');
   for(const[key,min,max]of [['maxPendingBytes',716,128*1024*1024],['maxCandidateFrames',1,10000],['maxEventSnapshots',1,64]])if(!Number.isSafeInteger(pending[key])||pending[key]<min||pending[key]>max)throw Error(`Pending recovery observer ${key} bound differs.`);
+  if(pending.nestedBreakpointIds!==undefined||pending.maxNestedSnapshots!==undefined){
+    const nested=pending.nestedBreakpointIds;
+    if(!Array.isArray(nested)||!nested.length||nested.length>128||new Set(nested).size!==nested.length||!Number.isInteger(pending.maxNestedSnapshots)||pending.maxNestedSnapshots<1||pending.maxNestedSnapshots>128)throw Error('Pending recovery nested observation policy differs.');
+    for(const id of nested){
+      const point=configuration.breakpoints?.find(row=>row.id===id);
+      if(typeof id!=='string'||!point||[pending.beforeBreakpointId,pending.afterBreakpointId,eventId].includes(id)||point.stopAfterHits||point.skipMatchingHits||point.service||configuration.phaseActions?.some(row=>row.breakpointId===id))throw Error('Pending recovery nested observations must be declared read-only nonstopping breakpoints.');
+    }
+  }
+  if(pending.nestedCaptureScope!==undefined&&pending.nestedCaptureScope!=='frame-thread')throw Error('Pending recovery nested capture scope differs.');
   for(const[key,id,rva]of [['eventPoolRoot','recovery-body-arena-root',0x2e6b40],['eventPoolCapacity','recovery-body-arena-used-bytes',0x30dcf4]]){
     const row=pending[key];if(JSON.stringify(row)!==JSON.stringify({id,rva:`0x${rva.toString(16)}`,length:4}))throw Error('Pending recovery observer used-byte arena descriptor differs.');
   }

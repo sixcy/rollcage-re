@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "authority": "failed-original-process-observation",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-sound-v4-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "matched": false,
+  "completeParentObserved": false,
+  "reason": "A different owned thread delivered an owned breakpoint while another thread had a restored instruction pending; debugger failed closed.",
+  "error": {
+    "type": "capture-error",
+    "error": "System.IO.InvalidDataException: Nested owned breakpoint while stepping.\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+    "events": 15334,
+    "snapshots": 3,
+    "pendingFrame": null,
+    "elapsedMs": 37851
+  },
+  "precedingEvents": [
+    {
+      "type": "exception",
+      "code": "0x4000001f",
+      "address": "0x00787a05",
+      "nativeAddress": "0x0000000000787a05",
+      "firstChance": 1,
+      "elapsedMs": 37851
+    },
+    {
+      "type": "observation-skipped",
+      "breakpointId": "recovery-sound-mixer-enter-return",
+      "rawHit": 767,
+      "tid": 34208,
+      "predicateAddress": "0x00b29fdc",
+      "actualPredicateBytesHex": "01000000",
+      "expectedPredicateBytesHex": "04000000",
+      "reason": "predicate-not-equal",
+      "elapsedMs": 37851
+    },
+    {
+      "type": "debug-event",
+      "event": 1,
+      "pid": 34964,
+      "tid": 34208,
+      "ordinal": 15332,
+      "elapsedMs": 37851
+    },
+    {
+      "type": "exception",
+      "code": "0x4000001e",
+      "address": "0x770441f0",
+      "nativeAddress": "0x00000000770441f0",
+      "firstChance": 1,
+      "elapsedMs": 37851
+    },
+    {
+      "type": "debug-event",
+      "event": 1,
+      "pid": 34964,
+      "tid": 34208,
+      "ordinal": 15333,
+      "elapsedMs": 37851
+    },
+    {
+      "type": "exception",
+      "code": "0x4000001f",
+      "address": "0x00787a0b",
+      "nativeAddress": "0x0000000000787a0b",
+      "firstChance": 1,
+      "elapsedMs": 37851
+    },
+    {
+      "type": "observation-skipped",
+      "breakpointId": "recovery-sound-mixer-thread-return",
+      "rawHit": 767,
+      "tid": 34208,
+      "predicateAddress": "0x00b29fdc",
+      "actualPredicateBytesHex": "01000000",
+      "expectedPredicateBytesHex": "04000000",
+      "reason": "predicate-not-equal",
+      "elapsedMs": 37851
+    },
+    {
+      "type": "debug-event",
+      "event": 1,
+      "pid": 34964,
+      "tid": 37764,
+      "ordinal": 15334,
+      "elapsedMs": 37851
+    },
+    {
+      "type": "exception",
+      "code": "0x4000001f",
+      "address": "0x00787493",
+      "nativeAddress": "0x0000000000787493",
+      "firstChance": 1,
+      "elapsedMs": 37851
+    }
+  ],
+  "snapshotCount": 3,
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 34964,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 37900
+  },
+  "limits": [
+    "Only startup snapshots were published; no recovery/audio replay evidence.",
+    "The queued-thread mechanism is the next debugger obligation; this report does not declare the native game at fault.",
+    "The raw trace and all successful prior comparisons remain preserved."
+  ]
+}

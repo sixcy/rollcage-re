@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "authority": "controlled-native-recovery-input",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-sound-v8-20261023",
+  "constructorMatched": true,
+  "sourceReplayComplete": false,
+  "boundaryEvidence": [
+    "ev_04b59e84dba4c5d1e6dfdd491c1be2caf3717f5926355c0bd1dc024b29f18d12",
+    "ev_1db4e592e803ec83d5367ba1bab6642a556ffd15c8912f3c3cfb0d55fdfed1a8"
+  ],
+  "constructor": {
+    "matched": true,
+    "comparedBytes": 3720,
+    "firstDivergence": null,
+    "comparisons": [
+      {
+        "id": "source",
+        "address": 392409968,
+        "length": 2472,
+        "readOnly": false,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "descriptor",
+        "address": 283083584,
+        "length": 1120,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "literal-56fe60",
+        "address": 8715872,
+        "length": 96,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "literal-5d0320",
+        "address": 9110304,
+        "length": 24,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "literal-5dc774",
+        "address": 9160564,
+        "length": 4,
+        "readOnly": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "thread-seh-head",
+        "address": 2871296,
+        "length": 4,
+        "comparison": "mutable",
+        "evidence": "Stopped owned-thread selector descriptor and hash-verified FS:[0] bytes; context DWORD144.",
+        "readOnly": false,
+        "divergence": null,
+        "readOnlyDivergence": null
+      }
+    ],
+    "registers": [
+      {
+        "name": "eax",
+        "expected": 392409968,
+        "actual": 392409968
+      },
+      {
+        "name": "ebx",
+        "expected": 392409968,
+        "actual": 392409968
+      },
+      {
+        "name": "ebp",
+        "expected": 5242212,
+        "actual": 5242212
+      },
+      {
+        "name": "esi",
+        "expected": 5238812,
+        "actual": 5238812
+      },
+      {
+        "name": "edi",
+        "expected": 283083584,
+        "actual": 283083584
+      },
+      {
+        "name": "esp",
+        "expected": 5238804,
+        "actual": 5238804
+      }
+    ],
+    "moduleBaseAddress": 7208960,
+    "input": {
+      "object": 392409968,
+      "descriptor": 283083584,
+      "entryEsp": 5238804,
+      "caller": 7894243
+    },
+    "crtCalls": [
+      {
+        "name": "strncpy_s",
+        "args": [
+          392409972,
+          24,
+          8715883,
+          23
+        ],
+        "entryEsp": 5238688,
+        "returnAddress": 7261879,
+        "result": 0
+      },
+      {
+        "name": "strncpy_s",
+        "args": [
+          392409996,
+          24,
+          9110304,
+          23
+        ],
+        "entryEsp": 5238672,
+        "returnAddress": 7261902,
+        "result": 0
+      },
+      {
+        "name": "wcsncpy_s",
+        "args": [
+          392410020,
+          512,
+          8715952,
+          511
+        ],
+        "entryEsp": 5238656,
+        "returnAddress": 7261936,
+        "result": 0
+      },
+      {
+        "name": "strncpy_s",
+        "args": [
+          392411144,
+          24,
+          8715883,
+          23
+        ],
+        "entryEsp": 5238688,
+        "returnAddress": 7261879,
+        "result": 0
+      },
+      {
+        "name": "strncpy_s",
+        "args": [
+          392411168,
+          24,
+          9110304,
+          23
+        ],
+        "entryEsp": 5238672,
+        "returnAddress": 7261902,
+        "result": 0
+      },
+      {
+        "name": "wcsncpy_s",
+        "args": [
+          392411192,
+          512,
+          8715952,
+          511
+        ],
+        "entryEsp": 5238656,
+        "returnAddress": 7261936,
+        "result": 0
+      }
+    ],
+    "limits": [
+      "This is the actual empty-callable4ad7e0 constructor boundary, not the surrounding factory/COM/playback or complete recovery parent.",
+      "Only source storage, actual read-only descriptor/literals and restored FS:[0] plus declared return/preserved registers are compared; private scratch and volatile ECX/EDX/EFLAGS are excluded.",
+      "Valid bounded CRT string-copy behavior is supplied explicitly. No allocator, game-child result, final initialized source or callback answer is injected."
+    ]
+  },
+  "error": "Error: Source GetCurrentThreadId changed the protected critical-section bytes.\n    at inspectNativeRecoverySourceServices (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-recovery-source-replay.mjs:145:50)\n    at checkNativeRecoverySourceReplay (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/check-native-recovery-source-replay.mjs:25:16)\n    at async file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/check-native-recovery-source-replay.mjs:44:18",
+  "method": "Original4ad7e0 entry/preRET4ad8de paired inside the declared controlled parent; full9a8 input source, actual descriptor, literals, PC24 and thread SEH are independent constructor inputs. Genuine bounded CRT string operations supplied explicitly. COM/critical-section observations are inspected separately.",
+  "limits": [
+    "Constructor equality and observed external service outcomes do not prove full factory, channel append/play request or recovery-parent equality.",
+    "No finished source, native waveform answer, game-child result or null replacement service is supplied as constructor input."
+  ]
+}

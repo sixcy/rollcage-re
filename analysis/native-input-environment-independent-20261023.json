@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "authority": "independent-owned-x86-host-input-availability-probe",
+  "target": {
+    "path": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "method": "Separate unhooked32-bit PowerShell/C# process. Hash-verified original IID/GUID bytes; Win32 session/mouse metrics and RawInput type counts; native DirectInput8Create, attached-only EnumDevices and system CreateDevice. Successful owned COM interfaces released. No names, identifiers or device handles retained.",
+  "guidSources": [
+    {
+      "name": "IID_IDirectInput8W",
+      "address": "0x56f828",
+      "bytesHex": "318079bf3a48a24daa995d64ed369700"
+    },
+    {
+      "name": "GUID_SysMouse",
+      "address": "0x56f788",
+      "bytesHex": "602b1d6fa0d5cf11bfc7444553540000"
+    },
+    {
+      "name": "GUID_SysKeyboard",
+      "address": "0x56f778",
+      "bytesHex": "612b1d6fa0d5cf11bfc7444553540000"
+    }
+  ],
+  "helperSourceSha256": "c1754cd67a3372e34544059aa9160e9301600da36fe99b56917ec1778c4faca2",
+  "observation": {
+    "timestampUtc": "2026-10-23T08:54:46.4996346Z",
+    "processId": 38936,
+    "pointerBytes": 4,
+    "host": {
+      "sessionId": 12,
+      "activeConsoleSessionId": 12,
+      "windowStation": "WinSta0",
+      "desktop": "CodexSandboxDesktop-aef55d7e1a91575d5bad5001af2f4d78",
+      "remoteSession": 0,
+      "remoteControl": 0,
+      "mousePresent": 0,
+      "mouseButtons": 0,
+      "mouseWheel": 0,
+      "mouseHorizontalWheel": 0
+    },
+    "rawInput": {
+      "available": true,
+      "attempts": 1,
+      "structureBytes": 8,
+      "total": 1,
+      "mouse": 0,
+      "keyboard": 0,
+      "hid": 1,
+      "other": 0
+    },
+    "directInput": {
+      "createHresultHex": "0x00000000",
+      "ownerNonNull": true,
+      "iidHex": "318079bf3a48a24daa995d64ed369700",
+      "iidText": "bf798031-483a-4da2-aa99-5d64ed369700",
+      "version": 2048,
+      "modulePath": "C:\\Windows\\SYSTEM32\\dinput8.dll",
+      "enumerations": [
+        {
+          "name": "all-attached",
+          "deviceClass": 0,
+          "flags": 1,
+          "hresultHex": "0x00000000",
+          "count": 1,
+          "types": {
+            "0x00000413": 1
+          },
+          "boundReached": false,
+          "badStructure": false,
+          "complete": true
+        },
+        {
+          "name": "pointers-attached",
+          "deviceClass": 2,
+          "flags": 1,
+          "hresultHex": "0x00000000",
+          "count": 0,
+          "types": {},
+          "boundReached": false,
+          "badStructure": false,
+          "complete": true
+        },
+        {
+          "name": "keyboards-attached",
+          "deviceClass": 3,
+          "flags": 1,
+          "hresultHex": "0x00000000",
+          "count": 1,
+          "types": {
+            "0x00000413": 1
+          },
+          "boundReached": false,
+          "badStructure": false,
+          "complete": true
+        },
+        {
+          "name": "game-controllers-attached",
+          "deviceClass": 4,
+          "flags": 1,
+          "hresultHex": "0x00000000",
+          "count": 0,
+          "types": {},
+          "boundReached": false,
+          "badStructure": false,
+          "complete": true
+        }
+      ],
+      "devices": [
+        {
+          "name": "system-mouse",
+          "guidHex": "602b1d6fa0d5cf11bfc7444553540000",
+          "hresultHex": "0x80040154",
+          "outputNonNull": false,
+          "acquired": false,
+          "cooperativeLevelSet": false,
+          "releaseRemainingReferences": null
+        },
+        {
+          "name": "system-keyboard",
+          "guidHex": "612b1d6fa0d5cf11bfc7444553540000",
+          "hresultHex": "0x00000000",
+          "outputNonNull": true,
+          "acquired": false,
+          "cooperativeLevelSet": false,
+          "releaseRemainingReferences": 0
+        }
+      ],
+      "complete": true,
+      "releaseRemainingReferences": 0
+    }
+  },
+  "limits": [
+    "No game or debugger was launched. No Acquire, SetCooperativeLevel, SetDataFormat, polling, input injection, RawInput registration, device/driver/registry/settings changes or window activation was performed.",
+    "The helper HINSTANCE is its own PowerShell process, not Redux. These observations do not establish original acquisition/polling behavior or retrospectively recover a missing prior-process HRESULT.",
+    "RawInput enumeration omits RDP-accessed devices according to Microsoft; absence is not proof of physically disconnected hardware. Session metrics do not identify every possible remote/virtual forwarding path.",
+    "Current host/device state can change after this one observation. An independent matching failure supports a host-availability limitation; it does not prove that all capture policies are irrelevant."
+  ],
+  "references": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getrawinputdevicelist",
+    "https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-rawinputdevicelist",
+    "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ee416756(v=vs.85)",
+    "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ee417804(v=vs.85)",
+    "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ee417803(v=vs.85)"
+  ]
+}

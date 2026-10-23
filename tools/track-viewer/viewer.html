@@ -31,6 +31,7 @@
 <p id="error" role="alert"></p><p id="counts" class="note"></p>
 <p id="scene-scope" class="note"></p>
 <button id="download" type="button" disabled>Download track</button>
+<p class="note">Want a single model? Open the <a href="object-viewer.html">3D Object Viewer</a>.</p>
 <p class="note">Saves the static track and ordinary objects as a ZIP with OBJ, materials and PNG textures. The racing cars and path overlays stay in the viewer. Unzip it, then import scene.obj into Blender.</p>
 <fieldset style="border:1px solid #344457;border-radius:5px"><legend>Racing test</legend>
 <p id="racing-warning" class="note" style="color:#ffd48a"><strong>Super experimental.</strong> Driving, collisions and lap timing may be inaccurate.</p>
@@ -40,7 +41,7 @@
 <p id="practice-roster" class="note"></p>
 <p id="practice-readout" class="note" style="font-variant-numeric:tabular-nums"></p>
 <p id="practice-note" class="note">Available on verified Rollcage tracks, except LEV16 and LEV17.</p><p id="practice-error" class="note" role="alert" style="color:#ffb4ac"></p>
-<details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Original-game checks now cover physics frames, car-to-car and border collisions, force responses, and controlled respawn placement.</p><p class="note">Full respawn effects, weapons and timing are still under work. This remains a super experimental reconstruction.</p></details>
+<details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks cover selected physics frames, car-to-car and camera-border collisions, force responses, and controlled respawn placement. Full respawn effects, weapons and timing remain under work. This remains a super experimental reconstruction.</p></details>
 </fieldset>
 <div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option><option value="follow" id="camera-follow" disabled>Follow car 1</option></select><button id="reset" type="button">Reset view</button></div>
 <p id="help" class="note"></p><p id="speed" class="note" hidden></p>

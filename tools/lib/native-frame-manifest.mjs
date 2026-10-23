@@ -97,11 +97,19 @@ export function nativeFrameRootRanges({stackBytesBefore, stackBytesAfter = 4, ma
 function rowsOf(ranges) {
   const rows = ranges instanceof Map ? [...ranges.values()] : ranges;
   if (!Array.isArray(rows) || !rows.length) throw Error('Frame manifest requires captured range rows.');
-  return rows.map(row => {
+  const normalized = rows.map(row => {
     const address = Number(row.address);
-    if (!Buffer.isBuffer(row.bytes) || !spanValid(address, row.bytes.length) || (row.length !== undefined && row.length !== row.bytes.length)) throw Error('Invalid or truncated captured frame range.');
+    if (!Buffer.isBuffer(row.bytes) || row.bytes.length && !spanValid(address, row.bytes.length) || (row.length !== undefined && row.length !== row.bytes.length)) throw Error('Invalid or truncated captured frame range.');
     return {...row, address};
   });
+  if (normalized.some(row => !row.bytes.length)) {
+    //Rich captures can observe an actually empty vector. The strict facade
+    //checks its metadata AND separately captured header before we omit its
+    //zero storage extent from this physical-memory coverage manifest.
+    //A generic empty row still fails; no readable bytes are granted at NULL.
+    createCapturedMemory(normalized);
+  }
+  return normalized.filter(row => row.bytes.length);
 }
 function moduleBaseOf(snapshot, rows, requested) {
   const values = new Set([requested, snapshot.moduleBaseAddress, ...rows.map(row => row.moduleBaseAddress)].filter(value => value !== undefined && value !== null).map(Number));

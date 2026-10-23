@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "authority": "failed-original-process-observation",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-sound-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "matched": false,
+  "completeParentObserved": false,
+  "reason": "Pending-frame recorder rejected undeclared nested audio snapshot publication; this attempt establishes no audio replay fidelity.",
+  "error": {
+    "type": "capture-error",
+    "error": "System.IO.InvalidDataException: Unrelated observation inside a pending frame would interleave publication.\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+    "events": 2950,
+    "snapshots": 232,
+    "pendingFrame": {
+      "candidateIndex": 1,
+      "frameTid": 11168,
+      "frameEntryEsp": "0x00dbfe2c",
+      "frameReturnAddress": "0x00731021",
+      "frameMatchingHit": 1,
+      "observedEventHits": 1,
+      "qualifyingEventSnapshots": 1
+    },
+    "elapsedMs": 46198
+  },
+  "completion": null,
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 15636,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 46248
+  },
+  "snapshotCount": 232,
+  "sourceIntegrityReport": "analysis/physics-native-controlled-recovery-leaves-sound-source-after-20261023.json"
+}

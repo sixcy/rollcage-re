@@ -1,0 +1,86 @@
+{
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-sound-v11-20261023",
+  "authority": "controlled-native-recovery-input",
+  "matched": true,
+  "comparedArgumentBytes": 28,
+  "registers": [
+    {
+      "name": "ebx",
+      "expected": 68991248,
+      "actual": 68991248
+    },
+    {
+      "name": "ebp",
+      "expected": 77176,
+      "actual": 77176
+    },
+    {
+      "name": "esi",
+      "expected": 288175428,
+      "actual": 288175428
+    },
+    {
+      "name": "edi",
+      "expected": 288175232,
+      "actual": 288175232
+    },
+    {
+      "name": "ecx",
+      "expected": 43,
+      "actual": 43
+    },
+    {
+      "name": "edx",
+      "expected": 0,
+      "actual": 0
+    },
+    {
+      "name": "esp-before-CALL",
+      "expected": 14416492,
+      "actual": 14416492
+    }
+  ],
+  "returnAddress": {
+    "expected": 7720814,
+    "actual": 7720814
+  },
+  "sourceCalls": [
+    {
+      "parentEntryEsp": 14416620,
+      "entryEsp": 14416488,
+      "code": 43,
+      "registerEdx": 0,
+      "survivingEcx": 1165767288,
+      "args": [
+        0,
+        -1,
+        9000,
+        6,
+        1165767288,
+        0,
+        0
+      ],
+      "argumentHex": "00000000ffffffff282300000600000078327c450000000000000000",
+      "returnAddress": 7720814,
+      "entryRegisters": {
+        "ebx": 68991248,
+        "ebp": 77176,
+        "esi": 288175428,
+        "edi": 288175232
+      }
+    }
+  ],
+  "sourceComplete": false,
+  "sourceError": "Error: Native adaptive sound-channel selection requires its complete source/allocation/vector stack services.\n    at selectNativeSoundChannelOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:102:27)\n    at dispatchPopulatedNativeSoundOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:129:19)\n    at Object.dispatchPopulated40ea40 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-sound.mjs:88:14)\n    at dispatchNativeSoundOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:83:20)\n    at Object.dispatch40ea40 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-sound.mjs:94:12)\n    at dispatch40ea40 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:52:70)\n    at emitNativeEffect (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/effect-emitter.mjs:21:25)\n    at emitNativeEffectOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:42:10)\n    at callNativeRecoveryAudio (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-recovery-audio-call.mjs:53:10)\n    at runRawPostFrameBodyStates (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/raw-respawn-state.mjs:197:11)",
+  "firstDivergence": null,
+  "fullParentOutputCompared": false,
+  "nativeCallOrdinal": 235,
+  "nativeCallDebugEventOrdinal": 2404,
+  "method": "Original parent entry supplies routes, geometry, pools and numerical/TLS context. Real source nearest/query/apply/ring producers supply the live caller registers and all seven PUSH words. Compare the actual native pre-CALL arguments and registers, with the observed post-call EIP as the return-address check.",
+  "limits": [
+    "This compares the reached sound-call boundary, not full parent output or the following adaptive channel/factory/playback execution.",
+    "The native pre-CALL snapshot does not yet contain its CALL return word; that source word is checked against the separately observed native return EIP.",
+    "No native ring ECX, selected point, distance, game-child answer or initialized source output is injected."
+  ]
+}

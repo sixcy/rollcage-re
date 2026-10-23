@@ -1,0 +1,409 @@
+{
+  "schemaVersion": 1,
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-sound-v12-20261023",
+  "mainTid": 30484,
+  "backgroundTid": 3700,
+  "sourceReplayComplete": false,
+  "fullConcurrencyProved": false,
+  "evidence": [
+    {
+      "evidenceId": "ev_eac9ff725da5b429d1f90e874490926ceef93a2ca4f26eb7938ffe308096eda4",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "evidenceId": "ev_04b59e84dba4c5d1e6dfdd491c1be2caf3717f5926355c0bd1dc024b29f18d12",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "evidenceId": "ev_82c1a7dc4da9ffe5fc190129a61df7dd0fbf7eb8b3c4d3af842025a702bbf6cc",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    }
+  ],
+  "timeline": [
+    {
+      "ordinal": 303,
+      "eventOrdinal": 2542,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-mixer-enter-return",
+      "eip": "0x00787a05",
+      "esp": "0x0053ef3c",
+      "lockAddress": 141353596,
+      "lockHex": "fffffffffeffffff010000001477000000000000001000000000000000000000",
+      "win32": {
+        "debugInfo": 4294967295,
+        "lockCount": -2,
+        "recursionCount": 1,
+        "owningThread": 30484,
+        "semaphore": 0,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 0,
+        "owner": 0
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 307,
+      "eventOrdinal": 2550,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-mixer-leave-return",
+      "eip": "0x00787a53",
+      "esp": "0x0053ef3c",
+      "lockAddress": 141353596,
+      "lockHex": "ffffffffffffffff000000000000000000000000001000000000000000000000",
+      "win32": {
+        "debugInfo": 4294967295,
+        "lockCount": -1,
+        "recursionCount": 0,
+        "owningThread": 0,
+        "semaphore": 0,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 0,
+        "owner": 0
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 308,
+      "eventOrdinal": 2552,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-com-call",
+      "eip": "0x00791daf",
+      "esp": "0x0053eef8",
+      "lockAddress": 141353596,
+      "lockHex": "fffffffffeffffff01000000740e0000000000000010000001000000740e0000",
+      "win32": {
+        "debugInfo": 4294967295,
+        "lockCount": -2,
+        "recursionCount": 1,
+        "owningThread": 3700,
+        "semaphore": 0,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 3700
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 309,
+      "eventOrdinal": 2554,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-com-return",
+      "eip": "0x00791db2",
+      "esp": "0x0053ef18",
+      "lockAddress": 141353596,
+      "lockHex": "fffffffffeffffff01000000740e0000000000000010000001000000740e0000",
+      "win32": {
+        "debugInfo": 4294967295,
+        "lockCount": -2,
+        "recursionCount": 1,
+        "owningThread": 3700,
+        "semaphore": 0,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 3700
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 310,
+      "eventOrdinal": 3280,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-factory-enter-return",
+      "eip": "0x00787691",
+      "esp": "0x0053ef54",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717feffffff0100000014770000ffffffff001000000000000000000000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -2,
+        "recursionCount": 1,
+        "owningThread": 30484,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 0,
+        "owner": 0
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 311,
+      "eventOrdinal": 3282,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-factory-thread-return",
+      "eip": "0x00787697",
+      "esp": "0x0053ef54",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717faffffff0100000014770000ffffffff001000000000000000000000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -6,
+        "recursionCount": 1,
+        "owningThread": 30484,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 0,
+        "owner": 0
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 312,
+      "eventOrdinal": 3284,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-channel-allocation-call",
+      "eip": "0x006ef07f",
+      "esp": "0x0053ef2c",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717faffffff0100000014770000ffffffff001000000100000014770000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -6,
+        "recursionCount": 1,
+        "owningThread": 30484,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 30484
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 313,
+      "eventOrdinal": 3286,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-channel-allocation-return",
+      "eip": "0x006ef085",
+      "esp": "0x0053ef2c",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717faffffff0100000014770000ffffffff001000000100000014770000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -6,
+        "recursionCount": 1,
+        "owningThread": 30484,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 30484
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 314,
+      "eventOrdinal": 3288,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-channel-memmove-call",
+      "eip": "0x006ef0a2",
+      "esp": "0x0053ef20",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717faffffff0100000014770000ffffffff001000000100000014770000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -6,
+        "recursionCount": 1,
+        "owningThread": 30484,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 30484
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 315,
+      "eventOrdinal": 3290,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-channel-memmove-return",
+      "eip": "0x006ef0a8",
+      "esp": "0x0053ef20",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717faffffff0100000014770000ffffffff001000000100000014770000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -6,
+        "recursionCount": 1,
+        "owningThread": 30484,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 30484
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 278658304,
+        "end": 278658680,
+        "capacity": 278658680
+      }
+    },
+    {
+      "ordinal": 316,
+      "eventOrdinal": 3292,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-factory-leave-return",
+      "eip": "0x007876c0",
+      "esp": "0x0053ef54",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717feffffff01000000740e0000ffffffff0010000001000000740e0000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -2,
+        "recursionCount": 1,
+        "owningThread": 3700,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 3700
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 386375424,
+        "end": 386375804,
+        "capacity": 386375988
+      }
+    },
+    {
+      "ordinal": 317,
+      "eventOrdinal": 3294,
+      "tid": 30484,
+      "breakpointId": "recovery-sound-manager-return",
+      "eip": "0x006edc8d",
+      "esp": "0x0053fc08",
+      "lockAddress": 141353596,
+      "lockHex": "c89e0717feffffff01000000740e0000ffffffff0010000001000000740e0000",
+      "win32": {
+        "debugInfo": 386375368,
+        "lockCount": -2,
+        "recursionCount": 1,
+        "owningThread": 3700,
+        "semaphore": 4294967295,
+        "spinCount": 4096
+      },
+      "gameWrapper": {
+        "depth": 1,
+        "owner": 3700
+      },
+      "activeVector": {
+        "address": 141285952,
+        "begin": 386375424,
+        "end": 386375804,
+        "capacity": 386375988
+      }
+    }
+  ],
+  "activeVectorGrowth": {
+    "thread": 30484,
+    "callOrdinal": 312,
+    "returnOrdinal": 313,
+    "requestedBytes": 564,
+    "allocatedAddress": 386375424,
+    "capturedPreimageBytes": 4,
+    "capturedPreimageHex": "0df0adba",
+    "copyCallOrdinal": 314,
+    "copyReturnOrdinal": 315,
+    "copyArguments": [
+      386375424,
+      278658304,
+      376
+    ],
+    "copyDestinationCapturedBytes": 4,
+    "beforePrefixHex": "0df0adba",
+    "afterPrefixHex": "20396e08",
+    "missingAllocatedPreimageBytes": 560
+  },
+  "backgroundObservations": {
+    "creationEvent": {
+      "type": "debug-event",
+      "event": 2,
+      "pid": 27100,
+      "tid": 3700,
+      "ordinal": 368,
+      "elapsedMs": 673
+    },
+    "skippedCount": 379,
+    "skippedBySite": {
+      "recovery-sound-playback-logger-entry": 3,
+      "recovery-sound-mixer-enter-return": 76,
+      "recovery-sound-mixer-thread-return": 75,
+      "recovery-sound-mixer-id-call": 150,
+      "recovery-sound-mixer-leave-return": 75
+    },
+    "scope": "These events retain TID/site/order but no worker register/caller/memory context. Instructions were executed, not skipped."
+  },
+  "limits": [
+    "Waiter arrival is not a GetCurrentThreadId effect and no workaround is applied.",
+    "Game-wrapper depth/owner at316 belong to another real game thread; their update producer/context remains unbound.",
+    "Active-vector growth is independently explained by main-thread allocation/memmove/append, not attributed to the background thread from observation timing alone.",
+    "The first4 of564 allocation-return bytes are observed; neither native finished vector output nor guessed BAADF00D fill supplies the missing560 bytes.",
+    "Current scoped source attempt stops before the waiter transition, so later channel/playback continuation callbacks remain unverified on this capture."
+  ]
+}

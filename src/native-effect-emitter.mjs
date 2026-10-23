@@ -87,8 +87,8 @@ export function dispatchNativeSoundOnStack(request, runtime) {
 
 //40db20, retained153 ev_e7b66afda8bc1259f35bae13abb5f5ad007af72d368288d98dca50fc8ee1e855.
 //The explicitly supplied TLS word models FS:[0]; the captured stack cannot
-//supply that word merely from its FS selector. Only the reached round-robin
-//null-channel branch is complete here. Nonnull services remain hard boundaries.
+//supply that word merely from its FS selector. Adaptive selection requires an
+//explicit continuation of the real game code on this same published frame.
 export function selectNativeSoundChannelOnStack(sound, position, velocity, runtime) {
   const {memory, scratchBase: entry, nativeTls} = runtime, incoming = registers(runtime), frame = entry - 44;
   if (!nativeTls || !Number.isInteger(nativeTls.sehWord) || nativeTls.sehWord < 0 || nativeTls.sehWord > 0xffffffff) throw Error('Native channel selection requires an explicit captured FS:[0] SEH word.');
@@ -99,7 +99,14 @@ export function selectNativeSoundChannelOnStack(sound, position, velocity, runti
   put(memory, frame, memory.readUInt32LE(0x5e8890) ^ (entry - 40));
   nativeTls.sehWord = frame + 32;
   const maximum = memory.readInt32LE(sound + 0x488);
-  if (maximum <= 0) throw Error('Native adaptive sound-channel selection requires its complete source/allocation/vector stack services.');
+  if (maximum <= 0) {
+    if (typeof runtime.selectAdaptiveSoundChannelOnStack !== 'function') throw Error('Native adaptive sound-channel selection requires its complete source/allocation/vector stack services.');
+    const savedSeh = memory.readUInt32LE(frame + 32);
+    const channel = uint(runtime.selectAdaptiveSoundChannelOnStack({sound, position, velocity, entryEsp: entry, frame, incoming, maximum}, runtime), 'adaptive channel result');
+    if (nativeTls.sehWord !== savedSeh) throw Error('Native adaptive sound continuation did not restore its original FS:[0].');
+    if (channel) assertNativeMemorySpan(memory, channel, 12);
+    return channel;
+  }
   const index = memory.readInt32LE(sound + 0x48c), vector = memory.readUInt32LE(sound + 4);
   const slot = (vector + Math.imul(index, 4)) >>> 0, channel = memory.readUInt32LE(slot);
   runtime.onSoundChannelRead?.({address: slot, length: 4, channelAddress: channel});
@@ -115,8 +122,8 @@ export function selectNativeSoundChannelOnStack(sound, position, velocity, runti
   return 0;
 }
 
-//Populated40ea40 through a naturally null round-robin channel. The sound record
-//is real and its flags/index mutate exactly; no channel or bank is substituted.
+//The sound record and selector share the actual dispatcher stack. A nonnull
+//result requires the rest of40ea40, not a numeric-only playback service.
 export function dispatchPopulatedNativeSoundOnStack(request, runtime) {
   const {memory, scratchBase: entry} = runtime, sound = runtime.soundAddress;
   if (!Number.isInteger(sound) || sound <= 0) throw Error('Populated native sound requires its selected original owner.');
@@ -129,5 +136,6 @@ export function dispatchPopulatedNativeSoundOnStack(request, runtime) {
   const channel = selectNativeSoundChannelOnStack(sound, request.registerEdx, request.first, {...runtime, scratchBase: child,
     nativeStack: {entryRegisters: {ebx: request.registerEdx, ebp: runtime.nativeStack.entryRegisters.ebp, esi: memory.readUInt32LE(0x6f2414), edi: request.parameterAddress}}});
   if (!channel) return -1;
+  if (typeof runtime.playSelectedNativeSoundOnStack === 'function') return runtime.playSelectedNativeSoundOnStack({request, channel, sound, entryEsp: entry}, runtime);
   throw Error('Native nonnull sound playback requires complete40ea40 source/reverb stack services.');
 }

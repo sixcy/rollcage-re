@@ -79,6 +79,24 @@ export function* expandNativeFramePatchRuns(ledger, {kind} = {}) {
 // tuple and counter before mutation; an incorrect ledger cannot reset state.
 export function applyNativeFrameSequenceTransition(ledger, {nativeAfter, nextNativeBefore, source}) {
   if (ledger.patchEncoding !== 'relative-runs-v1' || !Array.isArray(ledger.patchRanges) || !Array.isArray(ledger.abiRefreshes)) throw Error('Unsupported sequence patch ledger.');
+  const protectedRegions = ledger.sourceContinuation?.regions ?? [];
+  if (!Array.isArray(protectedRegions)) throw Error('Invalid source continuation protection ledger.');
+  let protectedMismatches = 0, protectedNativeChanges = 0;
+  if (ledger.sourceContinuation && (!protectedRegions.length || typeof ledger.sourceContinuation.id !== 'string' || !ledger.sourceContinuation.id)) throw Error('Invalid source continuation protection ledger.');
+  for (const [index, row] of protectedRegions.entries()) {
+    if (!validSpan(row) || protectedRegions.slice(0, index).some(other => row.address < other.address + other.length && other.address < row.address + row.length)
+      || digest(source.span(row.address, row.length)) !== row.sourceProducedSha256 || digest(nextNativeBefore.span(row.address, row.length)) !== row.nextNativeBeforeSha256) throw Error('Source continuation protected output hash/region differs.');
+    const mismatch = changedCount(source.span(row.address, row.length), nextNativeBefore.span(row.address, row.length));
+    if (row.mismatchBytes !== mismatch) throw Error('Source continuation protected mismatch counter differs.');
+    protectedMismatches += mismatch;
+    protectedNativeChanges += changedCount(nativeAfter.span(row.address, row.length), nextNativeBefore.span(row.address, row.length));
+  }
+  if (ledger.sourceContinuation && (ledger.sourceContinuation.comparedBytes !== protectedRegions.reduce((sum, row) => sum + row.length, 0)
+    || ledger.sourceContinuation.mismatchBytes !== protectedMismatches || ledger.sourceContinuation.changedNativeBytes !== protectedNativeChanges
+    || ledger.sourceContinuation.matched !== (protectedMismatches === 0))) throw Error('Source continuation protected comparison counters differ.');
+  const assertUnprotected = (address, length) => {
+    if (protectedRegions.some(row => address < row.address + row.length && row.address < address + length)) throw Error('External/ABI patch overlaps source continuation owned outputs.');
+  };
   let observedChangedBytes = 0, externallyPatchedBytes = 0, overwrittenSourceDivergenceBytes = 0, externalSourceChangedBytes = 0, externalPatchRuns = 0, abiChangedRuns = 0;
   let previousEnd = -1;
   const writes = [];
@@ -97,6 +115,7 @@ export function applyNativeFrameSequenceTransition(ledger, {nativeAfter, nextNat
         const [offset, length] = tuple;
         if (!Number.isInteger(offset) || !Number.isInteger(length) || offset < end || length < 1 || offset + length > range.length) throw Error('Invalid sequence patch tuple bounds.');
         end = offset + length;
+        assertUnprotected(range.address + offset, length);
         for (let i = offset; i < end; i++) {
           const address = range.address + i, isAbi = ledger.abiRefreshes.some(row => address >= row.address && address < row.address + row.length);
           if (seen[i] || old[i] === next[i] || isAbi === isExternal) throw Error('Sequence patch tuple changed-byte/ABI classification differs.');
@@ -117,6 +136,7 @@ export function applyNativeFrameSequenceTransition(ledger, {nativeAfter, nextNat
   for (const row of ledger.abiRefreshes) {
     if (!validSpan(row) || admittedAbi.some(other => row.address < other.address + other.length && other.address < row.address + row.length)) throw Error('Invalid sequence ABI refresh span.');
     admittedAbi.push(row);
+    assertUnprotected(row.address, row.length);
     const current = source.span(row.address, row.length), input = nextNativeBefore.span(row.address, row.length);
     if (digest(current) !== row.sourceBefore.sha256 || digest(input) !== row.nextNativeBefore.sha256 || changedCount(current, input) !== row.sourceChangedBytes) throw Error('Sequence ABI refresh hash/counter differs.');
     abiRefreshedBytes += row.length; writes.push({address: row.address, bytes: input});
@@ -127,7 +147,7 @@ export function applyNativeFrameSequenceTransition(ledger, {nativeAfter, nextNat
   return counters;
 }
 
-function transition(previous, next, source, abi, maxPatchSpanBytes, footprint) {
+function transition(previous, next, source, abi, maxPatchSpanBytes, footprint, sourceContinuation) {
   const patchRanges = [], samples = [];
   const isAbiAt = address => abi.some(row => address >= row.address && address < row.address + row.length);
   let observedChangedBytes = 0, externallyPatchedBytes = 0, overwrittenSourceDivergenceBytes = 0, externalSourceChangedBytes = 0, externalPatchRuns = 0, abiChangedRuns = 0;
@@ -156,8 +176,52 @@ function transition(previous, next, source, abi, maxPatchSpanBytes, footprint) {
   }
   const abiRefreshes = abi.map(row => ({...row, kind: 'next-native-caller-ABI-refresh', sourceBefore: describe(source.span(row.address, row.length)), nextNativeBefore: describe(next.span(row.address, row.length)), sourceChangedBytes: changedCount(source.span(row.address, row.length), next.span(row.address, row.length))}));
   const ledger = {patchEncoding: 'relative-runs-v1', observedChangedBytes, externallyPatchedBytes, overwrittenSourceDivergenceBytes, externalSourceChangedBytes, externalPatchRuns, abiChangedRuns, patchRanges, samples, abiRefreshes, abiRefreshedBytes: abi.reduce((sum, row) => sum + row.length, 0)};
+  if (sourceContinuation) ledger.sourceContinuation = sourceContinuation;
   applyNativeFrameSequenceTransition(ledger, {nativeAfter: previous, nextNativeBefore: next, source});
   return ledger;
+}
+
+function excludeOwnedRegions(footprint, owned) {
+  const result = [], sorted = [...owned].sort((a, b) => a.address - b.address);
+  for (const row of footprint) {
+    let cursor = row.address;
+    const end = row.address + row.length;
+    for (const protectedRow of sorted) {
+      if (protectedRow.address + protectedRow.length <= cursor || protectedRow.address >= end) continue;
+      if (protectedRow.address > cursor) result.push({address: cursor, length: protectedRow.address - cursor});
+      cursor = Math.max(cursor, protectedRow.address + protectedRow.length);
+    }
+    if (cursor < end) result.push({address: cursor, length: end - cursor});
+  }
+  return result;
+}
+
+async function executeSourceContinuation(continuation, {source, pair, nativeAfter, next, frameIndex, first, abi}) {
+  const regions = spanRows(continuation.regionsFor({source, pair, frameIndex}), next.before, 'source continuation');
+  if (!regions.length) throw Error('Source continuation must declare all owned output regions before execution.');
+  for (const [index, row] of regions.entries()) {
+    first.span(row.address, row.length);
+    if (regions.slice(0, index).some(other => row.address < other.address + other.length && other.address < row.address + row.length)
+      || abi.some(other => row.address < other.address + other.length && other.address < row.address + row.length)) throw Error('Source continuation owned regions overlap each other or ABI inputs.');
+  }
+  const previous = regions.map(row => Buffer.from(source.span(row.address, row.length)));
+  //The producer receives carried source only. Next native input is comparison
+  //evidence, never an argument from which the producer can copy answers.
+  const execution = await continuation.execute({source, pair, frameIndex});
+  let mismatchBytes = 0, changedNativeBytes = 0, sourceChangedBytes = 0, firstDivergence = null;
+  const comparisons = regions.map((row, index) => {
+    const old = nativeAfter.span(row.address, row.length);
+    const produced = source.span(row.address, row.length), expected = next.before.span(row.address, row.length);
+    let differing = 0;
+    for (let offset = 0; offset < row.length; offset++) if (produced[offset] !== expected[offset]) {
+      differing++;
+      firstDivergence ??= {regionId: row.id, address: row.address + offset, offset, nativeByte: expected[offset], sourceByte: produced[offset]};
+    }
+    mismatchBytes += differing; changedNativeBytes += changedCount(old, expected); sourceChangedBytes += changedCount(previous[index], produced);
+    return {...row, sourceBeforeSha256: digest(previous[index]), sourceProducedSha256: digest(produced), nextNativeBeforeSha256: digest(expected), mismatchBytes: differing};
+  });
+  return {id: continuation.id, matched: mismatchBytes === 0, comparedBytes: regions.reduce((sum, row) => sum + row.length, 0), changedNativeBytes, sourceChangedBytes, mismatchBytes, firstDivergence, execution, regions: comparisons,
+    policy: 'All declared outputs, including unchanged bytes, are source-produced and excluded from external and ABI patches.'};
 }
 
 function coverageObservation(first, image, policy) {
@@ -199,8 +263,9 @@ function coverageObservation(first, image, policy) {
     resolvedRoots: image.named.filter(row => row.requestedResolvedRoot !== undefined).map(row => ({id: row.id, requestedResolvedRoot: row.requestedResolvedRoot, changedFromInitial: row.requestedResolvedRoot !== first.named.find(initial => initial.id === row.id)?.requestedResolvedRoot}))};
 }
 
-export async function replayNativeFrameSequence(pairs, {replayFrame = replayNativeFrame, frameOptions = {}, semanticRegions, abiInputRegions, counterRegions, maxPatchSpanBytes = 256, coveragePolicy = 'strict'} = {}) {
+export async function replayNativeFrameSequence(pairs, {replayFrame = replayNativeFrame, frameOptions = {}, semanticRegions, abiInputRegions, counterRegions, maxPatchSpanBytes = 256, coveragePolicy = 'strict', sourceContinuation} = {}) {
   if (!Array.isArray(pairs) || !pairs.length || typeof replayFrame !== 'function' || !['strict', 'initial-observation'].includes(coveragePolicy) || !Number.isInteger(maxPatchSpanBytes) || maxPatchSpanBytes < 1 || maxPatchSpanBytes > 65536) throw Error('Invalid native sequence replay options.');
+  if (sourceContinuation !== undefined && (!sourceContinuation || typeof sourceContinuation.id !== 'string' || !sourceContinuation.id || typeof sourceContinuation.regionsFor !== 'function' || typeof sourceContinuation.execute !== 'function')) throw Error('Source continuation requires an explicit identified producer and owned-region declaration.');
   const captures = pairs.map(pair => ({pair, before: imageOf(pair.before), after: imageOf(pair.after)}));
   const first = captures[0].before, base = snapshotBase(first.snapshot), observations = [];
   for (const {before, after} of captures) for (const image of [before, after]) {
@@ -236,12 +301,22 @@ export async function replayNativeFrameSequence(pairs, {replayFrame = replayNati
       const abi = spanRows(typeof abiInputRegions === 'function' ? abiInputRegions({frameIndex: index + 1, pair: next.pair, previousReplay: replay}) : abiInputRegions ?? replay.manifest?.requiredRegions?.filter(row => row.comparison === 'abi-input') ?? [], next.before, 'ABI');
       for (let i = 0; i < abi.length; i++) if (abi.slice(0, i).some(row => abi[i].address < row.address + row.length && row.address < abi[i].address + abi[i].length)) throw Error('Sequence ABI refresh regions overlap.');
       for (const row of abi) first.span(row.address, row.length);
-      transitions.push({fromFrameIndex: index, toFrameIndex: index + 1, ...transition(after, next.before, source, abi, maxPatchSpanBytes, first.union), nativeAfterCounters: readCounters(after), nextNativeBeforeCounters: readCounters(next.before), carriedSourceNextCounters: readCounters(source)});
+      const produced = sourceContinuation ? await executeSourceContinuation(sourceContinuation, {source, pair, nativeAfter: after, next, frameIndex: index, first, abi}) : undefined;
+      const patchFootprint = produced ? excludeOwnedRegions(first.union, produced.regions) : first.union;
+      transitions.push({fromFrameIndex: index, toFrameIndex: index + 1, ...transition(after, next.before, source, abi, maxPatchSpanBytes, patchFootprint, produced), nativeAfterCounters: readCounters(after), nextNativeBeforeCounters: readCounters(next.before), carriedSourceNextCounters: readCounters(source)});
     }
   }
   const report = {schemaVersion: 2, method: 'carried-source-physics-with-observed-external-producers', patchEncoding: 'relative-runs-v1', patchTuple: '[relativeOffset,byteLength]; separate externalRuns/abiRuns; hashes cover the entire containing range; patch values require retained native snapshots', matched: cases.every(row => row.matched), frames: cases.length, moduleBaseAddress: base, coveragePolicy, coverage: first.named, observations, capturedUnionBytes: first.mappedBytes,
     comparedBytes: cases.reduce((sum, row) => sum + row.comparedBytes, 0), externallyPatchedBytes: transitions.reduce((sum, row) => sum + row.externallyPatchedBytes, 0), abiRefreshedBytes: transitions.reduce((sum, row) => sum + row.abiRefreshedBytes, 0), cases, transitions,
     firstDivergence: cases.find(row => !row.matched) ?? null,
     limits: ['Source physics output is carried; only observed native after-to-next-before byte changes and declared caller ABI refreshes are supplied.', 'External patches may include native post-physics, AI, input, rendering or service producers; their individual authorship is not established by byte differences.', 'Next entry registers are native caller inputs. Stack refresh regions are explicit and are reported separately from semantic equality.', 'Bindings and aliases are rebuilt from carried source bytes each frame; module/thread/root descriptors and the full initial observation footprint remain stable. Under strict policy region metadata and resolved roots also remain identical.', 'The initial-observation policy admits no surplus bytes. Its fixed footprint is an observation window, not a logical-allocation capacity or entire-process-heap claim; newly reached memory outside it fails.', 'Resolved pointer roots may be mutable free-list heads; every observed value is reported rather than treated as a fixed allocation base.', 'Exact declared semantic spans and native returns are compared each frame, before any external overwrite. This does not establish a closed reconstructed game or wall-clock cadence.']};
+  if (sourceContinuation) {
+    report.schemaVersion = 3;
+    report.method = 'carried-source-physics-with-selected-source-continuation-and-observed-external-producers';
+    report.sourceContinuation = {id: sourceContinuation.id, matched: transitions.every(row => row.sourceContinuation.matched), comparedBytes: transitions.reduce((sum, row) => sum + row.sourceContinuation.comparedBytes, 0), changedNativeBytes: transitions.reduce((sum, row) => sum + row.sourceContinuation.changedNativeBytes, 0)};
+    report.matched &&= report.sourceContinuation.matched;
+    report.firstDivergence ??= transitions.find(row => !row.sourceContinuation.matched)?.sourceContinuation ?? null;
+    report.limits.unshift('The explicit selected source producer runs before any external patch. Every owned byte is checked against the next entry and protected from patching; other native producers remain supplied inputs.');
+  }
   return {report, finalReplay};
 }

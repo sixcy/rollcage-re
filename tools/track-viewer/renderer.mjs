@@ -1,5 +1,6 @@
 import { pathColor } from './path-color.mjs';
 import { carDisplayMatrix } from './solo-presentation.mjs';
+import { buildRacingTerrainGroups } from './racing-terrain.mjs';
 
 const identity = new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
 
@@ -15,14 +16,14 @@ export class Renderer {
       return object;
     };
     const program = this.program = gl.createProgram();
-    const vertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;uniform mat4 mvp;uniform mat4 model;varying vec2 vUV;varying vec3 vNormal;void main(){gl_Position=mvp*model*vec4(position,1.0);vUV=uv;vNormal=mat3(model)*normal;}');
-    const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;uniform sampler2D image;uniform bool textured;uniform bool lit;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*light,color.a);}');
+    const vertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;attribute vec3 color;uniform mat4 mvp;uniform mat4 model;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;void main(){gl_Position=mvp*model*vec4(position,1.0);vUV=uv;vNormal=mat3(model)*normal;vColor=color;}');
+    const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;uniform sampler2D image;uniform bool textured;uniform bool lit;uniform bool colored;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*(colored?vColor:vec3(1.0))*light,color.a);}');
     gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
     gl.deleteShader(vertex); gl.deleteShader(fragment);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
     gl.useProgram(program);
-    this.attributes = Object.fromEntries(['position', 'uv', 'normal'].map(key => [key, gl.getAttribLocation(program, key)]));
-    this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit'].map(key => [key, gl.getUniformLocation(program, key)]));
+    this.attributes = Object.fromEntries(['position', 'uv', 'normal', 'color'].map(key => [key, gl.getAttribLocation(program, key)]));
+    this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit', 'colored'].map(key => [key, gl.getUniformLocation(program, key)]));
     const pathProgram = this.pathProgram = gl.createProgram();
     const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;void main(){gl_Position=mvp*vec4(position,1.0);gl_PointSize=pointSize;}');
     const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;void main(){gl_FragColor=vec4(color,1.0);}');
@@ -32,10 +33,12 @@ export class Renderer {
     this.pathPosition = gl.getAttribLocation(pathProgram, 'position');
     this.pathUniforms = Object.fromEntries(['mvp', 'color', 'pointSize'].map(key => [key, gl.getUniformLocation(pathProgram, key)]));
     this.groups = []; this.pathGroups = []; this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
-    this.textures = new Map(); this.smooth = false;
+    this.textures = new Map(); this.textureSizes = new Map(); this.smooth = false;
     this.carGroups = []; this.carTextures = new Map(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
     this.worldGroups = []; this.worldTextures = new Map(); this.worldPlacements = new Set();
     this.worldDraws = {groups: 0, objects: 0};
+    this.terrainTemplates = new Map(); this.terrainGroups = new Map(); this.terrainState = null;
+    this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
     gl.uniform1i(this.uniforms.image, 0);
   }
@@ -44,15 +47,17 @@ export class Renderer {
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
-    this.groups = []; this.pathGroups = []; this.textures.clear();
+    this.groups = []; this.pathGroups = []; this.textures.clear(); this.textureSizes.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
   }
   clearCar() {
-    for (const group of [...this.carGroups, ...this.worldGroups]) this.gl.deleteBuffer(group.buffer);
+    for (const group of [...this.carGroups, ...this.worldGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
     for (const texture of [...this.carTextures.values(), ...this.worldTextures.values()]) this.gl.deleteTexture(texture);
     this.carGroups = []; this.carTextures.clear(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
     this.worldGroups = []; this.worldTextures.clear(); this.worldPlacements.clear();
     this.worldDraws = {groups: 0, objects: 0};
+    this.terrainGroups.clear(); this.terrainTemplates.clear(); this.terrainState = null;
+    this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
   }
   uploadRuntimeMeshes(assets, groups, textures, {carIndex} = {}) {
     const gl = this.gl;
@@ -85,6 +90,7 @@ export class Renderer {
         this.uploadRuntimeMeshes(assets.worldObjects, this.worldGroups, this.worldTextures);
         this.worldPlacements = new Set(assets.worldObjects.placementIndices);
       }
+      this.terrainTemplates = new Map((assets.terrain?.segments ?? []).map(segment => [segment.index, segment]));
       this.setFilters(this.smooth);
       if (gl.getError() !== gl.NO_ERROR) throw Error('The GPU could not load the racing cars.');
     } catch (error) {this.clearCar(); throw error;}
@@ -108,6 +114,7 @@ export class Renderer {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(group.positions.flat()), gl.STATIC_DRAW);
       }
       for (const [page, image] of scene.textures) {
+        this.textureSizes.set(page, {width: image.width, height: image.height});
         const texture = gl.createTexture(); this.textures.set(page, texture);
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, image.width, image.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, image.rgba);
@@ -127,6 +134,22 @@ export class Renderer {
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
     }
   }
+  updateTerrain(state) {
+    if (!state || state === this.terrainState) return;
+    const gl = this.gl;
+    for (const segment of state.segments) {
+      const template = this.terrainTemplates.get(segment.index);
+      if (!template) throw Error('Racing terrain snapshot has no authored mesh template.');
+      for (const group of buildRacingTerrainGroups(template, segment, state.palette, this.textureSizes)) {
+        const key = `${group.segment}:${group.page}`, previous = this.terrainGroups.get(key);
+        const buffer = previous?.buffer ?? gl.createBuffer();
+        this.terrainGroups.set(key, {...group, kind: 'terrain', colored: true, buffer});
+        gl.bindBuffer(gl.ARRAY_BUFFER, buffer); gl.bufferData(gl.ARRAY_BUFFER, group.data, gl.DYNAMIC_DRAW);
+        this.terrainDraws.uploads++;
+      }
+    }
+    this.terrainState = state;
+  }
   render(navigation, options) {
     const gl = this.gl, canvas = this.canvas, ratio = Math.min(devicePixelRatio || 1, 2);
     const width = Math.max(1, Math.round(canvas.clientWidth * ratio)), height = Math.max(1, Math.round(canvas.clientHeight * ratio));
@@ -137,16 +160,29 @@ export class Renderer {
     gl.uniformMatrix4fv(this.uniforms.mvp, false, matrix);
     gl.uniformMatrix4fv(this.uniforms.model, false, identity);
     gl.uniform1i(this.uniforms.textured, options.textures); gl.uniform1i(this.uniforms.lit, options.lighting);
-    for (const group of this.groups) {
+    this.updateTerrain(options.car?.terrain);
+    const animated = options.car?.terrain ? new Set(this.terrainState.segments.map(row => row.index)) : new Set();
+    const sceneGroups = [...this.groups.filter(group => group.kind !== 'terrain' || !animated.has(group.segment)), ...(animated.size ? this.terrainGroups.values() : [])];
+    this.terrainDraws.segments = 0; this.terrainDraws.groups = 0;
+    const terrainSegments = new Set();
+    for (const group of sceneGroups) {
       if (group.kind === 'object') {
         if (!options.objects || options.car?.brokenPlacements?.includes(group.instance) || (options.car?.worldObjects && this.worldPlacements.has(group.instance))) continue;
       } else if (options.sector !== -1 && group.segment !== options.sector) continue;
       gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
+      const stride = group.colored ? 44 : 32;
       for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
-        gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
+        gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, stride, offset);
       }
+      gl.uniform1i(this.uniforms.colored, Boolean(group.colored));
+      if (group.colored) {
+        gl.enableVertexAttribArray(this.attributes.color); gl.vertexAttribPointer(this.attributes.color, 3, gl.FLOAT, false, stride, 32);
+        this.terrainDraws.groups++; terrainSegments.add(group.segment);
+      } else gl.disableVertexAttribArray(this.attributes.color);
       gl.bindTexture(gl.TEXTURE_2D, this.textures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
     }
+    this.terrainDraws.segments = terrainSegments.size;
+    gl.uniform1i(this.uniforms.colored, false); gl.disableVertexAttribArray(this.attributes.color);
     // Runtime meshes replace their authored static placements. The immutable
     // snapshot supplies native visibility and pose; object toggles still apply.
     const drawnWorldObjects = new Set();

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "authority": "read-only-host-environment-and-independent-native-probe",
+  "nativeProbe": "analysis/native-mouse-device-probe-20261023.json",
+  "nativeCreateDevice": {
+    "hresultHex": "0x80040154",
+    "errorName": "DIERR_DEVICENOTREG",
+    "outputPointer": 0,
+    "registryInterventionsDuringCall": 0
+  },
+  "hostProbe": {
+    "sessionId": 12,
+    "activeConsoleSessionId": 12,
+    "remoteSessionMetric": 0,
+    "mousePresentMetric": 0,
+    "mouseButtonCount": 0,
+    "windowStation": "WinSta0",
+    "desktop": "Default",
+    "method": "Owned PowerShell process SessionId; Win32 WTSGetActiveConsoleSessionId,GetSystemMetrics(SM_REMOTESESSION,SM_MOUSEPRESENT,SM_CMOUSEBUTTONS),GetProcessWindowStation,GetThreadDesktop,GetUserObjectInformation(UOI_NAME)."
+  },
+  "sourceIntegrity": "analysis/physics-native-mouse-probe-source-after-20261023.json",
+  "reference": "https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ee416869(v=vs.85)",
+  "limits": [
+    "This observation does not prove why this host session has no mouse device or recover the missing failedv6 registers.",
+    "No driver/registry/device/input service was modified or replaced. Native physics/audio capture is not bypassed with a fabricated mouse."
+  ]
+}

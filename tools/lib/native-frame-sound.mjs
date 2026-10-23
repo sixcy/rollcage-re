@@ -67,8 +67,10 @@ export function nativeFrameActiveSoundCaptureRanges({maxRegionBytes = 64 * 1024 
   return ranges;
 }
 
-export function createNativeFrameSoundBindings({memory, moduleBaseAddress, numericalContext, dispatchPopulated40ea40, nativeTls} = {}) {
+export function createNativeFrameSoundBindings({memory, moduleBaseAddress, numericalContext, dispatchPopulated40ea40, nativeTls,
+  selectAdaptiveSoundChannelOnStack, playSelectedNativeSoundOnStack} = {}) {
   if (numericalContext?.x87?.precisionBits !== 24 || numericalContext.x87.roundingMode !== 'nearest-even' || numericalContext.sse?.roundingMode !== 'nearest-even' || numericalContext.sse.flushToZero || numericalContext.sse.denormalsAreZero || numericalContext.x87.exceptionMask !== 63 || numericalContext.sse.exceptionMask !== 63) throw Error('Native frame sound requires explicit captured PC24/nearest-even masked numerical context.');
+  for (const handler of [selectAdaptiveSoundChannelOnStack, playSelectedNativeSoundOnStack]) if (handler !== undefined && typeof handler !== 'function') throw Error('Native sound continuations must be explicit game-source functions.');
   const comparisonRegions = [], seen = new Set();
   function admit(address, length, label, comparison = 'read-only') {
     assertNativeMemorySpan(memory, address, length);
@@ -81,7 +83,7 @@ export function createNativeFrameSoundBindings({memory, moduleBaseAddress, numer
   //pointer bytes unchanged is essential: descendants retain native addresses.
   admit(0x6f2414, 8, 'bank-roots');
   const populated = dispatchPopulated40ea40 ?? (nativeTls ? dispatchPopulatedNativeSoundOnStack : undefined);
-  const soundRuntime = {memory, moduleBaseAddress, numericalContext, nativeTls,
+  const soundRuntime = {memory, moduleBaseAddress, numericalContext, nativeTls, selectAdaptiveSoundChannelOnStack, playSelectedNativeSoundOnStack,
     ...(populated ? {dispatchPopulated40ea40(request, runtime) {
       admit(runtime.soundAddress, 0x490, 'owner', 'mutable');
       admit(0x5e8890, 4, 'cookie');

@@ -1,0 +1,37 @@
+✔ all three readers produce textured model-local scenes with original winding and source metadata (14.0674ms)
+✔ Rollcage keeps distinct placement material variants and inventories unsupported special-only models (0.7072ms)
+✔ collections reject wrong pairs, invalid faces/material pages and foreign entry identity (1.226ms)
+✔ bundled browser catalog, geometry and decoded textures match Node for all three games (75.9639ms)
+✔ selected object ZIP keeps OBJ UV/material bindings, PNG RGBA alpha and exact provenance (4.6517ms)
+✔ selected archive serialization is deterministic and metadata snapshots exclude mesh/texture buffers (1.6875ms)
+✔ export rejects missing textures, unsupported geometry, unsafe page identities and lossy metadata (1.2042ms)
+✔ PNG encoding failures propagate without mutating the selection and can be retried (1.9106ms)
+✔ installed rollcage selected-object ZIP matches decoded model/material/texture bytes (56.4844ms)
+ℹ rollcage: resource30, model0, placement-uv-106, 42 triangles, 2 PNGs, 32824 ZIP bytes.
+ℹ rollcage: resource30, model39, embedded-vehicle-body, 109 triangles, 1 PNGs, 33967 ZIP bytes.
+ℹ rollcage: resource30, model38, embedded-vehicle-wheel, 48 triangles, 2 PNGs, 25303 ZIP bytes.
+ℹ rollcage: resource30, model40, embedded-vehicle-linked, 9 triangles, 2 PNGs, 28318 ZIP bytes.
+✔ installed stage2 selected-object ZIP matches decoded model/material/texture bytes (28.3728ms)
+ℹ stage2: resource80, model5, ordinary-primary, 168 triangles, 2 PNGs, 36531 ZIP bytes.
+✔ installed Firebugs selected-object ZIP matches decoded local PS1 material and RGBA texture bytes (767.3524ms)
+ℹ firebugs: resource14, model0, ordinary-primary, 70 triangles, 2 PNGs, 64009 ZIP bytes.
+✔ standalone object page matches current browser sources and links to the other local tools (14.8622ms)
+✔ the object renderer/archive/catalog/export bundle parses as standalone JavaScript (11.4763ms)
+✔ browser bytes preserve unsigned/signed reads, offsets, copies and renderer base64 (1.0564ms)
+✔ browser archive slices only the requested resource and follows nearest linked copies (0.9179ms)
+✔ browser archive validates bounds, links, truncation, allocation and decoded lengths (0.5474ms)
+✔ browser GT20 path preserves overlapping copies and validates index decoded size (0.5026ms)
+✔ track catalog includes only the forty PC BLP track pairs (0.1482ms)
+✔ switching navigation modes preserves eye and direction after panning and flight (0.447ms)
+✔ navigation is frame-time based, normalizes diagonals and clamps pitch/zoom/speed (0.2366ms)
+✔ generated standalone page matches current sources and embeds no scene payload (74.7753ms)
+✔ track ZIP round-trips text, binary PNG bytes and Unicode names with standard CRCs (1.0851ms)
+✔ track ZIP refuses unsafe or duplicate paths (0.1913ms)
+ℹ tests 23
+ℹ suites 0
+ℹ pass 23
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 931.329

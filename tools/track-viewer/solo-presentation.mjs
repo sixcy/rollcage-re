@@ -68,7 +68,12 @@ export function interpolateRacingPresentation(before, after, amount) {
     const previous = before.worldObjects?.[index];
     return previous?.placementIndex === object.placementIndex && previous.visible === object.visible ? blendPose(previous, object, alpha) : object;
   });
-  return {...after, ...first, ...(cars ? {cars} : {}), ...(worldObjects ? {worldObjects} : {})};
+  const terrain = after.terrain && {...after.terrain, segments: after.terrain.segments.map(segment => {
+    const previous = before.terrain?.segments.find(row => row.index === segment.index);
+    if (!previous || previous.vertices.length !== segment.vertices.length) return segment;
+    return {...segment, vertices: segment.vertices.map((vertex, index) => vertex.map((value, axis) => axis < 3 ? mix(previous.vertices[index][axis], value, alpha) : value))};
+  })};
+  return {...after, ...first, ...(cars ? {cars} : {}), ...(worldObjects ? {worldObjects} : {}), ...(terrain ? {terrain} : {})};
 }
 
 export function formatPracticeTime(seconds) {

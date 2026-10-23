@@ -1,6 +1,7 @@
 import {createHash} from 'node:crypto';
 import {readFile, realpath} from 'node:fs/promises';
 import path from 'node:path';
+import {collectNativeThreadRecords} from './native-thread-observations.mjs';
 
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const integer = (value, name) => {if (!Number.isSafeInteger(value) || value < 0) throw Error(`Invalid ${name}.`); return value;};
@@ -40,7 +41,12 @@ export async function loadPhysicsCapture(directory, {expectedSha256} = {}) {
     snapshots.push({...row, context: await blob(row.contextFile, row.contextSha256, 716), ranges});
   }
   if (!snapshots.length || complete[0].snapshots !== snapshots.length) throw Error('Capture snapshot count differs or no state was observed.');
-  return {header, complete: complete[0], snapshots, interventions: records.filter(row => /intervention$/.test(row.type) || row.type === 'service-memory-write')};
+  const activationTypes = new Set(['breakpoint-installation-deferred', 'breakpoint-installed', 'breakpoint-activated', 'observation-activation-complete', 'intervention']);
+  const observationActivationRecords = records.flatMap((row, index) => activationTypes.has(row.type)
+    ? [{...row, traceRecordOrdinal: index + 1}]
+    : row.type === 'snapshot' ? [{type: row.type, breakpointId: row.breakpointId, hit: row.hit, ordinal: row.ordinal, tid: row.tid, observedDebugEventOrdinal: row.observedDebugEventOrdinal, traceRecordOrdinal: index + 1}] : []);
+  return {header, complete: complete[0], snapshots, interventions: records.filter(row => /intervention$/.test(row.type) || row.type === 'service-memory-write'), observationActivationRecords,
+    nativeThreadRecords: collectNativeThreadRecords(records)};
 }
 
 function value(snapshot, field) {

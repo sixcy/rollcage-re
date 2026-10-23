@@ -54,7 +54,7 @@ test('installed recovery requests use the next real postframe, coalesce and matc
       const initial = session.snapshot;
       assertDiagnostics(initial); assertDiagnostics(browser.snapshot);
       assert.deepEqual(initial.physics, {collisionEvents: 0, terrainHits: 0, modelHits: 0,
-        recoveryPending: false, wheelContacts: [false, false, false, false]});
+        recoveryPending: false, driveQ16: 0x60000, baseDriveQ16: 0x60000, wheelContacts: [false, false, false, false]});
       for (let tick = 0; tick < 50; tick++) {session.step(); browser.step();}
       const before = session.snapshot;
       assert.equal(before.recoveries, 0);

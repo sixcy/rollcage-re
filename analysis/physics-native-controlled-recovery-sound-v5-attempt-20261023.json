@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "authority": "failed-original-process-observation",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-sound-v5-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "matched": false,
+  "completeParentObserved": false,
+  "reason": "A legitimately rewound owned breakpoint re-trapped while a different thread had reached its next stepping interval; the first deferral remained outstanding and the debugger failed closed.",
+  "error": {
+    "type": "capture-error",
+    "error": "System.IO.InvalidDataException: Repeated deferred owned breakpoint before its actual replay.\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+    "events": 13397,
+    "snapshots": 11,
+    "pendingFrame": null,
+    "elapsedMs": 39449
+  },
+  "precedingEvents": [
+    {
+      "type": "owned-breakpoint-deferred",
+      "pid": 24320,
+      "tid": 748,
+      "breakpointId": "native-recovery-after",
+      "address": "0x0075d02d",
+      "pendingThread": 6024,
+      "pendingBreakpointId": "recovery-sound-mixer-enter-return",
+      "pendingAddress": "0x00787a05",
+      "pendingSite": false,
+      "breakpointArmed": true,
+      "actualByteHex": "cc",
+      "originalByteHex": "c3",
+      "ownedSuspendIncrementsRetained": 1,
+      "registersBefore": {
+        "edi": "0x00bea548",
+        "esi": "0x00b29a60",
+        "ebx": "0x00000006",
+        "edx": "0x00000000",
+        "ecx": "0xa1db468f",
+        "eax": "0x00bea548",
+        "ebp": "0x00000000",
+        "eip": "0x0075d02e",
+        "cs": "0x00000023",
+        "eflags": "0x00200202",
+        "esp": "0x0113fc54",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00002061",
+        "mxcsr": "0x00001fa5"
+      },
+      "registersAfter": {
+        "edi": "0x00bea548",
+        "esi": "0x00b29a60",
+        "ebx": "0x00000006",
+        "edx": "0x00000000",
+        "ecx": "0xa1db468f",
+        "eax": "0x00bea548",
+        "ebp": "0x00000000",
+        "eip": "0x0075d02d",
+        "cs": "0x00000023",
+        "eflags": "0x00200202",
+        "esp": "0x0113fc54",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x00002061",
+        "mxcsr": "0x00001fa5"
+      },
+      "rewindEip": "0x0075d02d",
+      "rawHitBefore": 7,
+      "matchingHitBefore": 0,
+      "captureHitBefore": 0,
+      "snapshotCountBefore": 11,
+      "observedDebugEventOrdinal": 13394,
+      "originalInstructionExecuted": false,
+      "counterMutation": false,
+      "policy": "Keep our peer suspension and existing code byte; finish the pending original instruction, rearm its site, then resume so this thread re-traps normally.",
+      "elapsedMs": 39448
+    },
+    {
+      "type": "debug-event",
+      "event": 1,
+      "pid": 24320,
+      "tid": 6024,
+      "ordinal": 13395,
+      "elapsedMs": 39449
+    },
+    {
+      "type": "exception",
+      "code": "0x4000001e",
+      "address": "0x770441f0",
+      "nativeAddress": "0x00000000770441f0",
+      "firstChance": 1,
+      "elapsedMs": 39449
+    },
+    {
+      "type": "debug-event",
+      "event": 1,
+      "pid": 24320,
+      "tid": 6024,
+      "ordinal": 13396,
+      "elapsedMs": 39449
+    },
+    {
+      "type": "exception",
+      "code": "0x4000001f",
+      "address": "0x00787a0b",
+      "nativeAddress": "0x0000000000787a0b",
+      "firstChance": 1,
+      "elapsedMs": 39449
+    },
+    {
+      "type": "observation-skipped",
+      "breakpointId": "recovery-sound-mixer-thread-return",
+      "rawHit": 454,
+      "tid": 6024,
+      "predicateAddress": "0x00b29fdc",
+      "actualPredicateBytesHex": "01000000",
+      "expectedPredicateBytesHex": "04000000",
+      "reason": "predicate-not-equal",
+      "elapsedMs": 39449
+    },
+    {
+      "type": "debug-event",
+      "event": 1,
+      "pid": 24320,
+      "tid": 748,
+      "ordinal": 13397,
+      "elapsedMs": 39449
+    },
+    {
+      "type": "exception",
+      "code": "0x4000001f",
+      "address": "0x0075d02d",
+      "nativeAddress": "0x000000000075d02d",
+      "firstChance": 1,
+      "elapsedMs": 39449
+    }
+  ],
+  "snapshotCount": 11,
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 24320,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 39496
+  },
+  "limits": [
+    "The published11 observations are startup/caller state; no complete recovery/audio constructor pair or parent was retained.",
+    "The next helper fix must preserve and close the complete deferral chain without duplicating observations/actions.",
+    "The prior successful recovery leaves, sound allocation lineage and viewer comparisons remain intact."
+  ]
+}

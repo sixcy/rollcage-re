@@ -37,3 +37,22 @@ test('only equal overlapping snapshots merge; gaps, ambiguous aliases and byte o
   assert.throws(() => createCapturedMemory([{address: 0xffffffff, bytes: Buffer.alloc(2)}]), /Invalid/);
   assert.throws(() => memory.readUIntLE(100, 7), /width/);
 });
+
+test('an observed empty vector preserves its header without inventing readable null storage', () => {
+  const header = {address: 0x1000, bytes: Buffer.alloc(12)};
+  const empty = {address: 0, length: 0, bytes: Buffer.alloc(0), rangeMode: 'vector-storage', vectorHeaderAddress: 0x1000,
+    vectorHeaderHex: '000000000000000000000000', vectorBegin: 0, vectorEnd: 0, vectorCapacity: 0, maxVectorBytes: 65536};
+  const {memory, mappedBytes} = createCapturedMemory([header, empty]);
+  assert.equal(mappedBytes, 12); assert.equal(memory.readUInt32LE(0x1000), 0);
+  assert.throws(() => memory.readUInt32LE(0), /Uncaptured/);
+  assert.throws(() => createCapturedMemory([header, {...empty, rangeMode: undefined}]), /Invalid empty/);
+  assert.throws(() => createCapturedMemory([header, {...empty, vectorCapacity: 4}]), /Invalid empty/);
+  assert.throws(() => createCapturedMemory([empty]), /actual matching header/);
+  const changed = {address: 0x1000, bytes: Buffer.from(header.bytes)}; changed.bytes[0] = 1;
+  assert.throws(() => createCapturedMemory([changed, empty]), /actual matching header/);
+  const nonnull = {...empty, address: 0x2000, vectorBegin: 0x2000, vectorEnd: 0x2000, vectorCapacity: 0x2000, vectorHeaderHex: '002000000020000000200000'};
+  const actualHeader = {address: 0x1000, bytes: Buffer.from(nonnull.vectorHeaderHex, 'hex')};
+  const observed = createCapturedMemory([actualHeader, nonnull]);
+  assert.equal(observed.mappedBytes, 12);
+  assert.throws(() => observed.memory.readUInt32LE(0x2000), /Uncaptured/);
+});

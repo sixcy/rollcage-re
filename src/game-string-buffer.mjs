@@ -1,12 +1,14 @@
 import {assignGameStringSubstring} from './game-audio-strings.mjs';
+import {nativeCodeAddress} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const data = (m, p) => ptr(m, p + 20) >= 16 ? ptr(m, p) : p;
+const image = (runtime, address) => nativeCodeAddress(address, runtime), putImage = (runtime, address, value) => put(runtime.memory, address, image(runtime, value));
 function save(r, name, address) {if (Number.isInteger(r.entryRegisters?.[name])) put(r.memory, address, r.entryRegisters[name]);}
 function crt(r, name, args, top, returned) {
   const m = r.memory;
   for (let i = args.length - 1; i >= 0; i--) put(m, top - (args.length - i) * 4, args[i]);
-  const S = top - args.length * 4 - 4; put(m, S, returned);
+  const S = top - args.length * 4 - 4; putImage(r, S, returned);
   if (typeof r.services?.libraryCall !== 'function') throw Error(`Game string buffer requires CRT ${name}.`);
   return r.services.libraryCall(name, args.map((_, i) => ptr(m, S + 4 + i * 4)), {...r, scratchBase: S});
 }
@@ -17,7 +19,7 @@ function crt(r, name, args, top, returned) {
 export function growGameStringBuffer(object, requested, retained, runtime) {
   const {memory: m, scratchBase: S} = runtime, F = S - 44, bp = S - 4;
   put(m, S + 4, requested); put(m, S + 8, retained); save(runtime, 'EBP', S - 4);
-  put(m, bp - 4, -1); put(m, bp - 8, 0x569b30); if (Number.isInteger(runtime.sehWord)) put(m, bp - 12, runtime.sehWord);
+  put(m, bp - 4, -1); putImage(runtime, bp - 8, 0x569b30); if (Number.isInteger(runtime.sehWord)) put(m, bp - 12, runtime.sehWord);
   for (const [name, offset] of [['EBX', 12], ['ESI', 8], ['EDI', 4]]) save(runtime, name, F + offset);
   put(m, F, get(m, 0x5e8890) ^ bp); put(m, bp - 16, F); put(m, bp - 24, object);
   requested = ptr(m, S + 4); let capacity = requested | 15;
@@ -47,13 +49,13 @@ export function assignGameCString(object, input, length, runtime) {
   const begin = data(m, object), end = (begin + ptr(m, object + 16)) >>> 0;
   if (input && begin <= input && input < end) {
     const offset = (input - data(m, object)) >>> 0; length = ptr(m, S + 8);
-    put(m, S - 12, length); put(m, S - 16, offset); put(m, S - 20, object); put(m, S - 24, ptr(m, object + 20) >= 16 ? 0x405358 : 0x40536e);
+    put(m, S - 12, length); put(m, S - 16, offset); put(m, S - 20, object); putImage(runtime, S - 24, ptr(m, object + 20) >= 16 ? 0x405358 : 0x40536e);
     return assignGameStringSubstring(object, object, offset, length, {...runtime, scratchBase: S - 24, entryRegisters: {...runtime.entryRegisters, EBX: offset, ESI: object}});
   }
   save(runtime, 'EDI', S - 12); length = ptr(m, S + 8);
-  if (length > 0xfffffffe) {crt(runtime, '_Xlength_error', [0x57026c], S - 12, 0x405388); throw Error('Nonreturning CRT length_error returned.');}
+  if (length > 0xfffffffe) {crt(runtime, '_Xlength_error', [image(runtime, 0x57026c)], S - 12, 0x405388); throw Error('Nonreturning CRT length_error returned.');}
   if (ptr(m, object + 20) < length) {
-    const retained = ptr(m, object + 16); put(m, S - 16, retained); put(m, S - 20, length); put(m, S - 24, 0x40539a);
+    const retained = ptr(m, object + 16); put(m, S - 16, retained); put(m, S - 20, length); putImage(runtime, S - 24, 0x40539a);
     growGameStringBuffer(object, length, retained, {...runtime, scratchBase: S - 24, entryRegisters: {...runtime.entryRegisters, EBX: input, ESI: object, EDI: length}});
     if (!length) return object;
   } else if (!length) {const output = data(m, object); put(m, object + 16, 0); m[output] = 0; return object;}

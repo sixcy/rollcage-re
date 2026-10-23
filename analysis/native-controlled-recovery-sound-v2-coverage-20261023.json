@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-sound-v2-20261023",
+  "lineageReport": "analysis/physics-native-controlled-recovery-sound-v2-20261023/report.json",
+  "sourceReplayComplete": false,
+  "observations": [
+    {
+      "ordinal": 233,
+      "managerAddress": 148669072,
+      "vectors": [
+        {
+          "name": "cache",
+          "address": 148667464,
+          "begin": 278089208,
+          "end": 278089464,
+          "capacity": 278089584,
+          "storageBytes": 256,
+          "storageCaptured": false
+        },
+        {
+          "name": "active",
+          "address": 148667504,
+          "begin": 290726488,
+          "end": 290726824,
+          "capacity": 290726864,
+          "storageBytes": 336,
+          "storageCaptured": false
+        },
+        {
+          "name": "vector-838",
+          "address": 148667544,
+          "begin": 282268696,
+          "end": 282268752,
+          "capacity": 282268772,
+          "storageBytes": 56,
+          "storageCaptured": false
+        },
+        {
+          "name": "pending",
+          "address": 148667584,
+          "begin": 395839576,
+          "end": 395839576,
+          "capacity": 395839628,
+          "storageBytes": 0,
+          "storageCaptured": true
+        },
+        {
+          "name": "retired",
+          "address": 148667624,
+          "begin": 0,
+          "end": 0,
+          "capacity": 0,
+          "storageBytes": 0,
+          "storageCaptured": true
+        },
+        {
+          "name": "mixer",
+          "address": 148672544,
+          "begin": 71524096,
+          "end": 71524112,
+          "capacity": 71524112,
+          "storageBytes": 16,
+          "storageCaptured": false
+        }
+      ],
+      "wrapperBytesCaptured": false,
+      "sourceBytesCaptured": false
+    },
+    {
+      "ordinal": 245,
+      "managerAddress": 148669072,
+      "vectors": [
+        {
+          "name": "cache",
+          "address": 148667464,
+          "begin": 278089208,
+          "end": 278089464,
+          "capacity": 278089584,
+          "storageBytes": 256,
+          "storageCaptured": false
+        },
+        {
+          "name": "active",
+          "address": 148667504,
+          "begin": 290726488,
+          "end": 290726828,
+          "capacity": 290726864,
+          "storageBytes": 340,
+          "storageCaptured": false
+        },
+        {
+          "name": "vector-838",
+          "address": 148667544,
+          "begin": 282268696,
+          "end": 282268752,
+          "capacity": 282268772,
+          "storageBytes": 56,
+          "storageCaptured": false
+        },
+        {
+          "name": "pending",
+          "address": 148667584,
+          "begin": 395839576,
+          "end": 395839580,
+          "capacity": 395839628,
+          "storageBytes": 4,
+          "storageCaptured": true
+        },
+        {
+          "name": "retired",
+          "address": 148667624,
+          "begin": 0,
+          "end": 0,
+          "capacity": 0,
+          "storageBytes": 0,
+          "storageCaptured": true
+        },
+        {
+          "name": "mixer",
+          "address": 148672544,
+          "begin": 71524096,
+          "end": 71524112,
+          "capacity": 71524112,
+          "storageBytes": 16,
+          "storageCaptured": false
+        }
+      ],
+      "wrapperBytesCaptured": false,
+      "sourceBytesCaptured": false
+    }
+  ],
+  "nextRequiredObservations": [
+    {
+      "breakpointId": "recovery-sound-new-wrapper-return",
+      "range": {
+        "id": "recovery-audio-wrapper-allocation",
+        "baseRegister": "eax",
+        "length": 12
+      },
+      "purpose": "Actual allocator-return memory before game construction; not final wrapper output as a seed."
+    },
+    {
+      "breakpointId": "recovery-sound-new-source-return",
+      "range": {
+        "id": "recovery-audio-source-allocation",
+        "baseRegister": "eax",
+        "length": 2472
+      },
+      "purpose": "Actual allocator-return memory before source construction."
+    },
+    {
+      "breakpointId": "recovery-sound-manager-return",
+      "range": {
+        "id": "recovery-audio-created-source",
+        "baseRegister": "eax",
+        "length": 2472
+      },
+      "purpose": "Independent original constructor output; comparison only, never preloaded as a source answer."
+    }
+  ],
+  "limits": [
+    "Allocation pointers have independent call/return proof; missing allocation bytes and external COM/file/locking dependencies remain unavailable.",
+    "Additional waveform/backend/voice/storage observations must follow their actual published pointers and account for empty vectors.",
+    "No new native process launched by this audit; all original traces and installed files preserved."
+  ]
+}

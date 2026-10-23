@@ -1,5 +1,6 @@
 import {assignViewportString} from './weather-viewport.mjs';
 import {setGameImageMasks} from './game-image-format.mjs';
+import {nativeCodeAddress} from './native-memory-spans.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 const crt = (r, name, args) => {if (typeof r.services?.libraryCall !== 'function') throw Error(`Game image requires CRT ${name}.`); return r.services.libraryCall(name, args, r);};
 const platform = (r, name, args) => {if (typeof r.services?.platformCall !== 'function') throw Error(`Game image requires platform ${name}.`); return r.services.platformCall(name, args, r);};
@@ -7,7 +8,7 @@ const stringRuntime = r => ({...r, handlers: {...r.handlers, allocate: size => c
 
 //40f060/40edc0/40ebc0 pointer-vector ownership, including append from an
 //existing element whose address must be rebased after growth.
-function precisePointerCrt(r,name,args,top,returned){const m=r.memory;args.forEach((v,i)=>put(m,top-args.length*4+i*4,v));const entry=top-args.length*4-4;put(m,entry,returned);return crt({...r,scratchBase:entry},name,args.map((_,i)=>ptr(m,entry+4+i*4)));}
+function precisePointerCrt(r,name,args,top,returned){const m=r.memory;args.forEach((v,i)=>put(m,top-args.length*4+i*4,v));const entry=top-args.length*4-4;put(m,entry,nativeCodeAddress(returned,r));return crt({...r,scratchBase:entry},name,args.map((_,i)=>ptr(m,entry+4+i*4)));}
 function reserveGameImagePointersNative(vector,count,r){const{memory:m,scratchBase:S}=r;put(m,S+4,count);for(const[n,o]of[['EBX',-4],['ESI',-8],['EDI',-12]])if(Number.isInteger(r.entryRegisters?.[n]))put(m,S+o,r.entryRegisters[n]);let output=0;if(count){if(count>0x3fffffff)throw RangeError('Native vector bad_alloc.');output=precisePointerCrt(r,'operatorNew',[(count*4)>>>0],S-12,0x40f085)>>>0;if(!output)throw Error('Native vector bad_alloc.');}const begin=ptr(m,vector),bytes=(get(m,vector+4)-begin)&~3;if(Number.isInteger(r.entryRegisters?.EBP))put(m,S-16,r.entryRegisters.EBP);precisePointerCrt(r,'memmove',[output,begin,bytes>>>0],S-16,0x40f0a8);const old=ptr(m,vector),length=(get(m,vector+4)-old)>>2;if(old)precisePointerCrt(r,'operatorDelete',[old],S-16,0x40f0c0);put(m,vector,output);put(m,vector+8,output+count*4);put(m,vector+4,output+length*4);}
 export function reserveGameImagePointers(vector, count, runtime) {
   if(runtime.nativePointerVector)return reserveGameImagePointersNative(vector,count>>>0,runtime);
@@ -16,8 +17,8 @@ export function reserveGameImagePointers(vector, count, runtime) {
   if (Number.isInteger(scratchBase)) for (const [register, offset] of [['EBX', -4], ['ESI', -8], ['EDI', -12], ['EBP', -16]]) if (runtime.entryRegisters?.[register] !== undefined) put(m, scratchBase + offset, runtime.entryRegisters[register]);
   if (count) {if (count > 0x3fffffff) throw RangeError('Native vector bad_alloc.'); output = crt(runtime, 'operatorNew', [count * 4]) >>> 0; if (!output) throw Error('Native vector bad_alloc.');}
   const old = ptr(m, vector), end = ptr(m, vector + 4);
-  if (Number.isInteger(scratchBase)) {put(m, scratchBase - 20, end - old & ~3); put(m, scratchBase - 24, old); put(m, scratchBase - 28, output); put(m, scratchBase - 32, 0x40f0a8);}
-  Buffer.from(m.subarray(old, old + (end - old & ~3))).copy(m, output); if (old) {if (Number.isInteger(scratchBase)) {put(m, scratchBase - 20, old); put(m, scratchBase - 24, 0x40f0c0);} crt(runtime, 'operatorDelete', [old]);} put(m, vector, output); put(m, vector + 8, output + count * 4); put(m, vector + 4, output + ((end - old) >> 2) * 4);
+  if (Number.isInteger(scratchBase)) {put(m, scratchBase - 20, end - old & ~3); put(m, scratchBase - 24, old); put(m, scratchBase - 28, output); put(m, scratchBase - 32, nativeCodeAddress(0x40f0a8, runtime));}
+  Buffer.from(m.subarray(old, old + (end - old & ~3))).copy(m, output); if (old) {if (Number.isInteger(scratchBase)) {put(m, scratchBase - 20, old); put(m, scratchBase - 24, nativeCodeAddress(0x40f0c0, runtime));} crt(runtime, 'operatorDelete', [old]);} put(m, vector, output); put(m, vector + 8, output + count * 4); put(m, vector + 4, output + ((end - old) >> 2) * 4);
 }
 //40edc0: raw one-element capacity wrapper, tailcalling40f060 at the same ESP.
 export function growGameImagePointerCapacity(vector, runtime) {
@@ -41,7 +42,7 @@ export function appendGameImagePointer(vector, input, runtime) {
     for (const [register, offset] of [['ESI', -4], ['EDI', -8]]) if (runtime.entryRegisters?.[register] !== undefined) put(m, scratchBase + offset, runtime.entryRegisters[register]);
   }
   let relative = null; if ((input >>> 0) < ptr(m, vector + 4) && (input >>> 0) >= ptr(m, vector)) relative = (input - ptr(m, vector)) >> 2;
-  if (ptr(m, vector + 4) === ptr(m, vector + 8)) {if(runtime.nativePointerVector){put(m,scratchBase-12,relative===null?vector:ptr(m,vector));put(m,scratchBase-16,relative===null?0x40ec0b:0x40ebe7);}const size = (get(m, vector + 4) - get(m, vector)) >> 2, capacity = (get(m, vector + 8) - get(m, vector)) >> 2, half = capacity >>> 1; if (0x3fffffff - size < 1) throw RangeError('Native vector length error.'); reserveGameImagePointers(vector, Math.max(size + 1, (0x3fffffff - half >>> 0) < (capacity >>> 0) ? 0 : capacity + half), {...runtime, scratchBase: runtime.growthScratchBase ?? runtime.scratchBase - 16, entryRegisters: runtime.growthRegisters ?? {...runtime.entryRegisters, ESI: vector, EDI: relative ?? input}});}
+  if (ptr(m, vector + 4) === ptr(m, vector + 8)) {if(runtime.nativePointerVector){put(m,scratchBase-12,relative===null?vector:ptr(m,vector));put(m,scratchBase-16,nativeCodeAddress(relative===null?0x40ec0b:0x40ebe7,runtime));}const size = (get(m, vector + 4) - get(m, vector)) >> 2, capacity = (get(m, vector + 8) - get(m, vector)) >> 2, half = capacity >>> 1; if (0x3fffffff - size < 1) throw RangeError('Native vector length error.'); reserveGameImagePointers(vector, Math.max(size + 1, (0x3fffffff - half >>> 0) < (capacity >>> 0) ? 0 : capacity + half), {...runtime, scratchBase: runtime.growthScratchBase ?? runtime.scratchBase - 16, entryRegisters: runtime.growthRegisters ?? {...runtime.entryRegisters, ESI: vector, EDI: relative ?? input}});}
   const output = ptr(m, vector + 4); if (output) put(m, output, get(m, relative === null ? input : ptr(m, vector) + relative * 4)); put(m, vector + 4, get(m, vector + 4) + 4);
 }
 

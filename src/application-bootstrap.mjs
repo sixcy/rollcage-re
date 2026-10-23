@@ -1,5 +1,7 @@
 import {appendNativeApplicationDebuggerRecord,registerNativeApplicationDebuggerName} from './application-debugger-records.mjs';
+import {nativeCodeAddress} from './native-memory-spans.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
+const image = (runtime, address) => nativeCodeAddress(address, runtime), putImage = (runtime, address, value) => put(runtime.memory, address, image(runtime, value));
 const platform = (runtime, name, args) => {if (typeof runtime.services?.platformCall !== 'function') throw Error(`Application bootstrap requires platform service ${name}.`); return runtime.services.platformCall(name, args, runtime);};
 const library = (runtime, name, ...args) => {if (typeof runtime.handlers?.[name] !== 'function') throw Error(`Application bootstrap requires CRT service ${name}.`); return runtime.handlers[name](...args, runtime);};
 const allocate = (runtime, size) => {const result = library(runtime, 'allocate', size) >>> 0; if (!result) throw Error('Native application allocation failed.'); return result;};
@@ -31,29 +33,29 @@ export function appendApplicationDebuggerRecord(vector, record, runtime) {
 export function constructApplicationDebugger(runtime) {
   const {memory: m} = runtime;
   const native = runtime.nativeDebuggerFrame, S = runtime.scratchBase;
-  if (native) {put(m, S - 4, 4096); put(m, S - 8, 0x715b34);}
-  put(m, 0x715b30, 0x5d38b0); put(m, 0x715b4c, 0); put(m, 0x715b50, 0); if (native) {put(m, S - 12, 0x4a0ebe); platform({...runtime, scratchBase: S - 12}, 'InitializeCriticalSectionAndSpinCount', [0x715b34, 4096]);} else platform(runtime, 'InitializeCriticalSectionAndSpinCount', [0x715b34, 4096]);
-  Buffer.from(m.subarray(0x5dcbd0, 0x5dcbe0)).copy(m, 0x716b64); m.writeUInt16LE(1, 0x715b54);
-  put(m, 0x715b30, 0x5d38f0); if (native) {put(m, S - 4, 4096); put(m, S - 8, 0x716be8);} put(m, 0x715b58, -1); put(m, 0x716b5c, 0); put(m, 0x716b60, -1);
-  m.fill(0, 0x716b74, 0x716b84); put(m, 0x716b94, 0); m.fill(0, 0x716b84, 0x716b94); put(m, 0x716b98, 0);
+  if (native) {put(m, S - 4, 4096); putImage(runtime, S - 8, 0x715b34);}
+  putImage(runtime, 0x715b30, 0x5d38b0); put(m, 0x715b4c, 0); put(m, 0x715b50, 0); if (native) {putImage(runtime, S - 12, 0x4a0ebe); platform({...runtime, scratchBase: S - 12}, 'InitializeCriticalSectionAndSpinCount', [image(runtime, 0x715b34), 4096]);} else platform(runtime, 'InitializeCriticalSectionAndSpinCount', [image(runtime, 0x715b34), 4096]);
+  Buffer.from(m.subarray(0x5dcbd0, 0x5dcbe0)).copy(m.subarray(0x716b64, 0x716b74)); m.writeUInt16LE(1, 0x715b54);
+  putImage(runtime, 0x715b30, 0x5d38f0); if (native) {put(m, S - 4, 4096); putImage(runtime, S - 8, 0x716be8);} put(m, 0x715b58, -1); put(m, 0x716b5c, 0); put(m, 0x716b60, -1);
+  m.subarray(0x716b74, 0x716b84).fill(0); put(m, 0x716b94, 0); m.subarray(0x716b84, 0x716b94).fill(0); put(m, 0x716b98, 0);
   for (const address of [0x716b9c, 0x716ba0, 0x716ba4]) put(m, address, 1);
   for (const address of [0x716ba8, 0x716bac, 0x716bb0, 0x716bb4, 0x716bb8, 0x716bbc]) put(m, address, 0);
   put(m, 0x716bc0, 0x3d4ccccd); put(m, 0x716bc4, -1); m[0x716bc8] = 0;
   for (const address of [0x716bcc, 0x716bd0, 0x716c00, 0x716c04]) put(m, address, 0);
-  if (native) {put(m, S - 12, 0x4a0fd3); platform({...runtime, scratchBase: S - 12}, 'InitializeCriticalSectionAndSpinCount', [0x716be8, 4096]);} else platform(runtime, 'InitializeCriticalSectionAndSpinCount', [0x716be8, 4096]);
+  if (native) {putImage(runtime, S - 12, 0x4a0fd3); platform({...runtime, scratchBase: S - 12}, 'InitializeCriticalSectionAndSpinCount', [image(runtime, 0x716be8), 4096]);} else platform(runtime, 'InitializeCriticalSectionAndSpinCount', [image(runtime, 0x716be8), 4096]);
   if (m[0x715b55] === 1) throw Error('Native application debugger breakpoint.');
-  return 0x715b30;
+  return image(runtime, 0x715b30);
 }
 
 //4a0e80→4a2290. Platform lock services may change the singleton while held.
 export function getApplicationDebugger(runtime) {
   if (runtime.nativeDebuggerFrame) return getNativeApplicationDebugger(runtime);
   const {memory: m} = runtime;
-  if (!(get(m, 0x715b08) & 1)) {put(m, 0x715b08, get(m, 0x715b08) | 1); put(m, 0x715b24, 0); put(m, 0x715b28, 0); platform(runtime, 'InitializeCriticalSectionAndSpinCount', [0x715b0c, 4096]); library(runtime, 'registerExit', 0x56d9e0);}
+  if (!(get(m, 0x715b08) & 1)) {put(m, 0x715b08, get(m, 0x715b08) | 1); put(m, 0x715b24, 0); put(m, 0x715b28, 0); platform(runtime, 'InitializeCriticalSectionAndSpinCount', [image(runtime, 0x715b0c), 4096]); library(runtime, 'registerExit', image(runtime, 0x56d9e0));}
   if (!ptr(m, 0x714afc)) {
-    platform(runtime, 'EnterCriticalSection', [0x715b0c]); put(m, 0x715b28, platform(runtime, 'GetCurrentThreadId', [])); put(m, 0x715b24, get(m, 0x715b24) + 1);
-    if (!ptr(m, 0x714afc)) {if (!(get(m, 0x715b08) & 2)) {put(m, 0x715b08, get(m, 0x715b08) | 2); constructApplicationDebugger(runtime); library(runtime, 'registerExit', 0x56d9d0);} put(m, 0x714afc, 0x715b30);}
-    put(m, 0x715b24, get(m, 0x715b24) - 1); if (!get(m, 0x715b24)) put(m, 0x715b28, 0); platform(runtime, 'LeaveCriticalSection', [0x715b0c]);
+    platform(runtime, 'EnterCriticalSection', [image(runtime, 0x715b0c)]); put(m, 0x715b28, platform(runtime, 'GetCurrentThreadId', [])); put(m, 0x715b24, get(m, 0x715b24) + 1);
+    if (!ptr(m, 0x714afc)) {if (!(get(m, 0x715b08) & 2)) {put(m, 0x715b08, get(m, 0x715b08) | 2); constructApplicationDebugger(runtime); library(runtime, 'registerExit', image(runtime, 0x56d9d0));} putImage(runtime, 0x714afc, 0x715b30);}
+    put(m, 0x715b24, get(m, 0x715b24) - 1); if (!get(m, 0x715b24)) put(m, 0x715b28, 0); platform(runtime, 'LeaveCriticalSection', [image(runtime, 0x715b0c)]);
   }
   return ptr(m, 0x714afc);
 }
@@ -65,35 +67,35 @@ function getNativeApplicationDebugger(runtime) {
   if (!Number.isInteger(S) || !Number.isInteger(runtime.entryRegisters?.ECX)) throw Error('Native debugger frame requires entry ESP and ECX.');
   if (runtime.nativeDebuggerFrame === 'wrapper') {
     if (Number.isInteger(runtime.entryRegisters.EBP)) put(m, S - 4, runtime.entryRegisters.EBP);
-    S = ((S - 4) & ~7) - 4; put(m, S, 0x4a0e8b);
+    S = ((S - 4) & ~7) - 4; putImage(runtime, S, 0x4a0e8b);
   }
   const F = S - 4; put(m, F, runtime.entryRegisters.ECX);
   const invoke = (name, args, ret, crt = false) => {
-    args.forEach((v, i) => put(m, F - 4 * args.length + i * 4, v)); const entry = F - 4 * args.length - 4; put(m, entry, ret);
+    args.forEach((v, i) => put(m, F - 4 * args.length + i * 4, v)); const entry = F - 4 * args.length - 4; putImage(runtime, entry, ret);
     const context = {...runtime, scratchBase: entry};
     return crt ? library(context, name, ...args) : platform(context, name, args);
   };
   let guard = get(m, 0x715b08);
   if (!(guard & 1)) {
-    put(m, F - 4, 4096); put(m, 0x715b24, 0); put(m, F - 8, 0x715b0c); put(m, 0x715b08, guard | 1); put(m, 0x715b28, 0);
-    put(m, F - 12, 0x4a22c6); platform({...runtime, scratchBase: F - 12}, 'InitializeCriticalSectionAndSpinCount', [0x715b0c, 4096]);
-    invoke('registerExit', [0x56d9e0], 0x4a22d0, true);
+    put(m, F - 4, 4096); put(m, 0x715b24, 0); putImage(runtime, F - 8, 0x715b0c); put(m, 0x715b08, guard | 1); put(m, 0x715b28, 0);
+    putImage(runtime, F - 12, 0x4a22c6); platform({...runtime, scratchBase: F - 12}, 'InitializeCriticalSectionAndSpinCount', [image(runtime, 0x715b0c), 4096]);
+    invoke('registerExit', [image(runtime, 0x56d9e0)], 0x4a22d0, true);
   }
   if (!ptr(m, 0x714afc)) {
-    invoke('EnterCriticalSection', [0x715b0c], 0x4a22eb); const thread = invoke('GetCurrentThreadId', [], 0x4a22f1), depth = get(m, 0x715b24) + 1 | 0;
+    invoke('EnterCriticalSection', [image(runtime, 0x715b0c)], 0x4a22eb); const thread = invoke('GetCurrentThreadId', [], 0x4a22f1), depth = get(m, 0x715b24) + 1 | 0;
     put(m, 0x715b28, thread); const current = ptr(m, 0x714afc); put(m, 0x715b24, depth);
     let owner = thread, count = depth;
     if (!current) {
       guard = get(m, 0x715b08);
       if (!(guard & 2)) {
-        put(m, 0x715b08, guard | 2); put(m, F - 4, 0x4a2326);
-        constructApplicationDebugger({...runtime, scratchBase: F - 4}); invoke('registerExit', [0x56d9d0], 0x4a2330, true);
+        put(m, 0x715b08, guard | 2); putImage(runtime, F - 4, 0x4a2326);
+        constructApplicationDebugger({...runtime, scratchBase: F - 4}); invoke('registerExit', [image(runtime, 0x56d9d0)], 0x4a2330, true);
         owner = get(m, 0x715b28); count = get(m, 0x715b24);
       }
-      put(m, 0x714afc, 0x715b30);
+      putImage(runtime, 0x714afc, 0x715b30);
     }
-    count = count - 1 | 0; put(m, 0x715b24, count); put(m, F - 4, 0x715b0c); put(m, 0x715b28, count ? owner : 0); put(m, F - 8, 0x4a2367);
-    platform({...runtime, scratchBase: F - 8}, 'LeaveCriticalSection', [0x715b0c]);
+    count = count - 1 | 0; put(m, 0x715b24, count); putImage(runtime, F - 4, 0x715b0c); put(m, 0x715b28, count ? owner : 0); putImage(runtime, F - 8, 0x4a2367);
+    platform({...runtime, scratchBase: F - 8}, 'LeaveCriticalSection', [image(runtime, 0x715b0c)]);
   }
   return ptr(m, 0x714afc);
 }
