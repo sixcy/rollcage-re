@@ -2,6 +2,8 @@ import {createHash} from 'node:crypto';
 import {readFile, realpath} from 'node:fs/promises';
 import path from 'node:path';
 import {collectNativeThreadRecords} from './native-thread-observations.mjs';
+import {collectOwnedWorkerObservationRecords} from './native-recovery-worker-observation.mjs';
+import {validateCapturedGuardedPointerRanges} from './captured-guarded-pointer-ranges.mjs';
 
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
 const integer = (value, name) => {if (!Number.isSafeInteger(value) || value < 0) throw Error(`Invalid ${name}.`); return value;};
@@ -38,6 +40,7 @@ export async function loadPhysicsCapture(directory, {expectedSha256} = {}) {
       if (typeof range.id !== 'string' || ranges.has(range.id)) throw Error('Capture range identities must be unique per snapshot.');
       ranges.set(range.id, {...range, bytes: await blob(range.file, range.sha256, range.length)});
     }
+    validateCapturedGuardedPointerRanges([...ranges.values()]);
     snapshots.push({...row, context: await blob(row.contextFile, row.contextSha256, 716), ranges});
   }
   if (!snapshots.length || complete[0].snapshots !== snapshots.length) throw Error('Capture snapshot count differs or no state was observed.');
@@ -46,7 +49,7 @@ export async function loadPhysicsCapture(directory, {expectedSha256} = {}) {
     ? [{...row, traceRecordOrdinal: index + 1}]
     : row.type === 'snapshot' ? [{type: row.type, breakpointId: row.breakpointId, hit: row.hit, ordinal: row.ordinal, tid: row.tid, observedDebugEventOrdinal: row.observedDebugEventOrdinal, traceRecordOrdinal: index + 1}] : []);
   return {header, complete: complete[0], snapshots, interventions: records.filter(row => /intervention$/.test(row.type) || row.type === 'service-memory-write'), observationActivationRecords,
-    nativeThreadRecords: collectNativeThreadRecords(records)};
+    nativeThreadRecords: collectNativeThreadRecords(records), ownedWorkerObservationRecords: collectOwnedWorkerObservationRecords(records)};
 }
 
 function value(snapshot, field) {

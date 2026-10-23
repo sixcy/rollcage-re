@@ -1,9 +1,10 @@
 import {lookupRawSpatialBucket} from './body-retirement-effects.mjs';
 import {publishAnimationMatrix} from './vehicle-auxiliary-animation.mjs';
+import {copyToNativeMemory} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const short = (m, p) => m.readInt16LE(p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
-const block = (m, destination, source, size) => Buffer.from(m.subarray(source, source + size)).copy(m, destination);
+const block = (m, destination, source, size) => copyToNativeMemory(m,destination,Buffer.from(m.subarray(source,source+size)));
 export function advanceWeatherRandom(memory) {const value = Math.imul(get(memory, 0x5ed2bc), 0x41a7) & 0x7fffffff; put(memory, 0x5ed2bc, value); return value;}
 
 //496ff0. Bounds are signed shorts; reads stay live across aliased outputs.
@@ -55,8 +56,8 @@ export function buildWeatherParticipantPose(record, output, runtime) {
 export function restoreWeatherBodyPose(body, {memory: m}) {
   block(m, body + 0x34, 0x7136c4, 8); const z = get(m, 0x7136cc);
   block(m, body + 0x68, 0x713770, 8); const rotation = Buffer.from(m.subarray(0x713750, 0x713760));
-  put(m, body + 0x3c, z); const vz = get(m, 0x713778); rotation.copy(m, body + 0xc4); put(m, body + 0x70, vz);
-  const tail = Buffer.from(m.subarray(0x713760, 0x713770)), closest = get(m, 0x7135b8); put(m, body + 0x11c, closest); tail.copy(m, body + 0xd4);
+  put(m, body + 0x3c, z); const vz = get(m, 0x713778); copyToNativeMemory(m,body+0xc4,rotation); put(m, body + 0x70, vz);
+  const tail = Buffer.from(m.subarray(0x713760, 0x713770)), closest = get(m, 0x7135b8); put(m, body + 0x11c, closest); copyToNativeMemory(m,body+0xd4,tail);
 }
 
 //496830. The backup is shared across all rows and restored by the outer caller.
@@ -66,7 +67,7 @@ export function swapWeatherBodyPose(row, index, restore, runtime) {
   if (restore) {restoreWeatherBodyPose(body, runtime); return;}
   block(m, 0x7136c4, body + 0x34, 8); put(m, 0x7136cc, get(m, body + 0x3c));
   const velocityZ = get(m, body + 0x70); put(m, 0x713778, velocityZ); const closest = get(m, body + 0x11c);
-  block(m, 0x713770, body + 0x68, 8); const rotation = Buffer.from(m.subarray(body + 0xc4, body + 0xd4)); put(m, 0x7135b8, closest); rotation.copy(m, 0x713750); block(m, 0x713760, body + 0xd4, 16);
+  block(m, 0x713770, body + 0x68, 8); const rotation = Buffer.from(m.subarray(body + 0xc4, body + 0xd4)); put(m, 0x7135b8, closest); copyToNativeMemory(m,0x713750,rotation); block(m, 0x713760, body + 0xd4, 16);
   let pose = index === (count - 1 | 0) ? 0x91ffc0 : 0x91ffc0 + Math.imul(index, 0x184);
   if (index === (count - 2 | 0)) {buildWeatherParticipantPose(0x909300 + Math.imul(get(m, 0x5ec120), 0x30c), 0x80de00, {...runtime, scratchBase: scratchBase - 20}); pose = 0x80de00;}
   block(m, body + 0x34, pose, 8); put(m, body + 0x3c, get(m, pose + 8)); block(m, body + 0x68, pose + 0x34, 8); put(m, body + 0x70, get(m, pose + 0x3c));

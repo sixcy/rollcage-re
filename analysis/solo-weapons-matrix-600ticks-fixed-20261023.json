@@ -1,0 +1,6415 @@
+{
+  "method": "Installed source consistency matrix: six Expert AI cars, weapons enabled, naturally authored pickup collection and native-source launch policy. All36LOW/HIGH racing variants, excluding16/17; no synthetic grants, recovery requests, repositioning or original process execution.",
+  "limits": [
+    "This proves bounded source robustness, not original-process combat or full physics fidelity.",
+    "Snapshot activation/collection counts are observed state transitions; events wholly within a tick may be missed.",
+    "Projectile state16 entries are retirement observations, not an independently instrumented detonation count.",
+    "Browser parity is tested separately."
+  ],
+  "ticks": 600,
+  "tracks": 36,
+  "options": {
+    "vehicleTypes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "aiDifficulty": 2,
+    "weaponsEnabled": true
+  },
+  "initialBundleHash": "9e6f304a2afc4590f0f17044480a2d18ee6c1844b68bdd4e1f6a24afed793a84",
+  "finalBundleHash": "9e6f304a2afc4590f0f17044480a2d18ee6c1844b68bdd4e1f6a24afed793a84",
+  "sourceFilesStable": true,
+  "matched": true,
+  "totals": {
+    "passed": 36,
+    "failed": 0,
+    "completedTicks": 21600,
+    "observedPickupCollections": 91,
+    "inventoryAcquisitions": 115,
+    "observedProjectileActivations": 44,
+    "observedRetirementStateEntries": 27,
+    "projectileCollisionEvents": 0
+  },
+  "cases": [
+    {
+      "track": "LOW/LEV1.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 5,
+        "inventoryAcquisitions": 5,
+        "observedProjectileActivations": 5,
+        "observedRetirementStateEntries": 5,
+        "peakVisibleProjectiles": 4,
+        "peakNonzeroProjectileStates": 5,
+        "collisionEvents": 680,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 593,
+        "modelHits": 7,
+        "activationsByKind": {
+          "0": 1,
+          "1": 1,
+          "2": 3
+        },
+        "retirementEntriesByKind": {
+          "0": 1,
+          "1": 1,
+          "2": 3
+        }
+      },
+      "first": {
+        "pickupCollection": 343,
+        "inventoryAcquisition": 343,
+        "projectileActivation": 400,
+        "retirementState": 497
+      },
+      "stateHistogram": {
+        "1:0": 2381,
+        "2:0": 10581,
+        "0:0": 1043,
+        "0:1": 10,
+        "0:2": 1,
+        "0:128": 65,
+        "0:256": 13,
+        "0:64": 8,
+        "0:16": 60,
+        "2:1": 30,
+        "1:1": 10,
+        "2:2": 99,
+        "1:2": 2,
+        "1:16": 7,
+        "2:16": 90
+      },
+      "sourceHash": "405fc2c8262a3040c444e00594ba22459232da53b19b13e1c92b5da956e70502",
+      "textureHash": "225f08e8e03700090b3841304befbc337cdb07315b8f2dc0770a965686b06732",
+      "initial": {
+        "pickupCount": 13,
+        "poolBodyCount": 47,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "b7918d051fb045bb961e7f99bf99c4ff11bcfdf5e9a7c16774446a3f26ff9ad3",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -501.5566101074219,
+              -30.023681640625,
+              -6612.997802734375
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1540.3943176269531,
+              -9.5032958984375,
+              -3439.9308013916016
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3121.3890380859375,
+              -10.029739379882812,
+              -5316.757247924805
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1529.9966735839844,
+              -9.994140625,
+              -6285.353271484375
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              2
+            ],
+            "position": [
+              -2470.4529418945312,
+              -10.08001708984375,
+              -5905.729156494141
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -713.4526062011719,
+              -19.608367919921875,
+              -6564.989501953125
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV2.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 1,
+        "observedRetirementStateEntries": 1,
+        "peakVisibleProjectiles": 1,
+        "peakNonzeroProjectileStates": 1,
+        "collisionEvents": 864,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 771,
+        "modelHits": 2,
+        "activationsByKind": {
+          "1": 1
+        },
+        "retirementEntriesByKind": {
+          "1": 1
+        }
+      },
+      "first": {
+        "pickupCollection": 353,
+        "inventoryAcquisition": 353,
+        "projectileActivation": 442,
+        "retirementState": 465
+      },
+      "stateHistogram": {
+        "1:0": 2361,
+        "2:0": 10800,
+        "0:0": 1200,
+        "1:1": 10,
+        "1:2": 13,
+        "1:16": 16
+      },
+      "sourceHash": "1df48596b7cd5838ad0182504f24311191a6bf7db2c0ca859078a7f8921d5b60",
+      "textureHash": "f6c7d79c72c3933a7897e6f2cefcc47c4a3b03bccf8c20aa476a0f3c27689685",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "04aa5031e3f4b9114fb303502359f626be2d5ddefd182932073656697e2018bb",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              2513.08447265625,
+              -804.1098022460938,
+              11427.458068847656
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              2520.328567504883,
+              -764.1736755371094,
+              10816.807403564453
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              6
+            ],
+            "position": [
+              -256.141845703125,
+              -989.5010070800781,
+              13506.817977905273
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -55.02482604980469,
+              -921.8642883300781,
+              13408.829025268555
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              249.6953582763672,
+              -917.8698883056641,
+              13370.999099731445
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1146.376953125,
+              -874.7223205566406,
+              11688.59701538086
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV3.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 6,
+        "observedRetirementStateEntries": 6,
+        "peakVisibleProjectiles": 3,
+        "peakNonzeroProjectileStates": 3,
+        "collisionEvents": 586,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 335,
+        "modelHits": 1,
+        "activationsByKind": {
+          "2": 6
+        },
+        "retirementEntriesByKind": {
+          "2": 6
+        }
+      },
+      "first": {
+        "pickupCollection": 82,
+        "inventoryAcquisition": 82,
+        "projectileActivation": 442,
+        "retirementState": 494
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10422,
+        "0:0": 1200,
+        "2:1": 60,
+        "2:2": 174,
+        "2:16": 144
+      },
+      "sourceHash": "155ea173ca968fd85686215b093d95711bffb7bc25059aed4dd45f5e7e9db833",
+      "textureHash": "6caf179db4edcfea4fe4c988e407e07e4865ad645f9904245ad9ac742fe21f36",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "a32253dc8a1d8902e675414a449dd28f95e488b91ebcfc6b45f0578b2a0bd7b7",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1805.2063751220703,
+              -51.56901550292969,
+              7020.138122558594
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1274.826675415039,
+              -30.074600219726562,
+              3835.33642578125
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              1219.4841003417969,
+              -30.105087280273438,
+              3740.0614471435547
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              10.909530639648438,
+              -37.40007019042969,
+              4495.246398925781
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1187.782974243164,
+              -30.103073120117188,
+              3873.486343383789
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -87.25997924804688,
+              -34.67265319824219,
+              4536.6397705078125
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV4.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 1,
+        "inventoryAcquisitions": 1,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 2064,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 1510,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 572,
+        "inventoryAcquisition": 572
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "6bbf8b8faa7f0c9e4a421584c57f7c27590793e5391cf33971f54e8e4385ff0f",
+      "textureHash": "555b1690106a2a824c6f73fda94635a0f516745b0a215aa7f7f81dd23ddf9a7e",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "10f7f3f2a9abfefce1a9afe76500b861062cf49ab7598d0f705825fea01aed76",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              1
+            ],
+            "position": [
+              3458.8594360351562,
+              -9.938552856445312,
+              -4315.229385375977
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4177.587554931641,
+              -10.845932006835938,
+              -1295.4595642089844
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3853.5927124023438,
+              -10.01556396484375,
+              -2564.9688873291016
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4033.763916015625,
+              -268.71278381347656,
+              469.66688537597656
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3889.2108459472656,
+              -10.0091552734375,
+              -2806.836196899414
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3951.6458435058594,
+              -10.013687133789062,
+              -2275.347625732422
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV5.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 0,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 930,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 596,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {},
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "69a768a58d0f34ad0a51655ac389738dc374b936e7335f8334584b61088753d3",
+      "textureHash": "cf6f08a5ceb23576671b258cdc7d20018dc9858cb0c711070bde6a8148b70d18",
+      "initial": {
+        "pickupCount": 7,
+        "poolBodyCount": 39,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "b1492fb399eac292f953f30ffbfd0465366c2c1af0f08727d464dc0fd1af6917",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4930.285705566406,
+              195.52662658691406,
+              623.5584411621094
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5285.091781616211,
+              231.06480407714844,
+              549.6966247558594
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4272.015228271484,
+              131.2604217529297,
+              777.8573150634766
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3892.6070861816406,
+              92.39910888671875,
+              835.6950225830078
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3638.1868438720703,
+              68.88162231445312,
+              832.3346557617188
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3669.2811126708984,
+              70.27153015136719,
+              891.6578216552734
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV6.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 4,
+        "inventoryAcquisitions": 4,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 828,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 845,
+        "modelHits": 6,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 109,
+        "inventoryAcquisition": 109
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "d9d2b812aaacb4a6c4a14eccf2f24de4e6f4b5204edc78ee34f0e7500f86b8a5",
+      "textureHash": "cc20c2c7a311e1093690ef30bd3f0f03bcf56358facdc182678fc501ed1644b1",
+      "initial": {
+        "pickupCount": 14,
+        "poolBodyCount": 48,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "153ffb5e44e596ad01068accd73d5661acc0fc529826d2430b859bd391894572",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              0,
+              71
+            ],
+            "position": [
+              -5097.333648681641,
+              -539.0113220214844,
+              -3476.5851440429688
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              255
+            ],
+            "position": [
+              -7070.566345214844,
+              -526.5777435302734,
+              4.9059295654296875
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -6150.9346923828125,
+              -684.8067474365234,
+              -2409.827682495117
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -6998.763610839844,
+              -543.7610931396484,
+              -700.2140045166016
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -5711.868499755859,
+              -850.7234802246094,
+              -197.75897216796875
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -6589.679946899414,
+              -692.1298828125,
+              -1824.3318786621094
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV7.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 947,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 692,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 576,
+        "inventoryAcquisition": 576
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "de81314399fed418a7305a5dba47510643f6cf243de90fe20c91490f5a88952a",
+      "textureHash": "d1e21e85f488914915e3e32fc80a179cde2fc8e0804bb760e5f61c2ee888b297",
+      "initial": {
+        "pickupCount": 7,
+        "poolBodyCount": 39,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "5804facd37680d7efb79258c9df2cb227944f11239df11a9209a7b09590471db",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              2
+            ],
+            "position": [
+              -3779.6692657470703,
+              21.749954223632812,
+              1099.813705444336
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4693.602600097656,
+              68.583740234375,
+              2317.5301055908203
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4359.734817504883,
+              65.86965942382812,
+              1955.6466674804688
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -5031.258346557617,
+              72.70405578613281,
+              2657.9427337646484
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -3937.645462036133,
+              44.60833740234375,
+              1337.2911987304688
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4583.500015258789,
+              68.02275085449219,
+              2080.184356689453
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV8.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 3,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 3,
+        "peakNonzeroProjectileStates": 3,
+        "collisionEvents": 732,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 535,
+        "modelHits": 11,
+        "activationsByKind": {
+          "2": 3
+        },
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 464,
+        "inventoryAcquisition": 464,
+        "projectileActivation": 587
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10758,
+        "0:0": 1200,
+        "2:1": 30,
+        "2:2": 12
+      },
+      "sourceHash": "363e1bc3d476d682543de5a96257fc6fef19d71e598e4752c12616904eb6aabe",
+      "textureHash": "976b4cdc8fb74bdab1eebac1c27eb0fa0bc3b72aec857dd1f967c6399dd12238",
+      "initial": {
+        "pickupCount": 14,
+        "poolBodyCount": 48,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "31f087f72cd32f6eed1cab78cfa81022a88b494f774174209b75cf8ae93bb692",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              2
+            ],
+            "position": [
+              3450.8221893310547,
+              -66.01760864257812,
+              -6500.754852294922
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1455.9558563232422,
+              479.25010681152344,
+              -6232.848968505859
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              2671.7373962402344,
+              183.32315063476562,
+              -6598.922546386719
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1990.7525329589844,
+              435.8064270019531,
+              -6221.4718017578125
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1901.8618621826172,
+              448.5731506347656,
+              -6191.772064208984
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1721.5100708007812,
+              474.9234161376953,
+              -6127.041915893555
+            ]
+          }
+        ],
+        "activeProjectiles": [
+          {
+            "index": 4,
+            "projectileKind": 2,
+            "state": 2
+          },
+          {
+            "index": 5,
+            "projectileKind": 2,
+            "state": 2
+          },
+          {
+            "index": 6,
+            "projectileKind": 2,
+            "state": 2
+          }
+        ],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV9.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 1534,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 611,
+        "modelHits": 13,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 300,
+        "inventoryAcquisition": 300
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "2fe6765b40359ec74574535a2087d5db058292420b6e6ad0721f647e68aec9c0",
+      "textureHash": "b08a1b5dc23007fee030264bc624c2591bedf6d02487a2e9f10badb7acb6dc07",
+      "initial": {
+        "pickupCount": 7,
+        "poolBodyCount": 39,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "881439367b5306f5bf1289d43b3d3b6ea318a78a8baea48fb448a27910d5c840",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              7
+            ],
+            "position": [
+              -2581.980667114258,
+              29.749435424804688,
+              7193.408508300781
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1709.22607421875,
+              136.86436462402344,
+              10065.165954589844
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -989.4096069335938,
+              -12.117645263671875,
+              8671.147445678711
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1818.7326965332031,
+              146.78973388671875,
+              10096.387466430664
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1554.0142974853516,
+              104.54795837402344,
+              9762.006072998047
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1715.0936279296875,
+              145.4094696044922,
+              10143.230407714844
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV10.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 0,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 778,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 536,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {},
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "7d1cfdee2b6eb90f878fbb0d0c19970a8bba9af8bd4e4b3e39cccbf02196e4c9",
+      "textureHash": "647f9064c2b30f62c459406a8875660ddafe97e576c8cc7f9d8c210b2b206245",
+      "initial": {
+        "pickupCount": 10,
+        "poolBodyCount": 43,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "febec61807307a866c1affa9fd77afda660854cf74d6e811355850f27999584a",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4148.245208740234,
+              -519.6107788085938,
+              -2209.075973510742
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              6271.75227355957,
+              -1223.2139282226562,
+              -509.938720703125
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4889.057434082031,
+              -769.41064453125,
+              -1658.5499267578125
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5010.9969482421875,
+              -785.8511505126953,
+              -1498.2180633544922
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5379.0677490234375,
+              -935.2343597412109,
+              -1210.7235260009766
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5696.497161865234,
+              -1028.3772888183594,
+              -978.1825866699219
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV11.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 0,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 758,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 620,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {},
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "72242fddbaf831ee69b5a002964cbdd159f049adad4a619b90a62464da6fcd4b",
+      "textureHash": "364a34e60c635710305be6dcd724a0e94112d5f9f549641df930583472efe7c0",
+      "initial": {
+        "pickupCount": 4,
+        "poolBodyCount": 36,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "669e5150eaf342011d18fd2640dde684cd2649562aae11f96426fd9d78c86b79",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4848.126815795898,
+              -910.5715637207031,
+              7148.136901855469
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4895.538024902344,
+              -796.0207366943359,
+              7614.649322509766
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4941.274612426758,
+              -776.5219421386719,
+              7557.84001159668
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3297.859893798828,
+              -394.3229522705078,
+              6724.595367431641
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4649.9423828125,
+              -754.0867309570312,
+              7697.182052612305
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4213.419891357422,
+              -751.5160827636719,
+              7862.218856811523
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV12.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 0,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 642,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 531,
+        "modelHits": 3,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {},
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "4a9926ae2a97214aae1b3c12c93aa010ffa05b4c03cd2c7d61f71d9adc11d991",
+      "textureHash": "c68c9d309150f5704764f574912500094d2c588ace4b5fe3629a29ebfed405b2",
+      "initial": {
+        "pickupCount": 10,
+        "poolBodyCount": 43,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "b6eca31c75c43eeec56b9d9821ddc8ad0a6b7defda9921adb4958bef8d47808e",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3232.5076599121094,
+              -670.1103363037109,
+              -8493.526260375977
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3348.10986328125,
+              -670.0898742675781,
+              -8525.161544799805
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3668.981887817383,
+              -670.0840606689453,
+              -8335.560668945312
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3876.996795654297,
+              -670.0467834472656,
+              -8368.66879272461
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4592.0057373046875,
+              -670.0830230712891,
+              -7919.692733764648
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4047.1026306152344,
+              -670.0495910644531,
+              -8284.197784423828
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV13.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 259,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 262,
+        "modelHits": 4,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 343,
+        "inventoryAcquisition": 343
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "7c875f745ed85c9fd6a00ca80d084157ce582522e060f7879a10b3c85913a0ad",
+      "textureHash": "2b0e6b291d1966b012ef667bda17a9a3ba51ae2c11da21e0878425d52a03042c",
+      "initial": {
+        "pickupCount": 9,
+        "poolBodyCount": 42,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "3720708870cb5e6d3bbd2d94fd94861284edbe235b65ec4c7b76d8ff23a60263",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -2672.6145629882812,
+              -370.50685119628906,
+              10537.6201171875
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -422.0601348876953,
+              -204.01234436035156,
+              10691.811447143555
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -3063.558822631836,
+              -282.3671417236328,
+              10849.18977355957
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              6
+            ],
+            "position": [
+              -144.36570739746094,
+              -204.112548828125,
+              10546.30647277832
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4993.733444213867,
+              -440.539306640625,
+              7230.241668701172
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -2001.323989868164,
+              -205.04672241210938,
+              11359.64973449707
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV14.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 3,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 3,
+        "peakNonzeroProjectileStates": 3,
+        "collisionEvents": 695,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 655,
+        "modelHits": 3,
+        "activationsByKind": {
+          "2": 3
+        },
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 339,
+        "inventoryAcquisition": 339,
+        "projectileActivation": 509
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10797,
+        "0:0": 1200,
+        "2:1": 3
+      },
+      "sourceHash": "fd8e1f4ff3ee5eee6a04ebe9f3cbc2723035cf77617c4e4a749037691dc75e7f",
+      "textureHash": "2cf917b35b3daa61ef31acb589002af94450271a2d203a92b4e813728be8926d",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "18d35831559d9d18afd920e41b62f6becfc5656a030037a66d21e0b4ccf9eb72",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              99.45143127441406,
+              -391.1892395019531,
+              6468.354217529297
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -896.3204193115234,
+              161.0910186767578,
+              10046.532440185547
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              113.74070739746094,
+              -392.1497039794922,
+              6380.573791503906
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              185.92335510253906,
+              -393.00775146484375,
+              5211.585525512695
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5.2445068359375,
+              -393.6580505371094,
+              5954.172439575195
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -17.891036987304688,
+              -365.7015686035156,
+              8133.303359985352
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV15.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 12,
+        "observedProjectileActivations": 2,
+        "observedRetirementStateEntries": 1,
+        "peakVisibleProjectiles": 2,
+        "peakNonzeroProjectileStates": 2,
+        "collisionEvents": 1449,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 2594,
+        "modelHits": 0,
+        "activationsByKind": {
+          "0": 1,
+          "1": 1
+        },
+        "retirementEntriesByKind": {
+          "1": 1
+        }
+      },
+      "first": {
+        "inventoryAcquisition": 401,
+        "projectileActivation": 502,
+        "retirementState": 551
+      },
+      "stateHistogram": {
+        "1:0": 2369,
+        "2:0": 10800,
+        "0:0": 1101,
+        "0:1": 10,
+        "0:2": 89,
+        "1:1": 10,
+        "1:2": 9,
+        "1:16": 12
+      },
+      "sourceHash": "578fdb365e98777b021715033dda0f27950c0cc383274c1228e0ac3f4a0a975a",
+      "textureHash": "dc87510f60b7857156093f2026980c996bf749dc4b5dd7501beca6246b6ed127",
+      "initial": {
+        "pickupCount": 0,
+        "poolBodyCount": 31,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "f71f7383863ba85b98da55290c918bf7ca1091628c8e8817ab96b5f8d79ccd66",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1426.1838989257812,
+              -1117.8009643554688,
+              4557.062042236328
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              255
+            ],
+            "position": [
+              -1473.9476013183594,
+              -1116.2978057861328,
+              5313.754501342773
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              1,
+              255
+            ],
+            "position": [
+              -284.6735382080078,
+              -1117.9612731933594,
+              1851.435562133789
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -1333.2475891113281,
+              -1118.7372436523438,
+              3636.8414306640625
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              4
+            ],
+            "position": [
+              -1008.1009674072266,
+              -1118.873794555664,
+              2578.063919067383
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              0
+            ],
+            "position": [
+              -1439.4395904541016,
+              -1118.1158752441406,
+              5395.742248535156
+            ]
+          }
+        ],
+        "activeProjectiles": [
+          {
+            "index": 22,
+            "projectileKind": 0,
+            "state": 2
+          }
+        ],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV18.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 9,
+        "inventoryAcquisitions": 9,
+        "observedProjectileActivations": 1,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 1,
+        "peakNonzeroProjectileStates": 1,
+        "collisionEvents": 968,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 810,
+        "modelHits": 0,
+        "activationsByKind": {
+          "0": 1
+        },
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 108,
+        "inventoryAcquisition": 108,
+        "projectileActivation": 351
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 950,
+        "0:1": 10,
+        "0:2": 134,
+        "0:128": 106
+      },
+      "sourceHash": "ec8d9baf0d0ef9a463dc62fa4f4b9c39b8ab11a9dc39a8f0eef8ecb971160011",
+      "textureHash": "832d22c30e6ce55a9247291e359d5bfbfa796e6df053a585ec80383ba1c57c2d",
+      "initial": {
+        "pickupCount": 14,
+        "poolBodyCount": 48,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "a1396ca94d75765eb37a1271d7b0f18ade50d9b846fed0dd6ffe9ae6811d440d",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 2,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              2454.2081451416016,
+              -10.052169799804688,
+              -485.57081604003906
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 1,
+            "recoveries": 5,
+            "inventory": [
+              0,
+              2
+            ],
+            "position": [
+              1867.3635711669922,
+              -10.087112426757812,
+              -42.097747802734375
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 1,
+            "recoveries": 3,
+            "inventory": [
+              7,
+              2
+            ],
+            "position": [
+              652.7328948974609,
+              -10.016647338867188,
+              -2504.5460052490234
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 1,
+            "recoveries": 3,
+            "inventory": [
+              1,
+              255
+            ],
+            "position": [
+              -167.18328857421875,
+              -10.015533447265625,
+              -1505.1960144042969
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 2,
+            "recoveries": 2,
+            "inventory": [
+              2,
+              4
+            ],
+            "position": [
+              -5.8830718994140625,
+              -10.004226684570312,
+              -998.8865356445312
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 4,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -273.5428009033203,
+              -18.649185180664062,
+              -1632.453628540039
+            ]
+          }
+        ],
+        "activeProjectiles": [
+          {
+            "index": 22,
+            "projectileKind": 0,
+            "state": 128
+          }
+        ],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV19.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 6,
+        "inventoryAcquisitions": 6,
+        "observedProjectileActivations": 1,
+        "observedRetirementStateEntries": 1,
+        "peakVisibleProjectiles": 1,
+        "peakNonzeroProjectileStates": 1,
+        "collisionEvents": 623,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 299,
+        "modelHits": 0,
+        "activationsByKind": {
+          "1": 1
+        },
+        "retirementEntriesByKind": {
+          "1": 1
+        }
+      },
+      "first": {
+        "pickupCollection": 265,
+        "inventoryAcquisition": 265,
+        "projectileActivation": 526,
+        "retirementState": 556
+      },
+      "stateHistogram": {
+        "1:0": 2345,
+        "2:0": 10800,
+        "0:0": 1200,
+        "1:1": 10,
+        "1:2": 19,
+        "1:32": 1,
+        "1:16": 25
+      },
+      "sourceHash": "5a75f9998550cfd5627d2c698df24767ff3cc0af879fd7280d240e6bd6cf6803",
+      "textureHash": "46b1e16dae20c7f9418c7318e3fe87276badd967d1c96fcb14f21240aeda5396",
+      "initial": {
+        "pickupCount": 9,
+        "poolBodyCount": 42,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "4c435a8efb8cd9b4c8029ed3a5fee7291f40fd8086cae139ba6af386eac84075",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -1080.9082794189453,
+              34.408172607421875,
+              923.7911071777344
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 2,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1624.6728057861328,
+              60.29469299316406,
+              -2527.8900146484375
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              1,
+              255
+            ],
+            "position": [
+              -378.8081970214844,
+              -190.68478393554688,
+              992.4228515625
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 1,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1630.0760650634766,
+              49.371856689453125,
+              -2433.2023010253906
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              6
+            ],
+            "position": [
+              -1353.4998321533203,
+              47.545196533203125,
+              743.8817749023438
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1631.405029296875,
+              28.1644287109375,
+              -2248.699264526367
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "LOW/LEV20.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 1128,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 903,
+        "modelHits": 4,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 91,
+        "inventoryAcquisition": 91
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "7d12bab6e7df9e44f6ce834fab13e32177bea798f06dd7f2bf3a20729b51eced",
+      "textureHash": "db18aa54169e624f484a3eb17d3582be7afd9322946bda5015fb578809246e0a",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "d2307653b87a9347c53c1b8a21c7cd54a9dc32a4c3068b910f1e551a8c62688f",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              2
+            ],
+            "position": [
+              2082.524948120117,
+              358.7640075683594,
+              385.2793273925781
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3583.734176635742,
+              343.2177276611328,
+              2625.8895721435547
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1847.833511352539,
+              454.42149353027344,
+              1949.2867736816406
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4574.404052734375,
+              368.1477355957031,
+              4067.4388885498047
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4300.186569213867,
+              330.5782012939453,
+              3303.523696899414
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1758.4044952392578,
+              417.3918762207031,
+              1288.6950988769531
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV1.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 5,
+        "inventoryAcquisitions": 5,
+        "observedProjectileActivations": 5,
+        "observedRetirementStateEntries": 4,
+        "peakVisibleProjectiles": 4,
+        "peakNonzeroProjectileStates": 5,
+        "collisionEvents": 998,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 497,
+        "modelHits": 9,
+        "activationsByKind": {
+          "0": 1,
+          "1": 1,
+          "2": 3
+        },
+        "retirementEntriesByKind": {
+          "0": 1,
+          "2": 3
+        }
+      },
+      "first": {
+        "pickupCollection": 343,
+        "inventoryAcquisition": 343,
+        "projectileActivation": 400,
+        "retirementState": 497
+      },
+      "stateHistogram": {
+        "1:0": 2399,
+        "2:0": 10581,
+        "0:0": 1043,
+        "0:1": 10,
+        "0:2": 1,
+        "0:128": 65,
+        "0:256": 13,
+        "0:64": 8,
+        "0:16": 60,
+        "2:1": 30,
+        "1:1": 1,
+        "2:2": 99,
+        "2:16": 90
+      },
+      "sourceHash": "51202975f8e839c24ac7e4d5cb0ae4d9e5fa7dee73f50abdb1195c6106e88fe3",
+      "textureHash": "68937046bc806ca86c43d962cb5306fdf7c5b40bd47e38d24878c8f4ba069500",
+      "initial": {
+        "pickupCount": 13,
+        "poolBodyCount": 47,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "498c74b7cc466eaa466d0b4418d318b061694cf95a0ec8ed1d1cdbbbe83c7c5c",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              71,
+              255
+            ],
+            "position": [
+              -597.2938232421875,
+              -9.548080444335938,
+              -6042.916748046875
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1169.432388305664,
+              -10.63226318359375,
+              -6265.389938354492
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -950.8421936035156,
+              -10.314865112304688,
+              -6227.32373046875
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -858.5480499267578,
+              -10.181259155273438,
+              -6271.290878295898
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              120.64707946777344,
+              -10.043548583984375,
+              -5903.791305541992
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              0
+            ],
+            "position": [
+              -944.8094787597656,
+              -148.37490844726562,
+              -6709.200408935547
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV2.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 1,
+        "observedRetirementStateEntries": 1,
+        "peakVisibleProjectiles": 1,
+        "peakNonzeroProjectileStates": 1,
+        "collisionEvents": 940,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 925,
+        "modelHits": 2,
+        "activationsByKind": {
+          "1": 1
+        },
+        "retirementEntriesByKind": {
+          "1": 1
+        }
+      },
+      "first": {
+        "pickupCollection": 353,
+        "inventoryAcquisition": 353,
+        "projectileActivation": 442,
+        "retirementState": 465
+      },
+      "stateHistogram": {
+        "1:0": 2361,
+        "2:0": 10800,
+        "0:0": 1200,
+        "1:1": 10,
+        "1:2": 13,
+        "1:16": 16
+      },
+      "sourceHash": "cd58c514544c93676059928fbec5600a7f6ea56ef34032148c55a4d7db42bb93",
+      "textureHash": "716f9a7cb22142e130204251356f58cc3ad17aadc7cd9288f6fd50844ca68322",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "9aa8003337e68edc30272ed3da21ed9c6c6492013129228a9f30d28d75874a6f",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              2513.08447265625,
+              -804.1098022460938,
+              11427.458068847656
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              2520.328567504883,
+              -764.1736755371094,
+              10816.807403564453
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              6
+            ],
+            "position": [
+              -415.90492248535156,
+              -1056.6406860351562,
+              13481.792556762695
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              150.0361328125,
+              -920.1067810058594,
+              13413.36685180664
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -57.37086486816406,
+              -925.4795989990234,
+              12720.169860839844
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -344.14398193359375,
+              -923.2559661865234,
+              12060.423248291016
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV3.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 6,
+        "observedRetirementStateEntries": 6,
+        "peakVisibleProjectiles": 3,
+        "peakNonzeroProjectileStates": 3,
+        "collisionEvents": 586,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 335,
+        "modelHits": 1,
+        "activationsByKind": {
+          "2": 6
+        },
+        "retirementEntriesByKind": {
+          "2": 6
+        }
+      },
+      "first": {
+        "pickupCollection": 82,
+        "inventoryAcquisition": 82,
+        "projectileActivation": 442,
+        "retirementState": 494
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10422,
+        "0:0": 1200,
+        "2:1": 60,
+        "2:2": 174,
+        "2:16": 144
+      },
+      "sourceHash": "27f65fa8a8ba67d635ac7cc096895ab78d849c0c9c8c4994247ba6cc51ff72c8",
+      "textureHash": "8fb67583225c436633aec55ab1405cccbbf3b76590b783a9f3241780423a8cb2",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "c143240ea3897abd85b2e82d684d952db3e161c83bfc1716a49087834102c889",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1805.2063751220703,
+              -51.56901550292969,
+              7020.138122558594
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1274.826675415039,
+              -30.074600219726562,
+              3835.33642578125
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              1219.4841003417969,
+              -30.105087280273438,
+              3740.0614471435547
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              10.909530639648438,
+              -37.40007019042969,
+              4495.246398925781
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1187.782974243164,
+              -30.103073120117188,
+              3873.486343383789
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -87.25997924804688,
+              -34.67265319824219,
+              4536.6397705078125
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV4.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 1,
+        "inventoryAcquisitions": 1,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 2064,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 1510,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 572,
+        "inventoryAcquisition": 572
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "de57a8e55d90ef06aa8325883d90020449fee1cf6acfdf090fdf91f7826a41ac",
+      "textureHash": "264a3f39f3346f187a15ba3b7c73e50195d7dbb080ca66fe98c012d85c2eca6f",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "97a9ec4d1fe849e0538916d6754d5193983c31d29b953967520d7595e0178cbd",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              1
+            ],
+            "position": [
+              3458.8594360351562,
+              -9.938552856445312,
+              -4315.229385375977
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4177.587554931641,
+              -10.845932006835938,
+              -1295.4595642089844
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3853.5927124023438,
+              -10.01556396484375,
+              -2564.9688873291016
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4033.763916015625,
+              -268.71278381347656,
+              469.66688537597656
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3889.2108459472656,
+              -10.0091552734375,
+              -2806.836196899414
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3951.6458435058594,
+              -10.013687133789062,
+              -2275.347625732422
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV5.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 0,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 628,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 459,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {},
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "2ffd745b579785e9c1f143e9485b643fde8db0e2b1974eeadcda90ceb21859b7",
+      "textureHash": "5f2e050d3ad53956e92b6af30ffa3a6fce081be9966fbda2ba40f0d271d32cfe",
+      "initial": {
+        "pickupCount": 7,
+        "poolBodyCount": 39,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "593d6073a768aab38e006af448f17900f089dfe8d92eb6b486dba08574b44ff1",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4930.285705566406,
+              195.52662658691406,
+              623.5584411621094
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5285.091781616211,
+              231.06480407714844,
+              549.6966247558594
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4379.719985961914,
+              141.71568298339844,
+              757.4684143066406
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4045.969955444336,
+              108.61650085449219,
+              818.1068115234375
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3958.924850463867,
+              99.54257202148438,
+              834.697509765625
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3479.955581665039,
+              52.845947265625,
+              913.9314117431641
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV6.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 4,
+        "inventoryAcquisitions": 4,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 1007,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 889,
+        "modelHits": 6,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 109,
+        "inventoryAcquisition": 109
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "fb1d5e58a6f83c842c603fedf46e5a538059df1ea40746e52d71ff2756a044f6",
+      "textureHash": "450b1ec1684e6c98015c553119ca88d8c570ec09750a008e0505982123762f3a",
+      "initial": {
+        "pickupCount": 14,
+        "poolBodyCount": 48,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "e9785c87cf0df10e9d301a7f65ee9b4f75fd86fcfe9a83a2dd1aa3ae6f8d5856",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              0,
+              71
+            ],
+            "position": [
+              -5097.333648681641,
+              -539.0113220214844,
+              -3476.5851440429688
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              255
+            ],
+            "position": [
+              -7071.654769897461,
+              -522.9661407470703,
+              114.55970764160156
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -6150.9346923828125,
+              -684.8067474365234,
+              -2409.827682495117
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -6873.601745605469,
+              -530.7010498046875,
+              1471.322509765625
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -7074.591644287109,
+              -510.3018035888672,
+              357.123779296875
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -6589.679946899414,
+              -692.1298828125,
+              -1824.3318786621094
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV7.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 947,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 692,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 576,
+        "inventoryAcquisition": 576
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "5e8e8a78ff9bdea71f6ccc3149075484670a092f995fd0699f27329b29f15d63",
+      "textureHash": "aaa6ba1e2ec425a051ad4f67e2039d065af92a5e636aae02f23e5118b7c25622",
+      "initial": {
+        "pickupCount": 7,
+        "poolBodyCount": 39,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "75854a749ead8797f5fa132d99fb066cc837b50251959a65552962c5cfdfdf66",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              2
+            ],
+            "position": [
+              -3779.6692657470703,
+              21.749954223632812,
+              1099.813705444336
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4693.602600097656,
+              68.583740234375,
+              2317.5301055908203
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4359.734817504883,
+              65.86965942382812,
+              1955.6466674804688
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -5031.258346557617,
+              72.70405578613281,
+              2657.9427337646484
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -3937.645462036133,
+              44.60833740234375,
+              1337.2911987304688
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4583.500015258789,
+              68.02275085449219,
+              2080.184356689453
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV8.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 3,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 3,
+        "peakNonzeroProjectileStates": 3,
+        "collisionEvents": 773,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 547,
+        "modelHits": 11,
+        "activationsByKind": {
+          "2": 3
+        },
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 464,
+        "inventoryAcquisition": 464,
+        "projectileActivation": 587
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10758,
+        "0:0": 1200,
+        "2:1": 30,
+        "2:2": 12
+      },
+      "sourceHash": "bfe15ef776e52167574ff86b5507cec57651ebb4fa783b162e1320b7de93d0d8",
+      "textureHash": "828a06a5e8eb6c7a91dc4db45f90c8a9032385ec161c9cd68acad6c0362c8d5c",
+      "initial": {
+        "pickupCount": 14,
+        "poolBodyCount": 48,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "df4173110b5e50373d6833106dc1e81c24a8194df7b8d75b9dd8e574da2916dd",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              2
+            ],
+            "position": [
+              3450.8221893310547,
+              -66.01760864257812,
+              -6500.754852294922
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1455.9558563232422,
+              479.25010681152344,
+              -6232.848968505859
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              2671.7373962402344,
+              183.32315063476562,
+              -6598.922546386719
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1943.4594421386719,
+              444.5134735107422,
+              -6197.127212524414
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1867.0499725341797,
+              457.9085388183594,
+              -6152.65690612793
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1489.8572235107422,
+              515.980224609375,
+              -5932.872772216797
+            ]
+          }
+        ],
+        "activeProjectiles": [
+          {
+            "index": 4,
+            "projectileKind": 2,
+            "state": 2
+          },
+          {
+            "index": 5,
+            "projectileKind": 2,
+            "state": 2
+          },
+          {
+            "index": 6,
+            "projectileKind": 2,
+            "state": 2
+          }
+        ],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV9.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 1534,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 611,
+        "modelHits": 13,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 300,
+        "inventoryAcquisition": 300
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "3d9cd261aa51650cf0fc90a744f9505ba855f9d3a0761593716ab7ce8a870707",
+      "textureHash": "97c184a81db742a5b43558a7fed725e3b91ceee38ac33f9a1a05524f85496093",
+      "initial": {
+        "pickupCount": 7,
+        "poolBodyCount": 39,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "40aa96be19e7324db6df1a35e0f6a7a811a75c92dab4d13d360701fed6753d2f",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              7
+            ],
+            "position": [
+              -2581.980667114258,
+              29.749435424804688,
+              7193.408508300781
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1709.22607421875,
+              136.86436462402344,
+              10065.165954589844
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -989.4096069335938,
+              -12.117645263671875,
+              8671.147445678711
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1818.7326965332031,
+              146.78973388671875,
+              10096.387466430664
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1554.0142974853516,
+              104.54795837402344,
+              9762.006072998047
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1715.0936279296875,
+              145.4094696044922,
+              10143.230407714844
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV10.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 0,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 578,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 520,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {},
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "f9d65a0cc3dcbad0546baa217e1d995a901ad2eea6db8d40a65fe4ab01f0a366",
+      "textureHash": "76a43e158c4403800809eff60a6a329d616d9a52b267c553157f09242b53ac97",
+      "initial": {
+        "pickupCount": 10,
+        "poolBodyCount": 43,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "1c43be8069a81626185ead909b0c06a5159272c6609c5b184a4688eece40ba1c",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4148.245208740234,
+              -519.6107788085938,
+              -2209.075973510742
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5890.927261352539,
+              -1058.5082702636719,
+              -809.6961517333984
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4889.057434082031,
+              -769.41064453125,
+              -1658.5499267578125
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4970.856918334961,
+              -782.7828674316406,
+              -1539.7789611816406
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5112.646911621094,
+              -806.8532867431641,
+              -1418.0757446289062
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              8024.097030639648,
+              -1394.4100341796875,
+              1373.156265258789
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV11.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 0,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 758,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 620,
+        "modelHits": 0,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {},
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "c9476a790cb1ded6222015a1f7ad514ab117e9f3949f0304ee1ef4ab4f753d9b",
+      "textureHash": "5d63d073042f9d24396f28d65aea84db77cb1c9ba3451fa05fb329852be99623",
+      "initial": {
+        "pickupCount": 4,
+        "poolBodyCount": 36,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "7e7e98667be03214e4411b0250a04de6afd41abefd23a4257f73844516e64f3c",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4848.126815795898,
+              -910.5715637207031,
+              7148.136901855469
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4895.538024902344,
+              -796.0207366943359,
+              7614.649322509766
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4941.274612426758,
+              -776.5219421386719,
+              7557.84001159668
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3297.859893798828,
+              -394.3229522705078,
+              6724.595367431641
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4649.9423828125,
+              -754.0867309570312,
+              7697.182052612305
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4213.419891357422,
+              -751.5160827636719,
+              7862.218856811523
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV12.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 1,
+        "inventoryAcquisitions": 1,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 627,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 426,
+        "modelHits": 2,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 352,
+        "inventoryAcquisition": 352
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "bdc2ce40f0de4c17b3f7bf628cfc416f0683fcaa1297fae17432ed7f1612aab9",
+      "textureHash": "ddcb760fa4593fee4ccf7c4878a4f9e6d3e535f5d326bd14b905e1cd5865db3d",
+      "initial": {
+        "pickupCount": 10,
+        "poolBodyCount": 43,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "2c167a617a470838bcce5b9b81c233df9f8f97f52944d879fd5daab158a470e7",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3270.4100036621094,
+              -670.0870208740234,
+              -8465.492080688477
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3361.526092529297,
+              -670.0638580322266,
+              -8477.152847290039
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -3977.767059326172,
+              -670.0503997802734,
+              -8270.381912231445
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -4411.531555175781,
+              -670.0295257568359,
+              -8056.462158203125
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              6
+            ],
+            "position": [
+              -4977.675003051758,
+              -670.0638885498047,
+              -7605.972869873047
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -5477.105285644531,
+              -670.0152130126953,
+              -7039.238342285156
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV13.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 2,
+        "inventoryAcquisitions": 2,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 259,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 262,
+        "modelHits": 4,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 343,
+        "inventoryAcquisition": 343
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "3931a3fa6c6836393af0e0ae31f40bf1d15e75a1db3870ee7186bf67af5289d3",
+      "textureHash": "5a18722cfd7783925770431f743382cde67480cec118bc7d5ab09e161c756d5d",
+      "initial": {
+        "pickupCount": 9,
+        "poolBodyCount": 42,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "20a642da3579115235d17786e4b8e87b41bea77598fa4fc4b530eefdca141dc6",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -2672.6145629882812,
+              -370.50685119628906,
+              10537.6201171875
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -422.0601348876953,
+              -204.01234436035156,
+              10691.811447143555
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -3063.558822631836,
+              -282.3671417236328,
+              10849.18977355957
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              6
+            ],
+            "position": [
+              -144.36570739746094,
+              -204.112548828125,
+              10546.30647277832
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4993.733444213867,
+              -440.539306640625,
+              7230.241668701172
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -2001.323989868164,
+              -205.04672241210938,
+              11359.64973449707
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV14.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 3,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 3,
+        "peakNonzeroProjectileStates": 3,
+        "collisionEvents": 695,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 655,
+        "modelHits": 3,
+        "activationsByKind": {
+          "2": 3
+        },
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 339,
+        "inventoryAcquisition": 339,
+        "projectileActivation": 509
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10797,
+        "0:0": 1200,
+        "2:1": 3
+      },
+      "sourceHash": "b23cf46f743b5c6abca8723d2de11475e9c5a83e6faf1fcfdb79d562c0c3558c",
+      "textureHash": "0f8ccc1125eefd8c8d43b49d74f816ffd9350ba3d11036e56f0e6472c6c9b7b7",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "5563bf96655edb032925e74af2464f7feb7ff253b99f2f95887e184a0dc702c2",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              99.45143127441406,
+              -391.1892395019531,
+              6468.354217529297
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -896.3204193115234,
+              161.0910186767578,
+              10046.532440185547
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              113.74070739746094,
+              -392.1497039794922,
+              6380.573791503906
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              185.92335510253906,
+              -393.00775146484375,
+              5211.585525512695
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              5.2445068359375,
+              -393.6580505371094,
+              5954.172439575195
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -17.891036987304688,
+              -365.7015686035156,
+              8133.303359985352
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV15.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 0,
+        "inventoryAcquisitions": 12,
+        "observedProjectileActivations": 2,
+        "observedRetirementStateEntries": 1,
+        "peakVisibleProjectiles": 2,
+        "peakNonzeroProjectileStates": 2,
+        "collisionEvents": 1367,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 2375,
+        "modelHits": 0,
+        "activationsByKind": {
+          "0": 1,
+          "1": 1
+        },
+        "retirementEntriesByKind": {
+          "1": 1
+        }
+      },
+      "first": {
+        "inventoryAcquisition": 401,
+        "projectileActivation": 490,
+        "retirementState": 551
+      },
+      "stateHistogram": {
+        "1:0": 2369,
+        "2:0": 10800,
+        "0:0": 1089,
+        "0:1": 10,
+        "0:2": 101,
+        "1:1": 10,
+        "1:2": 9,
+        "1:16": 12
+      },
+      "sourceHash": "c8e8fe9bca809e6ad985b3d6423ca2bd7651b013bc9856e51baa00af15310162",
+      "textureHash": "bc8daeafd329d78ca466f5ecf81054e381542e7cf12e134922f67ac4a3a021d0",
+      "initial": {
+        "pickupCount": 0,
+        "poolBodyCount": 31,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "1238e9ff0702cbccf762e4e396c5ed1f1e3dfcd4e497723f376539ea0a34f9af",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1426.6458740234375,
+              -1117.9812927246094,
+              4542.525054931641
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              255
+            ],
+            "position": [
+              -1442.1543273925781,
+              -1117.833755493164,
+              5320.326614379883
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              1,
+              255
+            ],
+            "position": [
+              -372.73121643066406,
+              -706.8113250732422,
+              1807.5215454101562
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              4
+            ],
+            "position": [
+              -547.3921661376953,
+              -768.5419769287109,
+              2062.2982482910156
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -1248.4146881103516,
+              -96.89004516601562,
+              2787.9138793945312
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 1,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              0
+            ],
+            "position": [
+              -1445.5011596679688,
+              -1118.1649322509766,
+              5408.643661499023
+            ]
+          }
+        ],
+        "activeProjectiles": [
+          {
+            "index": 22,
+            "projectileKind": 0,
+            "state": 2
+          }
+        ],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV18.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 9,
+        "inventoryAcquisitions": 9,
+        "observedProjectileActivations": 1,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 1,
+        "peakNonzeroProjectileStates": 1,
+        "collisionEvents": 968,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 810,
+        "modelHits": 0,
+        "activationsByKind": {
+          "0": 1
+        },
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 108,
+        "inventoryAcquisition": 108,
+        "projectileActivation": 351
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 950,
+        "0:1": 10,
+        "0:2": 134,
+        "0:128": 106
+      },
+      "sourceHash": "47fc3efaedaa380829053a67f330876fd94fc46202c7d0c0f8dd2466cc2cbba3",
+      "textureHash": "43b34527372a239d452f965cebb473efd710ba0e5607efa243cdbb53fe8061cd",
+      "initial": {
+        "pickupCount": 14,
+        "poolBodyCount": 48,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "b1b89f08831a18410dc5f6c20c3603c26844bdad0af9408211f63f7a8685ebcc",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 2,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              2454.2081451416016,
+              -10.052169799804688,
+              -485.57081604003906
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 1,
+            "recoveries": 5,
+            "inventory": [
+              0,
+              2
+            ],
+            "position": [
+              1867.3635711669922,
+              -10.087112426757812,
+              -42.097747802734375
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 1,
+            "recoveries": 3,
+            "inventory": [
+              7,
+              2
+            ],
+            "position": [
+              652.7328948974609,
+              -10.016647338867188,
+              -2504.5460052490234
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 1,
+            "recoveries": 3,
+            "inventory": [
+              1,
+              255
+            ],
+            "position": [
+              -167.18328857421875,
+              -10.015533447265625,
+              -1505.1960144042969
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 2,
+            "recoveries": 2,
+            "inventory": [
+              2,
+              4
+            ],
+            "position": [
+              -5.8830718994140625,
+              -10.004226684570312,
+              -998.8865356445312
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 4,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -273.5428009033203,
+              -18.649185180664062,
+              -1632.453628540039
+            ]
+          }
+        ],
+        "activeProjectiles": [
+          {
+            "index": 22,
+            "projectileKind": 0,
+            "state": 128
+          }
+        ],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV19.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 6,
+        "inventoryAcquisitions": 6,
+        "observedProjectileActivations": 1,
+        "observedRetirementStateEntries": 1,
+        "peakVisibleProjectiles": 1,
+        "peakNonzeroProjectileStates": 1,
+        "collisionEvents": 618,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 298,
+        "modelHits": 0,
+        "activationsByKind": {
+          "1": 1
+        },
+        "retirementEntriesByKind": {
+          "1": 1
+        }
+      },
+      "first": {
+        "pickupCollection": 265,
+        "inventoryAcquisition": 265,
+        "projectileActivation": 526,
+        "retirementState": 556
+      },
+      "stateHistogram": {
+        "1:0": 2345,
+        "2:0": 10800,
+        "0:0": 1200,
+        "1:1": 10,
+        "1:2": 19,
+        "1:32": 1,
+        "1:16": 25
+      },
+      "sourceHash": "1cc15ef824115545e1f31590cb36c520792246a1d35ebdf392b1a860f20980c3",
+      "textureHash": "d53aedc2fdb2d08ca831acab3c579b8142b515d78eedbf493fb88aa92669b6a8",
+      "initial": {
+        "pickupCount": 9,
+        "poolBodyCount": 42,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "ebec0bf547fd630c23ebc361f4c170675cab89f80a31c6db54996c6a2c7c072d",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              4
+            ],
+            "position": [
+              -1067.9952697753906,
+              31.671478271484375,
+              931.4506988525391
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 2,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1624.6728057861328,
+              60.29469299316406,
+              -2527.8900146484375
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              1,
+              255
+            ],
+            "position": [
+              -378.8081970214844,
+              -190.68478393554688,
+              992.4228515625
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 1,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1630.0760650634766,
+              49.371856689453125,
+              -2433.2023010253906
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              4,
+              6
+            ],
+            "position": [
+              -1373.8515625,
+              42.188262939453125,
+              689.2894287109375
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              -1631.405029296875,
+              28.1644287109375,
+              -2248.699264526367
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    },
+    {
+      "track": "HIGH/LEV20.BLP",
+      "ticksRequested": 600,
+      "options": {
+        "vehicleTypes": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "aiDifficulty": 2,
+        "weaponsEnabled": true
+      },
+      "passed": true,
+      "counts": {
+        "observedPickupCollections": 3,
+        "inventoryAcquisitions": 3,
+        "observedProjectileActivations": 0,
+        "observedRetirementStateEntries": 0,
+        "peakVisibleProjectiles": 0,
+        "peakNonzeroProjectileStates": 0,
+        "collisionEvents": 1027,
+        "projectileCollisionEvents": 0,
+        "terrainHits": 874,
+        "modelHits": 2,
+        "activationsByKind": {},
+        "retirementEntriesByKind": {}
+      },
+      "first": {
+        "pickupCollection": 91,
+        "inventoryAcquisition": 91
+      },
+      "stateHistogram": {
+        "1:0": 2400,
+        "2:0": 10800,
+        "0:0": 1200
+      },
+      "sourceHash": "965653c0eb75e738fedae1fb2a0d82586bb5eddd47c3e9c00d0728b727ed5025",
+      "textureHash": "0f3b9a2c841b0cff9391d2c4b3d6e4c3cfb67fd5e2abfff88d096d57f83ef952",
+      "initial": {
+        "pickupCount": 12,
+        "poolBodyCount": 46,
+        "inventory": [
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ],
+          [
+            255,
+            255
+          ]
+        ]
+      },
+      "ticksCompleted": 600,
+      "trajectoryHash": "7b7eac9639c45b67485e9c3a4e25acb47f380f5142376e99485d74afb21c08e4",
+      "final": {
+        "cars": [
+          {
+            "vehicleType": 0,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              2
+            ],
+            "position": [
+              1971.1043090820312,
+              361.80743408203125,
+              350.6693115234375
+            ]
+          },
+          {
+            "vehicleType": 1,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1925.0421295166016,
+              443.6395721435547,
+              2009.2293243408203
+            ]
+          },
+          {
+            "vehicleType": 2,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              4649.034072875977,
+              394.25689697265625,
+              4394.627426147461
+            ]
+          },
+          {
+            "vehicleType": 3,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3306.547576904297,
+              358.28382873535156,
+              2629.2359008789062
+            ]
+          },
+          {
+            "vehicleType": 4,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              3924.8099365234375,
+              329.2583465576172,
+              2815.7161407470703
+            ]
+          },
+          {
+            "vehicleType": 5,
+            "laps": 0,
+            "recoveries": 0,
+            "inventory": [
+              255,
+              255
+            ],
+            "position": [
+              1697.6165008544922,
+              423.37657165527344,
+              1577.8743743896484
+            ]
+          }
+        ],
+        "activeProjectiles": [],
+        "effects": {
+          "impulsePending": false,
+          "dampingPending": false,
+          "terrainWaveActive": false,
+          "timeScaleQ16": 65536
+        }
+      },
+      "disposed": true,
+      "resourceUnchanged": true,
+      "texturesUnchanged": true
+    }
+  ]
+}

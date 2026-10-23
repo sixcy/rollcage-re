@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "method": "completed-source-prephysics-register-derivation",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\control-prefix-v4-20261023",
+  "beforeOrdinal": 4,
+  "afterOrdinal": 6,
+  "tid": 22084,
+  "logicalClock": 288,
+  "moduleBaseAddress": 7208960,
+  "sourcePrefixComplete": true,
+  "matchedDerivedRegisters": true,
+  "requiredContextRegistersMatched": true,
+  "sourceParentTrace": {
+    "sessionAfterInput": 11704928,
+    "audioCompleted": 6,
+    "inputCompleted": 6,
+    "handlingCompleted": 6,
+    "afterObjects": {
+      "restorationEnabled": false
+    }
+  },
+  "derived": {
+    "registers": {
+      "ebx": 6,
+      "ebp": 0,
+      "ecx": 1591344114,
+      "esp": 5242276,
+      "eip": 7686624,
+      "esi": 11704928,
+      "edi": 12494152
+    },
+    "unresolved": [
+      "eax",
+      "edx",
+      "eflags",
+      "fpuStatusWord",
+      "mxcsr-status"
+    ],
+    "evidence": [
+      "450f70 live source session reload",
+      "450fae/450fb4 source loop end pointer/count",
+      "450fc3..451006 source restoration branch",
+      "449640/420500 retained nonvolatile preservation",
+      "420682/4206c8 successful original568162 cookie checker preserves ECX"
+    ],
+    "limits": [
+      "Source parent trace must describe the actual executed live loop and restoration inputs.",
+      "This binds the declared general registers only; volatile EAX/EDX and full private CPU ABI remain unproved."
+    ]
+  },
+  "registers": [
+    {
+      "register": "ebx",
+      "computed": 6,
+      "observed": 6,
+      "matched": true
+    },
+    {
+      "register": "ebp",
+      "computed": 0,
+      "observed": 0,
+      "matched": true
+    },
+    {
+      "register": "ecx",
+      "computed": 1591344114,
+      "observed": 1591344114,
+      "matched": true
+    },
+    {
+      "register": "esp",
+      "computed": 5242276,
+      "observed": 5242276,
+      "matched": true
+    },
+    {
+      "register": "eip",
+      "computed": 7686624,
+      "observed": 7686624,
+      "matched": true
+    },
+    {
+      "register": "esi",
+      "computed": 11704928,
+      "observed": 11704928,
+      "matched": true
+    },
+    {
+      "register": "edi",
+      "computed": 12494152,
+      "observed": 12494152,
+      "matched": true
+    }
+  ],
+  "limits": [
+    "All derived values come from completed source parent control flow, its live source memory and original450e50 input ESP/EDX; actual4749e0 registers are comparison only.",
+    "This report does not execute4749e0 physics. EAX/EDX, status flags and full private ABI remain omitted.",
+    "Matching required EBX/EBP permits a source-derived body-effect entry context; it does not alone prove a joined prefix/physics output comparison."
+  ]
+}

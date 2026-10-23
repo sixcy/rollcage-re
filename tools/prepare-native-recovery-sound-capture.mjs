@@ -55,6 +55,8 @@ export async function createNativeRecoverySoundCaptureConfig(directory, output, 
   if (options.includeBindingSites !== undefined && typeof options.includeBindingSites !== 'boolean') throw Error('Sound binding option must be boolean.');
   if (options.includeChannelSites !== undefined && typeof options.includeChannelSites !== 'boolean') throw Error('Sound channel option must be boolean.');
   if (options.includePlaybackSites !== undefined && typeof options.includePlaybackSites !== 'boolean') throw Error('Sound playback option must be boolean.');
+  if (options.includeActiveVectorEvidence !== undefined && typeof options.includeActiveVectorEvidence !== 'boolean') throw Error('Sound active vector option must be boolean.');
+  if (options.includeActiveVectorEvidence && !options.includePlaybackSites) throw Error('Sound active vector evidence requires the complete playback profile.');
   if (options.includePlaybackSites && !options.includeChannelSites) throw Error('Sound playback observations require the complete channel profile.');
   if (options.includeChannelSites && !options.includeBindingSites) throw Error('Sound channel observations require the complete binding profile.');
   if (options.includeBindingSites && (!options.includeServiceSites || !options.includeAllocations || !options.includeVectorStorage || options.deferObservationsUntilControlledCaller !== true)) throw Error('Sound bindings require services, allocations, vector storage and deferred observations.');
@@ -75,7 +77,8 @@ export async function createNativeRecoverySoundCaptureConfig(directory, output, 
   const bindings = options.includeBindingSites ? await verifyNativeRecoverySoundBindingEvidence() : {evidenceIds: []};
   const channel = options.includeChannelSites ? await verifyNativeRecoverySoundChannelEvidence() : {evidenceIds: []};
   const playback = options.includePlaybackSites ? await verifyNativeRecoverySoundPlaybackEvidence() : {evidenceIds: []};
-  return {...result, soundSelection: policy, evidenceIds: [...new Set([...result.evidenceIds, ...evidence.evidenceIds, ...services.evidenceIds, ...bindings.evidenceIds, ...channel.evidenceIds, ...playback.evidenceIds])], limitations: [
+  const active = options.includeActiveVectorEvidence ? await verifyNativeRecoveryActiveVectorEvidence() : {evidenceIds: []};
+  return {...result, soundSelection: policy, evidenceIds: [...new Set([...result.evidenceIds, ...evidence.evidenceIds, ...services.evidenceIds, ...bindings.evidenceIds, ...channel.evidenceIds, ...playback.evidenceIds, ...active.evidenceIds])], limitations: [
     `${nativeRecoverySoundSitesFor(options).length} generic phase4 sites share the unchanged350-snapshot cap; at most115 generic observations fit after startup/caller/selected-parent evidence.`,
     options.includeServiceSites
       ? 'The rich parent observes24576 declared stack bytes: the proven manager/factory/path chain includes frames588h+830h+400h+c08h+a50h+2428h+618h (21072 bytes), plus bounded caller/service arguments. The128MiB pending byte bound is unchanged.'
@@ -89,6 +92,7 @@ export async function createNativeRecoverySoundCaptureConfig(directory, output, 
     ...(options.includeBindingSites ? ['Binding sites preserve real file-service preimages/results and playback allocation inputs; the exact requested allocation slice must fit its bounded observed readable region. No service result, logger ECX or initialized output is invented. Conditional retries consume observations only when reached; unchanged115/350 caps may fail closed.'] : []),
     ...(options.includeChannelSites ? ['Channel sites observe actual four-byte vector allocation before append and zero-length memmove destination before/after; selection requires the original empty owner-vector growth chain. All new sites retain phase4 predicates and the unchanged frame-thread/budget policy.'] : []),
     ...(options.includePlaybackSites ? ['Two final memcpy sites observe real args,32-byte destination preimage/output,21-byte source and returned raw CPU context. Source Playing-prefix filtering has separate actual phase4/clock/frame-thread proof. Only the native fresh len20/request32 branch is supported; logger ECX must equal the observed final memcpy return across the proved game no-writer tail.'] : []),
+    ...(options.includeActiveVectorEvidence ? ['Existing40f085 keeps its4-byte owner observation and adds a16MiB bounded readable-region transport. Only the actual native EBX*4 request, at most64KiB and proved through the main active-vector factory caller/header, supplies its allocation preimage. Worker object80 and manager table64h prove stored callbacks/TID only with actual owned debug-thread provenance; the worker caller path and full concurrent execution remain unproved.'] : []),
     'A null/unreadable manager or vector object is an explicit missing dependency; no fallback object is supplied.', ...result.limitations]};
 }
 async function requireNew(filename) {try {await lstat(filename);} catch (error) {if (error.code === 'ENOENT') return; throw error;} throw Error(`Refusing existing recovery sound output: ${filename}`);}
@@ -101,8 +105,23 @@ export async function prepareNativeRecoverySoundCapture(directory, output, filen
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const [directory, output, filename, mode] = process.argv.slice(2);
-  if (!directory || !output || !filename || process.argv.length > 6 || mode !== undefined && !['allocations', 'services', 'services-deferred', 'services-bindings', 'services-channel', 'services-playback'].includes(mode)) throw Error('Usage: node tools/prepare-native-recovery-sound-capture.mjs ISOLATED_ROOT NEW_CAPTURE_DIRECTORY NEW_CONFIG_FILE [allocations|services|services-deferred|services-bindings|services-channel|services-playback]');
-  console.log(JSON.stringify(await prepareNativeRecoverySoundCapture(directory, output, filename, mode ? {includeAllocations: true, includeVectorStorage: true, includeServiceSites: mode !== 'allocations', ...(['services-deferred', 'services-bindings', 'services-channel', 'services-playback'].includes(mode) ? {deferObservationsUntilControlledCaller: true} : {}), ...(['services-bindings', 'services-channel', 'services-playback'].includes(mode) ? {includeBindingSites: true} : {}), ...(['services-channel', 'services-playback'].includes(mode) ? {includeChannelSites: true} : {}), ...(mode === 'services-playback' ? {includePlaybackSites: true} : {})} : {})));
+  if (!directory || !output || !filename || process.argv.length > 6 || mode !== undefined && !['allocations', 'services', 'services-deferred', 'services-bindings', 'services-channel', 'services-playback', 'services-active'].includes(mode)) throw Error('Usage: node tools/prepare-native-recovery-sound-capture.mjs ISOLATED_ROOT NEW_CAPTURE_DIRECTORY NEW_CONFIG_FILE [allocations|services|services-deferred|services-bindings|services-channel|services-playback|services-active]');
+  console.log(JSON.stringify(await prepareNativeRecoverySoundCapture(directory, output, filename, mode ? {includeAllocations: true, includeVectorStorage: true, includeServiceSites: mode !== 'allocations', ...(['services-deferred', 'services-bindings', 'services-channel', 'services-playback', 'services-active'].includes(mode) ? {deferObservationsUntilControlledCaller: true} : {}), ...(['services-bindings', 'services-channel', 'services-playback', 'services-active'].includes(mode) ? {includeBindingSites: true} : {}), ...(['services-channel', 'services-playback', 'services-active'].includes(mode) ? {includeChannelSites: true} : {}), ...(['services-playback', 'services-active'].includes(mode) ? {includePlaybackSites: true} : {}), ...(mode === 'services-active' ? {includeActiveVectorEvidence: true} : {})} : {})));
+}
+
+export async function verifyNativeRecoveryActiveVectorEvidence() {
+  const {evidence, instructions} = await readInstructionEvidence(['3874-image-pointer-reserve-assembly.json', '11601-audio-sample-factory-4a7460.json', '9115-audio-chain-4a5d50-procedure_assembly.json', '12193-audio-polling-0x4a33c0-procedure_assembly.json', '12195-audio-polling-0x4a3790-procedure_assembly.json', '12339-audio-selection-4b12d0-assembly.json'], {directory: 'analysis/native-simulation/results'});
+  if (evidence.some(row => row.subject?.digest?.sha256 !== REDUX_SHA256)) throw Error('Recovery active vector/worker target SHA differs.');
+  const listing = new Map(instructions.map(row => [row.address, row]));
+  for (const [address, op, args] of [
+    [0x4a76a1, 'MOV', ['ECX', 'dword ptr [EBX + 0x834]']], [0x4a76a8, 'CALL', ['0x0040ebc0']], [0x4a76ad, 'DEC', ['dword ptr [ESI + 0x18]']],
+    [0x40f077, 'LEA', ['EAX', '[EBX*0x4 + 0x0]']], [0x40f07f, 'CALL', ['dword ptr [0x0056e220]']], [0x40f085, 'MOV', ['ESI', 'EAX']], [0x40f0a2, 'CALL', ['dword ptr [0x0056e478]']],
+    [0x4a5dc7, 'PUSH', ['0x50']], [0x4a5e08, 'PUSH', ['0x4a3790']], [0x4a5e1c, 'MOV', ['dword ptr [ESI]', '0x5d39f0']], [0x4a5e22, 'MOV', ['dword ptr [ESI + 0x4c]', '0x14']],
+    [0x4a5e29, 'MOV', ['dword ptr [ESI + 0x44]', '0x4a94a0']], [0x4a5e30, 'MOV', ['dword ptr [ESI + 0x48]', 'EDI']], [0x4a5e39, 'MOV', ['dword ptr [EDI + 0x824]', 'ESI']],
+    [0x4a342b, 'MOV', ['dword ptr [EDI + 0x34]', 'EAX']], [0x4a3434, 'MOV', ['dword ptr [EDI + 0x38]', 'EAX']], [0x4a345b, 'LEA', ['EAX', '[EDI + 0x24]']], [0x4a346a, 'CALL', ['dword ptr [0x0056e2c0]']],
+    [0x4a37f5, 'PUSH', ['dword ptr [ESI + 0x48]']], [0x4a37f8, 'MOV', ['EAX', 'dword ptr [ESI + 0x44]']], [0x4a37fb, 'CALL', ['EAX']], [0x4b12d0, 'PUSH', ['EBP']],
+  ]) {const row = listing.get(address); if (row?.op !== op || JSON.stringify(row.args) !== JSON.stringify(args)) throw Error(`Recovery active vector/worker boundary differs at0x${address.toString(16)}.`);}
+  return {evidenceIds: evidence.map(row => row.evidence_id)};
 }
 
 export async function verifyNativeRecoverySoundPlaybackEvidence() {

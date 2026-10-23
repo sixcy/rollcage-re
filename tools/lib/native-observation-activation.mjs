@@ -1,5 +1,6 @@
 //Read-only proof of host-owned observer activation. This is neither a game
 //instruction/service replacement nor proof of the observed game's outputs.
+import {nativeWorkerLookupSite, verifyOwnedWorkerSnapshotAdmission} from './native-recovery-worker-observation.mjs';
 export function verifyNativeObservationActivation(capture, pair, configuration) {
   const policy = configuration.observationActivation;
   if (policy === undefined) return null;
@@ -39,7 +40,10 @@ export function verifyNativeObservationActivation(capture, pair, configuration) 
   const done = completed[0];
   if (done.breakpointId !== policy.breakpointId || done.rawHit !== policy.rawHit || done.tid !== before.tid || done.observedDebugEventOrdinal !== debugOrdinal || done.snapshotCount !== trigger.ordinal || done.beforeOriginalInstruction !== true || done.guardActionCompleted !== true || done.traceRecordOrdinal <= installed.at(-1).traceRecordOrdinal || done.traceRecordOrdinal >= parentMarker.traceRecordOrdinal || JSON.stringify(done.installed) !== JSON.stringify(installed.map(row => ({id: row.id, address: row.address})))) throw Error('Observation activation completion/parent ordering differs.');
   const nested = capture.snapshots.filter(row => ids.includes(row.breakpointId));
-  if (nested.length !== before.pendingFrame?.nestedSnapshots || nested.some(row => row.tid !== before.tid || row.deferredPublication !== true || row.pendingFrame?.role !== 'nested' || row.pendingFrame?.frameTid !== before.tid || row.pendingFrame?.candidateIndex !== before.pendingFrame.candidateIndex || row.observedDebugEventOrdinal <= before.observedDebugEventOrdinal || row.observedDebugEventOrdinal >= after.observedDebugEventOrdinal)) throw Error('Observation activation captured outside its actual pending-frame thread.');
+  const workers = configuration.ownedWorkerObservation === undefined ? [] : nested.filter(row => row.breakpointId === nativeWorkerLookupSite[0]);
+  if (configuration.ownedWorkerObservation !== undefined && workers.length !== 1) throw Error('Observation activation requires its one actual worker observation.');
+  for (const worker of workers) verifyOwnedWorkerSnapshotAdmission(capture, worker, pair, configuration);
+  if (nested.length !== before.pendingFrame?.nestedSnapshots || nested.filter(row => !workers.includes(row)).some(row => row.tid !== before.tid || row.deferredPublication !== true || row.pendingFrame?.role !== 'nested' || row.pendingFrame?.frameTid !== before.tid || row.pendingFrame?.candidateIndex !== before.pendingFrame.candidateIndex || row.observedDebugEventOrdinal <= before.observedDebugEventOrdinal || row.observedDebugEventOrdinal >= after.observedDebugEventOrdinal)) throw Error('Observation activation captured outside its actual pending-frame thread.');
   return {verified: true, triggerBreakpointId: policy.breakpointId, triggerRawHit: policy.rawHit, triggerSnapshotOrdinal: trigger.ordinal, triggerTid: trigger.tid,
-    activationDebugEventOrdinal: debugOrdinal, successfulGuards: guards.length, activatedSiteCount: ids.length, scope: 'frame-thread', nestedSnapshots: nested.length};
+    activationDebugEventOrdinal: debugOrdinal, successfulGuards: guards.length, activatedSiteCount: ids.length, scope: 'frame-thread', nestedSnapshots: nested.length, ...(workers.length ? {ownedWorkerSnapshots: workers.length} : {})};
 }

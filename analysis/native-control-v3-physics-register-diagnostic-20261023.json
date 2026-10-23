@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "method": "conditional-input-only-prephysics-register-diagnostic",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\control-prefix-v3-20261023",
+  "beforeOrdinal": 4,
+  "afterOrdinal": 6,
+  "tid": 34624,
+  "logicalClock": 288,
+  "evidenceIds": [
+    "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+    "ev_3e2783f9e23bc7bad937a81701235375e0743f1ab5e4f61e2e7340c5573d4350",
+    "ev_104654f1dbc3eae81c62597014604e6c8439c9b8b66d9605dcf54650c673b345",
+    "ev_9db1b2fcab27d9725b7ff40287c5a5844e265000f398584c5eb163e9340caf63",
+    "ev_a2fea67b77b78cdde29af0a00ebf0a64ecc18e611e9bd8b078818db6709979a6",
+    "ev_255742ceb7426477a454604795323fd22b147f084598308c1ed1eadd3f741a8a"
+  ],
+  "cookieSuccessCode": {
+    "preferredAddress": 5669218,
+    "actualAddress": 8683874,
+    "bytesHex": "3b0d90888c007502f3c3",
+    "semantics": "CMP ECX,[actual security cookie]; JNZ failure; REP RET. Success preserves ECX and the other general registers."
+  },
+  "moduleBaseAddress": 7208960,
+  "inputFacts": {
+    "session": 11704928,
+    "count": 6,
+    "resource": 66695200,
+    "restore": false,
+    "restoration": null,
+    "cookie": 2755937372
+  },
+  "candidates": {
+    "ebx": 6,
+    "ebp": 0,
+    "esi": 11704928,
+    "edi": 12494152,
+    "ecx": 2755937372,
+    "esp": 14415948
+  },
+  "unresolved": [
+    "eax",
+    "edx"
+  ],
+  "completeSourceDerivation": false,
+  "obligations": [
+    "The future input/control loop and42a9a0 loop must execute and publish their live session/count; an unchanged count in snapshots is not source execution.",
+    "Use the live restoration flag/count/pointer at450fc8, after real494f60/429f30; before-only candidates are conditional on those inputs remaining equal.",
+    "Later game children must preserve EBX/EBP/ESI/EDI through their genuine native ABI.",
+    "ECX is the live security-cookie global after successful420500 cookie verification; using the entry cookie requires its intact/stable cookie contract.",
+    "EAX/EDX require the actual420500 branch and genuine449640 progress outputs; no captured physics-entry registers may supply them."
+  ],
+  "matchedConditionalCandidates": true,
+  "registers": [
+    {
+      "register": "ebx",
+      "candidate": 6,
+      "observed": 6,
+      "matched": true
+    },
+    {
+      "register": "ebp",
+      "candidate": 0,
+      "observed": 0,
+      "matched": true
+    },
+    {
+      "register": "esi",
+      "candidate": 11704928,
+      "observed": 11704928,
+      "matched": true
+    },
+    {
+      "register": "edi",
+      "candidate": 12494152,
+      "observed": 12494152,
+      "matched": true
+    },
+    {
+      "register": "ecx",
+      "candidate": 2755937372,
+      "observed": 2755937372,
+      "matched": true
+    },
+    {
+      "register": "esp",
+      "candidate": 14415948,
+      "observed": 14415948,
+      "matched": true
+    }
+  ],
+  "finalVolatileDerivation": {
+    "eax": "Active420500 returns live participant count minus removed records; neutral nonempty branch returns count. Other branches require their actual incoming/live values.",
+    "edx": "Active420500 returns leader progress after genuine449640; neutral nonempty branch returns end-record pointer. Zero/removal branches retain branch-dependent earlier EDX.",
+    "v3ProducerGap": "Leader record progress changes3484 to3555 between actual entry and physics entry. Entry-only leader progress predicts10d9ch, whereas actual EDX10de3h needs the missing449640 producer. Those output values are diagnostic observations, never candidate inputs."
+  },
+  "limits": [
+    "The full source V3 prefix still stops42a6e0. Matching these conditional candidates does not prove completed source register derivation or authorize their use as a closed physics context.",
+    "Actual after registers are comparison values only. EFLAGS, x87 status, MXCSR status and full private stack/CPU ABI are not derived.",
+    "No original game launch, observed child-result injection, or shared control-helper change occurs."
+  ]
+}

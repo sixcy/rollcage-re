@@ -18,7 +18,7 @@ import {createVehicleRuntimeViews} from './vehicle-runtime-views.mjs';
 import {initializeSoloTerrainRuntime} from './solo-terrain-runtime.mjs';
 import {publishTerrainPointStartupSeed, initializeSoloTerrainPointRuntime} from './solo-terrain-point-runtime.mjs';
 import {createSoloCameraRuntime, initializeSoloCameraConstants} from './solo-camera-runtime.mjs';
-import {createVehicleCollisionFilter} from './vehicle-collision-filter.mjs';
+import {createVehicleCollisionFilter, applyRawActiveVehicleEffect} from './vehicle-collision-filter.mjs';
 import {registerRawBodySpatial} from './raw-body-construction.mjs';
 import {removeBodySpatial} from './body-retirement.mjs';
 import {stepSimulationFrame} from './simulation-frame.mjs';
@@ -55,20 +55,23 @@ import {initializeVehicleExecutionModes} from './race-startup-storage.mjs';
 import {updateVehicleAnimationLights} from './vehicle-animation-lights.mjs';
 import {updateVehicleWheelHistories} from './vehicle-wheel-histories.mjs';
 import {initializeSoloWeaponConstants, initializeSoloWeaponRuntime} from './solo-weapon-runtime.mjs';
+import {createSoloWeaponPresentation} from './solo-weapon-presentation.mjs';
+import {createNativeFixedSqrtState} from './native-fixed-integer-state.mjs';
 
 const RECORD = 0x909300, STACK = 0x9000, PACK = 0x909240;
 export const SOLO_STEP_SECONDS = 1 / REDUX_LOGICAL_TICKS_PER_SECOND;
 
-export function createSession(data, textureData, {onDebugFrame, onCollisionDispatch, vehicleType = 0, vehicleTypes, aiDifficulty = 1} = {}) {
+export function createSession(data, textureData, {onDebugFrame, onCollisionDispatch, vehicleType = 0, vehicleTypes, aiDifficulty = 1, weaponsEnabled = false} = {}) {
   if (onDebugFrame !== undefined && typeof onDebugFrame !== 'function') throw Error('onDebugFrame must be a function.');
   if (onCollisionDispatch !== undefined && typeof onCollisionDispatch !== 'function') throw Error('onCollisionDispatch must be a function.');
   if (!Number.isInteger(vehicleType) || vehicleType < 0 || vehicleType > 6) throw Error('vehicleType must be an integer from0 through6.');
   if (vehicleTypes !== undefined && (!Array.isArray(vehicleTypes) || vehicleTypes.length < 1 || vehicleTypes.length > 6 || [...vehicleTypes].some(value => !Number.isInteger(value) || value < 0 || value > 6))) throw Error('vehicleTypes must contain from1 through6 native vehicle types from0 through6.');
   if (!Number.isInteger(aiDifficulty) || aiDifficulty < 0 || aiDifficulty > 2) throw Error('aiDifficulty must be Easy0, Hard1 or Expert2.');
+  if (typeof weaponsEnabled !== 'boolean') throw Error('weaponsEnabled must be a boolean.');
   const roster = Object.freeze(vehicleTypes === undefined ? [vehicleType] : [...vehicleTypes]);
   const source = Buffer.from(data), textures = Buffer.from(textureData);
   if (source.length < 0x120 || source.toString('ascii', 0, 4) !== 'GFXM' || textures.length < 0x40 || textures.toString('ascii', 0, 4) !== 'BTP ') throw Error('Racing test requires GFXM geometry and BTP textures.');
-  const create = () => createSoloRuntime(source, textures, {onDebugFrame, onCollisionDispatch, vehicleTypes: roster, aiDifficulty});
+  const create = () => createSoloRuntime(source, textures, {onDebugFrame, onCollisionDispatch, vehicleTypes: roster, aiDifficulty, weaponsEnabled});
   let session = create(), disposed = false;
   const active = () => { if (disposed) throw Error('Solo session has been disposed.'); return session; };
   return Object.freeze({
@@ -83,7 +86,7 @@ export function createSession(data, textureData, {onDebugFrame, onCollisionDispa
 
 // Browser/Node service adapter for an installed-data racing session.
 // Runtime pack publications follow 44c2b0; installed bytes are copied first.
-function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch, vehicleTypes, aiDifficulty}) {
+function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch, vehicleTypes, aiDifficulty, weaponsEnabled}) {
   const memory = Buffer.alloc(64 * 1024 * 1024);
   const put = (p, v) => memory.writeInt32LE(v | 0, p);
   const word = (p, v) => memory.writeUInt16LE(v & 65535, p);
@@ -123,7 +126,10 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     memory[session + 0x10 + index] = index; //41dbb0 consumes the authored grid slot.
     memory[session + 0x1c + index] = vehicleTypes[index];
   }
-  memory[session + 0x551] = 1; // Native time-trial mode: practice keeps lap1.
+  //47b580 gates pickups on the native option;47b920 mode1 awards boost only.
+  //Opt-in weapons therefore use race mode0. The default time trial is intact.
+  memory[session + 0x551] = weaponsEnabled ? 0 : 1;
+  if (weaponsEnabled) memory[session + 0xa86] = 1;
   //43da60/menu resource008: Easy0, Hard1, Expert2.410060 publishes5ea4d8.
   memory[session + 0x585] = aiDifficulty; memory[session + 0x586] = 255;
   put(session + 0x57c, 4); put(session + 0x580, 1000); put(session + 0x618, 1);
@@ -163,7 +169,7 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   //The viewer supplies external CRT/libm and a single-thread host platform.
   //All reached game-owned renderer/Application constructors still execute.
   const criticalSections = new Map(), exitHandlers = [];
-  const runtime = {memory, scratchBase: STACK, handlers: {allocate,
+  const runtime = {memory, scratchBase: STACK, nativeState: createNativeFixedSqrtState({memory}), handlers: {allocate,
     free(address) {if (address && !allocations.delete(address)) throw Error('Racing runtime CRT free received an unowned pointer.');},
     registerExit(address) {exitHandlers.push(address); return 0;},
     dynamicCast(application, offset, sourceType, targetType, flags) {
@@ -231,6 +237,8 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   });
   const carAssets = cars.map(car => Object.freeze({...buildSoloCarMesh(data, textureData, car.renderAddresses.map(value => ptr(value + 0x10) - base)), index: car.index, vehicleType: car.vehicleType}));
   const assets = {...carAssets[0], cars: Object.freeze(carAssets)};
+  const weaponPresentation = createSoloWeaponPresentation({memory, data, textureData, base, enabled: weaponsEnabled});
+  if (weaponsEnabled) assets.weapons = weaponPresentation.assets;
   const animatedSectors = new Set([...terrain.snapshot.segments, ...terrainPoints.snapshot.segments].map(row => row.index));
   assets.terrain = Object.freeze({segments: Object.freeze(grid.scene.segments.filter(row => animatedSectors.has(row.index)).map(row => Object.freeze({
     index: row.index, columns: row.columns, rows: row.rows,
@@ -273,6 +281,18 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     nativeTerrain: {memory, views, grid: rawGrid}, nativeModels: {memory, views}, nativePhysicsStack: {memory, views, scratchBase: STACK},
     nativeScripted: {memory, views, scratchBase: STACK - 24},
     handlers: {removeSpatial: value => removeBodySpatial(value.address, {memory}), insertSpatial: value => registerRawBodySpatial(value.address, {memory}),
+      ...(weaponsEnabled ? {onActiveVehicleEffect: ({body, directionQ8, effectCode}) => {
+        if (views.bodyAt(body.address) !== body || (ptr(body.address) & 511) !== 3) throw Error('Racing active effect requires its shared vehicle body.');
+        const owner = ptr(body.address + 0x6bc), lookup = ptr(0x713180);
+        const ownerIndex = (owner - 0x8495e0) / 0x8c;
+        if (!cars.some(car => car.address === body.address) || !Number.isInteger(ownerIndex) || ownerIndex < 0 || ownerIndex >= 6 || ptr(owner + 0x6c) !== body.address || !allocations.has(lookup) || lookup + 64 > memory.length) throw Error('Racing active effect requires its constructed controller and direction lookup.');
+        //4749e0 ->47a8e0 ->47b020 retains the normalized direction at S-6ch
+        //and enters482730 at S-9ch. Bind the numeric child to those workspaces;
+        //its live controller/lookup and actual484bb0/40ea40 remain game code.
+        const direction = STACK - 108;
+        directionQ8.forEach((value, i) => put(direction + i * 4, value));
+        return applyRawActiveVehicleEffect(body.address, direction, effectCode, {...runtime, scratchBase: STACK - 156});
+      }} : {}),
       attachmentQueue: createRawAttachmentQueue({memory, bodyAt: views.bodyAt}),
       modelEffects, onSpecialEvent: () => {throw Error('Racing test reached an unsupported special vehicle event.');}}
   };
@@ -310,6 +330,7 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     //A diagnostic must not chase that byte as a real terrain-sector index.
     const sectorIndex = memory[address + 0x11c], sector = sectorIndex < grid.scene.segments.length ? ptr(ptr(PACK) + sectorIndex * 4) : null;
     onDebugFrame(Object.freeze({stage, tick: ticks + 1, bodyAddress: address, aiDifficulty5ea4d8: ptr(0x5ea4d8),
+      nativeSqrtInputQ16: memory.readInt32LE(0x91d45c), nativeSqrtLeadingZeros: ptr(0x91d460),
       positionQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(address + 0x34 + offset))),
       linearVelocityQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(address + 0x68 + offset))),
       flags: ptr(address), collisionState128: ptr(address + 0x128), collisionFlags110: ptr(address + 0x110),
@@ -368,6 +389,7 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
       for (const car of cars) {updateVehicleMotionState(car.record, runtime); updateVehicleSurfaceDrive(car.record, runtime);}
       //451092/48d7c0 follows the completed motion pass. Its incoming EDI is
       //that pass's iteration count, and it owns real surface-drive decay/caps.
+      if (weaponsEnabled) debugFrame('before-weapons');
       weapons.step({scratchBase: STACK, entryRegisters: {EDI: cars.length}, views, grid: rawGrid, models, modelPointersFor: mapping.modelPointersFor});
       for (const car of cars) {prepareVehicleWheelRender(car.address, runtime); camera.updateParticipant(car.index);}
       updateVehicleAnimationLights(runtime);
@@ -403,8 +425,11 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
           rotation: Object.freeze(Array.from({length: 9}, (_, i) => memory.readInt16LE(value + 0xc4 + i * 2) / 4096))
         })));
         return Object.freeze({index: car.index, vehicleType: car.vehicleType, position: parts[0].position, rotation: parts[0].rotation, parts,
+          ...(weaponsEnabled ? {inventory: Object.freeze([memory[address + 0x68c], memory[address + 0x68d]])} : {}),
           quaternion: Object.freeze(car.body.quaternion.map(value => value / 65536)), speed: memory.readInt16LE(address + 0x668),
           route: memory.readUInt16LE(address + 0x6c0), point: memory.readUInt16LE(address + 0x6c2),
+          //449640 maintains the actual one-based race rank at participant+1d.
+          racePosition: memory[record + 0x1d],
           checkpoint: memory[record + 0x20], checkpointCount: memory[PACK + 0x44], checkpointTransitions: car.checkpointTransitions,
           laps: car.laps, lapTime: (ticks - car.lapStart) * SOLO_STEP_SECONDS, bestLap: car.bestLap, recoveries: car.recoveries,
           physics: Object.freeze({...lastPhysics, recoveryPending: car.recoveryPending,
@@ -429,7 +454,8 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
         positionQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(row.bodyAddress + 0x34 + offset)))
       }))), physicalBodyCount: views.physicalGroup.count});
       return Object.freeze({...snapshots[0], ticks, cars: snapshots, aiDifficulty, camera: cameraState,
-        weapons: Object.freeze({mode: memory[session + 0x551], pickupOption: memory[session + 0xa86], authoredPickupCount: memory[PACK + 0x36], pickupCount: ptr(0x902024), poolBodyCount: weapons.bodyStorage.length, contactVertexCount: ptr(0x7130f8)}),
+        weapons: Object.freeze({mode: memory[session + 0x551], pickupOption: memory[session + 0xa86], authoredPickupCount: memory[PACK + 0x36], pickupCount: ptr(0x902024), poolBodyCount: weapons.bodyStorage.length, contactVertexCount: ptr(0x7130f8),
+          ...(weaponsEnabled ? {enabled: true, ...weaponPresentation.snapshot(), effects: Object.freeze({impulsePending: ptr(0x91cd90) === 1, dampingPending: ptr(0x9153d0) === 1, terrainWaveActive: ptr(0x90cb80) !== 0, timeScaleQ16: ptr(0x81118c)})} : {})}),
         terrain: Object.freeze({...terrainState, segments, points: Object.freeze(pointState), palette}),
         lighting: Object.freeze({highWaterCount: ptr(0x80f20c), dirtyRangeCount: ptr(0x80f210), queuedAllocationCount: ptr(0x810920)}),
         worldObjects: Object.freeze(worldObjects),

@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFile, writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import {pathToFileURL} from 'node:url';
 import {loadRetainedNativeProgram} from './lib/retained-native-program.mjs';
 import {loadRelocatedAudioFixture} from './lib/relocated-audio-fixtures.mjs';
@@ -41,13 +42,14 @@ export async function verifyAudioSourceParameters({fixtures = 240, moduleBaseAdd
   const actual = value => moduleBaseAddress + value - 0x400000;
   const instructions = relocated?.instructions ?? program.instructions;
   const machine = new BoundedX86(instructions), reached = new Set(), visits = {}, S = 0x1f000;
+  machine.entries.delete(actual(0x568a60)); //Explicit genuine CRT boundary.
   const source = 0x1400000, manager = 0x1402000, header = 0x1404000, array = 0x1404100,
     waveform = 0x1405000, voice = 0x1406000, voiceTable = 0x1406100, managerTable = 0x1406200, mixerTable = 0x1406300, sourceTable = 0x1406400;
   const next = new Map(instructions.slice(0, -1).map((row, i) => [row.address, instructions[i + 1].address]));
   let steps = 0, skippedVoice = 0, voiceCalls = 0;
   machine.onInstruction = address => {
     reached.add(address);
-    if ([0x4a7c10, 0x4a79f0, 0x4a92e0, 0x4a9370, 0x4a9340, 0x4ae4a0, 0x4b12d0].some(p => actual(p) === address)) visits[address.toString(16)] = (visits[address.toString(16)] ?? 0) + 1;
+    if ([0x4a7c10, 0x4a79f0, 0x4a92e0, 0x4a9370, 0x4a9340, 0x4ae4a0, 0x4b12d0, 0x4ad760, 0x4b3ed0].some(p => actual(p) === address)) visits[address.toString(16)] = (visits[address.toString(16)] ?? 0) + 1;
     if (relocated) assert.ok(!relocated.unresolvedRelocations.has(address));
     const row = instructions[machine.entries.get(address)];
     if (row.op === 'CALL' && machine.externalCalls.has(machine.get(row.args[0]) >>> 0)) put(machine.bytes, machine.r.ESP - 4, next.get(address));
@@ -61,6 +63,12 @@ export async function verifyAudioSourceParameters({fixtures = 240, moduleBaseAdd
     const force = [0, 1, 2, 0x101, -255][Math.floor(f / 3) % 5]; put(initial, S + 8, force);
     put(initial, source + 0x968, 0); put(initial, source + 0x964, f % 7 ? waveform : 0);
     put(initial, waveform + 12, rates[Math.floor(f / 2) % rates.length]);
+    const decoder = 0x1405200, stream = 0x1405400, streamTable = 0x1405500;
+    if ([1, 2, 3].includes(f % 5)) put(initial, source + 0x968, decoder);
+    initial.writeUInt16LE([1, 2, 0xffff][f % 3], decoder + 0x82); initial.writeUInt16LE([8, 16, 24, 0xffff][f % 4], decoder + 0x8e);
+    put(initial, decoder + 0x84, rates[Math.floor(f / 3) % rates.length]); initial[decoder + 0x92] = f % 5 === 1 ? 0 : 1;
+    put(initial, decoder + 12, f % 5 === 2 ? stream : 0); put(initial, stream, streamTable); put(initial, streamTable + 0x10, actual(0x4b3ed0));
+    put(initial, stream + 12, rates[Math.floor(f / 4) % rates.length]);
     put(initial, source + 0x97c, voice); put(initial, voice, voiceTable);
     put(initial, voiceTable + 0x68, 0x1600100); put(initial, voiceTable + 0x70, 0x1600110);
     put(initial, voiceTable + 0x30, 0x1600120);
@@ -75,7 +83,8 @@ export async function verifyAudioSourceParameters({fixtures = 240, moduleBaseAdd
     }
     put(initial, source + 0x438, f % 3); put(initial, source + 0x440, floatBits[f % floatBits.length]);
     const scale = withParameters ? 1 : [1, 0.5, 2, -1, 0, NaN][Math.floor(f / 17) % 6];
-    const rate = initial.readUInt32LE(source + 0x964) ? Math.fround(ptr(initial, waveform + 12)) : initial.readFloatLE(actual(0x5dcaac));
+    const rate = ptr(initial, source + 0x968) ? Math.fround(initial.readInt32LE(f % 5 === 2 ? stream + 12 : decoder + 0x84))
+      : initial.readUInt32LE(source + 0x964) ? Math.fround(ptr(initial, waveform + 12)) : initial.readFloatLE(actual(0x5dcaac));
     let frequency = Math.fround(initial.readFloatLE(source + 0x440) * Math.fround(scale));
     if (f % 3 !== 2) frequency = Math.fround(initial.readFloatLE(0x1404400 + (f % 3) * 80 + 0x3c) * frequency);
     initial.writeFloatLE(f % 4 ? 12345 : Math.fround(rate * frequency), source + 0x988);
@@ -110,7 +119,7 @@ export async function verifyAudioSourceParameters({fixtures = 240, moduleBaseAdd
     const runtime = {memory, scratchBase: S, moduleBaseAddress, xmm2: scale, entryRegisters: incoming, services: sourceServices};
     const result = withParameters ? updateAudioSourceParameters(manager, source, force, runtime) : updateAudioSourceFrequency(manager, source, force, runtime);
     try {steps += machine.run(100000);} catch (error) {throw Error(`Fixture ${f}: ${error.message}`, {cause: error});}
-    assert.equal(result, machine.r.EAX >>> 0, `fixture ${f} EAX`); assert.equal(machine.r.ESP, S + 12);
+    assert.equal(result, machine.r.EAX >>> 0, `fixture ${f} EAX`); assert.equal(machine.r.ESP, S);
     for (const [name, value] of Object.entries(incoming)) assert.equal(machine.r[name] >>> 0, value);
     assert.deepEqual(sourceServices.calls, nativeServices.calls, `fixture ${f} ordered external ABI`);
     const spans = captured ? rows.map(row => [row.address, captured.span(row.address, row.bytes.length)]) : [[0, memory]];
@@ -121,10 +130,11 @@ export async function verifyAudioSourceParameters({fixtures = 240, moduleBaseAdd
     const count = sourceServices.calls.filter(row => row[0] === 'COM').length;
     voiceCalls += count; skippedVoice += Number(count === 0);
   }
-  const report = {matched: true, method: 'Constructed inputs; actual retained 4a7c10 -> 4a79f0/4a92e0/4a9370 game instructions, explicit Win32/COM/CRT outcomes; all mapped bytes or every declared sparse span, private stack, ordered external ABIs, complete EAX, preserved registers and stdcall return ESP.',
+  const report = {matched: true, method: `Constructed inputs; actual retained ${withParameters ? '4b12d0 nonspatial/effect-free -> ' : ''}4a7c10 -> 4a79f0/4a92e0/4a9370/4ad760/4b3ed0 game instructions, explicit Win32/COM/CRT outcomes; all mapped bytes or every declared sparse span, private stack, ordered external ABIs, complete EAX, preserved registers and balanced entry ESP at RET8. Interpreter stops at the sentinel before the outer RET pop.`,
     targetSha256: program.sha256, fixtures, moduleBaseAddress, sparse, withParameters, reachedInstructions: reached.size, instructionSteps: steps, visits, voiceCalls, skippedVoice,
-    limits: ['No original-process execution or background thread schedule proof.', 'Decoder-rate, spatial and reverb branches remain explicit reached dependencies.'],
-    evidence: program.references.filter(row => /12361-|1500[123]-/.test(row.path))};
+    limits: ['No original-process execution or background thread schedule proof.', 'Spatial, reverb and unknown decoder stream-format virtual targets remain explicit reached dependencies.'],
+    evidence: program.references.filter(row => /12361-|12339-|1501[2-6]-|12359-/.test(row.path)),
+    source: await Promise.all(['src/audio-source-parameters.mjs', 'tools/lib/bounded-x86.mjs', 'tools/verify-audio-source-parameters-instructions.mjs'].map(async path => ({path, sha256: createHash('sha256').update(await readFile(path)).digest('hex')})))};
   if (output) await writeFile(output, JSON.stringify(report, null, 2), {flag: 'wx'});
   return report;
 }

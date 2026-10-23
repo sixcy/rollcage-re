@@ -1,0 +1,423 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-worker-v14-20261023",
+  "authority": "controlled-native-recovery-input",
+  "matched": false,
+  "sourceComplete": false,
+  "fullPrivateAbiMatched": false,
+  "error": {
+    "message": "unbound-concurrency: Win32 waiter changes across GetCurrentThreadId require their separate producer.",
+    "stage": "recovery-parent",
+    "boundary": {
+      "kind": "unbound-concurrency",
+      "message": "Win32 waiter changes across GetCurrentThreadId require their separate producer."
+    },
+    "stack": "Error: unbound-concurrency: Win32 waiter changes across GetCurrentThreadId require their separate producer.\n    at fail (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-recovery-factory-services.mjs:8:54)\n    at Object.platformCall (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-recovery-factory-services.mjs:157:48)\n    at call (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/game-audio-sample-factory.mjs:18:311)\n    at os (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/game-audio-sample-factory.mjs:19:115)\n    at instantiateGameAudioSample (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/game-audio-sample-factory.mjs:76:97)\n    at createGameAudioSample (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/game-audio-sample-factory.mjs:89:431)\n    at Object.selectAdaptiveSoundChannelOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-recovery-channel-replay.mjs:168:20)\n    at selectNativeSoundChannelOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:105:34)\n    at dispatchPopulatedNativeSoundOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:136:19)\n    at Object.dispatchPopulated40ea40 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-sound.mjs:90:14)"
+  },
+  "inputAdmissions": [
+    {
+      "id": "constructor-empty-strings",
+      "address": 8715872,
+      "length": 96,
+      "originalOrdinal": 253
+    },
+    {
+      "id": "constructor-fallback-name",
+      "address": 9110304,
+      "length": 24,
+      "originalOrdinal": 253
+    },
+    {
+      "id": "constructor-one",
+      "address": 9160564,
+      "length": 4,
+      "originalOrdinal": 253
+    },
+    {
+      "id": "backend-vtable",
+      "address": 9126272,
+      "length": 4,
+      "originalOrdinal": 238
+    },
+    {
+      "id": "cache-path-259",
+      "address": 260569538,
+      "length": 1024,
+      "originalOrdinal": 259
+    },
+    {
+      "id": "cache-path-260",
+      "address": 267675730,
+      "length": 1024,
+      "originalOrdinal": 260
+    },
+    {
+      "id": "cache-path-261",
+      "address": 267679962,
+      "length": 1024,
+      "originalOrdinal": 261
+    },
+    {
+      "id": "cache-path-262",
+      "address": 143926954,
+      "length": 1024,
+      "originalOrdinal": 262
+    },
+    {
+      "id": "cache-path-263",
+      "address": 143931186,
+      "length": 1024,
+      "originalOrdinal": 263
+    },
+    {
+      "id": "cache-path-264",
+      "address": 265722658,
+      "length": 1024,
+      "originalOrdinal": 264
+    },
+    {
+      "id": "cache-path-265",
+      "address": 265704546,
+      "length": 1024,
+      "originalOrdinal": 265
+    },
+    {
+      "id": "cache-path-266",
+      "address": 265707730,
+      "length": 1024,
+      "originalOrdinal": 266
+    },
+    {
+      "id": "cache-path-267",
+      "address": 276529890,
+      "length": 1024,
+      "originalOrdinal": 267
+    },
+    {
+      "id": "cache-path-268",
+      "address": 276533074,
+      "length": 1024,
+      "originalOrdinal": 268
+    },
+    {
+      "id": "cache-path-269",
+      "address": 276538330,
+      "length": 1024,
+      "originalOrdinal": 269
+    },
+    {
+      "id": "cache-path-270",
+      "address": 276536682,
+      "length": 1024,
+      "originalOrdinal": 270
+    },
+    {
+      "id": "cache-path-271",
+      "address": 276617274,
+      "length": 1024,
+      "originalOrdinal": 271
+    },
+    {
+      "id": "cache-path-272",
+      "address": 276691858,
+      "length": 1024,
+      "originalOrdinal": 272
+    },
+    {
+      "id": "cache-path-273",
+      "address": 276635474,
+      "length": 1024,
+      "originalOrdinal": 273
+    },
+    {
+      "id": "cache-path-275",
+      "address": 276887874,
+      "length": 1024,
+      "originalOrdinal": 275
+    },
+    {
+      "id": "cache-path-276",
+      "address": 276615626,
+      "length": 1024,
+      "originalOrdinal": 276
+    },
+    {
+      "id": "cache-path-277",
+      "address": 276620882,
+      "length": 1024,
+      "originalOrdinal": 277
+    },
+    {
+      "id": "cache-path-278",
+      "address": 276644874,
+      "length": 1024,
+      "originalOrdinal": 278
+    },
+    {
+      "id": "cache-path-279",
+      "address": 276747986,
+      "length": 1024,
+      "originalOrdinal": 279
+    },
+    {
+      "id": "cache-path-280",
+      "address": 276638658,
+      "length": 1024,
+      "originalOrdinal": 280
+    },
+    {
+      "id": "cache-path-281",
+      "address": 276753242,
+      "length": 1024,
+      "originalOrdinal": 281
+    },
+    {
+      "id": "cache-path-282",
+      "address": 276642890,
+      "length": 1024,
+      "originalOrdinal": 282
+    },
+    {
+      "id": "cache-path-283",
+      "address": 276640962,
+      "length": 1024,
+      "originalOrdinal": 283
+    },
+    {
+      "id": "cache-path-284",
+      "address": 277106794,
+      "length": 1024,
+      "originalOrdinal": 284
+    },
+    {
+      "id": "cache-path-285",
+      "address": 277199746,
+      "length": 1024,
+      "originalOrdinal": 285
+    },
+    {
+      "id": "cache-path-286",
+      "address": 277014834,
+      "length": 1024,
+      "originalOrdinal": 286
+    },
+    {
+      "id": "cache-path-287",
+      "address": 277018018,
+      "length": 1024,
+      "originalOrdinal": 287
+    },
+    {
+      "id": "cache-path-288",
+      "address": 145211378,
+      "length": 1024,
+      "originalOrdinal": 288
+    },
+    {
+      "id": "cache-path-289",
+      "address": 277037698,
+      "length": 1024,
+      "originalOrdinal": 289
+    },
+    {
+      "id": "cache-path-290",
+      "address": 145212490,
+      "length": 1024,
+      "originalOrdinal": 290
+    },
+    {
+      "id": "cache-path-291",
+      "address": 145219818,
+      "length": 1024,
+      "originalOrdinal": 291
+    },
+    {
+      "id": "cache-path-292",
+      "address": 277415066,
+      "length": 1024,
+      "originalOrdinal": 292
+    },
+    {
+      "id": "cache-path-293",
+      "address": 277419298,
+      "length": 1024,
+      "originalOrdinal": 293
+    },
+    {
+      "id": "cache-path-294",
+      "address": 277425602,
+      "length": 1024,
+      "originalOrdinal": 294
+    },
+    {
+      "id": "cache-path-295",
+      "address": 277283250,
+      "length": 1024,
+      "originalOrdinal": 295
+    },
+    {
+      "id": "cache-path-296",
+      "address": 277288506,
+      "length": 1024,
+      "originalOrdinal": 296
+    },
+    {
+      "id": "cache-path-297",
+      "address": 277286858,
+      "length": 1024,
+      "originalOrdinal": 297
+    },
+    {
+      "id": "cache-path-298",
+      "address": 277200898,
+      "length": 1024,
+      "originalOrdinal": 298
+    },
+    {
+      "id": "cache-path-299",
+      "address": 277202010,
+      "length": 1024,
+      "originalOrdinal": 299
+    },
+    {
+      "id": "cache-path-300",
+      "address": 277207266,
+      "length": 1024,
+      "originalOrdinal": 300
+    },
+    {
+      "id": "cache-path-301",
+      "address": 277524594,
+      "length": 1024,
+      "originalOrdinal": 301
+    },
+    {
+      "id": "cache-path-302",
+      "address": 277205618,
+      "length": 1024,
+      "originalOrdinal": 302
+    },
+    {
+      "id": "cache-path-303",
+      "address": 277533994,
+      "length": 1024,
+      "originalOrdinal": 303
+    },
+    {
+      "id": "cached-reference-count",
+      "address": 277533972,
+      "length": 4,
+      "originalOrdinal": 303
+    },
+    {
+      "id": "cached-format",
+      "address": 277533976,
+      "length": 18,
+      "originalOrdinal": 303
+    },
+    {
+      "id": "mixer-vtable-pointer-306",
+      "address": 143370488,
+      "length": 4,
+      "originalOrdinal": 306
+    },
+    {
+      "id": "mixer-id-306",
+      "address": 143370496,
+      "length": 4,
+      "originalOrdinal": 306
+    },
+    {
+      "id": "mixer-slot-zero-306",
+      "address": 9124776,
+      "length": 4,
+      "originalOrdinal": 306
+    },
+    {
+      "id": "mixer-vtable-pointer-307",
+      "address": 143374792,
+      "length": 4,
+      "originalOrdinal": 307
+    },
+    {
+      "id": "mixer-id-307",
+      "address": 143374800,
+      "length": 4,
+      "originalOrdinal": 307
+    },
+    {
+      "id": "mixer-slot-zero-307",
+      "address": 9124776,
+      "length": 4,
+      "originalOrdinal": 307
+    },
+    {
+      "id": "selected-mixer-voice",
+      "address": 143374864,
+      "length": 4,
+      "originalOrdinal": 307
+    },
+    {
+      "id": "COM-engine",
+      "address": 240977336,
+      "length": 4,
+      "originalOrdinal": 309
+    },
+    {
+      "id": "COM-vtable",
+      "address": 1706365840,
+      "length": 36,
+      "originalOrdinal": 309
+    }
+  ],
+  "deferredAllocatorOutputs": [
+    {
+      "id": "allocator-wrapper",
+      "address": 389038840,
+      "length": 12,
+      "originalOrdinal": 237,
+      "initializeAt": "matched-original-allocator-return"
+    },
+    {
+      "id": "allocator-source",
+      "address": 389038880,
+      "length": 2472,
+      "originalOrdinal": 252,
+      "initializeAt": "matched-original-allocator-return"
+    },
+    {
+      "id": "allocator-channel",
+      "address": 389041488,
+      "length": 4,
+      "originalOrdinal": 317,
+      "initializeAt": "matched-original-allocator-return"
+    },
+    {
+      "id": "allocator-playback-string",
+      "address": 389041520,
+      "length": 32,
+      "originalOrdinal": 322,
+      "initializeAt": "matched-original-allocator-return"
+    }
+  ],
+  "sourceEvents": [
+    {
+      "name": "operatorNew",
+      "allocation": "allocator-wrapper",
+      "address": 389038840,
+      "bytes": 12,
+      "originalOrdinal": 237
+    }
+  ],
+  "sourceCheckpoints": [],
+  "factoryExternalEvents": 14,
+  "playbackComplete": false,
+  "limits": [
+    "Actual empty adaptive owner-vector branch only; reused/positional/callable paths remain explicit errors.",
+    "Allocation preimages are genuine external outputs admitted only at validated allocator returns; no initialized game child output is supplied.",
+    "Original memcpy return registers come only from its observed external boundary; complete CPU/CRT private ABI remains unclaimed.",
+    "Additional original cache/mixer/COM read inputs are admitted explicitly; this is not a reconstruction of their complete prior initialization or concurrent producers.",
+    "Only declared semantic output and listed audio regions are compared. Full private CPU/CRT stack and uninterrupted original trajectories remain outside this check."
+  ]
+}

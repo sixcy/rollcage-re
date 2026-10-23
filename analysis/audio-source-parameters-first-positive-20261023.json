@@ -1,0 +1,31 @@
+{
+  "matched": true,
+  "method": "Constructed inputs; actual retained 4a7c10 -> 4a79f0/4a92e0/4a9370 game instructions, explicit Win32/COM/CRT outcomes; all mapped bytes or every declared sparse span, private stack, ordered external ABIs, complete EAX, preserved registers and balanced entry ESP at RET8. Interpreter stops at the sentinel before the outer RET pop.",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "fixtures": 36,
+  "moduleBaseAddress": 4194304,
+  "sparse": false,
+  "withParameters": false,
+  "reachedInstructions": 130,
+  "instructionSteps": 4323,
+  "visits": {
+    "4a7c10": 36,
+    "4a79f0": 36,
+    "4a92e0": 60,
+    "4a9370": 24
+  },
+  "voiceCalls": 66,
+  "skippedVoice": 3,
+  "limits": [
+    "No original-process execution or background thread schedule proof.",
+    "Decoder-rate, spatial and reverb branches remain explicit reached dependencies."
+  ],
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/12361-audio-spatial-4a7c10-assembly.json",
+      "evidence": "ev_eeb10330a2806c100dc56b346e60938e556d1d7106cd62279eaf87e0cbc1a181",
+      "operation": "procedure_assembly",
+      "sha256": "121435a0a3c00c87adf608e9d491f0636f2aafd1ba01147aac659b1db2fd327e"
+    }
+  ]
+}

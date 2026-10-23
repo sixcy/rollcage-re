@@ -10,6 +10,8 @@ export async function checkSoloPractice(page, installation) {
   assert.equal(await page.locator('fieldset').filter({has: page.locator('#practice-start')}).locator('legend').textContent(), 'Racing test');
   assert.match(await page.locator('#racing-warning').textContent(), /Super experimental/);
   await page.waitForFunction(() => window.rollcageViewer.inspect().practice?.state === 'ready');
+  await page.locator('#practice-weapons').uncheck();
+  await page.waitForFunction(() => window.rollcageViewer.inspect().practice?.state === 'ready' && !window.rollcageViewer.inspect().practice?.weapons?.enabled);
   assert.equal((await inspect()).practice.ticks, 0);
   assert.ok((await inspect()).carBuffers > 0);
   await page.locator('#practice-follow').check();

@@ -73,7 +73,11 @@ export function interpolateRacingPresentation(before, after, amount) {
     if (!previous || previous.vertices.length !== segment.vertices.length) return segment;
     return {...segment, vertices: segment.vertices.map((vertex, index) => vertex.map((value, axis) => axis < 3 ? mix(previous.vertices[index][axis], value, alpha) : value))};
   })};
-  return {...after, ...first, ...(cars ? {cars} : {}), ...(worldObjects ? {worldObjects} : {}), ...(terrain ? {terrain} : {})};
+  const weapons = after.weapons?.enabled && {...after.weapons, objects: after.weapons.objects.map((object, index) => {
+    const previous = before.weapons?.objects?.[index];
+    return previous?.address === object.address && previous.state === object.state && object.visible ? blendPose(previous, object, alpha) : object;
+  })};
+  return {...after, ...first, ...(cars ? {cars} : {}), ...(worldObjects ? {worldObjects} : {}), ...(terrain ? {terrain} : {}), ...(weapons ? {weapons} : {})};
 }
 
 export function formatPracticeTime(seconds) {

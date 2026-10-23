@@ -6,6 +6,30 @@ const ptr = (m, p) => m.readUInt32LE(p);
 const put = (m, p, value) => m.writeUInt32LE(value >>> 0, p);
 const image = (runtime, value) => nativeCodeAddress(value, runtime);
 const returnWord = (runtime, address, value) => put(runtime.memory, address, image(runtime, value));
+const scalarBytes = new DataView(new ArrayBuffer(4));
+const numberBits = value => {scalarBytes.setFloat32(0, value, true); return scalarBytes.getUint32(0, true);};
+const fromBits = value => {scalarBytes.setUint32(0, value, true); return scalarBytes.getFloat32(0, true);};
+const nanBits = value => (value & 0x7f800000) === 0x7f800000 && (value & 0x7fffff) !== 0;
+const quiet = value => nanBits(value) ? (value | 0x400000) >>> 0 : value;
+//MULSS returns a quieted operand NaN, preferring its destination. Carry bits
+//explicitly: an optimizing JS engine may canonicalize Number NaN payloads.
+function multiplyBits(left, right) {
+  if (nanBits(left)) return quiet(left);
+  if (nanBits(right)) return quiet(right);
+  const value = f32(fromBits(left) * fromBits(right));
+  return Number.isNaN(value) ? 0xffc00000 : numberBits(value);
+}
+function multiplyMixerRateBits(loaded, multiplier) {
+  //FLD has already quieted the mixer value. The earlier MULSS has likewise
+  //quieted the multiplier. x87 chooses the larger quiet-NaN significand,
+  //unlike SSE's destination priority (Intel SDM vol1 table4-7).
+  loaded = quiet(loaded);
+  if (nanBits(loaded) && nanBits(multiplier)) {
+    const a = loaded & 0x7fffff, b = multiplier & 0x7fffff;
+    return a > b ? loaded : b > a ? multiplier : Math.min(loaded >>> 0, multiplier >>> 0);
+  }
+  return multiplyBits(loaded, multiplier);
+}
 function save(runtime, rows) {
   for (const [name, offset] of rows) if (Number.isInteger(runtime.entryRegisters?.[name])) put(runtime.memory, runtime.scratchBase + offset, runtime.entryRegisters[name]);
 }
@@ -19,6 +43,7 @@ function voiceCall(voice, slot, args, top, returned, runtime) {
   // Read the actual interface and method even though the implementation is an
   // external COM service. Arguments include this, exactly as in native code.
   const target = ptr(m, ptr(m, voice) + slot);
+  if (!voice || !target) throw Error('Audio source parameters require a valid original XAudio2 interface target.');
   args.forEach((value, index) => put(m, top - args.length * 4 + index * 4, value));
   const S = top - args.length * 4 - 4;
   returnWord(runtime, S, returned);
@@ -36,6 +61,25 @@ function comparisonEax(eax, left, right) {
   return ((eax & 0xffff00ff) | flags << 8) >>> 0;
 }
 
+//4ad760 is not a pure getter: it publishes block alignment and average byte
+//rate first, then selects decoder format or the real stream-format getter.
+export function getAudioSourceDecoderRate(decoder, runtime) {
+  const {memory: m, scratchBase: S} = runtime;
+  const alignment = ((m.readUInt16LE(decoder + 0x8e) >>> 3) * m.readUInt16LE(decoder + 0x82)) & 65535;
+  m.writeUInt16LE(alignment, decoder + 0x8c);
+  put(m, decoder + 0x88, Math.imul(alignment, ptr(m, decoder + 0x84)));
+  if (m[decoder + 0x92] === 1) {
+    const stream = ptr(m, decoder + 12);
+    if (stream) {
+      if (ptr(m, ptr(m, stream) + 0x10) !== image(runtime, 0x4b3ed0)) throw Error('Unported reached audio decoder stream-format getter.');
+      returnWord(runtime, S - 4, 0x4ad7a1);
+      //4b3ed0: LEA EAX,[ECX+8]; RET. Read [returned format+4].
+      return ptr(m, stream + 12);
+    }
+  }
+  return ptr(m, decoder + 0x84);
+}
+
 //4a7c10. ECX=manager, [entryESP+4]=source, [entryESP+8]=force,
 //incoming XMM2=frequency scale. Caller-owned stack and all image identities
 //remain explicit; arbitrary heap/scalar bits are never relocated.
@@ -46,19 +90,24 @@ export function updateAudioSourceFrequency(manager, source, force, runtime) {
   save(runtime, [['ESI', -12], ['EDI', -16]]);
   source = ptr(m, S + 4);
   storeFloat(m, F + 8, runtime.xmm2);
-  let frequency = m.readFloatLE(source + 0x440);
+  let frequencyBits = ptr(m, source + 0x440), frequency;
   put(m, F + 12, ptr(m, source + 0x440));
   const decoder = ptr(m, source + 0x968);
   let rate;
-  if (decoder) throw Error('Unported reached audio source decoder-rate child 4ad760.');
-  const waveform = ptr(m, source + 0x964);
-  if (waveform) rate = f32(ptr(m, waveform + 12)); //CVTDQ2PD + unsigned correction, CVTPD2PS.
-  else rate = m.readFloatLE(image(runtime, 0x5dcaac));
-  frequency = f32(frequency * m.readFloatLE(F + 8));
+  if (decoder) {
+    returnWord(runtime, F - 4, 0x4a7c3e);
+    rate = f32(getAudioSourceDecoderRate(decoder, {...runtime, scratchBase: F - 4}) | 0); //CVTDQ2PS is signed on this branch.
+    frequencyBits = ptr(m, F + 12);
+  } else {
+    const waveform = ptr(m, source + 0x964);
+    if (waveform) rate = f32(ptr(m, waveform + 12)); //CVTDQ2PD + unsigned correction, CVTPD2PS.
+    else rate = m.readFloatLE(image(runtime, 0x5dcaac));
+  }
+  frequencyBits = multiplyBits(frequencyBits, ptr(m, F + 8));
   const lookupTarget = ptr(m, ptr(m, manager) + 0x48);
   if (lookupTarget !== image(runtime, 0x4a79f0)) throw Error('Unported audio source mixer lookup target.');
   put(m, F - 4, ptr(m, source + 0x438));
-  m.writeFloatLE(rate, F + 20); m.writeFloatLE(frequency, F + 12); m.writeFloatLE(frequency, F + 8);
+  m.writeFloatLE(rate, F + 20); put(m, F + 12, frequencyBits); put(m, F + 8, frequencyBits);
   returnWord(runtime, F - 8, 0x4a7ca1);
   let eax = findGameAudioMixer(manager, ptr(m, F - 4), {...runtime, scratchBase: F - 8,
     entryRegisters: {...runtime.entryRegisters, ESI: source, EDI: manager}});
@@ -67,19 +116,20 @@ export function updateAudioSourceFrequency(manager, source, force, runtime) {
     if (target !== image(runtime, 0x4a9370)) throw Error('Unported audio source effective-rate getter.');
     returnWord(runtime, F - 4, 0x4a7cae);
     //4a9370 FLD mixer+3c; FMUL/FSTP writes the caller's float slot.
-    m.writeFloatLE(m.readFloatLE(eax + 0x3c) * m.readFloatLE(F + 8), F + 8);
-    frequency = m.readFloatLE(F + 8); eax = target;
-  } else frequency = m.readFloatLE(F + 12);
+    put(m, F + 8, multiplyMixerRateBits(ptr(m, eax + 0x3c), ptr(m, F + 8)));
+    frequencyBits = ptr(m, F + 8); eax = target;
+  } else frequencyBits = ptr(m, F + 12);
+  frequency = fromBits(frequencyBits);
   rate = m.readFloatLE(F + 20);
-  const previous = m.readFloatLE(source + 0x988), next = f32(rate * frequency);
+  const previous = m.readFloatLE(source + 0x988), nextBits = multiplyBits(ptr(m, F + 20), frequencyBits), next = fromBits(nextBits);
   eax = comparisonEax(eax, previous, next);
-  if (previous !== next) m.writeFloatLE(next, source + 0x988);
+  if (previous !== next) put(m, source + 0x988, nextBits);
   else if (m[F + 24] !== 1) return ((eax & 0xffffff00) | 1) >>> 0;
   let bound = m.readFloatLE(image(runtime, 0x5dc5fc));
-  if (bound > frequency) frequency = bound;
+  if (bound > frequency) frequencyBits = ptr(m, image(runtime, 0x5dc5fc));
   else {
     bound = m.readFloatLE(image(runtime, 0x5dca78));
-    if (frequency > bound) frequency = bound;
+    if (frequency > bound) frequencyBits = ptr(m, image(runtime, 0x5dca78));
   }
   bound = m.readFloatLE(image(runtime, 0x5dca70));
   if (bound > rate) m.writeFloatLE(bound, F + 20);
@@ -88,8 +138,7 @@ export function updateAudioSourceFrequency(manager, source, force, runtime) {
     if (rate > bound) m.writeFloatLE(bound, F + 20);
   }
   let voice = ptr(m, source + 0x97c);
-  const frequencyBits = Buffer.alloc(4); frequencyBits.writeFloatLE(frequency);
-  voiceCall(voice, 0x68, [voice, frequencyBits.readUInt32LE(), 0], F, 0x4a7d44,
+  voiceCall(voice, 0x68, [voice, frequencyBits, 0], F, 0x4a7d44,
     {...runtime, entryRegisters: {...runtime.entryRegisters, ESI: source, EDI: manager}});
   voice = ptr(m, source + 0x97c);
   const voiceTable = ptr(m, voice), convertedRate = m.readFloatLE(F + 20);
@@ -134,13 +183,14 @@ export function updateAudioSourceParameters(manager, source, force, runtime) {
     const target = ptr(m, ptr(m, mixer) + 0x18);
     if (target !== image(runtime, 0x4a9340)) throw Error('Unported audio source effective-gain getter.');
     returnWord(runtime, F - 4, 0x4b1311);
-    put(m, B + 0x78, ptr(m, mixer + 0x38)); put(m, B + 0x6c, ptr(m, B + 0x78));
+    put(m, B + 0x78, quiet(ptr(m, mixer + 0x38))); put(m, B + 0x6c, ptr(m, B + 0x78));
   }
-  let gain = f32(m.readFloatLE(source + 0x494) * m.readFloatLE(source + 0x43c));
-  gain = f32(gain * m.readFloatLE(B + 0x6c));
-  if (0 > gain) gain = 0; //COMISS/JBE preserves unordered NaN here.
-  const cube = f32(f32(gain * gain) * gain), previous = m.readFloatLE(source + 0x984);
-  if (previous !== cube) m.writeFloatLE(cube, source + 0x984);
+  let gainBits = multiplyBits(ptr(m, source + 0x494), ptr(m, source + 0x43c));
+  gainBits = multiplyBits(gainBits, ptr(m, B + 0x6c));
+  let gain = fromBits(gainBits);
+  if (0 > gain) gainBits = 0; //COMISS/JBE preserves unordered NaN here.
+  const cubeBits = multiplyBits(multiplyBits(gainBits, gainBits), gainBits), cube = fromBits(cubeBits), previous = m.readFloatLE(source + 0x984);
+  if (previous !== cube) put(m, source + 0x984, cubeBits);
   if (previous !== cube || m[B + 0x7c] === 1) {
     gain = m.readFloatLE(source + 0x984);
     if (!(gain > 0)) gain = 0; //The later COMISS/JA maps unordered to +0.

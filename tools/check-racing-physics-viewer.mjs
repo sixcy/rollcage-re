@@ -23,6 +23,8 @@ try {
   const inspect = () => page.evaluate(() => window.rollcageViewer.inspect());
   const inspectAfterFrame = () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => resolve(window.rollcageViewer.inspect()))));
   await page.waitForFunction(() => window.rollcageViewer.inspect().practice?.state === 'ready');
+  await page.locator('#practice-weapons').uncheck();
+  await page.waitForFunction(() => window.rollcageViewer.inspect().practice?.state === 'ready' && !window.rollcageViewer.inspect().practice?.weapons?.enabled);
   await page.waitForFunction(() => window.rollcageViewer.inspect().worldDraws?.objects === 5);
   await page.waitForFunction(() => window.rollcageViewer.inspect().carDraws?.cars === 6);
   const ready = await inspect();

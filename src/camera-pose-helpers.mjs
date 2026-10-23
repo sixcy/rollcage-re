@@ -2,6 +2,7 @@ import {queryRawRespawnPlacement} from './raw-respawn-query.mjs';
 import {publishAnimationMatrix} from './vehicle-auxiliary-animation.mjs';
 import {transformWheelEffectOffset} from './wheel-effects.mjs';
 import {abs32} from './fixed-integer.mjs';
+import {copyToNativeMemory} from './native-memory-spans.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 const copyWords = (m, source, output, count) => {for (let i = 0; i < count; i++) put(m, output + i * 4, get(m, source + i * 4));};
 
@@ -34,7 +35,7 @@ export function publishCachedCameraMatrix(direction, other, output, cameraIndex,
   put(m, scratchBase + 4, output); put(m, scratchBase + 8, cameraIndex);
   const result = publishAnimationMatrix(direction, other, output, {...runtime, scratchBase: scratchBase - 16});
   const source = result ? output : cache, destination = result ? cache : output;
-  Buffer.from(m.subarray(source, source + 16)).copy(m, destination); Buffer.from(m.subarray(source + 16, source + 32)).copy(m, destination + 16);
+  copyToNativeMemory(m,destination,Buffer.from(m.subarray(source,source+16)));copyToNativeMemory(m,destination+16,Buffer.from(m.subarray(source+16,source+32)));
   return result;
 }
 

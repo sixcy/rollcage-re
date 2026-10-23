@@ -130,3 +130,49 @@ original V12 regression requires the explicit concurrency failure and defers
 all allocator outputs. No game was launched by these checks. Root's connected
 attempt is retained separately in
 `analysis/physics-native-controlled-recovery-parent-audio-v12-aliased-attempt-20261023/report.json`.
+
+## V13: bounded connected parent success on a different schedule
+
+The fresh `services-active` capture completed329 snapshots and94 nested
+observations in46.930 seconds; owned cleanup terminated the game at46.987
+seconds. All171 original and copied installation files match their manifest
+hashes before and after. The declared caller229 state0-to32 recovery input,
+frame-thread observation scope and90s/350/115/128MiB bounds are unchanged.
+
+Unlike V12, V13 enters with97 active sounds in141 allocated slots. Actual
+before/after headers prove unchanged allocation/capacity and one source
+append. No active-vector growth is needed or claimed. Thus this run does
+not recover V12's missing560-byte allocation tail. Its captured80-byte
+worker object identifies TID32368 and the stored native callback chain;
+owned create-thread event371, trace row811, PID10788 independently associates
+that TID with this process. The exact lookup caller path remains unobserved.
+See [allocation and worker proof](native-recovery-active-vector-capture.md).
+
+The unchanged connected source checker completes the actual recovery parent,
+adaptive factory, owner-channel append and play-request path in this run.
+It matches4,990,925 declared semantic comparison bytes, plus8,292 listed
+audio bytes across16 regions. Native before/after EBX/EBP/ESI/EDI/ESP
+preservation invariants hold; these are not source CPU-register-file outputs.
+The semantic total sums190 regions containing132 overlapping bytes:
+4,990,793 unique semantic bytes and4,999,085 unique bytes with the audio
+regions. The audio regions include the complete source,
+manager, owner, wrapper, channel pointer, six vector headers and their
+observed capacity storage. The [report](../analysis/physics-native-controlled-recovery-parent-audio-v13-attempt-20261023/report.json)
+records `matched:true`, `sourceComplete:true`, `playbackComplete:true` and
+`fullPrivateAbiMatched:false`.
+
+The checker admits59 explicit original read-before-use spans (45,274 bytes)
+for literals/cache/mixer/COM inputs and four genuine allocator preimages,
+applied only at their validated return boundaries. Sixteen actual factory
+external outcomes supply typed service results. No finished source or manager
+output initializes their game algorithms. Successful FindFirstFileW and
+GetFileSizeEx do not prove every private padding/preimage byte; complete
+CPU/CRT stack equality remains outside this comparison. Playback completion
+means the source play-request/queue path completed, not rendered or audible
+audio equivalence.
+
+This is a positive bounded parent path under a different original schedule.
+It neither explains the V11/V12 concurrent game-wrapper writes nor implements
+the background4a6600/4a6b60 consumer. Those strict failures remain retained.
+Uninterrupted trajectories, natural recovery triggers and other adaptive
+selector branches remain open.

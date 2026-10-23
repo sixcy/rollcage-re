@@ -35,7 +35,7 @@ export function prepareAutonomousTarget(body, target, groupIndex, index, {memory
 //431750 is the second autonomous pass in450e50.6c4 bit4000 gates route control;
 //the authored point+7 supplies twice its byte value, overridden to250 in mode4.
 //A special6c9 target is retained until code5 is within the signed squared test.
-export function updateAutonomousRouteControl(body, {memory, scratchBase, handlers = {}}) {
+export function updateAutonomousRouteControl(body, {memory, scratchBase, handlers = {}, nativeState}) {
   const groupIndex = memory.readUInt16LE(body + 0x6c0);
   let index = memory.readUInt16LE(body + 0x6c2);
   if (!(memory.readUInt16LE(body + 0x6c4) & 0x4000)) return;
@@ -67,7 +67,7 @@ export function updateAutonomousRouteControl(body, {memory, scratchBase, handler
     speed = memory[memory.readUInt32LE(0x5ecb1c) + 0x551] === 4 ? 250 : memory[point + 7] * 2;
   }
   (handlers.speed ?? updateAutonomousSpeed)(body, speed, {memory, scratchBase: scratchBase - 40});
-  (handlers.steering ?? updateAutonomousSteering)(body, target, 1, 0, {memory, scratchBase: scratchBase - 48});
+  (handlers.steering ?? updateAutonomousSteering)(body, target, 1, 0, {memory, scratchBase: scratchBase - 48, nativeState});
   const flags = memory.readUInt16LE(body + 0x6c4);
   if (flags & 0x8000) {
     memory.writeInt32LE(memory.readInt32LE(body + 0x710) & ~0xa000, body + 0x710);

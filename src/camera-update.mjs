@@ -13,12 +13,13 @@ import {publishAnimationMatrix} from './vehicle-auxiliary-animation.mjs';
 import {queryRawRespawnPlacement} from './raw-respawn-query.mjs';
 import {abs32} from './fixed-integer.mjs';
 import {computeWormholeFixedRoot} from './wormhole-targeting.mjs';
+import {copyToNativeMemory} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const word = (m, p, v) => m.writeUInt16LE(v & 65535, p), short = v => (v << 16) >> 16;
 const vector = (m, p) => [0, 4, 8].map(o => get(m, p + o)), store = (m, p, values) => values.forEach((v, i) => put(m, p + i * 4, v));
 const copy = (m, from, to, words) => {for (let i = 0; i < words; i++) put(m, to + i * 4, get(m, from + i * 4));};
-const copyPair = (m, from, to) => Buffer.from(m.subarray(from, from + 8)).copy(m, to);
+const copyPair = (m, from, to) => copyToNativeMemory(m,to,Buffer.from(m.subarray(from,from+8)));
 const trunc32 = v => Number.isFinite(v) && v >= -2147483648 && v < 2147483648 ? Math.trunc(v) | 0 : -2147483648;
 function divide(numerator, denominator) {if (!denominator) throw Error('Camera positioning division by zero.'); const n = Math.trunc(numerator / denominator); if (n < -2147483648 || n > 2147483647) throw Error('Camera positioning division overflow.'); return n | 0;}
 
@@ -207,7 +208,7 @@ export function updateCamera(index, runtime) {
     const tracked = ptr(m, frame + 0x20); difference(tracked); const length = measureCameraVector(direction, child(4)); if (length >= 256) normalizeRawFixedVectorWithLength(direction, length, child(4));
     const shift = m[ptr(m, 0x5ecb1c) + 0x552] ? 3 : 2; for (const o of [0, 4, 8]) put(m, direction + o, get(m, direction + o) + (get(m, 0x6f9850 + base + o) >> shift));
     const result = publishAnimationMatrix(direction, 0x6f9850 + base, pose + 0x90, child(8));
-    const from = result ? pose + 0x90 : camera + 0x120, to = result ? camera + 0x120 : pose + 0x90; Buffer.from(m.subarray(from, from + 16)).copy(m, to); Buffer.from(m.subarray(from + 16, from + 32)).copy(m, to + 16);
+    const from = result ? pose + 0x90 : camera + 0x120, to = result ? camera + 0x120 : pose + 0x90; copyToNativeMemory(m,to,Buffer.from(m.subarray(from,from+16)));copyToNativeMemory(m,to+16,Buffer.from(m.subarray(from+16,from+32)));
     publishCameraPose(0x909300 + Math.imul(m.readUInt16LE(camera + 0x36), 0x30c), pose, 0, frame + 0xa4, child(12));
     const next = (get(m, 0x6f99e0 + i * 4) + get(m, 0x6f99f0 + i * 4)) | 0; put(m, 0x6f99e0 + i * 4, Math.min(next, 65536));
   }

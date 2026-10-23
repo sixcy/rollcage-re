@@ -4,6 +4,7 @@ import {dispatchNativeSound, configureSoundPlayback} from './sound-dispatch.mjs'
 import {startVehicleSound, stopVehicleSound, setVehicleSoundVolume, setVehicleSoundFrequency} from './vehicle-sound-controls.mjs';
 import {applyVehicleHapticEffect, stopVehicleHapticEffect, applyVehicleDirectionalHaptics, applyVehicleConstantHaptics} from './vehicle-haptics.mjs';
 import originalTables from './vehicle-audio-tables.json' with {type: 'json'};
+import {nativeCodeAddress} from './native-memory-spans.mjs';
 
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
 const word = (memory, address, value) => memory.writeUInt16LE(value & 65535, address);
@@ -21,16 +22,33 @@ export function updateVehicleAudio(initialBody, index, runtime) {
   const get = address => memory.readInt32LE(address), pointer = address => memory.readUInt32LE(address);
   const local = scratchBase - 84, audio = 0x713190 + Math.imul(index, 40), horn = 0x713280 + Math.imul(index, 16);
   const field = offset => local + offset, record = 0x909300 + Math.imul(index, 0x30c);
+  const native = runtime.nativeAudioCalls === true;
+  if (native) for (const [name, offset] of [['EBX', 12], ['EBP', 8], ['ESI', 4], ['EDI', 0]]) {
+    if (!Number.isInteger(runtime.entryRegisters?.[name])) throw Error(`Native485300 requires original incoming ${name}.`);
+    put(memory, local + offset, runtime.entryRegisters[name]);
+  }
   let body = initialBody;
-  const invoke = (name, ecx, edx, args = []) => {
+  const nativeContext = (caller, callAddress, returned, entry, args, registers, floating = false) => {
+    if (!native) return runtime;
+    if (!Number.isInteger(callAddress)) throw Error(`Native485300 has an unbound actual call site for ${caller}.`);
+    args.forEach((value, i) => floating ? memory.writeFloatLE(value, entry + 4 + i * 4) : put(memory, entry + 4 + i * 4, value));
+    put(memory, entry, nativeCodeAddress(returned, runtime));
+    return {...runtime, scratchBase: entry, entryRegisters: registers,
+      nativeCaller: {callerAddress: nativeCodeAddress(caller, runtime), callerEntryEsp: scratchBase,
+        callAddress: nativeCodeAddress(callAddress, runtime), returnAddress: nativeCodeAddress(returned, runtime), entryEsp: entry, entryRegisters: registers}};
+  };
+  const invoke = (name, ecx, edx, args = [], callAddress, registers) => {
+    callAddress ??= {call407670: 0x485943, call407380: 0x485a39, call4074e0: 0x485a70, call407570: 0x485b4a}[name];
     const entry = local - args.length * 4 - 4;
-    if (handlers[name]) return handlers[name]({memory, ecx, edx, args, scratchBase: entry});
-    if (name === 'call484cb0') return startVehicleSound(ecx, edx, args[0], args[1], args[2], args[3], runtime);
-    if (name === 'call484d10') return stopVehicleSound(ecx, runtime);
-    if (name === 'call484d90') return setVehicleSoundFrequency(ecx, edx, runtime);
-    if (name === 'call484d30') return setVehicleSoundVolume(ecx, edx, args[0], runtime);
-    if (name === 'call484bb0') return emitNativeEffect(ecx, edx, args, {dispatch40ea40: handlers.dispatch40ea40 ?? (request => dispatchNativeSound(request, runtime))});
-    if (name === 'call40e5e0') return configureSoundPlayback(ecx, edx, args[0], runtime);
+    const nativeRuntime = nativeContext(0x485300, callAddress, callAddress + 5, entry, args, {...registers, ECX: ecx, EDX: edx});
+    if (native && /^call407/.test(name)) throw Error('Native485300 haptic caller register frame remains unbound.');
+    if (handlers[name]) return handlers[name]({memory, ecx, edx, args, scratchBase: entry, ...(native ? {runtime: nativeRuntime, nativeCaller: nativeRuntime.nativeCaller} : {})});
+    if (name === 'call484cb0') return startVehicleSound(ecx, edx, args[0], args[1], args[2], args[3], nativeRuntime);
+    if (name === 'call484d10') return stopVehicleSound(ecx, nativeRuntime);
+    if (name === 'call484d90') return setVehicleSoundFrequency(ecx, edx, nativeRuntime);
+    if (name === 'call484d30') return setVehicleSoundVolume(ecx, edx, args[0], nativeRuntime);
+    if (name === 'call484bb0') return emitNativeEffect(ecx, edx, args, {dispatch40ea40: handlers.dispatch40ea40 ?? (request => dispatchNativeSound(request, nativeRuntime))});
+    if (name === 'call40e5e0') return configureSoundPlayback(ecx, edx, args[0], nativeRuntime);
     const context = {...runtime, scratchBase: entry};
     if (name === 'call407380') {const descriptor = Buffer.alloc(20); args.forEach((value, i) => descriptor.writeInt32LE(value | 0, i * 4)); return applyVehicleHapticEffect(ecx, edx, descriptor, context);}
     if (name === 'call4074e0') return stopVehicleHapticEffect(ecx, context);
@@ -38,28 +56,34 @@ export function updateVehicleAudio(initialBody, index, runtime) {
     if (name === 'call407670') return applyVehicleConstantHaptics(ecx, edx, args[0], context);
     throw Error(`Vehicle audio requires reached handler ${name}.`);
   };
-  const result = (name, ecx, edx, args) => {
-    const returned = invoke(name, ecx, edx, args), value = typeof returned === 'number' ? returned : returned?.eax;
+  const result = (name, ecx, edx, args, callAddress, registers) => {
+    const returned = invoke(name, ecx, edx, args, callAddress, registers), value = typeof returned === 'number' ? returned : returned?.eax;
     if (!Number.isInteger(value)) throw Error(`Vehicle audio requires EAX from ${name}.`);
     return value | 0;
   };
-  const source = (handle, method, args = []) => {
+  const source = (handle, method, args = [], callAddress, registers) => {
     if ((handle >>> 0) <= 256) return 0;
     const object = pointer(handle >>> 0);
     if (!object) return 0;
     if (typeof handlers.sourceCall !== 'function') throw Error('Vehicle audio requires sourceCall.');
-    return handlers.sourceCall(object, method, args, runtime);
+    const entry = local - args.length * 4 - 4;
+    const context = nativeContext(0x485300, callAddress, callAddress + (method === 0x38 ? 2 : 3), entry, args, {...registers, ECX: object}, method === 0x14);
+    if (native) context.nativeSourceCall = context.nativeCaller;
+    return handlers.sourceCall(object, method, args, context);
   };
-  const frequency = (handle, value) => source(handle, 0x20, [signedShort(value) === -1 ? -1 : Math.trunc(Math.imul(signedShort(value), 0x2b11) / 1024)]);
-  const volume = (handle, value) => {
+  const live = (esi, edi) => ({EBX: body, EBP: Math.imul(index, 5), ESI: esi, EDI: edi});
+  const frequency = (handle, value, site, esi, edi) => source(handle, 0x20, [signedShort(value) === -1 ? -1 : Math.trunc(Math.imul(signedShort(value), 0x2b11) / 1024)], site, live(esi, edi));
+  const volume = (handle, value, site, edi) => {
     if ((handle >>> 0) <= 256 || !pointer(handle >>> 0)) return;
     const scaled = Math.trunc(Math.imul(signedShort(value), 0x7fff) / 0x3fff);
-    source(handle, 0x14, [Math.fround(Math.fround(scaled) * memory.readFloatLE(0x5dc5dc))]);
+    if (native) put(memory, field(0x38), pointer(handle >>> 0));
+    source(handle, 0x14, [Math.fround(Math.fround(scaled) * memory.readFloatLE(0x5dc5dc))], site, live(native ? pointer(pointer(handle >>> 0)) : undefined, edi));
   };
-  const reverb = handle => invoke('call40e5e0', handle, memory[body + 0x6b4] === 1 ? 1 : 0, [0]);
-  const emit = (code, pitch, gain, mode, velocity = 0, unused = 0, useReverb = 0) => result('call484bb0', code, body + 0x34, [velocity, pitch, gain, mode, unused, 0, useReverb]);
+  const reverb = (handle, site, esi, edi) => invoke('call40e5e0', handle, memory[body + 0x6b4] === 1 ? 1 : 0, [0], site, live(esi, edi));
+  const emit = (code, pitch, gain, mode, velocity = 0, unused = 0, useReverb = 0, site) => result('call484bb0', code, body + 0x34, [velocity, pitch, gain, mode, unused, 0, useReverb], site, live(undefined, undefined));
   const originalRpm = memory.readInt16LE(audio + 24), contact = (memory[body + 0x4b4] | memory[body + 0x57c]) & 1;
   const throttle = memory[body + 0x64d], hornType = memory[pointer(0x5ecb1c) + index + 0x1c];
+  if (native) memory[field(0x13)] = throttle;
   put(memory, field(0x1c), 0); put(memory, field(0x14), originalRpm); put(memory, field(0x30), index);
   put(memory, field(0x34), body); put(memory, field(0x38), Math.imul(index, 5));
   put(memory, field(0x3c), (abs32(get(body + 0x5f8)) + abs32(get(body + 0x530))) | 0);
@@ -71,8 +95,8 @@ export function updateVehicleAudio(initialBody, index, runtime) {
   if (memory.readInt16LE(session + 0x61c) !== 0 && memory[session + 0x585]) {
     if (hornType === 6) {
       if (memory[body + 0x710] & 0x20) {
-        if (get(horn + 8) === 127) put(memory, horn + 8, result('call484cb0', 58, 9, [1024, 16000, body + 0x34, memory[body + 0x6b4]]));
-      } else if (get(horn + 8) !== 127) {invoke('call484d10', get(horn + 8), 0); put(memory, horn + 8, 127);}
+        if (get(horn + 8) === 127) put(memory, horn + 8, result('call484cb0', 58, 9, [1024, 16000, body + 0x34, memory[body + 0x6b4]], 0x48540c, live(index * 16, index)));
+      } else if (get(horn + 8) !== 127) {invoke('call484d10', get(horn + 8), 0, [], 0x485428, live(index * 16, index)); put(memory, horn + 8, 127);}
     } else {
       if ((memory[body + 0x714] & 0x20) && get(horn) === 255) {put(memory, horn, 0); put(memory, horn + 4, 0); put(memory, horn + 8, 127);}
       if (get(horn) !== 255) {
@@ -83,13 +107,13 @@ export function updateVehicleAudio(initialBody, index, runtime) {
           if (duration === 255) put(memory, horn, 255);
           else {
             put(memory, horn + 4, duration * 2);
-            const played = result('call484cb0', memory[row], 7, [900, 16000, body + 0x34, memory[body + 0x6b4]]);
+            const played = result('call484cb0', memory[row], 7, [900, 16000, body + 0x34, memory[body + 0x6b4]], 0x4854ef, live(index * 16, index));
             put(memory, horn, get(horn) + 1); put(memory, horn + 8, played);
           }
         }
       }
     }
-    if (get(horn + 8) !== 127) reverb(get(horn + 8));
+    if (get(horn + 8) !== 127) reverb(get(horn + 8), 0x48551c, index * 16, index);
     put(memory, horn + 12, get(0x90a548));
   }
 
@@ -100,8 +124,8 @@ export function updateVehicleAudio(initialBody, index, runtime) {
     put(memory, field(0x18), material);
     if ((first && memory[first + 12] === 1) || material === 1) {
       const handle = get(audio + 16);
-      if (handle === 127) put(memory, audio + 16, emit(62, 1536, 14000, 7, 0, first));
-      else if (!((handle >>> 0) > 256 && pointer(handle >>> 0) && (source(handle, 0x38, [1]) & 255))) put(memory, audio + 16, 127);
+      if (handle === 127) put(memory, audio + 16, emit(62, 1536, 14000, 7, 0, first, 0, 0x485594));
+      else if (!((handle >>> 0) > 256 && pointer(handle >>> 0) && (source(handle, 0x38, [1], 0x4855cd, live(originalRpm, index)) & 255))) put(memory, audio + 16, 127);
     } else put(memory, audio + 16, 127);
     if (material > 26) material = 0;
   }
@@ -174,25 +198,30 @@ export function updateVehicleAudio(initialBody, index, runtime) {
   const alternate = get(session + 0x724) !== 0;
   let enginePitch = (halfPitch >> 1) + 600;
   const engineGain = 13000 - (memory.readInt16LE(audio + 36) >> (alternate ? 4 : 3));
+  if (native) {put(memory, field(0x14), Number(alternate)); put(memory, field(0x20), engineGain);}
   enginePitch = (Math.min(enginePitch, 9000) - get(field(0x1c)) + 128) | 0;
   put(memory, field(0x34), enginePitch);
-  if (get(audio + 12) === 127) put(memory, audio + 12, emit(0, signedShort(enginePitch), 0, 9, body + 0x68, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0));
-  reverb(get(audio + 12)); frequency(get(audio + 12), enginePitch); volume(get(audio + 12), engineGain);
+  if (get(audio + 12) === 127) put(memory, audio + 12, emit(0, signedShort(enginePitch), 0, 9, body + 0x68, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0, 0x485bf1));
+  reverb(get(audio + 12), 0x485c15, enginePitch, rpm); frequency(get(audio + 12), enginePitch, 0x485c62, enginePitch, rpm); volume(get(audio + 12), engineGain, 0x485cc1, rpm);
   let boostGain = halfPitch > 5000 ? (halfPitch * 4 - 15000) | 0 : halfPitch; boostGain = Math.min(boostGain, 10000);
-  if (get(audio + 20) === 127 && alternate) put(memory, audio + 20, emit(memory[0x6e6bdc], signedShort(enginePitch), boostGain & 65535, 9, body + 0x68, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0));
-  if (get(audio + 20) !== 127) {reverb(get(audio + 20)); frequency(get(audio + 20), enginePitch); volume(get(audio + 20), boostGain);}
+  if (native) put(memory, field(0x24), boostGain);
+  if (get(audio + 20) === 127 && alternate) put(memory, audio + 20, emit(memory[0x6e6bdc], signedShort(enginePitch), boostGain & 65535, 9, body + 0x68, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0, 0x485d26));
+  if (get(audio + 20) !== 127) {reverb(get(audio + 20), 0x485d53, enginePitch, rpm); frequency(get(audio + 20), enginePitch, 0x485da0, enginePitch, rpm); volume(get(audio + 20), boostGain, 0x485dfb, rpm);}
   let roadSpeed = Math.min(memory.readInt16LE(audio + 26), 16000), roadGain = Math.min((roadSpeed * 2) & 65535, 12500);
   const roadPitch = ((abs32(roadSpeed >> 3) - (get(field(0x1c)) >>> 1)) >>> 1);
-  if (get(audio + 8) === 127) put(memory, audio + 8, emit(1, signedShort(roadPitch), signedShort(roadGain), 9, 0, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0));
-  reverb(get(audio + 8)); frequency(get(audio + 8), roadPitch); volume(get(audio + 8), roadGain);
+  if (native) put(memory, field(0x24), roadGain);
+  if (get(audio + 8) === 127) put(memory, audio + 8, emit(1, signedShort(roadPitch), signedShort(roadGain), 9, 0, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0, 0x485e6f));
+  reverb(get(audio + 8), 0x485e93, roadPitch, rpm); frequency(get(audio + 8), roadPitch, 0x485ee0, roadPitch, rpm); volume(get(audio + 8), roadGain, 0x485f3b, rpm);
 
   const slip = Math.min(get(field(0x3c)), 0x1e0000);
   const delay = memory.readUInt16LE(audio + 28); word(memory, audio + 28, delay && contact ? delay - 1 : 0);
   const table = 0x5750d0 + get(field(0x18)) * 20;
   const firstCode = get(table), loopCode = get(table + 4), maximumGain = get(table + 8), basePitch = get(table + 12), allowLowSlip = get(table + 16);
   const slipUnits = slip >> 16;
+  if (native) {for (const [offset, value] of [[0x3c, firstCode], [0x28, loopCode], [0x2c, maximumGain], [0x14, basePitch], [0x20, allowLowSlip], [0x24, slipUnits]]) put(memory, field(offset), value);}
   let surface = get(audio + 4);
-  if (slipUnits < 4 && surface !== 127 && allowLowSlip === 0) {source(surface, 0x34); put(memory, audio + 4, 127); word(memory, audio + 38, 5);}
+  const nativeSurfaceObject = () => native && (surface >>> 0) > 256 ? pointer(surface >>> 0) : undefined;
+  if (slipUnits < 4 && surface !== 127 && allowLowSlip === 0) {source(surface, 0x34, [], 0x485fdc, live(allowLowSlip, rpm)); put(memory, audio + 4, 127); word(memory, audio + 38, 5);}
   else {
     if (slipUnits > 6 || allowLowSlip) {
       let unused = slip;
@@ -202,17 +231,17 @@ export function updateVehicleAudio(initialBody, index, runtime) {
       }
       const counter = memory.readInt16LE(audio + 38);
       if (counter > 1) {
-        if (counter === 5) emit(firstCode & 255, signedShort(basePitch), 0, 7, 0, unused);
+        if (counter === 5) emit(firstCode & 255, signedShort(basePitch), 0, 7, 0, unused, 0, 0x48608f);
         if (memory.readInt16LE(audio + 38) > 1) word(memory, audio + 38, memory.readUInt16LE(audio + 38) - 1);
-      } else if (surface === 127) {surface = emit(loopCode & 255, signedShort(basePitch), 0, 9, 0, unused); memory[audio + 34] = get(field(0x18)) & 255;}
+      } else if (surface === 127) {surface = emit(loopCode & 255, signedShort(basePitch), 0, 9, 0, unused, 0, 0x4860db); memory[audio + 34] = get(field(0x18)) & 255;}
       if (surface !== 127) {
         if (get(field(0x18)) !== memory.readInt8(audio + 34) && memory.readInt16LE(audio + 38) === 1) {
-          source(surface, 0x34); surface = emit(loopCode & 255, -1, 0, 9, 0, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0);
+          source(surface, 0x34, [], 0x486121, live(surface, rpm)); surface = emit(loopCode & 255, -1, 0, 9, 0, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0, 0x486146);
         }
         if (surface !== 127) {
-          reverb(surface);
-          if (slipUnits > 6) {frequency(surface, (abs32(rpm >> 7) + basePitch - get(field(0x1c))) | 0); invoke('call484d30', surface, maximumGain, [maximumGain]);}
-          else if (allowLowSlip) {invoke('call484d90', surface, basePitch - get(field(0x1c))); const scaled = ((abs32(rpm) * 3) | 0) >> 1, gain = Math.min(maximumGain >>> 0, scaled >>> 0) | 0; invoke('call484d30', surface, gain, [gain]);}
+          reverb(surface, 0x486169, surface, rpm);
+          if (slipUnits > 6) {frequency(surface, (abs32(rpm >> 7) + basePitch - get(field(0x1c))) | 0, 0x4861c5, surface, nativeSurfaceObject()); invoke('call484d30', surface, maximumGain, [maximumGain], 0x4861ff, live(surface, nativeSurfaceObject()));}
+          else if (allowLowSlip) {invoke('call484d90', surface, basePitch - get(field(0x1c)), [], 0x4861e2, live(surface, rpm)); const scaled = ((abs32(rpm) * 3) | 0) >> 1, gain = Math.min(maximumGain >>> 0, scaled >>> 0) | 0; invoke('call484d30', surface, gain, [gain], 0x4861ff, live(surface, rpm));}
         }
       }
       memory[audio + 34] = get(field(0x18)) & 255;
@@ -224,7 +253,7 @@ export function updateVehicleAudio(initialBody, index, runtime) {
     const previous = get(body + 0x3e74), clock = get(0x90a548);
     if (previous === -1 || ((clock - previous) >>> 0) >= 10) {
       put(memory, body + 0x3e74, clock);
-      put(memory, 0x5eced0, emit(19, signedShort(collision + 256), signedShort(Math.min((collision << 6) - ((collision << 6) >> 2), 16383)), 7, 0, previous));
+      put(memory, 0x5eced0, emit(19, signedShort(collision + 256), signedShort(Math.min((collision << 6) - ((collision << 6) >> 2), 16383)), 7, 0, previous, 0, 0x48627c));
     }
   }
   word(memory, body + 0x66f, 0);

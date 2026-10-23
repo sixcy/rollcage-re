@@ -161,7 +161,7 @@ export function runAutonomousMode20(body, {memory, scratchBase}) {
 
 // 410220: prepare, once-per-captured-clock shared stage, six-tick phase,
 // specialized modes, then common planning and the controller-ready bit4000.
-export function runAutonomousDispatch(body, {memory, scratchBase, handlers = {}} = {}) {
+export function runAutonomousDispatch(body, {memory, scratchBase, handlers = {}, nativeState} = {}) {
   const clock = memory.readUInt32LE(0x90a548);
   word(memory, body + 0x6c4, memory.readUInt16LE(body + 0x6c4) & 0xbfff); dword(memory, body + 0x710, 0);
   const recovered = {call47fc20: updateAutonomousRouteConsistency, call47ff20: updateAutonomousStuckState, call41f0d0: maybeStartAutonomousRandomRecovery, call47ffb0: updateAutonomousReverseRecovery, call4311e0: updateAutonomousPowerSlide};
@@ -169,7 +169,7 @@ export function runAutonomousDispatch(body, {memory, scratchBase, handlers = {}}
     if (handlers[name] === undefined && name === 'call41f900') return updateAutonomousProfilePlan(ecx, edx, {memory, scratchBase: scratchBase - 16});
     if (handlers[name] === undefined && name === 'call4103f0') return updateAutonomousWeaponPolicy(ecx, {memory, scratchBase: scratchBase - 16});
     if (handlers[name] === undefined && name === 'call421430') return planAutonomousRoute(ecx, {memory, scratchBase: scratchBase - 16, handlers});
-    if (handlers[name] === undefined && recovered[name]) return recovered[name](ecx, {memory, scratchBase: scratchBase - 16});
+    if (handlers[name] === undefined && recovered[name]) return recovered[name](ecx, {memory, scratchBase: scratchBase - 16, nativeState});
     return call(handlers, name, {memory, ecx, edx, args});
   };
   if (clock % 120 === memory.readUInt16LE(body + 0x65e) * 16) invoke('call41f900', body, 0);

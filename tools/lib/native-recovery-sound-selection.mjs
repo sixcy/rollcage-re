@@ -7,6 +7,8 @@ import {nativeRecoverySoundBindingSites, nativeRecoverySoundBindingRanges, selec
   nativeRecoverySoundChannelSites, nativeRecoverySoundChannelRanges, selectNativeRecoverySoundChannelSnapshots} from './native-recovery-sound-bindings.mjs';
 import {nativeRecoverySoundPlaybackCopySites, nativeRecoverySoundPlaybackCopyRanges, nativeRecoveryPlaybackCopyCondition, isNativeRecoveryPlaybackCopySite,
   selectNativeRecoverySoundPlaybackCopySnapshots} from './native-recovery-playback-copy.mjs';
+import {nativeRecoveryActiveVectorRanges, selectNativeRecoveryActiveVectorEvidence} from './native-recovery-active-vector.mjs';
+import {nativeWorkerLookupSite, nativeWorkerLookupRanges, nativeOwnedWorkerObservationPolicy, verifyOwnedWorkerSnapshotAdmission} from './native-recovery-worker-observation.mjs';
 
 const rva = address => `0x${(address - 0x400000).toString(16)}`;
 export const nativeRecoverySoundSites = Object.freeze([
@@ -24,10 +26,10 @@ export const nativeRecoverySoundServiceSites = Object.freeze([
   ['recovery-sound-factory-enter-return', 0x4a7691], ['recovery-sound-factory-thread-return', 0x4a7697], ['recovery-sound-factory-leave-return', 0x4a76c0],
   ['recovery-sound-play-enter-return', 0x4adaaa], ['recovery-sound-play-thread-return', 0x4adab0], ['recovery-sound-play-leave-return', 0x4adad9],
 ].map(row => Object.freeze(row)));
-export const nativeRecoverySoundSitesFor = options => [...nativeRecoverySoundSites, ...(options?.includeServiceSites ? nativeRecoverySoundServiceSites : []), ...(options?.includeBindingSites ? nativeRecoverySoundBindingSites : []), ...(options?.includeChannelSites ? nativeRecoverySoundChannelSites : []), ...(options?.includePlaybackSites ? nativeRecoverySoundPlaybackCopySites : [])];
+export const nativeRecoverySoundSitesFor = options => [...nativeRecoverySoundSites, ...(options?.includeServiceSites ? nativeRecoverySoundServiceSites : []), ...(options?.includeBindingSites ? nativeRecoverySoundBindingSites : []), ...(options?.includeChannelSites ? nativeRecoverySoundChannelSites : []), ...(options?.includePlaybackSites ? nativeRecoverySoundPlaybackCopySites : []), ...(options?.includeOwnedWorkerObservation ? [nativeWorkerLookupSite] : [])];
 
 const vectorFields = [[0x830, 'cache'], [0x834, 'active'], [0x838, 'vector-838'], [0x83c, 'pending'], [0x840, 'retired'], [0x84c, 'mixer']];
-export function nativeRecoverySoundGraphRanges({maxRegionBytes = 64 * 1024 * 1024, includeVectorStorage = false, maxVectorBytes = 65536, includeServiceSites = false, includeBindingSites = false} = {}) {
+export function nativeRecoverySoundGraphRanges({maxRegionBytes = 64 * 1024 * 1024, includeVectorStorage = false, maxVectorBytes = 65536, includeServiceSites = false, includeBindingSites = false, includeActiveVectorEvidence = false} = {}) {
   if (!Number.isInteger(maxRegionBytes) || maxRegionBytes < 1 || maxRegionBytes > 64 * 1024 * 1024) throw Error('Invalid recovery audio graph observation bound.');
   if (typeof includeVectorStorage !== 'boolean' || !Number.isSafeInteger(maxVectorBytes) || maxVectorBytes < 1 || maxVectorBytes > 64 * 1024 * 1024) throw Error('Invalid recovery audio vector observation bound.');
   return [
@@ -36,7 +38,8 @@ export function nativeRecoverySoundGraphRanges({maxRegionBytes = 64 * 1024 * 102
     //frequent rich sites rather than duplicating its entire containing heap
     //region on every cache iteration. Existing capture profiles stay exact.
     {id: 'recovery-audio-manager-region', rva: '0x314b08', dereferenceOffsets: ['0'], ...(includeServiceSites ? {length: 0xd74} : {readableRegion: true, maxRegionBytes})},
-    {id: 'recovery-audio-manager-vtable', rva: '0x314b08', dereferenceOffsets: ['0', '0'], length: 0x4c},
+    {id: 'recovery-audio-manager-vtable', rva: '0x314b08', dereferenceOffsets: ['0', '0'], length: includeActiveVectorEvidence ? 0x64 : 0x4c},
+    ...(includeActiveVectorEvidence ? [{id: 'recovery-audio-worker-object', rva: '0x314b08', dereferenceOffsets: ['0', '0x824'], length: 80}] : []),
     ...(includeBindingSites ? [{id: 'recovery-audio-backend-vtable', rva: '0x314b08', dereferenceOffsets: ['0', '0x81c'], length: 4}] : []),
     {id: 'recovery-audio-source-vtable', rva: '0x1d3f60', length: 0x88},
     {id: 'recovery-audio-debugger-state', rva: '0x314b18', length: 8},
@@ -99,7 +102,7 @@ export function nativeRecoverySoundGenericRanges(options) {
     {id: 'recovery-audio-clock', rva: '0x50a548', length: 4}, ...nativeRecoverySoundGraphRanges(options)];
 }
 export function nativeRecoverySoundGenericBreakpoints(options) {
-  return nativeRecoverySoundSitesFor(options).map(([id, address]) => ({id, rva: rva(address), ranges: [...nativeRecoverySoundGenericRanges(options), ...(options?.includeAllocations ? nativeRecoverySoundAllocationRanges(id) : []), ...(options?.includeServiceSites ? nativeRecoverySoundServiceRanges(id) : []), ...(options?.includeBindingSites ? nativeRecoverySoundBindingRanges(id) : []), ...(options?.includeChannelSites ? nativeRecoverySoundChannelRanges(id) : []), ...(options?.includePlaybackSites ? nativeRecoverySoundPlaybackCopyRanges(id) : [])],
+  return nativeRecoverySoundSitesFor(options).map(([id, address]) => ({id, rva: rva(address), ranges: [...nativeRecoverySoundGenericRanges(options), ...(options?.includeAllocations ? nativeRecoverySoundAllocationRanges(id) : []), ...(options?.includeServiceSites ? nativeRecoverySoundServiceRanges(id) : []), ...(options?.includeBindingSites ? nativeRecoverySoundBindingRanges(id) : []), ...(options?.includeChannelSites ? nativeRecoverySoundChannelRanges(id) : []), ...(options?.includePlaybackSites ? nativeRecoverySoundPlaybackCopyRanges(id) : []), ...(options?.includeActiveVectorEvidence ? nativeRecoveryActiveVectorRanges(id) : []), ...(options?.includeOwnedWorkerObservation ? nativeWorkerLookupRanges(id, options) : [])],
     captureWhen: options?.includePlaybackSites && isNativeRecoveryPlaybackCopySite(id) ? nativeRecoveryPlaybackCopyCondition() : options?.includeBindingSites && isNativeRecoveryPlaybackAllocationSite(id) ? nativeRecoveryPlaybackAllocationCondition() : {range: {id: 'active-race-phase', rva: '0x1ecb1c', dereferenceOffsets: ['0'], offset: '0x57c', length: 4}, equalsBytesHex: '04000000'}}));
 }
 
@@ -121,13 +124,20 @@ export function verifyNativeRecoverySoundCaptureConfiguration(configuration) {
   const includeBindingSites = configuration.breakpoints.some(row => nativeRecoverySoundBindingSites.some(([id]) => row.id === id));
   const includeChannelSites = configuration.breakpoints.some(row => nativeRecoverySoundChannelSites.some(([id]) => row.id === id));
   const includePlaybackSites = configuration.breakpoints.some(row => nativeRecoverySoundPlaybackCopySites.some(([id]) => row.id === id));
-  const sites = nativeRecoverySoundSitesFor({includeServiceSites, includeBindingSites, includeChannelSites, includePlaybackSites});
+  const includeActiveVectorEvidence = configuration.breakpoints.some(row => row.ranges?.some(part => ['recovery-audio-worker-object', 'recovery-audio-vector-allocation-region'].includes(part.id)));
+  const includeOwnedWorkerObservation = configuration.ownedWorkerObservation !== undefined || configuration.breakpoints.some(row => row.id === nativeWorkerLookupSite[0]);
+  const entryReturnRva = configuration.ownedWorkerObservation?.entryReturnRva;
+  const includeWorkerSourceEvidence = configuration.breakpoints.some(row => row.ranges?.some(part => ['recovery-worker-source','recovery-worker-source-vtable'].includes(part.id)));
+  if (includeOwnedWorkerObservation && (!includeActiveVectorEvidence || JSON.stringify(configuration.ownedWorkerObservation) !== JSON.stringify(nativeOwnedWorkerObservationPolicy({entryReturnRva})))) throw Error('Recovery worker observation requires its exact one-shot active-vector policy.');
+  if (includeWorkerSourceEvidence && (!includeOwnedWorkerObservation || entryReturnRva !== '0xb1304')) throw Error('Recovery worker source evidence requires the explicit gain caller-return gate.');
+  if (includeOwnedWorkerObservation && configuration.pendingFrameObserver?.maxPendingBytes !== 128 * 1024 * 1024) throw Error('Recovery worker observation must share the unchanged pending byte bound.');
+  const sites = nativeRecoverySoundSitesFor({includeServiceSites, includeBindingSites, includeChannelSites, includePlaybackSites, includeOwnedWorkerObservation});
   const sound = configuration.breakpoints.filter(row => sites.some(([id]) => row.id === id));
   const bound = sound[0]?.ranges?.find(row => row.id === 'recovery-audio-manager-region')?.maxRegionBytes;
   const includeVectorStorage = sound[0]?.ranges?.some(row => row.vectorStorage === true) ?? false;
   const includeAllocations = sound.some(row => row.ranges?.some(part => part.id === 'recovery-audio-source-allocation'));
   const maxVectorBytes = sound[0]?.ranges?.find(row => row.vectorStorage)?.maxVectorBytes;
-  const graphOptions = {maxRegionBytes: bound, includeVectorStorage, includeAllocations, includeServiceSites, includeBindingSites, includeChannelSites, includePlaybackSites, ...(maxVectorBytes === undefined ? {} : {maxVectorBytes})};
+  const graphOptions = {maxRegionBytes: bound, includeVectorStorage, includeAllocations, includeServiceSites, includeBindingSites, includeChannelSites, includePlaybackSites, includeActiveVectorEvidence, includeOwnedWorkerObservation, includeWorkerSourceEvidence, ...(maxVectorBytes === undefined ? {} : {maxVectorBytes})};
   if (sound.length !== sites.length || JSON.stringify(sound) !== JSON.stringify(nativeRecoverySoundGenericBreakpoints(graphOptions))) throw Error('Recovery audio generic call/return policy differs.');
   if (includeAllocations && !includeVectorStorage) throw Error('Recovery audio allocation capture requires its vector storage.');
   if (includeServiceSites && !includeAllocations) throw Error('Recovery audio service capture requires its allocation memory.');
@@ -146,6 +156,7 @@ export function verifyNativeRecoverySoundCaptureConfiguration(configuration) {
   if (includeBindingSites && (!includeServiceSites || !deferredObservationActivation)) throw Error('Recovery binding capture requires rich services and guarded activation.');
   if (includeChannelSites && !includeBindingSites) throw Error('Recovery channel capture requires its complete binding profile.');
   if (includePlaybackSites && !includeChannelSites) throw Error('Recovery playback copy capture requires its complete channel profile.');
+  if (includeActiveVectorEvidence && !includePlaybackSites) throw Error('Recovery active vector evidence requires its complete playback profile.');
   if (deferredObservationActivation) {
     const expected = {breakpointId: 'controlled-recovery-caller', rawHit: 229, observationBreakpointIds: sites.map(([id]) => id)};
     if (!includeServiceSites || JSON.stringify(configuration.observationActivation) !== JSON.stringify(expected) || configuration.pendingFrameObserver.nestedCaptureScope !== 'frame-thread') throw Error('Recovery audio deferred observer policy differs.');
@@ -155,6 +166,9 @@ export function verifyNativeRecoverySoundCaptureConfiguration(configuration) {
     ...(includeBindingSites ? {bindingSitesDeclared: true} : {}),
     ...(includeChannelSites ? {channelSitesDeclared: true} : {}),
     ...(includePlaybackSites ? {playbackSitesDeclared: true} : {}),
+    ...(includeActiveVectorEvidence ? {activeVectorEvidenceDeclared: true, managerVtableBytes: 0x64} : {}),
+    ...(includeOwnedWorkerObservation ? {ownedWorkerObservationDeclared: true} : {}),
+    ...(includeWorkerSourceEvidence ? {workerSourceEvidenceDeclared:true} : {}),
     allocationMemoryDeclared: includeAllocations, vectorStorageDeclared: includeVectorStorage, serviceSitesDeclared: includeServiceSites,
     ...(includeServiceSites ? {managerObjectBytes: 0xd74} : {}), ...(includeVectorStorage ? {maxVectorBytes} : {})};
 }
@@ -191,14 +205,14 @@ export function selectNativeRecoverySoundSnapshots(capture, pair, configuration)
   if (!bank || bankEnd < bank || (bankEnd - bank) % 4 || (bankEnd - bank) / 4 <= 43) throw Error('Recovery audio sound43 bank bounds differ.');
   const owner = before.readUInt32LE(bank + 43 * 4);
   if (!owner) throw Error('Recovery audio requires its real populated sound43 owner.');
-  const sites = nativeRecoverySoundSitesFor({includeServiceSites: policy.serviceSitesDeclared, includeBindingSites: policy.bindingSitesDeclared, includeChannelSites: policy.channelSitesDeclared, includePlaybackSites: policy.playbackSitesDeclared});
+  const sites = nativeRecoverySoundSitesFor({includeServiceSites: policy.serviceSitesDeclared, includeBindingSites: policy.bindingSitesDeclared, includeChannelSites: policy.channelSitesDeclared, includePlaybackSites: policy.playbackSitesDeclared, includeOwnedWorkerObservation: policy.ownedWorkerObservationDeclared});
   const rows = capture.snapshots.filter(row => sites.some(([id]) => id === row.breakpointId));
   for (const [id, address] of sites) {
     const hits = rows.filter(row => row.breakpointId === id);
     for (const [index, row] of hits.entries()) {
       const bases = [row.moduleBaseAddress, ...[...row.ranges.values()].map(value => value.moduleBaseAddress)].filter(value => value !== undefined && value !== null);
       if (row.hit !== index + 1 || !Number.isSafeInteger(row.matchingHit) || row.matchingHit < row.hit || !Number.isSafeInteger(row.rawHit) || row.rawHit < row.matchingHit || index > 0 && (row.matchingHit <= hits[index - 1].matchingHit || row.rawHit <= hits[index - 1].rawHit) || !bases.length || bases.some(value => number(value) !== base) || number(row.registers?.eip) !== actual(address)) throw Error('Recovery audio generic snapshot address/hit/phase proof differs.');
-      verifyNativeRecoverySoundObservationPredicate(row, {...controlledInput, tid: pair.before.tid}, policy.bindingSitesDeclared);
+      verifyNativeRecoverySoundObservationPredicate(row, {...controlledInput, tid: id === nativeWorkerLookupSite[0] ? row.tid : pair.before.tid}, policy.bindingSitesDeclared);
       observedOrder(row);
       const stack = row.ranges.get('recovery-audio-stack'), clock = row.ranges.get('recovery-audio-clock');
       if (!stack || number(stack.address) !== number(row.registers.esp) - 32 || stack.bytes.length !== 64 || !clock || number(clock.address) !== actual(0x90a548) || clock.bytes.length !== 4) throw Error('Recovery audio generic stack/clock ranges differ.');
@@ -234,7 +248,7 @@ export function selectNativeRecoverySoundSnapshots(capture, pair, configuration)
       if (!part || number(part.address) !== address || part.bytes.length !== length) throw Error(`Recovery audio graph ${id} address/length proof differs.`);
     };
     span('recovery-audio-manager-root', actual(0x714b08), 4);
-    span('recovery-audio-manager-vtable', table, 0x4c);
+    span('recovery-audio-manager-vtable', table, policy.managerVtableBytes ?? 0x4c);
     span('recovery-audio-source-vtable', actual(0x5d3f60), 0x88);
     span('recovery-audio-debugger-state', actual(0x714b18), 8);
     const observed = row.ranges.get('recovery-audio-manager-region');
@@ -287,6 +301,8 @@ export function selectNativeRecoverySoundSnapshots(capture, pair, configuration)
     ...(bindingObservations ? {bindingObservations} : {}),
     ...(policy.channelSitesDeclared ? {channelVectorObservations: selectNativeRecoverySoundChannelSnapshots(candidates, {...layout, ownerAddress: owner, wrapperAddress: wrapper, appendCall, appendReturn, actual})} : {}),
     ...(policy.playbackSitesDeclared ? {playbackCopyObservations: selectNativeRecoverySoundPlaybackCopySnapshots(candidates, {...layout, actual, sourceAddress: source, bindingObservations})} : {}),
+    ...(policy.activeVectorEvidenceDeclared ? {activeVectorObservations: selectNativeRecoveryActiveVectorEvidence(capture, candidates, {...layout, managerAddress: manager, sourceAddress: source, mainTid: pair.before.tid, actual})} : {}),
+    ...(policy.ownedWorkerObservationDeclared ? {workerLookupObservation: verifyOwnedWorkerSnapshotAdmission(capture, rows.find(row => row.breakpointId === nativeWorkerLookupSite[0]), pair, configuration)} : {}),
     ...(observationActivation ? {observationActivation} : {}),
     ...(allocationMemory ? {allocationMemory} : {}),
     emitterArguments: words, selectedSnapshots: selected.map(row => ({id: row.breakpointId, observedDebugEventOrdinal: observedOrder(row), tid: row.tid, esp: reg(row, 'esp'), eip: reg(row, 'eip')})),

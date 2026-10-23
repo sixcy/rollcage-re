@@ -1,5 +1,20 @@
 # Background audio producer: next source and input scope
 
+This is the retained pre-V13 planning audit. Subsequent work implements
+`4a7c10` and the nonspatial/effect-free `4b12d0` branch in
+[audio source parameters](audio-source-parameters.md). The
+[V13 capture](native-recovery-active-vector-capture.md) proves the stored
+worker identity and its owned thread association, and the
+[connected V13 parent](native-recovery-adaptive-audio.md) matches its declared
+memory outputs on a no-growth path. The full `4a6600`/`4a6b60` worker,
+its complete caller chain and the V11/V12 interleavings remain work.
+The [manager port](audio-manager-update.md) now covers genuine bounded
+consumer branches in192 constructed cases. The fresh
+[V14 worker observation](../analysis/physics-native-controlled-recovery-worker-v14-20261023/report.json)
+also identifies its actual immediate gain-lookup caller; it does not provide
+the whole worker source input/output pair. V12's allocation tail remains unavailable.
+The historical gaps below must be read in that scope.
+
 The next missing producer is the game's managed audio update, rather than a
 GetCurrentThreadId side effect. Retained code establishes a route from the
 thread startup to the locked manager consumer and per-source mixer lookups.

@@ -1,0 +1,568 @@
+{
+  "moduleBaseAddress": 7208960,
+  "regions": [
+    {
+      "id": "four-pickup-transitions",
+      "preferredAddress": 9509792,
+      "address": 12524448,
+      "length": 96,
+      "physical": true,
+      "alias": false
+    },
+    {
+      "id": "pickup-probability-ROM-observation",
+      "preferredAddress": 5721780,
+      "address": 8736436,
+      "length": 436,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "pickup-probability-selector",
+      "preferredAddress": 7249768,
+      "address": 10264424,
+      "length": 4,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "projectile-counts",
+      "preferredAddress": 9450752,
+      "address": 12465408,
+      "length": 4,
+      "physical": true,
+      "alias": false,
+      "hex": "00000000"
+    },
+    {
+      "id": "time-texture-handle",
+      "preferredAddress": 6213668,
+      "address": 9228324,
+      "length": 4,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "time-texture-records",
+      "preferredAddress": 7295904,
+      "address": 10310560,
+      "length": 16896,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "time-UV-increment",
+      "preferredAddress": 6146424,
+      "address": 9161080,
+      "length": 4,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "contact-topology-root",
+      "preferredAddress": 7418072,
+      "address": 10432728,
+      "length": 4,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "contact-topology-count",
+      "preferredAddress": 7418104,
+      "address": 10432760,
+      "length": 4,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "contact-vertex-word-observation",
+      "preferredAddress": 7418112,
+      "address": 10432768,
+      "length": 96,
+      "physical": false,
+      "alias": false
+    },
+    {
+      "id": "contact-model-root",
+      "preferredAddress": 7418244,
+      "address": 10432900,
+      "length": 4,
+      "physical": false,
+      "alias": false
+    }
+  ],
+  "state": {
+    "controllerCount": 3,
+    "controllers": [
+      {
+        "p": 280894464,
+        "state": 1,
+        "timer": 31,
+        "pickupIndex": 7,
+        "transitionIndex": 1
+      },
+      {
+        "p": 280911616,
+        "state": 1,
+        "timer": 9,
+        "pickupIndex": 6,
+        "transitionIndex": 0
+      },
+      {
+        "p": 280928768,
+        "state": 1,
+        "timer": 34,
+        "pickupIndex": 8,
+        "transitionIndex": 2
+      }
+    ],
+    "projectiles": [
+      {
+        "p": 280945920,
+        "kind": 1,
+        "active": 0
+      },
+      {
+        "p": 280951936,
+        "kind": 1,
+        "active": 0
+      },
+      {
+        "p": 280957952,
+        "kind": 1,
+        "active": 0
+      },
+      {
+        "p": 280963968,
+        "kind": 1,
+        "active": 0
+      },
+      {
+        "p": 280970496,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 280976512,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 280982528,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 280989056,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 280995072,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281001088,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281007616,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281013632,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281019648,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281026176,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281032192,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281038208,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281044736,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281050752,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281056768,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281063296,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281069312,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281075328,
+        "kind": 2,
+        "active": 0
+      },
+      {
+        "p": 281081344,
+        "kind": 0,
+        "active": 0
+      },
+      {
+        "p": 281086592,
+        "kind": 0,
+        "active": 0
+      }
+    ],
+    "terrainWave": 0,
+    "timeEffect": [
+      0,
+      0,
+      0,
+      65536
+    ],
+    "periodicEnabled": 0,
+    "periodic": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "cars": [
+      {
+        "body": 282100864,
+        "held": 32832,
+        "edges": 32768,
+        "slots": [
+          255,
+          255
+        ],
+        "contactOwner": 11703776,
+        "ownerActive": 0
+      },
+      {
+        "body": 282336256,
+        "held": 64,
+        "edges": 0,
+        "slots": [
+          255,
+          255
+        ],
+        "contactOwner": 11703916,
+        "ownerActive": 0
+      },
+      {
+        "body": 282556800,
+        "held": 64,
+        "edges": 0,
+        "slots": [
+          255,
+          255
+        ],
+        "contactOwner": 11704056,
+        "ownerActive": 0
+      },
+      {
+        "body": 282767360,
+        "held": 32832,
+        "edges": 32768,
+        "slots": [
+          255,
+          255
+        ],
+        "contactOwner": 11704196,
+        "ownerActive": 0
+      },
+      {
+        "body": 282977920,
+        "held": 8256,
+        "edges": 8192,
+        "slots": [
+          255,
+          255
+        ],
+        "contactOwner": 11704336,
+        "ownerActive": 0
+      },
+      {
+        "body": 283182720,
+        "held": 8256,
+        "edges": 8192,
+        "slots": [
+          255,
+          255
+        ],
+        "contactOwner": 11704476,
+        "ownerActive": 0
+      }
+    ]
+  },
+  "attempts": [
+    {
+      "admitted": [],
+      "error": "Error: Uncaptured native memory at 0x911ba8 (2 bytes).\n    at span (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:76:21)\n    at api.<computed> (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:82:48)\n    at word (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/pickup-world-state.mjs:9:115)\n    at updatePickupTransition (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/pickup-world-state.mjs:23:94)\n    at updatePickupRespawnControllers (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/pickup-world-state.mjs:63:100)\n    at updateWorldPickups (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/pickup-world-state.mjs:103:2)\n    at updateRaceWeaponStage (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/race-weapon-stage.mjs:16:3)\n    at executeNativeDriveContinuation (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-drive-continuation.mjs:183:26)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:21:160",
+      "stage": "weapon-coordinator"
+    },
+    {
+      "admitted": [
+        "four-pickup-transitions"
+      ],
+      "result": {
+        "stage": "complete",
+        "calls": [
+          {
+            "index": 0,
+            "recordAddress": 12489472,
+            "bodyAddress": 282100864,
+            "entryEsp": 17824996,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 1,
+            "recordAddress": 12490252,
+            "bodyAddress": 282336256,
+            "entryEsp": 17824996,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 2,
+            "recordAddress": 12491032,
+            "bodyAddress": 282556800,
+            "entryEsp": 17824996,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 3,
+            "recordAddress": 12491812,
+            "bodyAddress": 282767360,
+            "entryEsp": 17824996,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 4,
+            "recordAddress": 12492592,
+            "bodyAddress": 282977920,
+            "entryEsp": 17824996,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 5,
+            "recordAddress": 12493372,
+            "bodyAddress": 283182720,
+            "entryEsp": 17824996,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "stage": "48d7c0",
+            "entryEsp": 17824996,
+            "entryRegisters": {
+              "EBX": 6,
+              "EBP": 0,
+              "EDI": 6,
+              "ESI": 12494152
+            }
+          }
+        ],
+        "gates": [
+          {
+            "stage": "499de0",
+            "enabled": true,
+            "wormholeAddress": 281091840,
+            "mode": 0,
+            "called": false
+          },
+          {
+            "stage": "49ac30",
+            "called": true,
+            "incomingMode": 0
+          },
+          {
+            "stage": "469fd0",
+            "called": true,
+            "enabled": false
+          }
+        ],
+        "inputs": [
+          {
+            "id": "drive-wormhole-root",
+            "preferredAddress": 8435168,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 11449824,
+            "captured": true,
+            "bytesHex": "001fc110"
+          },
+          {
+            "id": "drive-pickup-roots",
+            "preferredAddress": 9445408,
+            "length": 8,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 12460064,
+            "captured": true,
+            "bytesHex": "e066c6080c000000"
+          },
+          {
+            "id": "drive-projectile-roots",
+            "preferredAddress": 9450656,
+            "length": 96,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 12465312,
+            "captured": true
+          },
+          {
+            "id": "drive-terrain-wave-gate",
+            "preferredAddress": 9489280,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 12503936,
+            "captured": true,
+            "bytesHex": "00000000"
+          },
+          {
+            "id": "drive-security-cookie",
+            "preferredAddress": 6195344,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 9210000,
+            "captured": true,
+            "bytesHex": "132d8192"
+          },
+          {
+            "id": "drive-time-effect-output",
+            "preferredAddress": 7236780,
+            "length": 8,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 10251436,
+            "captured": true,
+            "bytesHex": "0000000000000000"
+          },
+          {
+            "id": "drive-target-registry-observation",
+            "preferredAddress": 8579200,
+            "length": 128,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 11593856,
+            "captured": true
+          },
+          {
+            "id": "drive-target-counts",
+            "preferredAddress": 8579328,
+            "length": 8,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 11593984,
+            "captured": true,
+            "bytesHex": "0600000016000000"
+          },
+          {
+            "id": "drive-pickup-controller-observation",
+            "preferredAddress": 9557120,
+            "length": 50,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 12571776,
+            "captured": true
+          },
+          {
+            "id": "drive-periodic-state",
+            "preferredAddress": 9450768,
+            "length": 20,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 12465424,
+            "captured": true
+          },
+          {
+            "id": "drive-periodic-selector",
+            "preferredAddress": 7236344,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 10251000,
+            "captured": true,
+            "bytesHex": "00000000"
+          },
+          {
+            "id": "drive-procedural-handle",
+            "preferredAddress": 6213676,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 9228332,
+            "captured": true,
+            "bytesHex": "48000000"
+          },
+          {
+            "id": "drive-procedural-clock",
+            "preferredAddress": 6214340,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 9228996,
+            "captured": true,
+            "bytesHex": "00000000"
+          },
+          {
+            "id": "drive-render-angle-table",
+            "preferredAddress": 5703456,
+            "length": 16384,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 8718112,
+            "captured": true
+          }
+        ]
+      }
+    }
+  ]
+}

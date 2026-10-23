@@ -1,6 +1,7 @@
 // Bounded numerical replay memory. Only explicitly captured spans are readable;
 // no huge zero-filled allocation or guessed pointer relocation is permitted.
 import {registerNativeMemorySpans} from '../../src/native-memory-spans.mjs';
+import {validateCapturedGuardedPointerRanges} from './captured-guarded-pointer-ranges.mjs';
 const addressSpace = 0x100000000;
 const methods = {Int8: 1, UInt8: 1, Int16LE: 2, UInt16LE: 2, Int32LE: 4, UInt32LE: 4, FloatLE: 4, DoubleLE: 8, BigInt64LE: 8, BigUInt64LE: 8};
 const numericKey = key => typeof key === 'string' && /^(0|[1-9][0-9]*)$/.test(key) ? Number(key) : null;
@@ -8,8 +9,10 @@ const validSpan = (address, length) => Number.isSafeInteger(address) && address 
 
 export function createCapturedMemory(input, {aliases = [], maxMappedBytes = 128 * 1024 * 1024} = {}) {
   if (!Array.isArray(input) || !input.length || !Number.isSafeInteger(maxMappedBytes) || maxMappedBytes < 1) throw Error('Captured memory requires explicit bounded regions.');
+  const guardedSkips = validateCapturedGuardedPointerRanges(input);
   const emptyVectors = [];
   const sorted = input.filter(row => {
+    if (guardedSkips.has(row)) return false;
     if (Buffer.isBuffer(row.bytes) && row.bytes.length === 0) {
       const begin = Number(row.vectorBegin), header = Buffer.alloc(12);
       if (!validSpan(begin, 0) || begin >= addressSpace) throw Error('Invalid empty captured vector region.');

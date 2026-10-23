@@ -1,0 +1,73 @@
+{
+  "method": "dependency-only-source-postphysics-probe",
+  "authority": "source-carried-V4-physics-output-with-no-native-postphysics-output-capture",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/control-prefix-v4-20261023",
+  "moduleBaseAddress": 7208960,
+  "clock": 288,
+  "entryEsp": 5242276,
+  "attachmentCount": 1,
+  "physicalCount": 14,
+  "stages": [
+    {
+      "label": "44f050",
+      "completed": false,
+      "error": "Error: Access crosses captured-memory alias boundary.\n    at span (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:72:66)\n    at Proxy.subarray (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:79:57)\n    at updateRawBodyAttachments (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/body-attachments.mjs:62:24)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:7:111\n    at probe (file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:4:65)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:7:92"
+    }
+  ],
+  "limits": [
+    "NativeV4 stops at4749e0 preRET; no postphysics output match is established.",
+    "No native output refresh, fabricated inputs, constructors or helper/service overrides are supplied."
+  ],
+  "scratchActualCoverage": {
+    "label": "actualattachmentglobals",
+    "completed": true,
+    "result": 1700
+  },
+  "recoveryInputs": [
+    {
+      "id": "recovery-route-metrics-candidates-clone",
+      "preferredAddress": 7400192,
+      "address": 10414848,
+      "length": 17576,
+      "label": "coverage",
+      "completed": false,
+      "error": "Error: Uncaptured native memory at 0x9eeb00 (17576 bytes).\n    at Object.span (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:76:21)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:8:186\n    at probe (file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:4:65)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:8:158\n    at Array.map (<anonymous>)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:8:51"
+    },
+    {
+      "id": "recovery-controller-slots",
+      "preferredAddress": 8689984,
+      "address": 11704640,
+      "length": 36,
+      "label": "coverage",
+      "completed": true,
+      "result": 36
+    },
+    {
+      "id": "recovery-retirement-clock",
+      "preferredAddress": 9450784,
+      "address": 12465440,
+      "length": 4,
+      "label": "coverage",
+      "completed": true,
+      "result": 4
+    },
+    {
+      "id": "recovery-retirement-first-color",
+      "preferredAddress": 9539584,
+      "address": 12554240,
+      "length": 4,
+      "label": "coverage",
+      "completed": true,
+      "result": 4
+    },
+    {
+      "id": "recovery-effect-position-queue",
+      "preferredAddress": 9539616,
+      "address": 12554272,
+      "length": 288,
+      "label": "coverage",
+      "completed": true,
+      "result": 288
+    }
+  ]
+}

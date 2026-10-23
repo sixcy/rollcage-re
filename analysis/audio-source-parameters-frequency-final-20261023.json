@@ -1,0 +1,83 @@
+{
+  "matched": true,
+  "method": "Constructed inputs; actual retained 4a7c10 -> 4a79f0/4a92e0/4a9370/4ad760/4b3ed0 game instructions, explicit Win32/COM/CRT outcomes; all mapped bytes or every declared sparse span, private stack, ordered external ABIs, complete EAX, preserved registers and balanced entry ESP at RET8. Interpreter stops at the sentinel before the outer RET pop.",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "fixtures": 240,
+  "moduleBaseAddress": 4194304,
+  "sparse": false,
+  "withParameters": false,
+  "reachedInstructions": 156,
+  "instructionSteps": 30414,
+  "visits": {
+    "4a7c10": 240,
+    "4a79f0": 240,
+    "4a92e0": 400,
+    "4a9370": 160,
+    "4ad760": 144,
+    "4b3ed0": 48
+  },
+  "voiceCalls": 446,
+  "skippedVoice": 17,
+  "limits": [
+    "No original-process execution or background thread schedule proof.",
+    "Spatial, reverb and unknown decoder stream-format virtual targets remain explicit reached dependencies."
+  ],
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/12339-audio-selection-4b12d0-assembly.json",
+      "evidence": "ev_35935a81e3d27abdbe4c01dcb9472274a0946bbf0aa0f131b3ef48f0122ed686",
+      "operation": "procedure_assembly",
+      "sha256": "8dd000ee115df64ec6b5a59efdcbb0fa5b3f3eae181d6dcf30abbd160e6102fb"
+    },
+    {
+      "path": "analysis/native-simulation/results/12361-audio-spatial-4a7c10-assembly.json",
+      "evidence": "ev_eeb10330a2806c100dc56b346e60938e556d1d7106cd62279eaf87e0cbc1a181",
+      "operation": "procedure_assembly",
+      "sha256": "121435a0a3c00c87adf608e9d491f0636f2aafd1ba01147aac659b1db2fd327e"
+    },
+    {
+      "path": "analysis/native-simulation/results/15012-audio-source-parameters-audio-0x4a9340-assembly.json",
+      "evidence": "ev_45b389ca6b1b941b2f093aed2906c71941fc6915ce93d35c071cffb13f68ac78",
+      "operation": "procedure_assembly",
+      "sha256": "cb8e04957362564c59b7062e2a561d797d0a63f7139dad649a89e809e2b224b3"
+    },
+    {
+      "path": "analysis/native-simulation/results/15013-audio-source-parameters-audio-0x4a9370-assembly.json",
+      "evidence": "ev_a7e42b1834059be7628138c34f8e13a7ae6592538f1a9450aafcf5acd1e38f6c",
+      "operation": "procedure_assembly",
+      "sha256": "c77d98130e0934d70e2dd313723fa18a1a8c1928c57f87613ac6be14e66ebd8c"
+    },
+    {
+      "path": "analysis/native-simulation/results/15014-audio-source-parameters-audio-0x4ad760-assembly.json",
+      "evidence": "ev_376b9b95f302f4a97aafe52771bbb92555a3b8983cff78028d4e354f8fbf3b62",
+      "operation": "procedure_assembly",
+      "sha256": "de62872c63a951e0a712515fb6cb8770d88ad4116cdeda5c6a9a71f2c309d28d"
+    },
+    {
+      "path": "analysis/native-simulation/results/15015-audio-source-parameters-audio-0x4ae4a0-assembly.json",
+      "evidence": "ev_69954062de813ddf14b6183ee19fde0e4642089592d44febefb93bc79b512fa1",
+      "operation": "procedure_assembly",
+      "sha256": "48e784993209f65203358d17fb861e1949e3dacd126297f70cbe6e53696df22b"
+    },
+    {
+      "path": "analysis/native-simulation/results/15016-audio-source-parameters-audio-frequency-literals.json",
+      "evidence": "ev_d8b91b76f34971dc0aaa948320e5b1c34e6317f7118b0f95e0760fe14c5f33e0",
+      "operation": "read_bytes",
+      "sha256": "bd71960c766feb42f1fd3404034a48a5f72791ef9185066052ab6a6c52cc804d"
+    }
+  ],
+  "source": [
+    {
+      "path": "src/audio-source-parameters.mjs",
+      "sha256": "edea8baa4c541425b89b4813d1c0cc86a169556a66eeffcae96ff89e456c926a"
+    },
+    {
+      "path": "tools/lib/bounded-x86.mjs",
+      "sha256": "41adcd5cc69245edd4a8f29a96afad3b67fd162befc706ef8bf1bc2fb1bc2da7"
+    },
+    {
+      "path": "tools/verify-audio-source-parameters-instructions.mjs",
+      "sha256": "ff1824238fdb987711fd0c53d870a5d074faa95041145726843e2f43d82748cb"
+    }
+  ]
+}

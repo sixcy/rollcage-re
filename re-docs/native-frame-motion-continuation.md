@@ -97,6 +97,12 @@ removed using only the earlier surface stage. The next useful increment is a
 connected, observed48d680→48d7c0 drive-production slice, followed by the full
 AI/input-to-handling chain; neither is claimed here.
 
+The subsequent [drive continuation](native-frame-drive-continuation.md) now
+validates that selected drive slice in a fresh original three-frame capture.
+Its broader192-byte protected output per transition includes the motion
+outputs described here. The original motion-only scope and reports above
+remain unchanged; the complete AI/input-to-handling chain remains open.
+
 ## Verification
 
 ```powershell

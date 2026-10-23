@@ -1,0 +1,45 @@
+{
+  "matched": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "fixtures": 24,
+  "moduleBaseAddress": 7208960,
+  "sparse": true,
+  "consumerOnly": false,
+  "populated": false,
+  "retired": false,
+  "reachedInstructions": 503,
+  "instructionSteps": 12792,
+  "visits": {
+    "786600": 24,
+    "789380": 24,
+    "7890f0": 24,
+    "786b60": 16,
+    "786a6d": 16
+  },
+  "domain": "Constructed warm-clock and caller-owned vectors; real outer locks/events/time, selected empty or populated nonspatial steady-source arbitration, real<=32sort/source-state/source-parameter/mixer children, optional duplicate retirement through real destructor. Full mapped memory or all declared sparse spans, private stack, ordered genuine OS/CRT ABI, return AL/EAX and preserved registers/TLS. No original process or worker schedule replay.",
+  "limits": [
+    "Spatial/listener attenuation and debugger stop/resume/category paths remain explicit reached errors; actual flags are not changed to avoid them.",
+    "Queued-next virtual44, >32sort, cold relocated clock and several relocated source/stream/destruction children remain explicit gaps."
+  ],
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/12234-audio-poll-continuation-0x4a6600-procedure_assembly.json",
+      "evidence": "ev_95b7530e7bfbbff9ab50c99c69ebc5e143f8a9cf0490d0744c1196f3360f47f4",
+      "operation": "procedure_assembly",
+      "sha256": "d885892fcab592a8ba58e4d0dc9bed606f0a18c3edf30470e519f5452f5251be"
+    },
+    {
+      "path": "analysis/native-simulation/results/12285-sound-manager-update-tail-assembly.json",
+      "evidence": "ev_bac09dbbaf34b79dc75432dfaa21366fc1a042e9b096c704cfd7d0ef709ceb30",
+      "operation": "procedure_assembly",
+      "sha256": "27d0c3af38e951f677ec2fdc986e11ad38d655df6105bcbb8a9e2efe87b62768"
+    },
+    {
+      "path": "analysis/native-simulation/results/12289-sound-manager-update-sources-assembly.json",
+      "evidence": "ev_ecc4ad5681760ee00fa25aa933375447ca7d02322a2e7d181b4f5a5412ff2605",
+      "operation": "procedure_assembly",
+      "sha256": "932268af2ce5e079b745fc70df2d9c3d590ab0e827e64d94105be0db37bb44d3"
+    }
+  ],
+  "sourceSha256": "b108c28444a2f980de640e4fa4b33fe7f42a3dcd122e6bafdf77f566505300e0"
+}

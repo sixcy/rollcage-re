@@ -23,8 +23,8 @@ export function autonomousSteeringAngle(bodyAddress,side,forward,{memory}) {
 }
 
 //430d90 writes forward/side scalars, including its retained byte6c8 diagnostic.
-export function measureAutonomousVelocity(bodyAddress,{memory}) {
- const vector=[0x68,0x6c,0x70].map(offset=>memory.readInt32LE(bodyAddress+offset)>>4),length=vectorLengthQ16(vector);
+export function measureAutonomousVelocity(bodyAddress,{memory,nativeState}) {
+ const vector=[0x68,0x6c,0x70].map(offset=>memory.readInt32LE(bodyAddress+offset)>>4),length=vectorLengthQ16(vector,nativeState);
  let forward=65536,side=0;
  if(length>0x800){
   const scale=divideQ16(65536,length),direction=vector.map(value=>multiplyQ16(value,scale)),axis=[0xc6,0xcc,0xd2].map(offset=>memory.readInt16LE(bodyAddress+offset)<<4),facing=[0xc8,0xce,0xd4].map(offset=>memory.readInt16LE(bodyAddress+offset)<<4);
@@ -35,7 +35,7 @@ export function measureAutonomousVelocity(bodyAddress,{memory}) {
 
 //scratchBase is native entryESP. Preserve caller-visible meaningful locals and
 //the overwritten first stack argument, not arbitrary saved-register contents.
-export function updateAutonomousSteering(bodyAddress,targetVectorAddress,firstArg,reverseArg,{memory,scratchBase}={}) {
+export function updateAutonomousSteering(bodyAddress,targetVectorAddress,firstArg,reverseArg,{memory,scratchBase,nativeState}={}) {
  if(!Buffer.isBuffer(memory)||!Number.isInteger(scratchBase)||scratchBase<68||scratchBase+12>memory.length)throw Error('Autonomous steering requires explicit native memory and entry stack.');
  const put=(p,value)=>memory.writeInt32LE(value|0,p),get=p=>memory.readInt32LE(p),vector=p=>[0,4,8].map(offset=>get(p+offset)),store=(p,values)=>values.forEach((value,index)=>put(p+index*4,value));
  const facingAddress=scratchBase-12,axisAddress=scratchBase-36,projectedAddress=scratchBase-24,dotAddress=scratchBase-52,forwardAddress=scratchBase-44;
@@ -47,7 +47,7 @@ export function updateAutonomousSteering(bodyAddress,targetVectorAddress,firstAr
  let targetSide=orientedSteeringRatio(vector(facingAddress),vector(projectedAddress),vector(axisAddress)),targetForward=dotQ16(vector(facingAddress),vector(projectedAddress));put(forwardAddress,targetForward);
  if(reverseArg!==0){targetSide=-targetSide|0;targetForward=-targetForward|0;put(forwardAddress,targetForward);}
  let desired=autonomousSteeringAngle(bodyAddress,targetSide,targetForward,{memory});if(reverseArg!==0)desired=-desired|0;
- const velocity=measureAutonomousVelocity(bodyAddress,{memory});put(dotAddress,velocity.side);put(scratchBase-48,velocity.forward);
+ const velocity=measureAutonomousVelocity(bodyAddress,{memory,nativeState});put(dotAddress,velocity.side);put(scratchBase-48,velocity.forward);
  let velocitySide=velocity.side,velocityForward=velocity.forward;if(reverseArg!==0){velocitySide=-velocitySide|0;velocityForward=-velocityForward|0;}
  let comparedVelocity=false,replacedTarget=false;
  if(firstArg!==0&&velocityForward<64000&&memory.readInt16LE(bodyAddress+0x668)>100){

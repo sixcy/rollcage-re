@@ -17,6 +17,7 @@ namespace RollcageCapture {
     public string rva;
     public string baseRegister;
     public string[] dereferenceOffsets = new string[0];
+    public int[] dereferenceMinimumValues;
     public string offset = "0";
     public int length;
     public bool readableRegion;
@@ -28,6 +29,11 @@ namespace RollcageCapture {
     public uint begin, end, capacity;
     public int length;
     public byte[] header;
+  }
+  public sealed class GuardedPointerInfo {
+    public uint rootAddress, address;
+    public int stopIndex = -1;
+    public List<Dictionary<string, object>> steps = new List<Dictionary<string, object>>();
   }
   public sealed class MemoryRegionInfo {
     public ulong baseAddress, allocationBaseAddress, regionSize;
@@ -96,6 +102,62 @@ namespace RollcageCapture {
     public int rawHit;
     public string[] observationBreakpointIds = new string[0];
   }
+  public sealed class OwnedWorkerObservation {
+    public string breakpointId;
+    public MemoryRange threadIdSource;
+    public int maxSnapshots;
+    public string entryReturnRva;
+  }
+  public sealed class OwnedWorkerObservationProgress {
+    public int captured;
+    public bool NeedsThreadSourceRead(bool frameActive, bool activated) { return frameActive && activated && captured == 0; }
+    public bool CanCapture(bool frameActive, bool activated, uint actualTid, uint expectedTid, uint frameTid, bool ownedLiveThread) {
+      if (!NeedsThreadSourceRead(frameActive, activated)) return false;
+      if (expectedTid == 0 || expectedTid == frameTid || !ownedLiveThread) throw new InvalidDataException("Owned worker observation requires a different live CREATE_THREAD identity.");
+      return actualTid == expectedTid;
+    }
+    public void CommitSnapshot() {
+      if (captured != 0) throw new InvalidDataException("Owned worker one-snapshot bound exceeded.");
+      captured = 1;
+    }
+  }
+  public sealed class OwnedWorkerGainPair {
+    public string entryBreakpointId, exitBreakpointId, unsupportedExitBreakpointId;
+    public MemoryRange threadIdSource, managerSource;
+    public int maxSnapshots;
+  }
+  //A distinct two-endpoint policy. It never widens the old one-shot contract.
+  public sealed class OwnedWorkerGainPairProgress {
+    public int captured;
+    public bool open, complete;
+    public uint tid, frameTid, esp, source, manager, caller, force, ebx, ebp, edi;
+    public int candidateIndex;
+    public bool CanObserve(bool frameActive, bool activated, uint actualTid, uint expectedTid, uint parentTid, bool ownedLive) {
+      if (!frameActive || !activated || complete) return false;
+      if (expectedTid == 0 || expectedTid == parentTid || !ownedLive) throw new InvalidDataException("Worker gain pair requires an actual different live CREATE_THREAD worker.");
+      if (actualTid != expectedTid) return false;
+      if (open && (tid != actualTid || frameTid != parentTid)) throw new InvalidDataException("Worker gain pair thread changed inside its call.");
+      return true;
+    }
+    public static bool CallerMatches(uint moduleBase, uint returned, uint flag) {
+      return (returned == moduleBase + 0xa722c && flag == 0) || (returned == moduleBase + 0xa72f6 && flag == 1);
+    }
+    public void Begin(uint workerTid, uint parentTid, int candidate, uint entryEsp, uint objectSource, uint managerObject, uint returned, uint flag, uint incomingEbx, uint incomingEbp, uint incomingEdi, uint moduleBase, uint incomingEsi) {
+      if (open || complete || captured != 0 || workerTid == 0 || workerTid == parentTid || candidate < 1 || entryEsp < 432 || objectSource == 0 || objectSource != incomingEsi || managerObject == 0 || !CallerMatches(moduleBase, returned, flag)) throw new InvalidDataException("Worker gain entry caller/source/frame ABI differs.");
+      tid = workerTid; frameTid = parentTid; candidateIndex = candidate; esp = entryEsp; source = objectSource; manager = managerObject;
+      caller = returned; force = flag; ebx = incomingEbx; ebp = incomingEbp; edi = incomingEdi; open = true;
+    }
+    public void ValidateExit(uint workerTid, uint parentTid, int candidate, uint exitEsp, uint returned, uint savedSource, uint currentManager, uint savedEbx, uint savedEbp, uint savedEdi) {
+      if (!open || complete || captured != 1 || tid != workerTid || frameTid != parentTid || candidateIndex != candidate || esp != exitEsp || caller != returned || source != savedSource || manager != currentManager || ebx != savedEbx || ebp != savedEbp || edi != savedEdi) throw new InvalidDataException("Worker gain exit source/thread/stack/caller/nonvolatile ABI differs.");
+    }
+    public void Commit(bool entry) {
+      if (!open || complete || captured != (entry ? 0 : 1)) throw new InvalidDataException("Worker gain pair endpoint bound exceeded.");
+      captured++; if (!entry) {open = false; complete = true;}
+    }
+    public void ValidateParentClose(int candidate, bool selected) {
+      if (open || captured != 0 && (!complete || candidate != candidateIndex || !selected) || selected && !complete) throw new InvalidDataException("Selected parent lacks its complete same-frame worker gain pair.");
+    }
+  }
   // Pure state checks are shared by runtime capture and configuration/ABI tests.
   public sealed class PendingFrameProgress {
     public bool active;
@@ -129,6 +191,17 @@ namespace RollcageCapture {
       if (!active || tid != frameTid || esp != frameEntryEsp || caller != frameReturnAddress || matchingHit != frameMatchingHit || !selected) throw new InvalidDataException("Pending-frame after thread/stack/return/matching-hit ABI mismatch.");
     }
   }
+  public sealed class HeldForceInput {
+    public string breakpointId;
+    public int maxHoldMs;
+  }
+  public sealed class HeldForceDecision {
+    public int participantIndex, scalar;
+    public uint body;
+    public string bodySha256, planSha256;
+    public byte[] original, replacement;
+    public int[] normal;
+  }
   public sealed class Options {
     public int schemaVersion = 1;
     public string executablePath;
@@ -156,8 +229,46 @@ namespace RollcageCapture {
     public PhaseAction[] phaseActions = new PhaseAction[0];
     public PendingFrameObserver pendingFrameObserver;
     public ObservationActivation observationActivation;
+    public OwnedWorkerObservation ownedWorkerObservation;
+    public OwnedWorkerGainPair ownedWorkerGainPair;
+    public HeldForceInput heldForceInput;
   }
   public static class NativeDebugger {
+    public static void ValidateHeldForcePolicy(Options o) {
+      if (o.heldForceInput == null) return;
+      PendingFrameObserver f = o.pendingFrameObserver;
+      if (o.heldForceInput.breakpointId != "native-frame-before" || o.heldForceInput.maxHoldMs != 20000 || o.maxDurationMs != 90000 || o.maxSnapshots != 70 || !o.captureThreadEnvironment || o.observationActivation != null || o.ownedWorkerObservation != null || o.ownedWorkerGainPair != null || f == null || f.beforeBreakpointId != "native-frame-before" || f.afterBreakpointId != "native-frame-after" || f.eventBreakpointId != "native-dispatch-entry" || f.maxCandidateFrames != 1 || f.maxEventSnapshots != 64 || f.maxPendingBytes != 128 * 1024 * 1024 || f.nestedBreakpointIds.Length != 0) throw new InvalidDataException("Held force requires its separate exact one-frame bounded policy.");
+      foreach (string id in new string[] {f.beforeBreakpointId, f.afterBreakpointId, f.eventBreakpointId}) {
+        Breakpoint b = Array.Find(o.breakpoints, delegate(Breakpoint x) {return x.id == id;});
+        uint site = id == f.beforeBreakpointId ? 0x749e0u : id == f.afterBreakpointId ? 0x74b1eu : 0x74bb0u;
+        if (b == null || Number(b.rva) != site || !String.IsNullOrEmpty(b.address) || b.service != null) throw new InvalidDataException("Held force boundary differs.");
+        foreach (PhaseAction a in o.phaseActions) if (a.breakpointId == id) throw new InvalidDataException("Held force cannot combine observer phase writes.");
+      }
+    }
+    static int HeldInteger(string value) {
+      int result; if (!Int32.TryParse(value, NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out result) || result.ToString(CultureInfo.InvariantCulture) != value) throw new InvalidDataException("Invalid canonical held-force integer."); return result;
+    }
+    static bool HeldHex(string value, int bytes) {
+      if (value == null || value.Length != bytes * 2) return false;
+      foreach (char c in value) if (!(c >= '0' && c <= '9') && !(c >= 'a' && c <= 'f')) return false;
+      return true;
+    }
+    public static HeldForceDecision ParseHeldForceDecision(string text, string token, string requestSha256) {
+      if (text == null || text.Length > 4096 || text.IndexOf('\r') >= 0) throw new InvalidDataException("Held force decision length/encoding.");
+      string[] v = text.Split('\n');
+      if (v.Length != 12 || v[0] != "ROLLCAGE_HELD_FORCE_V1" || v[1] != token || !HeldHex(v[1],16) || v[2] != requestSha256 || !HeldHex(v[2],32) || v[11] != "" || !HeldHex(v[5],32) || !HeldHex(v[6],12) || !HeldHex(v[7],12) || !HeldHex(v[10],32)) throw new InvalidDataException("Held force request/preimage/proof identity.");
+      uint body; if (!UInt32.TryParse(v[4], NumberStyles.None, CultureInfo.InvariantCulture, out body) || body == 0 || body.ToString(CultureInfo.InvariantCulture) != v[4]) throw new InvalidDataException("Held force body integer.");
+      HeldForceDecision d = new HeldForceDecision {participantIndex = HeldInteger(v[3]), body = body, bodySha256 = v[5], original = ParseBytes(v[6]), replacement = ParseBytes(v[7]), scalar = HeldInteger(v[9]), planSha256 = v[10]};
+      string[] n = v[8].Split(','); if (d.participantIndex < 0 || d.participantIndex >= 6 || n.Length != 3 || !(Math.Abs((long)d.scalar) == 4 * 65536 || Math.Abs((long)d.scalar) == 16 * 65536 || Math.Abs((long)d.scalar) == 64 * 65536)) throw new InvalidDataException("Held force participant/normal/scalar bounds.");
+      d.normal = new int[3]; bool nonzero = false;
+      for (int i = 0; i < 3; i++) {
+        d.normal[i] = HeldInteger(n[i]); nonzero |= d.normal[i] != 0;
+        long next = BitConverter.ToInt32(d.original,i*4) + (((long)d.normal[i] * d.scalar) >> 16);
+        if (Math.Abs((long)d.normal[i]) > 65536 || Math.Abs(next) > 0x1000000 || next != BitConverter.ToInt32(d.replacement,i*4)) throw new InvalidDataException("Held force checked arithmetic/bounds.");
+      }
+      if (!nonzero || BytesHex(d.original) == BytesHex(d.replacement)) throw new InvalidDataException("Held force must be a bounded nonzero input.");
+      return d;
+    }
     const uint Break = 0x80000003, Step = 0x80000004, Wow64Break = 0x4000001f, Wow64Step = 0x4000001e, Continue = 0x10002, NotHandled = 0x80010001;
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] struct Startup {
       public uint cb; public string reserved, desktop, title; public uint x, y, width, height, charsX, charsY, fill, flags;
@@ -181,6 +292,8 @@ namespace RollcageCapture {
     [DllImport("kernel32.dll", SetLastError = true)] static extern bool IsWow64Process(IntPtr process, out bool wow64);
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] static extern uint GetFinalPathNameByHandle(IntPtr handle, StringBuilder path, uint length, uint flags);
     [DllImport("kernel32.dll", SetLastError = true)] static extern bool CloseHandle(IntPtr handle);
+    [DllImport("kernel32.dll")] static extern IntPtr GetCurrentProcess();
+    [DllImport("kernel32.dll", SetLastError = true)] static extern bool DuplicateHandle(IntPtr sourceProcess, IntPtr sourceHandle, IntPtr targetProcess, out IntPtr targetHandle, uint access, bool inherit, uint options);
     [DllImport("kernel32.dll", SetLastError = true)] static extern uint SuspendThread(IntPtr thread);
     [DllImport("kernel32.dll", SetLastError = true)] static extern uint ResumeThread(IntPtr thread);
     [DllImport("kernel32.dll", SetLastError = true)] static extern bool TerminateProcess(IntPtr process, uint code);
@@ -189,7 +302,8 @@ namespace RollcageCapture {
     [DllImport("user32.dll", EntryPoint = "GetForegroundWindow")] static extern IntPtr ReadForegroundWindow();
     [DllImport("user32.dll", SetLastError = true)] static extern uint GetWindowThreadProcessId(IntPtr window, out uint processId);
 
-    //The caller supplies only retained CREATE_PROCESS/CREATE_THREAD handles.
+    //The caller supplies only owned copies of CREATE_PROCESS/CREATE_THREAD
+    //handles (or its own PROCESS_INFORMATION handle before the first event).
     //An exit code (including STILL_ACTIVE/259) cannot prove termination: a
     //zero-time wait must observe the actual thread object as signaled.
     public static ThreadTerminationObservation ObserveOwnedThreadTermination(IntPtr thread) {
@@ -218,7 +332,20 @@ namespace RollcageCapture {
         "proof", state.terminated ? "zero-time-wait-object-signaled" : "no-signaled-thread-proof");
       emit(record);
       if (state.terminated) return false;
-      throw new Win32Exception(originalError, operation + " failed for owned TID " + tid.ToString(CultureInfo.InvariantCulture) + "; zero-time wait=" + Hex(state.waitResult) + ", wait Win32 error=" + state.waitWin32Error.ToString(CultureInfo.InvariantCulture));
+      throw new Win32Exception(originalError, operation + " failed for owned TID " + tid.ToString(CultureInfo.InvariantCulture) + "; Win32 error=" + originalError.ToString(CultureInfo.InvariantCulture) + "; zero-time wait=" + Hex(state.waitResult) + ", wait Win32 error=" + state.waitWin32Error.ToString(CultureInfo.InvariantCulture) + ", exit code=" + (state.exitCodeAvailable ? Hex(state.exitCode) : "unavailable"));
+    }
+    //ContinueDebugEvent closes the system's event handle on EXIT_THREAD.
+    //Never close that borrowed handle ourselves: it can be reused before the
+    //system's close. A separate same-access copy owns the tracking lifetime.
+    public static IntPtr DuplicateOwnedDebugThreadHandle(IntPtr source, uint pid, uint tid, Action<Dictionary<string, object>> emit) {
+      if (source == IntPtr.Zero || tid == 0 || pid == 0) throw new InvalidDataException("Owned debug thread duplication needs its actual handle and process/thread identity.");
+      IntPtr duplicate, current = GetCurrentProcess();
+      Check(DuplicateHandle(current, source, current, out duplicate, 0, false, 2), "Duplicate owned debug thread handle");
+      if (duplicate == IntPtr.Zero || duplicate == source) throw new InvalidDataException("Owned debug thread tracking requires a distinct handle copy.");
+      try {
+        emit(Record("type", "owned-debug-thread-handle", "pid", pid, "tid", tid, "sourceHandle", HandleHex(source), "trackingHandle", HandleHex(duplicate), "sameAccess", true, "eventHandleOwnership", "system-closes-on-exit-continuation", "trackingHandleOwnership", "debugger-copy"));
+        return duplicate;
+      } catch {CloseHandle(duplicate); throw;}
     }
     static uint TrackedThreadId(Dictionary<uint, IntPtr> threads, IntPtr handle) {
       foreach (KeyValuePair<uint, IntPtr> thread in threads) if (thread.Value == handle) return thread.Key;
@@ -250,6 +377,7 @@ namespace RollcageCapture {
       return (uint)sum;
     }
     static string Hex(uint value) { return "0x" + value.ToString("x8"); }
+    static string HandleHex(IntPtr value) {return "0x" + unchecked((ulong)value.ToInt64()).ToString(IntPtr.Size == 8 ? "x16" : "x8");}
     static IntPtr Pointer(uint value) { return IntPtr.Size == 8 ? new IntPtr((long)value) : new IntPtr(unchecked((int)value)); }
     static uint U32(IntPtr data, int offset) { return unchecked((uint)Marshal.ReadInt32(data, offset)); }
     static IntPtr Ptr(IntPtr data, int offset) { return Marshal.ReadIntPtr(data, offset); }
@@ -313,6 +441,7 @@ namespace RollcageCapture {
     }
     public static Dictionary<string, object> BuildRangeFailureDetails(MemoryRange range, string stage, uint? root, uint? start, int? length, MemoryRegionInfo region, Exception error) {
       Dictionary<string, object> details = Record("id", range.id, "stage", stage, "rootAddress", range.address, "rootRva", range.rva, "baseRegister", range.baseRegister, "dereferenceOffsets", range.dereferenceOffsets, "offset", range.offset, "rangeMode", range.vectorStorage ? "vector-storage" : range.readableRegion ? "readable-region" : "fixed-length", "declaredLength", range.length, "maxRegionBytes", range.maxRegionBytes, "maxVectorBytes", range.maxVectorBytes, "requestedResolvedRoot", root.HasValue ? Hex(root.Value) : null, "readAddress", start.HasValue ? Hex(start.Value) : null, "readLength", length, "region", RegionDiagnostic(region));
+      if (range.dereferenceMinimumValues != null) {details["rangeMode"] = "guarded-pointer"; details["dereferenceMinimumValues"] = range.dereferenceMinimumValues;}
       if (error != null && error.Data.Contains("virtualQuery")) details["virtualQuery"] = error.Data["virtualQuery"];
       return details;
     }
@@ -324,12 +453,59 @@ namespace RollcageCapture {
       try {return Resolve(process, mainBase, range.address, range.rva, range.baseRegister, range.dereferenceOffsets, range.offset, regs);}
       catch (Exception error) {throw new RangeCaptureException(BuildRangeFailureDetails(range, "resolve-root", null, null, null, null, error), error);}
     }
+    public static void ValidateGuardedPointerRange(MemoryRange range) {
+      if (range.dereferenceMinimumValues == null) return;
+      if (!String.IsNullOrEmpty(range.baseRegister) || String.IsNullOrEmpty(range.address) == String.IsNullOrEmpty(range.rva) || Offset(range.offset) != 0 || range.readableRegion || range.vectorStorage || range.maxRegionBytes != 0 || range.maxVectorBytes != 0 || range.length < 1 || range.length > 64 * 1024 * 1024 || range.dereferenceOffsets == null || range.dereferenceOffsets.Length < 1 || range.dereferenceOffsets.Length > 8 || range.dereferenceMinimumValues.Length != range.dereferenceOffsets.Length) throw new InvalidDataException("Guarded pointer ranges require one global root, offset0, fixed length and one to eight parallel pointer guards.");
+      Number(range.address); Number(range.rva);
+      for (int i = 0; i < range.dereferenceOffsets.Length; i++) {
+        Offset(range.dereferenceOffsets[i]); int minimum = range.dereferenceMinimumValues[i];
+        if (minimum != 1 && !(i == 0 && minimum == 257)) throw new InvalidDataException("Guarded pointer minimum must be1, or257 only at the first slot.");
+      }
+    }
+    //Pure callback resolver shared by both capture publication paths. A failed
+    //read is an error, never a false guard or an invented zero pointer.
+    public static GuardedPointerInfo ResolveGuardedPointerRange(MemoryRange range, uint moduleBase, Func<uint, uint> readDword) {
+      ValidateGuardedPointerRange(range);
+      if (range.dereferenceMinimumValues == null || readDword == null) throw new InvalidDataException("Explicit guarded descriptor and actual DWORD reader required.");
+      uint root = !String.IsNullOrEmpty(range.rva) ? Add(moduleBase, Number(range.rva)) : Number(range.address);
+      if (root == 0) throw new InvalidDataException("Guarded pointer root must be nonnull.");
+      GuardedPointerInfo result = new GuardedPointerInfo {rootAddress = root, address = root};
+      try {
+        for (int i = 0; i < range.dereferenceOffsets.Length; i++) {
+          uint readAddress = Add(result.address, Offset(range.dereferenceOffsets[i]));
+          if ((ulong)readAddress + 4 > 0x100000000UL) throw new InvalidDataException("Guarded pointer DWORD crosses the x86 address bound.");
+          uint value = readDword(readAddress); int minimum = range.dereferenceMinimumValues[i];
+          result.steps.Add(Record("index", i, "readAddress", Hex(readAddress), "value", Hex(value), "bytesHex", BytesHex(BitConverter.GetBytes(value)), "minimumValue", minimum));
+          if (value < minimum) {result.stopIndex = i; result.address = 0; return result;}
+          result.address = value;
+        }
+        if ((ulong)result.address + (ulong)range.length > 0x100000000UL) throw new InvalidDataException("Guarded pointer output crosses the x86 address bound.");
+        return result;
+      } catch (Exception error) {error.Data["guardedPointerSteps"] = result.steps; throw;}
+    }
+    static GuardedPointerInfo ReadGuardedPointerRange(IntPtr process, uint moduleBase, MemoryRange range) {
+      try {return ResolveGuardedPointerRange(range, moduleBase, delegate(uint address) {return BitConverter.ToUInt32(Bytes(process, address, 4), 0);});}
+      catch (Exception error) {
+        Dictionary<string, object> details = BuildRangeFailureDetails(range, "resolve-guarded-pointer", null, null, null, null, error);
+        if (error.Data.Contains("guardedPointerSteps")) details["guardedPointerSteps"] = error.Data["guardedPointerSteps"];
+        throw new RangeCaptureException(details, error);
+      }
+    }
+    static void AddGuardedPointerMetadata(Dictionary<string, object> row, MemoryRange range, GuardedPointerInfo guard) {
+      row["rangeMode"] = "guarded-pointer"; row["guardedRootAddress"] = Hex(guard.rootAddress); row["guardedDeclaredLength"] = range.length;
+      row["dereferenceMinimumValues"] = range.dereferenceMinimumValues; row["guardedStopIndex"] = guard.stopIndex < 0 ? null : (object)guard.stopIndex;
+      row["guardedPointerSteps"] = guard.steps; row["guardedPointerReadBytes"] = guard.steps.Count * 4;
+    }
+    public static long GuardedPointerFootprint(GuardedPointerInfo guard, int outputLength) {
+      if (outputLength < 0 || guard != null && (guard.steps.Count < 1 || guard.steps.Count > 8 || (guard.stopIndex >= 0 ? outputLength != 0 : outputLength == 0))) throw new InvalidDataException("Guarded pointer footprint differs from its actual resolution.");
+      return checked((long)outputLength + (guard == null ? 0 : guard.steps.Count * 4));
+    }
     static MemoryRegionInfo QueryCaptureRange(IntPtr process, uint root, MemoryRange range) {
       try {return QueryReadableRegion(process, root, range.maxRegionBytes);}
       catch (Exception error) {throw new RangeCaptureException(BuildRangeFailureDetails(range, "query-readable-region", root, null, null, null, error), error);}
     }
     static byte[] ReadCaptureRangeBytes(IntPtr process, MemoryRange range, uint root, uint start, int length, MemoryRegionInfo region) {
-      try {return range.vectorStorage && length == 0 ? new byte[0] : Bytes(process, start, length);}
+      try {return (range.vectorStorage || range.dereferenceMinimumValues != null) && length == 0 ? new byte[0] : Bytes(process, start, length);}
       catch (Exception error) {throw new RangeCaptureException(BuildRangeFailureDetails(range, "read-bytes", root, start, length, region, error), error);}
     }
     static VectorStorageInfo ReadVectorCaptureRange(IntPtr process, uint root, MemoryRange range) {
@@ -581,7 +757,7 @@ namespace RollcageCapture {
         bool found = false; foreach (Import item in Imports(pe)) if (WindowArguments(item.name) != 0 || ModalArguments(item.name) != 0) found = true;
         if (!found) throw new InvalidDataException("No supported window imports found for hideOwnedWindows policy.");
       }
-      if (o.foregroundWindowSource != null && (o.foregroundWindowSource.length != 4 || o.foregroundWindowSource.readableRegion || o.foregroundWindowSource.maxRegionBytes != 0 || o.foregroundWindowSource.vectorStorage || o.foregroundWindowSource.maxVectorBytes != 0)) throw new InvalidDataException("foregroundWindowSource length must be exactly four bytes in fixed-length mode.");
+      if (o.foregroundWindowSource != null && (o.foregroundWindowSource.length != 4 || o.foregroundWindowSource.readableRegion || o.foregroundWindowSource.maxRegionBytes != 0 || o.foregroundWindowSource.dereferenceMinimumValues != null || o.foregroundWindowSource.vectorStorage || o.foregroundWindowSource.maxVectorBytes != 0)) throw new InvalidDataException("foregroundWindowSource length must be exactly four bytes in fixed-length mode.");
       HashSet<string> ids = new HashSet<string>(); HashSet<string> locations = new HashSet<string>();
       foreach (Breakpoint b in o.breakpoints) {
         if (String.IsNullOrEmpty(b.id) || !ids.Add(b.id)) throw new InvalidDataException("Breakpoint ids must be unique.");
@@ -592,7 +768,7 @@ namespace RollcageCapture {
         if (b.skipMatchingHits.HasValue && (b.skipMatchingHits.Value < 0 || b.captureWhen == null)) throw new InvalidDataException("skipMatchingHits requires captureWhen and a nonnegative count.");
         if (b.captureWhen != null) {
           MemoryRange predicate = b.captureWhen.range;
-          if (predicate == null || predicate.readableRegion || predicate.maxRegionBytes != 0 || predicate.vectorStorage || predicate.maxVectorBytes != 0 || predicate.length < 1 || predicate.length > 64) throw new InvalidDataException("captureWhen requires a fixed-length range of one to 64 bytes.");
+          if (predicate == null || predicate.dereferenceMinimumValues != null || predicate.readableRegion || predicate.maxRegionBytes != 0 || predicate.vectorStorage || predicate.maxVectorBytes != 0 || predicate.length < 1 || predicate.length > 64) throw new InvalidDataException("captureWhen requires a fixed-length range of one to 64 bytes.");
           CapturePredicateMatches(new byte[predicate.length], b.captureWhen.equalsBytesHex);
         }
       }
@@ -608,7 +784,7 @@ namespace RollcageCapture {
         bool registerFound = false; foreach (string name in RegisterNames) if (name == observer.eventPointerRegister) registerFound = true;
         if (!registerFound) throw new InvalidDataException("Pending-frame eventPointerRegister is unknown.");
         foreach (MemoryRange source in new MemoryRange[] {observer.eventPoolRoot, observer.eventPoolCapacity}) {
-          if (source == null || source.length != 4 || source.readableRegion || source.maxRegionBytes != 0 || source.vectorStorage || source.maxVectorBytes != 0) throw new InvalidDataException("Pending-frame event pool sources must be fixed four-byte ranges.");
+          if (source == null || source.dereferenceMinimumValues != null || source.length != 4 || source.readableRegion || source.maxRegionBytes != 0 || source.vectorStorage || source.maxVectorBytes != 0) throw new InvalidDataException("Pending-frame event pool sources must be fixed four-byte ranges.");
           ranges.Add(source);
         }
         Breakpoint before = null, after = null, eventPoint = null;
@@ -636,7 +812,13 @@ namespace RollcageCapture {
         int guards = 0; foreach (PhaseAction action in o.phaseActions) if (action.breakpointId == activation.breakpointId && action.hit == activation.rawHit && action.writes.Length != 0) guards++;
         if (guards != 1) throw new InvalidDataException("Observation activation requires exactly one nonempty declared guard action at its trigger raw hit.");
       }
+      ValidateOwnedWorkerObservationPolicy(o);
+      ValidateOwnedWorkerGainPairPolicy(o);
+      ValidateHeldForcePolicy(o);
+      if (o.ownedWorkerObservation != null) ranges.Add(o.ownedWorkerObservation.threadIdSource);
+      if (o.ownedWorkerGainPair != null) {ranges.Add(o.ownedWorkerGainPair.threadIdSource); ranges.Add(o.ownedWorkerGainPair.managerSource);}
       foreach (MemoryRange r in ranges) {
+        ValidateGuardedPointerRange(r);
         if (o.captureThreadEnvironment && r.id == "thread-seh-head") throw new InvalidDataException("thread-seh-head is reserved for captured thread environment bytes.");
         if (String.IsNullOrEmpty(r.id)) throw new InvalidDataException("Range requires an id.");
         if (r.vectorStorage) {
@@ -666,6 +848,55 @@ namespace RollcageCapture {
           Number(write.address); Number(write.rva); Offset(write.offset); foreach (string item in write.dereferenceOffsets) Offset(item);
         }
       }
+    }
+    public static void ValidateOwnedWorkerObservationPolicy(Options o) {
+      OwnedWorkerObservation policy = o.ownedWorkerObservation;
+      if (policy == null) return;
+      PendingFrameObserver observer = o.pendingFrameObserver;
+      ObservationActivation activation = o.observationActivation;
+      if (policy.maxSnapshots != 1 || String.IsNullOrEmpty(policy.breakpointId) || observer == null || observer.nestedCaptureScope != "frame-thread" || observer.nestedBreakpointIds == null || activation == null || activation.observationBreakpointIds == null || Array.IndexOf(observer.nestedBreakpointIds, policy.breakpointId) < 0 || Array.IndexOf(activation.observationBreakpointIds, policy.breakpointId) < 0) throw new InvalidDataException("Owned worker observation requires exactly one guarded deferred frame-thread nested site.");
+      Breakpoint point = null; foreach (Breakpoint item in o.breakpoints) if (item.id == policy.breakpointId) point = item;
+      if (point == null || point.stopAfterHits != 0 || point.skipMatchingHits.HasValue || point.service != null) throw new InvalidDataException("Owned worker observation must be read-only and nonstopping without skip windows.");
+      foreach (PhaseAction action in o.phaseActions) if (action.breakpointId == point.id) throw new InvalidDataException("Owned worker observation cannot perform phase actions.");
+      MemoryRange source = policy.threadIdSource;
+      if (source == null || source.length != 4 || source.readableRegion || source.vectorStorage || source.maxRegionBytes != 0 || source.maxVectorBytes != 0 || !String.IsNullOrEmpty(source.baseRegister) || String.IsNullOrEmpty(source.address) == String.IsNullOrEmpty(source.rva) || source.dereferenceOffsets == null || source.dereferenceOffsets.Length > 8) throw new InvalidDataException("Owned worker TID source must be an explicit fixed four-byte global root with at most eight dereferences.");
+      if (policy.entryReturnRva != null && (String.IsNullOrEmpty(policy.entryReturnRva) || (Number(policy.entryReturnRva) != 0xb1304 && Number(policy.entryReturnRva) != 0xa7ca1))) throw new InvalidDataException("Owned worker entry return RVA must be the known gain or frequency caller.");
+      List<MemoryRange> workerRanges = new List<MemoryRange>(o.ranges); workerRanges.AddRange(point.ranges);
+      foreach (MemoryRange range in workerRanges) if (String.Equals(range.baseRegister, "esi", StringComparison.OrdinalIgnoreCase) && policy.entryReturnRva == null) throw new InvalidDataException("Owned worker ESI ranges require a declared known caller return gate.");
+    }
+    public static bool OwnedWorkerEntryReturnMatches(uint moduleBase, uint actualReturn, string entryReturnRva) {
+      if (entryReturnRva == null) return true;
+      uint rva = Number(entryReturnRva);
+      if (String.IsNullOrEmpty(entryReturnRva) || (rva != 0xb1304 && rva != 0xa7ca1)) throw new InvalidDataException("Unknown owned worker caller return RVA.");
+      return actualReturn == Add(moduleBase, rva);
+    }
+    public static void ValidateOwnedWorkerGainPairPolicy(Options o) {
+      OwnedWorkerGainPair p = o.ownedWorkerGainPair; if (p == null) return;
+      PendingFrameObserver f = o.pendingFrameObserver; ObservationActivation a = o.observationActivation;
+      if (o.ownedWorkerObservation != null || p.maxSnapshots != 2 || p.entryBreakpointId != "worker-gain-entry" || p.exitBreakpointId != "worker-gain-exit" || p.unsupportedExitBreakpointId != "worker-gain-spatial-exit" || f == null || f.nestedCaptureScope != "frame-thread" || f.beforeBreakpointId!="native-recovery-before" || f.afterBreakpointId!="native-recovery-after" || f.eventBreakpointId!="native-recovery-apply-entry" || a == null || a.breakpointId!="controlled-recovery-caller" || a.rawHit != 229 || !o.captureThreadEnvironment || o.maxSnapshots != 350 || o.maxDurationMs != 90000 || f.maxNestedSnapshots != 115 || f.maxPendingBytes != 128 * 1024 * 1024) throw new InvalidDataException("Worker gain pair requires its separate exact bounded guarded policy.");
+      string[] names = {p.entryBreakpointId,p.exitBreakpointId,p.unsupportedExitBreakpointId}; uint[] sites = {0xb12d0,0xb1990,0xb1919};
+      for (int i=0;i<names.Length;i++) {
+        Breakpoint point=null; foreach(Breakpoint b in o.breakpoints) if(b.id==names[i]) {if(point!=null)throw new InvalidDataException("Duplicate worker gain site.");point=b;}
+        if(point==null || Number(point.rva)!=sites[i] || !String.IsNullOrEmpty(point.address) || point.stopAfterHits!=0 || point.skipMatchingHits.HasValue || point.service!=null || point.captureWhen!=null || Array.IndexOf(f.nestedBreakpointIds,names[i])<0 || Array.IndexOf(a.observationBreakpointIds,names[i])<0) throw new InvalidDataException("Worker gain endpoints require exact deferred read-only native sites.");
+        foreach(PhaseAction action in o.phaseActions) if(action.breakpointId==names[i]) throw new InvalidDataException("Worker gain endpoints cannot write game state.");
+        if(i==2) {if(point.ranges.Length!=0) throw new InvalidDataException("Unsupported worker gain exit is a reject-only guard.");}
+        else {
+          ValidateGainPairRegisterRange(point,"worker-gain-stack","esp",444,-432,new string[0]);
+          ValidateGainPairRegisterRange(point,"worker-gain-arguments","esp",12,0,new string[0]);
+          ValidateGainPairRegisterRange(point,"worker-gain-source",i==0?"esp":"esi",0x9a8,0,i==0?new string[]{"4"}:new string[0]);
+          ValidateGainPairRegisterRange(point,"worker-gain-source-vtable",i==0?"esp":"esi",0x88,0,i==0?new string[]{"4","0"}:new string[]{"0"});
+          foreach(MemoryRange r in point.ranges) if(!String.IsNullOrEmpty(r.baseRegister) && r.id!="worker-gain-stack" && r.id!="worker-gain-arguments" && r.id!="worker-gain-source" && r.id!="worker-gain-source-vtable") throw new InvalidDataException("Worker gain extra register pointees require a separately reviewed policy.");
+        }
+      }
+      foreach(MemoryRange r in o.ranges) if(!String.IsNullOrEmpty(r.baseRegister)) throw new InvalidDataException("Worker gain global register ranges are not admitted.");
+      MemoryRange tid=p.threadIdSource,manager=p.managerSource;
+      if(tid==null || manager==null || tid.id!="manager-worker-tid" || Number(tid.rva)!=0x314b08 || tid.length!=4 || tid.offset!="0x24" || tid.dereferenceOffsets==null || tid.dereferenceOffsets.Length!=2 || tid.dereferenceOffsets[0]!="0" || tid.dereferenceOffsets[1]!="0x824" || manager.id!="worker-gain-manager-root" || Number(manager.rva)!=0x314b08 || manager.length!=4 || manager.dereferenceOffsets.Length!=0 || Offset(manager.offset)!=0) throw new InvalidDataException("Worker gain manager/TID roots differ.");
+      foreach(MemoryRange r in new MemoryRange[]{tid,manager}) if(!String.IsNullOrEmpty(r.address)||!String.IsNullOrEmpty(r.baseRegister)||r.readableRegion||r.vectorStorage||r.maxRegionBytes!=0||r.maxVectorBytes!=0||r.dereferenceMinimumValues!=null) throw new InvalidDataException("Worker gain ownership roots must be fixed global inputs.");
+    }
+    static void ValidateGainPairRegisterRange(Breakpoint point,string id,string register,int length,long offset,string[] chain) {
+      MemoryRange found=null;foreach(MemoryRange r in point.ranges)if(r.id==id){if(found!=null)throw new InvalidDataException("Duplicate worker gain register range.");found=r;}
+      if(found==null||found.baseRegister!=register||found.length!=length||Offset(found.offset)!=offset||!String.IsNullOrEmpty(found.address)||!String.IsNullOrEmpty(found.rva)||found.readableRegion||found.vectorStorage||found.maxRegionBytes!=0||found.maxVectorBytes!=0||found.dereferenceMinimumValues!=null||found.dereferenceOffsets==null||found.dereferenceOffsets.Length!=chain.Length) throw new InvalidDataException("Worker gain exact register range differs: "+id);
+      for(int i=0;i<chain.Length;i++)if(found.dereferenceOffsets[i]!=chain[i])throw new InvalidDataException("Worker gain exact pointer chain differs: "+id);
     }
     sealed class BufferedRange {
       public uint start;
@@ -719,8 +950,9 @@ namespace RollcageCapture {
       // Query and reserve the entire duplicated snapshot footprint BEFORE reading
       // any full-range blobs. A region query is metadata, never a memory sweep.
       foreach (MemoryRange range in selected) {
-        uint root = ResolveCaptureRange(process, mainBase, range, regs), start = root;
-        int length = range.length; MemoryRegionInfo region = null; VectorStorageInfo vector = null;
+        GuardedPointerInfo guard = range.dereferenceMinimumValues == null ? null : ReadGuardedPointerRange(process, mainBase, range);
+        uint root = guard == null ? ResolveCaptureRange(process, mainBase, range, regs) : guard.address, start = root;
+        int length = guard != null && guard.stopIndex >= 0 ? 0 : range.length; MemoryRegionInfo region = null; VectorStorageInfo vector = null;
         if (range.readableRegion) {region = QueryCaptureRange(process, root, range); start = (uint)region.baseAddress; length = checked((int)region.regionSize);}
         if (range.vectorStorage) {vector = ReadVectorCaptureRange(process, root, range); start = vector.begin; length = vector.length;}
         Dictionary<string, object> row = Record("id", range.id, "address", Hex(start), "rootAddress", range.address, "rootRva", range.rva, "moduleBaseAddress", !String.IsNullOrEmpty(range.rva) ? Hex(mainBase) : null, "baseRegister", range.baseRegister, "dereferenceOffsets", range.dereferenceOffsets, "offset", range.offset, "length", length);
@@ -729,7 +961,8 @@ namespace RollcageCapture {
           row["regionProtection"] = Hex(region.protection); row["regionState"] = Hex(region.state); row["regionType"] = Hex(region.type); row["maxRegionBytes"] = range.maxRegionBytes;
         }
         if (vector != null) AddVectorCaptureMetadata(row, root, range, vector);
-        buffered.ranges.Add(new BufferedRange {start = start, length = length, row = row, descriptor = range, root = root, region = region}); bytes = checked(bytes + length + (vector != null ? 12 : 0));
+        if (guard != null) AddGuardedPointerMetadata(row, range, guard);
+        buffered.ranges.Add(new BufferedRange {start = start, length = length, row = row, descriptor = range, root = root, region = region}); bytes = checked(bytes + GuardedPointerFootprint(guard, length) + (vector != null ? 12 : 0));
       }
       progress.Reserve(options.pendingFrameObserver, bytes);
       foreach (BufferedRange range in buffered.ranges) {range.data = ReadCaptureRangeBytes(process, range.descriptor, range.root, range.start, range.length, range.region); range.row["sha256"] = Digest(range.data);}
@@ -768,6 +1001,72 @@ namespace RollcageCapture {
       int first = snapshots + 1; snapshots = ordinal;
       foreach (BufferedSnapshot snapshot in buffered) emit(snapshot.row);
       Dictionary<string, object> selected = FrameProof(progress); selected["type"] = "pending-frame-selected"; selected["firstOrdinal"] = first; selected["lastOrdinal"] = ordinal; selected["bufferedBytes"] = progress.bufferedBytes; emit(selected);
+    }
+    static void VerifyHeldContext(IntPtr thread, Breakpoint hit, byte[] expected) {
+      IntPtr actual = Context(thread);
+      try {
+        Marshal.WriteInt32(actual,184,unchecked((int)hit.resolved));
+        byte[] bytes = new byte[716]; Marshal.Copy(actual,bytes,0,716);
+        if (Digest(bytes) != Digest(expected)) throw new InvalidDataException("Held original thread context changed before force input.");
+      } finally {Marshal.FreeHGlobal(actual);}
+    }
+    static void VerifyHeldRanges(IntPtr process, uint mainBase, Dictionary<string,object> regs, BufferedSnapshot before, uint force, byte[] replacement) {
+      foreach (BufferedRange r in before.ranges) {
+        if (r.descriptor != null && ResolveCaptureRange(process,mainBase,r.descriptor,regs) != r.root) throw new InvalidDataException("Held input root chain changed.");
+        byte[] expected = r.data;
+        if (replacement != null && (ulong)r.start < (ulong)force + 12 && (ulong)force < (ulong)r.start + (ulong)r.length) {
+          expected = (byte[])expected.Clone();
+          for (int i=0;i<12;i++) if ((ulong)force+(uint)i >= r.start && (ulong)force+(uint)i < (ulong)r.start+(uint)r.length) expected[checked((int)((ulong)force+(uint)i-r.start))]=replacement[i];
+        }
+        if (Digest(Bytes(process,r.start,r.length)) != Digest(expected)) throw new InvalidDataException("Held input span changed outside its exact force window.");
+      }
+    }
+    static void ApplyHeldForceInput(Options o, PendingFrameProgress frame, ProcessInfo child, IntPtr thread, uint mainBase, Breakpoint hit, uint tid, Dictionary<string,object> regs, IntPtr context, Dictionary<string,object> predicate, int debugOrdinal, ref int snapshots, Stopwatch elapsed, Action<Dictionary<string,object>> emit) {
+      long started = elapsed.ElapsedMilliseconds;
+      uint session = BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x1ecb1c),4),0), esp = Number((string)regs["esp"]);
+      if (tid != child.tid || Number((string)regs["eip"]) != Add(mainBase,0x749e0) || BitConverter.ToUInt32(Bytes(child.process,session+0x57c,4),0) != 4 || Bytes(child.process,session+0x54d,1)[0] != 6 || BitConverter.ToUInt32(Bytes(child.process,esp,4),0) != Add(mainBase,0x51017)) throw new InvalidDataException("Held force requires the actual owned main-thread six-car phase4 entry/caller.");
+      BufferedSnapshot pre = ReadBufferedSnapshot(o,frame,child.process,thread,mainBase,hit,tid,regs,context,predicate,"held-pre-input",elapsed.ElapsedMilliseconds,debugOrdinal);
+      if (snapshots + 1 >= o.maxSnapshots) throw new InvalidDataException("Held force lacks its reserved post-input budget.");
+      int ordinal = snapshots+1, rangeOrdinal=0; List<object> rows = new List<object>();
+      foreach (BufferedRange r in pre.ranges) {
+        string name="snapshot-"+ordinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";
+        using(FileStream s=new FileStream(Path.Combine(o.outputDirectory,name),FileMode.CreateNew))s.Write(r.data,0,r.data.Length);
+        r.row["file"]=name;rows.Add(r.row);
+      }
+      string contextFile="snapshot-"+ordinal.ToString("D6")+"-context.bin";
+      using(FileStream s=new FileStream(Path.Combine(o.outputDirectory,contextFile),FileMode.CreateNew))s.Write(pre.context,0,716);
+      pre.row["ordinal"]=ordinal;pre.row["hit"]=1;pre.row["breakpointId"]="held-force-pre-input";pre.row["observedBreakpointId"]=hit.id;pre.row["capturePhase"]="held-pre-input-before-original-instruction";pre.row["contextFile"]=contextFile;pre.row["ranges"]=rows;
+      snapshots=ordinal;emit(pre.row);
+      string token=Guid.NewGuid().ToString("N"),requestFile=Path.Combine(o.outputDirectory,"held-force-request.json");
+      Dictionary<string,object> request=Record("schemaVersion",1,"kind","held-chassis-force-input","token",token,"targetSha256",o.expectedSha256.ToLowerInvariant(),"pid",child.pid,"tid",tid,"moduleBaseAddress",Hex(mainBase),"clock",BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x50a548),4),0),"observedDebugEventOrdinal",debugOrdinal,"maxHoldMs",20000,"maxAttempts",24,"maxPendingBytes",128*1024*1024,"snapshot",pre.row);
+      byte[] requestBytes=Encoding.UTF8.GetBytes(Json(request)+"\n");
+      string requestPending=Path.Combine(o.outputDirectory,"held-force-request.pending");
+      using(FileStream s=new FileStream(requestPending,FileMode.CreateNew))s.Write(requestBytes,0,requestBytes.Length);
+      File.Move(requestPending,requestFile);
+      string requestSha=Digest(requestBytes),decisionFile=Path.Combine(o.outputDirectory,"held-force-decision.txt");
+      emit(Record("type","held-force-waiting","token",token,"requestFile","held-force-request.json","requestSha256",requestSha,"pid",child.pid,"tid",tid,"observedDebugEventOrdinal",debugOrdinal,"preInputOrdinal",ordinal,"deadlineElapsedMs",Math.Min(started+20000,o.maxDurationMs),"allOwnedThreadsStoppedByDebugEvent",true));
+      while (!File.Exists(decisionFile)) {
+        if (elapsed.ElapsedMilliseconds-started >= 20000 || elapsed.ElapsedMilliseconds >= o.maxDurationMs) throw new InvalidDataException("Held force deadline expired; no input written and no automatic retry.");
+        System.Threading.Thread.Sleep(25);
+      }
+      if (elapsed.ElapsedMilliseconds-started >= 20000 || elapsed.ElapsedMilliseconds >= o.maxDurationMs || new FileInfo(decisionFile).Length>4096 || (File.GetAttributes(decisionFile)&FileAttributes.ReparsePoint)!=0) throw new InvalidDataException("Held force decision deadline/file bound.");
+      HeldForceDecision d=ParseHeldForceDecision(File.ReadAllText(decisionFile,Encoding.UTF8),token,requestSha);
+      string planFile=Path.Combine(o.outputDirectory,"held-force-plan.json");
+      if(!File.Exists(planFile)||new FileInfo(planFile).Length>8*1024*1024||(File.GetAttributes(planFile)&FileAttributes.ReparsePoint)!=0||Digest(File.ReadAllBytes(planFile))!=d.planSha256)throw new InvalidDataException("Held force source plan proof missing or changed.");
+      VerifyHeldContext(thread,hit,pre.context);VerifyHeldRanges(child.process,mainBase,regs,pre,0,null);
+      uint body=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x509300+(uint)d.participantIndex*0x30c),4),0);
+      uint arena=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x502eec),4),0),used=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x30dcf4),4),0);
+      byte[] bodyBytes=Bytes(child.process,body,0x3e78);
+      if(body!=d.body||body<arena||((ulong)body-arena)%128!=0||(ulong)body+0x3e78>(ulong)arena+used||(BitConverter.ToUInt32(bodyBytes,0)&511)!=3||Digest(bodyBytes)!=d.bodySha256)throw new InvalidDataException("Held force live participant/body preimage differs.");
+      uint list=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x502bc0),4),0);int count=BitConverter.ToUInt16(Bytes(child.process,Add(mainBase,0x502bc4),2),0);bool found=false;
+      if(count>=96||count<1)throw new InvalidDataException("Held force physical body-list bound.");
+      byte[] physical=Bytes(child.process,list,(count+1)*4);if(BitConverter.ToUInt32(physical,count*4)!=0)throw new InvalidDataException("Held force physical-list terminator.");
+      for(int i=0;i<count;i++)found|=BitConverter.ToUInt32(physical,i*4)==body;
+      byte[] original=new byte[12];Array.Copy(bodyBytes,0x74,original,0,12);
+      if(!found||BytesHex(original)!=BytesHex(d.original)||Bytes(child.process,hit.resolved,1)[0]!=0xcc||elapsed.ElapsedMilliseconds-started>=20000||elapsed.ElapsedMilliseconds>=o.maxDurationMs)throw new InvalidDataException("Held force final ownership/preimage/deadline guard.");
+      uint target=Add(body,0x74);Write(child.process,target,d.replacement);
+      VerifyHeldContext(thread,hit,pre.context);VerifyHeldRanges(child.process,mainBase,regs,pre,target,d.replacement);
+      emit(Record("type","held-force-intervention","breakpointId",hit.id,"rawHit",hit.hits,"pid",child.pid,"tid",tid,"observedDebugEventOrdinal",debugOrdinal,"preInputOrdinal",ordinal,"token",token,"requestSha256",requestSha,"sourcePlanSha256",d.planSha256,"participantIndex",d.participantIndex,"bodyAddress",Hex(body),"address",Hex(target),"length",12,"originalBytesHex",BytesHex(d.original),"replacementBytesHex",BytesHex(d.replacement),"originalBodySha256",d.bodySha256,"normalQ16",d.normal,"signedScalarQ16",d.scalar,"allCapturedInputSpansRevalidated",true,"allNonForceBytesUnchanged",true,"contextUnchanged",true,"holdElapsedMs",elapsed.ElapsedMilliseconds-started,"beforeOriginalInstruction",true,"nativeCounterfactualCompared",false));
     }
     static void CaptureThreadDiagnostics(ProcessInfo child, Dictionary<uint, IntPtr> ownedThreads, string directory, int stackLength, Action<Dictionary<string, object>> emit) {
       // These handles come only from this debugger's CREATE_PROCESS/CREATE_THREAD
@@ -845,7 +1144,11 @@ namespace RollcageCapture {
       List<IntPtr> suspended = new List<IntPtr>(); Breakpoint pending = null; uint pendingThread = 0;
       List<DeferredOwnedBreakpoint> deferredBreakpoints = new List<DeferredOwnedBreakpoint>();
       bool observationsActivated = false;
+      bool heldForceUsed = false;
+      OwnedWorkerObservationProgress workerObservation = new OwnedWorkerObservationProgress();
+      OwnedWorkerGainPairProgress workerGainPair = new OwnedWorkerGainPairProgress();
       bool exited = false, created = false, fatal = false; int snapshots = 0, events = 0; string reason = "unknown";
+      bool processInformationThreadIsEventOwned = false, processInformationProcessIsEventOwned = false;
       PendingFrameProgress frame = new PendingFrameProgress();
       List<BufferedSnapshot> bufferedFrame = new List<BufferedSnapshot>();
       Dictionary<string, object> frameSelection = null;
@@ -886,9 +1189,11 @@ namespace RollcageCapture {
               IntPtr file = Ptr(eventData, u), process = Ptr(eventData, u + IntPtr.Size), thread = Ptr(eventData, u + IntPtr.Size * 2);
               string modulePath = FilePath(file);
               if (file != IntPtr.Zero) CloseHandle(file);
-              // DEBUG_EVENT handles may be aliases of PROCESS_INFORMATION handles.
-              if (process != child.process) CloseHandle(process);
-              threads[tid] = thread;
+              //Event process/thread handles belong to the debug API until exit
+              //continuation. Track a distinct owned copy, never that handle.
+              processInformationThreadIsEventOwned = thread == child.thread;
+              processInformationProcessIsEventOwned = process == child.process;
+              threads[tid] = DuplicateOwnedDebugThreadHandle(thread, child.pid, tid, emit);
               bool wow64; Check(IsWow64Process(child.process, out wow64), "IsWow64Process");
               if (IntPtr.Size == 8 && !wow64) throw new InvalidDataException("Expected a WOW64 x86 target.");
               mainBase = unchecked((uint)Ptr(eventData, u + IntPtr.Size * 3).ToInt64());
@@ -907,7 +1212,7 @@ namespace RollcageCapture {
                 }
               }
             } else if (code == 2) {
-              IntPtr thread = Ptr(eventData, u); threads[tid] = thread;
+              IntPtr thread = DuplicateOwnedDebugThreadHandle(Ptr(eventData, u), child.pid, tid, emit); threads[tid] = thread;
               if (pending != null && tid != pendingThread) { uint previous; if (ChangeTrackedThreadSuspension(thread, child.pid, tid, false, "suspend-new-thread", emit, out previous)) suspended.Add(thread); }
             } else if (code == 4) {
               for (int index = deferredBreakpoints.Count - 1; index >= 0; index--) if (deferredBreakpoints[index].tid == tid) {
@@ -915,7 +1220,11 @@ namespace RollcageCapture {
                 emit(Record("type", "owned-breakpoint-deferred-thread-exited", "tid", tid, "breakpointId", deferred.breakpoint.id, "deferredDebugEventOrdinal", deferred.observedDebugEventOrdinal, "originalInstructionExecuted", false));
                 deferredBreakpoints.RemoveAt(index);
               }
-              IntPtr handle; if (threads.TryGetValue(tid, out handle)) { threads.Remove(tid); suspended.RemoveAll(delegate(IntPtr value) {return value == handle;}); if (handle != child.thread) CloseHandle(handle); }
+              IntPtr handle; if (threads.TryGetValue(tid, out handle)) {
+                threads.Remove(tid); suspended.RemoveAll(delegate(IntPtr value) {return value == handle;});
+                Check(CloseHandle(handle), "Close owned thread tracking copy after exit event");
+                emit(Record("type", "owned-debug-thread-handle-closed", "pid", pid, "tid", tid, "trackingHandle", HandleHex(handle), "reason", "actual-exit-thread-event", "eventHandleClosedByDebugger", false));
+              }
             } else if (code == 6) {
               IntPtr file = Ptr(eventData, u); string modulePath = FilePath(file); if (file != IntPtr.Zero) CloseHandle(file);
               ulong nativeBase = unchecked((ulong)Ptr(eventData, u + IntPtr.Size).ToInt64());
@@ -1047,7 +1356,74 @@ namespace RollcageCapture {
                   bool capture = hit.service == null;
                   Dictionary<string, object> predicateEvidence = null;
                   PendingFrameObserver scopePolicy = o.pendingFrameObserver;
-                  if (capture && scopePolicy != null && scopePolicy.nestedCaptureScope == "frame-thread" && Array.IndexOf(scopePolicy.nestedBreakpointIds, hit.id) >= 0 && (!frame.active || tid != frame.frameTid)) {
+                  OwnedWorkerObservation workerPolicy = o.ownedWorkerObservation;
+                  OwnedWorkerGainPair gainPolicy = o.ownedWorkerGainPair;
+                  bool gainSite = gainPolicy != null && (hit.id == gainPolicy.entryBreakpointId || hit.id == gainPolicy.exitBreakpointId || hit.id == gainPolicy.unsupportedExitBreakpointId), gainAccepted = false;
+                  bool gainEntry = gainSite && hit.id == gainPolicy.entryBreakpointId;
+                  Dictionary<string, object> gainProof = null;
+                  if (capture && gainSite) {
+                    if (frame.active && observationsActivated && !workerGainPair.complete) {
+                      if(frame.frameTid!=child.tid) throw new InvalidDataException("Worker gain pair requires the owned main-thread parent.");
+                      uint tidAddress = ResolveCaptureRange(child.process, mainBase, gainPolicy.threadIdSource, regs);
+                      byte[] tidBytes = Bytes(child.process, tidAddress, 4); uint expectedTid = BitConverter.ToUInt32(tidBytes, 0); IntPtr ownedThread;
+                      bool ownedLive = expectedTid != child.tid && threads.TryGetValue(expectedTid, out ownedThread) && ownedThread != IntPtr.Zero;
+                      if (workerGainPair.CanObserve(frame.active, observationsActivated, tid, expectedTid, frame.frameTid, ownedLive)) {
+                        if (gainEntry && workerGainPair.open) throw new InvalidDataException("Nested worker gain call before selected return.");
+                        if (gainEntry || workerGainPair.open) {
+                          uint S = Number((string)regs["esp"]); byte[] args = Bytes(child.process, S, 12);
+                          uint returned = BitConverter.ToUInt32(args,0), sourceArg = BitConverter.ToUInt32(args,4), flag = BitConverter.ToUInt32(args,8);
+                          bool callerMatched = !gainEntry || OwnedWorkerGainPairProgress.CallerMatches(mainBase,returned,flag);
+                          emit(Record("type","owned-worker-gain-abi-checked","breakpointId",hit.id,"pid",child.pid,"tid",tid,"observedDebugEventOrdinal",events,"entry",gainEntry,"callerMatched",callerMatched,"stackAddress",Hex(S),"stackBytesHex",BytesHex(args),"readBeforeSnapshotRanges",true,"counterMutation",false));
+                          if (callerMatched) {
+                            uint managerAddress = ResolveCaptureRange(child.process,mainBase,gainPolicy.managerSource,regs), managerObject = BitConverter.ToUInt32(Bytes(child.process,managerAddress,4),0);
+                            uint esi = Number((string)regs["esi"]), ebx = Number((string)regs["ebx"]), ebp = Number((string)regs["ebp"]), edi = Number((string)regs["edi"]);
+                            if (gainEntry) {
+                              if(Number((string)regs["ecx"])!=managerObject) throw new InvalidDataException("Worker gain entry is not the original manager call.");
+                              workerGainPair.Begin(tid,frame.frameTid,frame.candidateIndex,S,sourceArg,managerObject,returned,flag,ebx,ebp,edi,mainBase,esi);
+                            } else {
+                              if(hit.id==gainPolicy.unsupportedExitBreakpointId) throw new InvalidDataException("Selected worker gain entered unsupported spatial earlyRET4b1919.");
+                              workerGainPair.ValidateExit(tid,frame.frameTid,frame.candidateIndex,S,returned,esi,managerObject,ebx,ebp,edi);
+                            }
+                            gainAccepted = true;
+                            gainProof=Record("breakpointId",hit.id,"role",gainEntry?"entry":"exit","pid",child.pid,"tid",tid,"expectedTid",expectedTid,"threadIdSourceAddress",Hex(tidAddress),"actualThreadIdBytesHex",BytesHex(tidBytes),"ownedLiveThread",ownedLive,"pendingFrameActive",true,"pendingFrameTid",frame.frameTid,"candidateIndex",frame.candidateIndex,"entryEsp",Hex(workerGainPair.esp),"source",Hex(workerGainPair.source),"manager",Hex(workerGainPair.manager),"returnAddress",Hex(workerGainPair.caller),"force",workerGainPair.force,"entryEbx",Hex(workerGainPair.ebx),"entryEbp",Hex(workerGainPair.ebp),"entryEdi",Hex(workerGainPair.edi),"stackAddress",Hex(S),"stackBytesHex",BytesHex(args),"exitArgumentNotDereferenced",!gainEntry,"afterRetEsp",Hex(Add(workerGainPair.esp,12)),"observationIndex",gainEntry?1:2,"maxSnapshots",2,"observedDebugEventOrdinal",events,"beforeOriginalInstruction",true,"abiReadBeforeSnapshotRanges",true);
+                          }
+                        }
+                      }
+                    }
+                    if(!gainAccepted) {capture=false;emit(Record("type","owned-worker-gain-skipped","breakpointId",hit.id,"pid",child.pid,"tid",tid,"rawHit",hit.hits,"pendingFrameActive",frame.active,"pairComplete",workerGainPair.complete,"matchingHitAdvanced",false,"originalInstructionSkipped",false));}
+                  }
+                  bool workerSite = workerPolicy != null && hit.id == workerPolicy.breakpointId, workerAccepted = false;
+                  bool workerCallerRejected = false;
+                  Dictionary<string, object> workerProof = null;
+                  if (capture && workerSite) {
+                    if (workerObservation.NeedsThreadSourceRead(frame.active, observationsActivated)) {
+                      MemoryRange source = workerPolicy.threadIdSource;
+                      uint sourceAddress = ResolveCaptureRange(child.process, mainBase, source, regs);
+                      byte[] sourceBytes = Bytes(child.process, sourceAddress, 4);
+                      uint expectedTid = BitConverter.ToUInt32(sourceBytes, 0); IntPtr ownedThread;
+                      bool ownedLive = expectedTid != child.tid && threads.TryGetValue(expectedTid, out ownedThread) && ownedThread != IntPtr.Zero;
+                      workerAccepted = workerObservation.CanCapture(frame.active, observationsActivated, tid, expectedTid, frame.frameTid, ownedLive);
+                      if (workerAccepted) {
+                        workerProof = Record("breakpointId", hit.id, "pid", child.pid, "tid", tid, "threadIdSourceAddress", Hex(sourceAddress), "actualThreadIdBytesHex", BytesHex(sourceBytes), "expectedTid", expectedTid, "ownedLiveThread", ownedLive, "pendingFrameActive", frame.active, "pendingFrameTid", frame.frameTid, "candidateIndex", frame.candidateIndex, "observationIndex", 1, "maxSnapshots", workerPolicy.maxSnapshots, "observedDebugEventOrdinal", events, "beforeOriginalInstruction", true);
+                        if (workerPolicy.entryReturnRva != null) {
+                          // This exact four-byte caller check precedes all snapshot
+                          // range resolution, in particular any ESI pointee read.
+                          uint entryEsp = Number((string)regs["esp"]);
+                          byte[] callerBytes = Bytes(child.process, entryEsp, 4);
+                          bool callerMatches = OwnedWorkerEntryReturnMatches(mainBase, BitConverter.ToUInt32(callerBytes, 0), workerPolicy.entryReturnRva);
+                          Dictionary<string, object> gate = Record("type", "owned-worker-entry-return-checked", "breakpointId", hit.id, "pid", child.pid, "tid", tid, "entryReturnRva", workerPolicy.entryReturnRva, "entryReturnAddress", Hex(entryEsp), "actualEntryReturnBytesHex", BytesHex(callerBytes), "expectedEntryReturnAddress", Hex(Add(mainBase, Number(workerPolicy.entryReturnRva))), "entryReturnMatched", callerMatches, "entryReturnReadBeforeSnapshotRanges", true, "observedDebugEventOrdinal", events, "matchingHitAdvanced", false, "counterMutation", false, "oneSnapshotConsumed", false);
+                          emit(gate);
+                          foreach (string key in new string[] {"entryReturnRva", "entryReturnAddress", "actualEntryReturnBytesHex", "expectedEntryReturnAddress", "entryReturnMatched", "entryReturnReadBeforeSnapshotRanges"}) workerProof[key] = gate[key];
+                          workerCallerRejected = !callerMatches; workerAccepted = callerMatches;
+                        }
+                      }
+                    }
+                    if (!workerAccepted) {
+                      capture = false;
+                      emit(Record("type", "owned-worker-observation-skipped", "breakpointId", hit.id, "pid", child.pid, "tid", tid, "rawHit", hit.hits, "reason", workerCallerRejected ? "different-worker-caller" : workerObservation.captured != 0 ? "one-snapshot-bound" : !frame.active ? "outside-pending-frame" : "different-owned-worker-thread", "pendingFrameActive", frame.active, "matchingHitAdvanced", false, "originalInstructionSkipped", false));
+                    }
+                  }
+                  if (capture && !workerSite && !gainSite && scopePolicy != null && scopePolicy.nestedCaptureScope == "frame-thread" && Array.IndexOf(scopePolicy.nestedBreakpointIds, hit.id) >= 0 && (!frame.active || tid != frame.frameTid)) {
                     capture = false;
                     emit(Record("type", "observation-skipped", "breakpointId", hit.id, "rawHit", hit.hits, "tid", tid, "reason", frame.active ? "different-pending-frame-thread" : "outside-pending-frame", "nestedCaptureScope", "frame-thread", "pendingFrameActive", frame.active, "pendingFrameTid", frame.active ? (object)frame.frameTid : null, "matchingHitAdvanced", false, "originalInstructionSkipped", false));
                   }
@@ -1078,6 +1454,11 @@ namespace RollcageCapture {
                       if (capture) {
                         uint caller = BitConverter.ToUInt32(Bytes(child.process, esp, 4), 0);
                         frame.Begin(observer, tid, esp, caller, matching);
+                        if (o.heldForceInput != null) {
+                          if (heldForceUsed) throw new InvalidDataException("Held force allows exactly one live entry; no automatic retry.");
+                          heldForceUsed = true;
+                          ApplyHeldForceInput(o,frame,child,threads[tid],mainBase,hit,tid,regs,context,predicateEvidence,events,ref snapshots,elapsed,emit);
+                        }
                         bufferedFrame.Add(ReadBufferedSnapshot(o, frame, child.process, threads[tid], mainBase, hit, tid, regs, context, predicateEvidence, "before", elapsed.ElapsedMilliseconds, events));
                         Dictionary<string, object> started = FrameProof(frame); started["type"] = "pending-frame-started"; started["bufferedBytes"] = frame.bufferedBytes; emit(started);
                       }
@@ -1098,6 +1479,7 @@ namespace RollcageCapture {
                       if (frame.active) {
                         uint caller = BitConverter.ToUInt32(Bytes(child.process, esp, 4), 0);
                         frame.ValidateAfter(tid, esp, caller, matching, capture);
+                        if(gainPolicy!=null) workerGainPair.ValidateParentClose(frame.candidateIndex,frame.qualifyingEventSnapshots!=0);
                         if (frame.qualifyingEventSnapshots == 0) {
                           Dictionary<string, object> discarded = FrameProof(frame); discarded["type"] = "pending-frame-discarded"; discarded["reason"] = "no-qualifying-event"; discarded["bufferedBytes"] = frame.bufferedBytes; discarded["beforeRawHit"] = bufferedFrame[0].row["rawHit"]; discarded["afterRawHit"] = hit.hits; emit(discarded);
                           candidateBound = frame.candidateIndex == observer.maxCandidateFrames;
@@ -1113,7 +1495,16 @@ namespace RollcageCapture {
                       // order, but never qualify its selection event. Preserve
                       // the actual owned-thread id for posthoc lineage checks.
                       frame.ObserveNested(observer);
-                      bufferedFrame.Add(ReadBufferedSnapshot(o, frame, child.process, threads[tid], mainBase, hit, tid, regs, context, predicateEvidence, "nested", elapsed.ElapsedMilliseconds, events));
+                      BufferedSnapshot observed = ReadBufferedSnapshot(o, frame, child.process, threads[tid], mainBase, hit, tid, regs, context, predicateEvidence, gainAccepted ? (gainEntry ? "worker-gain-entry" : "worker-gain-exit") : workerAccepted ? "worker-once" : "nested", elapsed.ElapsedMilliseconds, events);
+                      if(gainAccepted) {
+                        workerGainPair.Commit(gainEntry); observed.row["ownedWorkerGainPair"]=gainProof;
+                        Dictionary<string,object> admitted=new Dictionary<string,object>(gainProof);admitted["type"]="owned-worker-gain-admitted";emit(admitted);
+                      }
+                      if (workerAccepted) {
+                        workerObservation.CommitSnapshot(); observed.row["ownedWorkerObservation"] = workerProof;
+                        Dictionary<string, object> admitted = new Dictionary<string, object>(workerProof); admitted["type"] = "owned-worker-observation-admitted"; emit(admitted);
+                      }
+                      bufferedFrame.Add(observed);
                       capture = false;
                     } else if (frame.active && capture) throw new InvalidDataException("Unrelated observation inside a pending frame would interleave publication.");
                     if (beforeFrame || afterFrame || eventFrame) capture = false;
@@ -1123,8 +1514,9 @@ namespace RollcageCapture {
                   List<object> ranges = new List<object>(); List<MemoryRange> selected = new List<MemoryRange>(o.ranges); selected.AddRange(hit.ranges);
                   int rangeOrdinal = 0;
                   foreach (MemoryRange range in selected) {
-                    uint root = ResolveCaptureRange(child.process, mainBase, range, regs), start = root;
-                    int length = range.length; MemoryRegionInfo region = null; VectorStorageInfo vector = null;
+                    GuardedPointerInfo guard = range.dereferenceMinimumValues == null ? null : ReadGuardedPointerRange(child.process, mainBase, range);
+                    uint root = guard == null ? ResolveCaptureRange(child.process, mainBase, range, regs) : guard.address, start = root;
+                    int length = guard != null && guard.stopIndex >= 0 ? 0 : range.length; MemoryRegionInfo region = null; VectorStorageInfo vector = null;
                     if (range.readableRegion) {region = QueryCaptureRange(child.process, root, range); start = (uint)region.baseAddress; length = checked((int)region.regionSize);}
                     if (range.vectorStorage) {vector = ReadVectorCaptureRange(child.process, root, range); start = vector.begin; length = vector.length;}
                     byte[] data = ReadCaptureRangeBytes(child.process, range, root, start, length, region); string file = "snapshot-" + snapshotOrdinal.ToString("D6") + "-range-" + (++rangeOrdinal).ToString("D3") + ".bin";
@@ -1135,6 +1527,7 @@ namespace RollcageCapture {
                       row["regionProtection"] = Hex(region.protection); row["regionState"] = Hex(region.state); row["regionType"] = Hex(region.type); row["maxRegionBytes"] = range.maxRegionBytes;
                     }
                     if (vector != null) AddVectorCaptureMetadata(row, root, range, vector);
+                    if (guard != null) AddGuardedPointerMetadata(row, range, guard);
                     ranges.Add(row);
                   }
                   ThreadEnvironmentCapture capturedThreadEnvironment = o.captureThreadEnvironment ? ReadThreadEnvironment(child.process, threads[tid], context, tid) : null;
@@ -1248,7 +1641,7 @@ namespace RollcageCapture {
         } finally {
           if (created && o.captureThreadsOnStop) {
             if (!exited) {
-              try {CaptureThreadDiagnostics(child, threads, o.outputDirectory, o.stopThreadStackBytes, emit);}
+              try {ProcessInfo diagnosticChild = child; if (processInformationThreadIsEventOwned) diagnosticChild.thread = IntPtr.Zero; CaptureThreadDiagnostics(diagnosticChild, threads, o.outputDirectory, o.stopThreadStackBytes, emit);}
               catch (Exception diagnosticError) {try {emit(Record("type", "thread-diagnostic-error", "stage", "initialization", "pid", child.pid, "error", diagnosticError.ToString()));} catch { }}
             }
             else try {emit(Record("type", "thread-diagnostics-skipped", "pid", child.pid, "reason", "Owned process already exited."));} catch { }
@@ -1259,7 +1652,7 @@ namespace RollcageCapture {
             Action<Dictionary<string, object>> cleanupReport = delegate(Dictionary<string, object> row) {try {emit(row);} catch { }};
             try {
               Dictionary<uint, IntPtr> cleanupThreads = new Dictionary<uint, IntPtr>(threads);
-              if (!cleanupThreads.ContainsKey(child.tid) && child.thread != IntPtr.Zero) cleanupThreads.Add(child.tid, child.thread);
+              if (!cleanupThreads.ContainsKey(child.tid) && child.thread != IntPtr.Zero && !processInformationThreadIsEventOwned) cleanupThreads.Add(child.tid, child.thread);
               bool allQuiescent = true; List<uint> frozen = new List<uint>(), inertTerminated = new List<uint>();
               foreach (KeyValuePair<uint, IntPtr> thread in cleanupThreads) {
                 uint previous;
@@ -1292,7 +1685,9 @@ namespace RollcageCapture {
               if (killed) WaitForSingleObject(child.process, 5000);
             }
           }
-          HashSet<IntPtr> handles = new HashSet<IntPtr>(threads.Values); handles.Add(child.thread); handles.Add(child.process);
+          HashSet<IntPtr> handles = new HashSet<IntPtr>(threads.Values);
+          if (!processInformationThreadIsEventOwned) handles.Add(child.thread);
+          if (!processInformationProcessIsEventOwned) handles.Add(child.process);
           foreach (IntPtr handle in handles) if (handle != IntPtr.Zero) CloseHandle(handle);
           Marshal.FreeHGlobal(eventData);
         }

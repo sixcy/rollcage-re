@@ -170,7 +170,17 @@ test('two owned native threads keep preactivation calls untrapped and background
       phaseActions: [{breakpointId: 'activation-trigger', hit: 1, writes: [{rva: '0x1614', expectedBytesHex: '01000000', bytesHex: '01000000'}, {rva: '0x1608', expectedBytesHex: '00000000', bytesHex: '01000000'}]}],
       pendingFrameObserver: {beforeBreakpointId: 'frame-before', afterBreakpointId: 'frame-after', eventBreakpointId: 'dispatch', maxPendingBytes: 65536, maxCandidateFrames: 1, maxEventSnapshots: 1, eventStackOffset: -28, eventReturnRva: fixture.rva('dispatch-return'), eventPointerRegister: 'ecx', eventRecordBytes: 104, eventPoolRoot: {id: 'pool', rva: '0x1620', length: 4}, eventPoolCapacity: {id: 'capacity', rva: '0x1624', length: 4}, nestedBreakpointIds: ['nested-site'], maxNestedSnapshots: count, nestedCaptureScope: 'frame-thread'},
       observationActivation: {breakpointId: 'activation-trigger', rawHit: 1, observationBreakpointIds: ['nested-site']}};
-    const result = run(await save(directory, config, 'capture')); assert.equal(result.status, 0, result.stdout + result.stderr);
+    const result = run(await save(directory, config, 'capture'));
+    if (result.status !== 0) {
+      let trace = [], traceReadError;
+      try {trace = await rows(config.outputDirectory);} catch (error) {traceReadError = String(error);}
+      const report = {method: 'Supported owned activation fixture failure; no original game execution.', exitStatus: result.status,
+        stdout: result.stdout, stderr: result.stderr, traceReadError,
+        lifecycle: trace.filter(row => row.type === 'owned-thread-lifecycle'), tail: trace.slice(-12)};
+      const evidencePath = path.resolve('analysis', `native-observer-thread-failure-${Date.now()}.json`);
+      await writeFile(evidencePath, JSON.stringify(report, null, 2), {flag: 'wx'});
+      assert.equal(result.status, 0, `${result.stdout}${result.stderr}\nRetained lifecycle evidence: ${evidencePath}\n${JSON.stringify(report.lifecycle)}`);
+    }
     const raw = await rows(config.outputDirectory), capture = await loadPhysicsCapture(config.outputDirectory), selected = pair(capture);
     assert.equal(verifyNativeObservationActivation(capture, selected, config).nestedSnapshots, count);
     const trigger = capture.snapshots[0].ranges.get('state').bytes, final = selected.after.ranges.get('state').bytes;
@@ -181,5 +191,16 @@ test('two owned native threads keep preactivation calls untrapped and background
     const skipped = raw.filter(row => row.type === 'observation-skipped' && row.reason === 'different-pending-frame-thread');
     assert.equal(skipped.length, count); assert.ok(skipped.every(row => row.tid !== selected.before.tid && !row.matchingHitAdvanced && !row.originalInstructionSkipped));
     assert.equal(raw.find(row => row.type === 'complete').pendingFrameSelection.nestedSnapshots, count);
+    const copies = raw.filter(row => row.type === 'owned-debug-thread-handle');
+    assert.equal(copies.length, raw.filter(row => row.type === 'debug-event' && [2, 3].includes(row.event)).length);
+    assert.ok(copies.length >= 2);
+    for (const copy of copies) {
+      assert.notEqual(copy.sourceHandle, copy.trackingHandle); assert.equal(copy.sameAccess, true);
+      assert.equal(copy.eventHandleOwnership, 'system-closes-on-exit-continuation'); assert.equal(copy.trackingHandleOwnership, 'debugger-copy');
+    }
+    for (const closed of raw.filter(row => row.type === 'owned-debug-thread-handle-closed')) {
+      assert.equal(closed.eventHandleClosedByDebugger, false); assert.equal(closed.reason, 'actual-exit-thread-event');
+      assert.ok(copies.some(copy => copy.tid === closed.tid && copy.trackingHandle === closed.trackingHandle));
+    }
   } finally {await cleanup(directory);}
 });

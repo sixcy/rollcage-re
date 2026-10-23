@@ -1,10 +1,11 @@
 import {readGameMicroseconds} from './game-network-protocol.mjs';
 import {advanceWeatherRandom} from './weather-volumes.mjs';
 import {queryWeatherViewport, readWeatherViewportExtent} from './weather-viewport.mjs';
+import {nativeMemorySpan} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const f = (m, p) => m.readFloatLE(p), sf = (m, p, v) => m.writeFloatLE(v, p), mul = (a, b) => Math.fround(a * b), add = (a, b) => Math.fround(a + b), sub = (a, b) => Math.fround(a - b), div = (a, b) => Math.fround(a / b);
-function playerName(memory, name) {memory.writeBigUInt64LE(memory.readBigUInt64LE(0x5d0254), name); memory[name + 8] = memory[0x5d025c]; memory.fill(0, name + 9, name + 260);}
+function playerName(memory, name) {memory.writeBigUInt64LE(memory.readBigUInt64LE(0x5d0254), name); memory[name + 8] = memory[0x5d025c]; nativeMemorySpan(memory,name+9,251).fill(0);}
 
 //4979c0. Actual frame-rate gate, shared RNG and all three screen-particle types.
 export function spawnWeatherScreenParticle(index, runtime) {

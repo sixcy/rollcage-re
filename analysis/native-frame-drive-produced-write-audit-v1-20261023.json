@@ -1,0 +1,1423 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "reportFile": "analysis/native-frame-drive-sequence-v1-20261023/report.json",
+  "reportSha256": "189bdf0fb649a0445f489f012965a8a7c79c634ad55379ca58d54517b1679213",
+  "method": "actual-carried-source-continuation-output-versus-native-after-and-next-entry",
+  "matched": true,
+  "protectedBytes": 384,
+  "sourceProducerEvidence": {
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "evidenceIds": [
+      "ev_46d22bb690247378da4f778dc7ea56d10aafe43ef53e5bf7d3f0e5974134e7fe",
+      "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+      "ev_25d0e08b400dae142d89ded057f0f7b25b9df9eed938ad18ddd58fa099caa2ac",
+      "ev_8c7dd04a8afc52e84554e55a8065848aa8e15f7f8afcd28c2f59a1970bd47c82"
+    ]
+  },
+  "observations": [
+    {
+      "transition": 1,
+      "overwrittenSourceDivergenceBytes": 110,
+      "alreadyMatchesNextBytes": 106,
+      "laterDifferentBytes": 4,
+      "groups": [
+        {
+          "storageClass": "shared-sqrt-scratch",
+          "overwrittenSourceDivergenceBytes": 4,
+          "alreadyMatchesNextBytes": 0,
+          "laterDifferentBytes": 4
+        },
+        {
+          "storageClass": "pickup-matrices",
+          "overwrittenSourceDivergenceBytes": 98,
+          "alreadyMatchesNextBytes": 98,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "other-produced-byte",
+          "overwrittenSourceDivergenceBytes": 3,
+          "alreadyMatchesNextBytes": 3,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "vehicle-launch-state",
+          "overwrittenSourceDivergenceBytes": 5,
+          "alreadyMatchesNextBytes": 5,
+          "laterDifferentBytes": 0
+        }
+      ],
+      "samples": [
+        {
+          "address": 12571740,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557084,
+          "nativeAfterByte": 167,
+          "producedByte": 98,
+          "nextNativeByte": 243,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571741,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557085,
+          "nativeAfterByte": 4,
+          "producedByte": 249,
+          "nextNativeByte": 85,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571742,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557086,
+          "nativeAfterByte": 1,
+          "producedByte": 85,
+          "nextNativeByte": 2,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571744,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557088,
+          "nativeAfterByte": 15,
+          "producedByte": 6,
+          "nextNativeByte": 14,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 277428164,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 0,
+          "nativeAfterByte": 99,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428166,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 2,
+          "nativeAfterByte": 118,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428167,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 3,
+          "nativeAfterByte": 254,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428168,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 4,
+          "nativeAfterByte": 226,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428169,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 5,
+          "nativeAfterByte": 252,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428170,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 6,
+          "nativeAfterByte": 45,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428171,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 7,
+          "nativeAfterByte": 3,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428172,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 8,
+          "nativeAfterByte": 134,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428173,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 9,
+          "nativeAfterByte": 255,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428174,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 10,
+          "nativeAfterByte": 83,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428176,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 12,
+          "nativeAfterByte": 104,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428177,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 13,
+          "nativeAfterByte": 1,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428178,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 14,
+          "nativeAfterByte": 22,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428180,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 16,
+          "nativeAfterByte": 197,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435972,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 0,
+          "nativeAfterByte": 99,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435974,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 2,
+          "nativeAfterByte": 118,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435975,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 3,
+          "nativeAfterByte": 254,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435976,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 4,
+          "nativeAfterByte": 226,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435977,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 5,
+          "nativeAfterByte": 252,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435978,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 6,
+          "nativeAfterByte": 45,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435979,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 7,
+          "nativeAfterByte": 3,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435980,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 8,
+          "nativeAfterByte": 134,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435981,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 9,
+          "nativeAfterByte": 255,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435982,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 10,
+          "nativeAfterByte": 83,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435984,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 12,
+          "nativeAfterByte": 104,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435985,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 13,
+          "nativeAfterByte": 1,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435986,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 14,
+          "nativeAfterByte": 22,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435988,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 16,
+          "nativeAfterByte": 197,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443780,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 0,
+          "nativeAfterByte": 99,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443782,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 2,
+          "nativeAfterByte": 118,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443783,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 3,
+          "nativeAfterByte": 254,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443784,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 4,
+          "nativeAfterByte": 226,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443785,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 5,
+          "nativeAfterByte": 252,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443786,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 6,
+          "nativeAfterByte": 45,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443787,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 7,
+          "nativeAfterByte": 3,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443788,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 8,
+          "nativeAfterByte": 134,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443789,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 9,
+          "nativeAfterByte": 255,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443790,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 10,
+          "nativeAfterByte": 83,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443792,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 12,
+          "nativeAfterByte": 104,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443793,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 13,
+          "nativeAfterByte": 1,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443794,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 14,
+          "nativeAfterByte": 22,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443796,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 16,
+          "nativeAfterByte": 197,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451588,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 0,
+          "nativeAfterByte": 99,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451590,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 2,
+          "nativeAfterByte": 118,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451591,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 3,
+          "nativeAfterByte": 254,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451592,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 4,
+          "nativeAfterByte": 226,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451593,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 5,
+          "nativeAfterByte": 252,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451594,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 6,
+          "nativeAfterByte": 45,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451595,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 7,
+          "nativeAfterByte": 3,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451596,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 8,
+          "nativeAfterByte": 134,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451597,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 9,
+          "nativeAfterByte": 255,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451598,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 10,
+          "nativeAfterByte": 83,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451600,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 12,
+          "nativeAfterByte": 104,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451601,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 13,
+          "nativeAfterByte": 1,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451602,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 14,
+          "nativeAfterByte": 22,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451604,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 16,
+          "nativeAfterByte": 197,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277459396,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 4,
+          "fieldOffset": 0,
+          "nativeAfterByte": 99,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277459398,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 4,
+          "fieldOffset": 2,
+          "nativeAfterByte": 118,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277459399,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 4,
+          "fieldOffset": 3,
+          "nativeAfterByte": 254,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277459400,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 4,
+          "fieldOffset": 4,
+          "nativeAfterByte": 226,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        }
+      ],
+      "inputState": {
+        "pickupCount": 12,
+        "pickupControllerCount": 3,
+        "activeProjectiles": 0,
+        "terrainWaveState": 0,
+        "timeEffectState": 0,
+        "registryCount": 9,
+        "modelTargetCount": 12,
+        "periodicAge": 0,
+        "periodicRetiredClock": 0,
+        "logicalClock": 288,
+        "launchStates": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "launchAges": [
+          69,
+          71,
+          -1,
+          71,
+          68,
+          70
+        ],
+        "contactOwnersActive": 0
+      }
+    },
+    {
+      "transition": 2,
+      "overwrittenSourceDivergenceBytes": 118,
+      "alreadyMatchesNextBytes": 114,
+      "laterDifferentBytes": 4,
+      "groups": [
+        {
+          "storageClass": "shared-sqrt-scratch",
+          "overwrittenSourceDivergenceBytes": 4,
+          "alreadyMatchesNextBytes": 0,
+          "laterDifferentBytes": 4
+        },
+        {
+          "storageClass": "pickup-matrices",
+          "overwrittenSourceDivergenceBytes": 105,
+          "alreadyMatchesNextBytes": 105,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "other-produced-byte",
+          "overwrittenSourceDivergenceBytes": 4,
+          "alreadyMatchesNextBytes": 4,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "vehicle-launch-state",
+          "overwrittenSourceDivergenceBytes": 5,
+          "alreadyMatchesNextBytes": 5,
+          "laterDifferentBytes": 0
+        }
+      ],
+      "samples": [
+        {
+          "address": 12571740,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557084,
+          "nativeAfterByte": 94,
+          "producedByte": 154,
+          "nextNativeByte": 92,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571741,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557085,
+          "nativeAfterByte": 2,
+          "producedByte": 126,
+          "nextNativeByte": 5,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571742,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557086,
+          "nativeAfterByte": 1,
+          "producedByte": 5,
+          "nextNativeByte": 2,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571744,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557088,
+          "nativeAfterByte": 15,
+          "producedByte": 6,
+          "nextNativeByte": 14,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 277428164,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 0,
+          "nativeAfterByte": 1,
+          "producedByte": 99,
+          "nextNativeByte": 99,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428166,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 2,
+          "nativeAfterByte": 0,
+          "producedByte": 136,
+          "nextNativeByte": 136,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428167,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 3,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428168,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 4,
+          "nativeAfterByte": 0,
+          "producedByte": 31,
+          "nextNativeByte": 31,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428169,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 5,
+          "nativeAfterByte": 0,
+          "producedByte": 3,
+          "nextNativeByte": 3,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428170,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 6,
+          "nativeAfterByte": 0,
+          "producedByte": 249,
+          "nextNativeByte": 249,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428171,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 7,
+          "nativeAfterByte": 0,
+          "producedByte": 252,
+          "nextNativeByte": 252,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428172,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 8,
+          "nativeAfterByte": 0,
+          "producedByte": 20,
+          "nextNativeByte": 20,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428173,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 9,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428174,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 10,
+          "nativeAfterByte": 0,
+          "producedByte": 83,
+          "nextNativeByte": 83,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428176,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 12,
+          "nativeAfterByte": 0,
+          "producedByte": 72,
+          "nextNativeByte": 72,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428177,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 13,
+          "nativeAfterByte": 0,
+          "producedByte": 254,
+          "nextNativeByte": 254,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428178,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 14,
+          "nativeAfterByte": 1,
+          "producedByte": 29,
+          "nextNativeByte": 29,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428180,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 16,
+          "nativeAfterByte": 0,
+          "producedByte": 59,
+          "nextNativeByte": 59,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428181,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 17,
+          "nativeAfterByte": 0,
+          "producedByte": 255,
+          "nextNativeByte": 255,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435972,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 0,
+          "nativeAfterByte": 1,
+          "producedByte": 99,
+          "nextNativeByte": 99,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435974,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 2,
+          "nativeAfterByte": 0,
+          "producedByte": 136,
+          "nextNativeByte": 136,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435975,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 3,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435976,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 4,
+          "nativeAfterByte": 0,
+          "producedByte": 31,
+          "nextNativeByte": 31,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435977,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 5,
+          "nativeAfterByte": 0,
+          "producedByte": 3,
+          "nextNativeByte": 3,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435978,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 6,
+          "nativeAfterByte": 0,
+          "producedByte": 249,
+          "nextNativeByte": 249,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435979,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 7,
+          "nativeAfterByte": 0,
+          "producedByte": 252,
+          "nextNativeByte": 252,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435980,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 8,
+          "nativeAfterByte": 0,
+          "producedByte": 20,
+          "nextNativeByte": 20,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435981,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 9,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435982,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 10,
+          "nativeAfterByte": 0,
+          "producedByte": 83,
+          "nextNativeByte": 83,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435984,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 12,
+          "nativeAfterByte": 0,
+          "producedByte": 72,
+          "nextNativeByte": 72,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435985,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 13,
+          "nativeAfterByte": 0,
+          "producedByte": 254,
+          "nextNativeByte": 254,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435986,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 14,
+          "nativeAfterByte": 1,
+          "producedByte": 29,
+          "nextNativeByte": 29,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435988,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 16,
+          "nativeAfterByte": 0,
+          "producedByte": 59,
+          "nextNativeByte": 59,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277435989,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 1,
+          "fieldOffset": 17,
+          "nativeAfterByte": 0,
+          "producedByte": 255,
+          "nextNativeByte": 255,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443780,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 0,
+          "nativeAfterByte": 1,
+          "producedByte": 99,
+          "nextNativeByte": 99,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443782,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 2,
+          "nativeAfterByte": 0,
+          "producedByte": 136,
+          "nextNativeByte": 136,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443783,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 3,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443784,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 4,
+          "nativeAfterByte": 0,
+          "producedByte": 31,
+          "nextNativeByte": 31,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443785,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 5,
+          "nativeAfterByte": 0,
+          "producedByte": 3,
+          "nextNativeByte": 3,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443786,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 6,
+          "nativeAfterByte": 0,
+          "producedByte": 249,
+          "nextNativeByte": 249,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443787,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 7,
+          "nativeAfterByte": 0,
+          "producedByte": 252,
+          "nextNativeByte": 252,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443788,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 8,
+          "nativeAfterByte": 0,
+          "producedByte": 20,
+          "nextNativeByte": 20,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443789,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 9,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443790,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 10,
+          "nativeAfterByte": 0,
+          "producedByte": 83,
+          "nextNativeByte": 83,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443792,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 12,
+          "nativeAfterByte": 0,
+          "producedByte": 72,
+          "nextNativeByte": 72,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443793,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 13,
+          "nativeAfterByte": 0,
+          "producedByte": 254,
+          "nextNativeByte": 254,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443794,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 14,
+          "nativeAfterByte": 1,
+          "producedByte": 29,
+          "nextNativeByte": 29,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443796,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 16,
+          "nativeAfterByte": 0,
+          "producedByte": 59,
+          "nextNativeByte": 59,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277443797,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 2,
+          "fieldOffset": 17,
+          "nativeAfterByte": 0,
+          "producedByte": 255,
+          "nextNativeByte": 255,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451588,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 0,
+          "nativeAfterByte": 1,
+          "producedByte": 99,
+          "nextNativeByte": 99,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451590,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 2,
+          "nativeAfterByte": 0,
+          "producedByte": 136,
+          "nextNativeByte": 136,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451591,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 3,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451592,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 4,
+          "nativeAfterByte": 0,
+          "producedByte": 31,
+          "nextNativeByte": 31,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451593,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 5,
+          "nativeAfterByte": 0,
+          "producedByte": 3,
+          "nextNativeByte": 3,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451594,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 6,
+          "nativeAfterByte": 0,
+          "producedByte": 249,
+          "nextNativeByte": 249,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451595,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 7,
+          "nativeAfterByte": 0,
+          "producedByte": 252,
+          "nextNativeByte": 252,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451596,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 8,
+          "nativeAfterByte": 0,
+          "producedByte": 20,
+          "nextNativeByte": 20,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451597,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 9,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451598,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 10,
+          "nativeAfterByte": 0,
+          "producedByte": 83,
+          "nextNativeByte": 83,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451600,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 12,
+          "nativeAfterByte": 0,
+          "producedByte": 72,
+          "nextNativeByte": 72,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451601,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 13,
+          "nativeAfterByte": 0,
+          "producedByte": 254,
+          "nextNativeByte": 254,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451602,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 14,
+          "nativeAfterByte": 1,
+          "producedByte": 29,
+          "nextNativeByte": 29,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451604,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 16,
+          "nativeAfterByte": 0,
+          "producedByte": 59,
+          "nextNativeByte": 59,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277451605,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 3,
+          "fieldOffset": 17,
+          "nativeAfterByte": 0,
+          "producedByte": 255,
+          "nextNativeByte": 255,
+          "alreadyMatchesNext": true
+        }
+      ],
+      "inputState": {
+        "pickupCount": 12,
+        "pickupControllerCount": 3,
+        "activeProjectiles": 0,
+        "terrainWaveState": 0,
+        "timeEffectState": 0,
+        "registryCount": 9,
+        "modelTargetCount": 12,
+        "periodicAge": 0,
+        "periodicRetiredClock": 0,
+        "logicalClock": 289,
+        "launchStates": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "launchAges": [
+          70,
+          72,
+          -1,
+          72,
+          69,
+          71
+        ],
+        "contactOwnersActive": 0
+      }
+    }
+  ],
+  "limits": [
+    "Counts describe real source continuation bytes touched by later supplied producers; they do not imply a failed earlier physics comparison.",
+    "Already-matching bytes need no subsequent source-byte change. Later-different shared outputs remain supplied inputs and are not a full parent equivalence claim.",
+    "Storage labels identify mapped fields; source coordinator execution is genuine, but individual later native writers are not inferred from these offsets."
+  ]
+}

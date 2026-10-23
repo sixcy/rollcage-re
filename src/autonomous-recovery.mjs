@@ -27,7 +27,7 @@ export function maybeStartAutonomousRandomRecovery(body,{memory}) {
 }
 //47ffb0 mode80. scratchBase is native entryESP; the route target atESP-24
 //is shared with the real steering callee, including its reverse argument path.
-export function updateAutonomousReverseRecovery(body,{memory,scratchBase}) {
+export function updateAutonomousReverseRecovery(body,{memory,scratchBase,nativeState}) {
  const record=0x909300+memory.readUInt16LE(body+0x65e)*0x30c,surface=readAutonomousSurfaceIndex(body,{memory}),young=memory[body+0x6e8]<(surface>10?150:120),phase=young?60:20,timeout=young?120:60,elapsed=memory.readUInt16LE(body+0x6c6);
  memory.writeUInt16LE((elapsed+1)&65535,body+0x6c6);
  const clear=()=>{memory.writeInt32LE(0,body+0x6c4);memory[body+0x6e8]=0;};
@@ -36,7 +36,7 @@ export function updateAutonomousReverseRecovery(body,{memory,scratchBase}) {
  writeRouteDirection(target,group,index,{memory,scratchBase:scratchBase-48});
  store(memory,scratchBase-12,[0xc8,0xce,0xd4].map(offset=>memory.readInt16LE(body+offset)<<4));
  const alignment=dotQ16(vector(memory,target),vector(memory,scratchBase-12)),velocity=dotQ16(vector(memory,body+0x68),vector(memory,scratchBase-12));
- const steer=(first,reverse)=>updateAutonomousSteering(body,target,first,reverse,{memory,scratchBase:scratchBase-52});
+ const steer=(first,reverse)=>updateAutonomousSteering(body,target,first,reverse,{memory,scratchBase:scratchBase-52,nativeState});
  if(alignment<0x5780){
   if(alignment>=0)bits(memory,body,0x80);
   if(velocity>0){bits(memory,body,0x10);steer(1,0);return;}

@@ -41,6 +41,7 @@
 'use strict';
 const modules = {
 "tools/object-viewer/app.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
 const {FileArchive} = require("tools/track-viewer/file-archive.mjs");
 const {identifyGame} = require("src/track-games.mjs");
 const {FirebugsArchive} = require("src/firebugs-archive.mjs");
@@ -232,6 +233,7 @@ try {renderer = new Renderer(canvas); requestAnimationFrame(frame);} catch (erro
 Object.assign(module.exports, {});
 },
 "tools/track-viewer/file-archive.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
 const { ByteBuffer } = require("tools/track-viewer/byte-buffer.mjs");
 const { parseIndex } = require("src/archive-index.mjs");
 const { decodeGT20 } = require("src/gt20.mjs");
@@ -271,6 +273,7 @@ class FileArchive {
 Object.assign(module.exports, {FileArchive});
 },
 "tools/track-viewer/byte-buffer.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
 // Buffer operations required by the readers and recovered solo runtime.
 class ByteBuffer extends Uint8Array {
   static isBuffer(value) { return value instanceof ByteBuffer; }
@@ -357,6 +360,7 @@ class ByteBuffer extends Uint8Array {
 Object.assign(module.exports, {ByteBuffer});
 },
 "src/archive-index.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseIndex});
 // Archive index layout recovered from FUN_00401000. Shared by host readers.
 function parseIndex(buffer, imageBytes) {
   if (!Buffer.isBuffer(buffer) || buffer.length === 0 || buffer.length % 16 !== 0) throw new Error('Invalid index size.');
@@ -374,6 +378,7 @@ function parseIndex(buffer, imageBytes) {
 Object.assign(module.exports, {parseIndex});
 },
 "src/gt20.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {decodeGT20});
 // Behavioral reconstruction of Redux 1.3.8.0 FUN_00401380.
 // Evidence: analysis/results/014-pseudo-decompress-wrapper.json.
 // The original performs unchecked writes; this implementation checks bounds.
@@ -452,6 +457,7 @@ function decodeGT20(input, { maxDecodedBytes = 128 * 1024 * 1024 } = {}) {
 Object.assign(module.exports, {decodeGT20});
 },
 "src/track-games.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {getGame,identifyGame});
 const { resourceMappings, normalizeResourceName, findResourceIndex } = require("src/resource-names.mjs");
 const stage2Map = require("src/stage2-resource-map.json");
 const { decodeTrackScene } = require("src/track-scene.mjs");
@@ -544,6 +550,7 @@ async function identifyGame(archive, requested = 'auto') {
 Object.assign(module.exports, {games,getGame,identifyGame});
 },
 "src/resource-names.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {normalizeResourceName,findResourceIndex});
 // Reconstructs Redux FUN_00447ae0 for its ASCII resource names.
 const resourceMap = require("src/resource-map.json");
 
@@ -569,6 +576,7 @@ module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32
 module.exports = {"executableSHA256":"26f8e8d874e5081f599000e04000414112da6600c493d80f45e4ddd33cd0d148","labelTableAddress":"0x512fd0","labelTableFileOffset":1121744,"provenance":"Labels are observed in shipped executable order; GFXM/BTP pairs follow native FUN_0042f250. BLP/BTP extensions are reconstructed extraction aliases, not recovered original filenames.","mappings":[{"name":"LEV01.BLP","index":80},{"name":"LEV01.BTP","index":81},{"name":"LEV02.BLP","index":82},{"name":"LEV02.BTP","index":83},{"name":"LEV03.BLP","index":84},{"name":"LEV03.BTP","index":85},{"name":"LEV04.BLP","index":86},{"name":"LEV04.BTP","index":87},{"name":"LEV05.BLP","index":88},{"name":"LEV05.BTP","index":89},{"name":"LEV06.BLP","index":90},{"name":"LEV06.BTP","index":91},{"name":"LEV07.BLP","index":92},{"name":"LEV07.BTP","index":93},{"name":"LEV08.BLP","index":94},{"name":"LEV08.BTP","index":95},{"name":"LEV09.BLP","index":96},{"name":"LEV09.BTP","index":97},{"name":"LEV10.BLP","index":98},{"name":"LEV10.BTP","index":99},{"name":"LEV11.BLP","index":100},{"name":"LEV11.BTP","index":101},{"name":"LEV12.BLP","index":102},{"name":"LEV12.BTP","index":103},{"name":"LEV13.BLP","index":104},{"name":"LEV13.BTP","index":105},{"name":"LEV14.BLP","index":106},{"name":"LEV14.BTP","index":107},{"name":"LEV15.BLP","index":108},{"name":"LEV15.BTP","index":109},{"name":"LEV16.BLP","index":110},{"name":"LEV16.BTP","index":111},{"name":"LEV17.BLP","index":112},{"name":"LEV17.BTP","index":113},{"name":"LEV18.BLP","index":114},{"name":"LEV18.BTP","index":115},{"name":"LEV19.BLP","index":116},{"name":"LEV19.BTP","index":117},{"name":"LEV20.BLP","index":118},{"name":"LEV20.BTP","index":119},{"name":"SCRAM01.BLP","index":120},{"name":"SCRAM01.BTP","index":121},{"name":"SCRAM02.BLP","index":122},{"name":"SCRAM02.BTP","index":123},{"name":"SCRAM03.BLP","index":124},{"name":"SCRAM03.BTP","index":125},{"name":"SCRAM04.BLP","index":126},{"name":"SCRAM04.BTP","index":127},{"name":"SCRAM05.BLP","index":128},{"name":"SCRAM05.BTP","index":129},{"name":"SCRAM06.BLP","index":130},{"name":"SCRAM06.BTP","index":131},{"name":"SCRAM07.BLP","index":132},{"name":"SCRAM07.BTP","index":133},{"name":"SCRAM08.BLP","index":134},{"name":"SCRAM08.BTP","index":135},{"name":"SCRAM09.BLP","index":136},{"name":"SCRAM09.BTP","index":137},{"name":"SCRAM10.BLP","index":138},{"name":"SCRAM10.BTP","index":139},{"name":"SCRAM11.BLP","index":140},{"name":"SCRAM11.BTP","index":141},{"name":"SCRAM12.BLP","index":142},{"name":"SCRAM12.BTP","index":143},{"name":"SCRAM13.BLP","index":144},{"name":"SCRAM13.BTP","index":145},{"name":"SCRAM14.BLP","index":146},{"name":"SCRAM14.BTP","index":147},{"name":"SCRAM15.BLP","index":148},{"name":"SCRAM15.BTP","index":149},{"name":"SCRAM16.BLP","index":150},{"name":"SCRAM16.BTP","index":151},{"name":"SCRAM17.BLP","index":152},{"name":"SCRAM17.BTP","index":153},{"name":"SCRAM18.BLP","index":154},{"name":"SCRAM18.BTP","index":155},{"name":"SCRAM19.BLP","index":156},{"name":"SCRAM19.BTP","index":157},{"name":"SCRAM20.BLP","index":158},{"name":"SCRAM20.BTP","index":159},{"name":"SCRAM21.BLP","index":160},{"name":"SCRAM21.BTP","index":161},{"name":"SCRAM22.BLP","index":162},{"name":"SCRAM22.BTP","index":163},{"name":"SCRAM23.BLP","index":164},{"name":"SCRAM23.BTP","index":165},{"name":"SCRAM24.BLP","index":166},{"name":"SCRAM24.BTP","index":167},{"name":"SCRAM25.BLP","index":168},{"name":"SCRAM25.BTP","index":169},{"name":"TRAIN01.BLP","index":170},{"name":"TRAIN01.BTP","index":171},{"name":"TRAIN02.BLP","index":172},{"name":"TRAIN02.BTP","index":173},{"name":"TRAIN03.BLP","index":174},{"name":"TRAIN03.BTP","index":175},{"name":"TRAIN04.BLP","index":176},{"name":"TRAIN04.BTP","index":177},{"name":"TRAIN05.BLP","index":178},{"name":"TRAIN05.BTP","index":179},{"name":"TRAIN06.BLP","index":180},{"name":"TRAIN06.BTP","index":181},{"name":"TRAIN07.BLP","index":182},{"name":"TRAIN07.BTP","index":183},{"name":"TRAIN08.BLP","index":184},{"name":"TRAIN08.BTP","index":185},{"name":"TRAIN09.BLP","index":186},{"name":"TRAIN09.BTP","index":187},{"name":"TRAIN10.BLP","index":188},{"name":"TRAIN10.BTP","index":189},{"name":"DEATH1.BLP","index":190},{"name":"DEATH1.BTP","index":191},{"name":"DEATH2.BLP","index":192},{"name":"DEATH2.BTP","index":193},{"name":"DEATH3.BLP","index":194},{"name":"DEATH3.BTP","index":195},{"name":"DEATH4.BLP","index":196},{"name":"DEATH4.BTP","index":197},{"name":"DEATH5.BLP","index":198},{"name":"DEATH5.BTP","index":199},{"name":"PURSUIT1.BLP","index":200},{"name":"PURSUIT1.BTP","index":201},{"name":"PURSUIT2.BLP","index":202},{"name":"PURSUIT2.BTP","index":203},{"name":"PURSUIT3.BLP","index":204},{"name":"PURSUIT3.BTP","index":205},{"name":"PURSUIT4.BLP","index":206},{"name":"PURSUIT4.BTP","index":207},{"name":"PURSUIT5.BLP","index":208},{"name":"PURSUIT5.BTP","index":209},{"name":"FOOTY1.BLP","index":210},{"name":"FOOTY1.BTP","index":211}],"tracks":[{"name":"LEV01.BLP","index":80,"textureIndex":81,"category":"Race"},{"name":"LEV02.BLP","index":82,"textureIndex":83,"category":"Race"},{"name":"LEV03.BLP","index":84,"textureIndex":85,"category":"Race"},{"name":"LEV04.BLP","index":86,"textureIndex":87,"category":"Race"},{"name":"LEV05.BLP","index":88,"textureIndex":89,"category":"Race"},{"name":"LEV06.BLP","index":90,"textureIndex":91,"category":"Race"},{"name":"LEV07.BLP","index":92,"textureIndex":93,"category":"Race"},{"name":"LEV08.BLP","index":94,"textureIndex":95,"category":"Race"},{"name":"LEV09.BLP","index":96,"textureIndex":97,"category":"Race"},{"name":"LEV10.BLP","index":98,"textureIndex":99,"category":"Race"},{"name":"LEV11.BLP","index":100,"textureIndex":101,"category":"Race"},{"name":"LEV12.BLP","index":102,"textureIndex":103,"category":"Race"},{"name":"LEV13.BLP","index":104,"textureIndex":105,"category":"Race"},{"name":"LEV14.BLP","index":106,"textureIndex":107,"category":"Race"},{"name":"LEV15.BLP","index":108,"textureIndex":109,"category":"Race"},{"name":"LEV16.BLP","index":110,"textureIndex":111,"category":"Race"},{"name":"LEV17.BLP","index":112,"textureIndex":113,"category":"Race"},{"name":"LEV18.BLP","index":114,"textureIndex":115,"category":"Race"},{"name":"LEV19.BLP","index":116,"textureIndex":117,"category":"Race"},{"name":"LEV20.BLP","index":118,"textureIndex":119,"category":"Race"},{"name":"SCRAM01.BLP","index":120,"textureIndex":121,"category":"Scramble"},{"name":"SCRAM02.BLP","index":122,"textureIndex":123,"category":"Scramble"},{"name":"SCRAM03.BLP","index":124,"textureIndex":125,"category":"Scramble"},{"name":"SCRAM04.BLP","index":126,"textureIndex":127,"category":"Scramble"},{"name":"SCRAM05.BLP","index":128,"textureIndex":129,"category":"Scramble"},{"name":"SCRAM06.BLP","index":130,"textureIndex":131,"category":"Scramble"},{"name":"SCRAM07.BLP","index":132,"textureIndex":133,"category":"Scramble"},{"name":"SCRAM08.BLP","index":134,"textureIndex":135,"category":"Scramble"},{"name":"SCRAM09.BLP","index":136,"textureIndex":137,"category":"Scramble"},{"name":"SCRAM10.BLP","index":138,"textureIndex":139,"category":"Scramble"},{"name":"SCRAM11.BLP","index":140,"textureIndex":141,"category":"Scramble"},{"name":"SCRAM12.BLP","index":142,"textureIndex":143,"category":"Scramble"},{"name":"SCRAM13.BLP","index":144,"textureIndex":145,"category":"Scramble"},{"name":"SCRAM14.BLP","index":146,"textureIndex":147,"category":"Scramble"},{"name":"SCRAM15.BLP","index":148,"textureIndex":149,"category":"Scramble"},{"name":"SCRAM16.BLP","index":150,"textureIndex":151,"category":"Scramble"},{"name":"SCRAM17.BLP","index":152,"textureIndex":153,"category":"Scramble"},{"name":"SCRAM18.BLP","index":154,"textureIndex":155,"category":"Scramble"},{"name":"SCRAM19.BLP","index":156,"textureIndex":157,"category":"Scramble"},{"name":"SCRAM20.BLP","index":158,"textureIndex":159,"category":"Scramble"},{"name":"SCRAM21.BLP","index":160,"textureIndex":161,"category":"Scramble"},{"name":"SCRAM22.BLP","index":162,"textureIndex":163,"category":"Scramble"},{"name":"SCRAM23.BLP","index":164,"textureIndex":165,"category":"Scramble"},{"name":"SCRAM24.BLP","index":166,"textureIndex":167,"category":"Scramble"},{"name":"SCRAM25.BLP","index":168,"textureIndex":169,"category":"Scramble"},{"name":"TRAIN01.BLP","index":170,"textureIndex":171,"category":"Training"},{"name":"TRAIN02.BLP","index":172,"textureIndex":173,"category":"Training"},{"name":"TRAIN03.BLP","index":174,"textureIndex":175,"category":"Training"},{"name":"TRAIN04.BLP","index":176,"textureIndex":177,"category":"Training"},{"name":"TRAIN05.BLP","index":178,"textureIndex":179,"category":"Training"},{"name":"TRAIN06.BLP","index":180,"textureIndex":181,"category":"Training"},{"name":"TRAIN07.BLP","index":182,"textureIndex":183,"category":"Training"},{"name":"TRAIN08.BLP","index":184,"textureIndex":185,"category":"Training"},{"name":"TRAIN09.BLP","index":186,"textureIndex":187,"category":"Training"},{"name":"TRAIN10.BLP","index":188,"textureIndex":189,"category":"Training"},{"name":"DEATH1.BLP","index":190,"textureIndex":191,"category":"Deathmatch"},{"name":"DEATH2.BLP","index":192,"textureIndex":193,"category":"Deathmatch"},{"name":"DEATH3.BLP","index":194,"textureIndex":195,"category":"Deathmatch"},{"name":"DEATH4.BLP","index":196,"textureIndex":197,"category":"Deathmatch"},{"name":"DEATH5.BLP","index":198,"textureIndex":199,"category":"Deathmatch"},{"name":"PURSUIT1.BLP","index":200,"textureIndex":201,"category":"Pursuit"},{"name":"PURSUIT2.BLP","index":202,"textureIndex":203,"category":"Pursuit"},{"name":"PURSUIT3.BLP","index":204,"textureIndex":205,"category":"Pursuit"},{"name":"PURSUIT4.BLP","index":206,"textureIndex":207,"category":"Pursuit"},{"name":"PURSUIT5.BLP","index":208,"textureIndex":209,"category":"Pursuit"},{"name":"FOOTY1.BLP","index":210,"textureIndex":211,"category":"Football"}]};
 },
 "src/track-scene.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {decodeTrackScene});
 const { parseScene } = require("src/scene.mjs");
 const { parseGFXM } = require("src/gfxm.mjs");
 const { parsePlacements } = require("src/placements.mjs");
@@ -601,6 +609,7 @@ function decodeTrackScene(data, textureData, readers = {}) {
 Object.assign(module.exports, {decodeTrackScene});
 },
 "src/scene.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseScene});
 // Primary SEGM grids. Native anchors: scene results 027, 034 and 042.
 function parseScene(data) {
   if (!Buffer.isBuffer(data) || data.length < 0x120 || data.toString('ascii',0,4)!=='GFXM') throw new Error('Invalid GFXM scene header.');
@@ -648,6 +657,7 @@ function parseScene(data) {
 Object.assign(module.exports, {parseScene});
 },
 "src/gfxm.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseGFXM,modelToOBJ});
 // GFXM model-table and primary MODL/MODC reconstruction.
 // Native anchors: asset-formats results 003, 006, 019, 022 and 024.
 function parseGFXM(data) {
@@ -696,6 +706,7 @@ function modelToOBJ(model) {
 Object.assign(module.exports, {parseGFXM,modelToOBJ});
 },
 "src/placements.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parsePlacements});
 const {placementMatrix} = require("src/fixed-math.mjs");
 // BTP records consumed by the GFXM/BTP loader FUN_0044c2b0.
 function parsePlacements(data,models) {
@@ -720,6 +731,7 @@ function parsePlacements(data,models) {
 Object.assign(module.exports, {parsePlacements});
 },
 "src/fixed-math.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {fixedCos,fixedSin,quaternionMatrix,placementMatrix,transformPlacedVertex});
 const table = require("src/trig-table.json");
 // Native Q16 angle lookup, including one-period reduction and table quantization.
 // These are intentionally not general-purpose trigonometric functions.
@@ -771,6 +783,7 @@ Object.assign(module.exports, {fixedCos,fixedSin,quaternionMatrix,placementMatri
 module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","address":"0x575228","fileOffset":1524776,"evidence":"ev_d797694640ec620f9407302b6e229a9765cf57e7217090389be077b7b4ebef6d","values":[65536,65534,65527,65517,65503,65485,65463,65437,65407,65373,65335,65294,65248,65198,65144,65086,65024,64958,64888,64814,64737,64655,64569,64480,64386,64289,64187,64082,63973,63860,63743,63622,63497,63368,63236,63099,62959,62815,62667,62515,62360,62200,62037,61870,61699,61525,61346,61164,60978,60789,60596,60399,60198,59994,59786,59574,59359,59140,58918,58692,58462,58229,57992,57752,57508,57261,57010,56755,56498,56236,55972,55703,55432,55157,54879,54597,54312,54024,53732,53438,53139,52838,52533,52226,51915,51601,51283,50963,50639,50313,49983,49650,49314,48975,48634,48289,47941,47590,47237,46880,46521,46159,45794,45426,45056,44682,44306,43928,43546,43162,42776,42386,41994,41600,41203,40803,40401,39997,39590,39181,38769,38355,37938,37519,37098,36675,36250,35822,35392,34960,34525,34089,33651,33210,32768,32323,31876,31428,30978,30525,30071,29615,29157,28698,28237,27774,27309,26842,26374,25905,25433,24961,24486,24011,23533,23055,22574,22093,21610,21126,20641,20154,19666,19177,18686,18195,17702,17209,16714,16218,15722,15224,14725,14226,13725,13224,12722,12219,11716,11212,10707,10201,9695,9188,8681,8173,7664,7155,6646,6136,5626,5116,4605,4094,3583,3071,2560,2048,1536,1024,512,0]};
 },
 "src/placed-meshes.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildPlacedMeshes});
 const {readModelMaterials} = require("src/model-materials.mjs");
 const {transformPlacedVertex} = require("src/fixed-math.mjs");
 // Ordinary type-zero models at their loader-initialized poses. Other placement
@@ -787,6 +800,7 @@ function buildPlacedMeshes(data,gfxm,placements) {
 Object.assign(module.exports, {buildPlacedMeshes});
 },
 "src/model-materials.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {readDefaultModelMaterials,readModelMaterials});
 // FUN_0046c7c0 / FUN_0046d0e0: per-instance face UVs. Animation is sampled
 // at the serialized frame; stepping the original animation clock is separate.
 const permutations=[[0,1,2,3],[1,3,0,2],[3,2,1,0],[2,0,3,1],
@@ -840,6 +854,7 @@ function readModelMaterials(data,model,uvStart) {
 Object.assign(module.exports, {readDefaultModelMaterials,readModelMaterials});
 },
 "src/btp.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseBTP,decodeBTPTexture});
 // Redux BTP texture upload reconstruction. Evidence: asset-formats results
 // 003, 010, 012, 014, 015 and 016 (loader, upload loop and palette conversion).
 function parseBTP(data) {
@@ -896,6 +911,7 @@ function decodeBTPTexture(btp, index) {
 Object.assign(module.exports, {parseBTP,decodeBTPTexture});
 },
 "src/scene-export.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildSceneExport});
 // Export the recovered static, finest-grid base pass. Runtime visibility, LOD,
 // overlays and animated effects remain separate. Optional placed meshes use
 // their loader-initialized transforms and per-instance primary materials.
@@ -952,6 +968,7 @@ function buildSceneExport(scene, textures, placedMeshes=[]) {
 Object.assign(module.exports, {displayPosition,buildSceneExport});
 },
 "src/track-paths.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {decodeTrackPaths});
 const { parseRespawnRoutes } = require("src/respawn-routes.mjs");
 const { displayPosition } = require("src/scene-export.mjs");
 
@@ -978,6 +995,7 @@ function decodeTrackPaths(data, experimental = false) {
 Object.assign(module.exports, {decodeTrackPaths});
 },
 "src/respawn-routes.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseRespawnRoutes});
 // 44c472..44c4ac relocates GFXM +8c's 12-byte groups using the point base
 // at +98. File byte79 becomes runtime-pack byte46; its table becomes +60.
 // 47ccc0 skips group zero and reads signed-short XYZ from 16-byte points.
@@ -1025,6 +1043,7 @@ function parseRespawnRoutes(data) {
 Object.assign(module.exports, {parseRespawnRoutes});
 },
 "src/stage2-placements.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseStage2Placements});
 const { placementMatrix } = require("src/fixed-math.mjs");
 
 // Stage II Extreme FUN_0042f250: cursor = serialized record + 0x26,
@@ -1061,6 +1080,7 @@ function parseStage2Placements(data, models) {
 Object.assign(module.exports, {parseStage2Placements});
 },
 "src/stage2-placed-meshes.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildStage2PlacedMeshes});
 const { readStage2ModelMaterials } = require("src/stage2-model-materials.mjs");
 const { transformPlacedVertex } = require("src/fixed-math.mjs");
 
@@ -1078,6 +1098,7 @@ function buildStage2PlacedMeshes(data, gfxm, placements) {
 Object.assign(module.exports, {buildStage2PlacedMeshes});
 },
 "src/stage2-model-materials.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {readStage2ModelMaterials});
 // Stage II Extreme FUN_00429c00 selects the per-model material index stream
 // from MODL +0x3c. Keys are byte offsets, unlike Rollcage's packed keys.
 // Native evidence: stage2-native-live/results/034-modelrenderer.json.
@@ -1134,6 +1155,7 @@ function readStage2ModelMaterials(data, model) {
 Object.assign(module.exports, {readStage2ModelMaterials});
 },
 "src/firebugs.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {identifyFirebugs});
 const { decodeFirebugsScene } = require("src/firebugs-scene.mjs");
 
 const knownIndex = 'f020b8f8b6ebc4e2a29261450ec732bd71cc9038551e71bfe39846b9ba9a6147';
@@ -1189,6 +1211,7 @@ async function identifyFirebugs(archive, requested='auto') {
 Object.assign(module.exports, {firebugsGame,identifyFirebugs});
 },
 "src/firebugs-scene.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {readFirebugsMaterial,parseFirebugsTerrain,parseFirebugsModels,parseFirebugsPlacements,decodeFirebugsTexture,decodeFirebugsScene});
 const { buildSceneExport } = require("src/scene-export.mjs");
 const { decodeTrackPaths } = require("src/track-paths.mjs");
 const { placementMatrix, transformPlacedVertex } = require("src/fixed-math.mjs");
@@ -1337,6 +1360,7 @@ function decodeFirebugsScene(geometry, vram, btx) {
 Object.assign(module.exports, {readFirebugsMaterial,parseFirebugsTerrain,parseFirebugsModels,parseFirebugsPlacements,decodeFirebugsTexture,decodeFirebugsScene});
 },
 "src/firebugs-archive.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
 const { parseIndex } = require("src/archive-index.mjs");
 const { decodeGT20 } = require("src/gt20.mjs");
 
@@ -1369,6 +1393,7 @@ class FirebugsArchive {
 Object.assign(module.exports, {FirebugsArchive});
 },
 "src/ps1-disc.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseDiscCue,openMode2Iso,openFirebugsDisc});
 // PS1 raw-sector and ISO9660 transport; independent of game asset formats.
 const { openDiscZip, normalizeDiscPath, crc32 } = require("src/disc-zip.mjs");
 
@@ -1518,6 +1543,7 @@ async function openFirebugsDisc(source, options = {}) {
 Object.assign(module.exports, {parseDiscCue,openMode2Iso,openFirebugsDisc});
 },
 "src/disc-zip.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {crc32,readSource,normalizeDiscPath,openDiscZip});
 // Host-independent, bounded ZIP reader. Audio members stay compressed.
 const decoder = new TextDecoder('utf-8', { fatal: true });
 const MAX_DIRECTORY_BYTES = 32 * 1024 * 1024;
@@ -1635,6 +1661,7 @@ async function openDiscZip(source, { inflateRaw = inflateInBrowser } = {}) {
 Object.assign(module.exports, {crc32,readSource,normalizeDiscPath,openDiscZip});
 },
 "tools/track-viewer/navigation.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
 const add = (a, b, scale = 1) => a.map((n, i) => n + b[i] * scale);
 const dot = (a, b) => a.reduce((n, x, i) => n + x * b[i], 0);
 const cross = (a, b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
@@ -1718,6 +1745,7 @@ class Navigation {
 Object.assign(module.exports, {Navigation});
 },
 "tools/track-viewer/renderer.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
 const { pathColor } = require("tools/track-viewer/path-color.mjs");
 const { carDisplayMatrix } = require("tools/track-viewer/solo-presentation.mjs");
 const { buildRacingTerrainGroups } = require("tools/track-viewer/racing-terrain.mjs");
@@ -1757,6 +1785,8 @@ class Renderer {
     this.carGroups = []; this.carTextures = new Map(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
     this.worldGroups = []; this.worldTextures = new Map(); this.worldPlacements = new Set();
     this.worldDraws = {groups: 0, objects: 0};
+    this.weaponGroups = []; this.weaponTextures = new Map(); this.weaponMarkerBuffer = null; this.weaponMarkerCount = 0;
+    this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
     this.terrainTemplates = new Map(); this.terrainGroups = new Map(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
@@ -1771,11 +1801,14 @@ class Renderer {
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
   }
   clearCar() {
-    for (const group of [...this.carGroups, ...this.worldGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
-    for (const texture of [...this.carTextures.values(), ...this.worldTextures.values()]) this.gl.deleteTexture(texture);
+    for (const group of [...this.carGroups, ...this.worldGroups, ...this.weaponGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
+    if (this.weaponMarkerBuffer) this.gl.deleteBuffer(this.weaponMarkerBuffer);
+    for (const texture of [...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values()]) this.gl.deleteTexture(texture);
     this.carGroups = []; this.carTextures.clear(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
     this.worldGroups = []; this.worldTextures.clear(); this.worldPlacements.clear();
     this.worldDraws = {groups: 0, objects: 0};
+    this.weaponGroups = []; this.weaponTextures.clear(); this.weaponMarkerBuffer = null; this.weaponMarkerCount = 0;
+    this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
     this.terrainGroups.clear(); this.terrainTemplates.clear(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
   }
@@ -1809,6 +1842,15 @@ class Renderer {
       if (assets.worldObjects) {
         this.uploadRuntimeMeshes(assets.worldObjects, this.worldGroups, this.worldTextures);
         this.worldPlacements = new Set(assets.worldObjects.placementIndices);
+      }
+      if (assets.weapons) {
+        this.uploadRuntimeMeshes(assets.weapons, this.weaponGroups, this.weaponTextures);
+        const points = assets.weapons.spawnPositions.map(([x,y,z]) => [x,-y,-z]);
+        if (points.length) {
+          this.weaponMarkerBuffer = gl.createBuffer(); this.weaponMarkerCount = points.length;
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.weaponMarkerBuffer);
+          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points.flat()), gl.STATIC_DRAW);
+        }
       }
       this.terrainTemplates = new Map((assets.terrain?.segments ?? []).map(segment => [segment.index, segment]));
       this.setFilters(this.smooth);
@@ -1848,7 +1890,7 @@ class Renderer {
   setFilters(smooth) {
     this.smooth = smooth;
     const gl = this.gl, filter = smooth ? gl.LINEAR : gl.NEAREST;
-    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values()]) {
+    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values()]) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
@@ -1933,6 +1975,32 @@ class Renderer {
       drawnCars.add(group.carIndex); this.carDraws.groups++;
     }
     this.carDraws.cars = drawnCars.size;
+    const drawnWeapons = new Set();
+    this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
+    for (const group of options.car?.weapons?.enabled ? this.weaponGroups : []) {
+      const object = options.car.weapons.objects[group.instance];
+      if (!object?.visible) continue;
+      gl.uniformMatrix4fv(this.uniforms.model, false, carDisplayMatrix(object));
+      gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
+      for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
+        gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
+      }
+      gl.bindTexture(gl.TEXTURE_2D, this.weaponTextures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
+      drawnWeapons.add(group.instance); this.weaponDraws.groups++;
+    }
+    for (const instance of drawnWeapons) this.weaponDraws[options.car.weapons.objects[instance].kind === 'pickup' ? 'pickups' : 'projectiles']++;
+    if (options.car?.weapons?.enabled && this.weaponMarkerBuffer) {
+      //Gold points mark authored spawn locations, including unavailable boxes.
+      //Their placement never supplies collection/respawn decisions.
+      gl.useProgram(this.pathProgram);
+      for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);
+      gl.enableVertexAttribArray(this.pathPosition); gl.bindBuffer(gl.ARRAY_BUFFER, this.weaponMarkerBuffer);
+      gl.vertexAttribPointer(this.pathPosition, 3, gl.FLOAT, false, 12, 0);
+      gl.uniformMatrix4fv(this.pathUniforms.mvp, false, matrix); gl.uniform1f(this.pathUniforms.pointSize, 5 * ratio);
+      gl.uniform3fv(this.pathUniforms.color, [1,0.78,0.25]); gl.drawArrays(gl.POINTS, 0, this.weaponMarkerCount);
+      this.weaponDraws.spawnMarkers = this.weaponMarkerCount;
+      gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
+    }
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     if (!options.paths || !this.pathGroups.length) return;
     gl.useProgram(this.pathProgram);
@@ -1966,6 +2034,7 @@ class Renderer {
 Object.assign(module.exports, {Renderer});
 },
 "tools/track-viewer/path-color.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {pathColor});
 // Fixed palette indexed by the authored group ID, independent of filtering.
 const colors = ['#ffcc66', '#5ee0ff', '#ff80ba', '#99ed77', '#bc9cff', '#ff9566', '#69e2bd', '#efdf82'];
 function pathColor(index) { return colors[index % colors.length]; }
@@ -1973,6 +2042,7 @@ function pathColor(index) { return colors[index % colors.length]; }
 Object.assign(module.exports, {pathColor});
 },
 "tools/track-viewer/solo-presentation.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {carDisplayMatrix,interpolateRacingPresentation,formatPracticeTime});
 // The runtime keeps native axes; the viewer applies S=diag(1,-1,-1) once.
 function carDisplayMatrix({position, rotation}) {
   const signs = [1,-1,-1], matrix = new Float32Array(16);
@@ -2048,7 +2118,11 @@ function interpolateRacingPresentation(before, after, amount) {
     if (!previous || previous.vertices.length !== segment.vertices.length) return segment;
     return {...segment, vertices: segment.vertices.map((vertex, index) => vertex.map((value, axis) => axis < 3 ? mix(previous.vertices[index][axis], value, alpha) : value))};
   })};
-  return {...after, ...first, ...(cars ? {cars} : {}), ...(worldObjects ? {worldObjects} : {}), ...(terrain ? {terrain} : {})};
+  const weapons = after.weapons?.enabled && {...after.weapons, objects: after.weapons.objects.map((object, index) => {
+    const previous = before.weapons?.objects?.[index];
+    return previous?.address === object.address && previous.state === object.state && object.visible ? blendPose(previous, object, alpha) : object;
+  })};
+  return {...after, ...first, ...(cars ? {cars} : {}), ...(worldObjects ? {worldObjects} : {}), ...(terrain ? {terrain} : {}), ...(weapons ? {weapons} : {})};
 }
 
 function formatPracticeTime(seconds) {
@@ -2060,6 +2134,7 @@ function formatPracticeTime(seconds) {
 Object.assign(module.exports, {carDisplayMatrix,interpolateRacingPresentation,formatPracticeTime});
 },
 "tools/track-viewer/racing-terrain.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildRacingTerrainGroups});
 //A display mesh from the simulation's real primary vertices and palette.
 //It never supplies collision normals, flags or coordinates back to physics.
 function buildRacingTerrainGroups(template, segment, palette, textures) {
@@ -2090,6 +2165,7 @@ function buildRacingTerrainGroups(template, segment, palette, textures) {
 Object.assign(module.exports, {buildRacingTerrainGroups});
 },
 "src/object-catalog.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {listObjectResources,loadObjectCollection,decodeObjectCollection});
 const {getGame} = require("src/track-games.mjs");
 const {parseGFXM} = require("src/gfxm.mjs");
 const {parsePlacements} = require("src/placements.mjs");
@@ -2272,6 +2348,7 @@ Object.assign(module.exports, {listObjectResources,loadObjectCollection,decodeOb
 module.exports = [{"address":"0x5eab18","bytesHex":"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a754000062450000ba7c00000000010000000100000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009cffdc0500002c01ceff0cfe0000000000000cfe0000000000000000000000000000000000000e000e0008000000000000000000000000000000003c000001000000000000000000ffff00000000dfff00001a000000210000001a000000dfff0000e6ff000021000000e6ff000000e50000002000000000000100000000000000000000000000000000001b000000200000000000010000000000000000000000000000000000e5000000e000000000000100000000000000000000000000000000001b000000e000000000000100000000000000000000000000000000000000003cf6ffff0000110002000000409c00000000000000000e0000000000c063ffff0000000000000e0001000000c063ffff8813000000000c0000000000409c00003cf6ffff000007000200000000000000c409000000000a000100000060ea000088130000000011000100000048e80100581b000000000f00030000001500170019001b001d001f002100ff8000f0ffff00000000001900000013000001000000001000000000000000190000001300000100000000f0ffff0000000000e7ffff0013000001000000001000000000000000e7ffff001300000100000000000000000000000000000000130000010000001400160018001a001c001e00200040c417f4b624","evidence":"ev_7e1fd1b127f698e31a76187fb02e21b34d28daba606eacad60fbc81a3180c425","targetSha256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"},{"address":"0x5ecfc4","bytesHex":"0000ffffc6ff00000000ffffc1ff0000ffff0000beff000000000000caff000000000100bfff0000dccf5e00b4cf5e000cd05e00cccf5e00d4cf5e00bccf5e0014d05e007856341200000400c6ff000000000000bfff000000000000c1ff0000","evidence":"ev_cf82c55106ba16f5081faa88d6037b8f9f5ab99cfbf8c6516c3156d4999070e0","targetSha256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"},{"address":"0x5dcd70","bytesHex":"99595900995959009959590099595900","evidence":"ev_96d5ac9f1b4e7098053a4e9656dc33f473b5d7def8e417fb319ca060f542e15e","targetSha256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"},{"address":"0x575210","bytesHex":"0100d2000100d700f1000100","evidence":"ev_55c05d45843f63d7168b0e0cf1ec53ca0f8d50668f0059783027e77f7496bb9b","targetSha256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"}];
 },
 "src/object-car-assembly.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {createObjectCarAssemblyRuntime,buildObjectCarAssembly});
 const constants = require("src/solo-runtime-constants.json");
 const {parseGFXM} = require("src/gfxm.mjs");
 const {parseCollisionGrid} = require("src/collision-grid.mjs");
@@ -2347,6 +2424,7 @@ Object.assign(module.exports, {createObjectCarAssemblyRuntime,buildObjectCarAsse
 module.exports = {"targetSha256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","method":"Exact retained read_bytes data spans; source identities in evidence. Generated by tools/build-solo-runtime-constants.mjs.","evidence":[{"path":"analysis/scene/results/381-contact-normalize-scale-constant.json","evidence":"ev_9274b2d10c20222cfae47520f6aabee6d22964560f84d2bd3385004e5f3ee774","operation":"read_bytes","sha256":"691ef70bc24f00007651974a8845487a34df760cfd8077655f23e92428702892"},{"path":"analysis/native-simulation/results/1050-world-particle-count-scale.json","evidence":"ev_4b3776ca59fc38d0ee2e14476a96cdae84f7d2c08ce2b6acd9dce99fff84d109","operation":"read_bytes","sha256":"1e6604e4b000f6b5bc7d0d42e04cec81fcb890665d44a83391d240005cd6fe26"},{"path":"analysis/native-simulation/results/11139-renderer-frustum-literal-5dcb10.json","evidence":"ev_18b1f593bb82a37cf3a19c67c3ecd9bd9e6826aa7900549e74d93ea0883cf0d3","operation":"read_bytes","sha256":"04d283ecc40770bd6082a72b15ccbfcea75c0f549f2d33a9ddc83cae3b991158"},{"path":"analysis/native-simulation/results/11143-renderer-frustum-literal-5dcf60.json","evidence":"ev_4ae4f00a2c80814157fbdd9584feecaadc07370a1e143e8f2ad7b6617eeec9d4","operation":"read_bytes","sha256":"7a817646e27f50f123f00873d6f0500bef1073eb8579fa35bc02733d00fcb257"},{"path":"analysis/native-simulation/results/11188-renderer-identity-5dcb90.json","evidence":"ev_71070372ff177ea34c35675cb349492545792de50e1fb7b4ee22da0376a955b2","operation":"read_bytes","sha256":"4d9dad311ccb1141c301568ad98d874e7e84c4ff76730b35d91402903d8cc638"},{"path":"analysis/native-simulation/results/11189-renderer-identity-5dcbc0.json","evidence":"ev_1504220f4b7bd2243709dfca72bf56b5593051871f32644e1a2aa48dd07f5a89","operation":"read_bytes","sha256":"f22687ea9df750ab97f90ddc4ceefb24c719ddeda4372b3469f4561aa34fd2d9"},{"path":"analysis/native-simulation/results/11190-renderer-identity-5dcc30.json","evidence":"ev_a4882b0af9e5d93f08b3227385052297aad043872e9c14a65971190ff9771cf1","operation":"read_bytes","sha256":"857a68f58431a4fbac62beca8f1bbc3b38c18d46ebd3636a1253d1c2a181db28"},{"path":"analysis/native-simulation/results/11191-renderer-identity-5dce60.json","evidence":"ev_6ce3e8ce85f71186aee24a2273d2500f6e4d76d2e310e17bd76b3ca87a19387a","operation":"read_bytes","sha256":"0d7383c338d6ee9fc30fbb35ee34cf59be364e7b035bc7f0ca17ce6a54c53030"},{"path":"analysis/native-simulation/results/11328-renderer-device-literal-5dcaf0.json","evidence":"ev_6483831ad3b4cc3a534fac3f853789acb8db495d4c240173e3b023e333f68a82","operation":"read_bytes","sha256":"8f22d98477eeae546e9332a99ab92ffda54dc86ef6cfe17bcb96ad81bcc169dd"},{"path":"analysis/native-simulation/results/11329-renderer-device-literal-5dcf00.json","evidence":"ev_5e3e2be20874de249086fc8c78b16d5510ba389df9bcc0a787980c5c3efcbc4d","operation":"read_bytes","sha256":"0eda2a0971262b20795547e0f4200849f1a1b7c7783c63b1b93eca48eeb22b09"},{"path":"analysis/native-simulation/results/11642-audio-path-data-5dcba0.json","evidence":"ev_451e86c49537fc3dd62598420853a44d1f33eecff09f7089e511ef6b1d02c174","operation":"read_bytes","sha256":"9321fe8c584e2c4e647e61aa3219bba5dea89196db64d4881a6b5b1ae5958981"},{"path":"analysis/native-simulation/results/11882-audio-pcm-scale-bytes.json","evidence":"ev_2b3fd4dd5cac2f4a7b8afcf48e4d687ac3bed744356a7972e1fb7380c4451bd9","operation":"read_bytes","sha256":"53d3c756db980f377ce60fd483c52735d6a0c87e6c1d8b499507def2e520306d"},{"path":"analysis/native-simulation/results/11883-audio-pcm-scale-bytes.json","evidence":"ev_27fdb2253363a955d8727939b51061d8a70e49cea218b0b189a43ba81b20e6f5","operation":"read_bytes","sha256":"95a4858c94d933d62e89fcb3c0f04d28a16a5f15f4f82c69fa0af92611e4c20d"},{"path":"analysis/native-simulation/results/13016-race-viewports-original-data.json","evidence":"ev_eaad3a892390e8218d38c631394ed873cd5df2ec013cde8d52c4015e17f0984d","operation":"read_bytes","sha256":"22fffdb5ceb42418718f29a050db5ad327b2568ff90eb854d4d99c0fe86d1202"},{"path":"analysis/native-simulation/results/13017-race-viewports-original-data.json","evidence":"ev_b6d80f27de481979bc9ccf1ba01813560ca4a81ab3c0d9a68e16c714cba0ab56","operation":"read_bytes","sha256":"017d9afcf2c8bed0dd562109931b51785aa37a70ccbee19437d7021e08cab7ec"},{"path":"analysis/native-simulation/results/13223-renderer-state-cache-defaults-original.json","evidence":"ev_975e3872a0b3845abc64488cf7722b724955cb8a286303645ddd484191bc2e3b","operation":"read_bytes","sha256":"5509d15151469846a4f04cf480b30b0fd6bc010dd7e45eed18697a6f938a55e2"},{"path":"analysis/native-simulation/results/13272-renderer-formats-original.json","evidence":"ev_8a243ed173b745401cbba8e8bc30794a7da1bb19c950210b3bcaf2f761be287b","operation":"read_bytes","sha256":"a18d06ad03af5b1b391587288b35b61556e067603fcfc4dd3aa67e6377249026"},{"path":"analysis/native-simulation/results/13273-renderer-formats-original.json","evidence":"ev_357ff515298351029827aa32c0917d388f793a4c33b2c8657f8cffb4c83a9059","operation":"read_bytes","sha256":"a303278cc59823158824100bb9c055ea1d4a2814b0b31011e8450234d521df23"},{"path":"analysis/native-simulation/results/13326-game-assertion-debugger-defaults-original.json","evidence":"ev_c6e07700794a6a320b8d6adec6341b0a5119b7bcd24fbc60760a0f707ddee92d","operation":"read_bytes","sha256":"0029b82501bbb2cc2353719207261bee1ee1150580369ade4ac6b7bf529d4aac"},{"path":"analysis/native-simulation/results/13428-renderer-frame-constant-original.json","evidence":"ev_b4dca632614c121f38b1b3dd9cb8fb4b6d7dd47d1f0ec6b6c1a2fe73a0aa2fa4","operation":"read_bytes","sha256":"771236d6bd19bacb187fdf54b6d3a889a05f1fc4514ab86d721889daa4056442"},{"path":"analysis/native-simulation/results/2444-texture-size-constants.json","evidence":"ev_3d5ef23f4f6ebfc6bc82af082376553ad42779078a17286a98c11c640486fc13","operation":"read_bytes","sha256":"f46d1dd78563dc00243a33b0aa95d298ec978a2d3d3e32895201b152bcf07e0f"},{"path":"analysis/native-simulation/results/2578-participant-reset-literals.json","evidence":"ev_96d5ac9f1b4e7098053a4e9656dc33f473b5d7def8e417fb319ca060f542e15e","operation":"read_bytes","sha256":"b70566fd8b22dfbd7e83cb172cb71dec439a919236a4cc9c73dcc4363a3023cf"},{"path":"analysis/native-simulation/results/3296-pickup-controller-queue-initial.json","evidence":"ev_b80a122fae552170bd38bfc27d0daa5c999bee5eca691f479435ed076ddd3c9d","operation":"read_bytes","sha256":"4a11ae23d9747955d113ba47d4336fb1956c617b9bba0d82e82b775a2e77948e"},{"path":"analysis/native-simulation/results/3768-weather-data-5dca18.json","evidence":"ev_fb15671bb791fd2d41a431feed810d7877b68fa48d839b92d8f9045867e5f863","operation":"read_bytes","sha256":"6ac708e7de1dbfd08dadfa0c2832009f35fb65d329b1b6a34d921ff973ba2fe9"},{"path":"analysis/native-simulation/results/3895-image-float-scale-valid.json","evidence":"ev_3cce90025015e40295e124982fa74ed291e9ff31d6e543175404f36948a76ff7","operation":"read_bytes","sha256":"2e4ebb2893964584a2258e3b406dae8db796fd016dea537d81b6c5c1ca4b53fc"},{"path":"analysis/native-simulation/results/9057-startup-view-identity-0x5dcc00.json","evidence":"ev_91569b5e3bcb0f731de83190937bb697c860dd99771e663e1f4233c8fc84489d","operation":"read_bytes","sha256":"bbb71ee89f32f4e7c8dc3045d11e2532599894cda617651e49c81c0deceeaff4"},{"path":"analysis/native-simulation/results/9058-startup-view-identity-0x5dcc10.json","evidence":"ev_eaa6399ed930eef2adabc63f988f7fface994fb1c47c5f699d1e77b861c6a66f","operation":"read_bytes","sha256":"01e516b531aceeac553f24d8bf9a3e714e3e919a2ff0b97a8ecaa87098756abf"},{"path":"analysis/native-simulation/results/9186-listener-math-constants-5dcf60.json","evidence":"ev_5e5e6f6b281c18754713f107152cfcba2b2b0c45e4e487b747bcbbb2b43accd6","operation":"read_bytes","sha256":"d932360ab59335be169b4dffb275dac8a92e4ac9f1d446ec4a68a55df3d0912d"}],"tables":[{"address":"0x5dca18","bytes_hex":"0000c8420000d0420000e0420000e4420000fe42008000430000644300007a4300007c4366e67e4300007f4366667f43f9ff7f430000804300809543000096430000b9430000e1430000fa430000004470273f4400c0794400007a4400e07f44000080440000404500c05a450000614500008045"},{"address":"0x5dcaa4","bytes_hex":"00feff46"},{"address":"0x5dcaf0","bytes_hex":"000000bf860319bf6b2732bff30435bf"},{"address":"0x5dcb10","bytes_hex":"000080bf"},{"address":"0x5dcb78","bytes_hex":"000000c7"},{"address":"0x5dcb80","bytes_hex":"000000000000000000000000000000000000803f00000000000000000000000001000000010000000000000000000000"},{"address":"0x5dcbc0","bytes_hex":"000000000000803f000000000000000000000000ffffffff0000000000000000"},{"address":"0x5dcc00","bytes_hex":"0010000000000000001000000000000000000000000000000000e80300000000"},{"address":"0x5dcc30","bytes_hex":"00000000000000000000803f00000000"},{"address":"0x5dcc60","bytes_hex":"0000000001000000020000000300000003000000030000000300000003000000"},{"address":"0x5dcca0","bytes_hex":"1400000015000000160000001700000018000000190000001a0000001e000000"},{"address":"0x5dcd70","bytes_hex":"99595900995959009959590099595900"},{"address":"0x5dcdc0","bytes_hex":"44585431445854334458543544585432"},{"address":"0x5dce60","bytes_hex":"0000000000000000000000000000803f"},{"address":"0x5dcf00","bytes_hex":"0000000000000000000000000000f041"},{"address":"0x5dcf60","bytes_hex":"00000080000000800000008000000080"},{"address":"0x5dd020","bytes_hex":"ffffffffffffffffffffffffffffffff"}]};
 },
 "src/collision-grid.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {unpackCollisionNormal,parseCollisionGrid});
 const {parseScene} = require("src/scene.mjs");
 const {parseSpatialIndex} = require("src/spatial-index.mjs");
 // Packed signed ten-bit normal components used by FUN_004292a0 / 00424ff0.
@@ -2414,6 +2492,7 @@ function parseCollisionGrid(data) {
 Object.assign(module.exports, {unpackCollisionNormal,parseCollisionGrid});
 },
 "src/spatial-index.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parseSpatialIndex});
 // Redux FUN_004286e0 / FUN_004746f0. Pointer relocation is reproduced as
 // resource-relative reads. Runtime object/effect links are retained but ignored.
 function parseSpatialIndex(data) {
@@ -2486,6 +2565,7 @@ function parseSpatialIndex(data) {
 Object.assign(module.exports, {parseSpatialIndex});
 },
 "src/track-relocation.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {relocateRaceTrackPointers});
 //44c46a..44c71d, an owned section of44c2b0, not a separate native callee.
 //Raw relocation preserves live table fields and ordered forward aliases.
 //scratchBase is the original44c2b0 entry ESP, before its76-byte frame.
@@ -2553,6 +2633,7 @@ function relocateRaceTrackPointers(header, base, {memory: m, scratchBase}) {
 Object.assign(module.exports, {relocateRaceTrackPointers});
 },
 "src/world-physics-pools.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {initializeWorldPhysicsConstants,initializeRawBodyArena,initializeRawCollisionPool,initializeRawShapePools});
 const constants = require("src/world-physics-constants.json");
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
 function initializeWorldPhysicsConstants(memory) {
@@ -2607,6 +2688,7 @@ Object.assign(module.exports, {initializeWorldPhysicsConstants,initializeRawBody
 module.exports = {"address":6147168,"evidence":"ev_eaad3a892390e8218d38c631394ed873cd5df2ec013cde8d52c4015e17f0984d","bytesHex":"00000000010000000200000003000000"};
 },
 "src/vehicle-construction.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {initializeVehicleConstructionTables,resetVehicleParticipant,initializeVehicleEffectBlock,initializeVehicleSkidStorage,initializeVehicleSurfaceLinks,initializeVehicleGripRecords,initializeVehicleController,initializeRawVehicleDescriptors,initializeVehicleAnimationBody,initializeVehicleAnimationRange,initializeVehicleAnimationState,createVehicleAnimation,initializeVehiclePresentation,cloneSecondaryVehicleWheels,initializeVehicleSpawnQuaternion,constructVehicle});
 //41dbb0 and its raw vehicle-state producers. All addresses share caller memory.
 const tables = require("src/vehicle-construction-tables.json");
 const {abs32,lookupSqrt} = require("src/fixed-integer.mjs");
@@ -2764,6 +2846,7 @@ function constructVehicle(record,index,runtime){
 Object.assign(module.exports, {initializeVehicleConstructionTables,resetVehicleParticipant,initializeVehicleEffectBlock,initializeVehicleSkidStorage,initializeVehicleSurfaceLinks,initializeVehicleGripRecords,initializeVehicleController,initializeRawVehicleDescriptors,initializeVehicleAnimationBody,initializeVehicleAnimationRange,initializeVehicleAnimationState,createVehicleAnimation,initializeVehiclePresentation,cloneSecondaryVehicleWheels,initializeVehicleSpawnQuaternion,constructVehicle});
 },
 "src/fixed-integer.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {divideQ16,sqrtQ16,crossQ16,multiplyQuaternionQ16,multiplyMatrixQ16,lookupSqrt,normalizeQuaternionQ16,vectorLengthQ16,transformShortQ12});
 const sqrtTable = require("src/sqrt-table.json");
 // Integer primitives matching the x86 fixed-point paths. Products use the signed
 // 64-bit intermediate, shift arithmetically, then keep the low signed 32 bits.
@@ -2830,11 +2913,15 @@ function normalizeQuaternionQ16(quaternion,nativeState) {
  return quaternion.map(value=>multiplyQ16(value,scale));
 }
 // FUN_0041c9c0: vector length with the native squared-component overflow test.
-function vectorLengthQ16(vector) {
+function vectorLengthQ16(vector,nativeState) {
  let squared=vector.map(value=>multiplyQ16(value,value));
  const scale=squared.reduce((bits,value)=>bits|value,0)&0xe0000000?1:0;
  if(scale)squared=squared.map(value=>value>>>2);
- return sqrtQ16(squared.reduce(add32,0))<<scale;
+ const input=squared.reduce(add32,0);
+ //41c9c0 calls41ca60: numerical consumers can preserve its shared
+ //root-input/leading-zero publications without changing this pure default.
+ nativeState?.fixedSqrtQ16?.(input);
+ return sqrtQ16(input)<<scale;
 }
 const signedShort=value=>(value<<16)>>16;
 // FUN_004334b0 consumes signed shorts, accumulates integer products, then shifts
@@ -2849,6 +2936,7 @@ Object.assign(module.exports, {i32,add32,subtract32,abs32,multiplyQ16,divideQ16,
 module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","address":"0x5eb290","fileOffset":2007696,"evidence":"ev_ccd6fd2150ed0c18dd5e403bcb6ec98e66f4c2d9586434de6ea62592cd5310a1","values":[4096,4127,4159,4190,4222,4252,4283,4314,4344,4374,4404,4434,4463,4492,4521,4550,4579,4608,4636,4664,4692,4720,4748,4775,4802,4830,4857,4884,4910,4937,4964,4990,5016,5042,5068,5094,5120,5145,5170,5196,5221,5246,5271,5296,5320,5345,5369,5394,5418,5442,5466,5490,5514,5538,5561,5585,5608,5632,5655,5678,5701,5724,5747,5769,5792,5815,5837,5860,5882,5904,5926,5948,5970,5992,6014,6036,6058,6079,6101,6122,6144,6165,6186,6207,6228,6249,6270,6291,6312,6333,6353,6374,6394,6415,6435,6456,6476,6496,6516,6536,6556,6576,6596,6616,6636,6656,6675,6695,6714,6734,6753,6773,6792,6811,6830,6850,6869,6888,6907,6926,6945,6963,6982,7001,7020,7038,7057,7075,7094,7112,7131,7149,7168,7186,7204,7222,7240,7258,7276,7294,7312,7330,7348,7366,7384,7401,7419,7437,7454,7472,7489,7507,7524,7542,7559,7576,7594,7611,7628,7645,7662,7680,7697,7714,7731,7747,7764,7781,7798,7815,7832,7848,7865,7882,7898,7915,7931,7948,7964,7981,7997,8014,8030,8046,8062,8079,8095,8111,8127,8143,8159,8175]};
 },
 "src/scripted-release.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {quaternionFromReleaseDirection,releaseScriptedBody});
 //46e4e0 leaves scripted motion or installs the unresolved46e470 filter.
 const {abs32,signedShort,vectorLengthQ16,divideQ16,multiplyQ16,sqrtQ16} = require("src/fixed-integer.mjs");
 function quaternionFromReleaseDirection(direction,mathScratch={}) {
@@ -2877,6 +2965,7 @@ function releaseScriptedBody(body,{rng,mathScratch={},handlers={}}={}) {
 Object.assign(module.exports, {quaternionFromReleaseDirection,releaseScriptedBody});
 },
 "src/raw-body-construction.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {measureRawBodyStorage,publishRawBodyStorage,createRawBody,updateRawBodyDerived,registerRawBodySpatial,initializeRawBody,registerRawBodyShapes});
 const {abs32, lookupSqrt, multiplyQ16, dotQ16} = require("src/fixed-integer.mjs");
 const {quaternionMatrix} = require("src/fixed-math.mjs");
 const {updateBodyDerived} = require("src/body-physics.mjs");
@@ -3026,6 +3115,7 @@ function registerRawBodyShapes(body, count, descriptors, {memory}) {
 Object.assign(module.exports, {measureRawBodyStorage,publishRawBodyStorage,createRawBody,updateRawBodyDerived,registerRawBodySpatial,initializeRawBody,registerRawBodyShapes});
 },
 "src/body-physics.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {initializeBody,applyBodyForces,updateLinearVelocity,updateBodyDerived,advanceBody,advanceBodyDelta});
 // Recovered shared rigid-body arithmetic. Native anchors and scope are in
 // re-docs/physics.md. This is not the wheel/contact solver or race simulation.
 const {quaternionMatrix} = require("src/fixed-math.mjs");
@@ -3111,6 +3201,7 @@ function advanceBodyDelta(body,deltaQ16,{timeScaleQ16=65536,timeScaleActive=fals
 Object.assign(module.exports, {initializeBody,applyBodyForces,updateLinearVelocity,updateBodyDerived,advanceBody,advanceBodyDelta});
 },
 "src/body-retirement-effects.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {initializeBodyRetirementEffectTables,findNearestRawSpatialColumn,lookupRawSpatialBucket,removeRawParticleSpatial,allocateRawEffectParticle,registerRawEffectSpatial,calculateRawEffectColor,emitRawEffectParticles,emitRawBodyDebris,expandRawTerrainRanges,alterRawTerrainBrightness,appendRawBodyFlash,activateRawBodyTrail,activateRawBodyPulse});
 const yaw = require("src/yaw-table.json");
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p),short=v=>(v<<16)>>16;
 const rng=seed=>Math.imul(seed,0x41a7)&0x7fffffff;
@@ -3350,6 +3441,7 @@ Object.assign(module.exports, {initializeBodyRetirementEffectTables,findNearestR
 module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","address":"0x5ed030","fileOffset":2015280,"evidence":"ev_f2b04d8b6ef54e468978fde5d7e1c51258e31a0ec672232ece1dcb89e4271411","values":[0,402,804,1205,1606,2006,2404,2801,3196,3590,3981,4370,4756,5139,5520,5897,6270,6639,7005,7366,7723,8076,8423,8765,9102,9434,9760,10080,10394,10702,11003,11297,11585,11866,12140,12406,12665,12916,13160,13395,13623,13842,14053,14256,14449,14635,14811,14978,15137,15286,15426,15557,15679,15791,15893,15986,16069,16143,16207,16261,16305,16340,16364,16379,16384,16379,16364,16340,16305,16261,16207,16143,16069,15986,15893,15791,15679,15557,15426,15286,15137,14978,14811,14635,14449,14256,14053,13842,13623,13395,13160,12916,12665,12406,12140,11866,11585,11297,11003,10702,10394,10080,9760,9434,9102,8765,8423,8076,7723,7366,7005,6639,6270,5897,5520,5139,4756,4370,3981,3590,3196,2801,2404,2006,1606,1205,804,402,0,-402,-804,-1205,-1606,-2006,-2404,-2801,-3196,-3590,-3981,-4370,-4756,-5139,-5520,-5897,-6270,-6639,-7005,-7366,-7723,-8076,-8423,-8765,-9102,-9434,-9760,-10080,-10394,-10702,-11003,-11297,-11585,-11866,-12140,-12406,-12665,-12916,-13160,-13395,-13623,-13842,-14053,-14256,-14449,-14635,-14811,-14978,-15137,-15286,-15426,-15557,-15679,-15791,-15893,-15986,-16069,-16143,-16207,-16261,-16305,-16340,-16364,-16379,-16384,-16379,-16364,-16340,-16305,-16261,-16207,-16143,-16069,-15986,-15893,-15791,-15679,-15557,-15426,-15286,-15137,-14978,-14811,-14635,-14449,-14256,-14053,-13842,-13623,-13395,-13160,-12916,-12665,-12406,-12140,-11866,-11585,-11297,-11003,-10702,-10394,-10080,-9760,-9434,-9102,-8765,-8423,-8076,-7723,-7366,-7005,-6639,-6270,-5897,-5520,-5139,-4756,-4370,-3981,-3590,-3196,-2801,-2404,-2006,-1606,-1205,-804,-402,0,402,804,1205,1606,2006,2404,2801,3196,3590,3981,4370,4756,5139,5520,5897,6270,6639,7005,7366,7723,8076,8423,8765,9102,9434,9760,10080,10394,10702,11003,11297,11585,11866,12140,12406,12665,12916,13160,13395,13623,13842,14053,14256,14449,14635,14811,14978,15137,15286,15426,15557,15679,15791,15893,15986,16069,16143,16207,16261,16305,16340,16364,16379,16384]};
 },
 "src/lap-timing.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {formatLapTimeDigits,formatRawLapTimeDigits,updateLapAdvance});
 //4459f0 packs eight HUD glyph nibbles; 2048 timer units are one tenth-second.
 //All storage aliases the caller's native vehicle record, including stale rows.
 function packLapTimeDigits(time) {
@@ -3407,6 +3499,7 @@ function updateLapAdvance(record,{body,clock90a548}={}) {
 Object.assign(module.exports, {formatLapTimeDigits,formatRawLapTimeDigits,updateLapAdvance});
 },
 "src/replay-codec.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {updateReplayChecksum,stepReplayControl});
 //42b280: four replay streams use an alternating complemented-byte checksum.
 function updateReplayChecksum(controller,{memory,validate=false}) {
   let checksum=0x2524;
@@ -3497,6 +3590,7 @@ function stepReplayControl(body,{memory}) {
 Object.assign(module.exports, {updateReplayChecksum,stepReplayControl});
 },
 "src/vehicle-wheel-construction.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {initializeVehicleWheelConstructionTables,createVehicleWheels});
 const tables = require("src/vehicle-wheel-construction-tables.json");
 const {abs32, multiplyQ16, divideQ16} = require("src/fixed-integer.mjs");
 const {createRawBody} = require("src/raw-body-construction.mjs");
@@ -3564,6 +3658,7 @@ Object.assign(module.exports, {initializeVehicleWheelConstructionTables,createVe
 module.exports = [{"address":"0x5eac18","bytesHex":"0e000e0008000000","evidence":"ev_3a39fe436688074c3a0835ec9d91fcf5ad200eb23ee7746dfba83691429d8ca0"},{"address":"0x5eac40","bytesHex":"dfff00001a000000210000001a000000dfff0000e6ff000021000000e6ff0000","evidence":"ev_b93bc30a710f52b9d1f17ef0f83fb192ef7e2acbfb833c385122feee37d2b54b"}];
 },
 "src/wheel-render-state.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {initializeWheelRenderTables,buildRenderRotationMatrix,transformRenderShortVector,updateWheelRenderOffset,prepareWheelRender,prepareVehicleWheelRender});
 const table = require("src/render-angle-table.json");
 const {transformWheelEffectOffset} = require("src/wheel-effects.mjs");
 
@@ -3658,6 +3753,7 @@ Object.assign(module.exports, {initializeWheelRenderTables,buildRenderRotationMa
 module.exports = {"address":"0x570720","bytesHex":"00000010060000100d00001013000010190000101f000010260000102c00001032000010390000103f0000104500ff0f4b00ff0f5200ff0f5800ff0f5e00ff0f6500ff0f6b00ff0f7100fe0f7700fe0f7e00fe0f8400fe0f8a00fe0f9000fd0f9700fd0f9d00fd0fa300fd0faa00fc0fb000fc0fb600fc0fbc00fc0fc300fb0fc900fb0fcf00fb0fd600fa0fdc00fa0fe200fa0fe800f90fef00f90ff500f90ffb00f80f0101f80f0801f80f0e01f70f1401f70f1b01f60f2101f60f2701f50f2d01f50f3401f40f3a01f40f4001f30f4601f30f4d01f20f5301f20f5901f10f5f01f10f6601f00f6c01f00f7201ef0f7801ef0f7f01ee0f8501ed0f8b01ed0f9101ec0f9801ec0f9e01eb0fa401ea0faa01ea0fb101e90fb701e80fbd01e80fc301e70fca01e60fd001e60fd601e50fdc01e40fe301e30fe901e30fef01e20ff501e10ffc01e00f0202e00f0802df0f0e02de0f1502dd0f1b02dc0f2102dc0f2702db0f2d02da0f3402d90f3a02d80f4002d70f4602d60f4d02d50f5302d50f5902d40f5f02d30f6502d20f6c02d10f7202d00f7802cf0f7e02ce0f8402cd0f8b02cc0f9102cb0f9702ca0f9d02c90fa302c80faa02c70fb002c60fb602c50fbc02c40fc202c30fc902c20fcf02c00fd502bf0fdb02be0fe102bd0fe802bc0fee02bb0ff402ba0ffa02b80f0003b70f0603b60f0d03b50f1303b40f1903b30f1f03b10f2503b00f2b03af0f3203ae0f3803ac0f3e03ab0f4403aa0f4a03a80f5003a70f5603a60f5d03a50f6303a30f6903a20f6f03a10f75039f0f7b039e0f81039c0f88039b0f8e039a0f9403980f9a03970fa003950fa603940fac03930fb203910fb903900fbf038e0fc5038d0fcb038b0fd1038a0fd703880fdd03870fe303850fe903840fef03820ff603810ffc037f0f02047d0f08047c0f0e047a0f1404790f1a04770f2004760f2604740f2c04720f3204710f38046f0f3e046d0f44046c0f4b046a0f5104680f5704670f5d04650f6304630f6904610f6f04600f75045e0f7b045c0f81045a0f8704590f8d04570f9304550f9904530f9f04510fa504500fab044e0fb1044c0fb7044a0fbd04480fc304460fc904450fcf04430fd504410fdb043f0fe1043d0fe7043b0fed04390ff304370ff904350fff04330f0505310f0b052f0f11052d0f17052b0f1d05290f2305270f2905250f2f05230f3405210f3a051f0f40051d0f46051b0f4c05190f5205170f5805150f5e05130f6405110f6a050e0f70050c0f76050a0f7c05080f8105060f8705040f8d05020f9305ff0e9905fd0e9f05fb0ea505f90eab05f70eb105f40eb605f20ebc05f00ec205ee0ec805eb0ece05e90ed405e70eda05e40edf05e20ee505e00eeb05dd0ef105db0ef705d90efd05d60e0206d40e0806d20e0e06cf0e1406cd0e1a06cb0e1f06c80e2506c60e2b06c30e3106c10e3706bf0e3c06bc0e4206ba0e4806b70e4e06b50e5406b20e5906b00e5f06ad0e6506ab0e6b06a80e7006a60e7606a30e7c06a10e82069e0e87069b0e8d06990e9306960e9906940e9e06910ea4068f0eaa068c0eaf06890eb506870ebb06840ec106810ec6067f0ecc067c0ed206790ed706770edd06740ee306710ee8066f0eee066c0ef406690ef906660eff06640e0507610e0a075e0e10075b0e1507590e1b07560e2107530e2607500e2c074d0e32074b0e3707480e3d07450e4207420e48073f0e4e073c0e53073a0e5907370e5e07340e6407310e6a072e0e6f072b0e7507280e7a07250e8007220e85071f0e8b071c0e9007190e9607160e9b07130ea107100ea6070d0eac070a0eb207070eb707040ebd07010ec207fe0dc807fb0dcd07f80dd207f50dd807f20ddd07ef0de307ec0de807e90dee07e60df307e30df907df0dfe07dc0d0408d90d0908d60d0e08d30d1408d00d1908cc0d1f08c90d2408c60d2a08c30d2f08c00d3408bc0d3a08b90d3f08b60d4508b30d4a08b00d4f08ac0d5508a90d5a08a60d5f08a20d65089f0d6a089c0d6f08990d7508950d7a08920d7f088f0d85088b0d8a08880d8f08850d9508810d9a087e0d9f087a0da508770daa08740daf08700db4086d0dba08690dbf08660dc408620dc9085f0dcf085c0dd408580dd908550dde08510de4084e0de9084a0dee08470df308430df808400dfe083c0d0309390d0809350d0d09320d12092e0d18092a0d1d09270d2209230d2709200d2c091c0d3109180d3709150d3c09110d41090e0d46090a0d4b09060d5009030d5509ff0c5a09fb0c5f09f80c6509f40c6a09f00c6f09ed0c7409e90c7909e50c7e09e10c8309de0c8809da0c8d09d60c9209d20c9709cf0c9c09cb0ca109c70ca609c30cab09c00cb009bc0cb509b80cba09b40cbf09b00cc409ac0cc909a90cce09a50cd309a10cd8099d0cdd09990ce209950ce709910cec098e0cf1098a0cf609860cfb09820cff097e0c040a7a0c090a760c0e0a720c130a6e0c180a6a0c1d0a660c220a620c260a5e0c2b0a5a0c300a560c350a520c3a0a4e0c3f0a4a0c440a460c480a420c4d0a3e0c520a3a0c570a360c5c0a320c600a2e0c650a2a0c6a0a260c6f0a220c730a1e0c780a190c7d0a150c820a110c860a0d0c8b0a090c900a050c950a010c990afc0b9e0af80ba30af40ba70af00bac0aec0bb10ae80bb50ae30bba0adf0bbf0adb0bc30ad70bc80ad20bcd0ace0bd10aca0bd60ac60bdb0ac10bdf0abd0be40ab90be80ab50bed0ab00bf20aac0bf60aa80bfb0aa30bff0a9f0b040b9b0b080b970b0d0b920b110b8e0b160b890b1b0b850b1f0b810b240b7c0b280b780b2d0b740b310b6f0b360b6b0b3a0b660b3e0b620b430b5e0b470b590b4c0b550b500b500b550b4c0b590b470b5e0b430b620b3e0b660b3a0b6b0b360b6f0b310b740b2d0b780b280b7c0b240b810b1f0b850b1b0b890b160b8e0b110b920b0d0b970b080b9b0b040b9f0bff0aa30bfb0aa80bf60aac0bf20ab00bed0ab50be80ab90be40abd0bdf0ac10bdb0ac60bd60aca0bd10ace0bcd0ad20bc80ad70bc30adb0bbf0adf0bba0ae30bb50ae80bb10aec0bac0af00ba70af40ba30af80b9e0afc0b990a010c950a050c900a090c8b0a0d0c860a110c820a150c7d0a190c780a1e0c730a220c6f0a260c6a0a2a0c650a2e0c600a320c5c0a360c570a3a0c520a3e0c4d0a420c480a460c440a4a0c3f0a4e0c3a0a520c350a560c300a5a0c2b0a5e0c260a620c220a660c1d0a6a0c180a6e0c130a720c0e0a760c090a7a0c040a7e0cff09820cfb09860cf6098a0cf1098e0cec09910ce709950ce209990cdd099d0cd809a10cd309a50cce09a90cc909ac0cc409b00cbf09b40cba09b80cb509bc0cb009c00cab09c30ca609c70ca109cb0c9c09cf0c9709d20c9209d60c8d09da0c8809de0c8309e10c7e09e50c7909e90c7409ed0c6f09f00c6a09f40c6509f80c5f09fb0c5a09ff0c5509030d5009060d4b090a0d46090e0d4109110d3c09150d3709180d31091c0d2c09200d2709230d2209270d1d092a0d18092e0d1209320d0d09350d0809390d03093c0dfe08400df808430df308470dee084a0de9084e0de408510dde08550dd908580dd4085c0dcf085f0dc908620dc408660dbf08690dba086d0db408700daf08740daa08770da5087a0d9f087e0d9a08810d9508850d8f08880d8a088b0d85088f0d7f08920d7a08950d7508990d6f089c0d6a089f0d6508a20d5f08a60d5a08a90d5508ac0d4f08b00d4a08b30d4508b60d3f08b90d3a08bc0d3408c00d2f08c30d2a08c60d2408c90d1f08cc0d1908d00d1408d30d0e08d60d0908d90d0408dc0dfe07df0df907e30df307e60dee07e90de807ec0de307ef0ddd07f20dd807f50dd207f80dcd07fb0dc807fe0dc207010ebd07040eb707070eb2070a0eac070d0ea607100ea107130e9b07160e9607190e90071c0e8b071f0e8507220e8007250e7a07280e75072b0e6f072e0e6a07310e6407340e5e07370e59073a0e53073c0e4e073f0e4807420e4207450e3d07480e37074b0e32074d0e2c07500e2607530e2107560e1b07590e15075b0e10075e0e0a07610e0507640eff06660ef906690ef4066c0eee066f0ee806710ee306740edd06770ed706790ed2067c0ecc067f0ec606810ec106840ebb06870eb506890eaf068c0eaa068f0ea406910e9e06940e9906960e9306990e8d069b0e87069e0e8206a10e7c06a30e7606a60e7006a80e6b06ab0e6506ad0e5f06b00e5906b20e5406b50e4e06b70e4806ba0e4206bc0e3c06bf0e3706c10e3106c30e2b06c60e2506c80e1f06cb0e1a06cd0e1406cf0e0e06d20e0806d40e0206d60efd05d90ef705db0ef105dd0eeb05e00ee505e20edf05e40eda05e70ed405e90ece05eb0ec805ee0ec205f00ebc05f20eb605f40eb105f70eab05f90ea505fb0e9f05fd0e9905ff0e9305020f8d05040f8705060f8105080f7c050a0f76050c0f70050e0f6a05110f6405130f5e05150f5805170f5205190f4c051b0f46051d0f40051f0f3a05210f3405230f2f05250f2905270f2305290f1d052b0f17052d0f11052f0f0b05310f0505330fff04350ff904370ff304390fed043b0fe7043d0fe1043f0fdb04410fd504430fcf04450fc904460fc304480fbd044a0fb7044c0fb1044e0fab04500fa504510f9f04530f9904550f9304570f8d04590f87045a0f81045c0f7b045e0f7504600f6f04610f6904630f6304650f5d04670f5704680f51046a0f4b046c0f44046d0f3e046f0f3804710f3204720f2c04740f2604760f2004770f1a04790f14047a0f0e047c0f08047d0f02047f0ffc03810ff603820fef03840fe903850fe303870fdd03880fd7038a0fd1038b0fcb038d0fc5038e0fbf03900fb903910fb203930fac03940fa603950fa003970f9a03980f94039a0f8e039b0f88039c0f81039e0f7b039f0f7503a10f6f03a20f6903a30f6303a50f5d03a60f5603a70f5003a80f4a03aa0f4403ab0f3e03ac0f3803ae0f3203af0f2b03b00f2503b10f1f03b30f1903b40f1303b50f0d03b60f0603b70f0003b80ffa02ba0ff402bb0fee02bc0fe802bd0fe102be0fdb02bf0fd502c00fcf02c20fc902c30fc202c40fbc02c50fb602c60fb002c70faa02c80fa302c90f9d02ca0f9702cb0f9102cc0f8b02cd0f8402ce0f7e02cf0f7802d00f7202d10f6c02d20f6502d30f5f02d40f5902d50f5302d50f4d02d60f4602d70f4002d80f3a02d90f3402da0f2d02db0f2702dc0f2102dc0f1b02dd0f1502de0f0e02df0f0802e00f0202e00ffc01e10ff501e20fef01e30fe901e30fe301e40fdc01e50fd601e60fd001e60fca01e70fc301e80fbd01e80fb701e90fb101ea0faa01ea0fa401eb0f9e01ec0f9801ec0f9101ed0f8b01ed0f8501ee0f7f01ef0f7801ef0f7201f00f6c01f00f6601f10f5f01f10f5901f20f5301f20f4d01f30f4601f30f4001f40f3a01f40f3401f50f2d01f50f2701f60f2101f60f1b01f70f1401f70f0e01f80f0801f80f0101f80ffb00f90ff500f90fef00f90fe800fa0fe200fa0fdc00fa0fd600fb0fcf00fb0fc900fb0fc300fc0fbc00fc0fb600fc0fb000fc0faa00fd0fa300fd0f9d00fd0f9700fd0f9000fe0f8a00fe0f8400fe0f7e00fe0f7700fe0f7100ff0f6b00ff0f6500ff0f5e00ff0f5800ff0f5200ff0f4b00ff0f450000103f00001039000010320000102c000010260000101f00001019000010130000100d0000100600001000000010fbff0010f4ff0010eeff0010e8ff0010e2ff0010dbff0010d5ff0010cfff0010c8ff0010c2ffff0fbcffff0fb6ffff0fafffff0fa9ffff0fa3ffff0f9cffff0f96fffe0f90fffe0f8afffe0f83fffe0f7dfffe0f77fffd0f71fffd0f6afffd0f64fffd0f5efffc0f57fffc0f51fffc0f4bfffc0f45fffb0f3efffb0f38fffb0f32fffa0f2bfffa0f25fffa0f1ffff90f19fff90f12fff90f0cfff80f06fff80f00fff80ff9fef70ff3fef70fedfef60fe6fef60fe0fef50fdafef50fd4fef40fcdfef40fc7fef30fc1fef30fbbfef20fb4fef20faefef10fa8fef10fa2fef00f9bfef00f95feef0f8ffeef0f89feee0f82feed0f7cfeed0f76feec0f70feec0f69feeb0f63feea0f5dfeea0f57fee90f50fee80f4afee80f44fee70f3efee60f37fee60f31fee50f2bfee40f25fee30f1efee30f18fee20f12fee10f0cfee00f05fee00ffffddf0ff9fdde0ff3fddd0fecfddc0fe6fddc0fe0fddb0fdafdda0fd4fdd90fcdfdd80fc7fdd70fc1fdd60fbbfdd50fb4fdd50faefdd40fa8fdd30fa2fdd20f9cfdd10f95fdd00f8ffdcf0f89fdce0f83fdcd0f7dfdcc0f76fdcb0f70fdca0f6afdc90f64fdc80f5efdc70f57fdc60f51fdc50f4bfdc40f45fdc30f3ffdc20f38fdc00f32fdbf0f2cfdbe0f26fdbd0f20fdbc0f19fdbb0f13fdba0f0dfdb80f07fdb70f01fdb60ffbfcb50ff4fcb40feefcb30fe8fcb10fe2fcb00fdcfcaf0fd6fcae0fcffcac0fc9fcab0fc3fcaa0fbdfca80fb7fca70fb1fca60fabfca50fa4fca30f9efca20f98fca10f92fc9f0f8cfc9e0f86fc9c0f80fc9b0f79fc9a0f73fc980f6dfc970f67fc950f61fc940f5bfc930f55fc910f4ffc900f48fc8e0f42fc8d0f3cfc8b0f36fc8a0f30fc880f2afc870f24fc850f1efc840f18fc820f12fc810f0bfc7f0f05fc7d0ffffb7c0ff9fb7a0ff3fb790fedfb770fe7fb760fe1fb740fdbfb720fd5fb710fcffb6f0fc9fb6d0fc3fb6c0fbdfb6a0fb6fb680fb0fb670faafb650fa4fb630f9efb610f98fb600f92fb5e0f8cfb5c0f86fb5a0f80fb590f7afb570f74fb550f6efb530f68fb510f62fb500f5cfb4e0f56fb4c0f50fb4a0f4afb480f44fb460f3efb450f38fb430f32fb410f2cfb3f0f26fb3d0f20fb3b0f1afb390f14fb370f0efb350f08fb330f02fb310ffcfa2f0ff6fa2d0ff0fa2b0feafa290fe4fa270fdefa250fd8fa230fd2fa210fcdfa1f0fc7fa1d0fc1fa1b0fbbfa190fb5fa170faffa150fa9fa130fa3fa110f9dfa0e0f97fa0c0f91fa0a0f8bfa080f85fa060f80fa040f7afa020f74faff0e6efafd0e68fafb0e62faf90e5cfaf70e56faf40e50faf20e4bfaf00e45faee0e3ffaeb0e39fae90e33fae70e2dfae40e27fae20e22fae00e1cfadd0e16fadb0e10fad90e0afad60e04fad40efff9d20ef9f9cf0ef3f9cd0eedf9cb0ee7f9c80ee2f9c60edcf9c30ed6f9c10ed0f9bf0ecaf9bc0ec5f9ba0ebff9b70eb9f9b50eb3f9b20eadf9b00ea8f9ad0ea2f9ab0e9cf9a80e96f9a60e91f9a30e8bf9a10e85f99e0e7ff99b0e7af9990e74f9960e6ef9940e68f9910e63f98f0e5df98c0e57f9890e52f9870e4cf9840e46f9810e40f97f0e3bf97c0e35f9790e2ff9770e2af9740e24f9710e1ef96f0e19f96c0e13f9690e0df9660e08f9640e02f9610efcf85e0ef7f85b0ef1f8590eecf8560ee6f8530ee0f8500edbf84d0ed5f84b0ecff8480ecaf8450ec4f8420ebff83f0eb9f83c0eb3f83a0eaef8370ea8f8340ea3f8310e9df82e0e97f82b0e92f8280e8cf8250e87f8220e81f81f0e7cf81c0e76f8190e71f8160e6bf8130e66f8100e60f80d0e5bf80a0e55f8070e4ff8040e4af8010e44f8fe0d3ff8fb0d39f8f80d34f8f50d2ff8f20d29f8ef0d24f8ec0d1ef8e90d19f8e60d13f8e30d0ef8df0d08f8dc0d03f8d90dfdf7d60df8f7d30df3f7d00dedf7cc0de8f7c90de2f7c60dddf7c30dd7f7c00dd2f7bc0dcdf7b90dc7f7b60dc2f7b30dbcf7b00db7f7ac0db2f7a90dacf7a60da7f7a20da2f79f0d9cf79c0d97f7990d92f7950d8cf7920d87f78f0d82f78b0d7cf7880d77f7850d72f7810d6cf77e0d67f77a0d62f7770d5cf7740d57f7700d52f76d0d4df7690d47f7660d42f7620d3df75f0d38f75c0d32f7580d2df7550d28f7510d23f74e0d1df74a0d18f7470d13f7430d0ef7400d09f73c0d03f7390dfef6350df9f6320df4f62e0deff62a0de9f6270de4f6230ddff6200ddaf61c0dd5f6180dd0f6150dcaf6110dc5f60e0dc0f60a0dbbf6060db6f6030db1f6ff0cacf6fb0ca7f6f80ca2f6f40c9cf6f00c97f6ed0c92f6e90c8df6e50c88f6e10c83f6de0c7ef6da0c79f6d60c74f6d20c6ff6cf0c6af6cb0c65f6c70c60f6c30c5bf6c00c56f6bc0c51f6b80c4cf6b40c47f6b00c42f6ac0c3df6a90c38f6a50c33f6a10c2ef69d0c29f6990c24f6950c1ff6910c1af68e0c15f68a0c10f6860c0bf6820c06f67e0c02f67a0cfdf5760cf8f5720cf3f56e0ceef56a0ce9f5660ce4f5620cdff55e0cdbf55a0cd6f5560cd1f5520cccf54e0cc7f54a0cc2f5460cbdf5420cb9f53e0cb4f53a0caff5360caaf5320ca5f52e0ca1f52a0c9cf5260c97f5220c92f51e0c8ef5190c89f5150c84f5110c7ff50d0c7bf5090c76f5050c71f5010c6cf5fc0b68f5f80b63f5f40b5ef5f00b5af5ec0b55f5e80b50f5e30b4cf5df0b47f5db0b42f5d70b3ef5d20b39f5ce0b34f5ca0b30f5c60b2bf5c10b26f5bd0b22f5b90b1df5b50b19f5b00b14f5ac0b0ff5a80b0bf5a30b06f59f0b02f59b0bfdf4970bf9f4920bf4f48e0bf0f4890bebf4850be6f4810be2f47c0bddf4780bd9f4740bd4f46f0bd0f46b0bcbf4660bc7f4620bc3f45e0bbef4590bbaf4550bb5f4500bb1f44c0bacf4470ba8f4430ba3f43e0b9ff43a0b9bf4360b96f4310b92f42d0b8df4280b89f4240b85f41f0b80f41b0b7cf4160b78f4110b73f40d0b6ff4080b6af4040b66f4ff0a62f4fb0a5ef4f60a59f4f20a55f4ed0a51f4e80a4cf4e40a48f4df0a44f4db0a40f4d60a3bf4d10a37f4cd0a33f4c80a2ff4c30a2af4bf0a26f4ba0a22f4b50a1ef4b10a19f4ac0a15f4a70a11f4a30a0df49e0a09f4990a05f4950a00f4900afcf38b0af8f3860af4f3820af0f37d0aecf3780ae8f3730ae3f36f0adff36a0adbf3650ad7f3600ad3f35c0acff3570acbf3520ac7f34d0ac3f3480abff3440abbf33f0ab7f33a0ab3f3350aaff3300aabf32b0aa7f3260aa3f3220a9ff31d0a9bf3180a97f3130a93f30e0a8ff3090a8bf3040a87f3ff0983f3fb097ff3f6097bf3f10977f3ec0973f3e70970f3e2096cf3dd0968f3d80964f3d30960f3ce095cf3c90958f3c40955f3bf0951f3ba094df3b50949f3b00945f3ab0941f3a6093ef3a1093af39c0936f3970932f392092ff38d092bf3880927f3830923f37e0920f379091cf3740918f36f0914f36a0911f365090df35f0909f35a0906f3550902f35009fef24b09fbf24609f7f24109f3f23c09f0f23709ecf23109e9f22c09e5f22709e1f22209def21d09daf21809d7f21209d3f20d09cff20809ccf20309c8f2fe08c5f2f808c1f2f308bef2ee08baf2e908b7f2e408b3f2de08b0f2d908acf2d408a9f2cf08a5f2c908a2f2c4089ff2bf089bf2ba0898f2b40894f2af0891f2aa088df2a5088af29f0887f29a0883f2950880f28f087cf28a0879f2850876f27f0872f27a086ff275086cf26f0868f26a0865f2650862f25f085ff25a085bf2550858f24f0855f24a0851f245084ef23f084bf23a0848f2340845f22f0841f22a083ef224083bf21f0838f2190835f2140831f20e082ef209082bf2040828f2fe0725f2f90722f2f3071ef2ee071bf2e80718f2e30715f2dd0712f2d8070ff2d2070cf2cd0709f2c80706f2c20703f2bd0700f2b707fdf1b207faf1ac07f7f1a607f4f1a107f1f19b07eef19607ebf19007e8f18b07e5f18507e2f18007dff17a07dcf17507d9f16f07d6f16a07d3f16407d0f15e07cdf15907caf15307c7f14e07c5f14807c2f14207bff13d07bcf13707b9f13207b6f12c07b4f12607b1f12107aef11b07abf11507a8f11007a6f10a07a3f10507a0f1ff069df1f9069bf1f40698f1ee0695f1e80692f1e30690f1dd068df1d7068af1d20688f1cc0685f1c60682f1c10680f1bb067df1b5067af1af0678f1aa0675f1a40672f19e0670f199066df193066bf18d0668f1870666f1820663f17c0660f176065ef170065bf16b0659f1650656f15f0654f1590651f154064ff14e064cf148064af1420647f13c0645f1370642f1310640f12b063ef125063bf11f0639f11a0636f1140634f10e0632f108062ff102062df1fd052bf1f70528f1f10526f1eb0524f1e50521f1df051ff1da051df1d4051af1ce0518f1c80516f1c20513f1bc0511f1b6050ff1b1050df1ab050af1a50508f19f0506f1990504f1930502f18d05fff08705fdf08105fbf07c05f9f07605f7f07005f5f06a05f3f06405f0f05e05eef05805ecf05205eaf04c05e8f04605e6f04005e4f03a05e2f03405e0f02f05def02905dcf02305daf01d05d8f01705d6f01105d4f00b05d2f00505d0f0ff04cef0f904ccf0f304caf0ed04c8f0e704c6f0e104c4f0db04c2f0d504c0f0cf04bef0c904bcf0c304bbf0bd04b9f0b704b7f0b104b5f0ab04b3f0a504b1f09f04b0f09904aef09304acf08d04aaf08704a8f08104a7f07b04a5f07504a3f06f04a1f06904a0f063049ef05d049cf057049af0510499f04b0497f0440495f03e0494f0380492f0320490f02c048ff026048df020048bf01a048af0140488f00e0487f0080485f0020484f0fc0382f0f60380f0ef037ff0e9037df0e3037cf0dd037af0d70379f0d10377f0cb0376f0c50374f0bf0373f0b90371f0b20370f0ac036ef0a6036df0a0036cf09a036af0940369f08e0367f0880366f0810365f07b0363f0750362f06f0360f069035ff063035ef05d035cf056035bf050035af04a0359f0440357f03e0356f0380355f0320353f02b0352f0250351f01f0350f019034ef013034df00d034cf006034bf000034af0fa0249f0f40247f0ee0246f0e80245f0e10244f0db0243f0d50242f0cf0241f0c9023ff0c2023ef0bc023df0b6023cf0b0023bf0aa023af0a30239f09d0238f0970237f0910236f08b0235f0840234f07e0233f0780232f0720231f06c0230f065022ff05f022ef059022df053022cf04d022cf046022bf040022af03a0229f0340228f02d0227f0270226f0210225f01b0225f0150224f00e0223f0080222f0020221f0fc0121f0f50120f0ef011ff0e9011ef0e3011ef0dc011df0d6011cf0d0011bf0ca011bf0c3011af0bd0119f0b70119f0b10118f0aa0117f0a40117f09e0116f0980115f0910115f08b0114f0850114f07f0113f0780112f0720112f06c0111f0660111f05f0110f0590110f053010ff04d010ff046010ef040010ef03a010df034010df02d010cf027010cf021010bf01b010bf014010af00e010af0080109f0010109f0fb0009f0f50008f0ef0008f0e80008f0e20007f0dc0007f0d60007f0cf0006f0c90006f0c30006f0bc0005f0b60005f0b00005f0aa0005f0a30004f09d0004f0970004f0900004f08a0003f0840003f07e0003f0770003f0710003f06b0002f0650002f05e0002f0580002f0520002f04b0002f0450002f03f0001f0390001f0320001f02c0001f0260001f01f0001f0190001f0130001f00d0001f0060001f0000001f0fbff01f0f4ff01f0eeff01f0e8ff01f0e2ff01f0dbff01f0d5ff01f0cfff01f0c8ff01f0c2ff01f0bcff02f0b6ff02f0afff02f0a9ff02f0a3ff02f09cff02f096ff02f090ff03f08aff03f083ff03f07dff03f077ff03f071ff04f06aff04f064ff04f05eff04f057ff05f051ff05f04bff05f045ff05f03eff06f038ff06f032ff06f02bff07f025ff07f01fff07f019ff08f012ff08f00cff08f006ff09f000ff09f0f9fe09f0f3fe0af0edfe0af0e6fe0bf0e0fe0bf0dafe0cf0d4fe0cf0cdfe0df0c7fe0df0c1fe0ef0bbfe0ef0b4fe0ff0aefe0ff0a8fe10f0a2fe10f09bfe11f095fe11f08ffe12f089fe12f082fe13f07cfe14f076fe14f070fe15f069fe15f063fe16f05dfe17f057fe17f050fe18f04afe19f044fe19f03efe1af037fe1bf031fe1bf02bfe1cf025fe1df01efe1ef018fe1ef012fe1ff00cfe20f005fe21f0fffd21f0f9fd22f0f3fd23f0ecfd24f0e6fd25f0e0fd25f0dafd26f0d4fd27f0cdfd28f0c7fd29f0c1fd2af0bbfd2bf0b4fd2cf0aefd2cf0a8fd2df0a2fd2ef09cfd2ff095fd30f08ffd31f089fd32f083fd33f07dfd34f076fd35f070fd36f06afd37f064fd38f05efd39f057fd3af051fd3bf04bfd3cf045fd3df03ffd3ef038fd3ff032fd41f02cfd42f026fd43f020fd44f019fd45f013fd46f00dfd47f007fd49f001fd4af0fbfc4bf0f4fc4cf0eefc4df0e8fc4ef0e2fc50f0dcfc51f0d6fc52f0cffc53f0c9fc55f0c3fc56f0bdfc57f0b7fc59f0b1fc5af0abfc5bf0a4fc5cf09efc5ef098fc5ff092fc60f08cfc62f086fc63f080fc65f079fc66f073fc67f06dfc69f067fc6af061fc6cf05bfc6df055fc6ef04ffc70f048fc71f042fc73f03cfc74f036fc76f030fc77f02afc79f024fc7af01efc7cf018fc7df012fc7ff00bfc80f005fc82f0fffb84f0f9fb85f0f3fb87f0edfb88f0e7fb8af0e1fb8bf0dbfb8df0d5fb8ff0cffb90f0c9fb92f0c3fb94f0bdfb95f0b6fb97f0b0fb99f0aafb9af0a4fb9cf09efb9ef098fba0f092fba1f08cfba3f086fba5f080fba7f07afba8f074fbaaf06efbacf068fbaef062fbb0f05cfbb1f056fbb3f050fbb5f04afbb7f044fbb9f03efbbbf038fbbcf032fbbef02cfbc0f026fbc2f020fbc4f01afbc6f014fbc8f00efbcaf008fbccf002fbcef0fcfad0f0f6fad2f0f0fad4f0eafad6f0e4fad8f0defadaf0d8fadcf0d2fadef0cdfae0f0c7fae2f0c1fae4f0bbfae6f0b5fae8f0affaeaf0a9faecf0a3faeef09dfaf0f097faf3f091faf5f08bfaf7f085faf9f080fafbf07afafdf074fafff06efa02f168fa04f162fa06f15cfa08f156fa0af150fa0df14bfa0ff145fa11f13ffa13f139fa16f133fa18f12dfa1af127fa1df122fa1ff11cfa21f116fa24f110fa26f10afa28f104fa2bf1fff92df1f9f92ff1f3f932f1edf934f1e7f936f1e2f939f1dcf93bf1d6f93ef1d0f940f1caf942f1c5f945f1bff947f1b9f94af1b3f94cf1adf94ff1a8f951f1a2f954f19cf956f196f959f191f95bf18bf95ef185f960f17ff963f17af966f174f968f16ef96bf168f96df163f970f15df972f157f975f152f978f14cf97af146f97df140f980f13bf982f135f985f12ff988f12af98af124f98df11ef990f119f992f113f995f10df998f108f99bf102f99df1fcf8a0f1f7f8a3f1f1f8a6f1ecf8a8f1e6f8abf1e0f8aef1dbf8b1f1d5f8b4f1cff8b6f1caf8b9f1c4f8bcf1bff8bff1b9f8c2f1b3f8c5f1aef8c7f1a8f8caf1a3f8cdf19df8d0f197f8d3f192f8d6f18cf8d9f187f8dcf181f8dff17cf8e2f176f8e5f171f8e8f16bf8ebf166f8eef160f8f1f15bf8f4f155f8f7f14ff8faf14af8fdf144f800f23ff803f239f806f234f809f22ff80cf229f80ff224f812f21ef815f219f818f213f81bf20ef81ef208f822f203f825f2fdf728f2f8f72bf2f3f72ef2edf731f2e8f735f2e2f738f2ddf73bf2d7f73ef2d2f741f2cdf745f2c7f748f2c2f74bf2bcf74ef2b7f751f2b2f755f2acf758f2a7f75bf2a2f75ff29cf762f297f765f292f768f28cf76cf287f76ff282f772f27cf776f277f779f272f77cf26cf780f267f783f262f787f25cf78af257f78df252f791f24df794f247f798f242f79bf23df79ff238f7a2f232f7a5f22df7a9f228f7acf223f7b0f21df7b3f218f7b7f213f7baf20ef7bef209f7c1f203f7c5f2fef6c8f2f9f6ccf2f4f6cff2eff6d3f2e9f6d7f2e4f6daf2dff6def2daf6e1f2d5f6e5f2d0f6e9f2caf6ecf2c5f6f0f2c0f6f3f2bbf6f7f2b6f6fbf2b1f6fef2acf602f3a7f606f3a2f609f39cf60df397f611f392f614f38df618f388f61cf383f620f37ef623f379f627f374f62bf36ff62ff36af632f365f636f360f63af35bf63ef356f641f351f645f34cf649f347f64df342f651f33df655f338f658f333f65cf32ef660f329f664f324f668f31ff66cf31af670f315f673f310f677f30bf67bf306f67ff302f683f3fdf587f3f8f58bf3f3f58ff3eef593f3e9f597f3e4f59bf3dff59ff3dbf5a3f3d6f5a7f3d1f5abf3ccf5aff3c7f5b3f3c2f5b7f3bdf5bbf3b9f5bff3b4f5c3f3aff5c7f3aaf5cbf3a5f5cff3a1f5d3f39cf5d7f397f5dbf392f5dff38ef5e3f389f5e8f384f5ecf37ff5f0f37bf5f4f376f5f8f371f5fcf36cf500f468f505f463f509f45ef50df45af511f455f515f450f519f44cf51ef447f522f442f526f43ef52af439f52ff434f533f430f537f42bf53bf426f540f422f544f41df548f419f54cf414f551f40ff555f40bf559f406f55ef402f562f4fdf466f4f9f46af4f4f46ff4f0f473f4ebf478f4e6f47cf4e2f480f4ddf485f4d9f489f4d4f48df4d0f492f4cbf496f4c7f49bf4c3f49ff4bef4a3f4baf4a8f4b5f4acf4b1f4b1f4acf4b5f4a8f4baf4a3f4bef49ff4c3f49bf4c7f496f4cbf492f4d0f48df4d4f489f4d9f485f4ddf480f4e2f47cf4e6f478f4ebf473f4f0f46ff4f4f46af4f9f466f4fdf462f402f55ef406f559f40bf555f40ff551f414f54cf419f548f41df544f422f540f426f53bf42bf537f430f533f434f52ff439f52af43ef526f442f522f447f51ef44cf519f450f515f455f511f45af50df45ef509f463f505f468f500f46cf5fcf371f5f8f376f5f4f37bf5f0f37ff5ecf384f5e8f389f5e3f38ef5dff392f5dbf397f5d7f39cf5d3f3a1f5cff3a5f5cbf3aaf5c7f3aff5c3f3b4f5bff3b9f5bbf3bdf5b7f3c2f5b3f3c7f5aff3ccf5abf3d1f5a7f3d6f5a3f3dbf59ff3dff59bf3e4f597f3e9f593f3eef58ff3f3f58bf3f8f587f3fdf583f302f67ff306f67bf30bf677f310f673f315f670f31af66cf31ff668f324f664f329f660f32ef65cf333f658f338f655f33df651f342f64df347f649f34cf645f351f641f356f63ef35bf63af360f636f365f632f36af62ff36ff62bf374f627f379f623f37ef620f383f61cf388f618f38df614f392f611f397f60df39cf609f3a2f606f3a7f602f3acf6fef2b1f6fbf2b6f6f7f2bbf6f3f2c0f6f0f2c5f6ecf2caf6e9f2d0f6e5f2d5f6e1f2daf6def2dff6daf2e4f6d7f2e9f6d3f2eff6cff2f4f6ccf2f9f6c8f2fef6c5f203f7c1f209f7bef20ef7baf213f7b7f218f7b3f21df7b0f223f7acf228f7a9f22df7a5f232f7a2f238f79ff23df79bf242f798f247f794f24df791f252f78df257f78af25cf787f262f783f267f780f26cf77cf272f779f277f776f27cf772f282f76ff287f76cf28cf768f292f765f297f762f29cf75ff2a2f75bf2a7f758f2acf755f2b2f751f2b7f74ef2bcf74bf2c2f748f2c7f745f2cdf741f2d2f73ef2d7f73bf2ddf738f2e2f735f2e8f731f2edf72ef2f3f72bf2f8f728f2fdf725f203f822f208f81ef20ef81bf213f818f219f815f21ef812f224f80ff229f80cf22ff809f234f806f239f803f23ff800f244f8fdf14af8faf14ff8f7f155f8f4f15bf8f1f160f8eef166f8ebf16bf8e8f171f8e5f176f8e2f17cf8dff181f8dcf187f8d9f18cf8d6f192f8d3f197f8d0f19df8cdf1a3f8caf1a8f8c7f1aef8c5f1b3f8c2f1b9f8bff1bff8bcf1c4f8b9f1caf8b6f1cff8b4f1d5f8b1f1dbf8aef1e0f8abf1e6f8a8f1ecf8a6f1f1f8a3f1f7f8a0f1fcf89df102f99bf108f998f10df995f113f992f119f990f11ef98df124f98af12af988f12ff985f135f982f13bf980f140f97df146f97af14cf978f152f975f157f972f15df970f163f96df168f96bf16ef968f174f966f17af963f17ff960f185f95ef18bf95bf191f959f196f956f19cf954f1a2f951f1a8f94ff1adf94cf1b3f94af1b9f947f1bff945f1c5f942f1caf940f1d0f93ef1d6f93bf1dcf939f1e2f936f1e7f934f1edf932f1f3f92ff1f9f92df1fff92bf104fa28f10afa26f110fa24f116fa21f11cfa1ff122fa1df127fa1af12dfa18f133fa16f139fa13f13ffa11f145fa0ff14bfa0df150fa0af156fa08f15cfa06f162fa04f168fa02f16efafff074fafdf07afafbf080faf9f085faf7f08bfaf5f091faf3f097faf0f09dfaeef0a3faecf0a9faeaf0affae8f0b5fae6f0bbfae4f0c1fae2f0c7fae0f0cdfadef0d2fadcf0d8fadaf0defad8f0e4fad6f0eafad4f0f0fad2f0f6fad0f0fcfacef002fbccf008fbcaf00efbc8f014fbc6f01afbc4f020fbc2f026fbc0f02cfbbef032fbbcf038fbbbf03efbb9f044fbb7f04afbb5f050fbb3f056fbb1f05cfbb0f062fbaef068fbacf06efbaaf074fba8f07afba7f080fba5f086fba3f08cfba1f092fba0f098fb9ef09efb9cf0a4fb9af0aafb99f0b0fb97f0b6fb95f0bdfb94f0c3fb92f0c9fb90f0cffb8ff0d5fb8df0dbfb8bf0e1fb8af0e7fb88f0edfb87f0f3fb85f0f9fb84f0fffb82f005fc80f00bfc7ff012fc7df018fc7cf01efc7af024fc79f02afc77f030fc76f036fc74f03cfc73f042fc71f048fc70f04ffc6ef055fc6df05bfc6cf061fc6af067fc69f06dfc67f073fc66f079fc65f080fc63f086fc62f08cfc60f092fc5ff098fc5ef09efc5cf0a4fc5bf0abfc5af0b1fc59f0b7fc57f0bdfc56f0c3fc55f0c9fc53f0cffc52f0d6fc51f0dcfc50f0e2fc4ef0e8fc4df0eefc4cf0f4fc4bf0fbfc4af001fd49f007fd47f00dfd46f013fd45f019fd44f020fd43f026fd42f02cfd41f032fd3ff038fd3ef03ffd3df045fd3cf04bfd3bf051fd3af057fd39f05efd38f064fd37f06afd36f070fd35f076fd34f07dfd33f083fd32f089fd31f08ffd30f095fd2ff09cfd2ef0a2fd2df0a8fd2cf0aefd2cf0b4fd2bf0bbfd2af0c1fd29f0c7fd28f0cdfd27f0d4fd26f0dafd25f0e0fd25f0e6fd24f0ecfd23f0f3fd22f0f9fd21f0fffd21f005fe20f00cfe1ff012fe1ef018fe1ef01efe1df025fe1cf02bfe1bf031fe1bf037fe1af03efe19f044fe19f04afe18f050fe17f057fe17f05dfe16f063fe15f069fe15f070fe14f076fe14f07cfe13f082fe12f089fe12f08ffe11f095fe11f09bfe10f0a2fe10f0a8fe0ff0aefe0ff0b4fe0ef0bbfe0ef0c1fe0df0c7fe0df0cdfe0cf0d4fe0cf0dafe0bf0e0fe0bf0e6fe0af0edfe0af0f3fe09f0f9fe09f000ff09f006ff08f00cff08f012ff08f019ff07f01fff07f025ff07f02bff06f032ff06f038ff06f03eff05f045ff05f04bff05f051ff05f057ff04f05eff04f064ff04f06aff04f071ff03f077ff03f07dff03f083ff03f08aff03f090ff02f096ff02f09cff02f0a3ff02f0a9ff02f0afff02f0b6ff02f0bcff01f0c2ff01f0c8ff01f0cfff01f0d5ff01f0dbff01f0e2ff01f0e8ff01f0eeff01f0f4ff01f0fbff01f0000001f0060001f00d0001f0130001f0190001f01f0001f0260001f02c0001f0320001f0390001f03f0002f0450002f04b0002f0520002f0580002f05e0002f0650002f06b0003f0710003f0770003f07e0003f0840003f08a0004f0900004f0970004f09d0004f0a30005f0aa0005f0b00005f0b60005f0bc0006f0c30006f0c90006f0cf0007f0d60007f0dc0007f0e20008f0e80008f0ef0008f0f50009f0fb0009f0010109f008010af00e010af014010bf01b010bf021010cf027010cf02d010df034010df03a010ef040010ef046010ff04d010ff0530110f0590110f05f0111f0660111f06c0112f0720112f0780113f07f0114f0850114f08b0115f0910115f0980116f09e0117f0a40117f0aa0118f0b10119f0b70119f0bd011af0c3011bf0ca011bf0d0011cf0d6011df0dc011ef0e3011ef0e9011ff0ef0120f0f50121f0fc0121f0020222f0080223f00e0224f0150225f01b0225f0210226f0270227f02d0228f0340229f03a022af040022bf046022cf04d022cf053022df059022ef05f022ff0650230f06c0231f0720232f0780233f07e0234f0840235f08b0236f0910237f0970238f09d0239f0a3023af0aa023bf0b0023cf0b6023df0bc023ef0c2023ff0c90241f0cf0242f0d50243f0db0244f0e10245f0e80246f0ee0247f0f40249f0fa024af000034bf006034cf00d034df013034ef0190350f01f0351f0250352f02b0353f0320355f0380356f03e0357f0440359f04a035af050035bf056035cf05d035ef063035ff0690360f06f0362f0750363f07b0365f0810366f0880367f08e0369f094036af09a036cf0a0036df0a6036ef0ac0370f0b20371f0b90373f0bf0374f0c50376f0cb0377f0d10379f0d7037af0dd037cf0e3037df0e9037ff0ef0380f0f60382f0fc0384f0020485f0080487f00e0488f014048af01a048bf020048df026048ff02c0490f0320492f0380494f03e0495f0440497f04b0499f051049af057049cf05d049ef06304a0f06904a1f06f04a3f07504a5f07b04a7f08104a8f08704aaf08d04acf09304aef09904b0f09f04b1f0a504b3f0ab04b5f0b104b7f0b704b9f0bd04bbf0c304bcf0c904bef0cf04c0f0d504c2f0db04c4f0e104c6f0e704c8f0ed04caf0f304ccf0f904cef0ff04d0f00505d2f00b05d4f01105d6f01705d8f01d05daf02305dcf02905def02f05e0f03405e2f03a05e4f04005e6f04605e8f04c05eaf05205ecf05805eef05e05f0f06405f3f06a05f5f07005f7f07605f9f07c05fbf08105fdf08705fff08d0502f1930504f1990506f19f0508f1a5050af1ab050df1b1050ff1b60511f1bc0513f1c20516f1c80518f1ce051af1d4051df1da051ff1df0521f1e50524f1eb0526f1f10528f1f7052bf1fd052df102062ff1080632f10e0634f1140636f11a0639f11f063bf125063ef12b0640f1310642f1370645f13c0647f142064af148064cf14e064ff1540651f1590654f15f0656f1650659f16b065bf170065ef1760660f17c0663f1820666f1870668f18d066bf193066df1990670f19e0672f1a40675f1aa0678f1af067af1b5067df1bb0680f1c10682f1c60685f1cc0688f1d2068af1d7068df1dd0690f1e30692f1e80695f1ee0698f1f4069bf1f9069df1ff06a0f10507a3f10a07a6f11007a8f11507abf11b07aef12107b1f12607b4f12c07b6f13207b9f13707bcf13d07bff14207c2f14807c5f14e07c7f15307caf15907cdf15e07d0f16407d3f16a07d6f16f07d9f17507dcf17a07dff18007e2f18507e5f18b07e8f19007ebf19607eef19b07f1f1a107f4f1a607f7f1ac07faf1b207fdf1b70700f2bd0703f2c20706f2c80709f2cd070cf2d2070ff2d80712f2dd0715f2e30718f2e8071bf2ee071ef2f30722f2f90725f2fe0728f204082bf209082ef20e0831f2140835f2190838f21f083bf224083ef22a0841f22f0845f2340848f23a084bf23f084ef2450851f24a0855f24f0858f255085bf25a085ff25f0862f2650865f26a0868f26f086cf275086ff27a0872f27f0876f2850879f28a087cf28f0880f2950883f29a0887f29f088af2a5088df2aa0891f2af0894f2b40898f2ba089bf2bf089ff2c408a2f2c908a5f2cf08a9f2d408acf2d908b0f2de08b3f2e408b7f2e908baf2ee08bef2f308c1f2f808c5f2fe08c8f20309ccf20809cff20d09d3f21209d7f21809daf21d09def22209e1f22709e5f22c09e9f23109ecf23709f0f23c09f3f24109f7f24609fbf24b09fef2500902f3550906f35a0909f35f090df3650911f36a0914f36f0918f374091cf3790920f37e0923f3830927f388092bf38d092ff3920932f3970936f39c093af3a1093ef3a60941f3ab0945f3b00949f3b5094df3ba0951f3bf0955f3c40958f3c9095cf3ce0960f3d30964f3d80968f3dd096cf3e20970f3e70973f3ec0977f3f1097bf3f6097ff3fb0983f3ff0987f3040a8bf3090a8ff30e0a93f3130a97f3180a9bf31d0a9ff3220aa3f3260aa7f32b0aabf3300aaff3350ab3f33a0ab7f33f0abbf3440abff3480ac3f34d0ac7f3520acbf3570acff35c0ad3f3600ad7f3650adbf36a0adff36f0ae3f3730ae8f3780aecf37d0af0f3820af4f3860af8f38b0afcf3900a00f4950a05f4990a09f49e0a0df4a30a11f4a70a15f4ac0a19f4b10a1ef4b50a22f4ba0a26f4bf0a2af4c30a2ff4c80a33f4cd0a37f4d10a3bf4d60a40f4db0a44f4df0a48f4e40a4cf4e80a51f4ed0a55f4f20a59f4f60a5ef4fb0a62f4ff0a66f4040b6af4080b6ff40d0b73f4110b78f4160b7cf41b0b80f41f0b85f4240b89f4280b8df42d0b92f4310b96f4360b9bf43a0b9ff43e0ba3f4430ba8f4470bacf44c0bb1f4500bb5f4550bbaf4590bbef45e0bc3f4620bc7f4660bcbf46b0bd0f46f0bd4f4740bd9f4780bddf47c0be2f4810be6f4850bebf4890bf0f48e0bf4f4920bf9f4970bfdf49b0b02f59f0b06f5a30b0bf5a80b0ff5ac0b14f5b00b19f5b50b1df5b90b22f5bd0b26f5c10b2bf5c60b30f5ca0b34f5ce0b39f5d20b3ef5d70b42f5db0b47f5df0b4cf5e30b50f5e80b55f5ec0b5af5f00b5ef5f40b63f5f80b68f5fc0b6cf5010c71f5050c76f5090c7bf50d0c7ff5110c84f5150c89f5190c8ef51e0c92f5220c97f5260c9cf52a0ca1f52e0ca5f5320caaf5360caff53a0cb4f53e0cb9f5420cbdf5460cc2f54a0cc7f54e0cccf5520cd1f5560cd6f55a0cdbf55e0cdff5620ce4f5660ce9f56a0ceef56e0cf3f5720cf8f5760cfdf57a0c02f67e0c06f6820c0bf6860c10f68a0c15f68e0c1af6910c1ff6950c24f6990c29f69d0c2ef6a10c33f6a50c38f6a90c3df6ac0c42f6b00c47f6b40c4cf6b80c51f6bc0c56f6c00c5bf6c30c60f6c70c65f6cb0c6af6cf0c6ff6d20c74f6d60c79f6da0c7ef6de0c83f6e10c88f6e50c8df6e90c92f6ed0c97f6f00c9cf6f40ca2f6f80ca7f6fb0cacf6ff0cb1f6030db6f6060dbbf60a0dc0f60e0dc5f6110dcaf6150dd0f6180dd5f61c0ddaf6200ddff6230de4f6270de9f62a0deff62e0df4f6320df9f6350dfef6390d03f73c0d09f7400d0ef7430d13f7470d18f74a0d1df74e0d23f7510d28f7550d2df7580d32f75c0d38f75f0d3df7620d42f7660d47f7690d4df76d0d52f7700d57f7740d5cf7770d62f77a0d67f77e0d6cf7810d72f7850d77f7880d7cf78b0d82f78f0d87f7920d8cf7950d92f7990d97f79c0d9cf79f0da2f7a20da7f7a60dacf7a90db2f7ac0db7f7b00dbcf7b30dc2f7b60dc7f7b90dcdf7bc0dd2f7c00dd7f7c30dddf7c60de2f7c90de8f7cc0dedf7d00df3f7d30df8f7d60dfdf7d90d03f8dc0d08f8df0d0ef8e30d13f8e60d19f8e90d1ef8ec0d24f8ef0d29f8f20d2ff8f50d34f8f80d39f8fb0d3ff8fe0d44f8010e4af8040e4ff8070e55f80a0e5bf80d0e60f8100e66f8130e6bf8160e71f8190e76f81c0e7cf81f0e81f8220e87f8250e8cf8280e92f82b0e97f82e0e9df8310ea3f8340ea8f8370eaef83a0eb3f83c0eb9f83f0ebff8420ec4f8450ecaf8480ecff84b0ed5f84d0edbf8500ee0f8530ee6f8560eecf8590ef1f85b0ef7f85e0efcf8610e02f9640e08f9660e0df9690e13f96c0e19f96f0e1ef9710e24f9740e2af9770e2ff9790e35f97c0e3bf97f0e40f9810e46f9840e4cf9870e52f9890e57f98c0e5df98f0e63f9910e68f9940e6ef9960e74f9990e7af99b0e7ff99e0e85f9a10e8bf9a30e91f9a60e96f9a80e9cf9ab0ea2f9ad0ea8f9b00eadf9b20eb3f9b50eb9f9b70ebff9ba0ec5f9bc0ecaf9bf0ed0f9c10ed6f9c30edcf9c60ee2f9c80ee7f9cb0eedf9cd0ef3f9cf0ef9f9d20efff9d40e04fad60e0afad90e10fadb0e16fadd0e1cfae00e22fae20e27fae40e2dfae70e33fae90e39faeb0e3ffaee0e45faf00e4bfaf20e50faf40e56faf70e5cfaf90e62fafb0e68fafd0e6efaff0e74fa020f7afa040f80fa060f85fa080f8bfa0a0f91fa0c0f97fa0e0f9dfa110fa3fa130fa9fa150faffa170fb5fa190fbbfa1b0fc1fa1d0fc7fa1f0fcdfa210fd2fa230fd8fa250fdefa270fe4fa290feafa2b0ff0fa2d0ff6fa2f0ffcfa310f02fb330f08fb350f0efb370f14fb390f1afb3b0f20fb3d0f26fb3f0f2cfb410f32fb430f38fb450f3efb460f44fb480f4afb4a0f50fb4c0f56fb4e0f5cfb500f62fb510f68fb530f6efb550f74fb570f7afb590f80fb5a0f86fb5c0f8cfb5e0f92fb600f98fb610f9efb630fa4fb650faafb670fb0fb680fb6fb6a0fbdfb6c0fc3fb6d0fc9fb6f0fcffb710fd5fb720fdbfb740fe1fb760fe7fb770fedfb790ff3fb7a0ff9fb7c0ffffb7d0f05fc7f0f0bfc810f12fc820f18fc840f1efc850f24fc870f2afc880f30fc8a0f36fc8b0f3cfc8d0f42fc8e0f48fc900f4ffc910f55fc930f5bfc940f61fc950f67fc970f6dfc980f73fc9a0f79fc9b0f80fc9c0f86fc9e0f8cfc9f0f92fca10f98fca20f9efca30fa4fca50fabfca60fb1fca70fb7fca80fbdfcaa0fc3fcab0fc9fcac0fcffcae0fd6fcaf0fdcfcb00fe2fcb10fe8fcb30feefcb40ff4fcb50ffbfcb60f01fdb70f07fdb80f0dfdba0f13fdbb0f19fdbc0f20fdbd0f26fdbe0f2cfdbf0f32fdc00f38fdc20f3ffdc30f45fdc40f4bfdc50f51fdc60f57fdc70f5efdc80f64fdc90f6afdca0f70fdcb0f76fdcc0f7dfdcd0f83fdce0f89fdcf0f8ffdd00f95fdd10f9cfdd20fa2fdd30fa8fdd40faefdd50fb4fdd50fbbfdd60fc1fdd70fc7fdd80fcdfdd90fd4fdda0fdafddb0fe0fddc0fe6fddc0fecfddd0ff3fdde0ff9fddf0ffffde00f05fee00f0cfee10f12fee20f18fee30f1efee30f25fee40f2bfee50f31fee60f37fee60f3efee70f44fee80f4afee80f50fee90f57feea0f5dfeea0f63feeb0f69feec0f70feec0f76feed0f7cfeed0f82feee0f89feef0f8ffeef0f95fef00f9bfef00fa2fef10fa8fef10faefef20fb4fef20fbbfef30fc1fef30fc7fef40fcdfef40fd4fef50fdafef50fe0fef60fe6fef60fedfef70ff3fef70ff9fef80f00fff80f06fff80f0cfff90f12fff90f19fff90f1ffffa0f25fffa0f2bfffa0f32fffb0f38fffb0f3efffb0f45fffc0f4bfffc0f51fffc0f57fffc0f5efffd0f64fffd0f6afffd0f71fffd0f77fffe0f7dfffe0f83fffe0f8afffe0f90fffe0f96ffff0f9cffff0fa3ffff0fa9ffff0fafffff0fb6ffff0fbcffff0fc2ff0010c8ff0010cfff0010d5ff0010dbff0010e2ff0010e8ff0010eeff0010f4ff0010fbff0010","evidence":"ev_7fbc28dca370a500bffa000cfab90b5c5c93787184800c113d0313144857228e"};
 },
 "src/wheel-effects.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {initializeWheelEffectTables,measureSkidSegment,shouldAdvanceWheelSkid,updateWheelSkidEndpoint,mergeWheelSkidSegment,appendWheelSkidSegment,updateWheelTractionEffects,permitWheelEmission,shadeWheelDebrisColor,emitWheelRearParticle,transformWheelEffectOffset,emitWheelSurfaceDebris,emitWheelSurfaceParticles});
 const {abs32,lookupSqrt,dotQ16,crossQ16,multiplyQ16,divideQ16,vectorLengthQ16,transformShortQ12} = require("src/fixed-integer.mjs");
 const {allocateRawEffectParticle,registerRawEffectSpatial} = require("src/body-retirement-effects.mjs");
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p),short=v=>(v<<16)>>16;
@@ -3798,6 +3894,7 @@ function emitWheelSurfaceParticles(body,{memory,scratchBase}){
 Object.assign(module.exports, {initializeWheelEffectTables,measureSkidSegment,shouldAdvanceWheelSkid,updateWheelSkidEndpoint,mergeWheelSkidSegment,appendWheelSkidSegment,updateWheelTractionEffects,permitWheelEmission,shadeWheelDebrisColor,emitWheelRearParticle,transformWheelEffectOffset,emitWheelSurfaceDebris,emitWheelSurfaceParticles});
 },
 "tools/object-viewer/export-object.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildObjectManifest,buildObjectDownload});
 const {createZIP} = require("tools/track-viewer/zip.mjs");
 const {encodeTexturePNG: browserEncodeTexturePNG} = require("tools/track-viewer/export-track.mjs");
 
@@ -3926,6 +4023,7 @@ async function buildObjectDownload(scene, {encodeTexturePNG = browserEncodeTextu
 Object.assign(module.exports, {buildObjectManifest,buildObjectDownload});
 },
 "tools/track-viewer/zip.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {createZIP});
 // ZIP's stored method keeps the standalone viewer dependency-free. PNG files
 // are already compressed; all sizes/offsets below use the classic ZIP layout.
 const crcTable = Array.from({ length: 256 }, (_, value) => {
@@ -3971,6 +4069,7 @@ function createZIP(files) {
 Object.assign(module.exports, {createZIP});
 },
 "tools/track-viewer/export-track.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {encodeTexturePNG,buildTrackDownload});
 const { createZIP } = require("tools/track-viewer/zip.mjs");
 const { buildTrackManifest } = require("src/track-manifest.mjs");
 
@@ -4017,6 +4116,7 @@ async function buildTrackDownload(scene, track) {
 Object.assign(module.exports, {encodeTexturePNG,buildTrackDownload});
 },
 "src/track-manifest.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildTrackManifest});
 function buildTrackManifest(scene, track) {
   const source = scene.source ?? {};
   return {

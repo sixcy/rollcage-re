@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "status": "PREPARED_ONLY_NOT_LAUNCHED",
+  "typedCsharpValidation": "PASS; NativeDebugger.Validate, no Run call",
+  "javascriptProfileValidation": {
+    "verified": true,
+    "legacyMainProfile": {
+      "authority": "controlled-native-recovery-input",
+      "genericSnapshotBudget": 115,
+      "maxSnapshots": 350,
+      "deferredObservationActivation": true,
+      "bindingSitesDeclared": true,
+      "channelSitesDeclared": true,
+      "playbackSitesDeclared": true,
+      "activeVectorEvidenceDeclared": true,
+      "managerVtableBytes": 100,
+      "allocationMemoryDeclared": true,
+      "vectorStorageDeclared": true,
+      "serviceSitesDeclared": true,
+      "managerObjectBytes": 3444,
+      "maxVectorBytes": 65536
+    },
+    "endpointLimit": 2,
+    "unsupportedSpatialExitFails": true
+  },
+  "originalGameLaunched": false,
+  "nativeFixtureLaunched": false,
+  "sourceOrHelperEdits": false,
+  "captureOutputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-worker-gain-v16-20261023",
+  "captureOutputDirectoryExists": false,
+  "bounds": {
+    "durationMs": 90000,
+    "maxSnapshots": 350,
+    "maxNestedSnapshots": 115,
+    "maxPendingBytes": 134217728,
+    "endpointSnapshots": 2,
+    "nestedSiteIds": 55
+  },
+  "entryInputRangeIds": [
+    "worker-gain-manager-root",
+    "worker-gain-manager",
+    "worker-gain-manager-vtable",
+    "worker-gain-thread-object",
+    "manager-worker-tid",
+    "worker-gain-session-root",
+    "worker-gain-phase",
+    "worker-gain-clock",
+    "worker-gain-stack",
+    "worker-gain-arguments",
+    "worker-gain-source",
+    "worker-gain-source-vtable",
+    "worker-gain-mixer-header",
+    "worker-gain-mixer-storage",
+    "worker-gain-literal-5dc774",
+    "worker-gain-literal-5dcaac",
+    "worker-gain-literal-5dc5fc",
+    "worker-gain-literal-5dca78",
+    "worker-gain-literal-5dca70",
+    "worker-gain-literal-5dcab8",
+    "worker-gain-literal-5e8890"
+  ],
+  "nullablePointeeExtension": false,
+  "firstExpectedUnboundSourceBoundary": "4a79f0 EnterCriticalSection4a79ff, no captured worker outcome supplied",
+  "plan": "analysis/native-worker-gain-v16-launch-and-replay-plan-20261023.md",
+  "files": [
+    {
+      "path": "analysis/native-physics-local/startup-20261022/controlled-recovery-worker-gain-config-v16-20261023.json",
+      "bytes": 439693,
+      "sha256": "48a40b0980022e3df94a453ac171c35340c0e85c71af4bbb8d0ebb9558d755f5"
+    },
+    {
+      "path": "tools/lib/native-physics-debugger.cs",
+      "bytes": 153619,
+      "sha256": "9bf1e16d8d663b072909d6a3aba4c00b0bf3bcea48edb6d5562584357c8d5ad0"
+    },
+    {
+      "path": "tools/lib/native-worker-gain-pair.mjs",
+      "bytes": 20265,
+      "sha256": "9c4777f504f74d3969d4b12e2173c95f7d59e1200fc2c7f449c9df5c7ec25ab1"
+    },
+    {
+      "path": "tools/prepare-native-worker-gain-pair-capture.mjs",
+      "bytes": 4417,
+      "sha256": "cbe0f5655ff5bef3724caa221e5eb13d6ae61f8f18b414d338007cbdd5c4725d"
+    },
+    {
+      "path": "tools/check-native-worker-gain-pair-capture.mjs",
+      "bytes": 2182,
+      "sha256": "3eeb875bc5bd77a3405581ea92d7996690ee18a47695ca785989e42dd5cafb2a"
+    },
+    {
+      "path": "src/audio-source-parameters.mjs",
+      "bytes": 12503,
+      "sha256": "edea8baa4c541425b89b4813d1c0cc86a169556a66eeffcae96ff89e456c926a"
+    },
+    {
+      "path": "src/game-audio-sample-factory.mjs",
+      "bytes": 22205,
+      "sha256": "f6686fd7887350abc7197f4fcdda8d9d6adda81987a7a9e531cda8e9e659df8d"
+    }
+  ]
+}

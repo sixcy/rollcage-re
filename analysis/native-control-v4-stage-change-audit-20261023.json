@@ -1,0 +1,36 @@
+{
+  "method": "Retained original-snapshot unique-byte delta accounting only; no replay inputs or expected answers are injected.",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "capture": "analysis/native-physics-local/startup-20261022/control-prefix-v4-20261023",
+  "logicalClock": 288,
+  "uniqueSemanticBytes": 4984832,
+  "listedSemanticBytes": 4984964,
+  "overlapBytes": 132,
+  "protectedControlBytes": 720,
+  "stages": [
+    {
+      "from": "parent-entry",
+      "to": "after-AI",
+      "nativeChangedUniqueSemanticBytes": 180,
+      "nativeChangedProtectedControlBytes": 18
+    },
+    {
+      "from": "after-AI",
+      "to": "physics-entry",
+      "nativeChangedUniqueSemanticBytes": 131,
+      "nativeChangedProtectedControlBytes": 35
+    },
+    {
+      "from": "physics-entry",
+      "to": "physics-preRET",
+      "nativeChangedUniqueSemanticBytes": 3640,
+      "nativeChangedProtectedControlBytes": 0
+    }
+  ],
+  "totalNativeChangedUniqueSemanticBytes": 3948,
+  "sourceMatchReport": "analysis/native-control-physics-v4-reviewed-20261023/report.json",
+  "limits": [
+    "Native changed bytes measure this recorded call, not branch coverage or total physics correctness.",
+    "Protected controls overlap semantic bytes; parent ABI is reported separately by the source comparison."
+  ]
+}

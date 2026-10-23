@@ -28,7 +28,11 @@ function minimal() {
   put(source, 0x110000); put(0x110050, 0x4ae4a0); put(manager, 0x111000); put(0x111048, 0x4a79f0);
   put(manager + 0x84c, 0x112000); put(0x112000, 0x112100); put(0x112004, 0x112100);
   put(0x714b08, manager); put(source + 0x964, 0x113000); put(0x11300c, 44100);
+  put(source + 0x97c, 0x114000); put(0x114000, 0x116000);
+  put(0x116068, 0x170000); put(0x116070, 0x170010); put(0x116030, 0x170020);
   memory.writeFloatLE(1, source + 0x440); memory.writeFloatLE(1, 0x5dc774);
+  memory.writeFloatLE(1 / 1024, 0x5dc5fc); memory.writeFloatLE(1024, 0x5dca78);
+  memory.writeFloatLE(1000, 0x5dca70); memory.writeFloatLE(200000, 0x5dcab8);
   memory.writeFloatLE(44100, source + 0x988);
   const calls = [], runtime = {memory, scratchBase: S, xmm2: 1, services: {
     platformCall(name) {calls.push(name); return name === 'GetCurrentThreadId' ? 77 : 0;},
@@ -47,7 +51,8 @@ test('incoming XMM2 and unsupported actual dependencies remain explicit', () => 
   const f = minimal();
   assert.throws(() => updateAudioSourceFrequency(f.manager, f.source, 0, {...f.runtime, xmm2: undefined}), /incoming XMM2/);
   f.put(f.source + 0x968, 0x114000);
-  assert.throws(() => updateAudioSourceFrequency(f.manager, f.source, 0, f.runtime), /decoder-rate child/);
+  f.memory[0x114092] = 1; f.put(0x11400c, 0x115000); f.put(0x115000, 0x116000);
+  assert.throws(() => updateAudioSourceFrequency(f.manager, f.source, 0, f.runtime), /stream-format getter/);
 });
 
 test('actual effect and spatial state selects genuine unsupported parent branches', () => {
@@ -57,4 +62,16 @@ test('actual effect and spatial state selects genuine unsupported parent branche
   assert.throws(() => updateAudioSourceParameters(f.manager, f.source, 0, f.runtime), /reverb\/effect branch/);
   f.put(f.source + 0x9a0, 0); f.memory[f.source + 0x45e] = 1;
   assert.throws(() => updateAudioSourceParameters(f.manager, f.source, 0, f.runtime), /spatial branch/);
+});
+
+test('x87 mixer multiply chooses the larger quiet-NaN significand before SSE cache multiplication', () => {
+  const f = minimal(), received = [];
+  f.put(0x112004, 0x112104); f.put(0x112100, 0x117000); f.put(0x117000, 0x118000);
+  f.put(0x118000, 0x4a92e0); f.put(0x118024, 0x4a9370);
+  f.put(0x11703c, 0x7fc54321); f.put(f.source + 0x440, 0x7fc12345);
+  f.runtime.services.xAudio2Call = (voice, slot, args) => {received.push([slot, ...args]); return 0;};
+  f.runtime.services.convertFloatToInt64 = value => {assert.equal(value, 44100); return 44100n;};
+  updateAudioSourceFrequency(f.manager, f.source, 0, f.runtime);
+  assert.equal(f.memory.readUInt32LE(f.source + 0x988), 0x7fc54321);
+  assert.equal(received[0][2], 0x7fc54321);
 });

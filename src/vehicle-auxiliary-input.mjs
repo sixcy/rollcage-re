@@ -1,5 +1,6 @@
 import {enqueueFinishNotification} from './finish-messages.mjs';
 import {sendNotificationPacket} from './notification-transport.mjs';
+import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
 const get = (memory, address) => memory.readInt32LE(address);
 const pointer = (memory, address) => memory.readUInt32LE(address);
@@ -108,7 +109,10 @@ export function updateVehicleAuxiliaryInput(record, runtime) {
   const flags = pointer(memory, pointer(memory, record) + 0x714);
   let selected = get(memory, 0x6e9f70);
   if (selected === -1) selected = 0;
-  if (record !== ((0x909300 + Math.imul(selected, 0x30c)) >>> 0)) return;
+  //42be9c/a1 compare actual module-relative participant addresses. Preserve
+  //opaque heap pointers; only the source-known909300 literal is resolved.
+  const selectedRecord = (resolveNativeMemoryAddress(memory, 0x909300, 4) + Math.imul(selected, 0x30c)) >>> 0;
+  if (resolveNativeMemoryAddress(memory, record, 4) !== selectedRecord) return;
   if (memory[0x6eafe0] & 1) {
     for (let id = 0; id < 10; id++) {
       if (flags & (0x100000 << id)) sendAuxiliaryPresetMessage(id, {...runtime, scratchBase: scratchBase - 8});

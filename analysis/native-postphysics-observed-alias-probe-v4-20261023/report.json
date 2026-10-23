@@ -1,0 +1,38 @@
+{
+  "method": "dependency-only-carried-source-postphysics-with-observed-module-alias",
+  "authority": "No native postphysics output comparison",
+  "moduleBaseAddress": 7208960,
+  "entryEsp": 5242276,
+  "clock": 288,
+  "additionalAlias": {
+    "preferredAddress": 9555376,
+    "address": 12570032,
+    "length": 1700,
+    "policy": "Source-known complete scratch already physically captured; no bytes added or refreshed."
+  },
+  "stages": [
+    {
+      "label": "44f050",
+      "completed": false,
+      "error": "Error: Uncaptured native memory at 0x80e7fc (4 bytes).\n    at span (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:76:21)\n    at api.<computed> (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:81:37)\n    at get (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/body-attachments.mjs:64:22)\n    at updateRawBodyAttachments (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/body-attachments.mjs:87:18)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:8:111\n    at probe (file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:3:65)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/[eval1]:8:92"
+    }
+  ],
+  "limits": [
+    "V4 native observation ends before physicsRET; all following source results are unvalidated dependency observations.",
+    "All memory comes from source-carried prefix+physics output; no new state, zero bytes or native after-output refresh is supplied."
+  ],
+  "attachmentQueue": [
+    {
+      "body": 263703424,
+      "type": 20,
+      "model": 62535320,
+      "handles": [
+        8295,
+        8296,
+        8297,
+        8298,
+        0
+      ]
+    }
+  ]
+}

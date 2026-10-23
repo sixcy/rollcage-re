@@ -1,0 +1,546 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "reportFile": "analysis/native-frame-drive-sequence-v1-20261023/report.json",
+  "reportSha256": "189bdf0fb649a0445f489f012965a8a7c79c634ad55379ca58d54517b1679213",
+  "method": "actual-carried-source-continuation-output-versus-native-after-and-next-entry",
+  "matched": true,
+  "protectedBytes": 384,
+  "sourceProducerEvidence": {
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "evidenceIds": [
+      "ev_46d22bb690247378da4f778dc7ea56d10aafe43ef53e5bf7d3f0e5974134e7fe",
+      "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+      "ev_25d0e08b400dae142d89ded057f0f7b25b9df9eed938ad18ddd58fa099caa2ac",
+      "ev_8c7dd04a8afc52e84554e55a8065848aa8e15f7f8afcd28c2f59a1970bd47c82"
+    ]
+  },
+  "observations": [
+    {
+      "transition": 1,
+      "overwrittenSourceDivergenceBytes": 110,
+      "alreadyMatchesNextBytes": 106,
+      "laterDifferentBytes": 4,
+      "groups": [
+        {
+          "storageClass": "shared-sqrt-scratch",
+          "overwrittenSourceDivergenceBytes": 4,
+          "alreadyMatchesNextBytes": 0,
+          "laterDifferentBytes": 4
+        },
+        {
+          "storageClass": "pickup-matrices",
+          "overwrittenSourceDivergenceBytes": 98,
+          "alreadyMatchesNextBytes": 98,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "other-produced-byte",
+          "overwrittenSourceDivergenceBytes": 3,
+          "alreadyMatchesNextBytes": 3,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "vehicle-launch-state",
+          "overwrittenSourceDivergenceBytes": 5,
+          "alreadyMatchesNextBytes": 5,
+          "laterDifferentBytes": 0
+        }
+      ],
+      "samples": [
+        {
+          "address": 12571740,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557084,
+          "nativeAfterByte": 167,
+          "producedByte": 98,
+          "nextNativeByte": 243,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571741,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557085,
+          "nativeAfterByte": 4,
+          "producedByte": 249,
+          "nextNativeByte": 85,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571742,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557086,
+          "nativeAfterByte": 1,
+          "producedByte": 85,
+          "nextNativeByte": 2,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571744,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557088,
+          "nativeAfterByte": 15,
+          "producedByte": 6,
+          "nextNativeByte": 14,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 277428164,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 0,
+          "nativeAfterByte": 99,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428166,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 2,
+          "nativeAfterByte": 118,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428167,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 3,
+          "nativeAfterByte": 254,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428168,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 4,
+          "nativeAfterByte": 226,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428169,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 5,
+          "nativeAfterByte": 252,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428170,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 6,
+          "nativeAfterByte": 45,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428171,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 7,
+          "nativeAfterByte": 3,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428172,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 8,
+          "nativeAfterByte": 134,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277475200,
+          "storageClass": "other-produced-byte",
+          "preferredAddress": 274460544,
+          "nativeAfterByte": 8,
+          "producedByte": 7,
+          "nextNativeByte": 7,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277522052,
+          "storageClass": "other-produced-byte",
+          "preferredAddress": 274507396,
+          "nativeAfterByte": 43,
+          "producedByte": 42,
+          "nextNativeByte": 42,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277556356,
+          "storageClass": "other-produced-byte",
+          "preferredAddress": 274541700,
+          "nativeAfterByte": 25,
+          "producedByte": 24,
+          "nextNativeByte": 24,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 278730146,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 0,
+          "fieldOffset": 2,
+          "nativeAfterByte": 68,
+          "producedByte": 69,
+          "nextNativeByte": 69,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 278965538,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 1,
+          "fieldOffset": 2,
+          "nativeAfterByte": 70,
+          "producedByte": 71,
+          "nextNativeByte": 71,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 279402914,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 3,
+          "fieldOffset": 2,
+          "nativeAfterByte": 70,
+          "producedByte": 71,
+          "nextNativeByte": 71,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 279613474,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 4,
+          "fieldOffset": 2,
+          "nativeAfterByte": 67,
+          "producedByte": 68,
+          "nextNativeByte": 68,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 279806626,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 5,
+          "fieldOffset": 2,
+          "nativeAfterByte": 69,
+          "producedByte": 70,
+          "nextNativeByte": 70,
+          "alreadyMatchesNext": true
+        }
+      ],
+      "sourceStateAfterContinuation": {
+        "pickupCount": 12,
+        "pickupControllerCount": 3,
+        "activeProjectiles": 0,
+        "terrainWaveState": 0,
+        "timeEffectState": 0,
+        "registryCount": 9,
+        "modelTargetCount": 12,
+        "periodicAge": 0,
+        "periodicRetiredClock": 0,
+        "logicalClock": 288,
+        "launchStates": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "launchAges": [
+          69,
+          71,
+          -1,
+          71,
+          68,
+          70
+        ],
+        "contactOwnersActive": 0
+      }
+    },
+    {
+      "transition": 2,
+      "overwrittenSourceDivergenceBytes": 118,
+      "alreadyMatchesNextBytes": 114,
+      "laterDifferentBytes": 4,
+      "groups": [
+        {
+          "storageClass": "shared-sqrt-scratch",
+          "overwrittenSourceDivergenceBytes": 4,
+          "alreadyMatchesNextBytes": 0,
+          "laterDifferentBytes": 4
+        },
+        {
+          "storageClass": "pickup-matrices",
+          "overwrittenSourceDivergenceBytes": 105,
+          "alreadyMatchesNextBytes": 105,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "other-produced-byte",
+          "overwrittenSourceDivergenceBytes": 4,
+          "alreadyMatchesNextBytes": 4,
+          "laterDifferentBytes": 0
+        },
+        {
+          "storageClass": "vehicle-launch-state",
+          "overwrittenSourceDivergenceBytes": 5,
+          "alreadyMatchesNextBytes": 5,
+          "laterDifferentBytes": 0
+        }
+      ],
+      "samples": [
+        {
+          "address": 12571740,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557084,
+          "nativeAfterByte": 94,
+          "producedByte": 154,
+          "nextNativeByte": 92,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571741,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557085,
+          "nativeAfterByte": 2,
+          "producedByte": 126,
+          "nextNativeByte": 5,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571742,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557086,
+          "nativeAfterByte": 1,
+          "producedByte": 5,
+          "nextNativeByte": 2,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 12571744,
+          "storageClass": "shared-sqrt-scratch",
+          "preferredAddress": 9557088,
+          "nativeAfterByte": 15,
+          "producedByte": 6,
+          "nextNativeByte": 14,
+          "alreadyMatchesNext": false
+        },
+        {
+          "address": 277428164,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 0,
+          "nativeAfterByte": 1,
+          "producedByte": 99,
+          "nextNativeByte": 99,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428166,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 2,
+          "nativeAfterByte": 0,
+          "producedByte": 136,
+          "nextNativeByte": 136,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428167,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 3,
+          "nativeAfterByte": 0,
+          "producedByte": 1,
+          "nextNativeByte": 1,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428168,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 4,
+          "nativeAfterByte": 0,
+          "producedByte": 31,
+          "nextNativeByte": 31,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428169,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 5,
+          "nativeAfterByte": 0,
+          "producedByte": 3,
+          "nextNativeByte": 3,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428170,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 6,
+          "nativeAfterByte": 0,
+          "producedByte": 249,
+          "nextNativeByte": 249,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428171,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 7,
+          "nativeAfterByte": 0,
+          "producedByte": 252,
+          "nextNativeByte": 252,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277428172,
+          "storageClass": "pickup-matrices",
+          "objectIndex": 0,
+          "fieldOffset": 8,
+          "nativeAfterByte": 0,
+          "producedByte": 20,
+          "nextNativeByte": 20,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277475200,
+          "storageClass": "other-produced-byte",
+          "preferredAddress": 274460544,
+          "nativeAfterByte": 7,
+          "producedByte": 6,
+          "nextNativeByte": 6,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277522052,
+          "storageClass": "other-produced-byte",
+          "preferredAddress": 274507396,
+          "nativeAfterByte": 42,
+          "producedByte": 41,
+          "nextNativeByte": 41,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 277556356,
+          "storageClass": "other-produced-byte",
+          "preferredAddress": 274541700,
+          "nativeAfterByte": 24,
+          "producedByte": 23,
+          "nextNativeByte": 23,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 278730146,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 0,
+          "fieldOffset": 2,
+          "nativeAfterByte": 69,
+          "producedByte": 70,
+          "nextNativeByte": 70,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 278965538,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 1,
+          "fieldOffset": 2,
+          "nativeAfterByte": 71,
+          "producedByte": 72,
+          "nextNativeByte": 72,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 279402914,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 3,
+          "fieldOffset": 2,
+          "nativeAfterByte": 71,
+          "producedByte": 72,
+          "nextNativeByte": 72,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 279613474,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 4,
+          "fieldOffset": 2,
+          "nativeAfterByte": 68,
+          "producedByte": 69,
+          "nextNativeByte": 69,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 279806626,
+          "storageClass": "vehicle-launch-state",
+          "objectIndex": 5,
+          "fieldOffset": 2,
+          "nativeAfterByte": 70,
+          "producedByte": 71,
+          "nextNativeByte": 71,
+          "alreadyMatchesNext": true
+        },
+        {
+          "address": 394478581,
+          "storageClass": "other-produced-byte",
+          "preferredAddress": 391463925,
+          "nativeAfterByte": 1,
+          "producedByte": 0,
+          "nextNativeByte": 0,
+          "alreadyMatchesNext": true
+        }
+      ],
+      "sourceStateAfterContinuation": {
+        "pickupCount": 12,
+        "pickupControllerCount": 3,
+        "activeProjectiles": 0,
+        "terrainWaveState": 0,
+        "timeEffectState": 0,
+        "registryCount": 9,
+        "modelTargetCount": 12,
+        "periodicAge": 0,
+        "periodicRetiredClock": 0,
+        "logicalClock": 289,
+        "launchStates": [
+          1,
+          1,
+          0,
+          1,
+          1,
+          1
+        ],
+        "launchAges": [
+          70,
+          72,
+          -1,
+          72,
+          69,
+          71
+        ],
+        "contactOwnersActive": 0
+      }
+    }
+  ],
+  "limits": [
+    "Counts describe real source continuation bytes touched by later supplied producers; they do not imply a failed earlier physics comparison.",
+    "Already-matching bytes need no subsequent source-byte change. Later-different shared outputs remain supplied inputs and are not a full parent equivalence claim.",
+    "Storage labels identify mapped fields; source coordinator execution is genuine, but individual later native writers are not inferred from these offsets."
+  ]
+}

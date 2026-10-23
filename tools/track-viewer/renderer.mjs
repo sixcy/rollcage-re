@@ -37,6 +37,8 @@ export class Renderer {
     this.carGroups = []; this.carTextures = new Map(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
     this.worldGroups = []; this.worldTextures = new Map(); this.worldPlacements = new Set();
     this.worldDraws = {groups: 0, objects: 0};
+    this.weaponGroups = []; this.weaponTextures = new Map(); this.weaponMarkerBuffer = null; this.weaponMarkerCount = 0;
+    this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
     this.terrainTemplates = new Map(); this.terrainGroups = new Map(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
@@ -51,11 +53,14 @@ export class Renderer {
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
   }
   clearCar() {
-    for (const group of [...this.carGroups, ...this.worldGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
-    for (const texture of [...this.carTextures.values(), ...this.worldTextures.values()]) this.gl.deleteTexture(texture);
+    for (const group of [...this.carGroups, ...this.worldGroups, ...this.weaponGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
+    if (this.weaponMarkerBuffer) this.gl.deleteBuffer(this.weaponMarkerBuffer);
+    for (const texture of [...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values()]) this.gl.deleteTexture(texture);
     this.carGroups = []; this.carTextures.clear(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
     this.worldGroups = []; this.worldTextures.clear(); this.worldPlacements.clear();
     this.worldDraws = {groups: 0, objects: 0};
+    this.weaponGroups = []; this.weaponTextures.clear(); this.weaponMarkerBuffer = null; this.weaponMarkerCount = 0;
+    this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
     this.terrainGroups.clear(); this.terrainTemplates.clear(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
   }
@@ -89,6 +94,15 @@ export class Renderer {
       if (assets.worldObjects) {
         this.uploadRuntimeMeshes(assets.worldObjects, this.worldGroups, this.worldTextures);
         this.worldPlacements = new Set(assets.worldObjects.placementIndices);
+      }
+      if (assets.weapons) {
+        this.uploadRuntimeMeshes(assets.weapons, this.weaponGroups, this.weaponTextures);
+        const points = assets.weapons.spawnPositions.map(([x,y,z]) => [x,-y,-z]);
+        if (points.length) {
+          this.weaponMarkerBuffer = gl.createBuffer(); this.weaponMarkerCount = points.length;
+          gl.bindBuffer(gl.ARRAY_BUFFER, this.weaponMarkerBuffer);
+          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points.flat()), gl.STATIC_DRAW);
+        }
       }
       this.terrainTemplates = new Map((assets.terrain?.segments ?? []).map(segment => [segment.index, segment]));
       this.setFilters(this.smooth);
@@ -128,7 +142,7 @@ export class Renderer {
   setFilters(smooth) {
     this.smooth = smooth;
     const gl = this.gl, filter = smooth ? gl.LINEAR : gl.NEAREST;
-    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values()]) {
+    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values()]) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
@@ -213,6 +227,32 @@ export class Renderer {
       drawnCars.add(group.carIndex); this.carDraws.groups++;
     }
     this.carDraws.cars = drawnCars.size;
+    const drawnWeapons = new Set();
+    this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
+    for (const group of options.car?.weapons?.enabled ? this.weaponGroups : []) {
+      const object = options.car.weapons.objects[group.instance];
+      if (!object?.visible) continue;
+      gl.uniformMatrix4fv(this.uniforms.model, false, carDisplayMatrix(object));
+      gl.bindBuffer(gl.ARRAY_BUFFER, group.buffer);
+      for (const [key, size, offset] of [['position', 3, 0], ['uv', 2, 12], ['normal', 3, 20]]) {
+        gl.enableVertexAttribArray(this.attributes[key]); gl.vertexAttribPointer(this.attributes[key], size, gl.FLOAT, false, 32, offset);
+      }
+      gl.bindTexture(gl.TEXTURE_2D, this.weaponTextures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
+      drawnWeapons.add(group.instance); this.weaponDraws.groups++;
+    }
+    for (const instance of drawnWeapons) this.weaponDraws[options.car.weapons.objects[instance].kind === 'pickup' ? 'pickups' : 'projectiles']++;
+    if (options.car?.weapons?.enabled && this.weaponMarkerBuffer) {
+      //Gold points mark authored spawn locations, including unavailable boxes.
+      //Their placement never supplies collection/respawn decisions.
+      gl.useProgram(this.pathProgram);
+      for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);
+      gl.enableVertexAttribArray(this.pathPosition); gl.bindBuffer(gl.ARRAY_BUFFER, this.weaponMarkerBuffer);
+      gl.vertexAttribPointer(this.pathPosition, 3, gl.FLOAT, false, 12, 0);
+      gl.uniformMatrix4fv(this.pathUniforms.mvp, false, matrix); gl.uniform1f(this.pathUniforms.pointSize, 5 * ratio);
+      gl.uniform3fv(this.pathUniforms.color, [1,0.78,0.25]); gl.drawArrays(gl.POINTS, 0, this.weaponMarkerCount);
+      this.weaponDraws.spawnMarkers = this.weaponMarkerCount;
+      gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
+    }
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     if (!options.paths || !this.pathGroups.length) return;
     gl.useProgram(this.pathProgram);

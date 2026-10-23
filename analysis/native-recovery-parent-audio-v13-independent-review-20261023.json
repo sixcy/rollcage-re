@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "authority": "independent-source-and-retained-original-process-review",
+  "reviewedReport": "analysis/physics-native-controlled-recovery-parent-audio-v13-attempt-20261023/report.json",
+  "reviewedReportSha256": "6fbd1ee5f431d8ff1d11fb7ccb2f7780270713f264e12e07a6eae3561521afb5",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "rawCapture": "analysis/native-physics-local/startup-20261022/controlled-recovery-sound-v13-20261023",
+  "parentPair": {"beforeOrdinal": 233, "afterOrdinal": 329, "tid": 16216},
+  "positiveClaimSupported": true,
+  "claim": "For this clean V13 controlled parent and its observed no-growth schedule, the connected source executes through adaptive construction, cached factory, channel selection and play-request queueing, matching declared memory outputs. This does not close private ABI or V11/V12 concurrency.",
+  "comparedScope": {
+    "semanticRegions": 190,
+    "semanticRegionByteSum": 4990925,
+    "semanticUniqueBytes": 4990793,
+    "audioRegions": 16,
+    "audioUniqueBytes": 8292,
+    "combinedUniqueBytes": 4999085,
+    "audioObjects": ["owner1168B", "wrapper12B", "source2472B", "owner-channel-storage4B", "manager3444B", "six vector headers", "all nonempty vector capacity spans within65536B bound"],
+    "nativeRegisterInvariants": ["ebx", "ebp", "esi", "edi", "esp"],
+    "registerLimit": "These compare native before/after preservation against the contract, not a computed JavaScript CPU register file. EAX/ECX/EDX, EFLAGS, full private stack, CRT internals and complete CPU state are not compared."
+  },
+  "inputAdmissions": {
+    "readBeforeUseRows": 59,
+    "rowByteSum": 45274,
+    "categories": ["constructor image literals", "backend vtable", "cache path strings", "cached winner reference count and format", "mixer vtable/ID words and selected bus voice", "COM interface/vtable"],
+    "coverageCheck": "New regression verifies every admitted byte overlapping the original parent-before observation agrees; missing bytes remain declared later read-before-use inputs, not a claim of their original initialization.",
+    "deferredAllocatorOutputs": [
+      {"kind": "wrapper", "length": 12, "returnOrdinal": 237},
+      {"kind": "source", "length": 2472, "returnOrdinal": 252},
+      {"kind": "channel", "length": 4, "returnOrdinal": 316},
+      {"kind": "playback-string", "length": 32, "returnOrdinal": 321}
+    ],
+    "allocationCheck": "All four requested capacities are already backed by parent-before memory and differ from original allocator-return preimages. Rows have preimageBytes but no bytes input; helper writes exact requested spans only at matched allocator ABI/return/lifetime. No final source/manager output is used as an input."
+  },
+  "externalScope": {
+    "factoryConsumedBoundaries": 16,
+    "fileBoundaries": {"FindFirstFileW": 2, "FindClose": 2, "CreateFileW": 1, "GetFileSizeEx": 1, "CloseHandle": 2},
+    "otherFactoryBoundaries": {"sourceAllocator": 1, "lockEnterThreadLeave": 6, "CreateSourceVoice": 1},
+    "typedSuccessfulFindFirstFileW": "After exact event/order/stack/path/output-pointer checks, copy defined attributes/times/file-size bytes0..35, reparse tag only when applicable, and bounded NUL-terminated names. Reserved words and unused name-array tails are preserved in source and remain unproved private ABI.",
+    "typedSuccessfulGetFileSizeEx": "After exact event/order/stack/pointer/nonzero BOOL checks, admit the eight fully written LARGE_INTEGER output bytes; dead pre-call scratch is not an API input and is not claimed matched.",
+    "locks": "Enter/Leave own only the first24 Win32 bytes. Source computes game-wrapper depth/owner fields. GetCurrentThreadId changes no lock/manager memory; waiter transitions remain a strict unsupported producer.",
+    "COM": "Actual CreateSourceVoice arguments, interface/vtable, format, output preimage, send list and send descriptor compare before admitting the actual output voice pointer and HRESULT.",
+    "playbackCRT": "Actual memcpy entry/preimage/20-byte source/32-byte destination output and preserved tail compare; ECX/EDX/EAX come from the observed CRT return, not logger output. Other bounded valid-string CRT algorithms are modeled under their declared domain; arbitrary locale/invalid-parameter/private CRT behavior is not proved.",
+    "playbackLimit": "playbackComplete means the game play-request/queue continuation completed. It does not establish background voice consumption, PCM generation, audible audio, or a matching rendered audio stream."
+  },
+  "reviewBlindSpots": [
+    "This single schedule avoids V11/V12 waiter/game-wrapper divergence. Worker startup identity does not execute or reconstruct the actual background manager update.",
+    "The active vector already has spare capacity in V13. Its comparison includes the full564-byte existing capacity, but does not recover V12's missing560 bytes at a new564-byte allocator return.",
+    "The source continuation supports the actual empty adaptive owner vector, null position/velocity and empty callable. Reuse/positional/callable branches are explicit errors, not covered by this positive.",
+    "Output comparison covers declared semantic regions and the listed audio regions only. Imported cache/mixer/COM inputs do not establish their complete producer history or unrelated object state.",
+    "The checker matched flag does not independently include an expected-external-event exhaustion assertion; this V13 regression explicitly requires all16 factory boundaries and all three playback lock services, as well as playbackComplete.",
+    "Factory private-output-preimage detail is not surfaced in the parent report; fullPrivateAbiMatched:false and this review retain the typed-success limitations explicitly."
+  ],
+  "regression": {
+    "path": "tests/native-recovery-parent-audio-v13.test.mjs",
+    "command": "node --test tests/native-recovery-parent-audio-v13.test.mjs",
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "checks": ["Fresh complete parent replay and exact declared scope/event counts", "Input evidence immutability", "Overlapping imported bytes match original parent input", "Allocator capacities stay deferred outputs", "Changing only after-source cache byte984 fails comparison while source execution still completes"]
+  },
+  "mutationScope": "Only the new regression and this review JSON were added. Frozen source, services, selection, capture configuration and prior failed V11/V12 reports were not changed. No native process was launched."
+}

@@ -1,0 +1,2717 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-sound-v13-20261023",
+  "authority": "controlled-native-recovery-input",
+  "matched": true,
+  "sourceComplete": true,
+  "fullPrivateAbiMatched": false,
+  "semantic": {
+    "matched": true,
+    "comparedBytes": 4990925,
+    "comparisons": [
+      {
+        "id": "frame-pools",
+        "address": 12462972,
+        "length": 884,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "shape-pools-and-planes",
+        "address": 12576640,
+        "length": 2592,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "body-arena-allocation",
+        "address": 10251072,
+        "length": 8,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "body-arena-size-input",
+        "address": 10393608,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "body-arena-cursor",
+        "address": 10411252,
+        "length": 4,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "participant-records",
+        "address": 12489472,
+        "length": 4680,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "session-root",
+        "address": 9227036,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "configuration-root",
+        "address": 9228028,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "pack-roots",
+        "address": 12499312,
+        "length": 36,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "runtime-geometry-roots",
+        "address": 12489280,
+        "length": 132,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "particle-roots",
+        "address": 10249652,
+        "length": 24,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "skid-roots",
+        "address": 11703760,
+        "length": 12,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "effect-rng",
+        "address": 9226580,
+        "length": 8,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "attachment-count",
+        "address": 10251168,
+        "length": 4,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "attachment-queue",
+        "address": 12460096,
+        "length": 1024,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "body-registry",
+        "address": 10412544,
+        "length": 2048,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "time-state",
+        "address": 11473280,
+        "length": 16,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "gravity",
+        "address": 9221600,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "clock",
+        "address": 12494152,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "first-effect-and-matrix",
+        "address": 12569952,
+        "length": 144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "second-effect",
+        "address": 12538828,
+        "length": 48,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "vector-scratch",
+        "address": 12571488,
+        "length": 260,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "border-scratch",
+        "address": 12524544,
+        "length": 40,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "wheel-query-scratch",
+        "address": 10433248,
+        "length": 448,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "world-record-count",
+        "address": 12584932,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "world-records",
+        "address": 12584960,
+        "length": 800,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "rotation-scale",
+        "address": 9160180,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "normalization-one",
+        "address": 9160564,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "normalization-scale",
+        "address": 9161352,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sqrt-table",
+        "address": 9220752,
+        "length": 384,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "surface-effect-threshold",
+        "address": 9161084,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "effect-color-scale-first",
+        "address": 9228984,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "effect-color-scale-second",
+        "address": 9228992,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "rear-effect-frame",
+        "address": 12554244,
+        "length": 4,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "active-effect-lookup-root",
+        "address": 10432896,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "trig-table",
+        "address": 8737320,
+        "length": 808,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "yaw-table",
+        "address": 9228336,
+        "length": 642,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "active-vehicle-owners",
+        "address": 11703776,
+        "length": 840,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "particle-quality-count",
+        "address": 9221376,
+        "length": 8,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "particle-allocation-root",
+        "address": 12538820,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "particle-allocation-end",
+        "address": 12554252,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "contact-thresholds",
+        "address": 8717696,
+        "length": 16,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-owner-vector-roots",
+        "address": 10298388,
+        "length": 12,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "recovery-rng-difficulty",
+        "address": 9217236,
+        "length": 8,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "recovery-profile-root",
+        "address": 12580512,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-bank-roots",
+        "address": 10251220,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-manager-root",
+        "address": 10439432,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-scale-first",
+        "address": 9160120,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-scale-second",
+        "address": 9160144,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-scale-third",
+        "address": 9160156,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-scale-fourth",
+        "address": 9160168,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-scale-fifth",
+        "address": 9160928,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-scale-sixth",
+        "address": 9160992,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "sound-volume-inputs",
+        "address": 9227696,
+        "length": 8,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "retirement-terrain-flag",
+        "address": 9228980,
+        "length": 4,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "retirement-particle-input",
+        "address": 12538816,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "retirement-effect-input",
+        "address": 12554248,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "light-registry-first",
+        "address": 11465232,
+        "length": 4,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "light-registry-second",
+        "address": 11465756,
+        "length": 4,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "retirement-light-records",
+        "address": 11470560,
+        "length": 580,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "collision-events",
+        "address": 285352232,
+        "length": 10400,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "collision-heap",
+        "address": 286070296,
+        "length": 404,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "collision-free",
+        "address": 147106608,
+        "length": 400,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "shape-records",
+        "address": 270966792,
+        "length": 18432,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "shape-indices",
+        "address": 274616048,
+        "length": 768,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "candidate-arena",
+        "address": 270985248,
+        "length": 32768,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "physical-body-list",
+        "address": 271105344,
+        "length": 384,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "candidate-group-lists",
+        "address": 147444400,
+        "length": 8456,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "body-arena-allocation-bytes",
+        "address": 278446112,
+        "length": 4459520,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "session",
+        "address": 11704928,
+        "length": 1424,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "configuration",
+        "address": 11696608,
+        "length": 112,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "terrain-pack-header",
+        "address": 12489280,
+        "length": 160,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "recovery-route-metrics-candidates-clone",
+        "address": 10414848,
+        "length": 17576,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "recovery-controller-slots",
+        "address": 11704640,
+        "length": 36,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "recovery-retirement-clock",
+        "address": 12465440,
+        "length": 4,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "recovery-retirement-first-color",
+        "address": 12554240,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "recovery-effect-position-queue",
+        "address": 12554272,
+        "length": 288,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "active-sound-cookie",
+        "address": 9210000,
+        "length": 4,
+        "policy": "read-only",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dbb020-11dbb020",
+        "address": 299610144,
+        "length": 3840,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dbcb44-11dbcb44",
+        "address": 299617092,
+        "length": 4088,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dbdc00-11dbdc00",
+        "address": 299621376,
+        "length": 2400,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dbed94-11dbed94",
+        "address": 299625876,
+        "length": 2744,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dbf8d0-11dbf8d0",
+        "address": 299628752,
+        "length": 7392,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dc2ef4-11dc2ef4",
+        "address": 299642612,
+        "length": 8568,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dc5210-11dc5210",
+        "address": 299651600,
+        "length": 10080,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dc9450-11dc9450",
+        "address": 299668560,
+        "length": 10584,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dcbf50-11dcbf50",
+        "address": 299679568,
+        "length": 16480,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dd2be8-11dd2be8",
+        "address": 299707368,
+        "length": 17160,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dd71b0-11dd71b0",
+        "address": 299725232,
+        "length": 6496,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dd9cc4-11dd9cc4",
+        "address": 299736260,
+        "length": 6888,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11ddb8d0-11ddb8d0",
+        "address": 299743440,
+        "length": 1504,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11ddc36c-11ddc36c",
+        "address": 299746156,
+        "length": 1656,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11ddca30-11ddca30",
+        "address": 299747888,
+        "length": 10848,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11de1464-11de1464",
+        "address": 299766884,
+        "length": 11368,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11de42d0-11de42d0",
+        "address": 299778768,
+        "length": 11232,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11de8e80-11de8e80",
+        "address": 299798144,
+        "length": 11760,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11debe70-11debe70",
+        "address": 299810416,
+        "length": 20256,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11df43c8-11df43c8",
+        "address": 299844552,
+        "length": 21024,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11df9950-11df9950",
+        "address": 299866448,
+        "length": 13088,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11dfee1c-11dfee1c",
+        "address": 299888156,
+        "length": 13680,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e025b0-11e025b0",
+        "address": 299902384,
+        "length": 23392,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e0bef0-11e0bef0",
+        "address": 299941616,
+        "length": 24408,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e12220-11e12220",
+        "address": 299967008,
+        "length": 160,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e12328-11e12328",
+        "address": 299967272,
+        "length": 144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e123d0-11e123d0",
+        "address": 299967440,
+        "length": 160,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e124d8-11e124d8",
+        "address": 299967704,
+        "length": 144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e12580-11e12580",
+        "address": 299967872,
+        "length": 1440,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e12eb0-11e12eb0",
+        "address": 299970224,
+        "length": 1600,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e13530-11e13530",
+        "address": 299971888,
+        "length": 3424,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e14a8c-11e14a8c",
+        "address": 299977356,
+        "length": 3696,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e15980-11e15980",
+        "address": 299981184,
+        "length": 11360,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e19960-11e19960",
+        "address": 299997536,
+        "length": 12744,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e1cc70-11e1cc70",
+        "address": 300010608,
+        "length": 2144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e1d88c-11e1d88c",
+        "address": 300013708,
+        "length": 2600,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e1e2f0-11e1e2f0",
+        "address": 300016368,
+        "length": 2144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e1ef0c-11e1ef0c",
+        "address": 300019468,
+        "length": 2600,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e3d180-11e3d180",
+        "address": 300142976,
+        "length": 25836,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e43670-11e43670",
+        "address": 300168816,
+        "length": 28744,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4a77c-11e4a77c",
+        "address": 300197756,
+        "length": 80,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4aa50-11e4aa50",
+        "address": 300198480,
+        "length": 240,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4ab70-11e4ab70",
+        "address": 300198768,
+        "length": 136,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4ac84-11e4ac84",
+        "address": 300199044,
+        "length": 583,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4aecc-11e4aecc",
+        "address": 300199628,
+        "length": 1328,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4b644-11e4b644",
+        "address": 300201540,
+        "length": 472,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4b824-11e4b824",
+        "address": 300202020,
+        "length": 144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4b948-11e4b948",
+        "address": 300202312,
+        "length": 962,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4bd0c-11e4bd0c",
+        "address": 300203276,
+        "length": 1680,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4c65c-11e4c65c",
+        "address": 300205660,
+        "length": 72,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4c6d4-11e4c6d4",
+        "address": 300205780,
+        "length": 88,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4c75c-11e4c75c",
+        "address": 300205916,
+        "length": 8,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4c76c-11e4c76c",
+        "address": 300205932,
+        "length": 16,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4c804-11e4c804",
+        "address": 300206084,
+        "length": 1388,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4ce04-11e4ce04",
+        "address": 300207620,
+        "length": 48,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4ceac-11e4ceac",
+        "address": 300207788,
+        "length": 74,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4cef8-11e4cef8",
+        "address": 300207864,
+        "length": 256,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d08c-11e4d08c",
+        "address": 300208268,
+        "length": 48,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d134-11e4d134",
+        "address": 300208436,
+        "length": 74,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d180-11e4d180",
+        "address": 300208512,
+        "length": 256,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d37c-11e4d37c",
+        "address": 300209020,
+        "length": 48,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d454-11e4d454",
+        "address": 300209236,
+        "length": 103,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d4bc-11e4d4bc",
+        "address": 300209340,
+        "length": 408,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d764-11e4d764",
+        "address": 300210020,
+        "length": 48,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d888-11e4d888",
+        "address": 300210312,
+        "length": 161,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4d92c-11e4d92c",
+        "address": 300210476,
+        "length": 456,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4dbd0-11e4dbd0",
+        "address": 300211152,
+        "length": 48,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4dca8-11e4dca8",
+        "address": 300211368,
+        "length": 103,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4dd10-11e4dd10",
+        "address": 300211472,
+        "length": 376,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4dff4-11e4dff4",
+        "address": 300212212,
+        "length": 96,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4e0cc-11e4e0cc",
+        "address": 300212428,
+        "length": 732,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4e504-11e4e504",
+        "address": 300213508,
+        "length": 96,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4e5dc-11e4e5dc",
+        "address": 300213724,
+        "length": 716,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4eacc-11e4eacc",
+        "address": 300214988,
+        "length": 160,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4eb74-11e4eb74",
+        "address": 300215156,
+        "length": 8,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4eb9c-11e4eb9c",
+        "address": 300215196,
+        "length": 144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4ecb4-11e4ecb4",
+        "address": 300215476,
+        "length": 491,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4eea0-11e4eea0",
+        "address": 300215968,
+        "length": 1088,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4f478-11e4f478",
+        "address": 300217464,
+        "length": 48,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4f4b8-11e4f4b8",
+        "address": 300217528,
+        "length": 96,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4f598-11e4f598",
+        "address": 300217752,
+        "length": 143,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4f630-11e4f630",
+        "address": 300217904,
+        "length": 212,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e4f71c-11e4f71c",
+        "address": 300218140,
+        "length": 512,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e510ac-11e510ac",
+        "address": 300224684,
+        "length": 80,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e51220-11e51220",
+        "address": 300225056,
+        "length": 40,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e51278-11e51278",
+        "address": 300225144,
+        "length": 8,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e512f8-11e512f8",
+        "address": 300225272,
+        "length": 103,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e51360-11e51360",
+        "address": 300225376,
+        "length": 328,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e53a30-11e53a30",
+        "address": 300235312,
+        "length": 80,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e53b74-11e53b74",
+        "address": 300235636,
+        "length": 96,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e53c4c-11e53c4c",
+        "address": 300235852,
+        "length": 492,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11e9e4e8-11e9e4e8",
+        "address": 300541160,
+        "length": 34048,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eaa760-11eaa760",
+        "address": 300590944,
+        "length": 608,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eaa9e0-11eaa9e0",
+        "address": 300591584,
+        "length": 2380,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eab338-11eab338",
+        "address": 300593976,
+        "length": 24,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eab374-11eab374",
+        "address": 300594036,
+        "length": 36,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eab3c4-11eab3c4",
+        "address": 300594116,
+        "length": 164,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eab480-11eab480",
+        "address": 300594304,
+        "length": 332,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eacbc8-11eacbc8",
+        "address": 300600264,
+        "length": 4096,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-geometry-11eb76bc-11eb76bc",
+        "address": 300644028,
+        "length": 2016,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eab5cc-6c-11eab5cc",
+        "address": 300594636,
+        "length": 108,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eab638-3d0-11eab638",
+        "address": 300594744,
+        "length": 976,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eaba08-330-11eaba08",
+        "address": 300595720,
+        "length": 816,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eabd38-1b0-11eabd38",
+        "address": 300596536,
+        "length": 432,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eabee8-120-11eabee8",
+        "address": 300596968,
+        "length": 288,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eac008-b0-11eac008",
+        "address": 300597256,
+        "length": 176,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eac0b8-90-11eac0b8",
+        "address": 300597432,
+        "length": 144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eac148-90-11eac148",
+        "address": 300597576,
+        "length": 144,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eac1d8-d0-11eac1d8",
+        "address": 300597720,
+        "length": 208,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eac5ec-7c-11eac5ec",
+        "address": 300598764,
+        "length": 124,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-11eac380-26c-11eac380",
+        "address": 300598144,
+        "length": 620,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      },
+      {
+        "id": "native-recovery-be9060-3a-be9060",
+        "address": 12488800,
+        "length": 58,
+        "policy": "mutable",
+        "matched": true,
+        "divergence": null,
+        "readOnlyDivergence": null
+      }
+    ],
+    "registers": [
+      {
+        "name": "ebx",
+        "expected": 6,
+        "actual": 6,
+        "matched": true
+      },
+      {
+        "name": "ebp",
+        "expected": 0,
+        "actual": 0,
+        "matched": true
+      },
+      {
+        "name": "esi",
+        "expected": 11704928,
+        "actual": 11704928,
+        "matched": true
+      },
+      {
+        "name": "edi",
+        "expected": 12494152,
+        "actual": 12494152,
+        "matched": true
+      },
+      {
+        "name": "esp",
+        "expected": 14417380,
+        "actual": 14417380,
+        "matched": true
+      }
+    ],
+    "firstDivergence": null,
+    "nativeScenario": {
+      "available": true,
+      "logicalClockBefore": 228,
+      "logicalClockAfter": 228,
+      "movingVehiclesBefore": 2,
+      "movingVehiclesAfter": 2,
+      "translatedVehicles": 1,
+      "vehicles": [
+        {
+          "index": 0,
+          "beforeAddress": 280041728,
+          "afterAddress": 280041728,
+          "sameBody": true,
+          "flagsBefore": 7171,
+          "flagsAfter": 7171,
+          "velocityBeforeQ16": [
+            0,
+            0,
+            0
+          ],
+          "velocityAfterQ16": [
+            0,
+            0,
+            0
+          ],
+          "positionBeforeQ16": [
+            -144068483,
+            -1015624,
+            639135356
+          ],
+          "positionAfterQ16": [
+            -138215424,
+            -1835008,
+            663158784
+          ],
+          "positionDeltaQ16": [
+            5853059,
+            -819384,
+            24023428
+          ]
+        },
+        {
+          "index": 1,
+          "beforeAddress": 280277120,
+          "afterAddress": 280277120,
+          "sameBody": true,
+          "flagsBefore": 7171,
+          "flagsAfter": 7171,
+          "velocityBeforeQ16": [
+            0,
+            0,
+            0
+          ],
+          "velocityAfterQ16": [
+            0,
+            0,
+            0
+          ],
+          "positionBeforeQ16": [
+            -154606093,
+            68087,
+            627706227
+          ],
+          "positionAfterQ16": [
+            -154606093,
+            68087,
+            627706227
+          ],
+          "positionDeltaQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 2,
+          "beforeAddress": 280470272,
+          "afterAddress": 280470272,
+          "sameBody": true,
+          "flagsBefore": 7171,
+          "flagsAfter": 7171,
+          "velocityBeforeQ16": [
+            -574,
+            -1875,
+            -1688
+          ],
+          "velocityAfterQ16": [
+            -574,
+            -1875,
+            -1688
+          ],
+          "positionBeforeQ16": [
+            -136388757,
+            -371218,
+            625858066
+          ],
+          "positionAfterQ16": [
+            -136388757,
+            -371218,
+            625858066
+          ],
+          "positionDeltaQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "beforeAddress": 280675072,
+          "afterAddress": 280675072,
+          "sameBody": true,
+          "flagsBefore": 7171,
+          "flagsAfter": 7171,
+          "velocityBeforeQ16": [
+            0,
+            0,
+            0
+          ],
+          "velocityAfterQ16": [
+            0,
+            0,
+            0
+          ],
+          "positionBeforeQ16": [
+            -162256986,
+            1111234,
+            615151974
+          ],
+          "positionAfterQ16": [
+            -162256986,
+            1111234,
+            615151974
+          ],
+          "positionDeltaQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "beforeAddress": 280885632,
+          "afterAddress": 280885632,
+          "sameBody": true,
+          "flagsBefore": 7171,
+          "flagsAfter": 7171,
+          "velocityBeforeQ16": [
+            0,
+            0,
+            0
+          ],
+          "velocityAfterQ16": [
+            0,
+            0,
+            0
+          ],
+          "positionBeforeQ16": [
+            -131769712,
+            200092,
+            613398816
+          ],
+          "positionAfterQ16": [
+            -131769712,
+            200092,
+            613398816
+          ],
+          "positionDeltaQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 5,
+          "beforeAddress": 281096192,
+          "afterAddress": 281096192,
+          "sameBody": true,
+          "flagsBefore": 7171,
+          "flagsAfter": 7171,
+          "velocityBeforeQ16": [
+            -619,
+            481,
+            -1334
+          ],
+          "velocityAfterQ16": [
+            -619,
+            481,
+            -1334
+          ],
+          "positionBeforeQ16": [
+            -147546934,
+            647563,
+            614147159
+          ],
+          "positionAfterQ16": [
+            -147546934,
+            647563,
+            614147159
+          ],
+          "positionDeltaQ16": [
+            0,
+            0,
+            0
+          ]
+        }
+      ],
+      "identity": {
+        "available": true,
+        "stable": true,
+        "changedFields": [],
+        "before": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 3,
+          "selectedLevelNumber": 4,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV4",
+          "selectedBlpResource": "HIGH/LEV4.BLP",
+          "selectedBtpResource": "HIGH/LEV4.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 1,
+          "selectedTrackLocalByte": 1,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            0,
+            3,
+            2,
+            1,
+            5
+          ],
+          "activeVehicleTypes": [
+            6,
+            0,
+            3,
+            2,
+            1,
+            5
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        },
+        "after": {
+          "available": true,
+          "sessionAddress": 11704928,
+          "configurationAddress": 11696608,
+          "selectedTrackIndex": 3,
+          "selectedLevelNumber": 4,
+          "qualityByte": 1,
+          "selectedDirectory": "HIGH",
+          "selectedTrackStem": "HIGH/LEV4",
+          "selectedBlpResource": "HIGH/LEV4.BLP",
+          "selectedBtpResource": "HIGH/LEV4.BTP",
+          "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+          "selectedTrackFamilyByte": 1,
+          "selectedTrackLocalByte": 1,
+          "participantCount": 6,
+          "sessionVehicleTypes": [
+            6,
+            0,
+            3,
+            2,
+            1,
+            5
+          ],
+          "activeVehicleTypes": [
+            6,
+            0,
+            3,
+            2,
+            1,
+            5
+          ],
+          "participantModeBytes": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "spawnIndexBytes": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "sessionModeByte": 0,
+          "sessionAttractByte": 1,
+          "sessionPhase": 4,
+          "directlyCapturedTrackStem": {
+            "available": false,
+            "reason": "Native track-name buffer6e6660 is not declared."
+          },
+          "limits": [
+            "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+            "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+            "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+          ]
+        }
+      },
+      "limits": [
+        "Velocity/position observations do not classify wheel, wall or car-pair contacts.",
+        "Queue emptiness is not evidence that no events were dispatched within the frame."
+      ]
+    },
+    "numericalContext": {
+      "x87": {
+        "controlWord": 127,
+        "roundingMode": "nearest-even",
+        "precisionBits": 24,
+        "exceptionMask": 63
+      },
+      "sse": {
+        "mxcsr": 8103,
+        "roundingMode": "nearest-even",
+        "exceptionMask": 63,
+        "flushToZero": false,
+        "denormalsAreZero": false
+      }
+    },
+    "sourceReport": {
+      "stage": "recovery-parent",
+      "respawnedBodies": 1,
+      "retiredBodies": 0,
+      "registersCompared": [
+        "ebx",
+        "ebp",
+        "esi",
+        "edi",
+        "esp"
+      ],
+      "limits": [
+        "Reached completion/audio services remain their real required handlers; none are replaced with inert callbacks.",
+        "Checkpoint backing is bounded by actual captured IDs; missing rows/storage fail instead of supplying authored or zero-filled data.",
+        "The caller must compare route/checkpoint/controller/emission descendants reached beyond core/geometry declarations."
+      ]
+    }
+  },
+  "audio": {
+    "matched": true,
+    "comparedBytes": 8292,
+    "regions": [
+      {
+        "id": "owner",
+        "address": 284443136,
+        "length": 1168,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "wrapper",
+        "address": 395403680,
+        "length": 12,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "source",
+        "address": 395403720,
+        "length": 2472,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "channel-storage",
+        "address": 395406216,
+        "length": 4,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "manager",
+        "address": 147075264,
+        "length": 3444,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-830-header",
+        "address": 147073176,
+        "length": 12,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-830-storage",
+        "address": 269159552,
+        "length": 376,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-834-header",
+        "address": 147073216,
+        "length": 12,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-834-storage",
+        "address": 395392344,
+        "length": 564,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-838-header",
+        "address": 147073256,
+        "length": 12,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-838-storage",
+        "address": 395317784,
+        "length": 112,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-83c-header",
+        "address": 147073296,
+        "length": 12,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-83c-storage",
+        "address": 394758880,
+        "length": 52,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-840-header",
+        "address": 147073336,
+        "length": 12,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-84c-header",
+        "address": 147073456,
+        "length": 12,
+        "matched": true,
+        "difference": null
+      },
+      {
+        "id": "vector-84c-storage",
+        "address": 147149704,
+        "length": 16,
+        "matched": true,
+        "difference": null
+      }
+    ]
+  },
+  "inputAdmissions": [
+    {
+      "id": "constructor-empty-strings",
+      "address": 8715872,
+      "length": 96,
+      "originalOrdinal": 253
+    },
+    {
+      "id": "constructor-fallback-name",
+      "address": 9110304,
+      "length": 24,
+      "originalOrdinal": 253
+    },
+    {
+      "id": "constructor-one",
+      "address": 9160564,
+      "length": 4,
+      "originalOrdinal": 253
+    },
+    {
+      "id": "backend-vtable",
+      "address": 9126272,
+      "length": 4,
+      "originalOrdinal": 238
+    },
+    {
+      "id": "cache-path-259",
+      "address": 148879946,
+      "length": 1024,
+      "originalOrdinal": 259
+    },
+    {
+      "id": "cache-path-260",
+      "address": 272392722,
+      "length": 1024,
+      "originalOrdinal": 260
+    },
+    {
+      "id": "cache-path-261",
+      "address": 271911002,
+      "length": 1024,
+      "originalOrdinal": 261
+    },
+    {
+      "id": "cache-path-262",
+      "address": 272388578,
+      "length": 1024,
+      "originalOrdinal": 262
+    },
+    {
+      "id": "cache-path-263",
+      "address": 271916258,
+      "length": 1024,
+      "originalOrdinal": 263
+    },
+    {
+      "id": "cache-path-264",
+      "address": 270050410,
+      "length": 1024,
+      "originalOrdinal": 264
+    },
+    {
+      "id": "cache-path-265",
+      "address": 274612658,
+      "length": 1024,
+      "originalOrdinal": 265
+    },
+    {
+      "id": "cache-path-266",
+      "address": 269496170,
+      "length": 1024,
+      "originalOrdinal": 266
+    },
+    {
+      "id": "cache-path-267",
+      "address": 283206058,
+      "length": 1024,
+      "originalOrdinal": 267
+    },
+    {
+      "id": "cache-path-268",
+      "address": 283965994,
+      "length": 1024,
+      "originalOrdinal": 268
+    },
+    {
+      "id": "cache-path-269",
+      "address": 283793458,
+      "length": 1024,
+      "originalOrdinal": 269
+    },
+    {
+      "id": "cache-path-270",
+      "address": 283798714,
+      "length": 1024,
+      "originalOrdinal": 270
+    },
+    {
+      "id": "cache-path-271",
+      "address": 283204098,
+      "length": 1024,
+      "originalOrdinal": 271
+    },
+    {
+      "id": "cache-path-272",
+      "address": 274613770,
+      "length": 1024,
+      "originalOrdinal": 272
+    },
+    {
+      "id": "cache-path-273",
+      "address": 284183762,
+      "length": 1024,
+      "originalOrdinal": 273
+    },
+    {
+      "id": "cache-path-274",
+      "address": 284186946,
+      "length": 1024,
+      "originalOrdinal": 274
+    },
+    {
+      "id": "cache-path-275",
+      "address": 283791810,
+      "length": 1024,
+      "originalOrdinal": 275
+    },
+    {
+      "id": "cache-path-276",
+      "address": 284232538,
+      "length": 1024,
+      "originalOrdinal": 276
+    },
+    {
+      "id": "cache-path-277",
+      "address": 274616954,
+      "length": 1024,
+      "originalOrdinal": 277
+    },
+    {
+      "id": "cache-path-278",
+      "address": 283998538,
+      "length": 1024,
+      "originalOrdinal": 278
+    },
+    {
+      "id": "cache-path-279",
+      "address": 274633730,
+      "length": 1024,
+      "originalOrdinal": 279
+    },
+    {
+      "id": "cache-path-280",
+      "address": 284297642,
+      "length": 1024,
+      "originalOrdinal": 280
+    },
+    {
+      "id": "cache-path-281",
+      "address": 274638986,
+      "length": 1024,
+      "originalOrdinal": 281
+    },
+    {
+      "id": "cache-path-282",
+      "address": 284371594,
+      "length": 1024,
+      "originalOrdinal": 282
+    },
+    {
+      "id": "cache-path-283",
+      "address": 284331714,
+      "length": 1024,
+      "originalOrdinal": 283
+    },
+    {
+      "id": "cache-path-284",
+      "address": 284330066,
+      "length": 1024,
+      "originalOrdinal": 284
+    },
+    {
+      "id": "cache-path-285",
+      "address": 274624282,
+      "length": 1024,
+      "originalOrdinal": 285
+    },
+    {
+      "id": "cache-path-286",
+      "address": 284437330,
+      "length": 1024,
+      "originalOrdinal": 286
+    },
+    {
+      "id": "cache-path-287",
+      "address": 284233730,
+      "length": 1024,
+      "originalOrdinal": 287
+    },
+    {
+      "id": "cache-path-288",
+      "address": 270056514,
+      "length": 1024,
+      "originalOrdinal": 288
+    },
+    {
+      "id": "cache-path-289",
+      "address": 284234842,
+      "length": 1024,
+      "originalOrdinal": 289
+    },
+    {
+      "id": "cache-path-290",
+      "address": 284238026,
+      "length": 1024,
+      "originalOrdinal": 290
+    },
+    {
+      "id": "cache-path-291",
+      "address": 284262666,
+      "length": 1024,
+      "originalOrdinal": 291
+    },
+    {
+      "id": "cache-path-292",
+      "address": 284657314,
+      "length": 1024,
+      "originalOrdinal": 292
+    },
+    {
+      "id": "cache-path-293",
+      "address": 284663618,
+      "length": 1024,
+      "originalOrdinal": 293
+    },
+    {
+      "id": "cache-path-294",
+      "address": 284520866,
+      "length": 1024,
+      "originalOrdinal": 294
+    },
+    {
+      "id": "cache-path-295",
+      "address": 284526122,
+      "length": 1024,
+      "originalOrdinal": 295
+    },
+    {
+      "id": "cache-path-296",
+      "address": 284524474,
+      "length": 1024,
+      "originalOrdinal": 296
+    },
+    {
+      "id": "cache-path-297",
+      "address": 284438442,
+      "length": 1024,
+      "originalOrdinal": 297
+    },
+    {
+      "id": "cache-path-298",
+      "address": 284439554,
+      "length": 1024,
+      "originalOrdinal": 298
+    },
+    {
+      "id": "cache-path-299",
+      "address": 284444810,
+      "length": 1024,
+      "originalOrdinal": 299
+    },
+    {
+      "id": "cache-path-300",
+      "address": 284762698,
+      "length": 1024,
+      "originalOrdinal": 300
+    },
+    {
+      "id": "cache-path-301",
+      "address": 284767954,
+      "length": 1024,
+      "originalOrdinal": 301
+    },
+    {
+      "id": "cache-path-302",
+      "address": 284717034,
+      "length": 1024,
+      "originalOrdinal": 302
+    },
+    {
+      "id": "cached-reference-count",
+      "address": 284717012,
+      "length": 4,
+      "originalOrdinal": 302
+    },
+    {
+      "id": "cached-format",
+      "address": 284717016,
+      "length": 18,
+      "originalOrdinal": 302
+    },
+    {
+      "id": "mixer-vtable-pointer-305",
+      "address": 147153608,
+      "length": 4,
+      "originalOrdinal": 305
+    },
+    {
+      "id": "mixer-id-305",
+      "address": 147153616,
+      "length": 4,
+      "originalOrdinal": 305
+    },
+    {
+      "id": "mixer-slot-zero-305",
+      "address": 9124776,
+      "length": 4,
+      "originalOrdinal": 305
+    },
+    {
+      "id": "mixer-vtable-pointer-306",
+      "address": 147150352,
+      "length": 4,
+      "originalOrdinal": 306
+    },
+    {
+      "id": "mixer-id-306",
+      "address": 147150360,
+      "length": 4,
+      "originalOrdinal": 306
+    },
+    {
+      "id": "mixer-slot-zero-306",
+      "address": 9124776,
+      "length": 4,
+      "originalOrdinal": 306
+    },
+    {
+      "id": "selected-mixer-voice",
+      "address": 147150424,
+      "length": 4,
+      "originalOrdinal": 306
+    },
+    {
+      "id": "COM-engine",
+      "address": 249169336,
+      "length": 4,
+      "originalOrdinal": 308
+    },
+    {
+      "id": "COM-vtable",
+      "address": 1706365840,
+      "length": 36,
+      "originalOrdinal": 308
+    }
+  ],
+  "deferredAllocatorOutputs": [
+    {
+      "id": "allocator-wrapper",
+      "address": 395403680,
+      "length": 12,
+      "originalOrdinal": 237,
+      "initializeAt": "matched-original-allocator-return"
+    },
+    {
+      "id": "allocator-source",
+      "address": 395403720,
+      "length": 2472,
+      "originalOrdinal": 252,
+      "initializeAt": "matched-original-allocator-return"
+    },
+    {
+      "id": "allocator-channel",
+      "address": 395406216,
+      "length": 4,
+      "originalOrdinal": 316,
+      "initializeAt": "matched-original-allocator-return"
+    },
+    {
+      "id": "allocator-playback-string",
+      "address": 395406248,
+      "length": 32,
+      "originalOrdinal": 321,
+      "initializeAt": "matched-original-allocator-return"
+    }
+  ],
+  "sourceEvents": [
+    {
+      "name": "operatorNew",
+      "allocation": "allocator-wrapper",
+      "address": 395403680,
+      "bytes": 12,
+      "originalOrdinal": 237
+    },
+    {
+      "name": "operatorNew",
+      "allocation": "allocator-channel",
+      "address": 395406216,
+      "bytes": 4,
+      "originalOrdinal": 316
+    },
+    {
+      "name": "memmove",
+      "originalOrdinal": 318,
+      "args": [
+        395406216,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "operatorNew",
+      "allocation": "allocator-playback-string",
+      "address": 395406248,
+      "bytes": 32,
+      "originalOrdinal": 321
+    },
+    {
+      "name": "memcpy",
+      "originalOrdinal": 323,
+      "args": [
+        395406248,
+        14412984,
+        20
+      ],
+      "returnedEcx": 0
+    },
+    {
+      "name": "EnterCriticalSection",
+      "args": [
+        147077428
+      ],
+      "stage": "playback"
+    },
+    {
+      "name": "GetCurrentThreadId",
+      "args": [],
+      "stage": "playback"
+    },
+    {
+      "name": "LeaveCriticalSection",
+      "args": [
+        147077428
+      ],
+      "stage": "playback"
+    },
+    {
+      "name": "operatorDelete",
+      "args": [
+        395406248
+      ],
+      "returnKind": "void; native volatile registers not supplied"
+    }
+  ],
+  "sourceCheckpoints": [
+    {
+      "stage": "adaptive-channel-selected",
+      "wrapper": 395403680,
+      "source": 395403720,
+      "vector": 395406216,
+      "vectorEnd": 395406220
+    }
+  ],
+  "factoryExternalEvents": 16,
+  "playbackComplete": true,
+  "limits": [
+    "Actual empty adaptive owner-vector branch only; reused/positional/callable paths remain explicit errors.",
+    "Allocation preimages are genuine external outputs admitted only at validated allocator returns; no initialized game child output is supplied.",
+    "Original memcpy return registers come only from its observed external boundary; complete CPU/CRT private ABI remains unclaimed.",
+    "Additional original cache/mixer/COM read inputs are admitted explicitly; this is not a reconstruction of their complete prior initialization or concurrent producers.",
+    "Only declared semantic output and listed audio regions are compared. Full private CPU/CRT stack and uninterrupted original trajectories remain outside this check."
+  ]
+}

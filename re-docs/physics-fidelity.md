@@ -10,14 +10,79 @@ The Track Viewer remains **Super experimental**. LEV16/17 remain excluded. Exist
 | --- | --- | --- |
 | Gravity and initialization | Exact shipped data, writers and reached startup state | Corrected to native normal `0x10000`, including the verified configuration selector. Original process confirms 65536. Other startup defaults still need systematic comparison. |
 | Clock | Outer timer/scheduling, logical tick and HUD conversion | Corrected to recovered nominal 30 ticks/s; exact wrapped native timer and integer catch-up tail verified. Uninterrupted original cadence/render gating remains open. |
-| Numerical environment | Original x87 control/status, MXCSR, entry registers and inputs | Native startup is PC53, renderer/race entry PC24, nearest-even in both captures. Exact PC24 attachment arithmetic is connected; other reached operations still require context audit. |
-| Controlled vehicle replay | Native state before/after each ordered stage, exact first divergence | Ten native frames match610 source stage comparisons. Three complete three-frame windows also match independent and carried replay: launch228..230, moving288..290, and terrain-contact348..350. All six cars move in the latter windows; each moving/contact frame compares4,880,872 declared bytes. An opt-in continuation now produces443d90 speed/timer feedback itself and protects every owned byte from captured patches. Remaining native producers and caller ABI inputs are still supplied, not a closed source-only trajectory. |
+| Numerical environment | Original x87 control/status, MXCSR, entry registers and inputs | Native startup is PC53, main renderer/race entry PC24, nearest-even. V15's actual audio-worker checkpoint retains PC53 (`CW027f`, `MXCSR1fa0`), so worker replay must use its own observed context. Exact PC24 attachment arithmetic is connected; other reached operations still require context audit. |
+| Controlled vehicle replay | Native state before/after each ordered stage, exact first divergence | Ten native frames match610 source stage comparisons. Three complete three-frame windows also match independent and carried replay: launch228..230, moving288..290, and terrain-contact348..350. All six cars move in the latter windows; each moving/contact frame compares4,880,872 declared bytes. A fresh three-frame drive continuation compares4,902,122 bytes per frame and produces384 protected motion/timer/drive bytes across two transitions. Remaining native producers and caller ABI inputs are still supplied, not a closed source-only trajectory. |
+| Joined parent prefix and physics | Actual parent entry, independent AI/physics boundaries and carried source output | V4 matches the complete prephysics prefix and following physics at4,984,964 listed bytes (4,984,832 unique),720 protected controls and28 parent ABI bytes, with seven source-derived entry registers. All six cars move and24 wheel queries hit. This is one call, with no queued collision responses; the postphysics parent tail, next tick and wider native scenarios remain open. |
+| Source-carried parent through drive | Independent original checkpoints after attachments, recovery and drive without native state refresh | A new native run matches all three checkpoints at4,947,762 unique semantic bytes, continuing the same source AI/prefix/physics output. Four type2 attachment points update; ordinary recovery respawns/retires zero bodies. Pickup transition state updates; active combat remains unobserved. Wheel/camera/weather/final parent return and continuous racing remain open. |
 | Forces and damping | Live shared-memory producers and consumers | Live recovered globals/body caches connected. Native class-two deferred effects can now publish their actual force events. Other event producers remain open. |
 | Track and car collision | Terrain, surfaces, walls, ceilings, inverted driving, pairs | Whole frames348..350 match13/9/7 source responses. Selected native cases directly match two physical-camera/border7 events and four car-chassis/car-chassis events (swept and penetration), plus each complete declared frame state. Chassis-wall/ceiling/inverted and broader car-pair profile/condition coverage remain open. |
 | Moving/destructible world | Full object construction, scripts, registry and pending effects | Ordinary and nonordinary placement construction, native scripted motion, lights/attachments, class-one/two contacts, type-four damage, destruction queue and fragment physics lifecycle connected. Moving ordinary meshes render from native poses. Render visibility attachment-effect queue production, animated UVs, deforming/fragment/particle rendering and native scenario comparisons remain open. |
 | Deforming terrain | Actual494c80 startup,494f60 gates and live geometry consumers | Connected to Racing test with actual physical camera416180/416400/4180a0 lifecycle, phase-zero construction and live collision forms/surface flags. LOW/HIGH LEV4/14/18 use native deformation gates. LEV8's44a5c0/44a7a0 point lifecycle now restores XYZ before physics while preserving late surface flags. Actual44d960 ages dirty ranges and consumes lights. Edge checks exact GPU uploads and complete Node/browser state for LOW LEV4/8/14/18. Original dirty-range lighting/GPU consumption and native camera/terrain scenario comparisons remain open. |
-| Weapons and recovery | Original producers, collision/force effects, transitions | Genuine pickup/projectile/contact startup and48d7c0 coordinator now run in Racing test, preserving mode1 pickup gating and native surface-drive decay/caps. Active combat/native weapon scenarios remain open. Controlled native47d040 query and47d440 application match4,903,324 and4,970,512 bytes. Audio caller/constructor and V9 declared-data cached factory match separately. The connected V12 parent reaches14 factory external outcomes but stops on genuine background concurrency; complete47ccc0 output and natural rejection remain open. |
+| Weapons and recovery | Original producers, collision/force effects, transitions | Genuine pickup/projectile/contact startup and48d7c0 coordinator now run in Racing test, preserving mode1 pickup gating and native surface-drive decay/caps. Active combat/native weapon scenarios remain open. Controlled native47d040 query and47d440 application match4,903,324 and4,970,512 bytes. Connected V13 parent completes recovery/factory/channel/play request and matches4,990,925 declared semantic bytes plus8,292 listed audio bytes with explicit service/read inputs. It does not close V11/V12 concurrency failures, private CPU/CRT ABI, audible output or natural rejection. |
 | Coverage | Seven ordinary vehicles; 18 racing levels in LOW/HIGH; physical scenario matrix | After camera/terrain integration, all252 track/type combinations pass300 reconstructed ticks; all seven LOW/LEV1 types also match the browser bundle every tick. The six-car matrix independently passes all36 variants and its3000-tick LOWLEV1 window. Earlier destruction/600-tick coverage remains retained. Native scenario matrix and longer all-track lap coverage remain open. |
+
+The [worker leaf audit](../analysis/native-worker-gain-leaf-next-scope-audit-20261023.json)
+binds V15's recorded PC53 context to eleven target-checked retained evidence
+files. A genuine4b12d0 entry/4b1990 RET8 pair needs a new explicit two-endpoint
+owned-worker policy; the current one-snapshot lookup policy cannot prove it.
+The original source argument is overwritten with a gain float before return,
+so pairing must retain entry identity. Mixer pointees, waveform/voice contents,
+actual caller/force words and reached external service outcomes remain inputs
+to observe. This is a next-capture specification, not a native worker match.
+
+## Experimental weapons in Racing test
+
+The optional **Weapons & pickups (experimental)** control now rebuilds the
+six-Expert race in native mode0 with its original pickup option enabled.
+Authored pickup locations, respawn/collection/weighted awards, AI firing,
+projectile movement, detonation/forces and retirement use recovered algorithms.
+The renderer shows original pickup/projectile meshes, gold authored spawn
+markers and the selected car's two inventory slots. Sounds, trails and several
+effects remain outside the presentation. See [component scope](solo-experimental-weapons.md).
+
+The [fixed source matrix](../analysis/solo-weapons-matrix-600ticks-fixed-20261023.json)
+passes all36 LOW/HIGH racing variants for600 ticks with no grants or
+repositioning:21,600 world updates,91 observed collection transitions and44
+projectile activations. Resource hashes and the source bundle remain unchanged
+throughout. The earlier35/36 report preserves HIGH/LEV15's missing active
+vehicle-effect binding; the correction calls real482730 with the controller,
+lookup and stack produced by original startup/physics. Its natural600-tick
+regression compares complete Node/browser state and actual shield bytes.
+
+The [actual Edge check](../analysis/viewer-experimental-weapons-browser-final-20261023/report.json)
+passes700 real DOM single-steps, full Node/browser equality every10 ticks,
+pickup/projectile drawing, collection/AI launch/movement/detonation/release,
+terrain-wave state, toggle/reset/follow/mobile and excluded-level cleanup,
+with zero page/WebGL/HTTP errors. The [weapons-off check](../analysis/viewer-weapons-default-regression-20261023/report.json)
+still passes150 ticks and the existing camera/follow/roster controls.
+These are source/browser checks, not original-process active-combat parity.
+
+The first launch failure was a three-byte-short copied5ec408 configuration.
+Its exact128 original bytes now match independent retained evidence and the
+SHA-verified executable, including mass8192/inverse-mass524288. No speed clamp
+or root workaround masks the original fault on the malformed input; see
+[configuration correction](projectile-body-configuration.md).
+
+The final [weapons/parent-tail regression](../analysis/physics-weapons-parent-tail-regression-20261023.txt)
+passes2,384 tests across456 selected files in490.716s, with zero failures/skips.
+The previously security-rejected deferred-breakpoint file remains explicitly
+excluded. All1,594 frozen implementation/generated files still match, with
+no additions ([verification](../analysis/physics-weapons-parent-tail-source-freeze-verified-20261023.json)).
+The earlier2,358-test V4 checkpoint below remains historical evidence.
+
+## Native postphysics continuation
+
+The [new original-process run](../analysis/native-parent-tail-v1-observed-transitions-20261023/report.json)
+continues one carried source execution through AI, physics, attachments,
+ordinary recovery and drive. Each tail checkpoint matches4,947,762 unique
+semantic bytes. The original HIGH/LEV2 clock288 run preserves selectors
+`[6,4,1,2,3,0]`, four type2 attachment writes, pickup transition updates and
+zero respawns/retirements; all24 projectiles are inactive. Cleanup terminates
+the owned process at49.039 seconds, and all171 original/copied files match.
+The first pickup-transition error is retained; its96 bytes were physically
+observed already and needed an explicit source-owned alias. No later native
+state was admitted to repair the source. The full parent return, next tick and
+active-combat scenarios remain open. See [parent-tail scope](native-parent-tail.md).
 
 ## Evidence policy
 
@@ -262,13 +327,120 @@ The fresh optional services-playback V12 run observes actual4053d5/4053da memcpy
 
 Explicit source continuations now connect the real47ccc0 shared stack to the adaptive owner/factory graph. Additional actual cache/mixer/COM read inputs are declared separately; all allocator preimages are applied only at matching actual returns. Exact source-known image aliases share captured module storage and preserve opaque heap pointers. The [connected V12 attempt](../analysis/physics-native-controlled-recovery-parent-audio-v12-aliased-attempt-20261023/report.json) reaches14 factory external outcomes, then fails explicitly on an unbound concurrent waiter transition. No finished native source or manager answer is substituted. V12 also observes background game-wrapper depth/owner writes. Separately, actual main-thread allocator/memmove observations explain another active-vector growth whose real requested span exceeds the four bytes captured by the owner-vector profile; the header relocation alone is not evidence of a background writer. Complete source parent, channel/playback output and concurrent producer reconstruction remain unverified. The earlier unaliased attempt and separate V11 concurrency failure remain retained.
 
+The subsequent [V13 connected comparison](../analysis/physics-native-controlled-recovery-parent-audio-v13-attempt-20261023/report.json) completes and matches4,990,925 declared semantic comparison bytes and8,292 listed audio bytes across16 regions; native callee-preserved/stack-register invariants hold. Those register rows check the native before/after preservation contract, not a synthesized source CPU register file. Actual active capacity is97/141, so there is no growth and no claim to V12's missing allocation tail. The observed80-byte worker object/TID associates with owned create-thread evidence; its lookup caller path remains unobserved. Source execution uses59 declared read-before-use spans, four allocator-return preimages and16 typed external factory outcomes. Full private CPU/CRT ABI and audible/rendered playback remain unclaimed. V13 completed329 snapshots/94 nested observations in46.930 seconds, cleaned up at46.987 seconds, and preserves all171 original/copied hashes. Its different schedule does not explain the V11/V12 concurrency failures. See [bounded success and limits](native-recovery-adaptive-audio.md).
+
+The [V14 worker capture](../analysis/physics-native-controlled-recovery-worker-v14-20261023/report.json) now proves the actual immediate manager-gain caller4b1304 and mixer ID1 from an observed4a79f0 entry. Owned create-thread provenance, a guarded one-snapshot admission, raw context and the80-byte worker object independently bind the process/thread/callback identity. ESI is retained but not dereferenced. The optional53rd site shares all original budgets; the52 earlier sites retain their frame-thread scope. Cleanup completed at44.314 seconds, with all171 installed/copied hashes intact. This observes one worker lookup; it does not establish its complete parent chain, source parameter output or concurrent producer replay.
+
+The standalone [audio source parameter port](audio-source-parameters.md) now executes4a7c10 and the naturally selected nonspatial/effect-free4b12d0 branch with actual mixer/decoder/stream-format children. All496 constructed retained-instruction cases pass, including strict relocated sparse memory, private stack and ordered external-call comparisons. The narrow scalar-SSE interpreter fix has independent NaN-bit regressions. The subsequent [manager port](audio-manager-update.md) executes real4a6600 and supported4a6b60 branches through genuine mixer and source-parameter children. Its192 constructed cases and22 related tests pass. Spatial/queued/large-sort and some relocated children remain gaps; none of these instruction checks removes the connected V12 concurrency failure or proves a complete native worker tick.
+
 ## Source-produced motion feedback between native frames,2026-10-23
 
 The opt-in443d90 continuation executes real vehicle speed/timer/HUD feedback from carried physics output. Its30 declared regions total144 bytes per transition; all bytes, including unchanged ones, are compared against the next native entry before external patches and excluded from those patches. Across the three retained windows,864 owned bytes match and353 changed native bytes are now produced by source rather than supplied. All nine physics frames still match their full declared semantic comparison ([launch](../analysis/native-frame-motion-sequence-three-20261023/report.json), [moving](../analysis/native-frame-motion-sequence-moving-20261023/report.json), [contact](../analysis/native-frame-motion-sequence-turn-20261023/report.json)).
 
 The remaining supplied external changes are384209/402192/82176 bytes, with8200 ABI bytes per window. Genuine443d90 also writes shared sqrt scratch, which later unported stages overwrite; these post-continuation differences remain counted explicitly and do not become protected speed/timer matches. The default carried-replay policy and old reports are unchanged. This closes one actual feedback producer, not the other intervening game stages or uninterrupted trajectories. Standalone48d680 is insufficient to own final drive state because later48d7c0 also changes it.
 
-The combined recovery/audio/motion/viewer checkpoint passes92 focused tests,
+The subsequent [drive-feedback capture](../analysis/native-frame-drive-sequence-v1-20261023/report.json) observes the missing real module inputs and matches three moving frames at4,902,122 declared bytes each. Genuine443d90/48d680, reached49ac30/48d7c0 paths and469fd0 execute in the retained450e50 order. The36 protected regions total192 bytes per transition:384 bytes match across two transitions, including126 changed bytes. Actual wormhole mode0 prevents the procedural call; periodic processing is enabled but below its creation threshold. Other paths are not inferred from this run. External producers still supply211,903 bytes and caller ABI refresh supplies8,200 bytes. The ledger counts110/118 non-owned differences from the preceding native exit;106/114 already agree with the next native entry, while four shared sqrt scratch bytes differ from the later native producer. The second transition also includes one carried observation byte outside the declared physics comparison that already differed before this continuation. The [write audit](../analysis/native-frame-drive-produced-write-audit-v3-20261023.json) preserves these distinctions; this is not full parent output or source-only trajectory equality. Capture cleanup completed after46.075 seconds; all171 manifest files match in both installations before and after. The new optional observer adds bounded module reads without changing default frame profiles or race state.
+
+## Native AI checkpoint and original control-prefix boundaries
+
+The new observer records450e50 entry,450f18 after both AI sweeps, and4749e0
+entry on the same thread and logical clock. It checks the original parent
+argument, four saved registers,20-byte child stack displacement and451017
+return address. No game state is supplied. The first original run records
+six snapshots at clock288 on HIGH/LEV2, vehicle selectors[6,3,4,1,0,2],
+and cleans up at45.298 seconds. All171 original/copied file hashes match.
+
+The [current AI comparison](../analysis/native-frame-control-prefix-v1-explicit-native-state-20261023/report.json)
+executes genuine six-car410220 and431750 sweeps. Its450f18 checkpoint matches
+all4,906,636 declared bytes, including720 selected AI/control/handling bytes.
+The earlier three-byte shared-sqrt mismatch remains retained:430d90 had
+computed the correct velocity length but omitted41ca60's original root-input
+and CLZ publications. An explicit native numerical binding now computes those
+stores; the default structured-memory API stays free of image-global writes.
+Retained-instruction tests cover overflow reduction, zero/negative/minimum-int
+inputs and ordered stores. All62 affected AI tests pass.
+
+The first capture's complete prephysics replay stopped at actual485300 vehicle
+audio and lacked a separate authored-object pointer list. The later V3 run
+observes that list and optional audio graphs through actual pointer guards;
+it binds the original virtual-call frames and completes all six485300 calls.
+Its HIGH/LEV4 AI checkpoint matches4,994,515 declared bytes and all720 owned
+control bytes. The replay then stops at42a6e0's uncaptured stored controller
+packet byte009c7edd. No host polling, zero input or captured output is supplied
+to bypass it. The initial coverage failures and three-byte mismatch remain
+preserved. Neither completed source calls nor an AI checkpoint prove the
+remaining prefix or a continuous race. See the [V3 report](../analysis/native-frame-control-prefix-v3-20261023/report.json)
+and [control scope](native-frame-control-continuation.md).
+
+The subsequent V4 run captures the genuine six packet buffers and optional
+physics preRET. Its completed prephysics prefix and [joined source replay](native-control-physics.md)
+both match4,984,964 declared bytes (4,984,832 unique;132 overlap), all720
+protected control bytes and28 parent ABI bytes. Seven source-derived physics
+entry registers agree without native intermediate inputs. The joined call
+prepares14 bodies,2 scripted, and all six cars move with24 successful wheel
+queries. No queued collision responses occur in this call. Native race
+boundaries also verify PC24/nearest-even masked numerical mode. Cleanup takes
+45.458 seconds and all171 original/copied files match. This closes one genuine
+prephysics-plus-physics call; the outer postphysics tail, next tick and wider
+scenario matrix are still required. V1..V3 failures are preserved rather than
+retroactively repaired.
+
+The final [broad regression](../analysis/physics-fidelity-broad-regression-20261023-v2.txt)
+passes2,358 tests across448 files, zero failures/skips, in425.047s. It
+explicitly excludes the previously security-rejected
+`tests/native-deferred-breakpoint.test.mjs`; it is not an unqualified full-suite
+claim. All1,575 frozen implementation/generated-viewer files still match their
+recorded hashes afterward ([freeze verification](../analysis/physics-control-physics-source-freeze-verified-20261023.json)).
+The first broad run's2,339/2,340 result remains preserved. Its intermittent
+thread suspension failure was not reproduced; review corrected a separate
+documented [debug-handle ownership defect](native-debug-thread-handle-lifetime.md)
+without weakening live-thread checks or claiming exact causal attribution.
+
+The rebuilt [Racing test browser check](../analysis/physics-viewer-control-physics-v4-20261023/report.json)
+passes150 ticks with all six cars, follow selection, stable camera controls,
+browser/Node state equality and zero page/WebGL/external-request errors.
+The progress notice now describes the single joined original-game comparison.
+This browser check remains distinct from original-process trajectory evidence.
+
+The next concrete parent-tail dependency is44f050 attachment processing. A
+source-only [postphysics probe](../analysis/native-postphysics-observed-alias-probe-v4-20261023/report.json)
+uses the joined V4 output and reaches an actual missing type2 particle pointer
+at preferred80e7fc (handleID103). IDs103..106 need four observed DWORDs and
+their real target/spatial backing. The larger shared scratch span is already
+observed; its narrow aliases need a compatible source-owned merge, not new
+bytes. No native postphysics output is captured in V4, so the probe is a
+dependency diagnosis only. The wider [collision audit](../analysis/native-next-chassis-collision-audit-20261023.md)
+separately identifies a guarded force-input preflight; it does not claim a
+wall, ceiling or inverted collision result.
+
+The [final parent-tail audit](../analysis/native-postphysics-tail-audit-final-v4-20261023/report.json)
+pins44f050's actual preRET sites44f354/44f39a and caller return45101c. A
+general16KiB observation at80e660 is the decoded12-bit handle ID access
+domain, not a recovered table capacity. The four actual particle targets
+must still be checked after their pointer rows are captured. Separate isolated
+source probes reach47ccc0 with14 state0 bodies and zero respawn/retirement;
+the richer recovery binder still needs70eb00/44a8 backing. The drive stage
+also lacks its actual seven-pointer pickup list (28 bytes via902020 and
+902024). These probes do not establish ordered parent-tail or native parity.
+
+The selected-player auxiliary-input comparison now resolves its original image
+record base while retaining actual heap identities and native32-bit selected
+offset arithmetic. A separate sample-control fix translates only4ad641's
+return word and4ad650's expected target. Their preferred-base instruction
+checks pass6000+2000 and6400 constructed cases respectively; relocated sparse
+tests cover the changed address paths. These are source/address corrections,
+not additional native input/control scenarios.
+
+The later drive/audio V13 checkpoint passes151 tests across33 files, with
+zero failures or skips ([log](../analysis/physics-fidelity-focused-drive-audio-v13-20261023.txt)).
+It includes the retained V13 connected-parent positive and after-output
+corruption negative, preserved V11/V12 concurrency failures, worker/allocator
+proof negatives, the original drive-feedback window, source parameter
+instruction cases, related scalar interpreter forms and capture-loader checks.
+This is focused regression coverage; the previously documented host rejection
+of the separate native deferred-breakpoint fixture is not retested here.
+
+The earlier combined recovery/audio/motion/viewer checkpoint passes92 focused tests,
 with zero failures or skips ([log](../analysis/physics-fidelity-focused-recovery-motion-v12-20261023.txt)).
 It includes original V9/V11/V12 evidence, relocated instruction comparisons,
 strict concurrent-producer rejection, all three carried motion windows,

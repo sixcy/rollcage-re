@@ -1,3 +1,4 @@
+import {copyToNativeMemory,nativeMemorySpan} from './native-memory-spans.mjs';
 const get = (memory, address) => memory.readInt32LE(address);
 const pointer = (memory, address) => memory.readUInt32LE(address);
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
@@ -22,7 +23,7 @@ export function initializeRacePhaseAudioConstants(memory) {
 export function updateRaceAudioListeners(runtime) {
   const {memory, scratchBase} = runtime;
   const local = ((scratchBase - 4) & ~15) - 0x70, descriptor = local + 0x10;
-  memory.fill(0, descriptor, descriptor + 76);
+  nativeMemorySpan(memory,descriptor,76).fill(0);
   const positionScale = memory.readFloatLE(0x5dc5b8), velocityScale = memory.readFloatLE(0x5dc5d0), rotationScale = memory.readFloatLE(0x5dc5f4);
   for (let index = 0, record = 0x849490; record < 0x8495e0; record += 0x54, index++) {
     if (!memory[record - 16]) continue;
@@ -45,7 +46,7 @@ export function updateRaceAudioListeners(runtime) {
     if (index >= count) continue;
     const destination = pointer(memory, base + index * 4);
     if (!destination) continue;
-    for (const [offset, length] of [[0, 16], [16, 16], [32, 16], [48, 16], [64, 8]]) Buffer.from(memory.subarray(descriptor + offset, descriptor + offset + length)).copy(memory, destination + 4 + offset);
+    for (const [offset, length] of [[0, 16], [16, 16], [32, 16], [48, 16], [64, 8]]) copyToNativeMemory(memory,destination+4+offset,Buffer.from(memory.subarray(descriptor+offset,descriptor+offset+length)));
     put(memory, destination + 76, get(memory, descriptor + 72));
   }
 }

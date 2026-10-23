@@ -64,11 +64,15 @@ export function normalizeQuaternionQ16(quaternion,nativeState) {
  return quaternion.map(value=>multiplyQ16(value,scale));
 }
 // FUN_0041c9c0: vector length with the native squared-component overflow test.
-export function vectorLengthQ16(vector) {
+export function vectorLengthQ16(vector,nativeState) {
  let squared=vector.map(value=>multiplyQ16(value,value));
  const scale=squared.reduce((bits,value)=>bits|value,0)&0xe0000000?1:0;
  if(scale)squared=squared.map(value=>value>>>2);
- return sqrtQ16(squared.reduce(add32,0))<<scale;
+ const input=squared.reduce(add32,0);
+ //41c9c0 calls41ca60: numerical consumers can preserve its shared
+ //root-input/leading-zero publications without changing this pure default.
+ nativeState?.fixedSqrtQ16?.(input);
+ return sqrtQ16(input)<<scale;
 }
 export const signedShort=value=>(value<<16)>>16;
 // FUN_004334b0 consumes signed shorts, accumulates integer products, then shifts

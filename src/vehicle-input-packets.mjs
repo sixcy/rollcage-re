@@ -1,4 +1,5 @@
 import constants from './vehicle-input-constants.json' with {type: 'json'};
+import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
 const put32 = (memory, address, value) => memory.writeInt32LE(value | 0, address);
 const short = value => (value << 16) >> 16;
@@ -12,7 +13,11 @@ export function initializeVehicleInputConstants(memory) {
 // 433200. Capture raw controls/mask before zeroing the12-byte packet header.
 export function convertInputPacket(vehicleIndex, packet, status, {memory}) {
   const controls = memory.readUInt32LE(status), mask = memory.readInt16LE((0x90955e + Math.imul(vehicleIndex, 0x30c)) >>> 0);
-  memory.fill(0, packet, packet + 8); memory.fill(0, packet, packet + 8); put32(memory, packet + 8, 0); put32(memory, packet, 0xffff4100);
+  //43321f/223 repeat the same zero MOVQ before433227 clears the final
+  //DWORD. Preserve both low/high store pairs and the captured source reads.
+  put32(memory, packet, 0); put32(memory, packet + 4, 0);
+  put32(memory, packet, 0); put32(memory, packet + 4, 0);
+  put32(memory, packet + 8, 0); put32(memory, packet, 0xffff4100);
   if (!(memory[0x6eafe0] & 1)) {if ((vehicleIndex | 0) > 3) return;}
   else if ((vehicleIndex >>> 0) > 5 || memory.readInt32LE((0x6e7880 + Math.imul(vehicleIndex, 0x67c)) >>> 0) === 0) return;
   if (controls & 0x800) memory[packet + 2] = 0xf7;
@@ -81,7 +86,9 @@ export function pollInputPacket(vehicleIndex, pointerAddress, statusAddress, {me
       }
     }
   }
-  const packet = (0x6e7edc + offset) >>> 0;
+  //471377's source-known image literal becomes an actual pointer. Its
+  //published body724 value must retain nativeASLR identity, not the alias.
+  const packet = resolveNativeMemoryAddress(memory, (0x6e7edc + offset) >>> 0, 12);
   if (typeof transformPacket !== 'function') throw Error('Input packet retrieval requires recovered433200 transform.');
   transformPacket(packet, statusAddress, {memory});
   const liveFlags = memory.readUInt32LE(0x6eafe0);

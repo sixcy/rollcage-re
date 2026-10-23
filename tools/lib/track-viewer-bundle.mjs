@@ -25,8 +25,11 @@ export async function buildViewerBundle(entry = 'tools/track-viewer/app.mjs') {
       const name = binding.trim().replace(/^\*\s+as\s+/, '');
       return `const ${destructuring(name)} = require(${JSON.stringify(dependencyFor(relative))});`;
     });
-    const exports = [];
-    code = code.replace(/^export (async )?(class|function|const|let) (\w+)/gm, (_, async, kind, name) => { exports.push(name); return `${async ?? ''}${kind} ${name}`; });
+    const exports = [], functions = [];
+    code = code.replace(/^export (async )?(class|function|const|let) (\w+)/gm, (_, async, kind, name) => {
+      exports.push(name); if (kind === 'function') functions.push(name);
+      return `${async ?? ''}${kind} ${name}`;
+    });
     code = code.replace(/^export\s*\{([^}]+)\}(?:\s+from\s+['"]([^'"]+)['"])?\s*;/gm, (_, names, relative) => {
       const entries = names.split(',').map(value => value.trim()).filter(Boolean).map(value => value.split(/\s+as\s+/));
       if (relative) return `Object.assign(module.exports, Object.fromEntries(${JSON.stringify(entries)}.map(([source, target = source]) => [target, require(${JSON.stringify(dependencyFor(relative))})[source]])));`;
@@ -34,7 +37,10 @@ export async function buildViewerBundle(entry = 'tools/track-viewer/app.mjs') {
       return '';
     });
     if (/^\s*(import|export)\s/m.test(code)) throw new Error(`Unsupported module syntax in ${id}`);
-    modules.set(id, `${code}\nObject.assign(module.exports, {${exports.join(',')}});`);
+    //ES module function declarations are initialized before a circular import
+    //is evaluated. Publish their hoisted bindings before requiring children;
+    //otherwise game-network-protocol/projectile-launch capture undefined.
+    modules.set(id, `Object.assign(module.exports, {${functions.join(',')}});\n${code}\nObject.assign(module.exports, {${exports.join(',')}});`);
     for (const dependency of imports) await visit(dependency);
   }
   for (const id of entries) await visit(id);

@@ -1,6 +1,7 @@
 import {obtainViewportApplication} from './application-bootstrap.mjs';
+import {copyToNativeMemory,nativeMemorySpan} from './native-memory-spans.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
-const copy = (m, dest, source, size) => Buffer.from(m.subarray(source, source + size)).copy(m, dest);
+const copy = (m, dest, source, size) => copyToNativeMemory(m,dest,Buffer.from(m.subarray(source,source+size)));
 const stringData = (m, object) => ptr(m, object + 20) > 15 ? ptr(m, object) : object;
 const cLength = (m, data) => {let end = data; while (m[end]) end++; return end - data;};
 function allocate(runtime, size) {if (typeof runtime.handlers?.allocate !== 'function') throw Error('Viewport map requires CRT allocation.'); const result = runtime.handlers.allocate(size, runtime) >>> 0; if (!result) throw Error('Viewport CRT allocation failed.'); return result;}
@@ -126,7 +127,7 @@ export function queryWeatherViewport(name, xOut, yOut, widthOut, heightOut, runt
 //40ac40 /40acc0 construct the original mutable eight-byte player-view name.
 export function readWeatherViewportExtent(height, runtime) {
   const {memory: m, scratchBase} = runtime, frame = scratchBase - 0x124;
-  put(m, frame + 0x11c, ptr(m, 0x5e8890) ^ frame); m[frame + 0x18] = m[0x5d025c]; blockName(m, frame + 0x10); m.fill(0, frame + 0x19, frame + 0x114);
+  put(m, frame + 0x11c, ptr(m, 0x5e8890) ^ frame); m[frame + 0x18] = m[0x5d025c]; blockName(m, frame + 0x10); nativeMemorySpan(m,frame+0x19,251).fill(0);
   queryWeatherViewport(frame + 0x10, frame + 8, height ? frame + 4 : frame + 4, height ? frame + 12 : frame, height ? frame : frame + 12, {...runtime, scratchBase: frame - 16});
   return get(m, frame);
 }

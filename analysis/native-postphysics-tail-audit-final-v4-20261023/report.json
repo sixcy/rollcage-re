@@ -1,0 +1,306 @@
+{
+  "method": "read-only-next-scope-native-parent-tail-audit",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "authority": "Source dependency execution only; V4 contains no native postphysics output snapshots",
+  "evidenceIds": [
+    "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+    "ev_4502f565cb85fa0e089f28625c9dbeca4c74d6daec4887fb4b753378fa3580aa",
+    "ev_b9ab8b14c0affb661a9411d957ed11316ec5017676e0587a0224e8440a223faa"
+  ],
+  "sourceFreeze": "analysis/physics-control-physics-source-freeze-20261023.json",
+  "nativeBaseline": "analysis/native-control-physics-v4-reviewed-20261023/report.json",
+  "moduleBaseAddress": 7208960,
+  "clock": 288,
+  "directChildEsp": 5242276,
+  "parentEntryEsp": 5242296,
+  "probeReports": [
+    "analysis/native-postphysics-dependency-audit-v4-20261023/report.json",
+    "analysis/native-postphysics-observed-alias-probe-v4-20261023/report.json",
+    "analysis/native-postphysics-isolated-dependencies-v4-20261023/report.json"
+  ],
+  "firstProducer": {
+    "entry": 4517968,
+    "caller": 4526103,
+    "returnAddress": 4526108,
+    "preRet": [
+      4518740,
+      4518810
+    ],
+    "entryEsp": 5242276,
+    "queueCount": 1,
+    "queued": [
+      {
+        "body": 263703424,
+        "type": 20,
+        "model": 62535320,
+        "handles": [
+          8295,
+          8296,
+          8297,
+          8298,
+          0
+        ]
+      }
+    ],
+    "scratch": {
+      "preferredAddress": 9555376,
+      "address": 12570032,
+      "length": 1700,
+      "allActualBytesAlreadyCaptured": true,
+      "problem": "Existing source requires one complete scratch Buffer; current image alias segments prohibit that span. A compatible alias can admit only the already captured1700bytes."
+    },
+    "firstActuallyMissingInput": {
+      "preferredAddress": 8447996,
+      "address": 11462652,
+      "length": 4,
+      "sourceInstruction": 4518573,
+      "consumer": "80e660 + (handle&4095)*4",
+      "allV4Rows": {
+        "preferredAddress": 8447996,
+        "address": 11462652,
+        "length": 16,
+        "ids": [
+          103,
+          104,
+          105,
+          106
+        ]
+      },
+      "generalObservation": {
+        "preferredAddress": 8447584,
+        "length": 16384,
+        "policy": "Encoded12-bit consumer access domain only; NOT inferred native constructor/table capacity."
+      }
+    },
+    "targets": {
+      "producer": "4901d0 createWormholeRenderParticle allocates exact256B from902eec/70dcf4 arena",
+      "requiredValidation": "Each observed active row must resolve to an actually captured native256B record; no zero target or heap rebasing.",
+      "spatial": "Old/new particle linkage uses target+4/+6/+c, complete body arena neighbors, spatial bucket+10,909254 256x16 row headers/maps and909278 12-byte node array. Existing geometry binding already observes complete row/map/node domains; pointer absence prevents verifying the four exact old buckets yet.",
+      "additionalTargetHeapCoverageProven": false
+    }
+  },
+  "recovery": {
+    "entry": 4705472,
+    "caller": 4526108,
+    "returnAddress": 4526113,
+    "preRet": [
+      4706349
+    ],
+    "entryEsp": 5242276,
+    "existingFullBinderFailure": "Unconditional clone70f130/3e78 requires missing source memory even before any respawn branch.",
+    "missingGeneralContextRegion": {
+      "preferredAddress": 7400192,
+      "address": 10414848,
+      "length": 17576
+    },
+    "otherDeclaredRecoveryRegionsPhysicallyObserved": [
+      {
+        "id": "recovery-controller-slots",
+        "address": 11704640,
+        "length": 36
+      },
+      {
+        "id": "recovery-retirement-clock",
+        "address": 12465440,
+        "length": 4
+      },
+      {
+        "id": "recovery-retirement-first-color",
+        "address": 12554240,
+        "length": 4
+      },
+      {
+        "id": "recovery-effect-position-queue",
+        "address": 12554272,
+        "length": 288
+      }
+    ],
+    "isolatedSourceExecution": {
+      "completed": true,
+      "result": {
+        "respawnedBodies": 0,
+        "retiredBodies": 0
+      }
+    },
+    "initialPhysicalStates": [
+      {
+        "type": 20,
+        "state128": 0
+      },
+      {
+        "type": 3,
+        "state128": 0
+      },
+      {
+        "type": 4,
+        "state128": 0
+      },
+      {
+        "type": 3,
+        "state128": 0
+      },
+      {
+        "type": 4,
+        "state128": 0
+      },
+      {
+        "type": 3,
+        "state128": 0
+      },
+      {
+        "type": 4,
+        "state128": 0
+      },
+      {
+        "type": 3,
+        "state128": 0
+      },
+      {
+        "type": 4,
+        "state128": 0
+      },
+      {
+        "type": 3,
+        "state128": 0
+      },
+      {
+        "type": 4,
+        "state128": 0
+      },
+      {
+        "type": 3,
+        "state128": 0
+      },
+      {
+        "type": 4,
+        "state128": 0
+      },
+      {
+        "type": 26,
+        "state128": 0
+      }
+    ],
+    "scope": "The isolated real parent used coherent actual frame views and completed no respawn/retirement. Attachments remained blocked, so this is neither an ordered fullparent continuation nor native postphysics parity.",
+    "branchFrames": {
+      "prepass": {
+        "entry": 4710784,
+        "returnAddress": 4705540,
+        "entryEsp": 5242172
+      },
+      "query": {
+        "entry": 4706368,
+        "returnAddress": 4706070,
+        "entryEsp": 5242156
+      },
+      "apply": {
+        "entry": 4707392,
+        "returnAddress": 4706108,
+        "entryEsp": 5242152
+      },
+      "sound": {
+        "entry": 4737968,
+        "returnAddress": 4706158,
+        "entryEsp": 5242144
+      }
+    },
+    "open": "Positive full recovery effect/audio/platform closure remains separate from existing controlled query/apply placement proof."
+  },
+  "drive": {
+    "order": [
+      [
+        "443d90",
+        "45103d"
+      ],
+      [
+        "48d680",
+        "451044"
+      ],
+      [
+        "499de0 conditional",
+        "45108d"
+      ],
+      [
+        "49ac30",
+        "451092"
+      ],
+      [
+        "48d7c0",
+        "451097"
+      ],
+      [
+        "469fd0",
+        "45109c"
+      ]
+    ],
+    "entryEsp": 5242276,
+    "isolatedSourceStage": "weapon-coordinator",
+    "gates": [
+      {
+        "stage": "499de0",
+        "enabled": true,
+        "wormholeAddress": 264143232,
+        "mode": 0,
+        "called": false
+      },
+      {
+        "stage": "49ac30",
+        "called": true,
+        "incomingMode": 0
+      }
+    ],
+    "firstMissing": {
+      "address": 384529704,
+      "length": 4,
+      "producer": "902020 native pickup pointer-list root,902024 count",
+      "observedCount": 7,
+      "requiredNativePointerBytes": 28,
+      "capture": {
+        "rva": "0x502020",
+        "dereferenceOffsets": [
+          "0"
+        ],
+        "readableRegion": true,
+        "maxRegionBytes": 16777216
+      },
+      "policy": "Actualcount*4 bytes must be covered; VirtualQueryregion is transport, never capacity. Pickuppointees remain actual native arena pointers."
+    },
+    "scope": "Motion/surface and mode0 wormhole gate executed only in a separate dependency probe after isolated recovery. Not an ordered complete V4 parent replay."
+  },
+  "remainingTail": {
+    "order": [
+      "41d2b0 wheels then416400 auxiliary perparticipant",
+      "48e310 vehicle animation/lights",
+      "475e50 debris",
+      "41bef0 stagecount then4180a0 cameras",
+      "496700 weather",
+      "414060 modelcontact",
+      "438550 particles",
+      "481200 projection",
+      "48edb0 fragments",
+      "494140 histories",
+      "487540 overlays",
+      "44a7a0 terrainpoints",
+      "415230 destruction",
+      "480e90 worldfragments",
+      "44f990 persistentemitters",
+      "44f3a0 attachmenteffects",
+      "44d960 lights plusfinal-substep42b530 surfacefeedback",
+      "484880 listeners",
+      "manager+5c masterlevel",
+      "47f370 phase",
+      "conditional90a548/6e675c increment"
+    ],
+    "parentPreRet": [
+      4526578,
+      4526600
+    ],
+    "parentReturn": "EAX0 when47f370 returnsnonzero; EAX1 with bothnativeclocks incremented otherwise.",
+    "scope": "Not executed by this bounded audit. Their sourceports do not by themselves establish complete native input/service/privateABI closure."
+  },
+  "recommendedNext": "After current frozen checkpoint, bind the already observed complete attachment scratch alias and capture actual type2 pointer-domain rows plus existing fullarena/spatial domains; add same-call44f050 entry/preRET or parent45101c checkpoint. Then extend through real47ccc0 with conditionalclone/route/audio dependencies and actualpickup pointerlist before extending driver. Preserve separate intermediate comparisons.",
+  "limitations": [
+    "No new native process launched, no installed/source/tool/test/viewer files changed.",
+    "No native postphysics output, clone, pointer, route, query answer, RNG value or child service output was injected.",
+    "No claim of a full450e50 tick, source-only continuous trajectory or all-track interaction matrix."
+  ]
+}

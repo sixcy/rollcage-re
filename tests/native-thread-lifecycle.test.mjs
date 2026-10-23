@@ -40,7 +40,7 @@ public static class OwnedNativeThreadFixture {
     Need(entry!=IntPtr.Zero,"Missing native ExitThread routine.");
     uint pid=(uint)Process.GetCurrentProcess().Id,tid,previous;
     List<IntPtr> owned=new List<IntPtr>(), restricted=new List<IntPtr>();
-    List<Dictionary<string,object>> deadLog=new List<Dictionary<string,object>>(),liveLog=new List<Dictionary<string,object>>(),invalidLog=new List<Dictionary<string,object>>();
+    List<Dictionary<string,object>> deadLog=new List<Dictionary<string,object>>(),liveLog=new List<Dictionary<string,object>>(),invalidLog=new List<Dictionary<string,object>>(),copyLog=new List<Dictionary<string,object>>(),copyDeniedLog=new List<Dictionary<string,object>>();
     try {
       IntPtr dead=NewThread(entry,0,out tid);owned.Add(dead);
       Need(WaitForSingleObject(dead,5000)==0,"Owned native thread did not finish.");
@@ -55,6 +55,10 @@ public static class OwnedNativeThreadFixture {
       //Restricted duplicate of the exact native handle just created. Failure5
       //must remain fatal while the owned object is still unsignaled.
       IntPtr readOnly=RestrictedOwnHandle(live);restricted.Add(readOnly);
+      IntPtr readOnlyCopy=NativeDebugger.DuplicateOwnedDebugThreadHandle(readOnly,pid,tid,copyLog.Add);restricted.Add(readOnlyCopy);
+      int copyDenied=0;
+      try {NativeDebugger.ChangeTrackedThreadSuspension(readOnlyCopy,pid,tid,false,"fixture-copy-live-denied",copyDeniedLog.Add,out previous);throw new Exception("Same-access copy gained suspend rights.");}
+      catch(Win32Exception error){copyDenied=error.NativeErrorCode;}
       int denied=0,deniedResume=0;
       try {NativeDebugger.ChangeTrackedThreadSuspension(readOnly,pid,tid,false,"fixture-live-denied",liveLog.Add,out previous);throw new Exception("Live access denial was admitted.");}
       catch(Win32Exception error){denied=error.NativeErrorCode;}
@@ -73,7 +77,16 @@ public static class OwnedNativeThreadFixture {
       int invalid=0;
       try {NativeDebugger.ChangeTrackedThreadSuspension(IntPtr.Zero,pid,0,false,"fixture-invalid-handle",invalidLog.Add,out previous);throw new Exception("Invalid handle was admitted.");}
       catch(Win32Exception error){invalid=error.NativeErrorCode;}
-      return new {pid,deadState,deadSuspend,deadResume,deadLog,liveState,denied,deniedResume,counts,stillSuspended,liveLog,invalid,invalidLog};
+      //Only our own CreateThread source is closed here. The actual debugger
+      //leaves borrowed event sources to ContinueDebugEvent instead.
+      IntPtr transferable=NewThread(entry,4,out tid);owned.Add(transferable);
+      IntPtr tracking=NativeDebugger.DuplicateOwnedDebugThreadHandle(transferable,pid,tid,copyLog.Add);owned.Add(tracking);
+      Need(tracking!=transferable,"Tracking handle was not independent.");
+      Need(CloseHandle(transferable),"Closing fixture source failed.");owned.Remove(transferable);
+      Need(ResumeThread(tracking)==1,"Closing original source invalidated owned tracking copy.");
+      Need(WaitForSingleObject(tracking,5000)==0,"Tracking copy did not observe native thread termination.");
+      ThreadTerminationObservation copiedExit=NativeDebugger.ObserveOwnedThreadTermination(tracking);
+      return new {pid,deadState,deadSuspend,deadResume,deadLog,liveState,denied,deniedResume,counts,stillSuspended,liveLog,invalid,invalidLog,copyLog,copyDenied,copyDeniedLog,copiedExit};
     } finally {
       foreach(IntPtr handle in restricted)CloseHandle(handle);
       foreach(IntPtr handle in owned) {
@@ -96,6 +109,13 @@ test('actual owned native threads distinguish signaled exit259, live access deni
     const child = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', script], {windowsHide: true, encoding: 'utf8', timeout: 30000, maxBuffer: 1024 * 1024});
     assert.equal(child.error, undefined); assert.equal(child.status, 0, child.stdout + child.stderr);
     const result = JSON.parse(child.stdout.trim());
+    await t.test('tracking copies survive source close without gaining suspend rights', () => {
+      assert.equal(result.copyLog.length,2);
+      for(const row of result.copyLog){assert.notEqual(row.sourceHandle,row.trackingHandle);assert.equal(row.sameAccess,true);}
+      assert.equal(result.copyDenied,5);assert.equal(result.copyDeniedLog[0].terminated,false);
+      assert.equal(result.copyDeniedLog[0].waitResult,'0x00000102');assert.equal(result.copyDeniedLog[0].disposition,'unproven-failure');
+      assert.equal(result.copiedExit.terminated,true);assert.equal(result.copiedExit.waitResult,0);assert.equal(result.copiedExit.exitCode,259);
+    });
     await t.test('exit259 is admitted solely by zero-time signaled wait and retains operation diagnostics', () => {
       assert.equal(result.deadState.terminated, true); assert.equal(result.deadState.waitResult, 0);
       assert.equal(result.deadState.exitCodeAvailable, true); assert.equal(result.deadState.exitCode, 259);

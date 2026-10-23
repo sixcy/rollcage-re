@@ -1,3 +1,5 @@
+import {nativeCodeAddress} from './native-memory-spans.mjs';
+
 const read = (memory, address) => memory.readUInt32LE(address >>> 0);
 const signed = (memory, address) => memory.readInt32LE(address >>> 0);
 const write = (memory, address, value) => memory.writeInt32LE(value | 0, address >>> 0);
@@ -106,6 +108,7 @@ export function initializeSoundReverb(bytes, name) {
 // libaudio; the game's guards, call ordering and float field writes are here.
 export function configureSoundPlayback(channel, reverbMode, firstArgument, runtime) {
   const memory = runtime.memory;
+  if (runtime.nativeAudioCalls) return configureNativeSoundPlayback(channel, reverbMode, runtime);
   if ((channel >>> 0) <= 256 || !read(memory, channel) || !signed(memory, 0x6e6bd4)) return 1;
   if ((reverbMode | 0) === 0 && (((sourceCall(runtime, channel, 0x50) | 0) & 255) !== 1)) return 1;
   if ((((sourceCall(runtime, channel, 0x50) | 0) & 255) === 0)) {
@@ -124,6 +127,46 @@ export function configureSoundPlayback(channel, reverbMode, firstArgument, runti
     memory.writeFloatLE(duration, effect + 16);
   }
   return 1;
+}
+
+//Optional shared-stack40e5e0 execution. Installation is deliberately a reached
+//dependency: the semantic descriptor helper above does not reproduce its ABI.
+function configureNativeSoundPlayback(channel, reverbMode, runtime) {
+  const memory = runtime.memory, entry = runtime.scratchBase, frame = entry - 0x80;
+  const actual = value => nativeCodeAddress(value, runtime), incoming = runtime.entryRegisters;
+  for (const name of ['EBX', 'EBP', 'ESI', 'EDI']) if (!Number.isInteger(incoming?.[name])) throw Error(`Native40e5e0 requires incoming ${name}.`);
+  const cookie = read(memory, actual(0x5e8890));
+  write(memory, entry - 4, cookie ^ (entry - 0x78));
+  write(memory, entry - 0x7c, incoming.ESI); write(memory, frame, incoming.EDI);
+  const call = (method, site) => {
+    const object = read(memory, channel), sourceEntry = entry - 0x84;
+    const returned = actual(site + (method === 0x58 ? 3 : 2));
+    write(memory, sourceEntry, returned);
+    const entryRegisters = {...incoming, ESI: channel, EDI: reverbMode, ECX: object};
+    return requireHandler(runtime, 'sourceCall')(object, method, [], {...runtime, scratchBase: sourceEntry, entryRegisters,
+      nativeSourceCall: {callerAddress: actual(0x40e5e0), callerEntryEsp: entry, callAddress: actual(site),
+        returnAddress: returned, entryEsp: sourceEntry, entryRegisters}});
+  };
+  const finish = () => {
+    if ((read(memory, entry - 4) ^ (entry - 0x78)) >>> 0 !== cookie) throw Error('Native40e5e0 security cookie mismatch.');
+    //POP EDI/ESI precede the compiler cookie call, whose return overwrites S-7c.
+    write(memory, entry - 0x7c, actual(0x40e711));
+    return 1;
+  };
+  if ((channel >>> 0) <= 256 || !read(memory, channel) || !signed(memory, 0x6e6bd4)) return finish();
+  if ((reverbMode | 0) === 0 && ((call(0x50, 0x40e628) | 0) & 255) !== 1) return finish();
+  if (((call(0x50, 0x40e639) | 0) & 255) === 0) throw Error('Native40e5e0 reached unbound original reverb installation40e63f; no descriptor or null result is substituted.');
+  if (((call(0x50, 0x40e673) | 0) & 255) === 1) {
+    const duration = signed(memory, entry + 4) === 0 ? memory.readFloatLE(actual(0x5dc920)) : 0;
+    let amount = (reverbMode | 0) === 0 ? 0 : memory.readFloatLE(actual(0x5dc8e0));
+    memory.writeFloatLE(duration, frame + 8); memory.writeFloatLE(amount, frame + 12);
+    const effect = call(0x58, 0x40e6b9) >>> 0, maximum = memory.readFloatLE(actual(0x5dc97c));
+    amount = amount < 0 ? 0 : amount > maximum ? maximum : amount;
+    memory.writeFloatLE(amount, effect + 12);
+    if (duration === 0) memory.writeFloatLE(amount, effect + 8);
+    memory.writeFloatLE(duration, effect + 16);
+  }
+  return finish();
 }
 
 // 40ea40 indexes the sound bank, configures its flags and dispatches through

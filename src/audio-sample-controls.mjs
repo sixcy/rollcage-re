@@ -1,3 +1,4 @@
+import {nativeCodeAddress} from './native-memory-spans.mjs';
 export {getGameAudioLoopFlag} from './game-audio-wave-decoder.mjs';
 
 const ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
@@ -64,8 +65,8 @@ export function setGameAudioSampleFrameOffset(object, frames, runtime) {
   if (waveform) {
     const target = ptr(m, ptr(m, object) + 0x1c);
     const ratio = Math.fround(Math.fround(ptr(m, S + 4)) / Math.fround(ptr(m, waveform + 12)));
-    m.writeFloatLE(ratio, S - 8); put(m, S - 12, 0x4ad641);
-    if (target !== 0x4ad650) throw Error(`Unported sample offset target0x${target.toString(16)}.`);
+    m.writeFloatLE(ratio, S - 8); put(m, S - 12, nativeCodeAddress(0x4ad641, runtime));
+    if (target !== nativeCodeAddress(0x4ad650, runtime)) throw Error(`Unported sample offset target0x${target.toString(16)}.`);
     setGameAudioSampleOffset(object, {bits: ptr(m, S - 8)}, {...runtime, scratchBase: S - 12});
   }
 }

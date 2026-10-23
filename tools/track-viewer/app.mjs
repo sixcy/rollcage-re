@@ -9,6 +9,7 @@ import { pathColor } from './path-color.mjs';
 import { createSession } from '../../src/solo-session.mjs';
 import { SoloController } from './solo-controller.mjs';
 import { formatPracticeTime } from './solo-presentation.mjs';
+import { pickupLabel } from './pickup-label.mjs';
 
 const element = id => document.getElementById(id);
 const setText = (id, text) => {const output = element(id); if (output.textContent !== text) output.textContent = text;};
@@ -57,7 +58,8 @@ function updatePractice() {
   setDisabled('practice-start', !usable);
   setDisabled('practice-step', !usable || !['ready', 'paused'].includes(practice.state));
   setDisabled('practice-recover', !usable || Boolean(physics?.recoveryPending));
-  setDisabled('practice-reset', !usable);
+  setDisabled('practice-reset', !usable && !value?.weapons?.enabled);
+  setDisabled('practice-weapons', !available);
   setDisabled('practice-follow', !usable);
   setDisabled('practice-telemetry', !usable);
   setDisabled('camera-follow', !usable);
@@ -68,7 +70,14 @@ function updatePractice() {
   if (element('practice-error').textContent !== message) element('practice-error').textContent = message;
   setText('practice-readout', car ? `${car.speed} km/h · ${car.laps} laps completed · Lap ${formatPracticeTime(car.lapTime)} · Best ${formatPracticeTime(car.bestLap)}` : '');
   setText('practice-roster', value ? `${carCount} AI ${carCount === 1 ? 'car' : 'cars'}${difficulty ? ` · ${difficulty}` : ''} · Car ${followedCarIndex + 1} telemetry, follow and recovery.` : '');
+  const weaponsEnabled = Boolean(value?.weapons?.enabled);
+  setText('practice-inventory', weaponsEnabled ? `Car ${followedCarIndex + 1} · Slot 1: ${pickupLabel(car.inventory[0])} · Slot 2: ${pickupLabel(car.inventory[1])} · Pickups ${value.weapons.pickups.filter(row => row.visible).length}/${value.weapons.authoredPickupCount} · Projectiles ${value.weapons.projectiles.filter(row => row.visible).length}` : available ? 'Weapons disabled.' : '');
+  element('physics-inventory').hidden = !weaponsEnabled;
+  for (let index = 0; index < 2; index++) setText(`physics-pickup-${index}`, weaponsEnabled ? pickupLabel(car.inventory[index]) : '—');
   setText('physics-car-label', value ? `Car ${followedCarIndex + 1} of ${carCount}${difficulty ? ` · ${difficulty}` : ''}` : '');
+  const rank = car?.racePosition;
+  const suffix = rank === 1 ? 'st' : rank === 2 ? 'nd' : rank === 3 ? 'rd' : 'th';
+  setText('physics-race-position', Number.isInteger(rank) && rank >= 1 && rank <= carCount ? `${rank}${suffix} / ${carCount}` : '—');
   element('physics-hud').hidden = !available || !element('practice-telemetry').checked;
   const metric = value => Number.isFinite(value) ? Math.trunc(value).toLocaleString() : '—';
   for (const [id, amount] of [['physics-speed', car?.speed], ['physics-tick', value?.ticks], ['physics-recoveries', car?.recoveries], ['physics-collisions', physics?.collisionEvents], ['physics-terrain-hits', physics?.terrainHits], ['physics-model-hits', physics?.modelHits]]) {
@@ -131,7 +140,7 @@ async function loadTrack() {
         const geometry = await source.readResource(track.index);
         const texture = await source.readResource(track.textureIndex);
         if (token !== generation) return;
-        const session = createSession(geometry.data, texture.data, {vehicleTypes: [0,1,2,3,4,5], aiDifficulty: 2});
+        const session = createSession(geometry.data, texture.data, {vehicleTypes: [0,1,2,3,4,5], aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
         try { renderer.setCar(session.assets); } catch (error) {session.dispose(); throw error;}
         practice = new SoloController(session);
       } catch (error) {
@@ -221,8 +230,11 @@ element('practice-start').addEventListener('click', () => {
   updatePractice();
 });
 element('practice-reset').addEventListener('click', () => {
-  if (!practice || ['error', 'disposed'].includes(practice.state)) return;
+  if (!practice || practice.state === 'disposed' || practice.state === 'error' && !practice.snapshot.weapons?.enabled) return;
   practice.reset(); followCar(true); updatePractice();
+});
+element('practice-weapons').addEventListener('change', () => {
+  releaseMouse(); practice?.pause(); loadTrack();
 });
 element('practice-step').addEventListener('click', () => {
   if (!practice || !['ready', 'paused'].includes(practice.state)) return;
@@ -336,6 +348,7 @@ window.rollcageViewer = { inspect: () => ({
   carInstances: renderer?.carInstances.length ?? 0, renderedCars: renderer?.carDraws.cars ?? 0,
   carMeshCounts: renderer?.carInstances.map(car => car.groups.length) ?? [], carDraws: renderer ? {...renderer.carDraws} : {cars: 0, groups: 0},
   worldBuffers: renderer?.worldGroups.length ?? 0, worldDraws: renderer ? {...renderer.worldDraws} : null,
+  weaponBuffers: renderer?.weaponGroups.length ?? 0, weaponDraws: renderer ? {...renderer.weaponDraws} : null,
   terrainBuffers: renderer?.terrainGroups.size ?? 0, terrainDraws: renderer ? {...renderer.terrainDraws} : null,
   mode: navigation.mode, eye: navigation.position(), target: [...navigation.target],
   yaw: navigation.yaw, pitch: navigation.pitch, distance: navigation.distance, speed: navigation.speed,

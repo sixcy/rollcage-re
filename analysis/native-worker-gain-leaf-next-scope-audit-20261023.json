@@ -1,0 +1,392 @@
+{
+  "schemaVersion": 1,
+  "readOnlyAudit": true,
+  "implementationChanged": false,
+  "gameLaunched": false,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "conclusion": "A genuine whole gain-call comparison needs a fresh entry/exit pair and complete original inputs plus reached external service observations. V15 proves only a middle-of-call source input. The current single-ID/max1 worker contract cannot collect a full pair without a new explicitly bounded policy.",
+  "nativeV15": {
+    "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-worker-source-v15-20261023",
+    "traceSha256": "751261d69a0d570ef55d7a63888099e9502b60d50c46835971ab5cad9ebc6d00",
+    "ordinal": 242,
+    "debugEventOrdinal": 2420,
+    "pid": 6952,
+    "tid": 38080,
+    "moduleBaseAddress": 7208960,
+    "contextSha256": "1cf73d0d30d14f2df2bdee5c4a1be96a40b2ee74716c1dcb2ee1cfbe5a7a31ab",
+    "allSelectedRangeHashesVerified": true,
+    "source": {
+      "source": 395396120,
+      "sourceLength": 2472,
+      "sourceSha256": "22229183b75094ae438e7ef9d8c4a7795f1c5fe90b6f78bb2b204f7c81262a67",
+      "sourceVtable": 9125728,
+      "mixerId": 1,
+      "spatial45e": 0,
+      "effect9a0": 0,
+      "decoder968": 0,
+      "waveform964": 283116728,
+      "voice97c": 300204608,
+      "previousGain984Bits": 1064201000,
+      "previousRate988Bits": 1180348416,
+      "frequency440Bits": 1067613765
+    },
+    "workerFpu": {
+      "controlWord": 639,
+      "controlWordHex": "0x027f",
+      "precision": "PC53",
+      "mxcsr": 8096,
+      "mxcsrHex": "0x00001fa0",
+      "limit": "Honor the observed worker mode; do not substitute the main physics PC24 mode."
+    },
+    "privateFrame": {
+      "lookupEntryEsp": 251394800,
+      "derivedGainEntryEsp": 251395180,
+      "currentEbp": 251395064,
+      "gainEntryReturnSourceForceWordsObserved": false,
+      "originalSavedEbpObserved": false,
+      "savedAtLookup": {
+        "edi": 0,
+        "esi": 395396120,
+        "ebx": 18
+      },
+      "limit": "Derived addresses and a few preserved words are not an original gain-function entry observation. Initial EAX/flags/XMM0 and original caller/force/savedEBP are not all captured."
+    },
+    "mixerInputs": {
+      "headerAddress": 147058800,
+      "begin": 19938736,
+      "end": 19938752,
+      "count": 4,
+      "objects": [
+        {
+          "address": 147140104,
+          "input80Observed": false
+        },
+        {
+          "address": 147133168,
+          "input80Observed": false
+        },
+        {
+          "address": 147133272,
+          "input80Observed": false
+        },
+        {
+          "address": 147133376,
+          "input80Observed": false
+        }
+      ],
+      "limit": "The four pointer slots do not supply their mixer IDs/effective gain/rate fields or vtables."
+    },
+    "missingSelectedInputSpans": {
+      "waveform440": true,
+      "voiceInterfaceDword": true,
+      "constant5dc774": true
+    },
+    "sourceInputsVerified": true,
+    "wholeGainCallMatched": false,
+    "fullPrivateAbiMatched": false,
+    "fullWorkerInterleavingProved": false
+  },
+  "minimalNativePair": {
+    "entry": {
+      "preferredAddress": "0x4b12d0",
+      "instruction": "PUSH EBP",
+      "beforeOriginalInstruction": true,
+      "thisRegister": "ecx",
+      "arguments": {
+        "returnWord": "[ESP]",
+        "source": "[ESP+4]",
+        "force": "[ESP+8]"
+      },
+      "capture": [
+        "raw x86 CONTEXT716",
+        "entry stack12",
+        "source9a8 from actual argument4",
+        "source vtable88",
+        "manager graph and actually used pointees",
+        "private scratch preimage"
+      ]
+    },
+    "exit": {
+      "preferredAddress": "0x4b1990",
+      "instruction": "RET 0x8",
+      "beforeOriginalInstruction": true,
+      "esp": "same native gain entry ESP",
+      "afterRetEsp": "entryESP+12",
+      "normalDomain": "Nonspatial/effect-free path. Spatial early RET4b1919 is a distinct unsupported exit, never silently relabeled.",
+      "capture": [
+        "raw context716",
+        "same bound source9a8",
+        "same declared source/private ABI comparison spans"
+      ]
+    },
+    "sourceIdentityCaveat": "FSTP4b1311 writes EBP+78 = entryESP+4, replacing the original source argument with mixer gain bits. Store/bind the actual entry source; never dereference the exit argument slot. For the two proven callers, entryESI equals the PUSH ESI source and is callee-saved, which can independently support an exit ESI range only after that entry/caller proof.",
+    "callers": [
+      {
+        "call": "0x4a7229",
+        "return": "0x4a722c",
+        "force": 0,
+        "target": "manager vtable+0x60 =>4b12d0",
+        "source": "PUSH ESI"
+      },
+      {
+        "call": "0x4a72f3",
+        "return": "0x4a72f6",
+        "force": 1,
+        "target": "manager vtable+0x60 =>4b12d0",
+        "source": "PUSH ESI"
+      }
+    ],
+    "alternative": "One explicit caller CALL4a7229/return4a722c pair is a smaller force0-only domain. Label it actual caller call/return evidence, derive the callee ESP only through the proven original CALL, and do not label the pre-CALL raw context as a captured4b12d0 entry.",
+    "stackMath": {
+      "S": "gain entryESP",
+      "B": "S-0x74",
+      "F": "S-0x174",
+      "firstMixerLookupEntry": "S-0x17c",
+      "frequencyEntry": "S-0x180",
+      "frequencyLocals": "S-0x190",
+      "secondMixerLookupEntry": "S-0x198",
+      "deepestDeclaredGameServiceBoundary": "S-0x1b0",
+      "suggestedGameStackWindow": {
+        "baseRegister": "esp",
+        "offset": -432,
+        "length": 444
+      },
+      "limit": "Covers the supported game/private call frames through entry args; not arbitrary Win32/COM implementation stack or opaque engine internals."
+    }
+  },
+  "currentPolicyFeasibility": {
+    "wholePairPossible": false,
+    "singleBreakpointId": "recovery-worker-mixer-entry",
+    "maxWorkerSnapshots": 1,
+    "knownEntryReturnRvas": [
+      "0xb1304",
+      "0xa7ca1"
+    ],
+    "reasons": [
+      "Validation fixes maxSnapshots1 and one worker breakpoint ID; capture progress is consumed after one row.",
+      "Ordinary nested sites remain main frame-thread only, so adding a worker exit to that list does not admit it.",
+      "Existing return-word gate describes4a79f0 immediate gain/frequency callers, not4b12d0 upstream caller returns4a722c/4a72f6.",
+      "The main pending observer cannot be replaced/nested or assigned a fake qualifying event to manufacture a worker function pair."
+    ]
+  },
+  "nextOptionalScope": {
+    "status": "proposal only; no policy/config/helper changes made",
+    "purpose": "One actual owned worker nonspatial/effect-free gain call, not the complete4a6600 worker parent or all sources.",
+    "admission": [
+      "Keep guarded caller229 activation and real pending controlled parent.",
+      "Bind manager+824 actual worker TID to a live owned CREATE_THREAD event and the actual entry exception PID/TID.",
+      "Add a separate one-call worker pair state, maximum two endpoint snapshots, with optional explicitly bounded reached service/input rows inside that exact open call. Preserve existing max1 policy/defaults.",
+      "Bind entryESP, source argument, manager ECX, actual caller return and force before any source-derived graph chase. Admit the actual first call only; do not change source45e/9a0/decoder fields.",
+      "Require same source/thread/entryESP/caller at normal return. Both endpoints must fall within the declared real parent; a missing/late/unmatched exit fails closed.",
+      "No all-thread hot capture. No widening90s/350/115/128MiB bounds."
+    ],
+    "inputClosure": [
+      "Source9a8/vtable88 at actual entry and exit, with unchanged heap-pointer identity.",
+      "Actual manager d74/vtable64h, relevant mixer-vector header12/storage<=64KiB and every genuinely used mixer80/vtable>=28h; known ID/getter slots execute original game ports, never native child-result oracles.",
+      "Waveform rate DWORD+0c (or full440) when actually nonnull; preserve null fallback. V15 decoder0 supports this one sample only. Any newly reached decoder branch remains unsupported unless its authentic inputs/ports are present.",
+      "Voice interface DWORD and actual vtable window through slot70h (74h bytes) only when reached/validated. These are opaque COM inputs, not an inferred voice object layout.",
+      "Original constants4B each at5dc774,5dcaac,5dc5fc,5dca78,5dca70,5dcab8. Retained hash-checked static bytes are independent constants; no guessed scalar defaults.",
+      "Fresh actual worker CW/MXCSR and raw entry/exit context. Do not synthesize volatile ECX/EDX/XMM outputs from prior calls or logger observations."
+    ],
+    "nullableInputLimit": "Existing guarded-pointer mode deliberately supports only global roots, not ESI roots. It cannot be silently reused for nullable waveform/voice register chains. Use an explicitly reviewed bounded admission/transport extension, or conditional reached native input sites (for example4a7c57 on a nonnull waveform branch), with failures preserved.",
+    "budgetLimit": "The old rich profile already observed94 ordinary main nested rows. Replacing the old one worker row with two endpoints leaves19 within115. Full conditional service/input evidence can exceed that; use a new purpose-specific profile that removes irrelevant main audio observers, rather than raising budgets or dropping required service evidence."
+  },
+  "genuineExternalBoundaries": {
+    "win32MixerPerLookup": {
+      "enter": {
+        "call": "0x4a79ff",
+        "return": "0x4a7a05"
+      },
+      "threadId": {
+        "call": "0x4a7a05",
+        "return": "0x4a7a0b"
+      },
+      "leave": {
+        "call": "0x4a7a4d",
+        "return": "0x4a7a53"
+      },
+      "limit": "Two genuine game mixer lookups on supported gain+frequency path. Shared4a7a05 can serve enter-return/thread-ID-call. Actual pre/post critical-section bytes and service contexts are required for opaque comparisons; unattributed concurrent LockCount changes are not game writes or fabricated API outcomes."
+    },
+    "com": [
+      {
+        "call": "0x4b138b",
+        "return": "0x4b138e",
+        "slot": "0x30",
+        "args": "[voice,gainBits,0]",
+        "conditional": "gain changed or force==1"
+      },
+      {
+        "call": "0x4a7d41",
+        "return": "0x4a7d44",
+        "slot": "0x68",
+        "args": "[voice,frequencyRatioBits,0]",
+        "conditional": "rate/frequency changed or force==1"
+      },
+      {
+        "call": "0x4a7d59",
+        "return": "0x4a7d5c",
+        "slot": "0x70",
+        "args": "[voice,actual converted rate DWORD]",
+        "conditional": "same reached frequency-update branch"
+      }
+    ],
+    "crt": {
+      "call": "0x4a7d52",
+      "return": "0x4a7d57",
+      "target": "0x568a60",
+      "input": "actual XMM0 rate bits",
+      "output": "actual EDX:EAX signed64 plus raw volatile context"
+    },
+    "gameInputs": [
+      {
+        "site": "0x4a7a26",
+        "input": "actual ECX mixer80 and vtable; repeated only within selected worker call",
+        "notAnOracle": "mixer ID and lookup results remain original game code"
+      },
+      {
+        "site": "0x4b130f",
+        "input": "selected mixer effective gain+38 immediately before actual getter"
+      },
+      {
+        "site": "0x4a7cac",
+        "input": "selected mixer effective rate+3c immediately before actual getter"
+      }
+    ],
+    "limits": [
+      "V15 does not prove any of these conditional COM/CRT calls executed or skipped; force and actual selected mixer data are missing.",
+      "Apply native evidence only to genuine external services, never replace4a79f0/4a9340/4a9370/4a7c10/4ae4a0 game results.",
+      "Call/return source-field equality does not prove an external call was absent or reveal its returned volatile registers."
+    ]
+  },
+  "remainingProofLimits": [
+    "A leaf input/output match would not reconstruct the whole4a6600/4a6b60 update, candidate sorting, every source, outer callbacks, mutex/event timing or cross-thread scheduling.",
+    "Manager/mixer/source mutation by other threads between entry and use must not be hidden by seeding later native snapshots as earlier source state. Preserve original input preimages and report concurrent dependencies.",
+    "Opaque XAudio2 voice implementation state and audible rendering remain outside source memory comparison even if authentic COM arguments/returns are observed.",
+    "Do not raise captured source/manager outputs to constructors or replace actual4a6600 game writes. Full parent/private ABI/interleaving claims remain false until independently compared."
+  ],
+  "retainedBoundaries": [
+    "0x4b12d0: PUSH EBP",
+    "0x4b12d1: LEA EBP, [ESP + -0x70]",
+    "0x4b12d5: SUB ESP, 0x164",
+    "0x4b12f2: MOV ESI, dword ptr [EBP + 0x78]",
+    "0x4b12fb: PUSH dword ptr [ESI + 0x438]",
+    "0x4b1301: CALL dword ptr [EAX + 0x48]",
+    "0x4b1311: FSTP float ptr [EBP + 0x78]",
+    "0x4b138b: CALL dword ptr [ECX + 0x30]",
+    "0x4b138e: MOV EAX, dword ptr [ESI]",
+    "0x4b139b: CALL EAX",
+    "0x4b13db: CMP byte ptr [ESI + 0x45e], 0x1",
+    "0x4b1919: RET 0x8",
+    "0x4b192b: CALL 0x004a7c10",
+    "0x4b1937: CALL EAX",
+    "0x4b1983: LEA ESP, [EBP + 0xffffff00]",
+    "0x4b1990: RET 0x8",
+    "0x4a7229: CALL dword ptr [EAX + 0x60]",
+    "0x4a722c: JMP 0x004a72fd",
+    "0x4a72f3: CALL dword ptr [EAX + 0x60]",
+    "0x4a72f6: MOV ECX, ESI",
+    "0x4a7d41: CALL dword ptr [ECX + 0x68]",
+    "0x4a7d44: MOV ESI, dword ptr [ESI + 0x97c]",
+    "0x4a7d52: CALL 0x00568a60",
+    "0x4a7d57: PUSH EAX",
+    "0x4a7d59: CALL dword ptr [EDI + 0x70]",
+    "0x4a7d5c: POP EDI",
+    "0x4a7d63: RET 0x8",
+    "0x4a79ff: CALL dword ptr [0x0056e094]",
+    "0x4a7a05: CALL dword ptr [0x0056e09c]",
+    "0x4a7a0b: INC dword ptr [EDI + 0x18]",
+    "0x4a7a26: CALL dword ptr [EAX]",
+    "0x4a7a4d: CALL dword ptr [0x0056e090]",
+    "0x4a7a53: POP EDI"
+  ],
+  "evidence": [
+    {
+      "file": "analysis/native-simulation/results/12339-audio-selection-4b12d0-assembly.json",
+      "sha256": "8dd000ee115df64ec6b5a59efdcbb0fa5b3f3eae181d6dcf30abbd160e6102fb",
+      "evidenceId": "ev_35935a81e3d27abdbe4c01dcb9472274a0946bbf0aa0f131b3ef48f0122ed686",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/12289-sound-manager-update-sources-assembly.json",
+      "sha256": "932268af2ce5e079b745fc70df2d9c3d590ab0e827e64d94105be0db37bb44d3",
+      "evidenceId": "ev_ecc4ad5681760ee00fa25aa933375447ca7d02322a2e7d181b4f5a5412ff2605",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/12234-audio-poll-continuation-0x4a6600-procedure_assembly.json",
+      "sha256": "d885892fcab592a8ba58e4d0dc9bed606f0a18c3edf30470e519f5452f5251be",
+      "evidenceId": "ev_95b7530e7bfbbff9ab50c99c69ebc5e143f8a9cf0490d0744c1196f3360f47f4",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/12361-audio-spatial-4a7c10-assembly.json",
+      "sha256": "121435a0a3c00c87adf608e9d491f0636f2aafd1ba01147aac659b1db2fd327e",
+      "evidenceId": "ev_eeb10330a2806c100dc56b346e60938e556d1d7106cd62279eaf87e0cbc1a181",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/11733-audio-sample-backend-4a79f0.json",
+      "sha256": "ecfefd3ca4702158554db60b243286c2b5b24162bd25f8ebaaa8a5f712d0f5cd",
+      "evidenceId": "ev_eac9ff725da5b429d1f90e874490926ceef93a2ca4f26eb7938ffe308096eda4",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/15012-audio-source-parameters-audio-0x4a9340-assembly.json",
+      "sha256": "cb8e04957362564c59b7062e2a561d797d0a63f7139dad649a89e809e2b224b3",
+      "evidenceId": "ev_45b389ca6b1b941b2f093aed2906c71941fc6915ce93d35c071cffb13f68ac78",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/15013-audio-source-parameters-audio-0x4a9370-assembly.json",
+      "sha256": "c77d98130e0934d70e2dd313723fa18a1a8c1928c57f87613ac6be14e66ebd8c",
+      "evidenceId": "ev_a7e42b1834059be7628138c34f8e13a7ae6592538f1a9450aafcf5acd1e38f6c",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/15015-audio-source-parameters-audio-0x4ae4a0-assembly.json",
+      "sha256": "48e784993209f65203358d17fb861e1949e3dacd126297f70cbe6e53696df22b",
+      "evidenceId": "ev_69954062de813ddf14b6183ee19fde0e4642089592d44febefb93bc79b512fa1",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/11714-audio-factory-constants.json",
+      "sha256": "1d17a1af84c0d756da6d60c368d64e7692c18cb1ebc12a8089fe7d3478834e81",
+      "evidenceId": "ev_a436655c8fc8cf31b16d14f2b20027401c4b3696e54dddf149a532e7c7c64200",
+      "operation": "read_bytes"
+    },
+    {
+      "file": "analysis/native-simulation/results/9128-audio-virtual-4b1dd0-procedure_assembly.json",
+      "sha256": "5d68c9c20037ef9365f392e9e5d5d7157968258eb84770e4204f6459f52a907e",
+      "evidenceId": "ev_479da5420db12d147bc50d88344e26f3af9ab8fe39bee5a05d70bd816256f2c3",
+      "operation": "procedure_assembly"
+    },
+    {
+      "file": "analysis/native-simulation/results/12185-audio-polling-0x4b2360-procedure_assembly.json",
+      "sha256": "15207e60c17a60c08ff4c309588dc20f298092236e591c0959172f8996d0edf9",
+      "evidenceId": "ev_3262162fb93a0c167f1c796831df30972755306e977b880c7250352c1ddcc4cc",
+      "operation": "procedure_assembly"
+    }
+  ],
+  "frozenImplementationFiles": [
+    {
+      "file": "tools/lib/native-physics-debugger.cs",
+      "sha256": "895902569f3cfda3513652d4f08c86fe9d859932ad64d8ee4e470cb56342aa3f"
+    },
+    {
+      "file": "tools/lib/native-recovery-worker-observation.mjs",
+      "sha256": "c9c94c333e7d7cee036811dfb3f4a1af39224ca435b8f0b0c8c591caccde44b5"
+    },
+    {
+      "file": "tools/prepare-native-recovery-worker-source-capture.mjs",
+      "sha256": "381bed89f6adff8ce47ba2cf7936cb1cdb48f9f1bdbf72b9b5a161457dd16bf0"
+    },
+    {
+      "file": "src/audio-source-parameters.mjs",
+      "sha256": "edea8baa4c541425b89b4813d1c0cc86a169556a66eeffcae96ff89e456c926a"
+    },
+    {
+      "file": "src/audio-manager-update.mjs",
+      "sha256": "b108c28444a2f980de640e4fa4b33fe7f42a3dcd122e6bafdf77f566505300e0"
+    }
+  ]
+}
