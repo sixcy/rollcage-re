@@ -31,8 +31,9 @@ function fixture(moduleBaseAddress = 0x400000, force = 0) {
 }
 
 test('worker gain genuine source prefix reaches its original first Win32 boundary under preferred/ASLR PC53 without applying an outcome', () => {
-  for (const base of [0x400000, 0x6e0000]) for (const force of [0, 1]) {
+  for (const base of [0x400000, 0x6e0000]) for (const force of [0, 1]) for (const policy of ['pair', 'window']) {
     const f = fixture(base, force), originals = [...f.before.ranges.values()].map(row => Buffer.from(row.bytes));
+    if (policy === 'window') {f.before.ownedWorkerGainWindow = {...f.before.ownedWorkerGainPair, sameParentInterleavingClaimed: false}; delete f.before.ownedWorkerGainPair;}
     const {report, memory} = replayNativeWorkerGainEntry(f.before);
     assert.equal(report.sourceReplayComplete, false); assert.equal(report.wholeGainCallMatched, false);
     assert.equal(report.failure, null); assert.equal(report.reachedGenuineMixerLookup, true); assert.equal(report.externalOutcomesApplied, 0);

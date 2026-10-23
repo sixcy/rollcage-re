@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "method": "activation-anchored-owned-worker-gain-leaf-window",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-worker-gain-window-v18-20261023",
+  "entryExitObservationVerified": true,
+  "sameParentInterleavingClaimed": false,
+  "sourceReplayComplete": false,
+  "wholeGainCallMatched": false,
+  "fullPrivateAbiMatched": false,
+  "fullWorkerInterleavingProved": false,
+  "proof": {
+    "verified": true,
+    "endpoints": [
+      {
+        "ordinal": 236,
+        "tid": 37368,
+        "debugOrdinal": 2402,
+        "source": 385795624,
+        "manager": 141529992,
+        "entryEsp": 243006668,
+        "returnAddress": 7893548,
+        "force": 0,
+        "association": {
+          "verified": true,
+          "pid": 31032,
+          "tid": 37368,
+          "evidenceType": "owned-create-thread",
+          "traceRecordOrdinal": 801,
+          "debugEventTraceRecordOrdinal": 801,
+          "observedDebugEventOrdinal": 366,
+          "ownerTraceRecordOrdinal": 3,
+          "callerPathProved": false
+        },
+        "clock": 229,
+        "registers": {
+          "edi": 0,
+          "esi": 385795624,
+          "ebx": 21,
+          "edx": 21,
+          "ecx": 141529992,
+          "eax": 9126288,
+          "ebp": 141529992,
+          "eip": 7934672,
+          "esp": 243006668
+        },
+        "fpuControlWord": 639,
+        "mxcsr": 8096,
+        "sourceSha256": "1d4c562031d1af1ad01a549f1cae8ef56a8d8510666543785206f581efa1de97",
+        "sourceFields": {
+          "spatial45e": 0,
+          "effect9a0": 0,
+          "waveform964": 276344600,
+          "decoder968": 0,
+          "voice97c": 243383968
+        }
+      },
+      {
+        "ordinal": 237,
+        "tid": 37368,
+        "debugOrdinal": 2404,
+        "source": 385795624,
+        "manager": 141529992,
+        "entryEsp": 243006668,
+        "returnAddress": 7893548,
+        "force": 0,
+        "association": {
+          "verified": true,
+          "pid": 31032,
+          "tid": 37368,
+          "evidenceType": "owned-create-thread",
+          "traceRecordOrdinal": 801,
+          "debugEventTraceRecordOrdinal": 801,
+          "observedDebugEventOrdinal": 366,
+          "ownerTraceRecordOrdinal": 3,
+          "callerPathProved": false
+        },
+        "clock": 229,
+        "registers": {
+          "edi": 0,
+          "esi": 385795624,
+          "ebx": 21,
+          "edx": 1837840,
+          "ecx": 385795624,
+          "eax": 0,
+          "ebp": 141529992,
+          "eip": 7936400,
+          "esp": 243006668
+        },
+        "fpuControlWord": 639,
+        "mxcsr": 8096,
+        "sourceSha256": "1d4c562031d1af1ad01a549f1cae8ef56a8d8510666543785206f581efa1de97",
+        "sourceFields": {
+          "spatial45e": 0,
+          "effect9a0": 0,
+          "waveform964": 276344600,
+          "decoder968": 0,
+          "voice97c": 243383968
+        }
+      }
+    ],
+    "activation": {
+      "verified": true,
+      "activatedSites": 3,
+      "triggerOrdinal": 232,
+      "activationDebugOrdinal": 2392
+    },
+    "sourceReplayComplete": false,
+    "wholeGainCallMatched": false,
+    "fullPrivateAbiMatched": false,
+    "fullWorkerInterleavingProved": false,
+    "limits": [
+      "Independent activation-window entry/normal-RET8 observation only; no same-parent interleaving is asserted. Output source bytes never initialize a reconstruction.",
+      "Mixer object/getter, nullable waveform/voice/decoder and reached COM/CRT/Win32 service inputs remain explicit missing dependencies.",
+      "Manager/lock concurrency is not replayed or relabeled as service outcomes."
+    ]
+  },
+  "controlledInput": {
+    "authority": "controlled-native-recovery-input",
+    "callerOrdinal": 232,
+    "callerRawHit": 229,
+    "parentBeforeOrdinal": 233,
+    "clock": 228,
+    "sessionAddress": 11704928,
+    "bodyAddress": 271554816,
+    "guards": [
+      {
+        "address": 12494152,
+        "originalBytesHex": "e4000000",
+        "replacementBytesHex": "e4000000",
+        "noOp": true
+      },
+      {
+        "address": 11706332,
+        "originalBytesHex": "04000000",
+        "replacementBytesHex": "04000000",
+        "noOp": true
+      },
+      {
+        "address": 271554816,
+        "originalBytesHex": "031c0000",
+        "replacementBytesHex": "031c0000",
+        "noOp": true
+      },
+      {
+        "address": 271555112,
+        "originalBytesHex": "00000000",
+        "replacementBytesHex": "20000000",
+        "noOp": false
+      }
+    ],
+    "nativeFirstBodyApplications": 1,
+    "limits": [
+      "State32 is supplied by a declared guarded intervention; this is not evidence of a natural physics/rejection trigger.",
+      "The three no-op writes are assertion records; only body+128 changes bytes. No pose, route or query result is injected."
+    ]
+  },
+  "evidence": {
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "evidenceIds": [
+      "ev_ecc4ad5681760ee00fa25aa933375447ca7d02322a2e7d181b4f5a5412ff2605",
+      "ev_35935a81e3d27abdbe4c01dcb9472274a0946bbf0aa0f131b3ef48f0122ed686"
+    ]
+  },
+  "completion": {
+    "type": "complete",
+    "reason": "worker-gain-window-bound",
+    "events": 2404,
+    "snapshots": 237,
+    "pendingFrameSelection": {
+      "candidateIndex": 1,
+      "frameTid": 7156,
+      "frameEntryEsp": "0x0053fd14",
+      "frameReturnAddress": "0x00731021",
+      "frameMatchingHit": 1,
+      "observedEventHits": 1,
+      "qualifyingEventSnapshots": 1,
+      "nestedSnapshots": 0
+    },
+    "workerGainWindow": {
+      "activationDebugEventOrdinal": 2392,
+      "parentRetained": true,
+      "pairComplete": true,
+      "endpointSnapshots": 2,
+      "sameParentInterleavingClaimed": false
+    },
+    "elapsedMs": 42951
+  },
+  "replay": {
+    "schemaVersion": 1,
+    "method": "genuine-worker-gain-source-entry-to-first-unbound-service",
+    "originalEntryOrdinal": 236,
+    "originalEntryTid": 37368,
+    "moduleBaseAddress": 7208960,
+    "inputContextSha256": "2e325121937edfe04a9d6d344773b63c521915893769d99c625eb503e904ff48",
+    "input": {
+      "entryEsp": 243006668,
+      "returnAddress": 7893548,
+      "manager": 141529992,
+      "source": 385795624,
+      "force": 0,
+      "registers": {
+        "edi": 0,
+        "esi": 385795624,
+        "ebx": 21,
+        "edx": 21,
+        "ecx": 141529992,
+        "eax": 9126288,
+        "ebp": 141529992,
+        "eip": 7934672,
+        "esp": 243006668
+      },
+      "numericalContext": {
+        "x87": {
+          "controlWord": 639,
+          "roundingMode": "nearest-even",
+          "precisionBits": 53,
+          "exceptionMask": 63
+        },
+        "sse": {
+          "mxcsr": 8096,
+          "roundingMode": "nearest-even",
+          "exceptionMask": 63,
+          "flushToZero": false,
+          "denormalsAreZero": false
+        }
+      },
+      "regions": [
+        {
+          "id": "worker-gain-manager-root",
+          "address": 10439432,
+          "length": 4,
+          "sha256": "549b6eee72d8812e41f392f5e3f60a41d71ae5f34e792d5fff450d3d2a54b6d7"
+        },
+        {
+          "id": "worker-gain-manager",
+          "address": 141529992,
+          "length": 3444,
+          "sha256": "2801c40dc213d24d49fed1ad0cff3548950e8224936043eeccc47e6a1a074892"
+        },
+        {
+          "id": "worker-gain-manager-vtable",
+          "address": 9126288,
+          "length": 100,
+          "sha256": "7b4bad6089d0f36cd73ec94160877a843be6a1d90532244964cf2f83f965f9d7"
+        },
+        {
+          "id": "worker-gain-thread-object",
+          "address": 141616512,
+          "length": 80,
+          "sha256": "cd8e5ea4f09f7a5d21f02a8abd998a9242624db423ac9907b6a5ad89c2d6baf5"
+        },
+        {
+          "id": "manager-worker-tid",
+          "address": 141616548,
+          "length": 4,
+          "sha256": "bd12251b964c6c0bcdfc392b675b41cab5c2c65769b4f00e8b0b40b7754a14d0"
+        },
+        {
+          "id": "worker-gain-session-root",
+          "address": 9227036,
+          "length": 4,
+          "sha256": "26120d2814e932d5558f66be8a665df7b8cd41bef30a3ba912c5fe4556f98cde"
+        },
+        {
+          "id": "worker-gain-phase",
+          "address": 11706332,
+          "length": 4,
+          "sha256": "fb5e512425fc9449316ec95969ebe71e2d576dbab833d61e2a5b9330fd70ee02"
+        },
+        {
+          "id": "worker-gain-clock",
+          "address": 12494152,
+          "length": 4,
+          "sha256": "55a504c08da1be2b87bf8c50643710cb713a1d94f757e11f02ea5917d7e08ee8"
+        },
+        {
+          "id": "worker-gain-stack",
+          "address": 243006236,
+          "length": 444,
+          "sha256": "228dc4ad7dccda574dfe94e9a54e0d6c0ccb04be9f492826e24f644bd4959a04"
+        },
+        {
+          "id": "worker-gain-arguments",
+          "address": 243006668,
+          "length": 12,
+          "sha256": "8ad777d80817b575272bc41f41396225dd1e992b9da90aecc626b8f6eda4e25e"
+        },
+        {
+          "id": "worker-gain-source",
+          "address": 385795624,
+          "length": 2472,
+          "sha256": "1d4c562031d1af1ad01a549f1cae8ef56a8d8510666543785206f581efa1de97"
+        },
+        {
+          "id": "worker-gain-source-vtable",
+          "address": 9125728,
+          "length": 136,
+          "sha256": "82069826efa8caf4cf1894146a21c6cf80909c84120af907d822ee822f942b6b"
+        },
+        {
+          "id": "worker-gain-mixer-header",
+          "address": 141526968,
+          "length": 12,
+          "sha256": "6e5bdc53b5307b79212259a0f7ef8a0a246d8bd2790a8f822fb51ea1bd1dfbf9"
+        },
+        {
+          "id": "worker-gain-mixer-storage",
+          "address": 141607744,
+          "length": 16,
+          "sha256": "8061c6a0ad5b66706cc3789387f6383ec002471ed6a6713112c8e6f977944a3a"
+        },
+        {
+          "id": "worker-gain-literal-5dc774",
+          "address": 9160564,
+          "length": 4,
+          "sha256": "e00e5eb9444182f352323374ef4e08ebcb784725fdd4fd612d7730540b3e0c8c"
+        },
+        {
+          "id": "worker-gain-literal-5dcaac",
+          "address": 9161388,
+          "length": 4,
+          "sha256": "c7d82b1ae2483bbf6bc3fd5577664ffad76243710db9bfbf45f8d34dbe29d2db"
+        },
+        {
+          "id": "worker-gain-literal-5dc5fc",
+          "address": 9160188,
+          "length": 4,
+          "sha256": "a50c4fe393bde2a458935daf4e5413dc0efab26d466fa63ef8fb2457423c3b42"
+        },
+        {
+          "id": "worker-gain-literal-5dca78",
+          "address": 9161336,
+          "length": 4,
+          "sha256": "969df6284f6e4fe186787226ffe3e12e4c738e873a21d2cda7dceb718aabe256"
+        },
+        {
+          "id": "worker-gain-literal-5dca70",
+          "address": 9161328,
+          "length": 4,
+          "sha256": "07883481b5c147464597d44401db095d88c2a6b049fbbcd7b278de98a5ceeb71"
+        },
+        {
+          "id": "worker-gain-literal-5dcab8",
+          "address": 9161400,
+          "length": 4,
+          "sha256": "bcf9d6cbe8b6ec7b96a9828c0a3df2f8b8985257df722c252094ee0bb92324df"
+        },
+        {
+          "id": "worker-gain-literal-5e8890",
+          "address": 9210000,
+          "length": 4,
+          "sha256": "73a2165a51f76b0984cf718e1d0aefe39cdca6b5bb56f4e1a7737b13c6e57cd7"
+        },
+        {
+          "id": "thread-seh-head",
+          "address": 2912256,
+          "length": 4,
+          "sha256": "c8360889e4828c475a5854fbba120eedd1b9a9031cd52bfd1b1b8174c28b1bee"
+        }
+      ]
+    },
+    "sourceReplayComplete": false,
+    "wholeGainCallMatched": false,
+    "fullPrivateAbiMatched": false,
+    "fullWorkerInterleavingProved": false,
+    "reachedGenuineMixerLookup": true,
+    "externalRequests": [
+      {
+        "kind": "Win32",
+        "name": "EnterCriticalSection",
+        "preferredCallAddress": 4880895,
+        "preferredReturnAddress": 4880901,
+        "entryEsp": 243006264,
+        "returnAddress": 7895557,
+        "args": [
+          141532124
+        ],
+        "argumentWords": [
+          141532124
+        ],
+        "criticalSectionAddress": 141532124,
+        "preCallWin32BytesHex": "fffffffffeffffff01000000f89100000000000000100000",
+        "preCallGameWrapperBytesHex": "01000000f8910000",
+        "outcomeApplied": false,
+        "missing": "Actual owned worker EnterCriticalSection call/return context and Win32-only memory outcome; concurrent producer effects remain separate."
+      }
+    ],
+    "externalOutcomesApplied": 0,
+    "boundary": {
+      "kind": "Win32",
+      "name": "EnterCriticalSection",
+      "preferredCallAddress": 4880895,
+      "preferredReturnAddress": 4880901,
+      "entryEsp": 243006264,
+      "returnAddress": 7895557,
+      "args": [
+        141532124
+      ],
+      "argumentWords": [
+        141532124
+      ],
+      "criticalSectionAddress": 141532124,
+      "preCallWin32BytesHex": "fffffffffeffffff01000000f89100000000000000100000",
+      "preCallGameWrapperBytesHex": "01000000f8910000",
+      "outcomeApplied": false,
+      "missing": "Actual owned worker EnterCriticalSection call/return context and Win32-only memory outcome; concurrent producer effects remain separate."
+    },
+    "failure": null,
+    "partialChanges": {
+      "sourceBytes": 0,
+      "managerBytes": 0,
+      "stackBytes": 45
+    },
+    "limits": [
+      "Source executes4b12d0 and genuine4a79f0 from actual entry only; there is no after-snapshot/service-outcome option.",
+      "No source or manager output equality is claimed at an unbound service; partial private writes are diagnostic only.",
+      "Never reuse main-thread lock outcomes, seed native mixer getter answers, or classify concurrent wrapper/manager writes as OS outcomes.",
+      "Actual mixer/voice/waveform/decoder and later COM/CRT service inputs remain required when reached."
+    ]
+  }
+}

@@ -1,0 +1,4237 @@
+{
+  "scope": "static literal-read/write candidates; source reachability and access widths need instruction audit",
+  "moduleBaseAddress": 7208960,
+  "files": [
+    "src/vehicle-animation-lights.mjs",
+    "src/vehicle-auxiliary-animation.mjs",
+    "src/fixed-integer.mjs",
+    "src/raw-track-basis.mjs",
+    "src/track-basis.mjs",
+    "src/collision-grid.mjs",
+    "src/scene.mjs",
+    "src/spatial-index.mjs",
+    "src/body-retirement.mjs",
+    "src/effect-emitter.mjs",
+    "src/sound-dispatch.mjs",
+    "src/native-memory-spans.mjs",
+    "src/body-retirement-effects.mjs",
+    "src/raw-body-construction.mjs",
+    "src/fixed-math.mjs",
+    "src/body-physics.mjs",
+    "src/particle-lifetime.mjs",
+    "src/camera-update.mjs",
+    "src/camera-route-triggers.mjs",
+    "src/camera-mode-policy.mjs",
+    "src/wormhole-targeting.mjs",
+    "src/race-stage-count.mjs",
+    "src/camera-event-selection.mjs",
+    "src/camera-pose-helpers.mjs",
+    "src/raw-respawn-query.mjs",
+    "src/body-shape-cache.mjs",
+    "src/respawn-terrain-candidates.mjs",
+    "src/terrain-candidates.mjs",
+    "src/raw-respawn-model-candidates.mjs",
+    "src/model-transforms.mjs",
+    "src/static-sphere-primitives.mjs",
+    "src/sphere-collision.mjs",
+    "src/raw-terrain-query.mjs",
+    "src/terrain-query.mjs",
+    "src/terrain-query-state.mjs",
+    "src/terrain-sphere-query.mjs",
+    "src/terrain-sphere-edge.mjs",
+    "src/raw-model-sphere-query.mjs",
+    "src/placed-model-sphere-query.mjs",
+    "src/model-sphere-query.mjs",
+    "src/model-query.mjs",
+    "src/placed-object-damage.mjs",
+    "src/track-deformation.mjs",
+    "src/model-contact-effects.mjs",
+    "src/body-attachment-release.mjs",
+    "src/dynamic-light-state.mjs",
+    "src/wheel-effects.mjs",
+    "src/raw-scripted-motion.mjs",
+    "src/scripted-motion.mjs",
+    "src/camera-pose-publication.mjs",
+    "src/weather-viewport.mjs",
+    "src/application-bootstrap.mjs",
+    "src/application-debugger-records.mjs",
+    "src/camera-viewport.mjs",
+    "src/camera-projection.mjs",
+    "src/renderer-viewports.mjs",
+    "src/camera-curve.mjs",
+    "src/raw-vector-normalization.mjs",
+    "src/weather-update.mjs",
+    "src/weather-volumes.mjs",
+    "src/weather-screen.mjs",
+    "src/game-network-protocol.mjs",
+    "src/vehicle-auxiliary-input.mjs",
+    "src/finish-messages.mjs",
+    "src/notification-transport.mjs",
+    "src/game-diagnostics.mjs",
+    "src/network-session-retirement.mjs",
+    "src/lap-bookkeeping.mjs",
+    "src/lap-timing.mjs",
+    "src/replay-codec.mjs",
+    "src/vehicle-weapon-launch.mjs",
+    "src/projectile-launch.mjs",
+    "src/wormhole-visuals.mjs",
+    "src/body-attachments.mjs",
+    "src/x87-finite.mjs",
+    "src/raw-linear-velocity.mjs",
+    "src/projectile-trails.mjs",
+    "src/projectile-routes.mjs",
+    "src/terrain-wave.mjs",
+    "src/vehicle-contact-state.mjs",
+    "src/race-time-effect.mjs",
+    "src/vehicle-sound-controls.mjs",
+    "src/pickup-world-state.mjs",
+    "src/wheel-render-state.mjs",
+    "src/raw-respawn-state.mjs",
+    "src/scripted-release.mjs",
+    "src/respawn-progress.mjs",
+    "src/race-completion.mjs",
+    "src/finish-bookkeeping.mjs",
+    "src/session-input-flag.mjs",
+    "src/pickup-award.mjs",
+    "src/native-recovery-audio-call.mjs",
+    "src/native-effect-emitter.mjs",
+    "src/wormhole-construction.mjs",
+    "src/vehicle-contact-colors.mjs",
+    "src/race-launch-state.mjs",
+    "src/weapon-launch-feedback.mjs",
+    "src/projectile-notifications.mjs",
+    "src/placed-model-effect-update.mjs",
+    "src/world-effect-records.mjs"
+  ],
+  "candidates": [
+    {
+      "preferredAddress": 6213640,
+      "hex": "0x5ed008",
+      "files": [
+        "src/vehicle-animation-lights.mjs"
+      ],
+      "actualAddress": 9228296,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-animation-rng"
+    },
+    {
+      "preferredAddress": 8456480,
+      "hex": "0x810920",
+      "files": [
+        "src/vehicle-animation-lights.mjs",
+        "src/body-retirement.mjs",
+        "src/body-retirement-effects.mjs",
+        "src/dynamic-light-state.mjs"
+      ],
+      "actualAddress": 11471136,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6212380,
+      "hex": "0x5ecb1c",
+      "files": [
+        "src/vehicle-animation-lights.mjs",
+        "src/vehicle-auxiliary-animation.mjs",
+        "src/camera-update.mjs",
+        "src/camera-route-triggers.mjs",
+        "src/camera-mode-policy.mjs",
+        "src/wormhole-targeting.mjs",
+        "src/race-stage-count.mjs",
+        "src/camera-event-selection.mjs",
+        "src/placed-object-damage.mjs",
+        "src/camera-pose-publication.mjs",
+        "src/camera-curve.mjs",
+        "src/weather-update.mjs",
+        "src/weather-volumes.mjs",
+        "src/weather-screen.mjs",
+        "src/network-session-retirement.mjs",
+        "src/lap-bookkeeping.mjs",
+        "src/vehicle-weapon-launch.mjs",
+        "src/projectile-routes.mjs",
+        "src/terrain-wave.mjs",
+        "src/race-time-effect.mjs",
+        "src/pickup-world-state.mjs",
+        "src/raw-respawn-state.mjs",
+        "src/pickup-award.mjs",
+        "src/weapon-launch-feedback.mjs",
+        "src/projectile-notifications.mjs"
+      ],
+      "actualAddress": 9227036,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474816,
+      "hex": "0x909300",
+      "files": [
+        "src/vehicle-animation-lights.mjs",
+        "src/camera-update.mjs",
+        "src/camera-route-triggers.mjs",
+        "src/camera-mode-policy.mjs",
+        "src/wheel-effects.mjs",
+        "src/weather-screen.mjs",
+        "src/network-session-retirement.mjs",
+        "src/terrain-wave.mjs",
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 12489472,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236772,
+      "hex": "0x6e6ca4",
+      "files": [
+        "src/vehicle-animation-lights.mjs"
+      ],
+      "actualAddress": 10251428,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-vehicle-light-state"
+    },
+    {
+      "preferredAddress": 9557084,
+      "hex": "0x91d45c",
+      "files": [
+        "src/vehicle-auxiliary-animation.mjs",
+        "src/raw-body-construction.mjs",
+        "src/wormhole-targeting.mjs",
+        "src/camera-pose-helpers.mjs",
+        "src/placed-object-damage.mjs",
+        "src/track-deformation.mjs",
+        "src/model-contact-effects.mjs",
+        "src/raw-scripted-motion.mjs",
+        "src/raw-vector-normalization.mjs",
+        "src/weather-volumes.mjs",
+        "src/projectile-launch.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/raw-respawn-state.mjs",
+        "src/race-launch-state.mjs"
+      ],
+      "actualAddress": 12571740,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557088,
+      "hex": "0x91d460",
+      "files": [
+        "src/vehicle-auxiliary-animation.mjs",
+        "src/raw-body-construction.mjs",
+        "src/wormhole-targeting.mjs",
+        "src/camera-pose-helpers.mjs",
+        "src/placed-object-damage.mjs",
+        "src/track-deformation.mjs",
+        "src/model-contact-effects.mjs",
+        "src/raw-scripted-motion.mjs",
+        "src/raw-vector-normalization.mjs",
+        "src/weather-volumes.mjs",
+        "src/projectile-launch.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/raw-respawn-state.mjs",
+        "src/race-launch-state.mjs"
+      ],
+      "actualAddress": 12571744,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9568128,
+      "hex": "0x91ff80",
+      "files": [
+        "src/vehicle-auxiliary-animation.mjs",
+        "src/camera-route-triggers.mjs",
+        "src/camera-mode-policy.mjs",
+        "src/placed-object-damage.mjs",
+        "src/session-input-flag.mjs"
+      ],
+      "actualAddress": 12582784,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 5702860,
+      "hex": "0x5704cc",
+      "files": [
+        "src/vehicle-auxiliary-animation.mjs"
+      ],
+      "actualAddress": 8717516,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-0"
+    },
+    {
+      "preferredAddress": 5702756,
+      "hex": "0x570464",
+      "files": [
+        "src/vehicle-auxiliary-animation.mjs"
+      ],
+      "actualAddress": 8717412,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-1"
+    },
+    {
+      "preferredAddress": 9474840,
+      "hex": "0x909318",
+      "files": [
+        "src/vehicle-auxiliary-animation.mjs",
+        "src/camera-update.mjs",
+        "src/weather-volumes.mjs",
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 12489496,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6211924,
+      "hex": "0x5ec954",
+      "files": [
+        "src/vehicle-auxiliary-animation.mjs",
+        "src/raw-scripted-motion.mjs",
+        "src/projectile-launch.mjs",
+        "src/pickup-world-state.mjs",
+        "src/pickup-award.mjs"
+      ],
+      "actualAddress": 9226580,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9561988,
+      "hex": "0x91e784",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/raw-body-construction.mjs",
+        "src/raw-respawn-query.mjs"
+      ],
+      "actualAddress": 12576644,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9562008,
+      "hex": "0x91e798",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/raw-body-construction.mjs",
+        "src/raw-respawn-query.mjs"
+      ],
+      "actualAddress": 12576664,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9562004,
+      "hex": "0x91e794",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/raw-body-construction.mjs",
+        "src/raw-respawn-query.mjs"
+      ],
+      "actualAddress": 12576660,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9448388,
+      "hex": "0x902bc4",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/raw-body-construction.mjs",
+        "src/raw-respawn-query.mjs",
+        "src/pickup-world-state.mjs",
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 12463044,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524188,
+      "hex": "0x9153dc",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-object-damage.mjs",
+        "src/model-contact-effects.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12538844,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524184,
+      "hex": "0x9153d8",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-object-damage.mjs",
+        "src/model-contact-effects.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12538840,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524192,
+      "hex": "0x9153e0",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12538848,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524196,
+      "hex": "0x9153e4",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 12538852,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9539584,
+      "hex": "0x919000",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 12554240,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555344,
+      "hex": "0x91cd90",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12570000,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555340,
+      "hex": "0x91cd8c",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569996,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8458624,
+      "hex": "0x811180",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/wheel-effects.mjs",
+        "src/race-time-effect.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 11473280,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555308,
+      "hex": "0x91cd6c",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569964,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555312,
+      "hex": "0x91cd70",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569968,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555296,
+      "hex": "0x91cd60",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/weather-update.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569952,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555300,
+      "hex": "0x91cd64",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/weather-update.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569956,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555304,
+      "hex": "0x91cd68",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569960,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555316,
+      "hex": "0x91cd74",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569972,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7321940,
+      "hex": "0x6fb954",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 10336596,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7321942,
+      "hex": "0x6fb956",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 10336598,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7322020,
+      "hex": "0x6fb9a4",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 10336676,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-countdown"
+    },
+    {
+      "preferredAddress": 7321944,
+      "hex": "0x6fb958",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 10336600,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9524176,
+      "hex": "0x9153d0",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 12538832,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524172,
+      "hex": "0x9153cc",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 12538828,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524168,
+      "hex": "0x9153c8",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 12538824,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9450784,
+      "hex": "0x903520",
+      "files": [
+        "src/body-retirement.mjs"
+      ],
+      "actualAddress": 12465440,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9479496,
+      "hex": "0x90a548",
+      "files": [
+        "src/body-retirement.mjs",
+        "src/camera-update.mjs",
+        "src/camera-route-triggers.mjs",
+        "src/camera-event-selection.mjs",
+        "src/wheel-effects.mjs",
+        "src/weather-volumes.mjs",
+        "src/weather-screen.mjs",
+        "src/lap-bookkeeping.mjs",
+        "src/terrain-wave.mjs",
+        "src/race-time-effect.mjs",
+        "src/pickup-world-state.mjs",
+        "src/raw-respawn-state.mjs",
+        "src/finish-bookkeeping.mjs"
+      ],
+      "actualAddress": 12494152,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6145512,
+      "hex": "0x5dc5e8",
+      "files": [
+        "src/sound-dispatch.mjs"
+      ],
+      "actualAddress": 9160168,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7424776,
+      "hex": "0x714b08",
+      "files": [
+        "src/sound-dispatch.mjs"
+      ],
+      "actualAddress": 10439432,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236564,
+      "hex": "0x6e6bd4",
+      "files": [
+        "src/sound-dispatch.mjs"
+      ],
+      "actualAddress": 10251220,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6146336,
+      "hex": "0x5dc920",
+      "files": [
+        "src/sound-dispatch.mjs"
+      ],
+      "actualAddress": 9160992,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6146272,
+      "hex": "0x5dc8e0",
+      "files": [
+        "src/sound-dispatch.mjs"
+      ],
+      "actualAddress": 9160928,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6146428,
+      "hex": "0x5dc97c",
+      "files": [
+        "src/sound-dispatch.mjs",
+        "src/wheel-effects.mjs"
+      ],
+      "actualAddress": 9161084,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7283732,
+      "hex": "0x6f2414",
+      "files": [
+        "src/sound-dispatch.mjs",
+        "src/native-effect-emitter.mjs"
+      ],
+      "actualAddress": 10298388,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7283736,
+      "hex": "0x6f2418",
+      "files": [
+        "src/sound-dispatch.mjs",
+        "src/native-effect-emitter.mjs"
+      ],
+      "actualAddress": 10298392,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6145500,
+      "hex": "0x5dc5dc",
+      "files": [
+        "src/sound-dispatch.mjs",
+        "src/weather-volumes.mjs",
+        "src/vehicle-sound-controls.mjs"
+      ],
+      "actualAddress": 9160156,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213680,
+      "hex": "0x5ed030",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/camera-update.mjs",
+        "src/track-deformation.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/weather-screen.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 9228336,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474644,
+      "hex": "0x909254",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12489300,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474680,
+      "hex": "0x909278",
+      "files": [
+        "src/body-retirement-effects.mjs"
+      ],
+      "actualAddress": 12489336,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9449196,
+      "hex": "0x902eec",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/model-contact-effects.mjs",
+        "src/projectile-launch.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/raw-respawn-state.mjs",
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 12463852,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7234996,
+      "hex": "0x6e65b4",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 10249652,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7235008,
+      "hex": "0x6e65c0",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 10249664,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7235016,
+      "hex": "0x6e65c8",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 10249672,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6211928,
+      "hex": "0x5ec958",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/camera-update.mjs",
+        "src/camera-mode-policy.mjs",
+        "src/model-contact-effects.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/wheel-effects.mjs",
+        "src/raw-scripted-motion.mjs",
+        "src/network-session-retirement.mjs",
+        "src/terrain-wave.mjs",
+        "src/pickup-world-state.mjs",
+        "src/raw-respawn-state.mjs",
+        "src/vehicle-contact-colors.mjs",
+        "src/weapon-launch-feedback.mjs",
+        "src/projectile-notifications.mjs"
+      ],
+      "actualAddress": 9226584,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213934,
+      "hex": "0x5ed12e",
+      "files": [
+        "src/body-retirement-effects.mjs"
+      ],
+      "actualAddress": 9228590,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6206720,
+      "hex": "0x5eb500",
+      "files": [
+        "src/body-retirement-effects.mjs"
+      ],
+      "actualAddress": 9221376,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213808,
+      "hex": "0x5ed0b0",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/weather-screen.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 9228464,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9448316,
+      "hex": "0x902b7c",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/wheel-effects.mjs",
+        "src/raw-scripted-motion.mjs"
+      ],
+      "actualAddress": 12462972,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9448332,
+      "hex": "0x902b8c",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/wheel-effects.mjs",
+        "src/raw-scripted-motion.mjs"
+      ],
+      "actualAddress": 12462988,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9448328,
+      "hex": "0x902b88",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/wheel-effects.mjs",
+        "src/raw-scripted-motion.mjs"
+      ],
+      "actualAddress": 12462984,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9448320,
+      "hex": "0x902b80",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/wheel-effects.mjs",
+        "src/raw-scripted-motion.mjs"
+      ],
+      "actualAddress": 12462976,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9448324,
+      "hex": "0x902b84",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/wheel-effects.mjs",
+        "src/raw-scripted-motion.mjs"
+      ],
+      "actualAddress": 12462980,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474752,
+      "hex": "0x9092c0",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/placed-object-damage.mjs",
+        "src/weather-volumes.mjs",
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12489408,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474636,
+      "hex": "0x90924c",
+      "files": [
+        "src/body-retirement-effects.mjs"
+      ],
+      "actualAddress": 12489292,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474624,
+      "hex": "0x909240",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/terrain-wave.mjs",
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 12489280,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6214324,
+      "hex": "0x5ed2b4",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/weather-update.mjs",
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 9228980,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8450576,
+      "hex": "0x80f210",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/track-deformation.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 11465232,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8451100,
+      "hex": "0x80f41c",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/track-deformation.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 11465756,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8451104,
+      "hex": "0x80f420",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/track-deformation.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 11465760,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557000,
+      "hex": "0x91d408",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571656,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557004,
+      "hex": "0x91d40c",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571660,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557008,
+      "hex": "0x91d410",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571664,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557064,
+      "hex": "0x91d448",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/particle-lifetime.mjs",
+        "src/camera-update.mjs",
+        "src/camera-pose-helpers.mjs",
+        "src/raw-respawn-query.mjs",
+        "src/placed-object-damage.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/wheel-effects.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/body-attachments.mjs",
+        "src/projectile-trails.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571720,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557068,
+      "hex": "0x91d44c",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 12571724,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557072,
+      "hex": "0x91d450",
+      "files": [
+        "src/body-retirement-effects.mjs",
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 12571728,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9484672,
+      "hex": "0x90b980",
+      "files": [
+        "src/body-retirement-effects.mjs"
+      ],
+      "actualAddress": 12499328,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9539592,
+      "hex": "0x919008",
+      "files": [
+        "src/body-retirement-effects.mjs"
+      ],
+      "actualAddress": 12554248,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524160,
+      "hex": "0x9153c0",
+      "files": [
+        "src/body-retirement-effects.mjs"
+      ],
+      "actualAddress": 12538816,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7396596,
+      "hex": "0x70dcf4",
+      "files": [
+        "src/raw-body-construction.mjs",
+        "src/model-contact-effects.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 10411252,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236420,
+      "hex": "0x6e6b44",
+      "files": [
+        "src/raw-body-construction.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/projectile-launch.mjs",
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 10251076,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7397888,
+      "hex": "0x70e200",
+      "files": [
+        "src/raw-body-construction.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/projectile-launch.mjs",
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 10412544,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213810,
+      "hex": "0x5ed0b2",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 9228466,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213682,
+      "hex": "0x5ed032",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 9228338,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9539596,
+      "hex": "0x91900c",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 12554252,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524164,
+      "hex": "0x9153c4",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 12538820,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556996,
+      "hex": "0x91d404",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 12571652,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556916,
+      "hex": "0x91d3b4",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 12571572,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556991,
+      "hex": "0x91d3ff",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 12571647,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556988,
+      "hex": "0x91d3fc",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 12571644,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6212016,
+      "hex": "0x5ec9b0",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 9226672,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9557052,
+      "hex": "0x91d43c",
+      "files": [
+        "src/particle-lifetime.mjs"
+      ],
+      "actualAddress": 12571708,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6195344,
+      "hex": "0x5e8890",
+      "files": [
+        "src/camera-update.mjs",
+        "src/weather-viewport.mjs",
+        "src/camera-viewport.mjs",
+        "src/renderer-viewports.mjs",
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs",
+        "src/vehicle-weapon-launch.mjs",
+        "src/projectile-launch.mjs",
+        "src/projectile-routes.mjs",
+        "src/terrain-wave.mjs",
+        "src/native-effect-emitter.mjs",
+        "src/weapon-launch-feedback.mjs",
+        "src/projectile-notifications.mjs"
+      ],
+      "actualAddress": 9210000,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6209824,
+      "hex": "0x5ec120",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-mode-policy.mjs",
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 9224480,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-participants"
+    },
+    {
+      "preferredAddress": 9555632,
+      "hex": "0x91ceb0",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12570288,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-projection"
+    },
+    {
+      "preferredAddress": 9450656,
+      "hex": "0x9034a0",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-event-selection.mjs",
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12465312,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8435168,
+      "hex": "0x80b5e0",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-event-selection.mjs",
+        "src/game-network-protocol.mjs",
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 11449824,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556964,
+      "hex": "0x91d3e4",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-pose-helpers.mjs",
+        "src/raw-respawn-query.mjs",
+        "src/placed-object-damage.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/wheel-effects.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/projectile-trails.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571620,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556968,
+      "hex": "0x91d3e8",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-pose-helpers.mjs",
+        "src/raw-respawn-query.mjs",
+        "src/placed-object-damage.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/wheel-effects.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/projectile-trails.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571624,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213372,
+      "hex": "0x5ecefc",
+      "files": [
+        "src/camera-update.mjs",
+        "src/wheel-effects.mjs",
+        "src/camera-pose-publication.mjs",
+        "src/camera-projection.mjs",
+        "src/renderer-viewports.mjs",
+        "src/finish-messages.mjs",
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 9228028,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7234896,
+      "hex": "0x6e6550",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-route-triggers.mjs",
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 10249552,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-observer-count"
+    },
+    {
+      "preferredAddress": 9555600,
+      "hex": "0x91ce90",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-mode-policy.mjs",
+        "src/track-deformation.mjs",
+        "src/camera-pose-publication.mjs",
+        "src/weather-update.mjs",
+        "src/weather-volumes.mjs",
+        "src/weather-screen.mjs",
+        "src/vehicle-auxiliary-input.mjs",
+        "src/network-session-retirement.mjs",
+        "src/session-input-flag.mjs"
+      ],
+      "actualAddress": 12570256,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-policy"
+    },
+    {
+      "preferredAddress": 7273276,
+      "hex": "0x6efb3c",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-pose-publication.mjs",
+        "src/weather-viewport.mjs",
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10287932,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-viewport-singletons"
+    },
+    {
+      "preferredAddress": 9556832,
+      "hex": "0x91d360",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-pose-helpers.mjs",
+        "src/raw-respawn-query.mjs",
+        "src/placed-object-damage.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/wheel-effects.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/body-attachments.mjs",
+        "src/projectile-trails.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571488,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6145524,
+      "hex": "0x5dc5f4",
+      "files": [
+        "src/camera-update.mjs",
+        "src/camera-pose-helpers.mjs",
+        "src/raw-respawn-query.mjs",
+        "src/placed-object-damage.mjs",
+        "src/dynamic-light-state.mjs",
+        "src/wheel-effects.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/body-attachments.mjs",
+        "src/projectile-trails.mjs",
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 9160180,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6204400,
+      "hex": "0x5eabf0",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 9219056,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-9"
+    },
+    {
+      "preferredAddress": 6204404,
+      "hex": "0x5eabf4",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 9219060,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-9"
+    },
+    {
+      "preferredAddress": 7313184,
+      "hex": "0x6f9720",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 10327840,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-curve-recovery"
+    },
+    {
+      "preferredAddress": 7313888,
+      "hex": "0x6f99e0",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 10328544,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-curve-progress"
+    },
+    {
+      "preferredAddress": 7313904,
+      "hex": "0x6f99f0",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 10328560,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-curve-progress"
+    },
+    {
+      "preferredAddress": 7313536,
+      "hex": "0x6f9880",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 10328192,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-curve-origins"
+    },
+    {
+      "preferredAddress": 7313488,
+      "hex": "0x6f9850",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 10328144,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-curve-directions"
+    },
+    {
+      "preferredAddress": 7313200,
+      "hex": "0x6f9730",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 10327856,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7313216,
+      "hex": "0x6f9740",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 10327872,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6202620,
+      "hex": "0x5ea4fc",
+      "files": [
+        "src/camera-update.mjs"
+      ],
+      "actualAddress": 9217276,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 5702912,
+      "hex": "0x570500",
+      "files": [
+        "src/camera-mode-policy.mjs"
+      ],
+      "actualAddress": 8717568,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-3"
+    },
+    {
+      "preferredAddress": 9474852,
+      "hex": "0x909324",
+      "files": [
+        "src/wormhole-targeting.mjs"
+      ],
+      "actualAddress": 12489508,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9450624,
+      "hex": "0x903480",
+      "files": [
+        "src/camera-event-selection.mjs",
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12465280,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7400196,
+      "hex": "0x70eb04",
+      "files": [
+        "src/raw-respawn-query.mjs"
+      ],
+      "actualAddress": 10414852,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7400192,
+      "hex": "0x70eb00",
+      "files": [
+        "src/raw-respawn-query.mjs"
+      ],
+      "actualAddress": 10414848,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7400200,
+      "hex": "0x70eb08",
+      "files": [
+        "src/raw-respawn-query.mjs"
+      ],
+      "actualAddress": 10414856,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7400232,
+      "hex": "0x70eb28",
+      "files": [
+        "src/raw-respawn-query.mjs"
+      ],
+      "actualAddress": 10414888,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474748,
+      "hex": "0x9092bc",
+      "files": [
+        "src/raw-respawn-model-candidates.mjs"
+      ],
+      "actualAddress": 12489404,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9484684,
+      "hex": "0x90b98c",
+      "files": [
+        "src/raw-terrain-query.mjs",
+        "src/weather-update.mjs",
+        "src/weather-volumes.mjs",
+        "src/projectile-trails.mjs",
+        "src/projectile-routes.mjs",
+        "src/terrain-wave.mjs",
+        "src/raw-respawn-state.mjs",
+        "src/finish-bookkeeping.mjs"
+      ],
+      "actualAddress": 12499340,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9570273,
+      "hex": "0x9207e1",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12584929,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9570272,
+      "hex": "0x9207e0",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12584928,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9569696,
+      "hex": "0x9205a0",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12584352,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-observer-fallback"
+    },
+    {
+      "preferredAddress": 9569700,
+      "hex": "0x9205a4",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12584356,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-observer-fallback"
+    },
+    {
+      "preferredAddress": 9569704,
+      "hex": "0x9205a8",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12584360,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-observer-fallback"
+    },
+    {
+      "preferredAddress": 9569708,
+      "hex": "0x9205ac",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12584364,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-observer-fallback"
+    },
+    {
+      "preferredAddress": 9568178,
+      "hex": "0x91ffb2",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12582834,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 9568152,
+      "hex": "0x91ff98",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12582808,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 9568140,
+      "hex": "0x91ff8c",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12582796,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 9568448,
+      "hex": "0x9200c0",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12583104,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 9568168,
+      "hex": "0x91ffa8",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12582824,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 9568182,
+      "hex": "0x91ffb6",
+      "files": [
+        "src/placed-object-damage.mjs"
+      ],
+      "actualAddress": 12582838,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 8445696,
+      "hex": "0x80df00",
+      "files": [
+        "src/track-deformation.mjs"
+      ],
+      "actualAddress": 11460352,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8445700,
+      "hex": "0x80df04",
+      "files": [
+        "src/track-deformation.mjs"
+      ],
+      "actualAddress": 11460356,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9484680,
+      "hex": "0x90b988",
+      "files": [
+        "src/model-contact-effects.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 12499336,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9484688,
+      "hex": "0x90b990",
+      "files": [
+        "src/model-contact-effects.mjs",
+        "src/raw-scripted-motion.mjs",
+        "src/wormhole-visuals.mjs",
+        "src/projectile-trails.mjs",
+        "src/pickup-world-state.mjs",
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 12499344,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8456504,
+      "hex": "0x810938",
+      "files": [
+        "src/model-contact-effects.mjs"
+      ],
+      "actualAddress": 11471160,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-model-fragment-pool-state"
+    },
+    {
+      "preferredAddress": 8456484,
+      "hex": "0x810924",
+      "files": [
+        "src/model-contact-effects.mjs"
+      ],
+      "actualAddress": 11471140,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-model-fragment-pool-state"
+    },
+    {
+      "preferredAddress": 8456496,
+      "hex": "0x810930",
+      "files": [
+        "src/model-contact-effects.mjs"
+      ],
+      "actualAddress": 11471152,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-model-fragment-pool-state"
+    },
+    {
+      "preferredAddress": 9474708,
+      "hex": "0x909294",
+      "files": [
+        "src/model-contact-effects.mjs"
+      ],
+      "actualAddress": 12489364,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474704,
+      "hex": "0x909290",
+      "files": [
+        "src/model-contact-effects.mjs"
+      ],
+      "actualAddress": 12489360,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8450572,
+      "hex": "0x80f20c",
+      "files": [
+        "src/body-attachment-release.mjs",
+        "src/dynamic-light-state.mjs"
+      ],
+      "actualAddress": 11465228,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8447584,
+      "hex": "0x80e660",
+      "files": [
+        "src/body-attachment-release.mjs"
+      ],
+      "actualAddress": 11462240,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474740,
+      "hex": "0x9092b4",
+      "files": [
+        "src/body-attachment-release.mjs",
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12489396,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236776,
+      "hex": "0x6e6ca8",
+      "files": [
+        "src/dynamic-light-state.mjs"
+      ],
+      "actualAddress": 10251432,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-vehicle-light-state"
+    },
+    {
+      "preferredAddress": 8450592,
+      "hex": "0x80f220",
+      "files": [
+        "src/dynamic-light-state.mjs"
+      ],
+      "actualAddress": 11465248,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8450568,
+      "hex": "0x80f208",
+      "files": [
+        "src/dynamic-light-state.mjs"
+      ],
+      "actualAddress": 11465224,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8450580,
+      "hex": "0x80f214",
+      "files": [
+        "src/dynamic-light-state.mjs"
+      ],
+      "actualAddress": 11465236,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8689104,
+      "hex": "0x8495d0",
+      "files": [
+        "src/wheel-effects.mjs"
+      ],
+      "actualAddress": 11703760,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8689112,
+      "hex": "0x8495d8",
+      "files": [
+        "src/wheel-effects.mjs"
+      ],
+      "actualAddress": 11703768,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8689108,
+      "hex": "0x8495d4",
+      "files": [
+        "src/wheel-effects.mjs"
+      ],
+      "actualAddress": 11703764,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6214328,
+      "hex": "0x5ed2b8",
+      "files": [
+        "src/wheel-effects.mjs",
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 9228984,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-brightness-rng"
+    },
+    {
+      "preferredAddress": 6214336,
+      "hex": "0x5ed2c0",
+      "files": [
+        "src/wheel-effects.mjs"
+      ],
+      "actualAddress": 9228992,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8458628,
+      "hex": "0x811184",
+      "files": [
+        "src/wheel-effects.mjs",
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 11473284,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8458636,
+      "hex": "0x81118c",
+      "files": [
+        "src/wheel-effects.mjs",
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 11473292,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9539590,
+      "hex": "0x919006",
+      "files": [
+        "src/wheel-effects.mjs",
+        "src/projectile-trails.mjs"
+      ],
+      "actualAddress": 12554246,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9539588,
+      "hex": "0x919004",
+      "files": [
+        "src/wheel-effects.mjs",
+        "src/projectile-trails.mjs"
+      ],
+      "actualAddress": 12554244,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6145908,
+      "hex": "0x5dc774",
+      "files": [
+        "src/camera-pose-publication.mjs",
+        "src/camera-projection.mjs",
+        "src/raw-vector-normalization.mjs",
+        "src/weather-screen.mjs",
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 9160564,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-14"
+    },
+    {
+      "preferredAddress": 6095452,
+      "hex": "0x5d025c",
+      "files": [
+        "src/weather-viewport.mjs",
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9110108,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7428940,
+      "hex": "0x715b4c",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10443596,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7428944,
+      "hex": "0x715b50",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10443600,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6147024,
+      "hex": "0x5dcbd0",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 9161680,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433060,
+      "hex": "0x716b64",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447716,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7428952,
+      "hex": "0x715b58",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10443608,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433052,
+      "hex": "0x716b5c",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447708,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433056,
+      "hex": "0x716b60",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447712,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433076,
+      "hex": "0x716b74",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447732,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433108,
+      "hex": "0x716b94",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447764,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433092,
+      "hex": "0x716b84",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447748,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433112,
+      "hex": "0x716b98",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447768,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433152,
+      "hex": "0x716bc0",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447808,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433156,
+      "hex": "0x716bc4",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447812,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7433160,
+      "hex": "0x716bc8",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10447816,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7428949,
+      "hex": "0x715b55",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10443605,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7428872,
+      "hex": "0x715b08",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10443528,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7428900,
+      "hex": "0x715b24",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10443556,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7428904,
+      "hex": "0x715b28",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10443560,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7424764,
+      "hex": "0x714afc",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10439420,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7427184,
+      "hex": "0x715470",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441840,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427212,
+      "hex": "0x71548c",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441868,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427236,
+      "hex": "0x7154a4",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441892,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427232,
+      "hex": "0x7154a0",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441888,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427264,
+      "hex": "0x7154c0",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441920,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427288,
+      "hex": "0x7154d8",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441944,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427308,
+      "hex": "0x7154ec",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441964,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427312,
+      "hex": "0x7154f0",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441968,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427272,
+      "hex": "0x7154c8",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441928,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427276,
+      "hex": "0x7154cc",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441932,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427280,
+      "hex": "0x7154d0",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441936,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7427188,
+      "hex": "0x715474",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10441844,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7273272,
+      "hex": "0x6efb38",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10287928,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-viewport-singletons"
+    },
+    {
+      "preferredAddress": 7426144,
+      "hex": "0x715060",
+      "files": [
+        "src/application-bootstrap.mjs"
+      ],
+      "actualAddress": 10440800,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6145636,
+      "hex": "0x5dc664",
+      "files": [
+        "src/camera-viewport.mjs"
+      ],
+      "actualAddress": 9160292,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6145884,
+      "hex": "0x5dc75c",
+      "files": [
+        "src/camera-viewport.mjs"
+      ],
+      "actualAddress": 9160540,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9555604,
+      "hex": "0x91ce94",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12570260,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-policy"
+    },
+    {
+      "preferredAddress": 9556772,
+      "hex": "0x91d324",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12571428,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556776,
+      "hex": "0x91d328",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12571432,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236612,
+      "hex": "0x6e6c04",
+      "files": [
+        "src/camera-projection.mjs",
+        "src/renderer-viewports.mjs"
+      ],
+      "actualAddress": 10251268,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-viewport-double-gate"
+    },
+    {
+      "preferredAddress": 7234912,
+      "hex": "0x6e6560",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10249568,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6146184,
+      "hex": "0x5dc888",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 9160840,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-12"
+    },
+    {
+      "preferredAddress": 7320660,
+      "hex": "0x6fb454",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335316,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 6147936,
+      "hex": "0x5dcf60",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 9162592,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-13"
+    },
+    {
+      "preferredAddress": 7320664,
+      "hex": "0x6fb458",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335320,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320644,
+      "hex": "0x6fb444",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335300,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320648,
+      "hex": "0x6fb448",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335304,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320652,
+      "hex": "0x6fb44c",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335308,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320640,
+      "hex": "0x6fb440",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335296,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320668,
+      "hex": "0x6fb45c",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335324,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320656,
+      "hex": "0x6fb450",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335312,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320676,
+      "hex": "0x6fb464",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335332,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320680,
+      "hex": "0x6fb468",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335336,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320684,
+      "hex": "0x6fb46c",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335340,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320672,
+      "hex": "0x6fb460",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335328,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320692,
+      "hex": "0x6fb474",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335348,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320696,
+      "hex": "0x6fb478",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335352,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320700,
+      "hex": "0x6fb47c",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335356,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 7320688,
+      "hex": "0x6fb470",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 10335344,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-clip-planes"
+    },
+    {
+      "preferredAddress": 9557396,
+      "hex": "0x91d594",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12572052,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-packed-extent"
+    },
+    {
+      "preferredAddress": 9555628,
+      "hex": "0x91ceac",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12570284,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-projection"
+    },
+    {
+      "preferredAddress": 9555360,
+      "hex": "0x91cda0",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12570016,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6145736,
+      "hex": "0x5dc6c8",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 9160392,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-11"
+    },
+    {
+      "preferredAddress": 9556800,
+      "hex": "0x91d340",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12571456,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556796,
+      "hex": "0x91d33c",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 12571452,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6145952,
+      "hex": "0x5dc7a0",
+      "files": [
+        "src/camera-projection.mjs"
+      ],
+      "actualAddress": 9160608,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-10"
+    },
+    {
+      "preferredAddress": 7234440,
+      "hex": "0x6e6388",
+      "files": [
+        "src/renderer-viewports.mjs"
+      ],
+      "actualAddress": 10249096,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-renderer-manager-root"
+    },
+    {
+      "preferredAddress": 7314368,
+      "hex": "0x6f9bc0",
+      "files": [
+        "src/camera-curve.mjs"
+      ],
+      "actualAddress": 10329024,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-factorials"
+    },
+    {
+      "preferredAddress": 5702800,
+      "hex": "0x570490",
+      "files": [
+        "src/camera-curve.mjs"
+      ],
+      "actualAddress": 8717456,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-4"
+    },
+    {
+      "preferredAddress": 5702812,
+      "hex": "0x57049c",
+      "files": [
+        "src/camera-curve.mjs"
+      ],
+      "actualAddress": 8717468,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-5"
+    },
+    {
+      "preferredAddress": 7314384,
+      "hex": "0x6f9bd0",
+      "files": [
+        "src/camera-curve.mjs"
+      ],
+      "actualAddress": 10329040,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-factorials"
+    },
+    {
+      "preferredAddress": 5702868,
+      "hex": "0x5704d4",
+      "files": [
+        "src/camera-curve.mjs"
+      ],
+      "actualAddress": 8717524,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-6"
+    },
+    {
+      "preferredAddress": 5702824,
+      "hex": "0x5704a8",
+      "files": [
+        "src/camera-curve.mjs"
+      ],
+      "actualAddress": 8717480,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-7"
+    },
+    {
+      "preferredAddress": 5702764,
+      "hex": "0x57046c",
+      "files": [
+        "src/camera-curve.mjs"
+      ],
+      "actualAddress": 8717420,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-table-8"
+    },
+    {
+      "preferredAddress": 6146696,
+      "hex": "0x5dca88",
+      "files": [
+        "src/raw-vector-normalization.mjs",
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 9161352,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6206096,
+      "hex": "0x5eb290",
+      "files": [
+        "src/raw-vector-normalization.mjs"
+      ],
+      "actualAddress": 9220752,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236816,
+      "hex": "0x6e6cd0",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 10251472,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 8445660,
+      "hex": "0x80dedc",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 11460316,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-brightness-mode"
+    },
+    {
+      "preferredAddress": 7236840,
+      "hex": "0x6e6ce8",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 10251496,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7236848,
+      "hex": "0x6e6cf0",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 10251504,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7236836,
+      "hex": "0x6e6ce4",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 10251492,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7236844,
+      "hex": "0x6e6cec",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 10251500,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7236808,
+      "hex": "0x6e6cc8",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 10251464,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7236812,
+      "hex": "0x6e6ccc",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 10251468,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 8445408,
+      "hex": "0x80dde0",
+      "files": [
+        "src/weather-update.mjs",
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 11460064,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-volumes"
+    },
+    {
+      "preferredAddress": 8445432,
+      "hex": "0x80ddf8",
+      "files": [
+        "src/weather-update.mjs",
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 11460088,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-volumes"
+    },
+    {
+      "preferredAddress": 8445412,
+      "hex": "0x80dde4",
+      "files": [
+        "src/weather-update.mjs"
+      ],
+      "actualAddress": 11460068,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-volumes"
+    },
+    {
+      "preferredAddress": 6214332,
+      "hex": "0x5ed2bc",
+      "files": [
+        "src/weather-volumes.mjs",
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9228988,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-brightness-rng"
+    },
+    {
+      "preferredAddress": 7419596,
+      "hex": "0x7136cc",
+      "files": [
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 10434252,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-position-backup"
+    },
+    {
+      "preferredAddress": 7419728,
+      "hex": "0x713750",
+      "files": [
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 10434384,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-matrix-velocity-backup"
+    },
+    {
+      "preferredAddress": 7419768,
+      "hex": "0x713778",
+      "files": [
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 10434424,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-matrix-velocity-backup"
+    },
+    {
+      "preferredAddress": 7419744,
+      "hex": "0x713760",
+      "files": [
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 10434400,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-matrix-velocity-backup"
+    },
+    {
+      "preferredAddress": 7419320,
+      "hex": "0x7135b8",
+      "files": [
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 10433976,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-screen-root"
+    },
+    {
+      "preferredAddress": 7419588,
+      "hex": "0x7136c4",
+      "files": [
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 10434244,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-position-backup"
+    },
+    {
+      "preferredAddress": 7419760,
+      "hex": "0x713770",
+      "files": [
+        "src/weather-volumes.mjs"
+      ],
+      "actualAddress": 10434416,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-matrix-velocity-backup"
+    },
+    {
+      "preferredAddress": 7253984,
+      "hex": "0x6eafe0",
+      "files": [
+        "src/weather-volumes.mjs",
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs",
+        "src/finish-messages.mjs",
+        "src/notification-transport.mjs",
+        "src/network-session-retirement.mjs",
+        "src/terrain-wave.mjs",
+        "src/pickup-award.mjs",
+        "src/vehicle-contact-colors.mjs",
+        "src/weapon-launch-feedback.mjs",
+        "src/projectile-notifications.mjs"
+      ],
+      "actualAddress": 10268640,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7249776,
+      "hex": "0x6e9f70",
+      "files": [
+        "src/weather-volumes.mjs",
+        "src/weather-screen.mjs",
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs",
+        "src/notification-transport.mjs",
+        "src/network-session-retirement.mjs",
+        "src/pickup-award.mjs"
+      ],
+      "actualAddress": 10264432,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6095444,
+      "hex": "0x5d0254",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9110100,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-player-name"
+    },
+    {
+      "preferredAddress": 7236820,
+      "hex": "0x6e6cd4",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 10251476,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7419316,
+      "hex": "0x7135b4",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 10433972,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-screen-root"
+    },
+    {
+      "preferredAddress": 6145432,
+      "hex": "0x5dc598",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9160088,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dc598"
+    },
+    {
+      "preferredAddress": 6145772,
+      "hex": "0x5dc6ec",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9160428,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dc6ec"
+    },
+    {
+      "preferredAddress": 6145492,
+      "hex": "0x5dc5d4",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9160148,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dc5d4"
+    },
+    {
+      "preferredAddress": 6146584,
+      "hex": "0x5dca18",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9161240,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dca18"
+    },
+    {
+      "preferredAddress": 6145568,
+      "hex": "0x5dc620",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9160224,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dc620"
+    },
+    {
+      "preferredAddress": 6145600,
+      "hex": "0x5dc640",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9160256,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dc640"
+    },
+    {
+      "preferredAddress": 6145520,
+      "hex": "0x5dc5f0",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9160176,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dc5f0"
+    },
+    {
+      "preferredAddress": 5703456,
+      "hex": "0x570720",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 8718112,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236852,
+      "hex": "0x6e6cf4",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 10251508,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7236832,
+      "hex": "0x6e6ce0",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 10251488,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 7236828,
+      "hex": "0x6e6cdc",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 10251484,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-state"
+    },
+    {
+      "preferredAddress": 6146612,
+      "hex": "0x5dca34",
+      "files": [
+        "src/weather-screen.mjs"
+      ],
+      "actualAddress": 9161268,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-scalar-5dca34"
+    },
+    {
+      "preferredAddress": 7236748,
+      "hex": "0x6e6c8c",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10251404,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-counter-enabled"
+    },
+    {
+      "preferredAddress": 7419308,
+      "hex": "0x7135ac",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10433964,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-performance-origin"
+    },
+    {
+      "preferredAddress": 7419300,
+      "hex": "0x7135a4",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10433956,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-weather-performance-origin"
+    },
+    {
+      "preferredAddress": 7239808,
+      "hex": "0x6e7880",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/notification-transport.mjs"
+      ],
+      "actualAddress": 10254464,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7249772,
+      "hex": "0x6e9f6c",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/notification-transport.mjs"
+      ],
+      "actualAddress": 10264428,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7253708,
+      "hex": "0x6eaecc",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10268364,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7253720,
+      "hex": "0x6eaed8",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10268376,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7253716,
+      "hex": "0x6eaed4",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10268372,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7253712,
+      "hex": "0x6eaed0",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10268368,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7249780,
+      "hex": "0x6e9f74",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/notification-transport.mjs"
+      ],
+      "actualAddress": 10264436,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7249784,
+      "hex": "0x6e9f78",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/notification-transport.mjs"
+      ],
+      "actualAddress": 10264440,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236880,
+      "hex": "0x6e6d10",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/notification-transport.mjs"
+      ],
+      "actualAddress": 10251536,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6193792,
+      "hex": "0x5e8280",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 9208448,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6193796,
+      "hex": "0x5e8284",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 9208452,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6193800,
+      "hex": "0x5e8288",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 9208456,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7283748,
+      "hex": "0x6f2424",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 10298404,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7283766,
+      "hex": "0x6f2436",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 10298422,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7283764,
+      "hex": "0x6f2434",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 10298420,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236884,
+      "hex": "0x6e6d14",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10251540,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7235035,
+      "hex": "0x6e65db",
+      "files": [
+        "src/game-network-protocol.mjs",
+        "src/notification-transport.mjs"
+      ],
+      "actualAddress": 10249691,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7216760,
+      "hex": "0x6e1e78",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10231416,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7235428,
+      "hex": "0x6e6764",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10250084,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7236896,
+      "hex": "0x6e6d20",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10251552,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7239804,
+      "hex": "0x6e787c",
+      "files": [
+        "src/game-network-protocol.mjs"
+      ],
+      "actualAddress": 10254460,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096030,
+      "hex": "0x5d049e",
+      "files": [
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 9110686,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096028,
+      "hex": "0x5d049c",
+      "files": [
+        "src/vehicle-auxiliary-input.mjs"
+      ],
+      "actualAddress": 9110684,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7235044,
+      "hex": "0x6e65e4",
+      "files": [
+        "src/finish-messages.mjs"
+      ],
+      "actualAddress": 10249700,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7235060,
+      "hex": "0x6e65f4",
+      "files": [
+        "src/finish-messages.mjs"
+      ],
+      "actualAddress": 10249716,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096536,
+      "hex": "0x5d0698",
+      "files": [
+        "src/finish-messages.mjs"
+      ],
+      "actualAddress": 9111192,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7235056,
+      "hex": "0x6e65f0",
+      "files": [
+        "src/finish-messages.mjs"
+      ],
+      "actualAddress": 10249712,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096120,
+      "hex": "0x5d04f8",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110776,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096121,
+      "hex": "0x5d04f9",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110777,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7314424,
+      "hex": "0x6f9bf8",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 10329080,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096128,
+      "hex": "0x5d0500",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110784,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096130,
+      "hex": "0x5d0502",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110786,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096132,
+      "hex": "0x5d0504",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110788,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096136,
+      "hex": "0x5d0508",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110792,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096138,
+      "hex": "0x5d050a",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110794,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7235336,
+      "hex": "0x6e6708",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 10249992,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9486496,
+      "hex": "0x90c0a0",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 12501152,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236752,
+      "hex": "0x6e6c90",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 10251408,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6108608,
+      "hex": "0x5d35c0",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9123264,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6108648,
+      "hex": "0x5d35e8",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9123304,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096076,
+      "hex": "0x5d04cc",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110732,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096078,
+      "hex": "0x5d04ce",
+      "files": [
+        "src/game-diagnostics.mjs"
+      ],
+      "actualAddress": 9110734,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7239812,
+      "hex": "0x6e7884",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 10254468,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9475401,
+      "hex": "0x909549",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 12490057,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9445536,
+      "hex": "0x9020a0",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 12460192,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236404,
+      "hex": "0x6e6b34",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 10251060,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6206744,
+      "hex": "0x5eb518",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 9221400,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9568180,
+      "hex": "0x91ffb4",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 12582836,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-camera-records"
+    },
+    {
+      "preferredAddress": 7235420,
+      "hex": "0x6e675c",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 10250076,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-logical-time-counter"
+    },
+    {
+      "preferredAddress": 7252656,
+      "hex": "0x6eaab0",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 10267312,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7249768,
+      "hex": "0x6e9f68",
+      "files": [
+        "src/network-session-retirement.mjs",
+        "src/pickup-award.mjs"
+      ],
+      "actualAddress": 10264424,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7252664,
+      "hex": "0x6eaab8",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 10267320,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7236428,
+      "hex": "0x6e6b4c",
+      "files": [
+        "src/network-session-retirement.mjs"
+      ],
+      "actualAddress": 10251084,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6211904,
+      "hex": "0x5ec940",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 9226560,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6209776,
+      "hex": "0x5ec0f0",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 9224432,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6205216,
+      "hex": "0x5eaf20",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 9219872,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6106968,
+      "hex": "0x5d2f58",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 9121624,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6103748,
+      "hex": "0x5d22c4",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 9118404,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6096184,
+      "hex": "0x5d0538",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 9110840,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9450744,
+      "hex": "0x9034f8",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12465400,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9475596,
+      "hex": "0x90960c",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12490252,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9450754,
+      "hex": "0x903502",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12465410,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9450753,
+      "hex": "0x903501",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12465409,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9450752,
+      "hex": "0x903500",
+      "files": [
+        "src/projectile-launch.mjs"
+      ],
+      "actualAddress": 12465408,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 5723920,
+      "hex": "0x575710",
+      "files": [
+        "src/wormhole-visuals.mjs"
+      ],
+      "actualAddress": 8738576,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6214344,
+      "hex": "0x5ed2c8",
+      "files": [
+        "src/wormhole-visuals.mjs"
+      ],
+      "actualAddress": 9229000,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9556852,
+      "hex": "0x91d374",
+      "files": [
+        "src/wormhole-visuals.mjs",
+        "src/body-attachments.mjs"
+      ],
+      "actualAddress": 12571508,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213676,
+      "hex": "0x5ed02c",
+      "files": [
+        "src/wormhole-visuals.mjs"
+      ],
+      "actualAddress": 9228332,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474845,
+      "hex": "0x90931d",
+      "files": [
+        "src/projectile-routes.mjs",
+        "src/weapon-launch-feedback.mjs"
+      ],
+      "actualAddress": 12489501,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492852,
+      "hex": "0x90d974",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507508,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489248,
+      "hex": "0x90cb60",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503904,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492848,
+      "hex": "0x90d970",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507504,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489304,
+      "hex": "0x90cb98",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503960,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489280,
+      "hex": "0x90cb80",
+      "files": [
+        "src/terrain-wave.mjs",
+        "src/pickup-award.mjs"
+      ],
+      "actualAddress": 12503936,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489288,
+      "hex": "0x90cb88",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503944,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489284,
+      "hex": "0x90cb84",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503940,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492854,
+      "hex": "0x90d976",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507510,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489308,
+      "hex": "0x90cb9c",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503964,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492856,
+      "hex": "0x90d978",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507512,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492876,
+      "hex": "0x90d98c",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507532,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489292,
+      "hex": "0x90cb8c",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503948,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489296,
+      "hex": "0x90cb90",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503952,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489300,
+      "hex": "0x90cb94",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503956,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7235332,
+      "hex": "0x6e6704",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 10249988,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9509792,
+      "hex": "0x911ba0",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12524448,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489310,
+      "hex": "0x90cb9e",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12503966,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9489472,
+      "hex": "0x90cc40",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12504128,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492868,
+      "hex": "0x90d984",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507524,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492860,
+      "hex": "0x90d97c",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507516,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9492864,
+      "hex": "0x90d980",
+      "files": [
+        "src/terrain-wave.mjs"
+      ],
+      "actualAddress": 12507520,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 5703040,
+      "hex": "0x570580",
+      "files": [
+        "src/vehicle-contact-state.mjs"
+      ],
+      "actualAddress": 8717696,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6202584,
+      "hex": "0x5ea4d8",
+      "files": [
+        "src/vehicle-contact-state.mjs",
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 9217240,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6202580,
+      "hex": "0x5ea4d4",
+      "files": [
+        "src/vehicle-contact-state.mjs",
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 9217236,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8458632,
+      "hex": "0x811188",
+      "files": [
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 11473288,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6213668,
+      "hex": "0x5ed024",
+      "files": [
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 9228324,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6146424,
+      "hex": "0x5dc978",
+      "files": [
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 9161080,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7236780,
+      "hex": "0x6e6cac",
+      "files": [
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 10251436,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7236784,
+      "hex": "0x6e6cb0",
+      "files": [
+        "src/race-time-effect.mjs"
+      ],
+      "actualAddress": 10251440,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9448384,
+      "hex": "0x902bc0",
+      "files": [
+        "src/pickup-world-state.mjs",
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 12463040,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9445408,
+      "hex": "0x902020",
+      "files": [
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12460064,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9474728,
+      "hex": "0x9092a8",
+      "files": [
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12489384,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557120,
+      "hex": "0x91d480",
+      "files": [
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12571776,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557168,
+      "hex": "0x91d4b0",
+      "files": [
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12571824,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557144,
+      "hex": "0x91d498",
+      "files": [
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12571800,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9557145,
+      "hex": "0x91d499",
+      "files": [
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12571801,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9445412,
+      "hex": "0x902024",
+      "files": [
+        "src/pickup-world-state.mjs"
+      ],
+      "actualAddress": 12460068,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556834,
+      "hex": "0x91d362",
+      "files": [
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571490,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9556836,
+      "hex": "0x91d364",
+      "files": [
+        "src/wheel-render-state.mjs"
+      ],
+      "actualAddress": 12571492,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9524200,
+      "hex": "0x9153e8",
+      "files": [
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 12538856,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8689984,
+      "hex": "0x849940",
+      "files": [
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 11704640,
+      "physicallyCaptured": true,
+      "lateDescriptor": "late-world-fragment-flags"
+    },
+    {
+      "preferredAddress": 7400216,
+      "hex": "0x70eb18",
+      "files": [
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 10414872,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7400204,
+      "hex": "0x70eb0c",
+      "files": [
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 10414860,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7400220,
+      "hex": "0x70eb1c",
+      "files": [
+        "src/raw-respawn-state.mjs"
+      ],
+      "actualAddress": 10414876,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 5703376,
+      "hex": "0x5706d0",
+      "files": [
+        "src/finish-bookkeeping.mjs"
+      ],
+      "actualAddress": 8718032,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 5703296,
+      "hex": "0x570680",
+      "files": [
+        "src/finish-bookkeeping.mjs"
+      ],
+      "actualAddress": 8717952,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 5703360,
+      "hex": "0x5706c0",
+      "files": [
+        "src/finish-bookkeeping.mjs"
+      ],
+      "actualAddress": 8718016,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 6210568,
+      "hex": "0x5ec408",
+      "files": [
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 9225224,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 6214352,
+      "hex": "0x5ed2d0",
+      "files": [
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 9229008,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9450755,
+      "hex": "0x903503",
+      "files": [
+        "src/wormhole-construction.mjs"
+      ],
+      "actualAddress": 12465411,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7418244,
+      "hex": "0x713184",
+      "files": [
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 10432900,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7418104,
+      "hex": "0x7130f8",
+      "files": [
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 10432760,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7418072,
+      "hex": "0x7130d8",
+      "files": [
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 10432728,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 7418240,
+      "hex": "0x713180",
+      "files": [
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 10432896,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 8689120,
+      "hex": "0x8495e0",
+      "files": [
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 11703776,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 7418112,
+      "hex": "0x713100",
+      "files": [
+        "src/vehicle-contact-colors.mjs"
+      ],
+      "actualAddress": 10432768,
+      "physicallyCaptured": false
+    },
+    {
+      "preferredAddress": 9570276,
+      "hex": "0x9207e4",
+      "files": [
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12584932,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9570304,
+      "hex": "0x920800",
+      "files": [
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12584960,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555336,
+      "hex": "0x91cd88",
+      "files": [
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569992,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555328,
+      "hex": "0x91cd80",
+      "files": [
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569984,
+      "physicallyCaptured": true
+    },
+    {
+      "preferredAddress": 9555332,
+      "hex": "0x91cd84",
+      "files": [
+        "src/placed-model-effect-update.mjs"
+      ],
+      "actualAddress": 12569988,
+      "physicallyCaptured": true
+    }
+  ]
+}

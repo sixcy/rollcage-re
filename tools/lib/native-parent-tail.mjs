@@ -8,7 +8,7 @@ import {createNativeFrameContext,extendNativeFrameGeometryComparison,extendNativ
 import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
 import {createNativeFrameSoundBindings,bindCapturedNativeThreadEnvironment} from './native-frame-sound.mjs';
 import {createNativeRecoveryContext} from './native-recovery-context.mjs';
-import {nativeCodeAddress} from '../../src/native-memory-spans.mjs';
+import {nativeCodeAddress,nativeMemorySpan,copyToNativeMemory} from '../../src/native-memory-spans.mjs';
 import {updateRawBodyAttachments} from '../../src/body-attachments.mjs';
 import {runRawPostFrameBodyStates} from '../../src/raw-respawn-state.mjs';
 import {prepareVehicleWheelRender} from '../../src/wheel-render-state.mjs';
@@ -83,10 +83,20 @@ function lazyRecovery(source,S){
   return {runtime:{memory,views,grid:geometry.grid,models:geometry.modelContext,modelPointersFor:geometry.candidateMapping.modelPointersFor,scratchBase:S,roundingMode:'nearest-even',x87PrecisionBits:24,progression,soundRuntime:source.sound.soundRuntime,nativeRecoveryAudio},get initialized(){return full!==undefined;}};
 }
 
+//The reached4180a0 sprintf format only. This is a real typed CRT operation,
+//not a supplied camera pose, viewport object, game-child result or initializer.
+export function formatNativeParentCameraName(memory,output,format,index){
+  const text=nativeMemorySpan(memory,format,10);
+  if(!text.equals(Buffer.from('%d Player\0','ascii')))throw Error('Native camera formatter requires its observed %d Player format.');
+  if(!Number.isInteger(index)||index<-2147483648||index>2147483647)throw Error('Native camera formatter requires a signed32 argument.');
+  const bytes=Buffer.from(`${index} Player\0`,'ascii');copyToNativeMemory(memory,output,bytes);return bytes.length-1;
+}
+
 export function executeNativeParentTail(source,{onStage,through='drive'}={}){
   const {S,base}=contract(source);if(!['attachments','recovery','drive','auxiliary','cameras','world-effects','parent-return'].includes(through))throw Error('Unknown requested parent-tail boundary.');if(onStage!==undefined&&typeof onStage!=='function')throw Error('Parent-tail stage observer must be a function.');
   const {memory:m}=source,ptr=p=>m.readUInt32LE(p),get=p=>m.readInt32LE(p),put=(p,v)=>m.writeInt32LE(v|0,p),stages=[],calls=[],progress={scope:through,stage:'attachments',childEsp:S,parentCheckpointEsp:S+4,stages,calls,parentReturned:false};
-  const runtime={memory:m,moduleBaseAddress:base,scratchBase:S,numericalContext:source.numericalContext,roundingMode:'nearest-even',x87PrecisionBits:24,views:source.views,grid:source.geometry.grid,models:source.geometry.modelContext,modelPointersFor:source.geometry.candidateMapping.modelPointersFor,soundRuntime:source.sound.soundRuntime};
+  const runtime={memory:m,moduleBaseAddress:base,scratchBase:S,numericalContext:source.numericalContext,roundingMode:'nearest-even',x87PrecisionBits:24,views:source.views,grid:source.geometry.grid,models:source.geometry.modelContext,modelPointersFor:source.geometry.candidateMapping.modelPointersFor,soundRuntime:source.sound.soundRuntime,
+    handlers:{formatCameraName:(output,format,index)=>formatNativeParentCameraName(m,output,format,index)}};
   const publishReturn=p=>m.writeUInt32LE(nativeCodeAddress(p,{moduleBaseAddress:base}),S);
   const observe=(stage,entry,returnAddress,report)=>{
     extendNativeFrameGeometryComparison(source.manifest,source.geometry.comparisonRegions??[]);extendNativeFrameSoundComparison(source.manifest,[...(source.sound.comparisonRegions??[]),...(source.threadEnvironment?.comparisonRegions??[])]);

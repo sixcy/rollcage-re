@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "method": "Independent static write-order audit and source-derived event-local consequence over an original-process entry replay; no source changes or target execution",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidenceIds": [
+    "ev_af519c4d443ad65b6ae8066d61eea98c1f5242aa2835d3fbe2e8fa35a296c87a",
+    "ev_9c7046b4db31a4445e6c6329cebac23fd13e5390d774b2d3986ef85232d383f8",
+    "ev_f85d6409a8220db534c16cd254e4af3b2c34ec60dc2e211dc90ec66e2f5e67ab"
+  ],
+  "inputReport": "analysis/native-parent-late-v3-independent-physics-first-20261023.json",
+  "inputReportSha256": "95a263e7eb297edf3abb23a5350182c02ff1fd8723fbbd403f51ee83f7288252",
+  "sourceEvents": [
+    {
+      "index": 0,
+      "deltaQ16": 0,
+      "postResponseFirst": 287960576,
+      "postResponseSecond": 0
+    },
+    {
+      "index": 1,
+      "deltaQ16": 1280,
+      "postResponseFirst": 287767808,
+      "postResponseSecond": 287960960
+    },
+    {
+      "index": 2,
+      "deltaQ16": 0,
+      "postResponseFirst": 287767808,
+      "postResponseSecond": 287960960
+    },
+    {
+      "index": 3,
+      "deltaQ16": 43776,
+      "postResponseFirst": 287960960,
+      "postResponseSecond": 287767808
+    },
+    {
+      "index": 4,
+      "deltaQ16": 0,
+      "postResponseFirst": 287960960,
+      "postResponseSecond": 287767808
+    }
+  ],
+  "expectedFinalLocal": 287960960,
+  "capturedFinalLocal": 287960960,
+  "matchedFinalLocal": true,
+  "writeOrder": [
+    {
+      "site": "4749e0",
+      "meaning": "PUSH incomingECX owns entryESP-4"
+    },
+    {
+      "site": "474ac0",
+      "meaning": "Store decodedtime minus originalfirst.frame118 before filters"
+    },
+    {
+      "site": "474ba5",
+      "meaning": "Only on promotion subtract saved clock difference through EDX pointer"
+    },
+    {
+      "site": "474acc",
+      "meaning": "Parent copies filtered local intoEBP before response"
+    },
+    {
+      "site": "474ae7",
+      "meaning": "Replace local with first pointer loaded AFTER response, includingzero, beforeinvalidate"
+    },
+    {
+      "site": "474af0",
+      "meaning": "Reload local afterinvalidate forrefresh"
+    },
+    {
+      "site": "474b09",
+      "meaning": "Negative filtered delta ends loop after response/invalidate/refresh"
+    },
+    {
+      "site": "474b1d",
+      "meaning": "POP ECX returns the actual local after final advancement"
+    }
+  ],
+  "cases": {
+    "noEvents": "IncomingECX remains the parent-owned local; independententry can supply it, joined source must derive it or leave the return unproved.",
+    "negativeDelta": "Still completes response/invalidate/refresh and publishes first-after-response before breaking.",
+    "firstRejectedSecondSurvives": "Promote second, clear second, negate normal; adjust delta by saved negative first clock plus second clock read after first callback.",
+    "bothRejected": "Response sees firstNULL, parent writes local0, refresh skipped.",
+    "firstInitiallyNull": "Invalid native event: first+118 dereferenced before filter/nulltest; do not make it an accepted event."
+  },
+  "limits": [
+    "The five event rows are reconstructed-source dispatch observations over actual original entry state, not independently captured native per-event records.",
+    "The original-process final-local observation and full memory comparison support this case; filtered/null/negative cases here are static deductions.",
+    "Private callee stack aliases and unproved incoming joined volatile registers must not be replaced with observed output values."
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "method": "retained-original-worker-v18-blob-and-budget-audit",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-worker-gain-window-v18-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "traceSha256": "a28e0ae368005704e44dbefa45c6ae62368b6a618c50d9d0dfe6cf41da082e14",
+  "configurationSha256": "aac69d6c885b582a11e793e71ad1854f4f93101d4949e849eedd28efea290b8f",
+  "allEmittedBlobs": {
+    "files": 1584,
+    "bytes": 103729934,
+    "allHashesMatch": true,
+    "mismatches": []
+  },
+  "buffers": {
+    "mainSnapshotCount": 3,
+    "workerSnapshotCount": 2,
+    "mainObservedBytes": 103505380,
+    "mainDeclaredBytes": 103505380,
+    "mainLimit": 133955584,
+    "workerObservedBytes": 14992,
+    "workerLimit": 262144,
+    "combinedObservedBytes": 103520372,
+    "combinedLimit": 134217728,
+    "method": "CONTEXT716 + all published range lengths + 12-byte separately-read vector header for each vector-storage range. Thread SEH four bytes are already a published range."
+  },
+  "snapshots": {
+    "published": 237,
+    "limit": 350,
+    "terminal": 237
+  },
+  "timing": {
+    "durationLimit": 90000,
+    "complete": 42951,
+    "cleanup": 42998,
+    "parentStart": 2394,
+    "parentEnd": 2400,
+    "workerEntry": 2402,
+    "workerExit": 2404,
+    "workerObservedAfterParent": true
+  },
+  "ownedCleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 31032,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 42998
+  },
+  "source": {
+    "source": "0x16fec628",
+    "manager": "0x86f9388",
+    "entryEsp": "0xe7bfccc",
+    "workerTid": 37368,
+    "cw": "0x27f",
+    "boundary": {
+      "kind": "Win32",
+      "name": "EnterCriticalSection",
+      "preferredCallAddress": 4880895,
+      "preferredReturnAddress": 4880901,
+      "entryEsp": 243006264,
+      "returnAddress": 7895557,
+      "args": [
+        141532124
+      ],
+      "argumentWords": [
+        141532124
+      ],
+      "criticalSectionAddress": 141532124,
+      "preCallWin32BytesHex": "fffffffffeffffff01000000f89100000000000000100000",
+      "preCallGameWrapperBytesHex": "01000000f8910000",
+      "outcomeApplied": false,
+      "missing": "Actual owned worker EnterCriticalSection call/return context and Win32-only memory outcome; concurrent producer effects remain separate."
+    },
+    "externalOutcomesApplied": 0,
+    "partialChanges": {
+      "sourceBytes": 0,
+      "managerBytes": 0,
+      "stackBytes": 45
+    }
+  },
+  "entryExitObservationVerified": true,
+  "sourceReplayComplete": false,
+  "wholeGainCallMatched": false,
+  "fullPrivateAbiMatched": false,
+  "fullWorkerInterleavingProved": false,
+  "sameParentInterleavingClaimed": false,
+  "limits": [
+    "Entry/normal-exit identity and declared input capture verified; complete source gain output not compared.",
+    "Only entry input bytes/registers initialize source; exit serves identity validation only.",
+    "All emitted debugger blobs were hash-checked; installed game-file171 audit remains separately root-owned.",
+    "Normal preRET8 observation does not itself establish later audible playback or whole concurrent producer reconstruction."
+  ]
+}

@@ -20,7 +20,9 @@ export class NativeWorkerGainReplayBoundary extends Error {
 export function replayNativeWorkerGainEntry(before, options = {}) {
   if (!options || typeof options !== 'object' || Object.keys(options).some(name => name !== 'moduleBaseAddress')) fail('only an explicit module base is accepted; no after state or injected services');
   let {moduleBaseAddress} = options;
-  if (before?.breakpointId !== 'worker-gain-entry' || before.ownedWorkerGainPair?.role !== 'entry' || before.ownedWorkerGainPair.beforeOriginalInstruction !== true) fail('requires the actual pre-prologue entry, not a lookup or exit snapshot');
+  if (before?.ownedWorkerGainPair && before?.ownedWorkerGainWindow) fail('entry cannot borrow two different observation policies');
+  const proof = before?.ownedWorkerGainPair ?? before?.ownedWorkerGainWindow;
+  if (before?.breakpointId !== 'worker-gain-entry' || proof?.role !== 'entry' || proof.beforeOriginalInstruction !== true) fail('requires the actual pre-prologue entry, not a lookup or exit snapshot');
   const rows = before.ranges instanceof Map ? [...before.ranges.values()] : before.ranges;
   if (!Array.isArray(rows) || !rows.length || new Set(rows.map(r => r.id)).size !== rows.length) fail('missing or duplicate original entry ranges');
   const bases = new Set([moduleBaseAddress, before.moduleBaseAddress, ...rows.map(r => r.moduleBaseAddress)].filter(v => v !== undefined && v !== null).map(v => number(v, 'module base')));
@@ -38,7 +40,7 @@ export function replayNativeWorkerGainEntry(before, options = {}) {
   if ((before.context.readUInt32LE(28) & 65535) !== cw || before.context.readUInt32LE(228) !== mxcsr) fail('raw numerical context differs');
   const numericalContext = decodePhysicsNumericalContext({x87ControlWord: cw, mxcsr});
   if (numericalContext.x87.precisionBits !== 53 || numericalContext.x87.roundingMode !== 'nearest-even' || numericalContext.x87.exceptionMask !== 63 || numericalContext.sse.roundingMode !== 'nearest-even' || numericalContext.sse.exceptionMask !== 63 || numericalContext.sse.flushToZero || numericalContext.sse.denormalsAreZero) fail('unsupported actual worker numerical mode; PC24 is not substituted');
-  const input = createCapturedMemory(rows), {memory, span} = input, S = registers.esp, proof = before.ownedWorkerGainPair;
+  const input = createCapturedMemory(rows), {memory, span} = input, S = registers.esp;
   const expectedRange = (id, address, length) => {
     const row = rows.find(r => r.id === id);
     if (!row || number(row.address, `${id} address`) !== address || row.bytes.length !== length) fail(`${id} extent differs`);

@@ -1,6 +1,7 @@
 import {multiplyQ16, divideQ16, dotQ16} from './fixed-integer.mjs';
 import {findNearestCameraParticipant, measureCameraVector} from './camera-mode-policy.mjs';
 import {getRaceStageCount} from './race-stage-count.mjs';
+import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const vector = (m, p) => [0, 4, 8].map(offset => get(m, p + offset));
@@ -63,7 +64,7 @@ export function selectCameraTrigger(index, participantOut, triggerOut, runtime) 
   }
   let count = get(m, 0x6e6550);
   for (let ordinal = 0; ordinal < count; ordinal++) {
-    const row = 0x91f6c0 + ordinal * 56; put(m, frame + 0x1c, row);
+    const row = resolveNativeMemoryAddress(m,0x91f6c0+ordinal*56,56); put(m, frame + 0x1c, row);
     if (get(m, row) !== 1) continue;
     findNearestCameraParticipant(row + 4, frame + 0x28, {...runtime, scratchBase: frame - 4});
     const participant = get(m, frame + 0x28), eligible = get(m, frame + 0x10);

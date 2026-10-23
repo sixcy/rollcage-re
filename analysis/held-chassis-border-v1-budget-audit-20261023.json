@@ -1,0 +1,67 @@
+{
+  "authority": "read-only-held-v1-capacity-diagnosis",
+  "inputDirectory": "analysis/native-physics-local/startup-20261022/held-chassis-border-v1-20261023",
+  "nativeGameClosed": true,
+  "snapshots": [
+    {
+      "ordinal": 1,
+      "id": "launcher-policy"
+    },
+    {
+      "ordinal": 2,
+      "id": "graphics-policy"
+    },
+    {
+      "ordinal": 3,
+      "id": "before-device-creation"
+    }
+  ],
+  "heldForceInterventions": 0,
+  "heldRequests": 0,
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 27468,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 46979
+  },
+  "snapshotCapacity": {
+    "usedBeforeHeld": 3,
+    "requiredAdditional": 67,
+    "cap": 70,
+    "passed": true
+  },
+  "byteCapacity": {
+    "cap": 134217728,
+    "eventSnapshotBytes": 50618,
+    "eventReserveBytes": 3239552,
+    "maxPreSnapshotBytes": 43659392,
+    "heldPreSnapshotBytes": "not retained by V1 error path; only strict lower bound known",
+    "knownPreSnapshotLowerBound": 43659393
+  },
+  "separateRetainedExample": {
+    "inputDirectory": "analysis/native-physics-local/startup-20261022/hidden-selected-collision-capture",
+    "scope": "Independent prior native capture, not evidence of V1 actual allocation sizes",
+    "rawBytes": 30049210,
+    "exactIntervalUniqueBytes": 26940346,
+    "savedBytes": 3108864,
+    "duplicateGroups": [
+      {
+        "address": "0x08c03000",
+        "length": 2146304,
+        "ids": [
+          "debris-free-region",
+          "debris-active-region"
+        ]
+      },
+      {
+        "address": "0x04058000",
+        "length": 962560,
+        "ids": [
+          "geometry-region",
+          "original-gfxm-region"
+        ]
+      }
+    ]
+  }
+}

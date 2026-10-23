@@ -1,0 +1,4626 @@
+{
+  "schemaVersion": 1,
+  "method": "independent-source-physics-from-observed-physics-entry",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\parent-late-v3-20261023",
+  "evidence": {
+    "evidenceIds": [
+      "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+      "ev_af519c4d443ad65b6ae8066d61eea98c1f5242aa2835d3fbe2e8fa35a296c87a"
+    ]
+  },
+  "joinedParentMatched": false,
+  "completeParentTickMatched": false,
+  "matched": true,
+  "cases": [
+    {
+      "beforeOrdinal": 6,
+      "afterOrdinal": 7,
+      "tid": 33864,
+      "logicalClock": 288,
+      "comparison": {
+        "matched": true,
+        "nativeReturn": 0,
+        "sourceReturn": 0,
+        "comparisons": [
+          {
+            "id": "frame-pools",
+            "address": 12462972,
+            "length": 884,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "shape-pools-and-planes",
+            "address": 12576640,
+            "length": 2592,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "body-arena-allocation",
+            "address": 10251072,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "body-arena-size-input",
+            "address": 10393608,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "body-arena-cursor",
+            "address": 10411252,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "participant-records",
+            "address": 12489472,
+            "length": 4680,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "session-root",
+            "address": 9227036,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "configuration-root",
+            "address": 9228028,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "pack-roots",
+            "address": 12499312,
+            "length": 36,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "runtime-geometry-roots",
+            "address": 12489280,
+            "length": 132,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "particle-roots",
+            "address": 10249652,
+            "length": 24,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "skid-roots",
+            "address": 11703760,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "effect-rng",
+            "address": 9226580,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "attachment-count",
+            "address": 10251168,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "attachment-queue",
+            "address": 12460096,
+            "length": 1024,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "body-registry",
+            "address": 10412544,
+            "length": 2048,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "time-state",
+            "address": 11473280,
+            "length": 16,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "gravity",
+            "address": 9221600,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "clock",
+            "address": 12494152,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "first-effect-and-matrix",
+            "address": 12569952,
+            "length": 144,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "second-effect",
+            "address": 12538828,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "vector-scratch",
+            "address": 12571488,
+            "length": 260,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "border-scratch",
+            "address": 12524544,
+            "length": 40,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "wheel-query-scratch",
+            "address": 10433248,
+            "length": 448,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "world-record-count",
+            "address": 12584932,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "world-records",
+            "address": 12584960,
+            "length": 800,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "rotation-scale",
+            "address": 9160180,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "normalization-one",
+            "address": 9160564,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "normalization-scale",
+            "address": 9161352,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sqrt-table",
+            "address": 9220752,
+            "length": 384,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "surface-effect-threshold",
+            "address": 9161084,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "effect-color-scale-first",
+            "address": 9228984,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "effect-color-scale-second",
+            "address": 9228992,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "rear-effect-frame",
+            "address": 12554244,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "active-effect-lookup-root",
+            "address": 10432896,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "trig-table",
+            "address": 8737320,
+            "length": 808,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "yaw-table",
+            "address": 9228336,
+            "length": 642,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "active-vehicle-owners",
+            "address": 11703776,
+            "length": 840,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "particle-quality-count",
+            "address": 9221376,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "particle-allocation-root",
+            "address": 12538820,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "particle-allocation-end",
+            "address": 12554252,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "contact-thresholds",
+            "address": 8717696,
+            "length": 16,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-owner-vector-roots",
+            "address": 10298388,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "recovery-rng-difficulty",
+            "address": 9217236,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "recovery-profile-root",
+            "address": 12580512,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-bank-roots",
+            "address": 10251220,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-manager-root",
+            "address": 10439432,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-scale-first",
+            "address": 9160120,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-scale-second",
+            "address": 9160144,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-scale-third",
+            "address": 9160156,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-scale-fourth",
+            "address": 9160168,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-scale-fifth",
+            "address": 9160928,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-scale-sixth",
+            "address": 9160992,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "sound-volume-inputs",
+            "address": 9227696,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "retirement-terrain-flag",
+            "address": 9228980,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "retirement-particle-input",
+            "address": 12538816,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "retirement-effect-input",
+            "address": 12554248,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "light-registry-first",
+            "address": 11465232,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "light-registry-second",
+            "address": 11465756,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "retirement-light-records",
+            "address": 11470560,
+            "length": 580,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "collision-events",
+            "address": 144553936,
+            "length": 10400,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "collision-heap",
+            "address": 146344736,
+            "length": 404,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "collision-free",
+            "address": 146635776,
+            "length": 400,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "shape-records",
+            "address": 147506768,
+            "length": 18432,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "shape-indices",
+            "address": 281787272,
+            "length": 768,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "candidate-arena",
+            "address": 147951616,
+            "length": 32768,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "physical-body-list",
+            "address": 146590864,
+            "length": 384,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "candidate-group-lists",
+            "address": 292548824,
+            "length": 8456,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "body-arena-allocation-bytes",
+            "address": 285515808,
+            "length": 4450016,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "session",
+            "address": 11704928,
+            "length": 1424,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "configuration",
+            "address": 11696608,
+            "length": 112,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "terrain-pack-header",
+            "address": 12489280,
+            "length": 160,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-attachment-scratch-bfcdf0",
+            "address": 12570096,
+            "length": 160,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-attachment-scratch-bfce94",
+            "address": 12570260,
+            "length": 1228,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-type2-pointer-domain-aee660",
+            "address": 11462240,
+            "length": 2992,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-type2-pointer-domain-aef214",
+            "address": 11465236,
+            "length": 520,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-type2-pointer-domain-aef420",
+            "address": 11465760,
+            "length": 4800,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-type2-pointer-domain-af0924",
+            "address": 11471140,
+            "length": 2140,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-type2-pointer-domain-af1190",
+            "address": 11473296,
+            "length": 5328,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-recovery-clone-context-9eeb00",
+            "address": 10414848,
+            "length": 17576,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "tail-pickup-transitions-bf1ba0",
+            "address": 12524448,
+            "length": 96,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-records-bfff80",
+            "address": 12582784,
+            "length": 1552,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-auxiliary-controls-be9060",
+            "address": 12488800,
+            "length": 456,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-participants-8cc120",
+            "address": 9224480,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-policy-bfce90",
+            "address": 12570256,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-observer-count-9c6550",
+            "address": 10249552,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-observers-bff6c0",
+            "address": 12580544,
+            "length": 2240,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-observer-fallback-c005a0",
+            "address": 12584352,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-clone-output-9d9a00",
+            "address": 10328576,
+            "length": 32,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-clone-body-9d9a20",
+            "address": 10328608,
+            "length": 384,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-curve-recovery-9d9720",
+            "address": 10327840,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-curve-directions-9d9850",
+            "address": 10328144,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-curve-origins-9d9880",
+            "address": 10328192,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-curve-targets-9d98b0",
+            "address": 10328240,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-curve-points-9d98f0",
+            "address": 10328304,
+            "length": 240,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-curve-progress-9d99e0",
+            "address": 10328544,
+            "length": 32,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-factorials-9d9bc0",
+            "address": 10329024,
+            "length": 52,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-viewport-singletons-9cfb38",
+            "address": 10287928,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-renderer-manager-root-9c6388",
+            "address": 10249096,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-viewport-double-gate-9c6c04",
+            "address": 10251268,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-clip-planes-9db440",
+            "address": 10335296,
+            "length": 64,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-packed-extent-bfd594",
+            "address": 12572052,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-distance-bfd50a",
+            "address": 12571914,
+            "length": 2,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-volumes-aedde0",
+            "address": 11460064,
+            "length": 28,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-brightness-mode-aededc",
+            "address": 11460316,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-brightness-rng-8cd2bc",
+            "address": 9228988,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-state-9c6cc8",
+            "address": 10251464,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-counter-enabled-9c6c8c",
+            "address": 10251404,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-performance-origin-9f35a4",
+            "address": 10433956,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-screen-root-9f35b4",
+            "address": 10433972,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-position-backup-9f36c4",
+            "address": 10434244,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-matrix-velocity-backup-9f3750",
+            "address": 10434384,
+            "length": 44,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-ground-query-times-9f30c0",
+            "address": 10432704,
+            "length": 24,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-vehicle-overlay-records-b0eda0",
+            "address": 11595168,
+            "length": 101424,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-world-fragment-flags-b29940",
+            "address": 11704640,
+            "length": 36,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-world-fragment-pointers-b29980",
+            "address": 11704704,
+            "length": 144,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-world-fragment-shapes-b29a20",
+            "address": 11704864,
+            "length": 60,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-world-fragment-counters-9c6bc8",
+            "address": 10251208,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-queue-c005d8",
+            "address": 12584408,
+            "length": 522,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-work-roots-bff1a0",
+            "address": 12579232,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-phase-8ca4dc",
+            "address": 9217244,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-index-9c6558",
+            "address": 10249560,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-persistent-emitters-9df140",
+            "address": 10350912,
+            "length": 200,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-attachment-effect-counts-9c6b1c",
+            "address": 10251036,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-attachment-effect-queue-observation-be2f00",
+            "address": 12463872,
+            "length": 1024,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-terrain-animation-roots-beb994",
+            "address": 12499348,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-vehicle-light-state-9c6ca4",
+            "address": 10251428,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-animation-rng-8cd008",
+            "address": 9228296,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-listener-records-b29480",
+            "address": 11703424,
+            "length": 336,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-listener-vector-9d2408",
+            "address": 10298376,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-master-volume-8ccdb8",
+            "address": 9227704,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-countdown-9db9a4",
+            "address": 10336676,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-phase-cache-9c6ba4",
+            "address": 10251172,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-launch-frame-counter-9f2fbc",
+            "address": 10432444,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-logical-time-counter-9c675c",
+            "address": 10250076,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-name-format-8b043c",
+            "address": 9110588,
+            "length": 10,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-player-name-8b0254",
+            "address": 9110100,
+            "length": 9,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dc598-8bc598",
+            "address": 9160088,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dc5d4-8bc5d4",
+            "address": 9160148,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dc620-8bc620",
+            "address": 9160224,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dc640-8bc640",
+            "address": 9160256,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dc6ec-8bc6ec",
+            "address": 9160428,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dca18-8bca18",
+            "address": 9161240,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dc5f0-8bc5f0",
+            "address": 9160176,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-scalar-5dca34-8bca34",
+            "address": 9161268,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-0-8504cc",
+            "address": 8717516,
+            "length": 6,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-1-850464",
+            "address": 8717412,
+            "length": 6,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-2-8cac34",
+            "address": 9219124,
+            "length": 12,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-3-850500",
+            "address": 8717568,
+            "length": 64,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-4-850490",
+            "address": 8717456,
+            "length": 10,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-5-85049c",
+            "address": 8717468,
+            "length": 10,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-6-8504d4",
+            "address": 8717524,
+            "length": 34,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-7-8504a8",
+            "address": 8717480,
+            "length": 34,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-8-85046c",
+            "address": 8717420,
+            "length": 34,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-9-8cabf0",
+            "address": 9219056,
+            "length": 40,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-10-8bc7a0",
+            "address": 9160608,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-11-8bc6c8",
+            "address": 9160392,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-12-8bc888",
+            "address": 9160840,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-camera-table-13-8bcf60",
+            "address": 9162592,
+            "length": 16,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-application-header",
+            "address": 10441840,
+            "length": 132,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-renderer-manager-header",
+            "address": 19790552,
+            "length": 56,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-weather-screen-allocation",
+            "address": 398173432,
+            "length": 5120,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-model-fragment-allocation",
+            "address": 286130944,
+            "length": 24576,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-auxiliary-allocation",
+            "address": 396079880,
+            "length": 672,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-workspace0",
+            "address": 278744640,
+            "length": 2048,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-workspace1",
+            "address": 278746688,
+            "length": 2048,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-workspace2",
+            "address": 278748736,
+            "length": 2048,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-destruction-workspace3",
+            "address": 278750784,
+            "length": 2048,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-terrain-animation-allocation",
+            "address": 396052544,
+            "length": 24576,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "late-light-attenuation-allocation",
+            "address": 148078600,
+            "length": 4096,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-wormhole-root-aeb5e0",
+            "address": 11449824,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-pickup-roots-be2020",
+            "address": 12460064,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-projectile-roots-be34a0",
+            "address": 12465312,
+            "length": 96,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-terrain-wave-gate-becb80",
+            "address": 12503936,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-security-cookie-8c8890",
+            "address": 9210000,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-time-effect-output-9c6cac",
+            "address": 10251436,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-target-registry-observation-b0e880",
+            "address": 11593856,
+            "length": 128,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-target-counts-b0e900",
+            "address": 11593984,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-pickup-controller-observation-bfd480",
+            "address": 12571776,
+            "length": 50,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-periodic-state-be3510",
+            "address": 12465424,
+            "length": 20,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-periodic-selector-9c6af8",
+            "address": 10251000,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-procedural-handle-8cd02c",
+            "address": 9228332,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-procedural-clock-8cd2c4",
+            "address": 9228996,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "drive-render-angle-table-850720",
+            "address": 8718112,
+            "length": 16384,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-packet-0-9c7edc",
+            "address": 10256092,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-ready-0-9c7880",
+            "address": 10254464,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-current-sample-0-9c78b0",
+            "address": 10254512,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-history-0-9c7bd8",
+            "address": 10255320,
+            "length": 768,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-address-0-9c788c",
+            "address": 10254476,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-packet-1-9c8558",
+            "address": 10257752,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-ready-1-9c7efc",
+            "address": 10256124,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-current-sample-1-9c7f2c",
+            "address": 10256172,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-history-1-9c8254",
+            "address": 10256980,
+            "length": 768,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-address-1-9c7f08",
+            "address": 10256136,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-packet-2-9c8bd4",
+            "address": 10259412,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-ready-2-9c8578",
+            "address": 10257784,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-current-sample-2-9c85a8",
+            "address": 10257832,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-history-2-9c88d0",
+            "address": 10258640,
+            "length": 768,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-address-2-9c8584",
+            "address": 10257796,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-packet-3-9c9250",
+            "address": 10261072,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-ready-3-9c8bf4",
+            "address": 10259444,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-current-sample-3-9c8c24",
+            "address": 10259492,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-history-3-9c8f4c",
+            "address": 10260300,
+            "length": 768,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-address-3-9c8c00",
+            "address": 10259456,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-packet-4-9c98cc",
+            "address": 10262732,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-ready-4-9c9270",
+            "address": 10261104,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-current-sample-4-9c92a0",
+            "address": 10261152,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-history-4-9c95c8",
+            "address": 10261960,
+            "length": 768,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-address-4-9c927c",
+            "address": 10261116,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-packet-5-9c9f48",
+            "address": 10264392,
+            "length": 12,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-ready-5-9c98ec",
+            "address": 10262764,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-current-sample-5-9c991c",
+            "address": 10262812,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-history-5-9c9c44",
+            "address": 10263620,
+            "length": 768,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-peer-address-5-9c98f8",
+            "address": 10262776,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-local-sample-0-9c7ac4",
+            "address": 10255044,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-local-sample-1-9c8140",
+            "address": 10256704,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-local-sample-2-9c87bc",
+            "address": 10258364,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-local-sample-3-9c8e38",
+            "address": 10260024,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-history-clock-9ca69c",
+            "address": 10266268,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-sample-fallback-8cb518",
+            "address": 9221400,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-analog-initialized-9c65b0",
+            "address": 10249648,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-analog-table-9db740",
+            "address": 10336064,
+            "length": 516,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-replay-decode-8506a0",
+            "address": 8717984,
+            "length": 32,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-pickup-probabilities-8504f8",
+            "address": 8717560,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-weapon-thresholds-850540",
+            "address": 8717632,
+            "length": 64,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-weapon-thresholds-850590",
+            "address": 8717712,
+            "length": 32,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-pickup-shifts-8505b0",
+            "address": 8717744,
+            "length": 32,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-candidate-weights-8505d0",
+            "address": 8717776,
+            "length": 32,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-profile-thresholds-8505f0",
+            "address": 8717808,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-object-fade-table-850600",
+            "address": 8717824,
+            "length": 96,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-object-effect-masks-850660",
+            "address": 8717920,
+            "length": 32,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-digital-throttle-850680",
+            "address": 8717952,
+            "length": 32,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-digital-brake-8506c0",
+            "address": 8718016,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-digital-steering-8506d0",
+            "address": 8718032,
+            "length": 33,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-shared-and-obstacle-counts-9c650e",
+            "address": 10249486,
+            "length": 22,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-start-count-9c65a8",
+            "address": 10249640,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-route-queue-cursors-9c6cc0",
+            "address": 10251456,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-route-queue-points-aedf20",
+            "address": 11460384,
+            "length": 40,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-route-queue-groups-aedf60",
+            "address": 11460448,
+            "length": 40,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-route-visited-9f36d0",
+            "address": 10434256,
+            "length": 128,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-special-durations-bff1c0",
+            "address": 12579264,
+            "length": 20,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-candidates-bff1e0",
+            "address": 12579296,
+            "length": 1040,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-special-points-bff600",
+            "address": 12580352,
+            "length": 160,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-candidate-directions-9db3a0",
+            "address": 10335136,
+            "length": 160,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-nearby-body-distance-c00ec0",
+            "address": 12586688,
+            "length": 144,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-nearby-body-indices-c00f60",
+            "address": 12586848,
+            "length": 36,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-stage-difficulty-c00f84",
+            "address": 12586884,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-obstacle-registry-observation-c00b40",
+            "address": 12585792,
+            "length": 600,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-obstacle-distance-observation-c00da0",
+            "address": 12586400,
+            "length": 200,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-obstacle-indices-observation-c00e80",
+            "address": 12586624,
+            "length": 50,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-ai-obstacle-polygon-pointer-pool-9d95a0",
+            "address": 10327456,
+            "length": 240,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-world-fragment-registry-root-b29a5c",
+            "address": 11704924,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-selected-player-9c9f70",
+            "address": 10264432,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-network-flags-9cafe0",
+            "address": 10268640,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-deformation-root-count-aedf00",
+            "address": 11460352,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-authored-controller-and-list-bfe740",
+            "address": 12576576,
+            "length": 64,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-vehicle-audio-and-horn-records-9f3190",
+            "address": 10432912,
+            "length": 336,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-vehicle-audio-collision-state-8cced0",
+            "address": 9227984,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-vehicle-boost-sound-9c6bdc",
+            "address": 10251228,
+            "length": 1,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-notification-interface-root-9c6d10",
+            "address": 10251536,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-notification-sequence-9c65db",
+            "address": 10249691,
+            "length": 1,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-notification-local-address-9c9f74",
+            "address": 10264436,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-notification-address-default-8c8280",
+            "address": 9208448,
+            "length": 10,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-notification-socket-template-9d2424",
+            "address": 10298404,
+            "length": 20,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-notification-separator-8b049c",
+            "address": 9110684,
+            "length": 3,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-notification-history-9caedc",
+            "address": 10268380,
+            "length": 260,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-0-8550a0",
+            "address": 8736928,
+            "length": 392,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-1-8cce28",
+            "address": 9227816,
+            "length": 72,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-2-8ccde0",
+            "address": 9227744,
+            "length": 72,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-3-8cced8",
+            "address": 9227992,
+            "length": 36,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-4-8ccea4",
+            "address": 9227940,
+            "length": 44,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-5-8cce70",
+            "address": 9227888,
+            "length": 52,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-6-8ccdbc",
+            "address": 9227708,
+            "length": 36,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-audio-table-10-8bcb10",
+            "address": 9161488,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-constant-factor-8bc684",
+            "address": 9160324,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-constant-step-8bc730",
+            "address": 9160496,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-constant-exponent-8bc890",
+            "address": 9160848,
+            "length": 8,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "control-input-constant-initial-8bc9d4",
+            "address": 9161172,
+            "length": 4,
+            "policy": "read-only",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3eb8020-3eb8020",
+            "address": 65765408,
+            "length": 8448,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ebb524-3ebb524",
+            "address": 65778980,
+            "length": 8624,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ebd810-3ebd810",
+            "address": 65787920,
+            "length": 13920,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ec2fc8-3ec2fc8",
+            "address": 65810376,
+            "length": 14504,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ec6a80-3ec6a80",
+            "address": 65825408,
+            "length": 16224,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ecd950-3ecd950",
+            "address": 65853776,
+            "length": 17072,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ed1f00-3ed1f00",
+            "address": 65871616,
+            "length": 8416,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ed57a4-3ed57a4",
+            "address": 65886116,
+            "length": 8856,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ed7bc0-3ed7bc0",
+            "address": 65895360,
+            "length": 9376,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3edb68c-3edb68c",
+            "address": 65910412,
+            "length": 9840,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3edde60-3edde60",
+            "address": 65920608,
+            "length": 9056,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ee1c14-3ee1c14",
+            "address": 65936404,
+            "length": 9512,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ee42e0-3ee42e0",
+            "address": 65946336,
+            "length": 1120,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ee4910-3ee4910",
+            "address": 65947920,
+            "length": 1224,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ee4e00-3ee4e00",
+            "address": 65949184,
+            "length": 2144,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ee5a04-3ee5a04",
+            "address": 65952260,
+            "length": 2312,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ee6350-3ee6350",
+            "address": 65954640,
+            "length": 16224,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3eecd38-3eecd38",
+            "address": 65981752,
+            "length": 17072,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ef1290-3ef1290",
+            "address": 65999504,
+            "length": 160,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ef1398-3ef1398",
+            "address": 65999768,
+            "length": 144,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ef1440-3ef1440",
+            "address": 65999936,
+            "length": 864,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ef1a08-3ef1a08",
+            "address": 66001416,
+            "length": 952,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ef1df0-3ef1df0",
+            "address": 66002416,
+            "length": 11040,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3ef6ed8-3ef6ed8",
+            "address": 66023128,
+            "length": 12240,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3efa110-3efa110",
+            "address": 66035984,
+            "length": 14176,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f00848-3f00848",
+            "address": 66062408,
+            "length": 15576,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f04820-3f04820",
+            "address": 66078752,
+            "length": 3168,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f05bc4-3f05bc4",
+            "address": 66083780,
+            "length": 3400,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f06980-3f06980",
+            "address": 66087296,
+            "length": 7008,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f09ce0-3f09ce0",
+            "address": 66100448,
+            "length": 7760,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f0bcb0-3f0bcb0",
+            "address": 66108592,
+            "length": 992,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f0c2d8-3f0c2d8",
+            "address": 66110168,
+            "length": 1088,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f0c740-3f0c740",
+            "address": 66111296,
+            "length": 1376,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f0d0ac-3f0d0ac",
+            "address": 66113708,
+            "length": 1496,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f0d6d0-3f0d6d0",
+            "address": 66115280,
+            "length": 1760,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f0e354-3f0e354",
+            "address": 66118484,
+            "length": 1904,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f1efb0-3f1efb0",
+            "address": 66187184,
+            "length": 15364,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f22bb8-3f22bb8",
+            "address": 66202552,
+            "length": 16044,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f26b44-3f26b44",
+            "address": 66218820,
+            "length": 80,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f26f10-3f26f10",
+            "address": 66219792,
+            "length": 144,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f27020-3f27020",
+            "address": 66220064,
+            "length": 242,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f27114-3f27114",
+            "address": 66220308,
+            "length": 1280,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f278bc-3f278bc",
+            "address": 66222268,
+            "length": 192,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f279f8-3f279f8",
+            "address": 66222584,
+            "length": 1424,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28234-3f28234",
+            "address": 66224692,
+            "length": 192,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28374-3f28374",
+            "address": 66225012,
+            "length": 1448,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f289c0-3f289c0",
+            "address": 66226624,
+            "length": 40,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f289ec-3f289ec",
+            "address": 66226668,
+            "length": 65,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28a30-3f28a30",
+            "address": 66226736,
+            "length": 248,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28bfc-3f28bfc",
+            "address": 66227196,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28ca4-3f28ca4",
+            "address": 66227364,
+            "length": 74,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28cf0-3f28cf0",
+            "address": 66227440,
+            "length": 320,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28f44-3f28f44",
+            "address": 66228036,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f28fec-3f28fec",
+            "address": 66228204,
+            "length": 74,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f29038-3f29038",
+            "address": 66228280,
+            "length": 384,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f29478-3f29478",
+            "address": 66229368,
+            "length": 80,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f29510-3f29510",
+            "address": 66229520,
+            "length": 160,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f29638-3f29638",
+            "address": 66229816,
+            "length": 410,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f297d4-3f297d4",
+            "address": 66230228,
+            "length": 1088,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f29c2c-3f29c2c",
+            "address": 66231340,
+            "length": 80,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f29f50-3f29f50",
+            "address": 66232144,
+            "length": 240,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2a0c8-3f2a0c8",
+            "address": 66232520,
+            "length": 410,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2a264-3f2a264",
+            "address": 66232932,
+            "length": 1064,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2a694-3f2a694",
+            "address": 66234004,
+            "length": 128,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2a744-3f2a744",
+            "address": 66234180,
+            "length": 48,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2a7b4-3f2a7b4",
+            "address": 66234292,
+            "length": 200,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2aa34-3f2aa34",
+            "address": 66234932,
+            "length": 88,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2aaa4-3f2aaa4",
+            "address": 66235044,
+            "length": 2256,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2b444-3f2b444",
+            "address": 66237508,
+            "length": 80,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2b554-3f2b554",
+            "address": 66237780,
+            "length": 40,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2b6e4-3f2b6e4",
+            "address": 66238180,
+            "length": 256,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2b87c-3f2b87c",
+            "address": 66238588,
+            "length": 72,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2b8dc-3f2b8dc",
+            "address": 66238684,
+            "length": 574,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2bb1c-3f2bb1c",
+            "address": 66239260,
+            "length": 1600,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2c234-3f2c234",
+            "address": 66241076,
+            "length": 80,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2c3e8-3f2c3e8",
+            "address": 66241512,
+            "length": 29,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f2c408-3f2c408",
+            "address": 66241544,
+            "length": 72,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f31abc-3f31abc",
+            "address": 66263740,
+            "length": 80,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f31ba8-3f31ba8",
+            "address": 66263976,
+            "length": 96,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f31c80-3f31c80",
+            "address": 66264192,
+            "length": 404,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f87ac0-3f87ac0",
+            "address": 66616000,
+            "length": 30720,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92324-3f92324",
+            "address": 66659108,
+            "length": 1312,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92884-3f92884",
+            "address": 66660484,
+            "length": 1212,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92d64-3f92d64",
+            "address": 66661732,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92d78-3f92d78",
+            "address": 66661752,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92dbc-3f92dbc",
+            "address": 66661820,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92dc8-3f92dc8",
+            "address": 66661832,
+            "length": 8,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92e34-3f92e34",
+            "address": 66661940,
+            "length": 4,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f92eb0-3f92eb0",
+            "address": 66662064,
+            "length": 16,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f94778-3f94778",
+            "address": 66668408,
+            "length": 4096,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          },
+          {
+            "id": "native-geometry-3f9ec34-3f9ec34",
+            "address": 66710580,
+            "length": 1244,
+            "policy": "mutable",
+            "matched": true,
+            "divergence": null,
+            "readOnlyDivergence": null
+          }
+        ],
+        "comparedBytes": 5124163,
+        "firstDivergence": null,
+        "sourceReport": {
+          "nativeReturn": 0,
+          "preparedBodies": 19,
+          "scriptedBodies": 7,
+          "ordinaryBodies": 12,
+          "processedEvents": 5,
+          "storedContacts": 1,
+          "rejectedContacts": 0,
+          "terrainQueries": 55,
+          "terrainHits": 1,
+          "modelQueries": 0,
+          "modelHits": 0,
+          "finishedBodies": 19,
+          "regeneratedEvents": 3,
+          "worldUpdatedRecords": 0,
+          "vehicleResults": 6,
+          "wheelQueries": 24,
+          "wheelHits": 24,
+          "candidateCursor": 2160
+        },
+        "manifestStatus": "core-coverage-validated-reached-dependencies-unresolved",
+        "numericalContext": {
+          "x87": {
+            "controlWord": 127,
+            "roundingMode": "nearest-even",
+            "precisionBits": 24,
+            "exceptionMask": 63
+          },
+          "sse": {
+            "mxcsr": 8101,
+            "roundingMode": "nearest-even",
+            "exceptionMask": 63,
+            "flushToZero": false,
+            "denormalsAreZero": false
+          }
+        },
+        "nativeScenario": {
+          "available": true,
+          "logicalClockBefore": 288,
+          "logicalClockAfter": 288,
+          "movingVehiclesBefore": 6,
+          "movingVehiclesAfter": 6,
+          "translatedVehicles": 6,
+          "vehicles": [
+            {
+              "index": 0,
+              "beforeAddress": 287117056,
+              "afterAddress": 287117056,
+              "sameBody": true,
+              "flagsBefore": 7171,
+              "flagsAfter": 7171,
+              "velocityBeforeQ16": [
+                -2356106,
+                -236492,
+                -1548484
+              ],
+              "velocityAfterQ16": [
+                -2458159,
+                -233443,
+                -1400825
+              ],
+              "positionBeforeQ16": [
+                88264713,
+                23071507,
+                -482016714
+              ],
+              "positionAfterQ16": [
+                85806554,
+                22838064,
+                -483417539
+              ],
+              "positionDeltaQ16": [
+                -2458159,
+                -233443,
+                -1400825
+              ]
+            },
+            {
+              "index": 1,
+              "beforeAddress": 287352448,
+              "afterAddress": 287352448,
+              "sameBody": true,
+              "flagsBefore": 7171,
+              "flagsAfter": 7171,
+              "velocityBeforeQ16": [
+                -2297099,
+                -232258,
+                -1722927
+              ],
+              "velocityAfterQ16": [
+                -2296982,
+                -240414,
+                -1741300
+              ],
+              "positionBeforeQ16": [
+                88398826,
+                22865726,
+                -486762415
+              ],
+              "positionAfterQ16": [
+                86101844,
+                22625312,
+                -488503715
+              ],
+              "positionDeltaQ16": [
+                -2296982,
+                -240414,
+                -1741300
+              ]
+            },
+            {
+              "index": 2,
+              "beforeAddress": 287557248,
+              "afterAddress": 287557248,
+              "sameBody": true,
+              "flagsBefore": 7171,
+              "flagsAfter": 7171,
+              "velocityBeforeQ16": [
+                -456190,
+                -45280,
+                -747625
+              ],
+              "velocityAfterQ16": [
+                -376766,
+                -41808,
+                -798265
+              ],
+              "positionBeforeQ16": [
+                98830488,
+                24278047,
+                -464716848
+              ],
+              "positionAfterQ16": [
+                98453722,
+                24236239,
+                -465515113
+              ],
+              "positionDeltaQ16": [
+                -376766,
+                -41808,
+                -798265
+              ]
+            },
+            {
+              "index": 3,
+              "beforeAddress": 287767808,
+              "afterAddress": 287767808,
+              "sameBody": true,
+              "flagsBefore": 7171,
+              "flagsAfter": 7171,
+              "velocityBeforeQ16": [
+                -2115101,
+                -117020,
+                -1829173
+              ],
+              "velocityAfterQ16": [
+                -2128214,
+                -137821,
+                -1819238
+              ],
+              "positionBeforeQ16": [
+                109631767,
+                24846569,
+                -466630191
+              ],
+              "positionAfterQ16": [
+                107477852,
+                24706926,
+                -468459073
+              ],
+              "positionDeltaQ16": [
+                -2153915,
+                -139643,
+                -1828882
+              ]
+            },
+            {
+              "index": 4,
+              "beforeAddress": 287960960,
+              "afterAddress": 287960960,
+              "sameBody": true,
+              "flagsBefore": 7171,
+              "flagsAfter": 7171,
+              "velocityBeforeQ16": [
+                -2062027,
+                -77781,
+                -1928949
+              ],
+              "velocityAfterQ16": [
+                -2104273,
+                -99420,
+                -1878681
+              ],
+              "positionBeforeQ16": [
+                112976780,
+                25063105,
+                -461960894
+              ],
+              "positionAfterQ16": [
+                110888064,
+                24964764,
+                -463834142
+              ],
+              "positionDeltaQ16": [
+                -2088716,
+                -98341,
+                -1873248
+              ]
+            },
+            {
+              "index": 5,
+              "beforeAddress": 288177792,
+              "afterAddress": 288177792,
+              "sameBody": true,
+              "flagsBefore": 7171,
+              "flagsAfter": 7171,
+              "velocityBeforeQ16": [
+                -2263111,
+                -231187,
+                -1529454
+              ],
+              "velocityAfterQ16": [
+                -2367187,
+                -237064,
+                -1425686
+              ],
+              "positionBeforeQ16": [
+                88453075,
+                23262323,
+                -477170039
+              ],
+              "positionAfterQ16": [
+                86085888,
+                23025259,
+                -478595725
+              ],
+              "positionDeltaQ16": [
+                -2367187,
+                -237064,
+                -1425686
+              ]
+            }
+          ],
+          "identity": {
+            "available": true,
+            "stable": true,
+            "changedFields": [],
+            "before": {
+              "available": true,
+              "sessionAddress": 11704928,
+              "configurationAddress": 11696608,
+              "selectedTrackIndex": 2,
+              "selectedLevelNumber": 3,
+              "qualityByte": 1,
+              "selectedDirectory": "HIGH",
+              "selectedTrackStem": "HIGH/LEV3",
+              "selectedBlpResource": "HIGH/LEV3.BLP",
+              "selectedBtpResource": "HIGH/LEV3.BTP",
+              "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+              "selectedTrackFamilyByte": 3,
+              "selectedTrackLocalByte": 0,
+              "participantCount": 6,
+              "sessionVehicleTypes": [
+                6,
+                3,
+                1,
+                0,
+                5,
+                2
+              ],
+              "activeVehicleTypes": [
+                6,
+                3,
+                1,
+                0,
+                5,
+                2
+              ],
+              "participantModeBytes": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "spawnIndexBytes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "sessionModeByte": 0,
+              "sessionAttractByte": 1,
+              "sessionPhase": 4,
+              "directlyCapturedTrackStem": {
+                "available": false,
+                "reason": "Native track-name buffer6e6660 is not declared."
+              },
+              "limits": [
+                "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+                "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+                "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+              ]
+            },
+            "after": {
+              "available": true,
+              "sessionAddress": 11704928,
+              "configurationAddress": 11696608,
+              "selectedTrackIndex": 2,
+              "selectedLevelNumber": 3,
+              "qualityByte": 1,
+              "selectedDirectory": "HIGH",
+              "selectedTrackStem": "HIGH/LEV3",
+              "selectedBlpResource": "HIGH/LEV3.BLP",
+              "selectedBtpResource": "HIGH/LEV3.BTP",
+              "selectionAuthority": "Native43b0e0 filename producer applied to captured session+579/configuration+31; loaded-asset fingerprint is separate.",
+              "selectedTrackFamilyByte": 3,
+              "selectedTrackLocalByte": 0,
+              "participantCount": 6,
+              "sessionVehicleTypes": [
+                6,
+                3,
+                1,
+                0,
+                5,
+                2
+              ],
+              "activeVehicleTypes": [
+                6,
+                3,
+                1,
+                0,
+                5,
+                2
+              ],
+              "participantModeBytes": [
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+              ],
+              "spawnIndexBytes": [
+                0,
+                1,
+                2,
+                3,
+                4,
+                5
+              ],
+              "sessionModeByte": 0,
+              "sessionAttractByte": 1,
+              "sessionPhase": 4,
+              "directlyCapturedTrackStem": {
+                "available": false,
+                "reason": "Native track-name buffer6e6660 is not declared."
+              },
+              "limits": [
+                "Vehicle IDs are native constructor selectors, not the common chassis body kind3.",
+                "Selected resource names do not establish a display track name or an immutable loaded-asset fingerprint.",
+                "No identity is inferred from capture filenames, elapsed frame counts or demo mode."
+              ]
+            }
+          },
+          "limits": [
+            "Velocity/position observations do not classify wheel, wall or car-pair contacts.",
+            "Queue emptiness is not evidence that no events were dispatched within the frame."
+          ]
+        }
+      },
+      "returnLocal": {
+        "address": 13760624,
+        "sourceValue": 287960960,
+        "nativeValue": 287960960,
+        "nativeEcx": 287960960,
+        "matched": true
+      },
+      "sourceDispatches": [
+        {
+          "stage": "before",
+          "eventAddress": 144564232,
+          "deltaQ16": 0,
+          "kind": 1,
+          "classFlags": 2,
+          "tag": 0,
+          "damping": 0,
+          "field44": 3083784,
+          "scalar": -237,
+          "pointQ8": [
+            453375,
+            105154,
+            -1800528
+          ],
+          "normalQ16": [
+            1024,
+            -65536,
+            1024
+          ],
+          "auxiliaryVectorQ16": [
+            -41984,
+            3328,
+            -54272
+          ],
+          "object1": {
+            "address": 287960576,
+            "flags": 2052,
+            "type": 4,
+            "positionQ16": [
+              116124889,
+              23048241,
+              -460874243
+            ],
+            "linearVelocityQ16": [
+              -2067806,
+              -72658,
+              -1804262
+            ],
+            "momentumQ16": [
+              -2067806,
+              -72658,
+              -1804262
+            ],
+            "angularMomentumQ16": [
+              0,
+              0,
+              0
+            ],
+            "angularVelocityQ16": [
+              0,
+              0,
+              0
+            ],
+            "frameTimeQ16": 0,
+            "collisionFlags": 268435457,
+            "collisionCounter168": 3
+          },
+          "object2": null,
+          "eventBytesHex": "0100000000ee2911000000000000000000000000000000000000000000000000000000000000000000000000ffea0600c29a0100b086e4ff000400000000ffff00040000080e2f0013ffffff00000000000000000200000000000000005cffff000d0000002cffff",
+          "terrainCandidates": [
+            {
+              "address": 147952368,
+              "type": 0,
+              "id": 3083784,
+              "normalQ16": [
+                1024,
+                -65536,
+                1024
+              ]
+            }
+          ]
+        },
+        {
+          "stage": "after",
+          "eventAddress": 144564232,
+          "deltaQ16": 0,
+          "kind": 1,
+          "classFlags": 2,
+          "tag": 0,
+          "damping": 0,
+          "field44": 3083784,
+          "scalar": 60672,
+          "pointQ8": [
+            -60928,
+            3870976,
+            -60928
+          ],
+          "normalQ16": [
+            1024,
+            -65536,
+            1024
+          ],
+          "auxiliaryVectorQ16": [
+            -41984,
+            3328,
+            -54272
+          ],
+          "object1": {
+            "address": 287960576,
+            "flags": 2052,
+            "type": 4,
+            "positionQ16": [
+              116125845,
+              22987057,
+              -460873287
+            ],
+            "linearVelocityQ16": [
+              -2067806,
+              -72658,
+              -1804262
+            ],
+            "momentumQ16": [
+              -2067806,
+              -72658,
+              -1804262
+            ],
+            "angularMomentumQ16": [
+              0,
+              0,
+              0
+            ],
+            "angularVelocityQ16": [
+              0,
+              0,
+              0
+            ],
+            "frameTimeQ16": 0,
+            "collisionFlags": 1,
+            "collisionCounter168": 2
+          },
+          "object2": null,
+          "eventBytesHex": "0100000000ee29110000000000000000000000000000000000000000000000000000000000000000000000000012ffff00113b000012ffff000400000000ffff00040000080e2f0000ed000000000000000000000200000000000000005cffff000d0000002cffff"
+        },
+        {
+          "stage": "before",
+          "eventAddress": 144564128,
+          "deltaQ16": 1280,
+          "kind": 0,
+          "classFlags": 1,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": -237,
+          "pointQ8": [
+            431963,
+            97486,
+            -1810950
+          ],
+          "normalQ16": [
+            21760,
+            3584,
+            61696
+          ],
+          "auxiliaryVectorQ16": [
+            40192,
+            -16384,
+            58112
+          ],
+          "object1": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              109631767,
+              24846569,
+              -466630191
+            ],
+            "linearVelocityQ16": [
+              -2108867,
+              -135984,
+              -1800094
+            ],
+            "momentumQ16": [
+              -2108867,
+              -135984,
+              -1800094
+            ],
+            "angularMomentumQ16": [
+              -90462,
+              -230817,
+              159919
+            ],
+            "angularVelocityQ16": [
+              -110,
+              -244,
+              223
+            ],
+            "frameTimeQ16": 0,
+            "collisionFlags": 268435456,
+            "collisionCounter168": 3
+          },
+          "object2": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              112976780,
+              25063105,
+              -461960894
+            ],
+            "linearVelocityQ16": [
+              -2142961,
+              -103087,
+              -1916962
+            ],
+            "momentumQ16": [
+              -2142961,
+              -103087,
+              -1916962
+            ],
+            "angularMomentumQ16": [
+              -93516,
+              2070752,
+              186580
+            ],
+            "angularVelocityQ16": [
+              -69,
+              2193,
+              306
+            ],
+            "frameTimeQ16": 0,
+            "collisionFlags": 268435456,
+            "collisionCounter168": 3
+          },
+          "eventBytesHex": "0000000000fd261180ef291100000000000000000000000000000000000000000000000000000000000000005b970600ce7c0100fa5de4ff00550000000e000000f10000fdffffff13ffffff00000000000000000100000000000000009d000000c0ffff00e30000"
+        },
+        {
+          "stage": "after",
+          "eventAddress": 144564128,
+          "deltaQ16": 1280,
+          "kind": 0,
+          "classFlags": 1,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": -237,
+          "pointQ8": [
+            991780,
+            112475,
+            3061668
+          ],
+          "normalQ16": [
+            21760,
+            3584,
+            61696
+          ],
+          "auxiliaryVectorQ16": [
+            40192,
+            -16384,
+            58112
+          ],
+          "object1": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              109590748,
+              24843941,
+              -466664868
+            ],
+            "linearVelocityQ16": [
+              -2113009,
+              -136667,
+              -1811836
+            ],
+            "momentumQ16": [
+              -2113009,
+              -136667,
+              -1811836
+            ],
+            "angularMomentumQ16": [
+              -78706,
+              -246625,
+              156691
+            ],
+            "angularVelocityQ16": [
+              -91,
+              -261,
+              222
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 0,
+            "collisionCounter168": 1
+          },
+          "object2": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              112934755,
+              25061063,
+              -461998817
+            ],
+            "linearVelocityQ16": [
+              -2134680,
+              -101723,
+              -1893481
+            ],
+            "momentumQ16": [
+              -2134680,
+              -101723,
+              -1893481
+            ],
+            "angularMomentumQ16": [
+              -97618,
+              2710809,
+              150846
+            ],
+            "angularVelocityQ16": [
+              -79,
+              2870,
+              253
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 0,
+            "collisionCounter168": 3
+          },
+          "eventBytesHex": "0000000000fd261180ef2911000000000000000000000000000000000000000000000000000000000000000024220f005bb70100a4b72e0000550000000e000000f10000fdffffff13ffffff00000000000000000100000000000000009d000000c0ffff00e30000"
+        },
+        {
+          "stage": "before",
+          "eventAddress": 144564128,
+          "deltaQ16": 0,
+          "kind": 0,
+          "classFlags": 2,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": -16,
+          "pointQ8": [
+            431961,
+            97485,
+            -1810955
+          ],
+          "normalQ16": [
+            -21760,
+            -3584,
+            -61696
+          ],
+          "auxiliaryVectorQ16": [
+            25600,
+            -26112,
+            2560
+          ],
+          "object1": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              109590748,
+              24843941,
+              -466664868
+            ],
+            "linearVelocityQ16": [
+              -2113009,
+              -136667,
+              -1811836
+            ],
+            "momentumQ16": [
+              -2113009,
+              -136667,
+              -1811836
+            ],
+            "angularMomentumQ16": [
+              -78706,
+              -246625,
+              156691
+            ],
+            "angularVelocityQ16": [
+              -91,
+              -261,
+              222
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 268435456,
+            "collisionCounter168": 1
+          },
+          "object2": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              112934755,
+              25061063,
+              -461998817
+            ],
+            "linearVelocityQ16": [
+              -2134680,
+              -101723,
+              -1893481
+            ],
+            "momentumQ16": [
+              -2134680,
+              -101723,
+              -1893481
+            ],
+            "angularMomentumQ16": [
+              -97618,
+              2710809,
+              150846
+            ],
+            "angularVelocityQ16": [
+              -79,
+              2870,
+              253
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 268435456,
+            "collisionCounter168": 3
+          },
+          "eventBytesHex": "0000000000fd261180ef2911000000000000000000000000000000000000000000000000000000000000000059970600cd7c0100f55de4ff00abffff00f2ffff000ffffffdfffffff0ffffff0000000000000000020000000000000000640000009affff000a0000"
+        },
+        {
+          "stage": "after",
+          "eventAddress": 144564128,
+          "deltaQ16": 0,
+          "kind": 0,
+          "classFlags": 2,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": 2048,
+          "pointQ8": [
+            992118,
+            112359,
+            3062798
+          ],
+          "normalQ16": [
+            -21760,
+            -3584,
+            -61696
+          ],
+          "auxiliaryVectorQ16": [
+            25600,
+            -26112,
+            2560
+          ],
+          "object1": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              109589898,
+              24843801,
+              -466667278
+            ],
+            "linearVelocityQ16": [
+              -2113594,
+              -136764,
+              -1813493
+            ],
+            "momentumQ16": [
+              -2113594,
+              -136764,
+              -1813493
+            ],
+            "angularMomentumQ16": [
+              -77013,
+              -248880,
+              156225
+            ],
+            "angularVelocityQ16": [
+              -88,
+              -263,
+              221
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 0,
+            "collisionCounter168": 255
+          },
+          "object2": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              112935605,
+              25061203,
+              -461996407
+            ],
+            "linearVelocityQ16": [
+              -2133511,
+              -101531,
+              -1890167
+            ],
+            "momentumQ16": [
+              -2133511,
+              -101531,
+              -1890167
+            ],
+            "angularMomentumQ16": [
+              -98218,
+              2801140,
+              145824
+            ],
+            "angularVelocityQ16": [
+              -80,
+              2966,
+              245
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 0,
+            "collisionCounter168": 3
+          },
+          "eventBytesHex": "0000000000fd261180ef2911000000000000000000000000000000000000000000000000000000000000000076230f00e7b601000ebc2e0000abffff00f2ffff000ffffffdffffff000800000000000000000000020000000000000000640000009affff000a0000"
+        },
+        {
+          "stage": "before",
+          "eventAddress": 144564128,
+          "deltaQ16": 43776,
+          "kind": 0,
+          "classFlags": 1,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": 0,
+          "pointQ8": [
+            426370,
+            97181,
+            -1815676
+          ],
+          "normalQ16": [
+            -21504,
+            -4096,
+            -61952
+          ],
+          "auxiliaryVectorQ16": [
+            -23808,
+            26112,
+            2304
+          ],
+          "object1": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              112935605,
+              25061203,
+              -461996407
+            ],
+            "linearVelocityQ16": [
+              -2133511,
+              -101531,
+              -1890167
+            ],
+            "momentumQ16": [
+              -2133511,
+              -101531,
+              -1890167
+            ],
+            "angularMomentumQ16": [
+              -98218,
+              2801140,
+              145824
+            ],
+            "angularVelocityQ16": [
+              -80,
+              2966,
+              245
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 268435456,
+            "collisionCounter168": 3
+          },
+          "object2": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              109589898,
+              24843801,
+              -466667278
+            ],
+            "linearVelocityQ16": [
+              -2113594,
+              -136764,
+              -1813493
+            ],
+            "momentumQ16": [
+              -2113594,
+              -136764,
+              -1813493
+            ],
+            "angularMomentumQ16": [
+              -77013,
+              -248880,
+              156225
+            ],
+            "angularVelocityQ16": [
+              -88,
+              -263,
+              221
+            ],
+            "frameTimeQ16": 1280,
+            "collisionFlags": 0,
+            "collisionCounter168": 255
+          },
+          "eventBytesHex": "0000000080ef291100fd26110000000000000000000000000000000000000000000000000000000000000000828106009d7b0100844be4ff00acffff00f0ffff000efffffdffffff000000000000000000000000010000000000000000a3ffff0066000000090000"
+        },
+        {
+          "stage": "after",
+          "eventAddress": 144564128,
+          "deltaQ16": 43776,
+          "kind": 0,
+          "classFlags": 1,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": 0,
+          "pointQ8": [
+            -2359598,
+            -115015,
+            -1553592
+          ],
+          "normalQ16": [
+            -21504,
+            -4096,
+            -61952
+          ],
+          "auxiliaryVectorQ16": [
+            -23808,
+            26112,
+            2304
+          ],
+          "object1": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              111510318,
+              24993351,
+              -463259464
+            ],
+            "linearVelocityQ16": [
+              -2133030,
+              -101440,
+              -1888781
+            ],
+            "momentumQ16": [
+              -2133030,
+              -101440,
+              -1888781
+            ],
+            "angularMomentumQ16": [
+              -98493,
+              2839640,
+              143392
+            ],
+            "angularVelocityQ16": [
+              -81,
+              3007,
+              242
+            ],
+            "frameTimeQ16": 45056,
+            "collisionFlags": 0,
+            "collisionCounter168": 1
+          },
+          "object2": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              108178251,
+              24752478,
+              -467878151
+            ],
+            "linearVelocityQ16": [
+              -2113835,
+              -136810,
+              -1814187
+            ],
+            "momentumQ16": [
+              -2113835,
+              -136810,
+              -1814187
+            ],
+            "angularMomentumQ16": [
+              -76194,
+              -249853,
+              156005
+            ],
+            "angularVelocityQ16": [
+              -87,
+              -264,
+              221
+            ],
+            "frameTimeQ16": 45056,
+            "collisionFlags": 0,
+            "collisionCounter168": 255
+          },
+          "eventBytesHex": "0000000080ef291100fd26110000000000000000000000000000000000000000000000000000000000000000d2fedbffb93efeff484be8ff00acffff00f0ffff000efffffdffffff000000000000000000000000010000000000000000a3ffff0066000000090000"
+        },
+        {
+          "stage": "before",
+          "eventAddress": 144564128,
+          "deltaQ16": 0,
+          "kind": 0,
+          "classFlags": 2,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": -288,
+          "pointQ8": [
+            429262,
+            97185,
+            -1818707
+          ],
+          "normalQ16": [
+            61952,
+            4352,
+            21760
+          ],
+          "auxiliaryVectorQ16": [
+            -87296,
+            20480,
+            -58368
+          ],
+          "object1": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              111510318,
+              24993351,
+              -463259464
+            ],
+            "linearVelocityQ16": [
+              -2133030,
+              -101440,
+              -1888781
+            ],
+            "momentumQ16": [
+              -2133030,
+              -101440,
+              -1888781
+            ],
+            "angularMomentumQ16": [
+              -98493,
+              2839640,
+              143392
+            ],
+            "angularVelocityQ16": [
+              -81,
+              3007,
+              242
+            ],
+            "frameTimeQ16": 45056,
+            "collisionFlags": 268435456,
+            "collisionCounter168": 1
+          },
+          "object2": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              108178251,
+              24752478,
+              -467878151
+            ],
+            "linearVelocityQ16": [
+              -2113835,
+              -136810,
+              -1814187
+            ],
+            "momentumQ16": [
+              -2113835,
+              -136810,
+              -1814187
+            ],
+            "angularMomentumQ16": [
+              -76194,
+              -249853,
+              156005
+            ],
+            "angularVelocityQ16": [
+              -87,
+              -264,
+              221
+            ],
+            "frameTimeQ16": 45056,
+            "collisionFlags": 0,
+            "collisionCounter168": 255
+          },
+          "eventBytesHex": "0000000080ef291100fd26110000000000000000000000000000000000000000000000000000000000000000ce8c0600a17b0100ad3fe4ff00f200000011000000550000fdffffffe0feffff0000000000000000020000000000000000abfeff00500000001cffff"
+        },
+        {
+          "stage": "after",
+          "eventAddress": 144564128,
+          "deltaQ16": 0,
+          "kind": 0,
+          "classFlags": 2,
+          "tag": 0,
+          "damping": 0,
+          "field44": -3,
+          "scalar": 36864,
+          "pointQ8": [
+            -1654578,
+            -116473,
+            -2341938
+          ],
+          "normalQ16": [
+            61952,
+            4352,
+            21760
+          ],
+          "auxiliaryVectorQ16": [
+            -87296,
+            20480,
+            -58368
+          ],
+          "object1": {
+            "address": 287960960,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              111545650,
+              24995833,
+              -463247054
+            ],
+            "linearVelocityQ16": [
+              -2104273,
+              -99420,
+              -1878681
+            ],
+            "momentumQ16": [
+              -2104273,
+              -99420,
+              -1878681
+            ],
+            "angularMomentumQ16": [
+              -44259,
+              2066998,
+              143502
+            ],
+            "angularVelocityQ16": [
+              -1,
+              2189,
+              250
+            ],
+            "frameTimeQ16": 45056,
+            "collisionFlags": 0,
+            "collisionCounter168": 255
+          },
+          "object2": {
+            "address": 287767808,
+            "flags": 7171,
+            "type": 3,
+            "positionQ16": [
+              108142919,
+              24749996,
+              -467890561
+            ],
+            "linearVelocityQ16": [
+              -2128214,
+              -137821,
+              -1819238
+            ],
+            "momentumQ16": [
+              -2128214,
+              -137821,
+              -1819238
+            ],
+            "angularMomentumQ16": [
+              -50659,
+              -620098,
+              157420
+            ],
+            "angularVelocityQ16": [
+              -51,
+              -656,
+              225
+            ],
+            "frameTimeQ16": 45056,
+            "collisionFlags": 0,
+            "collisionCounter168": 255
+          },
+          "eventBytesHex": "0000000080ef291100fd26110000000000000000000000000000000000000000000000000000000000000000cec0e6ff0739feffce43dcff00f200000011000000550000fdffffff009000000000000000000000020000000000000000abfeff00500000001cffff"
+        }
+      ],
+      "matched": true
+    }
+  ],
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 6912,
+    "snapshots": 13,
+    "elapsedMs": 47440
+  },
+  "limits": [
+    "Each physics replay starts from actual4749e0 input, not source-carried450e50 output.",
+    "Source dispatcher traces are diagnostics; this capture contains no independent original per-dispatch snapshots.",
+    "The popped ECX local is separately compared; other private ABI/status and continuous native cadence remain unproved."
+  ]
+}

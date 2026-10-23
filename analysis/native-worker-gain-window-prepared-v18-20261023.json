@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "method": "prepared-v18-null-envelope-correction",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "preparedOnly": true,
+  "newOriginalProcessResultClaimed": false,
+  "rootOwnsAnySubsequentLaunch": true,
+  "gameOrNativeFixtureLaunchedByThisAgent": false,
+  "securityPolicyChanged": false,
+  "v17CaptureSucceeded": false,
+  "v17EntryExitPairVerified": false,
+  "v17ReplayAttempted": false,
+  "v17FailureDiagnosis": "analysis/native-worker-gain-window-v17-failure-diagnosis-20261023.json",
+  "configurationDifferenceFromV17": [
+    "outputDirectory"
+  ],
+  "typedConfigurationValidation": {
+    "configuration": "analysis/native-physics-local/startup-20261022/controlled-recovery-worker-gain-window-config-v18-20261023.json",
+    "result": "PASS",
+    "method": "Direct Add-Type and JavaScriptSerializer -> NativeDebugger.Validate; no process launched."
+  },
+  "tests": {
+    "pass": 45,
+    "fail": 0,
+    "skip": 0,
+    "command": "node --test tests/native-worker-gain-window-null-contract.test.mjs tests/native-worker-gain-window.test.mjs tests/native-worker-gain-pair.test.mjs tests/native-worker-gain-replay.test.mjs tests/native-recovery-worker-observation.test.mjs tests/native-held-chassis-force.test.mjs tests/native-chassis-border-preflight.test.mjs",
+    "log": "analysis/native-worker-gain-window-null-fix-final-20261023.txt",
+    "purePowerShellTransport": "-NoProfile -Command; no execution-policy override"
+  },
+  "progressNullContractAudit": [
+    {
+      "function": "CreateBufferedSnapshotEnvelope",
+      "dereference": "progress.qualifyingEventSnapshots",
+      "contract": "Conditional progress==null ? 0 : actual parent count; null only with ownedWorkerGainWindow, worker-leaf entry/exit role and separate reservation. Parent+separate reservation rejected.",
+      "tested": true
+    },
+    {
+      "function": "ReadBufferedSnapshot",
+      "dereference": "progress.Reserve",
+      "contract": "Only if separateReserve==null, after envelope has proved nonnull parent. Independent case invokes own reservation instead.",
+      "tested": true
+    },
+    {
+      "function": "FrameProof",
+      "dereference": "parent candidate/frame/application/nested fields",
+      "contract": "Parent-only callers use Run-created nonnull PendingFrameProgress; independent worker publication has separate explicit metadata and never calls FrameProof."
+    },
+    {
+      "function": "CommitBufferedGroup",
+      "dereference": "progress.bufferedBytes and FrameProof(progress)",
+      "contract": "Only actual pending main parent paths; independent pair uses CommitWorkerGainWindow."
+    }
+  ],
+  "activationContract": {
+    "method": "ActivateOwnedWorkerGainWindow",
+    "actualLocation": "same actual main loop post-guard/post-breakpoint-installation branch",
+    "defaultNoWindow": "null-gated no-op",
+    "invalidOwnerOrNullState": "explicit failure",
+    "repeatedActivation": "explicit failure",
+    "testedWithActualV17OptionsDefaults": true
+  },
+  "limits": [
+    "No V17 entry context/source snapshot or normal exit exists; no source replay permitted.",
+    "Pure C# regression closes the implementation null dereference, not original-process observation evidence.",
+    "Window identity, budgets, unsupported spatial exit, missing real service/getter inputs and no-same-parent claim are unchanged."
+  ],
+  "hashes": [
+    {
+      "file": "tools/lib/native-physics-debugger.cs",
+      "bytes": 190246,
+      "sha256": "6570248202031f87c05df6d86f85b54779259c75cc75ef3711ed5861c078e480"
+    },
+    {
+      "file": "tools/lib/native-worker-gain-window.mjs",
+      "bytes": 22828,
+      "sha256": "382fd5e42d49f57419c87721528ca8f9d015afe231d8e070e535ff3bea2e7829"
+    },
+    {
+      "file": "tools/prepare-native-worker-gain-window-capture.mjs",
+      "bytes": 3143,
+      "sha256": "1785662d1a16b7ccb7cc03a657d344e21b1afe1cf310ca66f744465acfc655d2"
+    },
+    {
+      "file": "tools/check-native-worker-gain-window-capture.mjs",
+      "bytes": 2358,
+      "sha256": "1d63a1eb681397ec6b75527957ec8470f318c7befe5ce0edc2058c6da9188a15"
+    },
+    {
+      "file": "tools/lib/native-worker-gain-replay.mjs",
+      "bytes": 9027,
+      "sha256": "48ccf05993a20cedfe2c26f2c7ce898d175c8663afd7b15a7534ec9b81140a3f"
+    },
+    {
+      "file": "tests/native-worker-gain-window-null-contract.test.mjs",
+      "bytes": 6524,
+      "sha256": "6b12bd6e8c37cf3d0103b762f23a9c7e7d295d77ab03a8dc43c3cc0147cd52b0"
+    },
+    {
+      "file": "tests/native-worker-gain-window.test.mjs",
+      "bytes": 22746,
+      "sha256": "76a59c982ddd8cf098ef5693c059eb88049ac6d012e6690390c0346b17be7ae4"
+    },
+    {
+      "file": "tests/native-worker-gain-replay.test.mjs",
+      "bytes": 7831,
+      "sha256": "62df6667c1c1557dfead503d813262e9eb2308977f04b64de21df3533c23d0d1"
+    },
+    {
+      "file": "tests/native-held-chassis-force.test.mjs",
+      "bytes": 19359,
+      "sha256": "01ceb97d3301baa8b9ce98d48bf96cfd27d5910bafb76c8ab753594fc3fdc670"
+    },
+    {
+      "file": "re-docs/native-worker-gain-window.md",
+      "bytes": 9852,
+      "sha256": "2ce2f294e79c76d58c851be4386846f5068fa086378f65d6e8b96c1cdd1c0f27"
+    },
+    {
+      "file": "analysis/native-worker-gain-window-null-fix-final-20261023.txt",
+      "bytes": 11362,
+      "sha256": "d1f74497f7aaaa6fe069b64a5c0a9ff2060cf510097a822ae8d5363a78fe203d"
+    },
+    {
+      "file": "analysis/native-worker-gain-window-v17-failure-diagnosis-20261023.json",
+      "bytes": 5969,
+      "sha256": "cdf9daac2876233f7a7aef5f179bb57275467c1fa6f39fcf9ec563396394bc11"
+    },
+    {
+      "file": "analysis/native-physics-local/startup-20261022/controlled-recovery-worker-gain-window-config-v18-20261023.json",
+      "bytes": 53579,
+      "sha256": "aac69d6c885b582a11e793e71ad1854f4f93101d4949e849eedd28efea290b8f"
+    }
+  ]
+}

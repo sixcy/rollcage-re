@@ -3,7 +3,7 @@ import {emitRawEffectParticles,emitRawBodyDebris,lookupRawSpatialBucket} from '.
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
 import {spatialBucketContainsSector} from './track-deformation.mjs';
-import {copyToNativeMemory} from './native-memory-spans.mjs';
+import {copyToNativeMemory,resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 const vector=(m,p)=>[0,4,8].map(o=>get(m,p+o));
 const copy=(m,a,b)=>{for(const o of[0,4,8])put(m,b+o,get(m,a+o));};
@@ -96,18 +96,19 @@ export function queueDestroyedPlacedObjects(object,{memory,scratchBase,handlers=
 export function selectModelDestructionObserver(position,output,distance,{memory,scratchBase,handlers={}}) {
  const radius=Math.imul(distance>>2,distance>>2);let best=0xffffffff,selected=-1;
  if(get(memory,0x6e6550)>1){
+  const observerBase=resolveNativeMemoryAddress(memory,0x91f6c0,1);
   const origin=vector(memory,position),{bucket,outside}=lookupRawSpatialBucket(...origin,{memory});put(memory,scratchBase-16,outside);
   const sector=memory.readUInt16LE(ptr(memory,0x9092c0)+(memory.readUInt16LE(bucket+6)&0x3fff)*6+2)&127;
   put(memory,scratchBase-16,sector);
   for(let i=0;i<get(memory,0x6e6550);i++){
-   const row=0x91f6c0+i*56;if(get(memory,row)===1)continue;
+   const row=observerBase+i*56;if(get(memory,row)===1)continue;
    const squared=origin.reduce((sum,x,axis)=>{const delta=((x-get(memory,row+4+axis*4))|0)>>18;return(sum+Math.imul(delta,delta))|0;},0),score=abs32((abs32(squared)-radius)|0)>>>0;
    if(score<best&&(handlers.call4176b0?handlers.call4176b0({sector,position:row+4,memory,scratchBase:scratchBase-0x2c}):spatialBucketContainsSector(sector,row+4,{memory,scratchBase:scratchBase-0x2c}))){best=score;selected=i;}
   }
-  put(memory,output,0x91f6c0+selected*56);if(selected!==-1)return;
+  put(memory,output,observerBase+selected*56);if(selected!==-1)return;
  }
  put(memory,0x9205a0,0);const xy=Buffer.from(memory.subarray(position,position+8));copyToNativeMemory(memory,0x9205a4,xy);const z=get(memory,position+8);
- put(memory,0x9205a4,get(memory,0x9205a4)-0x320000);put(memory,0x9205a8,get(memory,0x9205a8)-0xc80000);put(memory,0x9205ac,z-0x320000);put(memory,output,0x9205a0);
+ put(memory,0x9205a4,get(memory,0x9205a4)-0x320000);put(memory,0x9205a8,get(memory,0x9205a8)-0xc80000);put(memory,0x9205ac,z-0x320000);put(memory,output,resolveNativeMemoryAddress(memory,0x9205a0,16));
 }
 
 //41a570: unsigned initial clamp/division, then signed maximum/minimum.

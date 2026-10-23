@@ -126,6 +126,22 @@ namespace RollcageCapture {
     public MemoryRange threadIdSource, managerSource;
     public int maxSnapshots;
   }
+  public sealed class OwnedWorkerGainWindow {
+    public string entryBreakpointId, exitBreakpointId, unsupportedExitBreakpointId;
+    public MemoryRange threadIdSource, managerSource;
+    public int maxSnapshots, maxBufferedBytes;
+  }
+  public sealed class OwnedWorkerGainWindowProgress {
+    public readonly OwnedWorkerGainPairProgress call = new OwnedWorkerGainPairProgress();
+    public int activationDebugOrdinal;
+    public uint ownerTid, threadIdSourceAddress;
+    public long bufferedBytes;
+    public bool parentComplete;
+    public bool Ready { get { return parentComplete && call.complete; } }
+    public void Activate(int ordinal,uint mainTid) {if(ordinal<1||mainTid==0||activationDebugOrdinal!=0)throw new InvalidDataException("Worker leaf window requires one real guarded activation.");activationDebugOrdinal=ordinal;ownerTid=mainTid;}
+    public void Reserve(long bytes,int maximum) {if(bytes<0||bytes>maximum-bufferedBytes)throw new InvalidDataException("Worker leaf window byte bound exceeded.");bufferedBytes+=bytes;}
+    public void RequireComplete() {if(!Ready||call.captured!=2||call.open)throw new InvalidDataException("Worker leaf window stopped without its actual parent and complete same-call gain pair.");}
+  }
   //A distinct two-endpoint policy. It never widens the old one-shot contract.
   public sealed class OwnedWorkerGainPairProgress {
     public int captured;
@@ -231,18 +247,64 @@ namespace RollcageCapture {
     public ObservationActivation observationActivation;
     public OwnedWorkerObservation ownedWorkerObservation;
     public OwnedWorkerGainPair ownedWorkerGainPair;
+    public OwnedWorkerGainWindow ownedWorkerGainWindow;
     public HeldForceInput heldForceInput;
   }
   public static class NativeDebugger {
     public static void ValidateHeldForcePolicy(Options o) {
       if (o.heldForceInput == null) return;
+      ValidateHeldForceStartup(o);
       PendingFrameObserver f = o.pendingFrameObserver;
-      if (o.heldForceInput.breakpointId != "native-frame-before" || o.heldForceInput.maxHoldMs != 20000 || o.maxDurationMs != 90000 || o.maxSnapshots != 70 || !o.captureThreadEnvironment || o.observationActivation != null || o.ownedWorkerObservation != null || o.ownedWorkerGainPair != null || f == null || f.beforeBreakpointId != "native-frame-before" || f.afterBreakpointId != "native-frame-after" || f.eventBreakpointId != "native-dispatch-entry" || f.maxCandidateFrames != 1 || f.maxEventSnapshots != 64 || f.maxPendingBytes != 128 * 1024 * 1024 || f.nestedBreakpointIds.Length != 0) throw new InvalidDataException("Held force requires its separate exact one-frame bounded policy.");
+      if (o.heldForceInput.breakpointId != "native-frame-before" || o.heldForceInput.maxHoldMs != 20000 || o.maxDurationMs != 90000 || o.maxEvents != 1000000 || o.maxSnapshots != 70 || !o.captureThreadEnvironment || o.observationActivation != null || o.ownedWorkerObservation != null || o.ownedWorkerGainPair != null || o.ownedWorkerGainWindow != null || o.ranges.Length != 0 || f == null || f.beforeBreakpointId != "native-frame-before" || f.afterBreakpointId != "native-frame-after" || f.eventBreakpointId != "native-dispatch-entry" || f.maxCandidateFrames != 1 || f.maxEventSnapshots != 64 || f.maxPendingBytes != 128 * 1024 * 1024 || f.nestedBreakpointIds.Length != 0) throw new InvalidDataException("Held force requires its separate exact one-frame bounded policy.");
       foreach (string id in new string[] {f.beforeBreakpointId, f.afterBreakpointId, f.eventBreakpointId}) {
         Breakpoint b = Array.Find(o.breakpoints, delegate(Breakpoint x) {return x.id == id;});
         uint site = id == f.beforeBreakpointId ? 0x749e0u : id == f.afterBreakpointId ? 0x74b1eu : 0x74bb0u;
         if (b == null || Number(b.rva) != site || !String.IsNullOrEmpty(b.address) || b.service != null) throw new InvalidDataException("Held force boundary differs.");
+        if(id != f.eventBreakpointId) {
+          CaptureCondition gate=b.captureWhen;MemoryRange g=gate==null?null:gate.range;
+          if(g==null||Number(g.rva)!=0x1ecb1c||!String.IsNullOrEmpty(g.address)||!String.IsNullOrEmpty(g.baseRegister)||g.dereferenceOffsets.Length!=1||Offset(g.dereferenceOffsets[0])!=0||Offset(g.offset)!=0x57c||g.length!=4||g.readableRegion||g.vectorStorage||g.dereferenceMinimumValues!=null||gate.equalsBytesHex!="04000000"||!b.skipMatchingHits.HasValue||b.skipMatchingHits.Value<0||b.stopAfterHits!=(id==f.afterBreakpointId?1:0))throw new InvalidDataException("Held force active-phase/skip/return policy differs.");
+          MemoryRange stack=Array.Find(b.ranges,delegate(MemoryRange r){return r.id=="frame-stack";});
+          if(stack==null||stack.baseRegister!="esp"||!String.IsNullOrEmpty(stack.address)||!String.IsNullOrEmpty(stack.rva)||stack.dereferenceOffsets.Length!=0||Offset(stack.offset)!=-4096||stack.length!=4100||stack.readableRegion)throw new InvalidDataException("Held force requires its actual bounded frame stack.");
+          MemoryRange[] banks=Array.FindAll(b.ranges,delegate(MemoryRange r){return r.id=="active-sound-bank-storage"||r.id=="active-sound-bank-region";});
+          if(banks.Length!=1||banks[0].id=="active-sound-bank-storage"&&!IsHeldBankVector(banks[0]))throw new InvalidDataException("Held force exact bank-vector descriptor differs.");
+          MemoryRange bank=banks[0];
+          if(bank.id=="active-sound-bank-region"&&(Number(bank.rva)!=0x2f2414||!bank.readableRegion||bank.maxRegionBytes!=64*1024*1024||bank.vectorStorage||bank.maxVectorBytes!=0||bank.length!=0||!String.IsNullOrEmpty(bank.address)||!String.IsNullOrEmpty(bank.baseRegister)||bank.dereferenceOffsets.Length!=1||Offset(bank.dereferenceOffsets[0])!=0||Offset(bank.offset)!=0||bank.dereferenceMinimumValues!=null))throw new InvalidDataException("Held force legacy bank transport differs.");
+          MemoryRange header=Array.Find(b.ranges,delegate(MemoryRange r){return r.id=="sound-owner-vector-roots";});
+          if(header==null||Number(header.rva)!=0x2f2414||header.length!=12||header.readableRegion||header.vectorStorage||!String.IsNullOrEmpty(header.address)||!String.IsNullOrEmpty(header.baseRegister)||header.dereferenceOffsets.Length!=0||Offset(header.offset)!=0)throw new InvalidDataException("Held force requires its independent actual bank header.");
+          foreach(MemoryRange r in b.ranges)if(r.dereferenceMinimumValues!=null||r.vectorStorage&&!IsHeldBankVector(r))throw new InvalidDataException("Held force forbids other vectors/guarded transports.");
+        } else if(b.captureWhen!=null||b.skipMatchingHits.HasValue||b.stopAfterHits!=0)throw new InvalidDataException("Held force must observe its complete dispatcher stream.");
         foreach (PhaseAction a in o.phaseActions) if (a.breakpointId == id) throw new InvalidDataException("Held force cannot combine observer phase writes.");
+      }
+      Breakpoint before=Array.Find(o.breakpoints,delegate(Breakpoint b){return b.id==f.beforeBreakpointId;}),after=Array.Find(o.breakpoints,delegate(Breakpoint b){return b.id==f.afterBreakpointId;});
+      if(before.skipMatchingHits!=after.skipMatchingHits)throw new InvalidDataException("Held force entry/return windows differ.");
+    }
+    static bool IsHeldBankVector(MemoryRange r) {
+      return r.id=="active-sound-bank-storage"&&Number(r.rva)==0x2f2414&&r.vectorStorage&&r.maxVectorBytes==65536&&String.IsNullOrEmpty(r.address)&&String.IsNullOrEmpty(r.baseRegister)&&r.dereferenceOffsets.Length==0&&Offset(r.offset)==0&&r.length==0&&!r.readableRegion&&r.maxRegionBytes==0&&r.dereferenceMinimumValues==null;
+    }
+    public static VectorStorageInfo ValidateHeldBankHeader(byte[] header,byte[] independent,uint headerAddress,uint expectedHeaderAddress) {
+      if(header==null||independent==null||header.Length!=12||independent.Length!=12||BytesHex(header)!=BytesHex(independent)||headerAddress==0||headerAddress!=expectedHeaderAddress||(ulong)headerAddress+12>0x100000000UL)throw new InvalidDataException("Held bank vector lacks independent actual12-byte header proof.");
+      VectorStorageInfo v=DecodeVectorStorage(header,65536);
+      if(v.begin%4!=0||(v.end-v.begin)%4!=0||(v.capacity-v.begin)%4!=0)throw new InvalidDataException("Held bank vector is not a native DWORD pointer vector.");
+      return v;
+    }
+    public static long HeldForceRequiredBytes(long preBytes,long eventBytes) {
+      if(preBytes<720||eventBytes<720)throw new InvalidDataException("Held force snapshot footprint is incomplete.");
+      return checked(preBytes*3+eventBytes*64);
+    }
+    static void ValidateHeldForceStartup(Options o) {
+      string[] ids={"launcher-policy","graphics-policy","before-device-creation","native-frame-before","native-frame-after","native-dispatch-entry"};
+      uint[] sites={0x42890,0x35be,0x112a30};
+      if(o.breakpoints.Length!=6||o.phaseActions.Length!=3)throw new InvalidDataException("Held force exact startup/site/write whitelist differs.");
+      for(int i=0;i<6;i++)if(o.breakpoints[i].id!=ids[i])throw new InvalidDataException("Held force extra/reordered breakpoint site.");
+      for(int i=0;i<3;i++)if(Number(o.breakpoints[i].rva)!=sites[i]||!String.IsNullOrEmpty(o.breakpoints[i].address)||o.breakpoints[i].captureWhen!=null||o.breakpoints[i].skipMatchingHits.HasValue||o.phaseActions[i].breakpointId!=ids[i]||o.phaseActions[i].hit!=1||o.phaseActions[i].writes.Length!=(i==0?3:i==1?1:2))throw new InvalidDataException("Held force startup action/site identity differs.");
+      uint[] roots={0x2e66ec,0x1ecefc,0x1ecefc,0x2e64a4,0,0};int[] offsets={0,10,14,60,0x398,0x3a8};
+      string[] replacements={"01000000","01","01","00","01000000","00000000"};int slot=0;
+      foreach(PhaseAction a in o.phaseActions)foreach(MemoryWrite w in a.writes){
+        bool chained=slot>=1&&slot<=3;
+        if(!String.IsNullOrEmpty(w.address)||Number(w.rva)!=roots[slot]||(slot>=4?w.baseRegister!="ecx":!String.IsNullOrEmpty(w.baseRegister))||Offset(w.offset)!=offsets[slot]||w.dereferenceOffsets.Length!=(chained?1:0)||chained&&Offset(w.dereferenceOffsets[0])!=0||BytesHex(ParseBytes(w.bytesHex))!=replacements[slot])throw new InvalidDataException("Held force nonwhitelisted startup write/root.");
+        if(slot<4){string[] expected=slot==0?new string[]{"00000000","01000000"}:new string[]{"00","01"};if(w.expectedBytesHex!=null||w.expectedAnyBytesHex==null||w.expectedAnyBytesHex.Length!=2||BytesHex(ParseBytes(w.expectedAnyBytesHex[0]))!=expected[0]||BytesHex(ParseBytes(w.expectedAnyBytesHex[1]))!=expected[1])throw new InvalidDataException("Held force startup expected-byte guards changed.");}
+        else if(w.expectedAnyBytesHex!=null||w.expectedBytesHex==null||BytesHex(ParseBytes(w.expectedBytesHex))!=replacements[slot])throw new InvalidDataException("Held force device guards must remain exact no-op proofs.");
+        slot++;
       }
     }
     static int HeldInteger(string value) {
@@ -268,6 +330,16 @@ namespace RollcageCapture {
       }
       if (!nonzero || BytesHex(d.original) == BytesHex(d.replacement)) throw new InvalidDataException("Held force must be a bounded nonzero input.");
       return d;
+    }
+    public static bool HeldForceDeadlineExpired(long started, long now, int maxDurationMs) {
+      if (started < 0 || now < started || maxDurationMs != 90000) throw new InvalidDataException("Invalid held-force monotonic clock/bound.");
+      return now-started >= 20000 || now >= maxDurationMs;
+    }
+    public static void ValidateHeldForceBody(HeldForceDecision d, byte[] bytes, uint root, uint arena, uint used, byte[] physical) {
+      if (d == null || bytes == null || bytes.Length != 0x3e78 || root != d.body || arena == 0 || used == 0 || (ulong)arena+used > 0x100000000UL || root < arena || ((ulong)root-arena)%128!=0 || (ulong)root+0x3e78>(ulong)arena+used || (BitConverter.ToUInt32(bytes,0)&511)!=3 || Digest(bytes)!=d.bodySha256 || physical==null || physical.Length<8 || physical.Length>96*4 || physical.Length%4!=0 || BitConverter.ToUInt32(physical,physical.Length-4)!=0) throw new InvalidDataException("Held force live participant/body/list preimage differs.");
+      bool found=false;for(int i=0;i<physical.Length-4;i+=4)found|=BitConverter.ToUInt32(physical,i)==root;
+      byte[] original=new byte[12];Array.Copy(bytes,0x74,original,0,12);
+      if(!found||BytesHex(original)!=BytesHex(d.original))throw new InvalidDataException("Held force body is not physically owned or force preimage changed.");
     }
     const uint Break = 0x80000003, Step = 0x80000004, Wow64Break = 0x4000001f, Wow64Step = 0x4000001e, Continue = 0x10002, NotHandled = 0x80010001;
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)] struct Startup {
@@ -802,21 +874,24 @@ namespace RollcageCapture {
       }
       ObservationActivation activation = o.observationActivation;
       if (activation != null) {
-        if (observer == null || observer.nestedCaptureScope != "frame-thread" || activation.rawHit < 1 || String.IsNullOrEmpty(activation.breakpointId) || !ids.Contains(activation.breakpointId) || activation.observationBreakpointIds == null || activation.observationBreakpointIds.Length == 0 || activation.observationBreakpointIds.Length > 128) throw new InvalidDataException("Observation activation requires a bounded guarded trigger and frame-thread nested observations.");
+        if (observer == null || (o.ownedWorkerGainWindow==null && observer.nestedCaptureScope != "frame-thread") || activation.rawHit < 1 || String.IsNullOrEmpty(activation.breakpointId) || !ids.Contains(activation.breakpointId) || activation.observationBreakpointIds == null || activation.observationBreakpointIds.Length == 0 || activation.observationBreakpointIds.Length > 128) throw new InvalidDataException("Observation activation requires a bounded guarded trigger and explicit observation scope.");
         Breakpoint trigger = null; foreach (Breakpoint point in o.breakpoints) if (point.id == activation.breakpointId) trigger = point;
         if (trigger.captureWhen != null || trigger.skipMatchingHits.HasValue || trigger.stopAfterHits != 0 || trigger.service != null) throw new InvalidDataException("Observation activation trigger must be unfiltered and nonstopping.");
         HashSet<string> deferred = new HashSet<string>();
         foreach (string id in activation.observationBreakpointIds) {
-          if (id == null || id == activation.breakpointId || !ids.Contains(id) || !deferred.Add(id) || Array.IndexOf(observer.nestedBreakpointIds, id) < 0) throw new InvalidDataException("Observation activation sites must be unique declared nested observers distinct from the trigger.");
+          bool leaf = o.ownedWorkerGainWindow!=null && (id==o.ownedWorkerGainWindow.entryBreakpointId||id==o.ownedWorkerGainWindow.exitBreakpointId||id==o.ownedWorkerGainWindow.unsupportedExitBreakpointId);
+          if (id == null || id == activation.breakpointId || !ids.Contains(id) || !deferred.Add(id) || (Array.IndexOf(observer.nestedBreakpointIds, id) < 0 && !leaf)) throw new InvalidDataException("Observation activation sites must be unique declared observers distinct from the trigger.");
         }
         int guards = 0; foreach (PhaseAction action in o.phaseActions) if (action.breakpointId == activation.breakpointId && action.hit == activation.rawHit && action.writes.Length != 0) guards++;
         if (guards != 1) throw new InvalidDataException("Observation activation requires exactly one nonempty declared guard action at its trigger raw hit.");
       }
       ValidateOwnedWorkerObservationPolicy(o);
       ValidateOwnedWorkerGainPairPolicy(o);
+      ValidateOwnedWorkerGainWindowPolicy(o);
       ValidateHeldForcePolicy(o);
       if (o.ownedWorkerObservation != null) ranges.Add(o.ownedWorkerObservation.threadIdSource);
       if (o.ownedWorkerGainPair != null) {ranges.Add(o.ownedWorkerGainPair.threadIdSource); ranges.Add(o.ownedWorkerGainPair.managerSource);}
+      if (o.ownedWorkerGainWindow != null) {ranges.Add(o.ownedWorkerGainWindow.threadIdSource); ranges.Add(o.ownedWorkerGainWindow.managerSource);}
       foreach (MemoryRange r in ranges) {
         ValidateGuardedPointerRange(r);
         if (o.captureThreadEnvironment && r.id == "thread-seh-head") throw new InvalidDataException("thread-seh-head is reserved for captured thread environment bytes.");
@@ -898,6 +973,25 @@ namespace RollcageCapture {
       if(found==null||found.baseRegister!=register||found.length!=length||Offset(found.offset)!=offset||!String.IsNullOrEmpty(found.address)||!String.IsNullOrEmpty(found.rva)||found.readableRegion||found.vectorStorage||found.maxRegionBytes!=0||found.maxVectorBytes!=0||found.dereferenceMinimumValues!=null||found.dereferenceOffsets==null||found.dereferenceOffsets.Length!=chain.Length) throw new InvalidDataException("Worker gain exact register range differs: "+id);
       for(int i=0;i<chain.Length;i++)if(found.dereferenceOffsets[i]!=chain[i])throw new InvalidDataException("Worker gain exact pointer chain differs: "+id);
     }
+    public static void ValidateOwnedWorkerGainWindowPolicy(Options o) {
+      if(o==null)throw new ArgumentNullException("o");
+      OwnedWorkerGainWindow w=o.ownedWorkerGainWindow;if(w==null)return;
+      PendingFrameObserver f=o.pendingFrameObserver;ObservationActivation a=o.observationActivation;
+      if(o.ownedWorkerObservation!=null||o.ownedWorkerGainPair!=null||o.heldForceInput!=null||w.entryBreakpointId!="worker-gain-entry"||w.exitBreakpointId!="worker-gain-exit"||w.unsupportedExitBreakpointId!="worker-gain-spatial-exit"||w.maxSnapshots!=2||w.maxBufferedBytes!=262144||o.maxDurationMs!=90000||o.maxSnapshots!=350||!o.captureThreadEnvironment||o.breakpoints==null||o.phaseActions==null||o.ranges==null||f==null||f.beforeBreakpointId!="native-recovery-before"||f.afterBreakpointId!="native-recovery-after"||f.eventBreakpointId!="native-recovery-apply-entry"||f.nestedCaptureScope!=null||f.nestedBreakpointIds==null||f.nestedBreakpointIds.Length!=0||f.maxNestedSnapshots!=0||f.maxPendingBytes!=128*1024*1024-w.maxBufferedBytes||a==null||a.breakpointId!="controlled-recovery-caller"||a.rawHit!=229||a.observationBreakpointIds==null||a.observationBreakpointIds.Length!=3)throw new InvalidDataException("Worker leaf window requires its separate bounded activation/parent policy.");
+      string[] names={w.entryBreakpointId,w.exitBreakpointId,w.unsupportedExitBreakpointId};uint[] sites={0xb12d0,0xb1990,0xb1919};
+      for(int i=0;i<3;i++){
+        if(a.observationBreakpointIds[i]!=names[i])throw new InvalidDataException("Worker leaf activation sites differ.");
+        Breakpoint p=null;foreach(Breakpoint b in o.breakpoints)if(b.id==names[i]){if(p!=null)throw new InvalidDataException("Duplicate worker leaf site.");p=b;}
+        if(p==null||p.ranges==null||Number(p.rva)!=sites[i]||!String.IsNullOrEmpty(p.address)||p.stopAfterHits!=0||p.skipMatchingHits.HasValue||p.captureWhen!=null||p.service!=null)throw new InvalidDataException("Worker leaf sites must be exact read-only endpoints.");
+        foreach(PhaseAction action in o.phaseActions)if(action.breakpointId==p.id)throw new InvalidDataException("Worker leaf cannot perform target writes.");
+        if(i==2){if(p.ranges.Length!=0)throw new InvalidDataException("Worker spatial exit is reject-only.");}
+        else {ValidateGainPairRegisterRange(p,"worker-gain-stack","esp",444,-432,new string[0]);ValidateGainPairRegisterRange(p,"worker-gain-arguments","esp",12,0,new string[0]);ValidateGainPairRegisterRange(p,"worker-gain-source",i==0?"esp":"esi",0x9a8,0,i==0?new string[]{"4"}:new string[0]);ValidateGainPairRegisterRange(p,"worker-gain-source-vtable",i==0?"esp":"esi",0x88,0,i==0?new string[]{"4","0"}:new string[]{"0"});foreach(MemoryRange r in p.ranges)if(!String.IsNullOrEmpty(r.baseRegister)&&r.id!="worker-gain-stack"&&r.id!="worker-gain-arguments"&&r.id!="worker-gain-source"&&r.id!="worker-gain-source-vtable")throw new InvalidDataException("Extra worker leaf register pointee is unsupported.");}
+      }
+      MemoryRange tid=w.threadIdSource,manager=w.managerSource;
+      if(tid==null||manager==null||tid.dereferenceOffsets==null||manager.dereferenceOffsets==null||tid.id!="manager-worker-tid"||Number(tid.rva)!=0x314b08||tid.length!=4||tid.offset!="0x24"||tid.dereferenceOffsets.Length!=2||tid.dereferenceOffsets[0]!="0"||tid.dereferenceOffsets[1]!="0x824"||manager.id!="worker-gain-manager-root"||Number(manager.rva)!=0x314b08||manager.length!=4||manager.dereferenceOffsets.Length!=0||Offset(manager.offset)!=0)throw new InvalidDataException("Worker leaf ownership roots differ.");
+      foreach(MemoryRange r in new MemoryRange[]{tid,manager})if(!String.IsNullOrEmpty(r.address)||!String.IsNullOrEmpty(r.baseRegister)||r.readableRegion||r.vectorStorage||r.maxRegionBytes!=0||r.maxVectorBytes!=0||r.dereferenceMinimumValues!=null)throw new InvalidDataException("Worker leaf needs fixed global ownership roots.");
+      foreach(MemoryRange r in o.ranges)if(!String.IsNullOrEmpty(r.baseRegister))throw new InvalidDataException("Worker leaf global register ranges are unsupported.");
+    }
     sealed class BufferedRange {
       public uint start;
       public int length;
@@ -943,8 +1037,22 @@ namespace RollcageCapture {
     static Dictionary<string, object> FrameProof(PendingFrameProgress progress) {
       return Record("candidateIndex", progress.candidateIndex, "frameTid", progress.frameTid, "frameEntryEsp", Hex(progress.frameEntryEsp), "frameReturnAddress", Hex(progress.frameReturnAddress), "frameMatchingHit", progress.frameMatchingHit, "observedEventHits", progress.observedEventHits, "qualifyingEventSnapshots", progress.qualifyingEventSnapshots, "nestedSnapshots", progress.nestedSnapshots);
     }
-    static BufferedSnapshot ReadBufferedSnapshot(Options options, PendingFrameProgress progress, IntPtr process, IntPtr thread, uint mainBase, Breakpoint hit, uint tid, Dictionary<string, object> regs, IntPtr context, Dictionary<string, object> predicate, string role, long elapsedMs, int debugOrdinal) {
-      BufferedSnapshot buffered = new BufferedSnapshot {breakpoint = hit, role = role, eventIndex = progress.qualifyingEventSnapshots};
+    // Pure metadata construction shared by the actual read path and deterministic
+    // tests. An independent leaf has no parent progress or application index.
+    static BufferedSnapshot CreateBufferedSnapshotEnvelope(Options options,PendingFrameProgress progress,Breakpoint hit,string role,Action<long> separateReserve) {
+      if(options==null||hit==null)throw new ArgumentNullException(options==null?"options":"hit");
+      if(progress==null){if(separateReserve==null||options.ownedWorkerGainWindow==null||(role!="worker-leaf-entry"&&role!="worker-leaf-exit"))throw new InvalidDataException("Independent worker envelope requires its separate policy and byte reservation.");}
+      else if(separateReserve!=null)throw new InvalidDataException("Parent snapshot cannot borrow the independent worker reservation.");
+      return new BufferedSnapshot {breakpoint=hit,role=role,eventIndex=progress==null?0:progress.qualifyingEventSnapshots};
+    }
+    public static void ActivateOwnedWorkerGainWindow(Options options,OwnedWorkerGainWindowProgress window,int debugOrdinal,uint actualTid,uint ownedMainTid) {
+      if(options==null)throw new ArgumentNullException("options");
+      if(options.ownedWorkerGainWindow==null)return;
+      if(window==null||actualTid!=ownedMainTid)throw new InvalidDataException("Worker leaf activation requires the owned main thread and its state.");
+      window.Activate(debugOrdinal,ownedMainTid);
+    }
+    static BufferedSnapshot ReadBufferedSnapshot(Options options, PendingFrameProgress progress, IntPtr process, IntPtr thread, uint mainBase, Breakpoint hit, uint tid, Dictionary<string, object> regs, IntPtr context, Dictionary<string, object> predicate, string role, long elapsedMs, int debugOrdinal, Action<long> separateReserve = null, Action<Dictionary<string,object>> footprintObserver = null) {
+      BufferedSnapshot buffered = CreateBufferedSnapshotEnvelope(options,progress,hit,role,separateReserve);
       long bytes = 716 + (options.captureThreadEnvironment ? 4 : 0);
       List<MemoryRange> selected = new List<MemoryRange>(options.ranges); selected.AddRange(hit.ranges);
       // Query and reserve the entire duplicated snapshot footprint BEFORE reading
@@ -964,7 +1072,11 @@ namespace RollcageCapture {
         if (guard != null) AddGuardedPointerMetadata(row, range, guard);
         buffered.ranges.Add(new BufferedRange {start = start, length = length, row = row, descriptor = range, root = root, region = region}); bytes = checked(bytes + GuardedPointerFootprint(guard, length) + (vector != null ? 12 : 0));
       }
-      progress.Reserve(options.pendingFrameObserver, bytes);
+      if(footprintObserver!=null){
+        List<object> plans=new List<object>();foreach(BufferedRange r in buffered.ranges){Dictionary<string,object> plan=new Dictionary<string,object>(r.row);plan["byteFootprint"]=(long)r.length+(r.descriptor.vectorStorage?12:0);plan["vectorHeaderBytes"]=r.descriptor.vectorStorage?12:0;plans.Add(plan);}
+        footprintObserver(Record("type","held-force-budget","metadataBeforeBlobRead",true,"preSnapshotBytes",bytes,"contextBytes",716,"threadEnvironmentBytes",options.captureThreadEnvironment?4:0,"rangeFootprints",plans));
+      }
+      if(separateReserve==null)progress.Reserve(options.pendingFrameObserver, bytes);else separateReserve(bytes);
       foreach (BufferedRange range in buffered.ranges) {range.data = ReadCaptureRangeBytes(process, range.descriptor, range.root, range.start, range.length, range.region); range.row["sha256"] = Digest(range.data);}
       ThreadEnvironmentCapture environment = options.captureThreadEnvironment ? ReadThreadEnvironment(process, thread, context, tid) : null;
       if (environment != null) buffered.ranges.Add(environment.range);
@@ -1002,6 +1114,22 @@ namespace RollcageCapture {
       foreach (BufferedSnapshot snapshot in buffered) emit(snapshot.row);
       Dictionary<string, object> selected = FrameProof(progress); selected["type"] = "pending-frame-selected"; selected["firstOrdinal"] = first; selected["lastOrdinal"] = ordinal; selected["bufferedBytes"] = progress.bufferedBytes; emit(selected);
     }
+    static BufferedSnapshot ReadWorkerWindowSnapshot(Options options,OwnedWorkerGainWindowProgress window,IntPtr process,IntPtr thread,uint mainBase,Breakpoint hit,uint tid,Dictionary<string,object> regs,IntPtr context,string role,long elapsedMs,int debugOrdinal) {
+      return ReadBufferedSnapshot(options,null,process,thread,mainBase,hit,tid,regs,context,null,role,elapsedMs,debugOrdinal,delegate(long bytes){window.Reserve(bytes,options.ownedWorkerGainWindow.maxBufferedBytes);});
+    }
+    static void CommitWorkerGainWindow(Options options,OwnedWorkerGainWindowProgress window,List<BufferedSnapshot> buffered,ref int snapshots,Action<Dictionary<string,object>> emit) {
+      if(!window.call.complete||buffered.Count!=2||buffered.Count>options.maxSnapshots-snapshots)throw new InvalidDataException("Worker leaf publication requires one complete bounded pair.");
+      int ordinal=snapshots;
+      foreach(BufferedSnapshot item in buffered){
+        ordinal++;int rangeOrdinal=0;List<object> ranges=new List<object>();
+        foreach(BufferedRange range in item.ranges){string file="snapshot-"+ordinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";using(FileStream stream=new FileStream(Path.Combine(options.outputDirectory,file),FileMode.CreateNew))stream.Write(range.data,0,range.data.Length);range.row["file"]=file;ranges.Add(range.row);}
+        string contextFile="snapshot-"+ordinal.ToString("D6")+"-context.bin";using(FileStream stream=new FileStream(Path.Combine(options.outputDirectory,contextFile),FileMode.CreateNew))stream.Write(item.context,0,item.context.Length);
+        item.row["ordinal"]=ordinal;item.row["hit"]=item.breakpoint.captureHits+1;item.row["contextFile"]=contextFile;item.row["ranges"]=ranges;
+        item.row["workerObservationWindow"]=Record("role",item.role,"activationDebugEventOrdinal",window.activationDebugOrdinal,"ownerMainTid",window.ownerTid,"sameParentInterleavingClaimed",false);
+      }
+      snapshots=ordinal;foreach(BufferedSnapshot item in buffered){item.breakpoint.captureHits++;emit(item.row);}
+      emit(Record("type","worker-gain-window-pair-published","activationDebugEventOrdinal",window.activationDebugOrdinal,"tid",window.call.tid,"source",Hex(window.call.source),"entryEsp",Hex(window.call.esp),"snapshotCount",2,"sameParentInterleavingClaimed",false));buffered.Clear();window.bufferedBytes=0;
+    }
     static void VerifyHeldContext(IntPtr thread, Breakpoint hit, byte[] expected) {
       IntPtr actual = Context(thread);
       try {
@@ -1011,8 +1139,18 @@ namespace RollcageCapture {
       } finally {Marshal.FreeHGlobal(actual);}
     }
     static void VerifyHeldRanges(IntPtr process, uint mainBase, Dictionary<string,object> regs, BufferedSnapshot before, uint force, byte[] replacement) {
+      ValidateHeldBankSnapshot(before,mainBase);
       foreach (BufferedRange r in before.ranges) {
         if (r.descriptor != null && ResolveCaptureRange(process,mainBase,r.descriptor,regs) != r.root) throw new InvalidDataException("Held input root chain changed.");
+        if(r.descriptor!=null&&r.descriptor.vectorStorage){
+          VectorStorageInfo current=ReadVectorCaptureRange(process,r.root,r.descriptor);
+          ValidateHeldBankHeader(current.header,ParseBytes((string)r.row["vectorHeaderHex"]),r.root,Add(mainBase,0x2f2414));
+          if(current.begin!=r.start||current.length!=r.length)throw new InvalidDataException("Held bank capacity/storage changed.");
+        }
+        if (r.region != null) {
+          MemoryRegionInfo actual=QueryCaptureRange(process,r.root,r.descriptor);
+          if(actual.baseAddress!=r.region.baseAddress||actual.allocationBaseAddress!=r.region.allocationBaseAddress||actual.regionSize!=r.region.regionSize||actual.state!=r.region.state||actual.protection!=r.region.protection||actual.type!=r.region.type)throw new InvalidDataException("Held readable-region ownership/protection changed.");
+        }
         byte[] expected = r.data;
         if (replacement != null && (ulong)r.start < (ulong)force + 12 && (ulong)force < (ulong)r.start + (ulong)r.length) {
           expected = (byte[])expected.Clone();
@@ -1021,12 +1159,29 @@ namespace RollcageCapture {
         if (Digest(Bytes(process,r.start,r.length)) != Digest(expected)) throw new InvalidDataException("Held input span changed outside its exact force window.");
       }
     }
+    static void ValidateHeldBankSnapshot(BufferedSnapshot snapshot,uint mainBase) {
+      BufferedRange bank=snapshot.ranges.Find(delegate(BufferedRange r){return r.descriptor!=null&&r.descriptor.id=="active-sound-bank-storage";});
+      if(bank==null)return;
+      BufferedRange header=snapshot.ranges.Find(delegate(BufferedRange r){return r.descriptor!=null&&r.descriptor.id=="sound-owner-vector-roots";});
+      if(!IsHeldBankVector(bank.descriptor)||header==null||header.length!=12||header.start!=bank.root)throw new InvalidDataException("Held bank header must be a separate captured global row.");
+      VectorStorageInfo v=ValidateHeldBankHeader(ParseBytes((string)bank.row["vectorHeaderHex"]),header.data,bank.root,Add(mainBase,0x2f2414));
+      if(v.begin!=bank.start||v.length!=bank.length||bank.data.Length!=bank.length)throw new InvalidDataException("Held bank storage differs from its actual header capacity.");
+    }
     static void ApplyHeldForceInput(Options o, PendingFrameProgress frame, ProcessInfo child, IntPtr thread, uint mainBase, Breakpoint hit, uint tid, Dictionary<string,object> regs, IntPtr context, Dictionary<string,object> predicate, int debugOrdinal, ref int snapshots, Stopwatch elapsed, Action<Dictionary<string,object>> emit) {
       long started = elapsed.ElapsedMilliseconds;
       uint session = BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x1ecb1c),4),0), esp = Number((string)regs["esp"]);
       if (tid != child.tid || Number((string)regs["eip"]) != Add(mainBase,0x749e0) || BitConverter.ToUInt32(Bytes(child.process,session+0x57c,4),0) != 4 || Bytes(child.process,session+0x54d,1)[0] != 6 || BitConverter.ToUInt32(Bytes(child.process,esp,4),0) != Add(mainBase,0x51017)) throw new InvalidDataException("Held force requires the actual owned main-thread six-car phase4 entry/caller.");
-      BufferedSnapshot pre = ReadBufferedSnapshot(o,frame,child.process,thread,mainBase,hit,tid,regs,context,predicate,"held-pre-input",elapsed.ElapsedMilliseconds,debugOrdinal);
-      if (snapshots + 1 >= o.maxSnapshots) throw new InvalidDataException("Held force lacks its reserved post-input budget.");
+      Breakpoint eventPoint=Array.Find(o.breakpoints,delegate(Breakpoint b){return b.id==o.pendingFrameObserver.eventBreakpointId;});
+      long eventBytes=716+(o.captureThreadEnvironment?4:0);
+      foreach(MemoryRange r in eventPoint.ranges){if(r.readableRegion||r.vectorStorage||r.dereferenceMinimumValues!=null)throw new InvalidDataException("Held dispatcher budget requires fixed-length observations.");eventBytes=checked(eventBytes+r.length);}
+      int snapshotsBefore=snapshots;
+      BufferedSnapshot pre = ReadBufferedSnapshot(o,frame,child.process,thread,mainBase,hit,tid,regs,context,predicate,"held-pre-input",elapsed.ElapsedMilliseconds,debugOrdinal,null,delegate(Dictionary<string,object> diagnostic){
+        long required=HeldForceRequiredBytes(Convert.ToInt64(diagnostic["preSnapshotBytes"],CultureInfo.InvariantCulture),eventBytes);
+        bool enough=snapshotsBefore+67<=o.maxSnapshots&&required<=o.pendingFrameObserver.maxPendingBytes;
+        diagnostic["pid"]=child.pid;diagnostic["tid"]=tid;diagnostic["observedDebugEventOrdinal"]=debugOrdinal;diagnostic["eventSnapshotBytes"]=eventBytes;diagnostic["eventReserveBytes"]=eventBytes*64;diagnostic["requiredPendingBytes"]=required;diagnostic["pendingLimitBytes"]=o.pendingFrameObserver.maxPendingBytes;diagnostic["snapshotsBefore"]=snapshotsBefore;diagnostic["requiredAdditionalSnapshots"]=67;diagnostic["snapshotLimit"]=o.maxSnapshots;diagnostic["sufficient"]=enough;emit(diagnostic);
+        if(!enough)throw new InvalidDataException("Held force lacks pre/post/after and complete dispatcher observation budgets; no input written.");
+      });
+      ValidateHeldBankSnapshot(pre,mainBase);
       int ordinal = snapshots+1, rangeOrdinal=0; List<object> rows = new List<object>();
       foreach (BufferedRange r in pre.ranges) {
         string name="snapshot-"+ordinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";
@@ -1046,10 +1201,10 @@ namespace RollcageCapture {
       string requestSha=Digest(requestBytes),decisionFile=Path.Combine(o.outputDirectory,"held-force-decision.txt");
       emit(Record("type","held-force-waiting","token",token,"requestFile","held-force-request.json","requestSha256",requestSha,"pid",child.pid,"tid",tid,"observedDebugEventOrdinal",debugOrdinal,"preInputOrdinal",ordinal,"deadlineElapsedMs",Math.Min(started+20000,o.maxDurationMs),"allOwnedThreadsStoppedByDebugEvent",true));
       while (!File.Exists(decisionFile)) {
-        if (elapsed.ElapsedMilliseconds-started >= 20000 || elapsed.ElapsedMilliseconds >= o.maxDurationMs) throw new InvalidDataException("Held force deadline expired; no input written and no automatic retry.");
+        if (HeldForceDeadlineExpired(started,elapsed.ElapsedMilliseconds,o.maxDurationMs)) throw new InvalidDataException("Held force deadline expired; no input written and no automatic retry.");
         System.Threading.Thread.Sleep(25);
       }
-      if (elapsed.ElapsedMilliseconds-started >= 20000 || elapsed.ElapsedMilliseconds >= o.maxDurationMs || new FileInfo(decisionFile).Length>4096 || (File.GetAttributes(decisionFile)&FileAttributes.ReparsePoint)!=0) throw new InvalidDataException("Held force decision deadline/file bound.");
+      if (HeldForceDeadlineExpired(started,elapsed.ElapsedMilliseconds,o.maxDurationMs) || new FileInfo(decisionFile).Length>4096 || (File.GetAttributes(decisionFile)&FileAttributes.ReparsePoint)!=0) throw new InvalidDataException("Held force decision deadline/file bound.");
       HeldForceDecision d=ParseHeldForceDecision(File.ReadAllText(decisionFile,Encoding.UTF8),token,requestSha);
       string planFile=Path.Combine(o.outputDirectory,"held-force-plan.json");
       if(!File.Exists(planFile)||new FileInfo(planFile).Length>8*1024*1024||(File.GetAttributes(planFile)&FileAttributes.ReparsePoint)!=0||Digest(File.ReadAllBytes(planFile))!=d.planSha256)throw new InvalidDataException("Held force source plan proof missing or changed.");
@@ -1057,15 +1212,14 @@ namespace RollcageCapture {
       uint body=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x509300+(uint)d.participantIndex*0x30c),4),0);
       uint arena=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x502eec),4),0),used=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x30dcf4),4),0);
       byte[] bodyBytes=Bytes(child.process,body,0x3e78);
-      if(body!=d.body||body<arena||((ulong)body-arena)%128!=0||(ulong)body+0x3e78>(ulong)arena+used||(BitConverter.ToUInt32(bodyBytes,0)&511)!=3||Digest(bodyBytes)!=d.bodySha256)throw new InvalidDataException("Held force live participant/body preimage differs.");
-      uint list=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x502bc0),4),0);int count=BitConverter.ToUInt16(Bytes(child.process,Add(mainBase,0x502bc4),2),0);bool found=false;
+      uint list=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x502bc0),4),0);int count=BitConverter.ToUInt16(Bytes(child.process,Add(mainBase,0x502bc4),2),0);
       if(count>=96||count<1)throw new InvalidDataException("Held force physical body-list bound.");
-      byte[] physical=Bytes(child.process,list,(count+1)*4);if(BitConverter.ToUInt32(physical,count*4)!=0)throw new InvalidDataException("Held force physical-list terminator.");
-      for(int i=0;i<count;i++)found|=BitConverter.ToUInt32(physical,i*4)==body;
-      byte[] original=new byte[12];Array.Copy(bodyBytes,0x74,original,0,12);
-      if(!found||BytesHex(original)!=BytesHex(d.original)||Bytes(child.process,hit.resolved,1)[0]!=0xcc||elapsed.ElapsedMilliseconds-started>=20000||elapsed.ElapsedMilliseconds>=o.maxDurationMs)throw new InvalidDataException("Held force final ownership/preimage/deadline guard.");
+      byte[] physical=Bytes(child.process,list,(count+1)*4);ValidateHeldForceBody(d,bodyBytes,body,arena,used,physical);
+      uint registryCount=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x2e6b44),4),0);int registryIndex=BitConverter.ToUInt16(bodyBytes,0x10e);
+      if(registryCount>512||registryIndex>=registryCount||BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x30e200+(uint)registryIndex*4),4),0)!=body||Bytes(child.process,hit.resolved,1)[0]!=0xcc||HeldForceDeadlineExpired(started,elapsed.ElapsedMilliseconds,o.maxDurationMs))throw new InvalidDataException("Held force final registry/code/deadline guard.");
       uint target=Add(body,0x74);Write(child.process,target,d.replacement);
       VerifyHeldContext(thread,hit,pre.context);VerifyHeldRanges(child.process,mainBase,regs,pre,target,d.replacement);
+      if(HeldForceDeadlineExpired(started,elapsed.ElapsedMilliseconds,o.maxDurationMs))throw new InvalidDataException("Held force verification exceeded deadline; input retained, original instruction not resumed.");
       emit(Record("type","held-force-intervention","breakpointId",hit.id,"rawHit",hit.hits,"pid",child.pid,"tid",tid,"observedDebugEventOrdinal",debugOrdinal,"preInputOrdinal",ordinal,"token",token,"requestSha256",requestSha,"sourcePlanSha256",d.planSha256,"participantIndex",d.participantIndex,"bodyAddress",Hex(body),"address",Hex(target),"length",12,"originalBytesHex",BytesHex(d.original),"replacementBytesHex",BytesHex(d.replacement),"originalBodySha256",d.bodySha256,"normalQ16",d.normal,"signedScalarQ16",d.scalar,"allCapturedInputSpansRevalidated",true,"allNonForceBytesUnchanged",true,"contextUnchanged",true,"holdElapsedMs",elapsed.ElapsedMilliseconds-started,"beforeOriginalInstruction",true,"nativeCounterfactualCompared",false));
     }
     static void CaptureThreadDiagnostics(ProcessInfo child, Dictionary<uint, IntPtr> ownedThreads, string directory, int stackLength, Action<Dictionary<string, object>> emit) {
@@ -1147,6 +1301,8 @@ namespace RollcageCapture {
       bool heldForceUsed = false;
       OwnedWorkerObservationProgress workerObservation = new OwnedWorkerObservationProgress();
       OwnedWorkerGainPairProgress workerGainPair = new OwnedWorkerGainPairProgress();
+      OwnedWorkerGainWindowProgress workerGainWindow = new OwnedWorkerGainWindowProgress();
+      List<BufferedSnapshot> bufferedWorkerGain = new List<BufferedSnapshot>();
       bool exited = false, created = false, fatal = false; int snapshots = 0, events = 0; string reason = "unknown";
       bool processInformationThreadIsEventOwned = false, processInformationProcessIsEventOwned = false;
       PendingFrameProgress frame = new PendingFrameProgress();
@@ -1215,6 +1371,7 @@ namespace RollcageCapture {
               IntPtr thread = DuplicateOwnedDebugThreadHandle(Ptr(eventData, u), child.pid, tid, emit); threads[tid] = thread;
               if (pending != null && tid != pendingThread) { uint previous; if (ChangeTrackedThreadSuspension(thread, child.pid, tid, false, "suspend-new-thread", emit, out previous)) suspended.Add(thread); }
             } else if (code == 4) {
+              if(o.ownedWorkerGainWindow!=null&&workerGainWindow.call.open&&workerGainWindow.call.tid==tid)throw new InvalidDataException("Bound worker leaf thread exited before its matching normal return.");
               for (int index = deferredBreakpoints.Count - 1; index >= 0; index--) if (deferredBreakpoints[index].tid == tid) {
                 DeferredOwnedBreakpoint deferred = deferredBreakpoints[index];
                 emit(Record("type", "owned-breakpoint-deferred-thread-exited", "tid", tid, "breakpointId", deferred.breakpoint.id, "deferredDebugEventOrdinal", deferred.observedDebugEventOrdinal, "originalInstructionExecuted", false));
@@ -1357,6 +1514,37 @@ namespace RollcageCapture {
                   Dictionary<string, object> predicateEvidence = null;
                   PendingFrameObserver scopePolicy = o.pendingFrameObserver;
                   OwnedWorkerObservation workerPolicy = o.ownedWorkerObservation;
+                  OwnedWorkerGainWindow leafPolicy=o.ownedWorkerGainWindow;
+                  bool leafSite=leafPolicy!=null&&(hit.id==leafPolicy.entryBreakpointId||hit.id==leafPolicy.exitBreakpointId||hit.id==leafPolicy.unsupportedExitBreakpointId);
+                  //The worker window is activation-anchored, not parent-scoped.
+                  if(leafPolicy!=null&&workerGainWindow.parentComplete&&!leafSite)capture=false;
+                  if(capture&&leafSite){
+                    bool accepted=false,entry=hit.id==leafPolicy.entryBreakpointId;
+                    if(observationsActivated&&!workerGainWindow.call.complete){
+                      uint tidAddress=ResolveCaptureRange(child.process,mainBase,leafPolicy.threadIdSource,regs);byte[] tidBytes=Bytes(child.process,tidAddress,4);uint expectedTid=BitConverter.ToUInt32(tidBytes,0);IntPtr ownedThread;
+                      bool live=expectedTid!=child.tid&&threads.TryGetValue(expectedTid,out ownedThread)&&ownedThread!=IntPtr.Zero;
+                      if(workerGainWindow.call.CanObserve(true,observationsActivated,tid,expectedTid,child.tid,live)){
+                        if(entry&&workerGainWindow.call.open)throw new InvalidDataException("Nested worker leaf gain call.");
+                        if(entry||workerGainWindow.call.open){
+                          uint S=Number((string)regs["esp"]);byte[] args=Bytes(child.process,S,12);uint returned=BitConverter.ToUInt32(args,0),sourceArg=BitConverter.ToUInt32(args,4),flag=BitConverter.ToUInt32(args,8);
+                          bool callerMatched=!entry||OwnedWorkerGainPairProgress.CallerMatches(mainBase,returned,flag);
+                          emit(Record("type","owned-worker-gain-window-abi-checked","breakpointId",hit.id,"pid",child.pid,"tid",tid,"observedDebugEventOrdinal",events,"entry",entry,"callerMatched",callerMatched,"stackAddress",Hex(S),"stackBytesHex",BytesHex(args),"readBeforeSnapshotRanges",true,"counterMutation",false));
+                          if(callerMatched){
+                            uint managerAddress=ResolveCaptureRange(child.process,mainBase,leafPolicy.managerSource,regs),managerObject=BitConverter.ToUInt32(Bytes(child.process,managerAddress,4),0),esi=Number((string)regs["esi"]),ebx=Number((string)regs["ebx"]),ebp=Number((string)regs["ebp"]),edi=Number((string)regs["edi"]);
+                            if(entry){if(Number((string)regs["ecx"])!=managerObject)throw new InvalidDataException("Worker leaf manager differs.");workerGainWindow.call.Begin(tid,child.tid,workerGainWindow.activationDebugOrdinal,S,sourceArg,managerObject,returned,flag,ebx,ebp,edi,mainBase,esi);workerGainWindow.threadIdSourceAddress=tidAddress;}
+                            else{if(hit.id==leafPolicy.unsupportedExitBreakpointId)throw new InvalidDataException("Worker leaf unsupported spatial earlyRET4b1919.");if(tidAddress!=workerGainWindow.threadIdSourceAddress)throw new InvalidDataException("Worker leaf object/TID source changed.");workerGainWindow.call.ValidateExit(tid,child.tid,workerGainWindow.activationDebugOrdinal,S,returned,esi,managerObject,ebx,ebp,edi);}
+                            OwnedWorkerGainPairProgress bound=workerGainWindow.call;
+                            Dictionary<string,object> proof=Record("breakpointId",hit.id,"role",entry?"entry":"exit","pid",child.pid,"tid",tid,"expectedTid",expectedTid,"threadIdSourceAddress",Hex(tidAddress),"actualThreadIdBytesHex",BytesHex(tidBytes),"ownedLiveThread",live,"ownerMainTid",child.tid,"activationBreakpointId",o.observationActivation.breakpointId,"activationRawHit",o.observationActivation.rawHit,"activationDebugEventOrdinal",workerGainWindow.activationDebugOrdinal,"entryEsp",Hex(bound.esp),"source",Hex(bound.source),"manager",Hex(bound.manager),"returnAddress",Hex(bound.caller),"force",bound.force,"entryEbx",Hex(bound.ebx),"entryEbp",Hex(bound.ebp),"entryEdi",Hex(bound.edi),"stackAddress",Hex(S),"stackBytesHex",BytesHex(args),"exitArgumentNotDereferenced",!entry,"afterRetEsp",Hex(Add(bound.esp,12)),"observationIndex",entry?1:2,"maxSnapshots",2,"observedDebugEventOrdinal",events,"beforeOriginalInstruction",true,"abiReadBeforeSnapshotRanges",true,"sameParentInterleavingClaimed",false);
+                            BufferedSnapshot observed=ReadWorkerWindowSnapshot(o,workerGainWindow,child.process,threads[tid],mainBase,hit,tid,regs,context,entry?"worker-leaf-entry":"worker-leaf-exit",elapsed.ElapsedMilliseconds,events);
+                            workerGainWindow.call.Commit(entry);observed.row["ownedWorkerGainWindow"]=proof;bufferedWorkerGain.Add(observed);Dictionary<string,object> admitted=new Dictionary<string,object>(proof);admitted["type"]="owned-worker-gain-window-admitted";emit(admitted);accepted=true;
+                            if(workerGainWindow.call.complete)CommitWorkerGainWindow(o,workerGainWindow,bufferedWorkerGain,ref snapshots,emit);
+                          }
+                        }
+                      }
+                    }
+                    if(!accepted)emit(Record("type","owned-worker-gain-window-skipped","breakpointId",hit.id,"pid",child.pid,"tid",tid,"rawHit",hit.hits,"activationComplete",observationsActivated,"pairComplete",workerGainWindow.call.complete,"matchingHitAdvanced",false,"originalInstructionSkipped",false));
+                    capture=false;
+                  }
                   OwnedWorkerGainPair gainPolicy = o.ownedWorkerGainPair;
                   bool gainSite = gainPolicy != null && (hit.id == gainPolicy.entryBreakpointId || hit.id == gainPolicy.exitBreakpointId || hit.id == gainPolicy.unsupportedExitBreakpointId), gainAccepted = false;
                   bool gainEntry = gainSite && hit.id == gainPolicy.entryBreakpointId;
@@ -1459,7 +1647,9 @@ namespace RollcageCapture {
                           heldForceUsed = true;
                           ApplyHeldForceInput(o,frame,child,threads[tid],mainBase,hit,tid,regs,context,predicateEvidence,events,ref snapshots,elapsed,emit);
                         }
-                        bufferedFrame.Add(ReadBufferedSnapshot(o, frame, child.process, threads[tid], mainBase, hit, tid, regs, context, predicateEvidence, "before", elapsed.ElapsedMilliseconds, events));
+                        BufferedSnapshot entrySnapshot=ReadBufferedSnapshot(o, frame, child.process, threads[tid], mainBase, hit, tid, regs, context, predicateEvidence, "before", elapsed.ElapsedMilliseconds, events);
+                        if(o.heldForceInput!=null){entrySnapshot.row["heldForceInputPhase"]="post-input";entrySnapshot.row["heldForcePreInputOrdinal"]=snapshots;}
+                        bufferedFrame.Add(entrySnapshot);
                         Dictionary<string, object> started = FrameProof(frame); started["type"] = "pending-frame-started"; started["bufferedBytes"] = frame.bufferedBytes; emit(started);
                       }
                     } else if (eventFrame) {
@@ -1486,6 +1676,7 @@ namespace RollcageCapture {
                         } else {
                           bufferedFrame.Add(ReadBufferedSnapshot(o, frame, child.process, threads[tid], mainBase, hit, tid, regs, context, predicateEvidence, "after", elapsed.ElapsedMilliseconds, events));
                           CommitBufferedGroup(o, frame, bufferedFrame, ref snapshots, emit); frameSelection = FrameProof(frame); frameComplete = true;
+                          if(leafPolicy!=null){workerGainWindow.parentComplete=true;emit(Record("type","worker-gain-window-parent-retained","activationDebugEventOrdinal",workerGainWindow.activationDebugOrdinal,"parentStartDebugEventOrdinal",bufferedFrame[0].row["observedDebugEventOrdinal"],"parentEndDebugEventOrdinal",events,"sameParentInterleavingClaimed",false));}
                         }
                         bufferedFrame.Clear(); frame.active = false; frame.bufferedBytes = 0;
                       } else if (capture) throw new InvalidDataException("Pending-frame selected after has no matching entry.");
@@ -1570,10 +1761,12 @@ namespace RollcageCapture {
                       emit(record); installed.Add(Record("id", point.id, "address", Hex(point.resolved)));
                     }
                     observationsActivated = true;
+                    ActivateOwnedWorkerGainWindow(o,workerGainWindow,events,tid,child.tid);
                     emit(Record("type", "observation-activation-complete", "breakpointId", hit.id, "rawHit", hit.hits, "tid", tid, "observedDebugEventOrdinal", events, "snapshotCount", snapshots, "installed", installed, "beforeOriginalInstruction", true, "guardActionCompleted", true));
                   }
                   Write(child.process, hit.resolved, new byte[] {hit.original}); hit.armed = false;
-                  if (frameComplete) { reason = "snapshot-bound"; break; }
+                  if(o.ownedWorkerGainWindow!=null&&workerGainWindow.Ready){reason="worker-gain-window-bound";break;}
+                  if (frameComplete&&o.ownedWorkerGainWindow==null) { reason = "snapshot-bound"; break; }
                   if (candidateBound) { reason = "pending-frame-candidate-bound"; break; }
                   if (snapshots >= o.maxSnapshots || (capture && hit.stopAfterHits > 0 && hit.captureHits >= hit.stopAfterHits)) { reason = "snapshot-bound"; break; }
                   foreach (KeyValuePair<uint, IntPtr> thread in threads) if (thread.Key != tid) { uint previous; if (ChangeTrackedThreadSuspension(thread.Value, child.pid, thread.Key, false, "suspend-peer-thread", emit, out previous)) suspended.Add(thread.Value); }
@@ -1621,6 +1814,7 @@ namespace RollcageCapture {
             if (exited) break;
           }
           if (frame.active) throw new InvalidDataException("Capture stopped before the pending frame's matching after boundary: " + (reason == "unknown" ? "duration/event/snapshot bound" : reason));
+          if(o.ownedWorkerGainWindow!=null)workerGainWindow.RequireComplete();
           if (reason == "unknown") reason = elapsed.ElapsedMilliseconds >= o.maxDurationMs ? "duration-bound" : events >= o.maxEvents ? "event-bound" : "snapshot-bound";
           Dictionary<string, object> completion = Record("type", "complete", "reason", reason, "events", events, "snapshots", snapshots);
           if (deferredBreakpoints.Count != 0) {
@@ -1629,6 +1823,7 @@ namespace RollcageCapture {
             completion["deferredBreakpointsOutstanding"] = unfinished;
           }
           if (frameSelection != null) completion["pendingFrameSelection"] = frameSelection;
+          if(o.ownedWorkerGainWindow!=null)completion["workerGainWindow"]=Record("activationDebugEventOrdinal",workerGainWindow.activationDebugOrdinal,"parentRetained",workerGainWindow.parentComplete,"pairComplete",workerGainWindow.call.complete,"endpointSnapshots",workerGainWindow.call.captured,"sameParentInterleavingClaimed",false);
           emit(completion);
           return fatal ? 2 : 0;
         } catch (Exception error) {

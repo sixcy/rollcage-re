@@ -194,11 +194,15 @@ export function pairNativeControlSnapshots(capture, configuration) {
       || snapshot.tid !== pair.after.tid || snapshot.ordinal <= pair.after.ordinal || pairs[index + 1] && snapshot.ordinal >= pairs[index + 1].before.ordinal
       || point.base !== pair.moduleBaseAddress || point.esp !== entry.esp || point.clock !== pair.logicalClock
       || number(snapshot.registers.eax, 'physics return EAX') !== 0) throw Error('Native control physics exit lacks its actual call stack/thread/clock/order.');
-    //4749e0 saves ECX and all four nonvolatile registers, then restores them
-    //before474b1e RET. The original caller and parent saves remain live.
-    for (const name of ['ebx', 'ebp', 'esi', 'edi', 'ecx']) if (number(snapshot.registers[name], `physics exit ${name}`) !== number(pair.after.registers[name], `physics entry ${name}`)) throw Error('Native control physics exit changed a restored register.');
+    //The four nonvolatile registers are restored. PUSH ECX reserves a mutable
+    //local:474ac0/474ae7 overwrite it at currentESP+10h (entryESP-4).
+    //474b1d POP ECX returns that local, not necessarily incoming ECX.
+    for (const name of ['ebx', 'ebp', 'esi', 'edi']) if (number(snapshot.registers[name], `physics exit ${name}`) !== number(pair.after.registers[name], `physics entry ${name}`)) throw Error('Native control physics exit changed a restored register.');
+    const returnLocal=point.word(-4);
+    if(number(snapshot.registers.ecx,'physics return ECX')!==returnLocal)throw Error('Native control physics return ECX differs from its actual popped local.');
     for (let offset = 0; offset < 28; offset += 4) if (point.word(offset) !== entry.word(offset)) throw Error('Native control physics exit changed its parent caller stack.');
     pair.physicsAfter = snapshot;
+    pair.physicsReturnLocal={address:point.esp-4,value:returnLocal};
   }
   for(const boundary of [...nativeControlTailBoundaries,...nativeControlLateBoundaries]){
     const snapshots=capture.snapshots.filter(row=>row.breakpointId===boundary.id);

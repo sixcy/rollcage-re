@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "method": "failed-original-worker-pair-observation-forensic-audit",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "traceSha256": "141694011d808cbfd7e3a29d480e805824bf85aa67c32dd168b99ae5904ab66f",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-worker-gain-v16-20261023",
+  "captureSucceeded": false,
+  "entryExitPairVerified": false,
+  "sourceReplayAttempted": false,
+  "wholeGainCallMatched": false,
+  "ownedCleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 9528,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 43638
+  },
+  "emittedBlobVerification": {
+    "files": 1258,
+    "bytes": 212962,
+    "allHashesMatch": true
+  },
+  "activation": {
+    "debugOrdinal": 2380,
+    "elapsedMs": 43480,
+    "siteCount": 55,
+    "gainSites": [
+      {
+        "id": "worker-gain-entry",
+        "address": "0x007912d0"
+      },
+      {
+        "id": "worker-gain-exit",
+        "address": "0x00791990"
+      },
+      {
+        "id": "worker-gain-spatial-exit",
+        "address": "0x00791919"
+      }
+    ]
+  },
+  "parentStart": {
+    "candidateIndex": 1,
+    "frameTid": 39112,
+    "frameEntryEsp": "0x00d1f7dc",
+    "frameReturnAddress": "0x00731021",
+    "frameMatchingHit": 1,
+    "observedEventHits": 0,
+    "qualifyingEventSnapshots": 0,
+    "nestedSnapshots": 0,
+    "type": "pending-frame-started",
+    "bufferedBytes": 60479070,
+    "elapsedMs": 43528
+  },
+  "parentFailure": {
+    "type": "capture-error",
+    "error": "System.IO.InvalidDataException: Selected parent lacks its complete same-frame worker gain pair.\r\n   at RollcageCapture.OwnedWorkerGainPairProgress.ValidateParentClose(Int32 candidate, Boolean selected)\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+    "events": 2576,
+    "snapshots": 232,
+    "pendingFrame": {
+      "candidateIndex": 1,
+      "frameTid": 39112,
+      "frameEntryEsp": "0x00d1f7dc",
+      "frameReturnAddress": "0x00731021",
+      "frameMatchingHit": 1,
+      "observedEventHits": 1,
+      "qualifyingEventSnapshots": 1,
+      "nestedSnapshots": 94
+    },
+    "elapsedMs": 43585
+  },
+  "activationToParentCloseMs": 105,
+  "parentWindowMs": 57,
+  "debugEventsAfterActivation": 197,
+  "debugTids": [
+    39112
+  ],
+  "workerGainRecords": 0,
+  "workerGainAbiChecks": 0,
+  "workerGainAdmissions": 0,
+  "workerGainSkips": 0,
+  "workerGainSnapshots": 0,
+  "publishedSnapshots": 232,
+  "completeRecords": 0,
+  "diagnosticThreadContexts": 51,
+  "observedMainBase": "0x006e0000",
+  "installationVerification": "analysis/native-worker-gain-installation-after-v16-20261023.json",
+  "diagnosis": "No exception/admission/skip at any activated worker gain endpoint during the selected parent. No entry was admitted; this is not a matched call with a missing exit. All debug events since activation were main-thread events. This does not prove other threads never ran or identify their waits.",
+  "missingEvidence": [
+    "The discarded pending input buffers were never committed; original manager+824 worker object/TID is not present in emitted parent/worker snapshots.",
+    "Stop-time thread contexts do not prove which thread is manager-owned or why no gain call occurred during this57ms native-call window.",
+    "The debugger wall-clock interval is not uninstrumented game cadence or a scheduler trace."
+  ],
+  "correction": "Separate guarded activation-anchored worker leaf window. Keep one actual parent independently, require same realworker/source/caller/entryESP/normalRET8 in a separate bounded buffer, and explicitly drop same-parent interleaving claims. No forced scheduling, sleep or injected game call."
+}

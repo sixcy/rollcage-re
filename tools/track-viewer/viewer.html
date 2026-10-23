@@ -37,6 +37,8 @@
 <fieldset style="border:1px solid #344457;border-radius:5px"><legend>Racing test</legend>
 <p id="racing-warning" class="note" style="color:#ffd48a"><strong>Super experimental.</strong> Driving, collisions and lap timing may be inaccurate.</p>
 <div class="racing-actions"><button id="practice-start" type="button" disabled>Start</button><button id="practice-step" type="button" disabled>Step frame</button><button id="practice-recover" type="button" disabled>Test recovery</button><button id="practice-reset" type="button" disabled>Reset race</button></div>
+<div class="row"><label for="practice-ai-count">AI cars</label><input id="practice-ai-count" type="range" min="1" max="6" step="1" value="3" disabled aria-describedby="practice-performance-note"><output id="practice-ai-count-value" for="practice-ai-count">3</output></div>
+<p id="practice-performance-note" class="note" style="color:#ffd48a">Performance warning: the racing simulation runs in JavaScript. More AI cars can lower FPS. Reduce the count if the viewer feels slow. Changing the count restarts the race.</p>
 <div class="row"><label for="practice-car">Car to follow</label><select id="practice-car" disabled></select></div>
 <div class="racing-options"><label><input id="practice-follow" type="checkbox" checked disabled><span id="practice-follow-label">Follow car 1</span></label><label><input id="practice-telemetry" type="checkbox" checked disabled aria-controls="physics-hud">Telemetry</label></div>
 <div class="racing-options"><label><input id="practice-weapons" type="checkbox" checked disabled>Weapons &amp; pickups (experimental)</label></div>

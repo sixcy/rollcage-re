@@ -6,6 +6,16 @@ The Track Viewer remains **Super experimental**. LEV16/17 remain excluded. Exist
 
 ## Work and acceptance
 
+Latest original-process evidence adds an independent HIGH/LEV3 physics
+segment with19 bodies, seven scripted bodies and five source collision
+responses, matching5,124,163 declared bytes plus its four-byte collision
+local. This exposed and corrected a false ECX-preservation assumption;
+see [return-local evidence](native-physics-return-local.md). New late-parent
+captures supply animation/camera/weather checkpoint outputs, but source
+replay still stops at genuine missing inputs/services. V2 matches through
+drive at5,100,223 unique bytes; V3's joined prefix reaches unbound sound
+creation. Neither establishes a complete tick or continuous race parity.
+
 | Area | Required evidence | Current status |
 | --- | --- | --- |
 | Gravity and initialization | Exact shipped data, writers and reached startup state | Corrected to native normal `0x10000`, including the verified configuration selector. Original process confirms 65536. Other startup defaults still need systematic comparison. |

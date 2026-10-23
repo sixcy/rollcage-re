@@ -28,3 +28,20 @@ test('a negative delta responds and refreshes once before finishing',()=>{
  const body={frameTimeQ16:300},other={frameTimeQ16:0},queue=new CollisionEventQueue(3),calls=[];insert(queue,body,100);insert(queue,other,200);
  assert.equal(processCollisionEvents(queue,{respond:(event,delta)=>calls.push(['respond',delta]),refresh:()=>calls.push(['refresh']),finish:()=>calls.push(['finish'])}),1);assert.deepEqual(calls,[['respond',-200],['refresh'],['finish']]);assert.equal(queue.count,1);
 });
+
+test('native-local hooks write promoted deltas only and publish the post-response first body before invalidation',()=>{
+ for(const mode of ['retained','promoted','filtered']){
+  const queue=new CollisionEventQueue(1),a={frameTimeQ16:300,collisionFilter:()=>mode==='retained'?1:0},b={frameTimeQ16:400,collisionFilter:()=>mode==='filtered'?0:1},calls=[];
+  insert(queue,a,100,{object2:b});
+  assert.equal(processCollisionEvents(queue,{
+   beforeFilter:(_event,delta)=>calls.push(['initial',delta]),
+   onPromotedDelta:(_event,delta)=>calls.push(['promoted',delta]),
+   respond:(event,delta)=>{calls.push(['respond',delta,event.object1]);event.object1=null;event.object2=null;},
+   afterRespond:event=>calls.push(['first',event.object1]),
+   beforeInvalidate:(first,second,delta)=>calls.push(['invalidate',first,second,delta]),
+   refresh:()=>assert.fail('No surviving body may refresh.'),finish:()=>calls.push(['finish']),
+  }),1);
+  const delta=mode==='promoted'?-300:-200;
+  assert.deepEqual(calls,[['initial',-200],...(mode==='promoted'?[['promoted',-300]]:[]),['respond',delta,mode==='retained'?a:mode==='promoted'?b:null],['first',null],['invalidate',a,b,delta],['finish']]);
+ }
+});

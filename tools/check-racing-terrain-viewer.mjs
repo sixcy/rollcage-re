@@ -40,6 +40,8 @@ try{
   await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='ready');
   await page.locator('#practice-weapons').uncheck();
   await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='ready'&&!window.rollcageViewer.inspect().practice?.weapons?.enabled);
+  await page.locator('#practice-ai-count').press('End');
+  await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.cars.length===6);
   for(const name of ['LOW/LEV4.BLP','LOW/LEV8.BLP','LOW/LEV14.BLP','LOW/LEV18.BLP']){
     const track=getGame('rollcage').tracks.find(row=>row.name===name),{data}=await archive.readResource(track.index),{data:textures}=await archive.readResource(track.textureIndex);
     await page.selectOption('#track',String(track.index));

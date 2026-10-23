@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "method": "frozen-original-worker-v18-observation-and-entry-prefix-checkpoint",
+  "originalEntryExitIdentityVerified": true,
+  "sourcePrefixReachedFirstGenuineExternal": true,
+  "externalOutcomesApplied": 0,
+  "sourceReplayComplete": false,
+  "wholeGainOutputsCompared": false,
+  "mainParentSemanticReplayCompared": false,
+  "fullPrivateAbiMatched": false,
+  "sameParentInterleavingClaimed": false,
+  "fullWorkerConcurrencyProved": false,
+  "csharpOrConfigChangedDuringValidation": false,
+  "sourceInputs": "Only original entry snapshot/context/TLS; native exit is identity evidence, never initialization.",
+  "firstMissing": {
+    "api": "EnterCriticalSection",
+    "preferredCall": "4a79ff",
+    "preferredReturn": "4a7a05",
+    "thread": 37368,
+    "argument": "manager + 854",
+    "missing": "Actual owned worker service entry/return outcome, separate from game-wrapper/concurrent producer changes."
+  },
+  "tests": {
+    "command": "node --test tests/native-worker-gain-window.test.mjs tests/native-worker-gain-window-v18.test.mjs tests/native-worker-gain-replay.test.mjs",
+    "pass": 13,
+    "fail": 0,
+    "skip": 0,
+    "log": "analysis/native-worker-gain-window-v18-focused-20261023.txt"
+  },
+  "transportCorrection": "Actual emit elapsedMs removed only from admission payload equality and independently required observation <= admission <= publication. All payload fields remain exact.",
+  "hashes": [
+    {
+      "file": "tools/lib/native-worker-gain-window.mjs",
+      "bytes": 23127,
+      "sha256": "30802e4899127af6a956d0165c3931e49081abff067546829a7769ea852b0982"
+    },
+    {
+      "file": "tools/check-native-worker-gain-window-capture.mjs",
+      "bytes": 2358,
+      "sha256": "1d63a1eb681397ec6b75527957ec8470f318c7befe5ce0edc2058c6da9188a15"
+    },
+    {
+      "file": "tools/lib/native-worker-gain-replay.mjs",
+      "bytes": 9027,
+      "sha256": "48ccf05993a20cedfe2c26f2c7ce898d175c8663afd7b15a7534ec9b81140a3f"
+    },
+    {
+      "file": "tests/native-worker-gain-window.test.mjs",
+      "bytes": 22964,
+      "sha256": "f555cb55cdc3107259db5729bc4375b9d62b393f6a36d284a829f2a54e65b301"
+    },
+    {
+      "file": "tests/native-worker-gain-window-v18.test.mjs",
+      "bytes": 4003,
+      "sha256": "29371d0fb1488783df25a3066527119a8b3bd3ac96f8a53bbbafa05b72b7e207"
+    },
+    {
+      "file": "re-docs/native-worker-gain-window.md",
+      "bytes": 13578,
+      "sha256": "65d297f54ad460f67dfac30956920350f3693c2bfab00b0a9dea7d5627faf8b9"
+    },
+    {
+      "file": "analysis/physics-native-worker-gain-window-v18-20261023.json",
+      "bytes": 13746,
+      "sha256": "3b82dee9de6e48f6b02cf484543ca3db5b9bff3d1e51c872ea74e95ee9d75cc7"
+    },
+    {
+      "file": "analysis/physics-native-worker-gain-window-v18-input-audit-20261023.json",
+      "bytes": 3258,
+      "sha256": "cecee01cf8413bbe94f6df3d756b392b932ece8b191910a87ab0cb71e9ed1af5"
+    },
+    {
+      "file": "analysis/native-worker-gain-window-v18-focused-20261023.txt",
+      "bytes": 3354,
+      "sha256": "8e9ae7503d4b4702a6c0df6395b7eed7d1f8b61247d09f03a8067e258cb0295e"
+    }
+  ]
+}

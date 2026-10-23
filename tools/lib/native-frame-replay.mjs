@@ -133,7 +133,7 @@ export function createNativeFrameContext({memory, manifest, geometry, numericalC
       return {found: true, outside: body.spatialOutside, node};
     },
     nativeTerrain: {...runtime, views, grid: geometry.grid}, nativeModels: {...runtime, views},
-    nativePhysicsStack: {...runtime, views, scratchBase: entryEsp},
+    nativePhysicsStack: {...runtime, views, scratchBase: entryEsp, entryRegisters: manifest.entryRegisters},
     nativeScripted: {...runtime, views, scratchBase: entryEsp - 24},
     handlers,
   };

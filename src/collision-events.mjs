@@ -55,24 +55,25 @@ export function insertCollisionEvent(queue,{object1,object2=null,contact,flags,t
 }
 // 0x474b20. Callbacks receive both body references AND the mutable event record.
 // Their return is the native integer acceptance result; zero removes that body.
-export function filterCollisionEvent(event,deltaQ16) {
+export function filterCollisionEvent(event,deltaQ16,onPromotedDelta) {
  let difference=-event.object1.frameTimeQ16|0;
  const first=event.object1;
  if(first.collisionFilter&&(first.collisionFilter(first,event.object2,event)|0)===0)event.object1=null;
  const second=event.object2;
  if(second){difference=(difference+second.frameTimeQ16)|0;if(second.collisionFilter&&(second.collisionFilter(second,event.object1,event)|0)===0)event.object2=null;}
- if(!event.object1&&event.object2){event.object1=event.object2;event.object2=null;event.normal=event.normal.map(value=>-value|0);deltaQ16=(deltaQ16-difference)|0;}
+ if(!event.object1&&event.object2){event.object1=event.object2;event.object2=null;event.normal=event.normal.map(value=>-value|0);deltaQ16=(deltaQ16-difference)|0;onPromotedDelta?.(deltaQ16);}
  return deltaQ16;
 }
 // Event-processing portion of 0x4749e0. The record is released before callbacks.
 // Invalidation uses the original body references; regeneration uses the surviving
 // references captured after response. Negative deltas still process one event.
-export function processCollisionEvents(queue,{respond,refresh,finish,beforeInvalidate}) {
+export function processCollisionEvents(queue,{respond,refresh,finish,beforeInvalidate,beforeFilter,onPromotedDelta,afterRespond}) {
  for(const [name,handler]of Object.entries({respond,refresh,finish}))if(typeof handler!=='function')throw Error(`Collision event handler ${name} is required.`);
  let processed=0;
  while(queue.count){const key=queue.pop(),{slot,timeQ16}=decodeCollisionEventKey(key),event=queue.events[slot],oldFirst=event.object1,oldSecond=event.object2;
-  const delta=filterCollisionEvent(event,(timeQ16-oldFirst.frameTimeQ16)|0);
-  respond(event,delta,queue);const first=event.object1,second=event.object2;
+  const initialDelta=(timeQ16-oldFirst.frameTimeQ16)|0;beforeFilter?.(event,initialDelta);
+  const delta=filterCollisionEvent(event,initialDelta,value=>onPromotedDelta?.(event,value));
+  respond(event,delta,queue);const first=event.object1,second=event.object2;afterRespond?.(event,delta);
   beforeInvalidate?.(oldFirst,oldSecond,delta);queue.invalidate(oldFirst,oldSecond);if(first||second)refresh(first,second,queue);processed++;
   if(delta<0)break;
  }

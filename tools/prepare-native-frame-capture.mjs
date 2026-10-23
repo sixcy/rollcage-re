@@ -16,6 +16,7 @@ export function assertNativeFrameBoundaries(instructions) {
     [0x4749e0, 'PUSH', 'ECX'], [0x4749e1, 'PUSH', 'EBX'], [0x4749e2, 'PUSH', 'EBP'], [0x4749e3, 'PUSH', 'ESI'], [0x4749e4, 'PUSH', 'EDI'],
     [0x4749e5, 'CALL', '0x0046e9b0'], [0x474b17, 'POP', 'EDI'], [0x474b18, 'POP', 'ESI'], [0x474b19, 'POP', 'EBP'],
     [0x474b1a, 'XOR', 'EAX', 'EAX'], [0x474b1c, 'POP', 'EBX'], [0x474b1d, 'POP', 'ECX'], [0x474b1e, 'RET'],
+    [0x474ac0, 'MOV', 'dword ptr [ESP + 0x10]', 'ESI'], [0x474ae7, 'MOV', 'dword ptr [ESP + 0x10]', 'EAX'],
     [0x451012, 'CALL', '0x004749e0'], [0x451017, 'CALL', '0x0044f050'],
   ]) {
     const row = listing.get(address);

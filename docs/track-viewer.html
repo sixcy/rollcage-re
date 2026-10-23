@@ -37,6 +37,8 @@
 <fieldset style="border:1px solid #344457;border-radius:5px"><legend>Racing test</legend>
 <p id="racing-warning" class="note" style="color:#ffd48a"><strong>Super experimental.</strong> Driving, collisions and lap timing may be inaccurate.</p>
 <div class="racing-actions"><button id="practice-start" type="button" disabled>Start</button><button id="practice-step" type="button" disabled>Step frame</button><button id="practice-recover" type="button" disabled>Test recovery</button><button id="practice-reset" type="button" disabled>Reset race</button></div>
+<div class="row"><label for="practice-ai-count">AI cars</label><input id="practice-ai-count" type="range" min="1" max="6" step="1" value="3" disabled aria-describedby="practice-performance-note"><output id="practice-ai-count-value" for="practice-ai-count">3</output></div>
+<p id="practice-performance-note" class="note" style="color:#ffd48a">Performance warning: the racing simulation runs in JavaScript. More AI cars can lower FPS. Reduce the count if the viewer feels slow. Changing the count restarts the race.</p>
 <div class="row"><label for="practice-car">Car to follow</label><select id="practice-car" disabled></select></div>
 <div class="racing-options"><label><input id="practice-follow" type="checkbox" checked disabled><span id="practice-follow-label">Follow car 1</span></label><label><input id="practice-telemetry" type="checkbox" checked disabled aria-controls="physics-hud">Telemetry</label></div>
 <div class="racing-options"><label><input id="practice-weapons" type="checkbox" checked disabled>Weapons &amp; pickups (experimental)</label></div>
@@ -93,7 +95,7 @@ const setDisabled = (id, disabled) => {const output = element(id); if (output.di
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
 let sourceKind = 'pc';
-let practice = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
+let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
 const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
@@ -110,6 +112,7 @@ function help() {
 }
 function clearScene() {
   practice?.dispose(); practice = null;
+  practiceInputs = null;
   renderedPractice = null;
   renderedAlpha = 1; followedCarIndex = 0;
   scene = null; selectedTrack = null; renderer?.clear();
@@ -128,6 +131,8 @@ function updatePractice() {
   if (selector.options.length !== carCount) selector.replaceChildren(...Array.from({length: carCount}, (_, index) => new Option(`Car ${index + 1}`, String(index))));
   if (selector.value !== String(followedCarIndex)) selector.value = String(followedCarIndex);
   setDisabled('practice-car', !usable);
+  setDisabled('practice-ai-count', !practiceInputs);
+  setText('practice-ai-count-value', element('practice-ai-count').value);
   setText('practice-follow-label', `Follow car ${followedCarIndex + 1}`);
   setText('camera-follow', `Follow car ${followedCarIndex + 1}`);
   const difficulty = ['Easy', 'Hard', 'Expert'][value?.aiDifficulty];
@@ -190,6 +195,24 @@ function updatePaths() {
   element('path-color').hidden = index === -1 || !available;
   if (index !== -1 && available) element('path-color').style.color = pathColor(index);
 }
+function restartPractice() {
+  if (!practiceInputs) return;
+  practice?.dispose(); practice = null; renderedPractice = null; renderedAlpha = 1; lastFrame = 0;
+  let failure;
+  try {
+    const count = Number(element('practice-ai-count').value);
+    const session = createSession(practiceInputs.geometry, practiceInputs.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
+    try {renderer.setCar(session.assets);} catch (error) {session.dispose(); throw error;}
+    practice = new SoloController(session);
+    followedCarIndex = Math.min(followedCarIndex, count - 1);
+    if (navigation.mode === 'follow') followCar(true);
+  } catch (error) {
+    renderer.clearCar();
+    failure = `Racing test unavailable: ${errorText(error)}`;
+  }
+  updatePractice(); updatePaths(); help();
+  if (failure) element('practice-error').textContent = failure;
+}
 async function loadTrack() {
   const token = ++generation, source = archive, adapter = game, track = availableTracks.find(track => track.index === Number(element('track').value));
   if (!source || !track || !adapter) return;
@@ -216,9 +239,8 @@ async function loadTrack() {
         const geometry = await source.readResource(track.index);
         const texture = await source.readResource(track.textureIndex);
         if (token !== generation) return;
-        const session = createSession(geometry.data, texture.data, {vehicleTypes: [0,1,2,3,4,5], aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
-        try { renderer.setCar(session.assets); } catch (error) {session.dispose(); throw error;}
-        practice = new SoloController(session);
+        practiceInputs = {geometry: geometry.data, texture: texture.data};
+        restartPractice();
       } catch (error) {
         if (token === generation) element('practice-error').textContent = `Racing test unavailable: ${errorText(error)}`;
       }
@@ -311,6 +333,12 @@ element('practice-reset').addEventListener('click', () => {
 });
 element('practice-weapons').addEventListener('change', () => {
   releaseMouse(); practice?.pause(); loadTrack();
+});
+element('practice-ai-count').addEventListener('input', () => {
+  setText('practice-ai-count-value', element('practice-ai-count').value);
+});
+element('practice-ai-count').addEventListener('change', () => {
+  releaseMouse(); restartPractice();
 });
 element('practice-step').addEventListener('click', () => {
   if (!practice || !['ready', 'paused'].includes(practice.state)) return;
@@ -8541,24 +8569,25 @@ function insertCollisionEvent(queue,{object1,object2=null,contact,flags,tag,auxi
 }
 // 0x474b20. Callbacks receive both body references AND the mutable event record.
 // Their return is the native integer acceptance result; zero removes that body.
-function filterCollisionEvent(event,deltaQ16) {
+function filterCollisionEvent(event,deltaQ16,onPromotedDelta) {
  let difference=-event.object1.frameTimeQ16|0;
  const first=event.object1;
  if(first.collisionFilter&&(first.collisionFilter(first,event.object2,event)|0)===0)event.object1=null;
  const second=event.object2;
  if(second){difference=(difference+second.frameTimeQ16)|0;if(second.collisionFilter&&(second.collisionFilter(second,event.object1,event)|0)===0)event.object2=null;}
- if(!event.object1&&event.object2){event.object1=event.object2;event.object2=null;event.normal=event.normal.map(value=>-value|0);deltaQ16=(deltaQ16-difference)|0;}
+ if(!event.object1&&event.object2){event.object1=event.object2;event.object2=null;event.normal=event.normal.map(value=>-value|0);deltaQ16=(deltaQ16-difference)|0;onPromotedDelta?.(deltaQ16);}
  return deltaQ16;
 }
 // Event-processing portion of 0x4749e0. The record is released before callbacks.
 // Invalidation uses the original body references; regeneration uses the surviving
 // references captured after response. Negative deltas still process one event.
-function processCollisionEvents(queue,{respond,refresh,finish,beforeInvalidate}) {
+function processCollisionEvents(queue,{respond,refresh,finish,beforeInvalidate,beforeFilter,onPromotedDelta,afterRespond}) {
  for(const [name,handler]of Object.entries({respond,refresh,finish}))if(typeof handler!=='function')throw Error(`Collision event handler ${name} is required.`);
  let processed=0;
  while(queue.count){const key=queue.pop(),{slot,timeQ16}=decodeCollisionEventKey(key),event=queue.events[slot],oldFirst=event.object1,oldSecond=event.object2;
-  const delta=filterCollisionEvent(event,(timeQ16-oldFirst.frameTimeQ16)|0);
-  respond(event,delta,queue);const first=event.object1,second=event.object2;
+  const initialDelta=(timeQ16-oldFirst.frameTimeQ16)|0;beforeFilter?.(event,initialDelta);
+  const delta=filterCollisionEvent(event,initialDelta,value=>onPromotedDelta?.(event,value));
+  respond(event,delta,queue);const first=event.object1,second=event.object2;afterRespond?.(event,delta);
   beforeInvalidate?.(oldFirst,oldSecond,delta);queue.invalidate(oldFirst,oldSecond);if(first||second)refresh(first,second,queue);processed++;
   if(delta<0)break;
  }
@@ -10912,8 +10941,9 @@ Object.assign(module.exports, {compareRendererNameBytes,findRendererNamedObject,
 "src/weather-viewport.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {growViewportString,assignViewportString,findViewportLowerBound,getOrCreateViewportRecord,getViewportApplication,queryWeatherViewport,readWeatherViewportExtent});
 const {obtainViewportApplication} = require("src/application-bootstrap.mjs");
+const {copyToNativeMemory,nativeMemorySpan} = require("src/native-memory-spans.mjs");
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
-const copy = (m, dest, source, size) => Buffer.from(m.subarray(source, source + size)).copy(m, dest);
+const copy = (m, dest, source, size) => copyToNativeMemory(m,dest,Buffer.from(m.subarray(source,source+size)));
 const stringData = (m, object) => ptr(m, object + 20) > 15 ? ptr(m, object) : object;
 const cLength = (m, data) => {let end = data; while (m[end]) end++; return end - data;};
 function allocate(runtime, size) {if (typeof runtime.handlers?.allocate !== 'function') throw Error('Viewport map requires CRT allocation.'); const result = runtime.handlers.allocate(size, runtime) >>> 0; if (!result) throw Error('Viewport CRT allocation failed.'); return result;}
@@ -11039,7 +11069,7 @@ function queryWeatherViewport(name, xOut, yOut, widthOut, heightOut, runtime) {
 //40ac40 /40acc0 construct the original mutable eight-byte player-view name.
 function readWeatherViewportExtent(height, runtime) {
   const {memory: m, scratchBase} = runtime, frame = scratchBase - 0x124;
-  put(m, frame + 0x11c, ptr(m, 0x5e8890) ^ frame); m[frame + 0x18] = m[0x5d025c]; blockName(m, frame + 0x10); m.fill(0, frame + 0x19, frame + 0x114);
+  put(m, frame + 0x11c, ptr(m, 0x5e8890) ^ frame); m[frame + 0x18] = m[0x5d025c]; blockName(m, frame + 0x10); nativeMemorySpan(m,frame+0x19,251).fill(0);
   queryWeatherViewport(frame + 0x10, frame + 8, height ? frame + 4 : frame + 4, height ? frame + 12 : frame, height ? frame : frame + 12, {...runtime, scratchBase: frame - 16});
   return get(m, frame);
 }
@@ -11228,12 +11258,13 @@ const {publishAnimationMatrix} = require("src/vehicle-auxiliary-animation.mjs");
 const {queryRawRespawnPlacement} = require("src/raw-respawn-query.mjs");
 const {abs32} = require("src/fixed-integer.mjs");
 const {computeWormholeFixedRoot} = require("src/wormhole-targeting.mjs");
+const {copyToNativeMemory,resolveNativeMemoryAddress} = require("src/native-memory-spans.mjs");
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const word = (m, p, v) => m.writeUInt16LE(v & 65535, p), short = v => (v << 16) >> 16;
 const vector = (m, p) => [0, 4, 8].map(o => get(m, p + o)), store = (m, p, values) => values.forEach((v, i) => put(m, p + i * 4, v));
 const copy = (m, from, to, words) => {for (let i = 0; i < words; i++) put(m, to + i * 4, get(m, from + i * 4));};
-const copyPair = (m, from, to) => Buffer.from(m.subarray(from, from + 8)).copy(m, to);
+const copyPair = (m, from, to) => copyToNativeMemory(m,to,Buffer.from(m.subarray(from,from+8)));
 const trunc32 = v => Number.isFinite(v) && v >= -2147483648 && v < 2147483648 ? Math.trunc(v) | 0 : -2147483648;
 function divide(numerator, denominator) {if (!denominator) throw Error('Camera positioning division by zero.'); const n = Math.trunc(numerator / denominator); if (n < -2147483648 || n > 2147483647) throw Error('Camera positioning division overflow.'); return n | 0;}
 
@@ -11246,7 +11277,7 @@ function updateCamera(index, runtime) {
   const child = depth => ({...runtime, scratchBase: frame - depth});
   put(m, frame + 0xc4, get(m, 0x5e8890) ^ (scratchBase - 188)); put(m, frame + 0x28, 0);
   put(m, frame + 0x5c, get(m, 0x5ec120 + index * 4)); put(m, frame + 0x14, index); put(m, frame + 0x24, row);
-  put(m, frame + 0x1c, 0x909300 + Math.imul(get(m, frame + 0x5c), 0x30c)); put(m, frame + 0x6c, get(m, camera + 0x3c)); put(m, frame + 0x50, trunc32(m.readFloatLE(0x91ceb0)));
+  put(m, frame + 0x1c, resolveNativeMemoryAddress(m,0x909300+Math.imul(get(m,frame+0x5c),0x30c),4)); put(m, frame + 0x6c, get(m, camera + 0x3c)); put(m, frame + 0x50, trunc32(m.readFloatLE(0x91ceb0)));
   if (typeof runtime.handlers?.formatCameraName !== 'function') throw Error('Camera update requires CRT player-name formatting.');
   runtime.handlers.formatCameraName(frame + 0xa4, 0x5d043c, index, child(16));
   if (selectCameraTrigger(index, camera + 0x36, camera + 0x174, child(8))) {put(m, camera, 16); word(m, camera + 0x32, 0);}
@@ -11422,7 +11453,7 @@ function updateCamera(index, runtime) {
     const tracked = ptr(m, frame + 0x20); difference(tracked); const length = measureCameraVector(direction, child(4)); if (length >= 256) normalizeRawFixedVectorWithLength(direction, length, child(4));
     const shift = m[ptr(m, 0x5ecb1c) + 0x552] ? 3 : 2; for (const o of [0, 4, 8]) put(m, direction + o, get(m, direction + o) + (get(m, 0x6f9850 + base + o) >> shift));
     const result = publishAnimationMatrix(direction, 0x6f9850 + base, pose + 0x90, child(8));
-    const from = result ? pose + 0x90 : camera + 0x120, to = result ? camera + 0x120 : pose + 0x90; Buffer.from(m.subarray(from, from + 16)).copy(m, to); Buffer.from(m.subarray(from + 16, from + 32)).copy(m, to + 16);
+    const from = result ? pose + 0x90 : camera + 0x120, to = result ? camera + 0x120 : pose + 0x90; copyToNativeMemory(m,to,Buffer.from(m.subarray(from,from+16)));copyToNativeMemory(m,to+16,Buffer.from(m.subarray(from+16,from+32)));
     publishCameraPose(0x909300 + Math.imul(m.readUInt16LE(camera + 0x36), 0x30c), pose, 0, frame + 0xa4, child(12));
     const next = (get(m, 0x6f99e0 + i * 4) + get(m, 0x6f99f0 + i * 4)) | 0; put(m, 0x6f99e0 + i * 4, Math.min(next, 65536));
   }
@@ -11481,6 +11512,7 @@ Object.assign(module.exports, {measureCameraLineDistance,selectCameraTrigger});
 const {multiplyQ16, divideQ16, dotQ16} = require("src/fixed-integer.mjs");
 const {findNearestCameraParticipant, measureCameraVector} = require("src/camera-mode-policy.mjs");
 const {getRaceStageCount} = require("src/race-stage-count.mjs");
+const {resolveNativeMemoryAddress} = require("src/native-memory-spans.mjs");
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const vector = (m, p) => [0, 4, 8].map(offset => get(m, p + offset));
@@ -11543,7 +11575,7 @@ function selectCameraTrigger(index, participantOut, triggerOut, runtime) {
   }
   let count = get(m, 0x6e6550);
   for (let ordinal = 0; ordinal < count; ordinal++) {
-    const row = 0x91f6c0 + ordinal * 56; put(m, frame + 0x1c, row);
+    const row = resolveNativeMemoryAddress(m,0x91f6c0+ordinal*56,56); put(m, frame + 0x1c, row);
     if (get(m, row) !== 1) continue;
     findNearestCameraParticipant(row + 4, frame + 0x28, {...runtime, scratchBase: frame - 4});
     const participant = get(m, frame + 0x28), eligible = get(m, frame + 0x10);
@@ -11637,6 +11669,7 @@ const {queryRawRespawnPlacement} = require("src/raw-respawn-query.mjs");
 const {publishAnimationMatrix} = require("src/vehicle-auxiliary-animation.mjs");
 const {transformWheelEffectOffset} = require("src/wheel-effects.mjs");
 const {abs32} = require("src/fixed-integer.mjs");
+const {copyToNativeMemory} = require("src/native-memory-spans.mjs");
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 const copyWords = (m, source, output, count) => {for (let i = 0; i < count; i++) put(m, output + i * 4, get(m, source + i * 4));};
 
@@ -11669,7 +11702,7 @@ function publishCachedCameraMatrix(direction, other, output, cameraIndex, runtim
   put(m, scratchBase + 4, output); put(m, scratchBase + 8, cameraIndex);
   const result = publishAnimationMatrix(direction, other, output, {...runtime, scratchBase: scratchBase - 16});
   const source = result ? output : cache, destination = result ? cache : output;
-  Buffer.from(m.subarray(source, source + 16)).copy(m, destination); Buffer.from(m.subarray(source + 16, source + 32)).copy(m, destination + 16);
+  copyToNativeMemory(m,destination,Buffer.from(m.subarray(source,source+16)));copyToNativeMemory(m,destination+16,Buffer.from(m.subarray(source+16,source+32)));
   return result;
 }
 
@@ -12381,7 +12414,7 @@ const {emitRawEffectParticles,emitRawBodyDebris,lookupRawSpatialBucket} = requir
 const {emitNativeEffect} = require("src/effect-emitter.mjs");
 const {dispatchNativeSound} = require("src/sound-dispatch.mjs");
 const {spatialBucketContainsSector} = require("src/track-deformation.mjs");
-const {copyToNativeMemory} = require("src/native-memory-spans.mjs");
+const {copyToNativeMemory,resolveNativeMemoryAddress} = require("src/native-memory-spans.mjs");
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 const vector=(m,p)=>[0,4,8].map(o=>get(m,p+o));
 const copy=(m,a,b)=>{for(const o of[0,4,8])put(m,b+o,get(m,a+o));};
@@ -12474,18 +12507,19 @@ function queueDestroyedPlacedObjects(object,{memory,scratchBase,handlers={},...r
 function selectModelDestructionObserver(position,output,distance,{memory,scratchBase,handlers={}}) {
  const radius=Math.imul(distance>>2,distance>>2);let best=0xffffffff,selected=-1;
  if(get(memory,0x6e6550)>1){
+  const observerBase=resolveNativeMemoryAddress(memory,0x91f6c0,1);
   const origin=vector(memory,position),{bucket,outside}=lookupRawSpatialBucket(...origin,{memory});put(memory,scratchBase-16,outside);
   const sector=memory.readUInt16LE(ptr(memory,0x9092c0)+(memory.readUInt16LE(bucket+6)&0x3fff)*6+2)&127;
   put(memory,scratchBase-16,sector);
   for(let i=0;i<get(memory,0x6e6550);i++){
-   const row=0x91f6c0+i*56;if(get(memory,row)===1)continue;
+   const row=observerBase+i*56;if(get(memory,row)===1)continue;
    const squared=origin.reduce((sum,x,axis)=>{const delta=((x-get(memory,row+4+axis*4))|0)>>18;return(sum+Math.imul(delta,delta))|0;},0),score=abs32((abs32(squared)-radius)|0)>>>0;
    if(score<best&&(handlers.call4176b0?handlers.call4176b0({sector,position:row+4,memory,scratchBase:scratchBase-0x2c}):spatialBucketContainsSector(sector,row+4,{memory,scratchBase:scratchBase-0x2c}))){best=score;selected=i;}
   }
-  put(memory,output,0x91f6c0+selected*56);if(selected!==-1)return;
+  put(memory,output,observerBase+selected*56);if(selected!==-1)return;
  }
  put(memory,0x9205a0,0);const xy=Buffer.from(memory.subarray(position,position+8));copyToNativeMemory(memory,0x9205a4,xy);const z=get(memory,position+8);
- put(memory,0x9205a4,get(memory,0x9205a4)-0x320000);put(memory,0x9205a8,get(memory,0x9205a8)-0xc80000);put(memory,0x9205ac,z-0x320000);put(memory,output,0x9205a0);
+ put(memory,0x9205a4,get(memory,0x9205a4)-0x320000);put(memory,0x9205a8,get(memory,0x9205a8)-0xc80000);put(memory,0x9205ac,z-0x320000);put(memory,output,resolveNativeMemoryAddress(memory,0x9205a0,16));
 }
 
 //41a570: unsigned initial clamp/division, then signed maximum/minimum.
@@ -14692,6 +14726,9 @@ function stepSimulationFrame(physicalGroup,vehicles,context) {
   normalizeReduction:(bits,leading)=>{raw.memory.writeInt32LE(bits,0x91d45c);raw.memory.writeInt32LE(leading,0x91d460);},
   sqrtLookup:value=>{const absolute=value<0?-value|0:value;raw.memory.writeInt32LE(absolute,0x91d45c);raw.memory.writeInt32LE(Math.clz32(absolute),0x91d460);}
  }:undefined;
+ //Independent native entry replay knows incoming ECX. Joined replay leaves
+ //unproved volatile registers absent; an actual event overwrites this local.
+ if(raw&&raw.entryRegisters?.ecx!==undefined){const ecx=Number(raw.entryRegisters.ecx);if(!Number.isInteger(ecx)||ecx<0||ecx>0xffffffff)throw Error('Native physics entry ECX is not an x86 value.');raw.memory.writeUInt32LE(ecx,raw.scratchBase-4);}
  const providedTimeOptions=context.timeOptionsFor??(()=>({})),timeOptionsFor=raw?body=>({...providedTimeOptions(body),nativeState:sharedMath}):providedTimeOptions,bodies=()=>physicalGroup.bodies.slice(0,physicalGroup.count??physicalGroup.bodies.length);
  const effectHandlers={...handlers,onActiveVehicleEffect:handlers.onActiveVehicleEffect??(({body,directionQ8,effectCode})=>{
   if(typeof context.activeVehicleEffectFor!=='function')throw Error('Active vehicle effect requires explicit target state and lookup.');
@@ -14800,6 +14837,12 @@ function stepSimulationFrame(physicalGroup,vehicles,context) {
   //475630 saves main EBP (the filtered delta) at S-40h. The next4279d0
   //refresh consumes that same word as its intentionally uninitialized scalar.
   beforeInvalidate:raw?(_first,_second,delta)=>raw.memory.writeInt32LE(delta|0,raw.scratchBase-0x40):undefined,
+  //474ac0/474b20 use the PUSH ECX slot (entryESP-4) for the mutable
+  //filtered delta;474ae7 then replaces it with the surviving first body.
+  //The final POP ECX returns this slot, including after negative deltas.
+  beforeFilter:raw?(_event,delta)=>raw.memory.writeInt32LE(delta|0,raw.scratchBase-4):undefined,
+  onPromotedDelta:raw?(_event,delta)=>raw.memory.writeInt32LE(delta|0,raw.scratchBase-4):undefined,
+  afterRespond:raw?event=>raw.memory.writeUInt32LE(event.object1?.address??0,raw.scratchBase-4):undefined,
   refresh:(first,second)=>{report.regeneratedEvents+=refreshCollisionCandidates(first,second,candidateGroups,candidateOptions);},
   finish:()=>{for(const body of physicalGroup.bodies){if(!body)break;report.finishedBodies+=finishBodyAdvancement([body],advancementHandlers,timeOptionsFor(body));}}
  };
@@ -14856,7 +14899,7 @@ function runPhysicsFrame(physicalGroup,stages) {
  stages.externalWorld();effectFlags.first=0;effectFlags.second=0;
  stages.collectCandidates();stages.updateGroups();stages.updateVehicles();
  queue.reset();stages.buildInitialEvents(queue);
- const processedEvents=processCollisionEvents(queue,{respond:stages.respond,refresh:stages.refresh,finish:stages.finish,beforeInvalidate:stages.beforeInvalidate});
+ const processedEvents=processCollisionEvents(queue,{respond:stages.respond,refresh:stages.refresh,finish:stages.finish,beforeInvalidate:stages.beforeInvalidate,beforeFilter:stages.beforeFilter,onPromotedDelta:stages.onPromotedDelta,afterRespond:stages.afterRespond});
  return {nativeReturn:0,preparedBodies:count,scriptedBodies,ordinaryBodies,processedEvents};
 }
 
@@ -22251,6 +22294,7 @@ Object.assign(module.exports, {setRaceTransitionInputState,isRaceNetworkClient,s
 },
 "src/race-phase-audio.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {initializeRacePhaseAudioConstants,updateRaceAudioListeners,refreshRaceAudioState,setRaceAudioVolume,sendRaceMusicCommand,updateRaceMusicState,setRaceSerialVolume});
+const {copyToNativeMemory,nativeMemorySpan} = require("src/native-memory-spans.mjs");
 const get = (memory, address) => memory.readInt32LE(address);
 const pointer = (memory, address) => memory.readUInt32LE(address);
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
@@ -22275,7 +22319,7 @@ function initializeRacePhaseAudioConstants(memory) {
 function updateRaceAudioListeners(runtime) {
   const {memory, scratchBase} = runtime;
   const local = ((scratchBase - 4) & ~15) - 0x70, descriptor = local + 0x10;
-  memory.fill(0, descriptor, descriptor + 76);
+  nativeMemorySpan(memory,descriptor,76).fill(0);
   const positionScale = memory.readFloatLE(0x5dc5b8), velocityScale = memory.readFloatLE(0x5dc5d0), rotationScale = memory.readFloatLE(0x5dc5f4);
   for (let index = 0, record = 0x849490; record < 0x8495e0; record += 0x54, index++) {
     if (!memory[record - 16]) continue;
@@ -22298,7 +22342,7 @@ function updateRaceAudioListeners(runtime) {
     if (index >= count) continue;
     const destination = pointer(memory, base + index * 4);
     if (!destination) continue;
-    for (const [offset, length] of [[0, 16], [16, 16], [32, 16], [48, 16], [64, 8]]) Buffer.from(memory.subarray(descriptor + offset, descriptor + offset + length)).copy(memory, destination + 4 + offset);
+    for (const [offset, length] of [[0, 16], [16, 16], [32, 16], [48, 16], [64, 8]]) copyToNativeMemory(memory,destination+4+offset,Buffer.from(memory.subarray(descriptor+offset,descriptor+offset+length)));
     put(memory, destination + 76, get(memory, descriptor + 72));
   }
 }

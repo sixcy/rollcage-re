@@ -2,10 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {readFile} from 'node:fs/promises';
-import {executeNativeParentTail,continueNativeParentTail,verifyNativeParentTailEvidence} from '../tools/lib/native-parent-tail.mjs';
+import {executeNativeParentTail,continueNativeParentTail,verifyNativeParentTailEvidence,formatNativeParentCameraName} from '../tools/lib/native-parent-tail.mjs';
 import {createPhysicsRuntimeViews} from '../src/physics-runtime-views.mjs';
 import {readInstructionEvidence} from '../tools/lib/instruction-evidence.mjs';
 import {BoundedX86} from '../tools/lib/bounded-x86.mjs';
+import {createCapturedMemory} from '../tools/lib/captured-memory.mjs';
 import {loadPhysicsCapture} from '../tools/lib/physics-capture-comparison.mjs';
 import {pairNativeControlSnapshots} from '../tools/lib/native-control-capture.mjs';
 import {replayNativeControlThroughPhysics} from '../tools/lib/native-control-physics.mjs';
@@ -83,6 +84,14 @@ test('late heap profile uses explicit per-hop NULL guards and fixed constructor 
   assert.equal(ranges.find(row=>row.id==='late-model-fragment-allocation').length,64*384);
   assert.deepEqual(ranges.filter(row=>row.id.startsWith('late-destruction-workspace')).map(row=>row.dereferenceOffsets),[['0x0','0x8c'],['0x0','0x134'],['0x0','0x1dc'],['0x0','0x284']]);
   assert.ok(ranges.every(row=>Number(row.rva)!==0x40dde0),'Weather minus-one sentinel needs a distinct proven guard.');
+});
+
+test('typed camera CRT formatting consumes its actual observed format and never supplies camera state',()=>{
+  const format=0x8b043c,output=0x1000000,f=createCapturedMemory([{address:format,bytes:Buffer.from('%d Player\0','ascii')},{address:output,bytes:Buffer.alloc(32,0x79)}]);
+  assert.equal(formatNativeParentCameraName(f.memory,output,format,3),8);
+  assert.deepEqual(f.span(output,9),Buffer.from('3 Player\0','ascii'));assert.equal(f.span(output+9,1)[0],0x79);
+  assert.equal(formatNativeParentCameraName(f.memory,output,format,-12),10);assert.deepEqual(f.span(output,11),Buffer.from('-12 Player\0','ascii'));
+  f.memory.writeUInt8(0,format);const before=Buffer.from(f.span(output,32));assert.throws(()=>formatNativeParentCameraName(f.memory,output,format,0),/observed/);assert.deepEqual(f.span(output,32),before);
 });
 
 test('original saved parent late continuation binds observed cameras then strictly stops at its uncaptured immutable control table',{skip:!existsSync(`${parentRaw}/trace.jsonl`)},async()=>{

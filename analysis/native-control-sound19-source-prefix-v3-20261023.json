@@ -1,0 +1,134 @@
+{
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidenceIds": [
+    "ev_ba18dbda8825a020d0f56e7504d1377e94372004104491c290fe6f9097616702",
+    "ev_55774611163ec94ae80a1e26fed4474bf04f8c077f1fa53df8691843b5c8e3f8",
+    "ev_276e723742684068016129e93a54f6b66c48ae2564c6cbdd1d58fc0dd8998ee6"
+  ],
+  "method": "Opt-in genuine48627c caller/emitter/dispatcher continuation from parent-entry source state only",
+  "input": "analysis/native-physics-local/startup-20261022/parent-late-v3-20261023",
+  "sourceComplete": false,
+  "joinedParentMatched": false,
+  "error": "Error: Uncaptured native memory at 0x10939bec (4 bytes).\n    at span (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:76:21)\n    at Proxy.subarray (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:79:57)\n    at assertNativeMemorySpan (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-memory-spans.mjs:39:41)\n    at dispatchNativeSoundOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:77:5)\n    at Object.dispatch40ea40 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-sound.mjs:96:12)\n    at dispatch40ea40 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:52:70)\n    at emitNativeEffect (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/effect-emitter.mjs:21:25)\n    at emitNativeEffectOnStack (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/native-effect-emitter.mjs:42:10)\n    at Object.call484bb0 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-sound.mjs:100:12)\n    at Object.call484bb0 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-control-sound-creation.mjs:44:28)",
+  "creation": {
+    "callAddress": 7758460,
+    "returnAddress": 7758465,
+    "entryEsp": 13760512,
+    "callerEntryEsp": 13760628,
+    "entryRegisters": {
+      "ebx": 287117056,
+      "ebp": 0,
+      "esi": 288,
+      "edi": 48,
+      "ecx": 19,
+      "edx": 287117108,
+      "eax": 304
+    },
+    "args": [
+      0,
+      304,
+      2304,
+      7,
+      278,
+      0,
+      0
+    ],
+    "layout": {
+      "entryEsp": 13760512,
+      "savedEbp": 13760508,
+      "aligned": 13760496,
+      "frame": 13760464,
+      "parameters": 13760480,
+      "dispatchEntry": 13760444
+    },
+    "completed": false,
+    "error": "Uncaptured native memory at 0x10939bec (4 bytes)."
+  },
+  "replayStage": "control-prefix",
+  "sourceProgress": {
+    "stage": "0x485300",
+    "calls": [
+      {
+        "entry": "0x410220",
+        "returnAddress": 7540416,
+        "entryEsp": 13760628,
+        "ecx": 287117056
+      },
+      {
+        "entry": "0x410220",
+        "returnAddress": 7540416,
+        "entryEsp": 13760628,
+        "ecx": 287352448
+      },
+      {
+        "entry": "0x410220",
+        "returnAddress": 7540416,
+        "entryEsp": 13760628,
+        "ecx": 287557248
+      },
+      {
+        "entry": "0x410220",
+        "returnAddress": 7540416,
+        "entryEsp": 13760628,
+        "ecx": 287767808
+      },
+      {
+        "entry": "0x410220",
+        "returnAddress": 7540416,
+        "entryEsp": 13760628,
+        "ecx": 287960960
+      },
+      {
+        "entry": "0x410220",
+        "returnAddress": 7540416,
+        "entryEsp": 13760628,
+        "ecx": 288177792
+      },
+      {
+        "entry": "0x431750",
+        "returnAddress": 7540480,
+        "entryEsp": 13760628,
+        "ecx": 287117056
+      },
+      {
+        "entry": "0x431750",
+        "returnAddress": 7540480,
+        "entryEsp": 13760628,
+        "ecx": 287352448
+      },
+      {
+        "entry": "0x431750",
+        "returnAddress": 7540480,
+        "entryEsp": 13760628,
+        "ecx": 287557248
+      },
+      {
+        "entry": "0x431750",
+        "returnAddress": 7540480,
+        "entryEsp": 13760628,
+        "ecx": 287767808
+      },
+      {
+        "entry": "0x431750",
+        "returnAddress": 7540480,
+        "entryEsp": 13760628,
+        "ecx": 287960960
+      },
+      {
+        "entry": "0x431750",
+        "returnAddress": 7540480,
+        "entryEsp": 13760628,
+        "ecx": 288177792
+      },
+      {
+        "entry": "0x485300",
+        "returnAddress": 7540537,
+        "entryEsp": 13760628,
+        "ecx": 287117056,
+        "edx": 0
+      }
+    ],
+    "entryEsp": 13760648,
+    "childEsp": 13760628
+  }
+}

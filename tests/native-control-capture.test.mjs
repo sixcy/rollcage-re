@@ -114,6 +114,7 @@ async function physicsExitFixture() {
   const exit = {...entry, breakpointId: 'native-control-after-physics', ordinal: 6,
     registers: {...entry.registers, eip: 0x774b1e, eax: 0},
     ranges: new Map([...entry.ranges].map(([id, row]) => [id, {...row, bytes: Buffer.from(row.bytes)}]))};
+  exit.ranges.get('frame-stack').bytes.writeUInt32LE(123,60);
   f.capture.snapshots.push(exit);
   return f;
 }
@@ -152,4 +153,14 @@ test('optional physics exit rejects altered return ABI, pairing and early stop p
     assert.throws(() => pairNativeControlSnapshots(f.capture, f.configuration));
   }
   await assert.rejects(createNativeControlCaptureConfig('synthetic', 'never-launched-control', {includePhysicsExit: 1}), /must be boolean/);
+});
+
+test('physics POP ECX returns the overwritten collision local rather than preserving incoming ECX',async()=>{
+  const f=await physicsExitFixture(),exit=f.capture.snapshots.at(-1);
+  exit.registers.ecx=0x1129ef80;exit.ranges.get('frame-stack').bytes.writeUInt32LE(0x1129ef80,60);
+  const pair=pairNativeControlSnapshots(f.capture,f.configuration).pairs[0];
+  assert.equal(pair.after.registers.ecx,123);
+  assert.deepEqual(pair.physicsReturnLocal,{address:Number(exit.registers.esp)-4,value:0x1129ef80});
+  exit.ranges.get('frame-stack').bytes.writeUInt32LE(123,60);
+  assert.throws(()=>pairNativeControlSnapshots(f.capture,f.configuration),/popped local/);
 });

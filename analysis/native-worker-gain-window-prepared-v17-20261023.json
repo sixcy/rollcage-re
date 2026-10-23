@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "method": "prepared-independent-owned-worker-gain-window",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "newRuntimeEvidenceClaimed": false,
+  "sameParentInterleavingClaimed": false,
+  "sourceReplayComplete": false,
+  "wholeGainCallMatched": false,
+  "fullPrivateAbiMatched": false,
+  "gameLaunchPerformedByThisAgent": false,
+  "rootOwnsAnySubsequentLaunch": true,
+  "typedConfigurationValidation": {
+    "configuration": "analysis/native-physics-local/startup-20261022/controlled-recovery-worker-gain-window-config-v17-20261023.json",
+    "result": "PASS",
+    "method": "Direct typed NativeDebugger.Validate API; no process launched.",
+    "securityPolicyChanged": false
+  },
+  "focusedTests": {
+    "pass": 43,
+    "fail": 0,
+    "skip": 0,
+    "command": "node --test tests/native-worker-gain-window.test.mjs tests/native-worker-gain-pair.test.mjs tests/native-worker-gain-replay.test.mjs tests/native-recovery-worker-observation.test.mjs tests/native-held-chassis-force.test.mjs tests/native-chassis-border-preflight.test.mjs",
+    "log": "analysis/native-worker-gain-window-focused-20261023.txt"
+  },
+  "policy": {
+    "activationCaller": "45101c",
+    "rawHit": 229,
+    "maxDurationMs": 90000,
+    "maxSnapshots": 350,
+    "maxWorkerSnapshots": 2,
+    "workerBufferBytes": 262144,
+    "parentBufferBytes": 133955584,
+    "combinedBufferBytes": 134217728,
+    "workerEntry": "4b12d0",
+    "normalExit": "4b1990",
+    "unsupportedExit": "4b1919",
+    "completionReason": "worker-gain-window-bound",
+    "workerHasPendingFrameIdentity": false,
+    "mainSoundObserverSitesRemoved": 52
+  },
+  "firstSourceBoundary": {
+    "kind": "Win32",
+    "name": "EnterCriticalSection",
+    "callAddress": "4a79ff",
+    "returnAddress": "4a7a05",
+    "entryEsp": "worker entry ESP - 0x194",
+    "argument": "manager + 0x854",
+    "outcomesApplied": 0
+  },
+  "limits": [
+    "V16 has no entry/exit pair and remains failed; no replay attempted.",
+    "New window policy has constructed transport/type validation, not new original-process evidence.",
+    "A successful future independent pair cannot establish same-parent or full-worker concurrency.",
+    "Actual worker external outcomes and reached mixer/waveform/decoder/voice inputs remain unbound."
+  ],
+  "hashes": [
+    {
+      "file": "tools/lib/native-physics-debugger.cs",
+      "bytes": 186354,
+      "sha256": "a5bb8f27331c8ecd42e81ff70b7a396cd1c7240d1047fda94effd2ff47931ba0"
+    },
+    {
+      "file": "tools/lib/native-worker-gain-window.mjs",
+      "bytes": 22828,
+      "sha256": "382fd5e42d49f57419c87721528ca8f9d015afe231d8e070e535ff3bea2e7829"
+    },
+    {
+      "file": "tools/prepare-native-worker-gain-window-capture.mjs",
+      "bytes": 3143,
+      "sha256": "1785662d1a16b7ccb7cc03a657d344e21b1afe1cf310ca66f744465acfc655d2"
+    },
+    {
+      "file": "tools/check-native-worker-gain-window-capture.mjs",
+      "bytes": 2358,
+      "sha256": "1d63a1eb681397ec6b75527957ec8470f318c7befe5ce0edc2058c6da9188a15"
+    },
+    {
+      "file": "tools/lib/native-worker-gain-replay.mjs",
+      "bytes": 9027,
+      "sha256": "48ccf05993a20cedfe2c26f2c7ce898d175c8663afd7b15a7534ec9b81140a3f"
+    },
+    {
+      "file": "tests/native-worker-gain-window.test.mjs",
+      "bytes": 22746,
+      "sha256": "76a59c982ddd8cf098ef5693c059eb88049ac6d012e6690390c0346b17be7ae4"
+    },
+    {
+      "file": "tests/native-worker-gain-replay.test.mjs",
+      "bytes": 7831,
+      "sha256": "62df6667c1c1557dfead503d813262e9eb2308977f04b64de21df3533c23d0d1"
+    },
+    {
+      "file": "re-docs/native-worker-gain-window.md",
+      "bytes": 5989,
+      "sha256": "9774fa3f1c467a20197d3698e2d12c27fa5e22046c3fb86734ab629d8630bd13"
+    },
+    {
+      "file": "analysis/native-worker-gain-window-focused-20261023.txt",
+      "bytes": 10864,
+      "sha256": "3baa421c33ff938f9cf13bdccac0a4fd0702b7e4b44382d8c2e3eb5354df1835"
+    },
+    {
+      "file": "analysis/native-worker-gain-v16-failure-diagnosis-20261023.json",
+      "bytes": 3782,
+      "sha256": "0c3173e48a00d902a40768cfff49e8193ed3b3875ff854dd994f858cd0eb41b8"
+    },
+    {
+      "file": "analysis/native-worker-gain-window-csharp-before-20261023.cs",
+      "bytes": 168804,
+      "sha256": "ab66bf58fb6887fb5f27b710be81c7a20db6d1f4d6653f252c9eae1d1ac12972"
+    },
+    {
+      "file": "analysis/native-physics-local/startup-20261022/controlled-recovery-worker-gain-window-config-v17-20261023.json",
+      "bytes": 53579,
+      "sha256": "82b60efafac42ae357dadc057e2f3021495c53a61ae4539b298201ee13370e39"
+    }
+  ]
+}

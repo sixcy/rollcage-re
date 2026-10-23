@@ -74,6 +74,9 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
   normalizeReduction:(bits,leading)=>{raw.memory.writeInt32LE(bits,0x91d45c);raw.memory.writeInt32LE(leading,0x91d460);},
   sqrtLookup:value=>{const absolute=value<0?-value|0:value;raw.memory.writeInt32LE(absolute,0x91d45c);raw.memory.writeInt32LE(Math.clz32(absolute),0x91d460);}
  }:undefined;
+ //Independent native entry replay knows incoming ECX. Joined replay leaves
+ //unproved volatile registers absent; an actual event overwrites this local.
+ if(raw&&raw.entryRegisters?.ecx!==undefined){const ecx=Number(raw.entryRegisters.ecx);if(!Number.isInteger(ecx)||ecx<0||ecx>0xffffffff)throw Error('Native physics entry ECX is not an x86 value.');raw.memory.writeUInt32LE(ecx,raw.scratchBase-4);}
  const providedTimeOptions=context.timeOptionsFor??(()=>({})),timeOptionsFor=raw?body=>({...providedTimeOptions(body),nativeState:sharedMath}):providedTimeOptions,bodies=()=>physicalGroup.bodies.slice(0,physicalGroup.count??physicalGroup.bodies.length);
  const effectHandlers={...handlers,onActiveVehicleEffect:handlers.onActiveVehicleEffect??(({body,directionQ8,effectCode})=>{
   if(typeof context.activeVehicleEffectFor!=='function')throw Error('Active vehicle effect requires explicit target state and lookup.');
@@ -182,6 +185,12 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
   //475630 saves main EBP (the filtered delta) at S-40h. The next4279d0
   //refresh consumes that same word as its intentionally uninitialized scalar.
   beforeInvalidate:raw?(_first,_second,delta)=>raw.memory.writeInt32LE(delta|0,raw.scratchBase-0x40):undefined,
+  //474ac0/474b20 use the PUSH ECX slot (entryESP-4) for the mutable
+  //filtered delta;474ae7 then replaces it with the surviving first body.
+  //The final POP ECX returns this slot, including after negative deltas.
+  beforeFilter:raw?(_event,delta)=>raw.memory.writeInt32LE(delta|0,raw.scratchBase-4):undefined,
+  onPromotedDelta:raw?(_event,delta)=>raw.memory.writeInt32LE(delta|0,raw.scratchBase-4):undefined,
+  afterRespond:raw?event=>raw.memory.writeUInt32LE(event.object1?.address??0,raw.scratchBase-4):undefined,
   refresh:(first,second)=>{report.regeneratedEvents+=refreshCollisionCandidates(first,second,candidateGroups,candidateOptions);},
   finish:()=>{for(const body of physicalGroup.bodies){if(!body)break;report.finishedBodies+=finishBodyAdvancement([body],advancementHandlers,timeOptionsFor(body));}}
  };

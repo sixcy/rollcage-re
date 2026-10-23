@@ -16,6 +16,36 @@ opaque heap pointers retain their original identities. Ordinary recovery
 defers clone, route-profile, and allocation/audio context until their genuine
 branches request them.
 
+## Later checkpoint captures
+
+The capture preparer accepts `through: 'drive' | 'auxiliary' | 'cameras' |
+'world-effects'`. Later stops require a contiguous checkpoint prefix, the
+same actual thread/clock/parent saves and ESP, independently proved guarded
+pointer reads, and a terminal bound only at the selected final checkpoint.
+All reached checkpoints observe their own original outputs; replay consumes
+only entry bytes. The default remains `drive`.
+
+Two new captures reached all13 snapshots and closed their owned processes
+in about50 and47 seconds. All171 installed/copied files still match their
+original hashes after each run. The v2 capture matches AI, prefix, physics,
+attachments, ordinary recovery and drive with5,100,223 unique semantic bytes
+at each tail checkpoint, then stops at physically missing animation RNG
+`5ed008/4`. A coverage audit proves the seed was absent; no initial seed is
+substituted. The initial overlapping-alias replay failure is retained; the
+checker now subtracts already declared module intervals before admission.
+
+The v3 profile observes that exact current seed. Its different selected
+HIGH/LEV3 scenario reaches an unbound vehicle sound-creation continuation
+before physics, so it does not establish the joined animation/camera stages.
+Its independently replayed physics segment matches5,124,163 declared bytes
+plus the corrected four-byte collision local; see
+[ECX/local evidence and limits](native-physics-return-local.md).
+Neither capture proves native camera/weather or final-parent source parity.
+
+Reports: `analysis/native-parent-late-v2-disjoint-alias-replay-20261023/`,
+`analysis/native-parent-late-v3-correct-return-local-20261023/`, and
+`analysis/native-parent-late-v3-independent-physics-local-20261023/`.
+
 ## Original-process result
 
 The saved `parent-tail-v1-20261023` run contains a six-car original process at

@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "method": "source-carried-parent-entry-through-world-effects",
+  "through": "world-effects",
+  "completeParentTickMatched": false,
+  "authority": "original-process-with-declared-instrumentation",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\parent-late-v2-20261023",
+  "evidenceIds": [
+    "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+    "ev_af519c4d443ad65b6ae8066d61eea98c1f5242aa2835d3fbe2e8fa35a296c87a",
+    "ev_f08386f4020e57d6e2a41f90bce9df1ad490f3435d356c2025255d706bb3e5cb",
+    "ev_4a4edee4ab502be5275e2dfefbfaad87bb3ab0e0fa4502261960b9326bbfb350",
+    "ev_104654f1dbc3eae81c62597014604e6c8439c9b8b66d9605dcf54650c673b345",
+    "ev_1f3b2b4b88c5173f7746442a040809cb58c17b54ac0528372848d87ec17426b9",
+    "ev_255742ceb7426477a454604795323fd22b147f084598308c1ed1eadd3f741a8a",
+    "ev_74cf530de140cce396ceb52b8b8fa307af6367c48618e76c10e8913823a175ea",
+    "ev_4502f565cb85fa0e089f28625c9dbeca4c74d6daec4887fb4b753378fa3580aa",
+    "ev_b9ab8b14c0affb661a9411d957ed11316ec5017676e0587a0224e8440a223faa",
+    "ev_46d22bb690247378da4f778dc7ea56d10aafe43ef53e5bf7d3f0e5974134e7fe",
+    "ev_25d0e08b400dae142d89ded057f0f7b25b9df9eed938ad18ddd58fa099caa2ac",
+    "ev_8c7dd04a8afc52e84554e55a8065848aa8e15f7f8afcd28c2f59a1970bd47c82"
+  ],
+  "matched": false,
+  "sourceComplete": false,
+  "frames": [
+    {
+      "beforeOrdinal": 4,
+      "logicalClock": 288,
+      "stages": [],
+      "error": "Error: Captured-memory aliases overlap.\n    at createCapturedMemory (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:61:98)\n    at buildNativeFrameManifest (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-manifest.mjs:204:3)\n    at replayNativeControlPrefix (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-control-continuation.mjs:201:127)\n    at replayNativeControlThroughPhysics (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-control-physics.mjs:14:20)\n    at checkNativeParentTail (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/check-native-parent-tail.mjs:35:20)\n    at async file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/check-native-parent-tail.mjs:72:18",
+      "replayStage": "joined-control-prefix"
+    }
+  ],
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 6881,
+    "snapshots": 13,
+    "elapsedMs": 50127
+  },
+  "limits": [
+    "Only450e50 entry through world-effects is attempted; final parent return, clock advancement and the next tick remain open.",
+    "All replay inputs come from parent entry; intermediate/exit native bytes are comparison-only.",
+    "Full private CPU/CRT ABI and unobserved scenarios are not established by checkpoint memory parity."
+  ],
+  "comparedFrames": 0
+}

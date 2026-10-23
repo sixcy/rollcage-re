@@ -20,6 +20,10 @@ try{
   await page.locator('#image').setInputFiles(path.join(installation,'IDXData/Rollcage.img'));
   await page.locator('#index').setInputFiles(path.join(installation,'IDXData/Rollcage.idx'));
   await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='ready');
+  assert.equal(await page.locator('#practice-ai-count').inputValue(),'3');
+  assert.equal((await page.evaluate(()=>window.rollcageViewer.inspect())).practice.cars.length,3);
+  await page.locator('#practice-ai-count').press('End');
+  await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.cars.length===6);
   const inspect=()=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>resolve(window.rollcageViewer.inspect()))));
   assert.equal(await page.locator('#practice-weapons').isChecked(),true);
   await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.weapons?.enabled&&window.rollcageViewer.inspect().practice?.state==='ready');

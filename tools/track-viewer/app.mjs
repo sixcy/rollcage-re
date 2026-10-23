@@ -17,7 +17,7 @@ const setDisabled = (id, disabled) => {const output = element(id); if (output.di
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
 let sourceKind = 'pc';
-let practice = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
+let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
 const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
@@ -34,6 +34,7 @@ function help() {
 }
 function clearScene() {
   practice?.dispose(); practice = null;
+  practiceInputs = null;
   renderedPractice = null;
   renderedAlpha = 1; followedCarIndex = 0;
   scene = null; selectedTrack = null; renderer?.clear();
@@ -52,6 +53,8 @@ function updatePractice() {
   if (selector.options.length !== carCount) selector.replaceChildren(...Array.from({length: carCount}, (_, index) => new Option(`Car ${index + 1}`, String(index))));
   if (selector.value !== String(followedCarIndex)) selector.value = String(followedCarIndex);
   setDisabled('practice-car', !usable);
+  setDisabled('practice-ai-count', !practiceInputs);
+  setText('practice-ai-count-value', element('practice-ai-count').value);
   setText('practice-follow-label', `Follow car ${followedCarIndex + 1}`);
   setText('camera-follow', `Follow car ${followedCarIndex + 1}`);
   const difficulty = ['Easy', 'Hard', 'Expert'][value?.aiDifficulty];
@@ -114,6 +117,24 @@ function updatePaths() {
   element('path-color').hidden = index === -1 || !available;
   if (index !== -1 && available) element('path-color').style.color = pathColor(index);
 }
+function restartPractice() {
+  if (!practiceInputs) return;
+  practice?.dispose(); practice = null; renderedPractice = null; renderedAlpha = 1; lastFrame = 0;
+  let failure;
+  try {
+    const count = Number(element('practice-ai-count').value);
+    const session = createSession(practiceInputs.geometry, practiceInputs.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
+    try {renderer.setCar(session.assets);} catch (error) {session.dispose(); throw error;}
+    practice = new SoloController(session);
+    followedCarIndex = Math.min(followedCarIndex, count - 1);
+    if (navigation.mode === 'follow') followCar(true);
+  } catch (error) {
+    renderer.clearCar();
+    failure = `Racing test unavailable: ${errorText(error)}`;
+  }
+  updatePractice(); updatePaths(); help();
+  if (failure) element('practice-error').textContent = failure;
+}
 async function loadTrack() {
   const token = ++generation, source = archive, adapter = game, track = availableTracks.find(track => track.index === Number(element('track').value));
   if (!source || !track || !adapter) return;
@@ -140,9 +161,8 @@ async function loadTrack() {
         const geometry = await source.readResource(track.index);
         const texture = await source.readResource(track.textureIndex);
         if (token !== generation) return;
-        const session = createSession(geometry.data, texture.data, {vehicleTypes: [0,1,2,3,4,5], aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
-        try { renderer.setCar(session.assets); } catch (error) {session.dispose(); throw error;}
-        practice = new SoloController(session);
+        practiceInputs = {geometry: geometry.data, texture: texture.data};
+        restartPractice();
       } catch (error) {
         if (token === generation) element('practice-error').textContent = `Racing test unavailable: ${errorText(error)}`;
       }
@@ -235,6 +255,12 @@ element('practice-reset').addEventListener('click', () => {
 });
 element('practice-weapons').addEventListener('change', () => {
   releaseMouse(); practice?.pause(); loadTrack();
+});
+element('practice-ai-count').addEventListener('input', () => {
+  setText('practice-ai-count-value', element('practice-ai-count').value);
+});
+element('practice-ai-count').addEventListener('change', () => {
+  releaseMouse(); restartPractice();
 });
 element('practice-step').addEventListener('click', () => {
   if (!practice || !['ready', 'paused'].includes(practice.state)) return;

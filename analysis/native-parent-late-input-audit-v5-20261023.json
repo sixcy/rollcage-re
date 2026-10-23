@@ -1,0 +1,105 @@
+{
+  "method": "source-known-late-input-extents-versus-original-parent-entry-coverage",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/parent-late-v5-sound19-tls-20261023",
+  "originalEntryOrdinal": 4,
+  "moduleBaseAddress": 7208960,
+  "newModuleDescriptors": [
+    {
+      "id": "late-debris-blend-source",
+      "preferredAddress": 6212016,
+      "length": 4,
+      "comparison": "read-only",
+      "evidence": "475e67 MOV EAX,[5ec9b0], then475e6d publishes original DWORD to91d3fc; retained291",
+      "address": 9226672,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-camera-motion-flags",
+      "preferredAddress": 7313200,
+      "length": 16,
+      "comparison": "mutable",
+      "evidence": "4180a0 four per-camera motion flags, indexed only by native1..4 stage domain",
+      "address": 10327856,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-camera-motion-vectors",
+      "preferredAddress": 7313216,
+      "length": 48,
+      "comparison": "mutable",
+      "evidence": "4180a0 four three-DWORD per-camera motion vectors",
+      "address": 10327872,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-camera-default-up-vector",
+      "preferredAddress": 6202612,
+      "length": 12,
+      "comparison": "read-only",
+      "evidence": "4180a0 default up vector; retained9001 explicitly reads12 original bytes; no replacement initialization",
+      "address": 9217268,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-camera-viewport-smoothing-5dc664",
+      "preferredAddress": 6145636,
+      "length": 4,
+      "comparison": "read-only",
+      "evidence": "406d28/406d35 MULSS original binary32 viewport blending inputs; retained3515",
+      "address": 9160292,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-camera-viewport-smoothing-5dc75c",
+      "preferredAddress": 6145884,
+      "length": 4,
+      "comparison": "read-only",
+      "evidence": "406d28/406d35 MULSS original binary32 viewport blending inputs; retained3515",
+      "address": 9160540,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-camera-clip-flags",
+      "preferredAddress": 7234912,
+      "length": 4,
+      "comparison": "mutable",
+      "evidence": "426e20 writes full DWORD clip flag0 or40h",
+      "address": 10249568,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-weather-extra-participant-pose",
+      "preferredAddress": 8445440,
+      "length": 216,
+      "comparison": "mutable",
+      "evidence": "496830 passes80de00 to41bf40, which copies exactly54 DWORDs and publishes pose/matrix within that extent",
+      "address": 11460096,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    },
+    {
+      "id": "late-retirement-position",
+      "preferredAddress": 7321940,
+      "length": 6,
+      "comparison": "mutable",
+      "evidence": "435ba0 mask40 stores three position WORDs at6fb954/956/958",
+      "address": 10336596,
+      "physicallyCaptured": false,
+      "admittedByActualCoverage": false
+    }
+  ],
+  "totalBytes": 314,
+  "limits": [
+    "Static consumer domains, not claims that every conditional branch ran.",
+    "No absent input admitted; no replacement values or native output bytes.",
+    "Application RTTI and nullable graphs still need actual typed boundary/producer evidence."
+  ]
+}

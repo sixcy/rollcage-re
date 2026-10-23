@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "method": "failed-original-worker-window-v17-null-envelope-forensic-audit",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\controlled-recovery-worker-gain-window-v17-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "traceSha256": "10741d195b4c1f275cde4b2e8067738643a29f941cb7ebcc9ace394e411461ac",
+  "configurationSha256": "82b60efafac42ae357dadc057e2f3021495c53a61ae4539b298201ee13370e39",
+  "immutableHelper": {
+    "file": "analysis/native-physics-local/startup-20261022/worker-gain-window-runner-v17-20261023/native-physics-debugger.cs",
+    "sha256": "a5bb8f27331c8ecd42e81ff70b7a396cd1c7240d1047fda94effd2ff47931ba0"
+  },
+  "captureSucceeded": false,
+  "entryExitPairVerified": false,
+  "sourceReplayAttempted": false,
+  "fullGainMatched": false,
+  "fullPrivateAbiMatched": false,
+  "sameParentInterleavingClaimed": false,
+  "emittedBlobVerification": {
+    "files": 1542,
+    "bytes": 110421806,
+    "allHashesMatch": true,
+    "mismatches": []
+  },
+  "ownedProcess": {
+    "type": "owned-process",
+    "pid": 14248,
+    "tid": 42396,
+    "showWindow": false,
+    "elapsedMs": 6
+  },
+  "activation": {
+    "type": "observation-activation-complete",
+    "breakpointId": "controlled-recovery-caller",
+    "rawHit": 229,
+    "tid": 42396,
+    "observedDebugEventOrdinal": 2390,
+    "snapshotCount": 232,
+    "installed": [
+      {
+        "id": "worker-gain-entry",
+        "address": "0x007912d0"
+      },
+      {
+        "id": "worker-gain-exit",
+        "address": "0x00791990"
+      },
+      {
+        "id": "worker-gain-spatial-exit",
+        "address": "0x00791919"
+      }
+    ],
+    "beforeOriginalInstruction": true,
+    "guardActionCompleted": true,
+    "elapsedMs": 42784
+  },
+  "selectedParent": {
+    "candidateIndex": 1,
+    "frameTid": 42396,
+    "frameEntryEsp": "0x00d8fba4",
+    "frameReturnAddress": "0x00731021",
+    "frameMatchingHit": 1,
+    "observedEventHits": 1,
+    "qualifyingEventSnapshots": 1,
+    "nestedSnapshots": 0,
+    "type": "pending-frame-selected",
+    "firstOrdinal": 233,
+    "lastOrdinal": 235,
+    "bufferedBytes": 110210532,
+    "elapsedMs": 42976
+  },
+  "parentRetained": {
+    "type": "worker-gain-window-parent-retained",
+    "activationDebugEventOrdinal": 2390,
+    "parentStartDebugEventOrdinal": 2392,
+    "parentEndDebugEventOrdinal": 2398,
+    "sameParentInterleavingClaimed": false,
+    "elapsedMs": 42976
+  },
+  "workerEntryGate": {
+    "type": "owned-worker-gain-window-abi-checked",
+    "breakpointId": "worker-gain-entry",
+    "pid": 14248,
+    "tid": 23068,
+    "observedDebugEventOrdinal": 2400,
+    "entry": true,
+    "callerMatched": true,
+    "stackAddress": "0x0ef0f96c",
+    "stackBytesHex": "2c72780040d0bb1700000000",
+    "readBeforeSnapshotRanges": true,
+    "counterMutation": false,
+    "elapsedMs": 42977
+  },
+  "workerEntryArguments": {
+    "returnAddress": 7893548,
+    "sourcePointer": 398184512,
+    "force": 0,
+    "normalExitSnapshotPresent": false,
+    "entrySnapshotPresent": false
+  },
+  "workerCreateThread": {
+    "type": "debug-event",
+    "event": 2,
+    "pid": 14248,
+    "tid": 23068,
+    "ordinal": 372,
+    "elapsedMs": 642
+  },
+  "workerAdmissionRecords": 0,
+  "workerPublishedSnapshots": 0,
+  "publishedSnapshots": 235,
+  "completionPresent": false,
+  "fatal": {
+    "type": "capture-error",
+    "error": "System.NullReferenceException: Object reference not set to an instance of an object.\r\n   at RollcageCapture.NativeDebugger.ReadBufferedSnapshot(Options options, PendingFrameProgress progress, IntPtr process, IntPtr thread, UInt32 mainBase, Breakpoint hit, UInt32 tid, Dictionary`2 regs, IntPtr context, Dictionary`2 predicate, String role, Int64 elapsedMs, Int32 debugOrdinal, Action`1 separateReserve)\r\n   at RollcageCapture.NativeDebugger.ReadWorkerWindowSnapshot(Options options, OwnedWorkerGainWindowProgress window, IntPtr process, IntPtr thread, UInt32 mainBase, Breakpoint hit, UInt32 tid, Dictionary`2 regs, IntPtr context, String role, Int64 elapsedMs, Int32 debugOrdinal)\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+    "events": 2400,
+    "snapshots": 235,
+    "pendingFrame": null,
+    "elapsedMs": 42978
+  },
+  "ownedCleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 14248,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 43026
+  },
+  "diagnosis": {
+    "cause": "ReadWorkerWindowSnapshot intentionally passes null PendingFrameProgress for independent scope. ReadBufferedSnapshot initializer unconditionally reads progress.qualifyingEventSnapshots, throwing before footprint queries, service/native input reads, endpoint commit or publication.",
+    "faultExpression": "eventIndex = progress.qualifyingEventSnapshots",
+    "omittedNestedIdsCause": false,
+    "actualDefaultNestedIds": "Typed Options initializer provides empty array; independent policy accepted and parent retained.",
+    "workerSchedulingFailureClaimed": false,
+    "workerEntryReachedAfterParent": true,
+    "limits": [
+      "ABI gate and CREATE_THREAD identity are retained; entry source ranges/context and full manager/TID-root admission were not published.",
+      "No normal-exit observation exists and no worker source replay is permitted.",
+      "Independent observation after the parent does not establish same-parent or complete concurrency."
+    ]
+  },
+  "correction": {
+    "method": "Pure shared CreateBufferedSnapshotEnvelope validates independent policy, entry/exit role and separate reservation before permitting null parent progress; eventIndex zero, no fabricated parent object. Other null/default combinations fail closed. Actual reader and post-guard activation call tested pure helpers.",
+    "tests": "tests/native-worker-gain-window-null-contract.test.mjs",
+    "nativeFixtureLaunched": false,
+    "gameLaunchedByThisAgent": false
+  }
+}

@@ -13,7 +13,7 @@ import {publishAnimationMatrix} from './vehicle-auxiliary-animation.mjs';
 import {queryRawRespawnPlacement} from './raw-respawn-query.mjs';
 import {abs32} from './fixed-integer.mjs';
 import {computeWormholeFixedRoot} from './wormhole-targeting.mjs';
-import {copyToNativeMemory} from './native-memory-spans.mjs';
+import {copyToNativeMemory,resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const word = (m, p, v) => m.writeUInt16LE(v & 65535, p), short = v => (v << 16) >> 16;
@@ -32,7 +32,7 @@ export function updateCamera(index, runtime) {
   const child = depth => ({...runtime, scratchBase: frame - depth});
   put(m, frame + 0xc4, get(m, 0x5e8890) ^ (scratchBase - 188)); put(m, frame + 0x28, 0);
   put(m, frame + 0x5c, get(m, 0x5ec120 + index * 4)); put(m, frame + 0x14, index); put(m, frame + 0x24, row);
-  put(m, frame + 0x1c, 0x909300 + Math.imul(get(m, frame + 0x5c), 0x30c)); put(m, frame + 0x6c, get(m, camera + 0x3c)); put(m, frame + 0x50, trunc32(m.readFloatLE(0x91ceb0)));
+  put(m, frame + 0x1c, resolveNativeMemoryAddress(m,0x909300+Math.imul(get(m,frame+0x5c),0x30c),4)); put(m, frame + 0x6c, get(m, camera + 0x3c)); put(m, frame + 0x50, trunc32(m.readFloatLE(0x91ceb0)));
   if (typeof runtime.handlers?.formatCameraName !== 'function') throw Error('Camera update requires CRT player-name formatting.');
   runtime.handlers.formatCameraName(frame + 0xa4, 0x5d043c, index, child(16));
   if (selectCameraTrigger(index, camera + 0x36, camera + 0x174, child(8))) {put(m, camera, 16); word(m, camera + 0x32, 0);}

@@ -1,0 +1,2493 @@
+{
+  "schemaVersion": 1,
+  "method": "source-carried-parent-entry-through-world-effects",
+  "through": "world-effects",
+  "completeParentTickMatched": false,
+  "authority": "original-process-with-declared-instrumentation",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\startup-20261022\\parent-late-v3-20261023",
+  "evidenceIds": [
+    "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f",
+    "ev_af519c4d443ad65b6ae8066d61eea98c1f5242aa2835d3fbe2e8fa35a296c87a",
+    "ev_f08386f4020e57d6e2a41f90bce9df1ad490f3435d356c2025255d706bb3e5cb",
+    "ev_4a4edee4ab502be5275e2dfefbfaad87bb3ab0e0fa4502261960b9326bbfb350",
+    "ev_104654f1dbc3eae81c62597014604e6c8439c9b8b66d9605dcf54650c673b345",
+    "ev_1f3b2b4b88c5173f7746442a040809cb58c17b54ac0528372848d87ec17426b9",
+    "ev_255742ceb7426477a454604795323fd22b147f084598308c1ed1eadd3f741a8a",
+    "ev_74cf530de140cce396ceb52b8b8fa307af6367c48618e76c10e8913823a175ea",
+    "ev_4502f565cb85fa0e089f28625c9dbeca4c74d6daec4887fb4b753378fa3580aa",
+    "ev_b9ab8b14c0affb661a9411d957ed11316ec5017676e0587a0224e8440a223faa",
+    "ev_46d22bb690247378da4f778dc7ea56d10aafe43ef53e5bf7d3f0e5974134e7fe",
+    "ev_25d0e08b400dae142d89ded057f0f7b25b9df9eed938ad18ddd58fa099caa2ac",
+    "ev_8c7dd04a8afc52e84554e55a8065848aa8e15f7f8afcd28c2f59a1970bd47c82"
+  ],
+  "matched": false,
+  "sourceComplete": false,
+  "frames": [
+    {
+      "beforeOrdinal": 4,
+      "logicalClock": 288,
+      "stages": [],
+      "afterAi": {
+        "matched": true,
+        "bytesCompared": 5129119,
+        "uniqueBytesCompared": 5104411,
+        "overlappingComparedBytes": 24708,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 0,
+        "differingParentAbiBytes": 0,
+        "firstDivergence": null,
+        "regions": [
+          {
+            "id": "frame-pools",
+            "address": 12462972,
+            "length": 884,
+            "differingBytes": 0
+          },
+          {
+            "id": "shape-pools-and-planes",
+            "address": 12576640,
+            "length": 2592,
+            "differingBytes": 0
+          },
+          {
+            "id": "body-arena-allocation",
+            "address": 10251072,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "body-arena-size-input",
+            "address": 10393608,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "body-arena-cursor",
+            "address": 10411252,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "participant-records",
+            "address": 12489472,
+            "length": 4680,
+            "differingBytes": 0
+          },
+          {
+            "id": "session-root",
+            "address": 9227036,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "configuration-root",
+            "address": 9228028,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "pack-roots",
+            "address": 12499312,
+            "length": 36,
+            "differingBytes": 0
+          },
+          {
+            "id": "runtime-geometry-roots",
+            "address": 12489280,
+            "length": 132,
+            "differingBytes": 0
+          },
+          {
+            "id": "particle-roots",
+            "address": 10249652,
+            "length": 24,
+            "differingBytes": 0
+          },
+          {
+            "id": "skid-roots",
+            "address": 11703760,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "effect-rng",
+            "address": 9226580,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "attachment-count",
+            "address": 10251168,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "attachment-queue",
+            "address": 12460096,
+            "length": 1024,
+            "differingBytes": 0
+          },
+          {
+            "id": "body-registry",
+            "address": 10412544,
+            "length": 2048,
+            "differingBytes": 0
+          },
+          {
+            "id": "time-state",
+            "address": 11473280,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "gravity",
+            "address": 9221600,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "clock",
+            "address": 12494152,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "first-effect-and-matrix",
+            "address": 12569952,
+            "length": 144,
+            "differingBytes": 0
+          },
+          {
+            "id": "second-effect",
+            "address": 12538828,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "vector-scratch",
+            "address": 12571488,
+            "length": 260,
+            "differingBytes": 0
+          },
+          {
+            "id": "border-scratch",
+            "address": 12524544,
+            "length": 40,
+            "differingBytes": 0
+          },
+          {
+            "id": "wheel-query-scratch",
+            "address": 10433248,
+            "length": 448,
+            "differingBytes": 0
+          },
+          {
+            "id": "world-record-count",
+            "address": 12584932,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "world-records",
+            "address": 12584960,
+            "length": 800,
+            "differingBytes": 0
+          },
+          {
+            "id": "rotation-scale",
+            "address": 9160180,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "normalization-one",
+            "address": 9160564,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "normalization-scale",
+            "address": 9161352,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sqrt-table",
+            "address": 9220752,
+            "length": 384,
+            "differingBytes": 0
+          },
+          {
+            "id": "surface-effect-threshold",
+            "address": 9161084,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "effect-color-scale-first",
+            "address": 9228984,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "effect-color-scale-second",
+            "address": 9228992,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "rear-effect-frame",
+            "address": 12554244,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "active-effect-lookup-root",
+            "address": 10432896,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "trig-table",
+            "address": 8737320,
+            "length": 808,
+            "differingBytes": 0
+          },
+          {
+            "id": "yaw-table",
+            "address": 9228336,
+            "length": 642,
+            "differingBytes": 0
+          },
+          {
+            "id": "active-vehicle-owners",
+            "address": 11703776,
+            "length": 840,
+            "differingBytes": 0
+          },
+          {
+            "id": "particle-quality-count",
+            "address": 9221376,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "particle-allocation-root",
+            "address": 12538820,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "particle-allocation-end",
+            "address": 12554252,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "contact-thresholds",
+            "address": 8717696,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-owner-vector-roots",
+            "address": 10298388,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "recovery-rng-difficulty",
+            "address": 9217236,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "recovery-profile-root",
+            "address": 12580512,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-bank-roots",
+            "address": 10251220,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-manager-root",
+            "address": 10439432,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-scale-first",
+            "address": 9160120,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-scale-second",
+            "address": 9160144,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-scale-third",
+            "address": 9160156,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-scale-fourth",
+            "address": 9160168,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-scale-fifth",
+            "address": 9160928,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-scale-sixth",
+            "address": 9160992,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "sound-volume-inputs",
+            "address": 9227696,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "retirement-terrain-flag",
+            "address": 9228980,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "retirement-particle-input",
+            "address": 12538816,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "retirement-effect-input",
+            "address": 12554248,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "light-registry-first",
+            "address": 11465232,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "light-registry-second",
+            "address": 11465756,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "retirement-light-records",
+            "address": 11470560,
+            "length": 580,
+            "differingBytes": 0
+          },
+          {
+            "id": "collision-events",
+            "address": 144553936,
+            "length": 10400,
+            "differingBytes": 0
+          },
+          {
+            "id": "collision-heap",
+            "address": 146344736,
+            "length": 404,
+            "differingBytes": 0
+          },
+          {
+            "id": "collision-free",
+            "address": 146635776,
+            "length": 400,
+            "differingBytes": 0
+          },
+          {
+            "id": "shape-records",
+            "address": 147506768,
+            "length": 18432,
+            "differingBytes": 0
+          },
+          {
+            "id": "shape-indices",
+            "address": 281787272,
+            "length": 768,
+            "differingBytes": 0
+          },
+          {
+            "id": "candidate-arena",
+            "address": 147951616,
+            "length": 32768,
+            "differingBytes": 0
+          },
+          {
+            "id": "physical-body-list",
+            "address": 146590864,
+            "length": 384,
+            "differingBytes": 0
+          },
+          {
+            "id": "candidate-group-lists",
+            "address": 292548824,
+            "length": 8456,
+            "differingBytes": 0
+          },
+          {
+            "id": "body-arena-allocation-bytes",
+            "address": 285515808,
+            "length": 4450016,
+            "differingBytes": 0
+          },
+          {
+            "id": "session",
+            "address": 11704928,
+            "length": 1424,
+            "differingBytes": 0
+          },
+          {
+            "id": "configuration",
+            "address": 11696608,
+            "length": 112,
+            "differingBytes": 0
+          },
+          {
+            "id": "terrain-pack-header",
+            "address": 12489280,
+            "length": 160,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-attachment-scratch-bfcdf0",
+            "address": 12570096,
+            "length": 160,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-attachment-scratch-bfce94",
+            "address": 12570260,
+            "length": 1228,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-type2-pointer-domain-aee660",
+            "address": 11462240,
+            "length": 2992,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-type2-pointer-domain-aef214",
+            "address": 11465236,
+            "length": 520,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-type2-pointer-domain-aef420",
+            "address": 11465760,
+            "length": 4800,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-type2-pointer-domain-af0924",
+            "address": 11471140,
+            "length": 2140,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-type2-pointer-domain-af1190",
+            "address": 11473296,
+            "length": 5328,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-recovery-clone-context-9eeb00",
+            "address": 10414848,
+            "length": 17576,
+            "differingBytes": 0
+          },
+          {
+            "id": "tail-pickup-transitions-bf1ba0",
+            "address": 12524448,
+            "length": 96,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-records-bfff80",
+            "address": 12582784,
+            "length": 1552,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-auxiliary-controls-be9060",
+            "address": 12488800,
+            "length": 456,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-participants-8cc120",
+            "address": 9224480,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-policy-bfce90",
+            "address": 12570256,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-observer-count-9c6550",
+            "address": 10249552,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-observers-bff6c0",
+            "address": 12580544,
+            "length": 2240,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-observer-fallback-c005a0",
+            "address": 12584352,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-clone-output-9d9a00",
+            "address": 10328576,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-clone-body-9d9a20",
+            "address": 10328608,
+            "length": 384,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-curve-recovery-9d9720",
+            "address": 10327840,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-curve-directions-9d9850",
+            "address": 10328144,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-curve-origins-9d9880",
+            "address": 10328192,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-curve-targets-9d98b0",
+            "address": 10328240,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-curve-points-9d98f0",
+            "address": 10328304,
+            "length": 240,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-curve-progress-9d99e0",
+            "address": 10328544,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-factorials-9d9bc0",
+            "address": 10329024,
+            "length": 52,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-viewport-singletons-9cfb38",
+            "address": 10287928,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-renderer-manager-root-9c6388",
+            "address": 10249096,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-viewport-double-gate-9c6c04",
+            "address": 10251268,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-clip-planes-9db440",
+            "address": 10335296,
+            "length": 64,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-packed-extent-bfd594",
+            "address": 12572052,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-distance-bfd50a",
+            "address": 12571914,
+            "length": 2,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-volumes-aedde0",
+            "address": 11460064,
+            "length": 28,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-brightness-mode-aededc",
+            "address": 11460316,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-brightness-rng-8cd2bc",
+            "address": 9228988,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-state-9c6cc8",
+            "address": 10251464,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-counter-enabled-9c6c8c",
+            "address": 10251404,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-performance-origin-9f35a4",
+            "address": 10433956,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-screen-root-9f35b4",
+            "address": 10433972,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-position-backup-9f36c4",
+            "address": 10434244,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-matrix-velocity-backup-9f3750",
+            "address": 10434384,
+            "length": 44,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-ground-query-times-9f30c0",
+            "address": 10432704,
+            "length": 24,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-vehicle-overlay-records-b0eda0",
+            "address": 11595168,
+            "length": 101424,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-world-fragment-flags-b29940",
+            "address": 11704640,
+            "length": 36,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-world-fragment-pointers-b29980",
+            "address": 11704704,
+            "length": 144,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-world-fragment-shapes-b29a20",
+            "address": 11704864,
+            "length": 60,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-world-fragment-counters-9c6bc8",
+            "address": 10251208,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-queue-c005d8",
+            "address": 12584408,
+            "length": 522,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-work-roots-bff1a0",
+            "address": 12579232,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-phase-8ca4dc",
+            "address": 9217244,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-index-9c6558",
+            "address": 10249560,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-persistent-emitters-9df140",
+            "address": 10350912,
+            "length": 200,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-attachment-effect-counts-9c6b1c",
+            "address": 10251036,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-attachment-effect-queue-observation-be2f00",
+            "address": 12463872,
+            "length": 1024,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-terrain-animation-roots-beb994",
+            "address": 12499348,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-vehicle-light-state-9c6ca4",
+            "address": 10251428,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-animation-rng-8cd008",
+            "address": 9228296,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-listener-records-b29480",
+            "address": 11703424,
+            "length": 336,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-listener-vector-9d2408",
+            "address": 10298376,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-master-volume-8ccdb8",
+            "address": 9227704,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-countdown-9db9a4",
+            "address": 10336676,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-phase-cache-9c6ba4",
+            "address": 10251172,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-launch-frame-counter-9f2fbc",
+            "address": 10432444,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-logical-time-counter-9c675c",
+            "address": 10250076,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-name-format-8b043c",
+            "address": 9110588,
+            "length": 10,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-player-name-8b0254",
+            "address": 9110100,
+            "length": 9,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dc598-8bc598",
+            "address": 9160088,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dc5d4-8bc5d4",
+            "address": 9160148,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dc620-8bc620",
+            "address": 9160224,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dc640-8bc640",
+            "address": 9160256,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dc6ec-8bc6ec",
+            "address": 9160428,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dca18-8bca18",
+            "address": 9161240,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dc5f0-8bc5f0",
+            "address": 9160176,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-scalar-5dca34-8bca34",
+            "address": 9161268,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-0-8504cc",
+            "address": 8717516,
+            "length": 6,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-1-850464",
+            "address": 8717412,
+            "length": 6,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-2-8cac34",
+            "address": 9219124,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-3-850500",
+            "address": 8717568,
+            "length": 64,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-4-850490",
+            "address": 8717456,
+            "length": 10,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-5-85049c",
+            "address": 8717468,
+            "length": 10,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-6-8504d4",
+            "address": 8717524,
+            "length": 34,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-7-8504a8",
+            "address": 8717480,
+            "length": 34,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-8-85046c",
+            "address": 8717420,
+            "length": 34,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-9-8cabf0",
+            "address": 9219056,
+            "length": 40,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-10-8bc7a0",
+            "address": 9160608,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-11-8bc6c8",
+            "address": 9160392,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-12-8bc888",
+            "address": 9160840,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-camera-table-13-8bcf60",
+            "address": 9162592,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-application-header",
+            "address": 10441840,
+            "length": 132,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-renderer-manager-header",
+            "address": 19790552,
+            "length": 56,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-weather-screen-allocation",
+            "address": 398173432,
+            "length": 5120,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-model-fragment-allocation",
+            "address": 286130944,
+            "length": 24576,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-auxiliary-allocation",
+            "address": 396079880,
+            "length": 672,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-workspace0",
+            "address": 278744640,
+            "length": 2048,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-workspace1",
+            "address": 278746688,
+            "length": 2048,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-workspace2",
+            "address": 278748736,
+            "length": 2048,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-destruction-workspace3",
+            "address": 278750784,
+            "length": 2048,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-terrain-animation-allocation",
+            "address": 396052544,
+            "length": 24576,
+            "differingBytes": 0
+          },
+          {
+            "id": "late-light-attenuation-allocation",
+            "address": 148078600,
+            "length": 4096,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-wormhole-root-aeb5e0",
+            "address": 11449824,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-pickup-roots-be2020",
+            "address": 12460064,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-projectile-roots-be34a0",
+            "address": 12465312,
+            "length": 96,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-terrain-wave-gate-becb80",
+            "address": 12503936,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-security-cookie-8c8890",
+            "address": 9210000,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-time-effect-output-9c6cac",
+            "address": 10251436,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-target-registry-observation-b0e880",
+            "address": 11593856,
+            "length": 128,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-target-counts-b0e900",
+            "address": 11593984,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-pickup-controller-observation-bfd480",
+            "address": 12571776,
+            "length": 50,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-periodic-state-be3510",
+            "address": 12465424,
+            "length": 20,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-periodic-selector-9c6af8",
+            "address": 10251000,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-procedural-handle-8cd02c",
+            "address": 9228332,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-procedural-clock-8cd2c4",
+            "address": 9228996,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "drive-render-angle-table-850720",
+            "address": 8718112,
+            "length": 16384,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-packet-0-9c7edc",
+            "address": 10256092,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-ready-0-9c7880",
+            "address": 10254464,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-current-sample-0-9c78b0",
+            "address": 10254512,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-history-0-9c7bd8",
+            "address": 10255320,
+            "length": 768,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-address-0-9c788c",
+            "address": 10254476,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-packet-1-9c8558",
+            "address": 10257752,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-ready-1-9c7efc",
+            "address": 10256124,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-current-sample-1-9c7f2c",
+            "address": 10256172,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-history-1-9c8254",
+            "address": 10256980,
+            "length": 768,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-address-1-9c7f08",
+            "address": 10256136,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-packet-2-9c8bd4",
+            "address": 10259412,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-ready-2-9c8578",
+            "address": 10257784,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-current-sample-2-9c85a8",
+            "address": 10257832,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-history-2-9c88d0",
+            "address": 10258640,
+            "length": 768,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-address-2-9c8584",
+            "address": 10257796,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-packet-3-9c9250",
+            "address": 10261072,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-ready-3-9c8bf4",
+            "address": 10259444,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-current-sample-3-9c8c24",
+            "address": 10259492,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-history-3-9c8f4c",
+            "address": 10260300,
+            "length": 768,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-address-3-9c8c00",
+            "address": 10259456,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-packet-4-9c98cc",
+            "address": 10262732,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-ready-4-9c9270",
+            "address": 10261104,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-current-sample-4-9c92a0",
+            "address": 10261152,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-history-4-9c95c8",
+            "address": 10261960,
+            "length": 768,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-address-4-9c927c",
+            "address": 10261116,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-packet-5-9c9f48",
+            "address": 10264392,
+            "length": 12,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-ready-5-9c98ec",
+            "address": 10262764,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-current-sample-5-9c991c",
+            "address": 10262812,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-history-5-9c9c44",
+            "address": 10263620,
+            "length": 768,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-peer-address-5-9c98f8",
+            "address": 10262776,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-local-sample-0-9c7ac4",
+            "address": 10255044,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-local-sample-1-9c8140",
+            "address": 10256704,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-local-sample-2-9c87bc",
+            "address": 10258364,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-local-sample-3-9c8e38",
+            "address": 10260024,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-history-clock-9ca69c",
+            "address": 10266268,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-sample-fallback-8cb518",
+            "address": 9221400,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-analog-initialized-9c65b0",
+            "address": 10249648,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-analog-table-9db740",
+            "address": 10336064,
+            "length": 516,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-replay-decode-8506a0",
+            "address": 8717984,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-pickup-probabilities-8504f8",
+            "address": 8717560,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-weapon-thresholds-850540",
+            "address": 8717632,
+            "length": 64,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-weapon-thresholds-850590",
+            "address": 8717712,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-pickup-shifts-8505b0",
+            "address": 8717744,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-candidate-weights-8505d0",
+            "address": 8717776,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-profile-thresholds-8505f0",
+            "address": 8717808,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-object-fade-table-850600",
+            "address": 8717824,
+            "length": 96,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-object-effect-masks-850660",
+            "address": 8717920,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-digital-throttle-850680",
+            "address": 8717952,
+            "length": 32,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-digital-brake-8506c0",
+            "address": 8718016,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-digital-steering-8506d0",
+            "address": 8718032,
+            "length": 33,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-shared-and-obstacle-counts-9c650e",
+            "address": 10249486,
+            "length": 22,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-start-count-9c65a8",
+            "address": 10249640,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-route-queue-cursors-9c6cc0",
+            "address": 10251456,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-route-queue-points-aedf20",
+            "address": 11460384,
+            "length": 40,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-route-queue-groups-aedf60",
+            "address": 11460448,
+            "length": 40,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-route-visited-9f36d0",
+            "address": 10434256,
+            "length": 128,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-special-durations-bff1c0",
+            "address": 12579264,
+            "length": 20,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-candidates-bff1e0",
+            "address": 12579296,
+            "length": 1040,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-special-points-bff600",
+            "address": 12580352,
+            "length": 160,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-candidate-directions-9db3a0",
+            "address": 10335136,
+            "length": 160,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-nearby-body-distance-c00ec0",
+            "address": 12586688,
+            "length": 144,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-nearby-body-indices-c00f60",
+            "address": 12586848,
+            "length": 36,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-stage-difficulty-c00f84",
+            "address": 12586884,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-obstacle-registry-observation-c00b40",
+            "address": 12585792,
+            "length": 600,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-obstacle-distance-observation-c00da0",
+            "address": 12586400,
+            "length": 200,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-obstacle-indices-observation-c00e80",
+            "address": 12586624,
+            "length": 50,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-ai-obstacle-polygon-pointer-pool-9d95a0",
+            "address": 10327456,
+            "length": 240,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-world-fragment-registry-root-b29a5c",
+            "address": 11704924,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-selected-player-9c9f70",
+            "address": 10264432,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-network-flags-9cafe0",
+            "address": 10268640,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-deformation-root-count-aedf00",
+            "address": 11460352,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-authored-controller-and-list-bfe740",
+            "address": 12576576,
+            "length": 64,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-vehicle-audio-and-horn-records-9f3190",
+            "address": 10432912,
+            "length": 336,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-vehicle-audio-collision-state-8cced0",
+            "address": 9227984,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-vehicle-boost-sound-9c6bdc",
+            "address": 10251228,
+            "length": 1,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-notification-interface-root-9c6d10",
+            "address": 10251536,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-notification-sequence-9c65db",
+            "address": 10249691,
+            "length": 1,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-notification-local-address-9c9f74",
+            "address": 10264436,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-notification-address-default-8c8280",
+            "address": 9208448,
+            "length": 10,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-notification-socket-template-9d2424",
+            "address": 10298404,
+            "length": 20,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-notification-separator-8b049c",
+            "address": 9110684,
+            "length": 3,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-notification-history-9caedc",
+            "address": 10268380,
+            "length": 260,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-0-8550a0",
+            "address": 8736928,
+            "length": 392,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-1-8cce28",
+            "address": 9227816,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-2-8ccde0",
+            "address": 9227744,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-3-8cced8",
+            "address": 9227992,
+            "length": 36,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-4-8ccea4",
+            "address": 9227940,
+            "length": 44,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-5-8cce70",
+            "address": 9227888,
+            "length": 52,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-6-8ccdbc",
+            "address": 9227708,
+            "length": 36,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-audio-table-10-8bcb10",
+            "address": 9161488,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-constant-factor-8bc684",
+            "address": 9160324,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-constant-step-8bc730",
+            "address": 9160496,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-constant-exponent-8bc890",
+            "address": 9160848,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-input-constant-initial-8bc9d4",
+            "address": 9161172,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3eb8020-3eb8020",
+            "address": 65765408,
+            "length": 8448,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ebb524-3ebb524",
+            "address": 65778980,
+            "length": 8624,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ebd810-3ebd810",
+            "address": 65787920,
+            "length": 13920,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ec2fc8-3ec2fc8",
+            "address": 65810376,
+            "length": 14504,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ec6a80-3ec6a80",
+            "address": 65825408,
+            "length": 16224,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ecd950-3ecd950",
+            "address": 65853776,
+            "length": 17072,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ed1f00-3ed1f00",
+            "address": 65871616,
+            "length": 8416,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ed57a4-3ed57a4",
+            "address": 65886116,
+            "length": 8856,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ed7bc0-3ed7bc0",
+            "address": 65895360,
+            "length": 9376,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3edb68c-3edb68c",
+            "address": 65910412,
+            "length": 9840,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3edde60-3edde60",
+            "address": 65920608,
+            "length": 9056,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ee1c14-3ee1c14",
+            "address": 65936404,
+            "length": 9512,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ee42e0-3ee42e0",
+            "address": 65946336,
+            "length": 1120,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ee4910-3ee4910",
+            "address": 65947920,
+            "length": 1224,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ee4e00-3ee4e00",
+            "address": 65949184,
+            "length": 2144,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ee5a04-3ee5a04",
+            "address": 65952260,
+            "length": 2312,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ee6350-3ee6350",
+            "address": 65954640,
+            "length": 16224,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3eecd38-3eecd38",
+            "address": 65981752,
+            "length": 17072,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ef1290-3ef1290",
+            "address": 65999504,
+            "length": 160,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ef1398-3ef1398",
+            "address": 65999768,
+            "length": 144,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ef1440-3ef1440",
+            "address": 65999936,
+            "length": 864,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ef1a08-3ef1a08",
+            "address": 66001416,
+            "length": 952,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ef1df0-3ef1df0",
+            "address": 66002416,
+            "length": 11040,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3ef6ed8-3ef6ed8",
+            "address": 66023128,
+            "length": 12240,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3efa110-3efa110",
+            "address": 66035984,
+            "length": 14176,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f00848-3f00848",
+            "address": 66062408,
+            "length": 15576,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f04820-3f04820",
+            "address": 66078752,
+            "length": 3168,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f05bc4-3f05bc4",
+            "address": 66083780,
+            "length": 3400,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f06980-3f06980",
+            "address": 66087296,
+            "length": 7008,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f09ce0-3f09ce0",
+            "address": 66100448,
+            "length": 7760,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f0bcb0-3f0bcb0",
+            "address": 66108592,
+            "length": 992,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f0c2d8-3f0c2d8",
+            "address": 66110168,
+            "length": 1088,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f0c740-3f0c740",
+            "address": 66111296,
+            "length": 1376,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f0d0ac-3f0d0ac",
+            "address": 66113708,
+            "length": 1496,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f0d6d0-3f0d6d0",
+            "address": 66115280,
+            "length": 1760,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f0e354-3f0e354",
+            "address": 66118484,
+            "length": 1904,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f1efb0-3f1efb0",
+            "address": 66187184,
+            "length": 15364,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f22bb8-3f22bb8",
+            "address": 66202552,
+            "length": 16044,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f26b44-3f26b44",
+            "address": 66218820,
+            "length": 80,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f26f10-3f26f10",
+            "address": 66219792,
+            "length": 144,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f27020-3f27020",
+            "address": 66220064,
+            "length": 242,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f27114-3f27114",
+            "address": 66220308,
+            "length": 1280,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f278bc-3f278bc",
+            "address": 66222268,
+            "length": 192,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f279f8-3f279f8",
+            "address": 66222584,
+            "length": 1424,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28234-3f28234",
+            "address": 66224692,
+            "length": 192,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28374-3f28374",
+            "address": 66225012,
+            "length": 1448,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f289c0-3f289c0",
+            "address": 66226624,
+            "length": 40,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f289ec-3f289ec",
+            "address": 66226668,
+            "length": 65,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28a30-3f28a30",
+            "address": 66226736,
+            "length": 248,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28bfc-3f28bfc",
+            "address": 66227196,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28ca4-3f28ca4",
+            "address": 66227364,
+            "length": 74,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28cf0-3f28cf0",
+            "address": 66227440,
+            "length": 320,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28f44-3f28f44",
+            "address": 66228036,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f28fec-3f28fec",
+            "address": 66228204,
+            "length": 74,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f29038-3f29038",
+            "address": 66228280,
+            "length": 384,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f29478-3f29478",
+            "address": 66229368,
+            "length": 80,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f29510-3f29510",
+            "address": 66229520,
+            "length": 160,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f29638-3f29638",
+            "address": 66229816,
+            "length": 410,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f297d4-3f297d4",
+            "address": 66230228,
+            "length": 1088,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f29c2c-3f29c2c",
+            "address": 66231340,
+            "length": 80,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f29f50-3f29f50",
+            "address": 66232144,
+            "length": 240,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2a0c8-3f2a0c8",
+            "address": 66232520,
+            "length": 410,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2a264-3f2a264",
+            "address": 66232932,
+            "length": 1064,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2a694-3f2a694",
+            "address": 66234004,
+            "length": 128,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2a744-3f2a744",
+            "address": 66234180,
+            "length": 48,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2a7b4-3f2a7b4",
+            "address": 66234292,
+            "length": 200,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2aa34-3f2aa34",
+            "address": 66234932,
+            "length": 88,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2aaa4-3f2aaa4",
+            "address": 66235044,
+            "length": 2256,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2b444-3f2b444",
+            "address": 66237508,
+            "length": 80,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2b554-3f2b554",
+            "address": 66237780,
+            "length": 40,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2b6e4-3f2b6e4",
+            "address": 66238180,
+            "length": 256,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2b87c-3f2b87c",
+            "address": 66238588,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2b8dc-3f2b8dc",
+            "address": 66238684,
+            "length": 574,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2bb1c-3f2bb1c",
+            "address": 66239260,
+            "length": 1600,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2c234-3f2c234",
+            "address": 66241076,
+            "length": 80,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2c3e8-3f2c3e8",
+            "address": 66241512,
+            "length": 29,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f2c408-3f2c408",
+            "address": 66241544,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f31abc-3f31abc",
+            "address": 66263740,
+            "length": 80,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f31ba8-3f31ba8",
+            "address": 66263976,
+            "length": 96,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f31c80-3f31c80",
+            "address": 66264192,
+            "length": 404,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f87ac0-3f87ac0",
+            "address": 66616000,
+            "length": 30720,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92324-3f92324",
+            "address": 66659108,
+            "length": 1312,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92884-3f92884",
+            "address": 66660484,
+            "length": 1212,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92d64-3f92d64",
+            "address": 66661732,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92d78-3f92d78",
+            "address": 66661752,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92dbc-3f92dbc",
+            "address": 66661820,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92dc8-3f92dc8",
+            "address": 66661832,
+            "length": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92e34-3f92e34",
+            "address": 66661940,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f92eb0-3f92eb0",
+            "address": 66662064,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f94778-3f94778",
+            "address": 66668408,
+            "length": 4096,
+            "differingBytes": 0
+          },
+          {
+            "id": "native-geometry-3f9ec34-3f9ec34",
+            "address": 66710580,
+            "length": 1244,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-groups-3f92f2c",
+            "address": 66662188,
+            "length": 108,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-1-3f92f98",
+            "address": 66662296,
+            "length": 1520,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-2-3f93588",
+            "address": 66663816,
+            "length": 624,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-3-3f937f8",
+            "address": 66664440,
+            "length": 592,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-4-3f93a48",
+            "address": 66665032,
+            "length": 608,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-5-3f93ca8",
+            "address": 66665640,
+            "length": 352,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-6-3f93e08",
+            "address": 66665992,
+            "length": 128,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-7-3f93e88",
+            "address": 66666120,
+            "length": 128,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-route-points-8-3f93f08",
+            "address": 66666248,
+            "length": 128,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-ai-marker-rows-3f9f110",
+            "address": 66711824,
+            "length": 240,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-ai-authored-target-rows-3f9f200",
+            "address": 66712064,
+            "length": 240,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-structure-fragment-registry-179bb1d0",
+            "address": 396079568,
+            "length": 288,
+            "differingBytes": 0
+          }
+        ],
+        "protectedControlBytes": 720,
+        "owned": [
+          {
+            "id": "control-car0-handling",
+            "address": 287118660,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car0-ai-state",
+            "address": 287118784,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car0-axes-controls",
+            "address": 287118856,
+            "length": 28,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car0-rank-scale",
+            "address": 287129144,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car1-handling",
+            "address": 287354052,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car1-ai-state",
+            "address": 287354176,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car1-axes-controls",
+            "address": 287354248,
+            "length": 28,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car1-rank-scale",
+            "address": 287364536,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car2-handling",
+            "address": 287558852,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car2-ai-state",
+            "address": 287558976,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car2-axes-controls",
+            "address": 287559048,
+            "length": 28,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car2-rank-scale",
+            "address": 287569336,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car3-handling",
+            "address": 287769412,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car3-ai-state",
+            "address": 287769536,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car3-axes-controls",
+            "address": 287769608,
+            "length": 28,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car3-rank-scale",
+            "address": 287779896,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car4-handling",
+            "address": 287962564,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car4-ai-state",
+            "address": 287962688,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car4-axes-controls",
+            "address": 287962760,
+            "length": 28,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car4-rank-scale",
+            "address": 287973048,
+            "length": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car5-handling",
+            "address": 288179396,
+            "length": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car5-ai-state",
+            "address": 288179520,
+            "length": 72,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car5-axes-controls",
+            "address": 288179592,
+            "length": 28,
+            "differingBytes": 0
+          },
+          {
+            "id": "control-car5-rank-scale",
+            "address": 288189880,
+            "length": 4,
+            "differingBytes": 0
+          }
+        ]
+      },
+      "error": "Error: Native485300 reached unbound 484bb0/40ea40 creation/play continuation; no observed sound output or null replacement is supplied.\n    at fail (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-control-audio.mjs:8:43)\n    at Object.call484bb0 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-control-audio.mjs:62:38)\n    at invoke (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/vehicle-audio.mjs:45:46)\n    at result (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/vehicle-audio.mjs:60:22)\n    at emit (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/vehicle-audio.mjs:83:92)\n    at updateVehicleAudio (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/vehicle-audio.mjs:256:29)\n    at 485300 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-control-continuation.mjs:159:143)\n    at Object.call485300 (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-frame-control-continuation.mjs:179:47)\n    at call (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/race-update.mjs:52:46)\n    at runRaceUpdate (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/race-update.mjs:114:5)",
+      "replayStage": "joined-control-prefix"
+    }
+  ],
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 6912,
+    "snapshots": 13,
+    "elapsedMs": 47440
+  },
+  "limits": [
+    "Only450e50 entry through world-effects is attempted; final parent return, clock advancement and the next tick remain open.",
+    "All replay inputs come from parent entry; intermediate/exit native bytes are comparison-only.",
+    "Full private CPU/CRT ABI and unobserved scenarios are not established by checkpoint memory parity."
+  ],
+  "comparedFrames": 0
+}

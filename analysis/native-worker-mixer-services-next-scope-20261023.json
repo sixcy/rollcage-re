@@ -1,0 +1,582 @@
+{
+  "schemaVersion": 1,
+  "method": "original-v18-input-and-retained-worker-service-observer-scope-audit",
+  "planningOnly": true,
+  "newCapturePolicyImplemented": false,
+  "newCaptureConfigurationPrepared": false,
+  "csharpChanged": false,
+  "gameOrNativeFixtureLaunched": false,
+  "externalOutcomesApplied": 0,
+  "wholeGainReplayComplete": false,
+  "fullBackgroundProducerClosed": false,
+  "evidence": {
+    "verified": true,
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "evidenceIds": [
+      "ev_eac9ff725da5b429d1f90e874490926ceef93a2ca4f26eb7938ffe308096eda4",
+      "ev_35935a81e3d27abdbe4c01dcb9472274a0946bbf0aa0f131b3ef48f0122ed686",
+      "ev_eeb10330a2806c100dc56b346e60938e556d1d7106cd62279eaf87e0cbc1a181"
+    ],
+    "checkedInstructions": 33
+  },
+  "originalInput": {
+    "captureDirectory": "analysis/native-physics-local/startup-20261022/controlled-recovery-worker-gain-window-v18-20261023",
+    "ordinal": 236,
+    "tid": 37368,
+    "contextSha256": "2e325121937edfe04a9d6d344773b63c521915893769d99c625eb503e904ff48",
+    "moduleBaseAddress": 7208960,
+    "gainEntryEsp": 243006668,
+    "source": 385795624,
+    "manager": 141529992,
+    "sourceMixerId": 1,
+    "win32AtGainEntry": {
+      "bytesHex": "fffffffffeffffff01000000f89100000000000000100000",
+      "debugInfo": 4294967295,
+      "lockCount": -2,
+      "recursion": 1,
+      "ownerTid": 37368,
+      "semaphore": 0,
+      "spinCount": 4096,
+      "actualNativePreServiceStateCaptured": false,
+      "waiterCountInferred": false
+    },
+    "gameWrapperAtGainEntry": {
+      "depth": 1,
+      "owner": 37368
+    },
+    "mixerVector": {
+      "headerAddress": 141526968,
+      "begin": 141607744,
+      "end": 141607760,
+      "capacity": 141607760,
+      "usedCount": 4,
+      "capacityCount": 4,
+      "pointers": [
+        141610248,
+        141607432,
+        141607536,
+        141607640
+      ],
+      "pointedToObjectsCaptured": false
+    }
+  },
+  "layouts": [
+    {
+      "planningOnly": true,
+      "capturePolicyImplemented": false,
+      "lookup": 1,
+      "gainEntryEsp": 243006668,
+      "parameterFrame": 243006296,
+      "lookupEntryEsp": 243006288,
+      "frameEsp": 243006272,
+      "lookupCaller": 7934724,
+      "lockAddress": 141532124,
+      "win32Span": {
+        "address": 141532124,
+        "length": 24
+      },
+      "gameWrapperSpan": {
+        "address": 141532148,
+        "length": 8
+      },
+      "services": [
+        {
+          "api": "EnterCriticalSection",
+          "preCallEsp": 243006268,
+          "serviceEntryEsp": 243006264,
+          "postCallEsp": 243006272,
+          "returnAddress": 7895557,
+          "args": [
+            141532124
+          ],
+          "returnValueDefined": false
+        },
+        {
+          "api": "GetCurrentThreadId",
+          "preCallEsp": 243006272,
+          "serviceEntryEsp": 243006268,
+          "postCallEsp": 243006272,
+          "returnAddress": 7895563,
+          "args": [],
+          "returnValueDefined": true
+        },
+        {
+          "api": "LeaveCriticalSection",
+          "preCallEsp": 243006268,
+          "serviceEntryEsp": 243006264,
+          "postCallEsp": 243006272,
+          "returnAddress": 7895635,
+          "args": [
+            141532124
+          ],
+          "returnValueDefined": false
+        }
+      ],
+      "sites": [
+        {
+          "id": "enter-before",
+          "preferredAddress": 4880895,
+          "esp": 243006268,
+          "role": "pre-call",
+          "apis": [
+            "EnterCriticalSection"
+          ],
+          "argumentWords": 1,
+          "address": 7895551,
+          "callerWordAddress": 243006288,
+          "callerWord": 7934724,
+          "mixerIdWordAddress": 243006292,
+          "stackBytesThroughMixerId": 28
+        },
+        {
+          "id": "enter-after-thread-before",
+          "preferredAddress": 4880901,
+          "esp": 243006272,
+          "role": "post-call-and-pre-call",
+          "apis": [
+            "EnterCriticalSection",
+            "GetCurrentThreadId"
+          ],
+          "argumentWords": 0,
+          "address": 7895557,
+          "callerWordAddress": 243006288,
+          "callerWord": 7934724,
+          "mixerIdWordAddress": 243006292,
+          "stackBytesThroughMixerId": 24
+        },
+        {
+          "id": "thread-after",
+          "preferredAddress": 4880907,
+          "esp": 243006272,
+          "role": "post-call-before-game-wrapper-stores",
+          "apis": [
+            "GetCurrentThreadId"
+          ],
+          "argumentWords": 0,
+          "address": 7895563,
+          "callerWordAddress": 243006288,
+          "callerWord": 7934724,
+          "mixerIdWordAddress": 243006292,
+          "stackBytesThroughMixerId": 24
+        },
+        {
+          "id": "leave-before",
+          "preferredAddress": 4880973,
+          "esp": 243006268,
+          "role": "pre-call",
+          "apis": [
+            "LeaveCriticalSection"
+          ],
+          "argumentWords": 1,
+          "address": 7895629,
+          "callerWordAddress": 243006288,
+          "callerWord": 7934724,
+          "mixerIdWordAddress": 243006292,
+          "stackBytesThroughMixerId": 28
+        },
+        {
+          "id": "leave-after",
+          "preferredAddress": 4880979,
+          "esp": 243006272,
+          "role": "post-call-before-game-pops",
+          "apis": [
+            "LeaveCriticalSection"
+          ],
+          "argumentWords": 0,
+          "address": 7895635,
+          "callerWordAddress": 243006288,
+          "callerWord": 7934724,
+          "mixerIdWordAddress": 243006292,
+          "stackBytesThroughMixerId": 24
+        }
+      ],
+      "gameStores": [
+        {
+          "preferredAddress": 4880907,
+          "operation": "increment wrapper depth",
+          "address": 141532148
+        },
+        {
+          "preferredAddress": 4880910,
+          "operation": "store returned TID",
+          "address": 141532152
+        },
+        {
+          "preferredAddress": 4880960,
+          "operation": "decrement wrapper depth",
+          "address": 141532148
+        },
+        {
+          "preferredAddress": 4880965,
+          "operation": "clear wrapper owner only when depth becomes zero",
+          "address": 141532152
+        }
+      ],
+      "limits": [
+        "Layout is derived from retained game instructions; it does not prove these services were observed.",
+        "A service outcome must match its exact before ABI and 24-byte Win32 preimage. The following eight bytes remain game-owned.",
+        "No void EAX result is invented; GetCurrentThreadId requires the actual owned caller identity.",
+        "The second lookup is a later possible nonspatial path; reached mixer/waveform/voice inputs remain mandatory."
+      ]
+    },
+    {
+      "planningOnly": true,
+      "capturePolicyImplemented": false,
+      "lookup": 2,
+      "gainEntryEsp": 243006668,
+      "parameterFrame": 243006296,
+      "lookupEntryEsp": 243006260,
+      "frameEsp": 243006244,
+      "lookupCaller": 7896225,
+      "lockAddress": 141532124,
+      "win32Span": {
+        "address": 141532124,
+        "length": 24
+      },
+      "gameWrapperSpan": {
+        "address": 141532148,
+        "length": 8
+      },
+      "services": [
+        {
+          "api": "EnterCriticalSection",
+          "preCallEsp": 243006240,
+          "serviceEntryEsp": 243006236,
+          "postCallEsp": 243006244,
+          "returnAddress": 7895557,
+          "args": [
+            141532124
+          ],
+          "returnValueDefined": false
+        },
+        {
+          "api": "GetCurrentThreadId",
+          "preCallEsp": 243006244,
+          "serviceEntryEsp": 243006240,
+          "postCallEsp": 243006244,
+          "returnAddress": 7895563,
+          "args": [],
+          "returnValueDefined": true
+        },
+        {
+          "api": "LeaveCriticalSection",
+          "preCallEsp": 243006240,
+          "serviceEntryEsp": 243006236,
+          "postCallEsp": 243006244,
+          "returnAddress": 7895635,
+          "args": [
+            141532124
+          ],
+          "returnValueDefined": false
+        }
+      ],
+      "sites": [
+        {
+          "id": "enter-before",
+          "preferredAddress": 4880895,
+          "esp": 243006240,
+          "role": "pre-call",
+          "apis": [
+            "EnterCriticalSection"
+          ],
+          "argumentWords": 1,
+          "address": 7895551,
+          "callerWordAddress": 243006260,
+          "callerWord": 7896225,
+          "mixerIdWordAddress": 243006264,
+          "stackBytesThroughMixerId": 28
+        },
+        {
+          "id": "enter-after-thread-before",
+          "preferredAddress": 4880901,
+          "esp": 243006244,
+          "role": "post-call-and-pre-call",
+          "apis": [
+            "EnterCriticalSection",
+            "GetCurrentThreadId"
+          ],
+          "argumentWords": 0,
+          "address": 7895557,
+          "callerWordAddress": 243006260,
+          "callerWord": 7896225,
+          "mixerIdWordAddress": 243006264,
+          "stackBytesThroughMixerId": 24
+        },
+        {
+          "id": "thread-after",
+          "preferredAddress": 4880907,
+          "esp": 243006244,
+          "role": "post-call-before-game-wrapper-stores",
+          "apis": [
+            "GetCurrentThreadId"
+          ],
+          "argumentWords": 0,
+          "address": 7895563,
+          "callerWordAddress": 243006260,
+          "callerWord": 7896225,
+          "mixerIdWordAddress": 243006264,
+          "stackBytesThroughMixerId": 24
+        },
+        {
+          "id": "leave-before",
+          "preferredAddress": 4880973,
+          "esp": 243006240,
+          "role": "pre-call",
+          "apis": [
+            "LeaveCriticalSection"
+          ],
+          "argumentWords": 1,
+          "address": 7895629,
+          "callerWordAddress": 243006260,
+          "callerWord": 7896225,
+          "mixerIdWordAddress": 243006264,
+          "stackBytesThroughMixerId": 28
+        },
+        {
+          "id": "leave-after",
+          "preferredAddress": 4880979,
+          "esp": 243006244,
+          "role": "post-call-before-game-pops",
+          "apis": [
+            "LeaveCriticalSection"
+          ],
+          "argumentWords": 0,
+          "address": 7895635,
+          "callerWordAddress": 243006260,
+          "callerWord": 7896225,
+          "mixerIdWordAddress": 243006264,
+          "stackBytesThroughMixerId": 24
+        }
+      ],
+      "gameStores": [
+        {
+          "preferredAddress": 4880907,
+          "operation": "increment wrapper depth",
+          "address": 141532148
+        },
+        {
+          "preferredAddress": 4880910,
+          "operation": "store returned TID",
+          "address": 141532152
+        },
+        {
+          "preferredAddress": 4880960,
+          "operation": "decrement wrapper depth",
+          "address": 141532148
+        },
+        {
+          "preferredAddress": 4880965,
+          "operation": "clear wrapper owner only when depth becomes zero",
+          "address": 141532152
+        }
+      ],
+      "limits": [
+        "Layout is derived from retained game instructions; it does not prove these services were observed.",
+        "A service outcome must match its exact before ABI and 24-byte Win32 preimage. The following eight bytes remain game-owned.",
+        "No void EAX result is invented; GetCurrentThreadId requires the actual owned caller identity.",
+        "The second lookup is a later possible nonspatial path; reached mixer/waveform/voice inputs remain mandatory."
+      ]
+    }
+  ],
+  "proposedPolicy": {
+    "requiresNewExplicitCsharpExtension": true,
+    "implemented": false,
+    "scope": "Only same open owned-worker gain call; original TID/CREATE_THREAD/source/manager/G/caller/force preserved.",
+    "sites": [
+      {
+        "id": "enter-before",
+        "preferredAddress": 4880895,
+        "stackLength": 28
+      },
+      {
+        "id": "enter-after-thread-before",
+        "preferredAddress": 4880901,
+        "stackLength": 24
+      },
+      {
+        "id": "thread-after",
+        "preferredAddress": 4880907,
+        "stackLength": 24
+      },
+      {
+        "id": "leave-before",
+        "preferredAddress": 4880973,
+        "stackLength": 28
+      },
+      {
+        "id": "leave-after",
+        "preferredAddress": 4880979,
+        "stackLength": 24
+      }
+    ],
+    "maxServiceSnapshots": 10,
+    "maxMixerVisitSnapshots": 8,
+    "maxAdditionalWaveformReadSnapshots": 1,
+    "preserveGlobalDurationMs": 90000,
+    "preserveGlobalSnapshots": 350,
+    "preserveWorkerBufferBytes": 262144,
+    "preserveCombinedBufferBytes": 134217728,
+    "sameParentInterleavingClaimed": false,
+    "minimumExistingModeRanges": [
+      {
+        "id": "lookup-stack",
+        "baseRegister": "esp",
+        "length": "28 before Enter/Leave; 24 at return/shared GetTID sites"
+      },
+      {
+        "id": "lookup-win32-lock",
+        "baseRegister": "edi",
+        "length": 24
+      },
+      {
+        "id": "lookup-game-wrapper",
+        "baseRegister": "edi",
+        "offset": "24",
+        "length": 8
+      },
+      {
+        "id": "lookup-manager-root",
+        "rva": "0x314b08",
+        "length": 4
+      },
+      {
+        "id": "lookup-owned-worker-tid",
+        "rva": "0x314b08",
+        "dereferenceOffsets": [
+          "0",
+          "0x824"
+        ],
+        "offset": "0x24",
+        "length": 4
+      },
+      {
+        "id": "lookup-mixer-header",
+        "rva": "0x314b08",
+        "dereferenceOffsets": [
+          "0",
+          "0x84c"
+        ],
+        "length": 12
+      },
+      {
+        "id": "iat-16e090",
+        "rva": "0x16e090",
+        "length": 4
+      },
+      {
+        "id": "iat-16e094",
+        "rva": "0x16e094",
+        "length": 4
+      },
+      {
+        "id": "iat-16e09c",
+        "rva": "0x16e09c",
+        "length": 4
+      }
+    ]
+  },
+  "typedOutcomeRules": {
+    "EnterCriticalSection": "Exact actual worker ABI/target/order/24B preimage before admitting observed Win32-only outcome; no void-EAX zero or uncontended-lock assumption.",
+    "GetCurrentThreadId": "Calling worker ID is defined return; no lock/wrapper/vector changes attributed to this getter.",
+    "LeaveCriticalSection": "Exact same-call ownership/stack/24B preimage; observed Win32-only outcome, preserve separate game stores.",
+    "gameWrapper": "Source executes INC/MOV/DEC/conditional-clear; never copy native post-service wrapper bytes.",
+    "concurrency": "Changed game pointers/wrapper/header/slots remain producer gaps. Do not merge later storage as earlier input. OS waiter changes outside matching Enter/Leave require separate honest provenance, not GetTID outcomes."
+  },
+  "nextInputSites": [
+    {
+      "address": "4a7a26",
+      "kind": "genuine mixer ID child inputs",
+      "ranges": [
+        {
+          "baseRegister": "esi",
+          "length": 4
+        },
+        {
+          "baseRegister": "ecx",
+          "length": 64
+        },
+        {
+          "baseRegister": "ecx",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 40
+        }
+      ],
+      "validation": "Actual visited slot points to ECX in current header/list; same lookup caller/G/TID and supported real vtable/getter targets."
+    },
+    {
+      "address": "4a7c57",
+      "kind": "reached nonnull waveform sample-rate input",
+      "ranges": [
+        {
+          "baseRegister": "eax",
+          "offset": "12",
+          "length": 4
+        }
+      ],
+      "validation": "After original native null test; ESI bound source and EAX equals its current964. No unconditional nullable chase."
+    }
+  ],
+  "laterConditionalExternalSites": [
+    {
+      "call": "4b138b",
+      "return": "4b138e",
+      "kind": "XAudio2 SetVolume slot30"
+    },
+    {
+      "call": "4a7d41",
+      "return": "4a7d44",
+      "kind": "XAudio2 frequency slot68"
+    },
+    {
+      "call": "4a7d52",
+      "return": "4a7d57",
+      "kind": "CRT568a60 conversion"
+    },
+    {
+      "call": "4a7d59",
+      "return": "4a7d5c",
+      "kind": "XAudio2 sample-rate slot70"
+    }
+  ],
+  "officialApiContracts": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-entercriticalsection",
+    "https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentthreadid",
+    "https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-leavecriticalsection"
+  ],
+  "tests": {
+    "pass": 3,
+    "fail": 0,
+    "skip": 0,
+    "log": "analysis/native-worker-mixer-service-plan-tests-final-20261023.txt"
+  },
+  "limits": [
+    "V18 has no worker service pre/post snapshots; future source bindings cannot use native gain exit as those outcomes.",
+    "Pure layout and evidence checks are not original service execution evidence.",
+    "No new original process, fixture, C# policy, profile or external adapter was launched/implemented.",
+    "Full worker producer, old concurrency gaps and gain output/private ABI remain unresolved."
+  ],
+  "hashes": [
+    {
+      "file": "tools/lib/native-worker-mixer-service-plan.mjs",
+      "bytes": 5871,
+      "sha256": "dd8f78e8df1e44792e32f5e8d0050731673e70b15a527bc46a1c31c615d1cf84"
+    },
+    {
+      "file": "tests/native-worker-mixer-service-plan.test.mjs",
+      "bytes": 3063,
+      "sha256": "4bfacf45a68b840b0a821351381aa8239f9fefea10a82d9d0f92b59cc22bfe5e"
+    },
+    {
+      "file": "re-docs/native-worker-mixer-service-observer-plan.md",
+      "bytes": 9679,
+      "sha256": "d4e39cc020cd6e77bbef6d2d8f23650975922b4b339f4d7b8d016242bdb6402c"
+    },
+    {
+      "file": "analysis/native-worker-mixer-service-plan-tests-final-20261023.txt",
+      "bytes": 878,
+      "sha256": "e73e7ed2f0e8c40c691bf31038e91bcad19e606045e667887a4b363e612f3cf6"
+    }
+  ]
+}
