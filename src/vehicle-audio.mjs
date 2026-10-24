@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32, multiplyQ16, signedShort} from './fixed-integer.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound, configureSoundPlayback} from './sound-dispatch.mjs';
@@ -80,7 +81,7 @@ export function updateVehicleAudio(initialBody, index, runtime) {
     source(handle, 0x14, [Math.fround(Math.fround(scaled) * memory.readFloatLE(0x5dc5dc))], site, live(native ? pointer(pointer(handle >>> 0)) : undefined, edi));
   };
   const reverb = (handle, site, esi, edi) => invoke('call40e5e0', handle, memory[body + 0x6b4] === 1 ? 1 : 0, [0], site, live(esi, edi));
-  const emit = (code, pitch, gain, mode, velocity = 0, unused = 0, useReverb = 0, site) => result('call484bb0', code, body + 0x34, [velocity, pitch, gain, mode, unused, 0, useReverb], site, live(undefined, undefined));
+  const emit = (code, pitch, gain, mode, velocity = 0, unused = 0, useReverb = 0, site, registers = live(undefined, undefined)) => result('call484bb0', code, body + 0x34, [velocity, pitch, gain, mode, unused, 0, useReverb], site, registers);
   const originalRpm = memory.readInt16LE(audio + 24), contact = (memory[body + 0x4b4] | memory[body + 0x57c]) & 1;
   const throttle = memory[body + 0x64d], hornType = memory[pointer(0x5ecb1c) + index + 0x1c];
   if (native) memory[field(0x13)] = throttle;
@@ -89,7 +90,7 @@ export function updateVehicleAudio(initialBody, index, runtime) {
   put(memory, field(0x3c), (abs32(get(body + 0x5f8)) + abs32(get(body + 0x530))) | 0);
   put(memory, field(0x28), contact); put(memory, field(0x2c), pointer(0x5750a0 + hornType * 4));
   put(memory, field(0x20), get(audio));
-  if (get(0x811180) && get(0x811184) !== body) put(memory, field(0x1c), (65536 - get(0x81118c)) >>> 7);
+  if (get(nativeGlobalAddress(memory, 0x811180)) && get(nativeGlobalAddress(memory, 0x811184)) !== body) put(memory, field(0x1c), (65536 - get(nativeGlobalAddress(memory, 0x81118c))) >>> 7);
 
   let session = pointer(0x5ecb1c);
   if (memory.readInt16LE(session + 0x61c) !== 0 && memory[session + 0x585]) {
@@ -227,16 +228,18 @@ export function updateVehicleAudio(initialBody, index, runtime) {
       let unused = slip;
       if (slipUnits > 6 && memory[body + 0x718] === 10 && memory[body + 0x71e] <= 8) {
         const amount = (((slip >> 18) & 2) | 1) + 4;
-        word(memory, body + 0x71e, 0x108); memory[body + 0x71d] = 40; word(memory, body + 0x71a, (amount * 10) & 255); unused = (slip & ~255) | ((amount << 2) & 255);
+        //486033 SAR ECX,18 precedes the CL operations: its old slip high
+        //bits do not survive in the otherwise-unused fifth sound argument.
+        word(memory, body + 0x71e, 0x108); memory[body + 0x71d] = 40; word(memory, body + 0x71a, (amount * 10) & 255); unused = (amount << 2) & 255;
       }
       const counter = memory.readInt16LE(audio + 38);
       if (counter > 1) {
-        if (counter === 5) emit(firstCode & 255, signedShort(basePitch), 0, 7, 0, unused, 0, 0x48608f);
+        if (counter === 5) emit(firstCode & 255, signedShort(basePitch), 0, 7, 0, unused, 0, 0x48608f, live(surface, rpm));
         if (memory.readInt16LE(audio + 38) > 1) word(memory, audio + 38, memory.readUInt16LE(audio + 38) - 1);
-      } else if (surface === 127) {surface = emit(loopCode & 255, signedShort(basePitch), 0, 9, 0, unused, 0, 0x4860db); memory[audio + 34] = get(field(0x18)) & 255;}
+      } else if (surface === 127) {surface = emit(loopCode & 255, signedShort(basePitch), 0, 9, 0, unused, 0, 0x4860db, {...live(surface, rpm), EAX: loopCode}); memory[audio + 34] = get(field(0x18)) & 255;}
       if (surface !== 127) {
         if (get(field(0x18)) !== memory.readInt8(audio + 34) && memory.readInt16LE(audio + 38) === 1) {
-          source(surface, 0x34, [], 0x486121, live(surface, rpm)); surface = emit(loopCode & 255, -1, 0, 9, 0, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0, 0x486146);
+          source(surface, 0x34, [], 0x486121, live(surface, rpm)); surface = emit(loopCode & 255, -1, 0, 9, 0, memory[body + 0x6b4] === 1 ? 1 : 0, memory[body + 0x6b4] === 1 ? 1 : 0, 0x486146, {...live(surface, rpm), EAX: loopCode});
         }
         if (surface !== 127) {
           reverb(surface, 0x486169, surface, rpm);

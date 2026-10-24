@@ -3,7 +3,7 @@
 import {registerNativeMemorySpans} from '../../src/native-memory-spans.mjs';
 import {validateCapturedGuardedPointerRanges} from './captured-guarded-pointer-ranges.mjs';
 const addressSpace = 0x100000000;
-const methods = {Int8: 1, UInt8: 1, Int16LE: 2, UInt16LE: 2, Int32LE: 4, UInt32LE: 4, FloatLE: 4, DoubleLE: 8, BigInt64LE: 8, BigUInt64LE: 8};
+const methods = {Int8: 1, UInt8: 1, Int16LE: 2, UInt16LE: 2, UInt16BE: 2, Int32LE: 4, UInt32LE: 4, FloatLE: 4, DoubleLE: 8, BigInt64LE: 8, BigUInt64LE: 8};
 const numericKey = key => typeof key === 'string' && /^(0|[1-9][0-9]*)$/.test(key) ? Number(key) : null;
 const validSpan = (address, length) => Number.isSafeInteger(address) && address >= 0 && Number.isSafeInteger(length) && length >= 0 && address + length <= addressSpace;
 
@@ -60,7 +60,8 @@ export function createCapturedMemory(input, {aliases = [], maxMappedBytes = 128 
     const route = declaredRoutes[i];
     if (i && declaredRoutes[i - 1].address + declaredRoutes[i - 1].length > route.address) throw Error('Captured-memory aliases overlap.');
     if (!regions.some(row => route.targetAddress >= row.address && route.targetAddress + route.length <= row.address + row.bytes.length)) throw Error('Alias target is not completely captured.');
-    if (route.address !== route.targetAddress && regions.some(row => route.address < row.address + row.bytes.length && row.address < route.address + route.length)) throw Error('Alias shadows actual captured addresses.');
+    const shadow = route.address !== route.targetAddress && regions.find(row => route.address < row.address + row.bytes.length && row.address < route.address + route.length);
+    if (shadow) throw Error(`Alias shadows actual captured addresses: alias0x${route.address.toString(16)}->0x${route.targetAddress.toString(16)} (${route.length} bytes), actual0x${shadow.address.toString(16)} (${shadow.bytes.length} bytes).`);
   }
   // Identity declarations still require captured targets, but need no routing
   // boundary inside an otherwise contiguous captured region.

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {removeRawParticleSpatial, calculateRawEffectColor} from './body-retirement-effects.mjs';
 const ptr = (m, p) => m.readUInt32LE(p), get = (m, p) => m.readInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p), short = v => (v << 16) >> 16;
 const rng = seed => Math.imul(seed, 0x41a7) & 0x7fffffff;
@@ -105,15 +106,15 @@ export function blendRawEffectColor({memory}) {
 export function advanceRawBodyDebris({memory, maxIterations = 65536}) {
   word(memory, 0x91d404, 500); put(memory, 0x91d3fc, get(memory, 0x5ec9b0));
   for (const offset of [0x91d3b4, 0x91d3b8, 0x91d3bc]) put(memory, offset, 0);
-  let remaining = ptr(memory, 0x902b88), count = remaining, active = ptr(memory, 0x902b80), last = active + (remaining - 1) * 2, index = 0, budget = maxIterations;
+  let remaining = ptr(memory, nativeGlobalAddress(memory, 0x902b88)), count = remaining, active = ptr(memory, nativeGlobalAddress(memory, 0x902b80)), last = active + (remaining - 1) * 2, index = 0, budget = maxIterations;
   while ((index >>> 0) < (remaining >>> 0)) {
     if (--budget < 0) throw Error('Debris advancement budget exceeded.');
-    const p = ptr(memory, 0x902b84) + memory.readUInt16LE(active) * 128, life = memory.readUInt16LE(p + 8); word(memory, p + 8, life - 1);
-    if (life === 3) {removeRawParticleSpatial(p, {memory}); count = ptr(memory, 0x902b88);}
+    const p = ptr(memory, nativeGlobalAddress(memory, 0x902b84)) + memory.readUInt16LE(active) * 128, life = memory.readUInt16LE(p + 8); word(memory, p + 8, life - 1);
+    if (life === 3) {removeRawParticleSpatial(p, {memory}); count = ptr(memory, nativeGlobalAddress(memory, 0x902b88));}
     else if (life === 0) {
-      const id = memory.readUInt16LE(active), freeLast = (get(memory, 0x902b8c) + 1) | 0;
-      count = (count - 1) | 0; put(memory, 0x902b8c, freeLast); put(memory, 0x902b88, count); word(memory, ptr(memory, 0x902b7c) + freeLast * 2, id);
-      word(memory, ptr(memory, 0x902b80) + index * 2, memory.readUInt16LE(last)); last -= 2; remaining--; index--; active -= 2;
+      const id = memory.readUInt16LE(active), freeLast = (get(memory, nativeGlobalAddress(memory, 0x902b8c)) + 1) | 0;
+      count = (count - 1) | 0; put(memory, nativeGlobalAddress(memory, 0x902b8c), freeLast); put(memory, nativeGlobalAddress(memory, 0x902b88), count); word(memory, ptr(memory, nativeGlobalAddress(memory, 0x902b7c)) + freeLast * 2, id);
+      word(memory, ptr(memory, nativeGlobalAddress(memory, 0x902b80)) + index * 2, memory.readUInt16LE(last)); last -= 2; remaining--; index--; active -= 2;
     } else if (life > 3) {
       const position = [0, 4, 8].map(offset => get(memory, p + 0x4c + offset)), velocity = [0, 4, 8].map(offset => get(memory, p + 0x58 + offset));
       for (let axis = 0; axis < 3; axis++) put(memory, p + 0x4c + axis * 4, position[axis] + velocity[axis]);
@@ -123,7 +124,7 @@ export function advanceRawBodyDebris({memory, maxIterations = 65536}) {
         const color = ptr(memory, p + offset); for (let channel = 0; channel < 3; channel++) word(memory, 0x91d408 + channel * 4, (color >>> (channel * 8) & 255) << 4);
         blendRawEffectColor({memory}); put(memory, p + offset, get(memory, 0x91d43c));
       }
-      count = ptr(memory, 0x902b88);
+      count = ptr(memory, nativeGlobalAddress(memory, 0x902b88));
     }
     index++; active += 2;
   }

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {dotQ16, abs32} from './fixed-integer.mjs';
 import {scaleContactVector} from './body-contact-friction.mjs';
 import {writeRouteDirection, autonomousRouteGroup, stepRoutePoint, stepRoutePoints} from './autonomous-route-geometry.mjs';
@@ -258,7 +259,7 @@ export function decideAutonomousItem02(body, timer, {memory, scratchBase}) {
   if (mask || !(memory[body + 0x6ec] & 16)) return 0;
   const eventGate = useEventGate(memory, own, memory.readUInt32LE(0x5ecb1c));
   direction[1] = 0; store(memory, scratchBase - 28, normalize(direction));
-  const objectCount = memory.readInt32LE(0x82e904);
+  const objectCount = memory.readInt32LE(nativeGlobalAddress(memory,0x82e904));
   let row = memory.readUInt32LE(memory.readUInt32LE(0x90b990) + 0xec);
   for (let index = 0; index < objectCount; index++, row += 20) {
     const resource = memory.readUInt32LE(0x90b990), eventCount = memory[resource + 0xf6], events = memory.readUInt32LE(resource + 0xf8), local = memory.readUInt32LE(row), object = memory.readUInt32LE(row + 4), threshold = memory.readInt32LE(0x570560 + profile * 4);
@@ -318,7 +319,7 @@ export function updateAutonomousWeaponPolicy(body, {memory, scratchBase, handler
     else allowSecond = false;
   }
   const decide = (id, timer, flag, slot) => {
-    if (id === 5) return memory.readInt32LE(0x811180) === 0;
+    if (id === 5) return memory.readInt32LE(nativeGlobalAddress(memory, 0x811180)) === 0;
     if (id === 6) return memory.readInt32LE(body + 0x6bc) === -1 || timer >= 50;
     const entry = [0x410780, 0x410f80, 0x411340, 0x410930, 0x411ba0, 0, 0, 0x410c90][id];
     if (!entry) return false;

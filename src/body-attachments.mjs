@@ -1,5 +1,6 @@
 // Native44f050 and its432080 transform. Runtime model point/table producers
 // remain explicit; attachment handles begin at body+16a, rather than a count.
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {removeRawParticleSpatial,registerRawEffectSpatial} from './body-retirement-effects.mjs';
 import {x87FromInt64,x87FromBinary64,x87Multiply,x87Add,x87ToInt32} from './x87-finite.mjs';
 export const ATTACHMENT_SCRATCH_BASE=0x91cdb0;
@@ -59,21 +60,21 @@ export function updateBodyAttachments(queue,options){
 // offset, not an asserted authored-file layout. Queue/table/model constructors
 // remain caller-owned. Spatial registration uses the recovered game routines.
 export function updateRawBodyAttachments({memory,roundingMode,x87PrecisionBits=53}) {
- requireScratch(memory.subarray(ATTACHMENT_SCRATCH_BASE,ATTACHMENT_SCRATCH_BASE+ATTACHMENT_SCRATCH_LENGTH));
+ const scratchAddress=nativeGlobalAddress(memory,ATTACHMENT_SCRATCH_BASE),scratch=memory.subarray(scratchAddress,scratchAddress+ATTACHMENT_SCRATCH_LENGTH);
+ requireScratch(scratch);
  if(!modes.includes(roundingMode))throw Error('Attachments require an explicit x87 rounding mode.');
  const get=p=>memory.readUInt32LE(p),put=(p,value)=>memory.writeInt32LE(value|0,p),word=(p,value)=>memory.writeUInt16LE(value&65535,p);
- const scratch=memory.subarray(ATTACHMENT_SCRATCH_BASE,ATTACHMENT_SCRATCH_BASE+ATTACHMENT_SCRATCH_LENGTH);
  const report={processedBodies:0,transformedPoints:0,type1Writes:0,type2Writes:0,type4Writes:0,spatialMoves:0};
  //Native caches XMM1 once, before its first queue entry.
  const scale=get(0x6e6ba0)?memory.readFloatLE(0x5dc5f4):0;
  for(let index=0;index<get(0x6e6ba0);index++) {
-  const body=get(0x902040+index*4),model=get(body+0x10),points=model+memory.readUInt16LE(model+0x4c);
+  const body=get(nativeGlobalAddress(memory, 0x902040+index*4)),model=get(body+0x10),points=model+memory.readUInt16LE(model+0x4c);
   //Forward DWORD copies retain alias propagation, including the padding word.
   for(let lane=0;lane<5;lane++)put(0x91d360+lane*4,get(body+0xc4+lane*4));
-  for(let lane=0;lane<9;lane++)memory.writeFloatLE(Math.fround(memory.readInt16LE(0x91d360+lane*2)*scale),0x91cdc0+Math.floor(lane/3)*16+(lane%3)*4);
+  for(let lane=0;lane<9;lane++)memory.writeFloatLE(Math.fround(memory.readInt16LE(0x91d360+lane*2)*scale),nativeGlobalAddress(memory,0x91cdc0+Math.floor(lane/3)*16+(lane%3)*4));
   const translation=[0,1,2].map(axis=>memory.readInt16LE(body+0x36+axis*4));
   for(let axis=0;axis<3;axis++)put(0x91d374+axis*4,translation[axis]);
-  for(let axis=0;axis<3;axis++)memory.writeFloatLE(memory.readInt32LE(0x91d374+axis*4),0x91cdb0+axis*4);
+  for(let axis=0;axis<3;axis++)memory.writeFloatLE(memory.readInt32LE(0x91d374+axis*4),nativeGlobalAddress(memory,0x91cdb0+axis*4));
   for(let pointIndex=0;pointIndex<5;pointIndex++) {
    const handle=memory.readUInt16LE(body+0x16a+pointIndex*2),type=handle>>>12,id=handle&4095;
    if(!type)break;
@@ -84,7 +85,7 @@ export function updateRawBodyAttachments({memory,roundingMode,x87PrecisionBits=5
     for(let axis=0;axis<3;axis++)word(target+axis*2,memory.readUInt16LE(0x91d448+axis*4));
     word(target+6,1);report.type1Writes++;
    }else if(type===2) {
-    const target=get(0x80e660+id*4),oldXY=get(target+0x10),oldZ=memory.readInt16LE(target+0x14);
+    const target=get(nativeGlobalAddress(memory,0x80e660+id*4)),oldXY=get(target+0x10),oldZ=memory.readInt16LE(target+0x14);
     for(let axis=0;axis<3;axis++)word(target+0x10+axis*2,memory.readUInt16LE(0x91d448+axis*4));
     const changes=(get(target+0x10)^oldXY)|(memory.readInt16LE(target+0x14)^oldZ);
     if(changes&0xff00ff00) {

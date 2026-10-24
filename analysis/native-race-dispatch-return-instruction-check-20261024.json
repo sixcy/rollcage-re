@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "matched": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "authority": "constructed-inputs-with-retained-original-instructions",
+  "evidenceIds": [
+    "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+    "ev_73eaba83c2795b5d5ce603e02ae9bda94d7339201229832746848f56ab64526c",
+    "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f"
+  ],
+  "fixtures": 504,
+  "siblings": 150,
+  "returned": 354,
+  "failureCases": 126,
+  "instructionVisits": 6078,
+  "reachedInstructions": 34,
+  "compared": [
+    "All supplied/derived known GPRs",
+    "Exact64-byte caller/argument/return stack",
+    "Defined status flags and preserved incoming EFLAGS bits"
+  ],
+  "limits": [
+    "Next450e50 entry and outer440cd5 are observation boundaries: neither child nor caller executes in this checker.",
+    "TEST auxiliary carry is architecturally undefined and deliberately excluded on the failed-child exit.",
+    "Synthetic total0/signed-boundary states exercise the suffix independently; this does not assert native450d60 reaches all such combinations.",
+    "No new original-process outer-return observation or continuous tick proof."
+  ]
+}

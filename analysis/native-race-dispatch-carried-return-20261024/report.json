@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "matched": true,
+  "method": "verified-source-carried-parent-output-through450d60-return",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "parentReport": {
+    "path": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-race-dispatch-carried-return-20261024\\parent-replay\\report.json",
+    "sha256": "cec8ecc32b954c844da53e5d69481d4c139f0715afe9f1f3d9836d39ac8007bb",
+    "completeParentTickMatched": true,
+    "uniqueBytesCompared": 5107238
+  },
+  "moduleBaseAddress": 7536640,
+  "parentReturnRegisters": {
+    "eax": 1,
+    "edi": 1,
+    "esi": 0,
+    "ebp": 0,
+    "ebx": 0,
+    "esp": 18283492,
+    "eip": 7867960
+  },
+  "bridge": {
+    "kind": "returned",
+    "parentEntryEsp": 18283488,
+    "dispatchEntryEsp": 18283516,
+    "childResult": 1,
+    "iteration": 0,
+    "totalIterations": 1,
+    "nextIteration": 1,
+    "registers": {
+      "eax": 1,
+      "ebx": 0,
+      "ebp": 4,
+      "esi": 10883416,
+      "edi": 1996805936,
+      "ecx": 0,
+      "eip": 7802069,
+      "esp": 18283520
+    },
+    "arithmeticFlags": {
+      "carry": false,
+      "parity": true,
+      "auxiliary": false,
+      "zero": true,
+      "sign": false,
+      "overflow": false
+    },
+    "flags": {
+      "value": 68,
+      "knownMask": 2261
+    },
+    "continuation": null,
+    "childExecuted": false
+  },
+  "sourceStackBeforeAndAfterHex": "380e78000100000030d704775811a600040000000000000000000000d50c7700",
+  "newNativeAfterInputBytes": 0,
+  "nativeOuterEndpointCaptured": false,
+  "authority": "source continuation from an original-process-verified parent; suffix algorithm separately checked against retained instructions",
+  "filePins": [
+    {
+      "path": "src/native-race-dispatch-return.mjs",
+      "sha256": "cdfccd63a1ce1e7b69e01dba9b4c7736cc790198ed0bd1b3005b8d494a8609cf"
+    },
+    {
+      "path": "tools/check-native-parent-tail.mjs",
+      "sha256": "31475046ce15fa0f84e228249487f9f9a34e93e3df58dc2b720125522073a7bc"
+    },
+    {
+      "path": "tools/check-native-race-dispatch-carried-return.mjs",
+      "sha256": "0248468710a2d9d2fb12293c48a94ea742968d7239fbdcdd00484b477a1f3661"
+    }
+  ],
+  "limits": [
+    "The original capture stops at450e38. The predicted440cd5 outer return has no new original-process endpoint comparison.",
+    "No sibling450e50 is executed for this observed total1. The next outer tick/input/render/timing interval remains open.",
+    "The completed source object is opt-in process-local state and is never serialized into the parent report."
+  ]
+}

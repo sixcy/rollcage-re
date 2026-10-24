@@ -10,11 +10,12 @@ import { createSession } from '../../src/solo-session.mjs';
 import { SoloController } from './solo-controller.mjs';
 import { formatPracticeTime } from './solo-presentation.mjs';
 import { pickupLabel } from './pickup-label.mjs';
-import { PickupEditor } from './pickup-editor-ui.mjs';
+import { TrackEditor } from './track-editor-ui.mjs';
 
 const element = id => document.getElementById(id);
 const setText = (id, text) => {const output = element(id); if (output.textContent !== text) output.textContent = text;};
 const setDisabled = (id, disabled) => {const output = element(id); if (output.disabled !== disabled) output.disabled = disabled;};
+const setHidden = (id, hidden) => {const output = element(id); if (output.hidden !== hidden) output.hidden = hidden;};
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, editor, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false, practiceDirty = false;
 let sourceKind = 'pc';
@@ -31,7 +32,7 @@ function help() {
     ? 'Click the view for mouse-look · WASD move · Q/E down/up · Shift faster · Wheel changes speed · Esc releases mouse. If capture is unavailable, drag to look.'
     : 'Left-drag rotates · Right-drag or Shift-drag pans · Wheel zooms · Arrow keys rotate · WASD pans · +/− zoom · Shift faster. Click the view to use keys.');
   if (element('mode').value !== navigation.mode) element('mode').value = navigation.mode;
-  element('speed').hidden = !fly;
+  setHidden('speed', !fly);
 }
 function clearScene() {
   editor?.clearTrack(); practiceDirty = false;
@@ -48,7 +49,7 @@ function clearScene() {
   updatePractice();
 }
 function updatePractice() {
-  const editing = Boolean(editor?.editing), available = Boolean(practice), running = practice?.state === 'running', usable = available && !['error', 'disposed'].includes(practice.state);
+  const editing = Boolean(editor?.active), available = Boolean(practice), running = practice?.state === 'running', usable = available && !['error', 'disposed'].includes(practice.state);
   const interactive = usable && !editing;
   const value = available ? practice.snapshot : null, car = focusedCar(value), physics = car?.physics;
   const carCount = value?.cars?.length ?? (value ? 1 : 0);
@@ -71,20 +72,22 @@ function updatePractice() {
   setDisabled('camera-follow', !interactive);
   setText('practice-start', running ? 'Pause' : practice?.state === 'paused' ? 'Resume' : 'Start');
   const excluded = game?.id === 'rollcage' && /\/(?:LEV16|LEV17)\.BLP$/.test(selectedTrack?.name ?? '');
-  setText('practice-note', editing ? 'Editing pickups · Test changes restarts the race with your edits.' : practice?.state === 'error' ? 'Racing test stopped. Load this track again to restart.' : available ? `Continuous racing test · ${practice.state}. Step while paused, or test a recovery.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.');
+  setText('practice-note', editing ? 'Editing track · Test changes restarts the race with your edits.' : practice?.state === 'error' ? 'Racing test stopped. Load this track again to restart.' : available ? `Continuous racing test · ${practice.state}. Step while paused, or test a recovery.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.');
   const message = practice?.message ?? '';
   if (element('practice-error').textContent !== message) element('practice-error').textContent = message;
   setText('practice-readout', car ? `${car.speed} km/h · ${car.laps} laps completed · Lap ${formatPracticeTime(car.lapTime)} · Best ${formatPracticeTime(car.bestLap)}` : '');
   setText('practice-roster', value ? `${carCount} AI ${carCount === 1 ? 'car' : 'cars'}${difficulty ? ` · ${difficulty}` : ''} · Car ${followedCarIndex + 1} telemetry, follow and recovery.` : '');
   const weaponsEnabled = Boolean(value?.weapons?.enabled);
   setText('practice-inventory', weaponsEnabled ? `Car ${followedCarIndex + 1} · Slot 1: ${pickupLabel(car.inventory[0])} · Slot 2: ${pickupLabel(car.inventory[1])} · Pickups ${value.weapons.pickups.filter(row => row.visible).length}/${value.weapons.authoredPickupCount} · Projectiles ${value.weapons.projectiles.filter(row => row.visible).length}` : available ? 'Weapons disabled.' : '');
-  element('physics-inventory').hidden = !weaponsEnabled;
+  setHidden('physics-inventory', !weaponsEnabled);
   for (let index = 0; index < 2; index++) setText(`physics-pickup-${index}`, weaponsEnabled ? pickupLabel(car.inventory[index]) : '—');
   setText('physics-car-label', value ? `Car ${followedCarIndex + 1} of ${carCount}${difficulty ? ` · ${difficulty}` : ''}` : '');
   const rank = car?.racePosition;
   const suffix = rank === 1 ? 'st' : rank === 2 ? 'nd' : rank === 3 ? 'rd' : 'th';
   setText('physics-race-position', Number.isInteger(rank) && rank >= 1 && rank <= carCount ? `${rank}${suffix} / ${carCount}` : '—');
-  element('physics-hud').hidden = editing || !available || !element('practice-telemetry').checked;
+  //Repeated hidden writes still mutate the DOM and can refresh an open native
+  //select popup in Chromium, even when the overlay is already hidden.
+  setHidden('physics-hud', editing || !available || !element('practice-telemetry').checked);
   const metric = value => Number.isFinite(value) ? Math.trunc(value).toLocaleString() : '—';
   for (const [id, amount] of [['physics-speed', car?.speed], ['physics-tick', value?.ticks], ['physics-recoveries', car?.recoveries], ['physics-collisions', physics?.collisionEvents], ['physics-terrain-hits', physics?.terrainHits], ['physics-model-hits', physics?.modelHits]]) {
     const output = element(id), text = metric(amount);
@@ -120,14 +123,23 @@ function updatePaths() {
   element('path-color').hidden = index === -1 || !available;
   if (index !== -1 && available) element('path-color').style.color = pathColor(index);
 }
+function refreshEditorScene() {
+  if (!editor?.current?.modelDraft || !selectedTrack || game?.id !== 'rollcage') return;
+  const base = editor.current, quality = selectedTrack.name.startsWith('HIGH/') ? 'HIGH' : 'LOW';
+  const resources = editor.resourcesFor(selectedTrack,base[quality].geometry,base[quality].texture);
+  const decoded = game.decodeTrack(resources.geometry,resources.texture);
+  renderer.setScene(decoded); scene = decoded; editor.scene = decoded;
+  editor.modelPicks.clear(); editor.refresh();
+  setText('counts', `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`);
+}
 function restartPractice() {
   if (!practiceInputs) return;
   practice?.dispose(); practice = null; renderedPractice = null; renderedAlpha = 1; lastFrame = 0;
   let failure;
   try {
     const count = Number(element('practice-ai-count').value);
-    const geometry = editor?.geometryFor(selectedTrack,practiceInputs.geometry) ?? practiceInputs.geometry;
-    const session = createSession(geometry, practiceInputs.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
+    const resources = editor?.resourcesFor(selectedTrack,practiceInputs.geometry,practiceInputs.texture) ?? practiceInputs;
+    const session = createSession(resources.geometry, resources.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
     try {renderer.setCar(session.assets);} catch (error) {session.dispose(); throw error;}
     practice = new SoloController(session);
     practiceDirty = false;
@@ -154,6 +166,7 @@ async function loadTrack() {
     renderer.setScene(decoded); scene = decoded; selectedTrack = track;
     await editor?.setTrack(track,decoded);
     if(token!==generation)return;
+    refreshEditorScene();
     updatePractice();
     for (const group of scene.paths.groups) element('path-group').append(new Option(`Group ${group.index} (${group.positions.length} ${group.positions.length === 1 ? 'point' : 'points'})`, String(group.index)));
     updatePaths();
@@ -198,12 +211,12 @@ async function downloadTrack() {
 }
 async function openFiles() {
   if(editor?.busy)return;
-  if(editor?.hasUnsavedChanges&&!window.confirm('Discard unsaved pickup project changes and open another archive?'))return;
+  if(editor?.hasUnsavedChanges&&!window.confirm('Discard unsaved track project changes and open another archive?'))return;
   const token = ++generation;
   await editor?.setSource(null,null,false);
   archive = null; game = null; availableTracks = []; verified = false;
   releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
-  element('game-info').textContent = '';
+  element('game-info').textContent = ''; element('editor-source-note').textContent = '';
   element('error').textContent = ''; element('stage').setAttribute('aria-busy', 'false');
   const requested = element('game').value;
   const useDisc = requested === 'firebugs' || (requested === 'auto' && sourceKind === 'disc');
@@ -231,7 +244,11 @@ async function openFiles() {
     archive = opened; game = identified.game; availableTracks = identified.tracks; verified = identified.verified;
     await editor?.setSource(archive,game,verified);
     if(token!==generation)return;
-    element('game-info').textContent = `${game.label} · ${availableTracks.length} environments${verified ? '' : ' · Unverified release; format compatibility is not established.'}`;
+    element('game-info').textContent = `${game.label} · ${availableTracks.length} environments${identified.modified ? ' · Recognized edited archive.' : verified ? '' : ' · Unverified release; format compatibility is not established.'}`;
+    element('editor-source-note').textContent = game.id!=='rollcage' ? '' : identified.modified
+      ? 'These game files already contain edits. Racing and editing are available. A saved project requires the exact starting IMG/IDX pair it was created with.'
+      : verified ? 'To continue an earlier edit, load its project below after selecting its matching starting IMG/IDX pair.'
+      : 'This archive supports viewing only. Racing and editing require supported original files or a recognized editor export. To continue a saved project, select its matching starting files.';
     for (const track of availableTracks) element('track').append(new Option(track.label, String(track.index)));
     element('track').disabled = false;
     await loadTrack();
@@ -249,7 +266,7 @@ element('track').addEventListener('change', loadTrack);
 element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
 element('download').addEventListener('click', downloadTrack);
 element('mode').addEventListener('change', () => {
-  if(editor?.editing&&element('mode').value==='follow'){element('mode').value=navigation.mode;return;}
+  if(editor?.active&&element('mode').value==='follow'){element('mode').value=navigation.mode;return;}
   releaseMouse(); navigation.setMode(element('mode').value);
   element('practice-follow').checked = navigation.mode === 'follow';
   if (navigation.mode === 'follow') followCar(true);
@@ -361,11 +378,11 @@ canvas.addEventListener('webglcontextlost', event => {
 function frame(time) {
   if (contextLost) return;
   const seconds = lastFrame ? Math.max(0, (time - lastFrame) / 1000) : 0;
-  if (!document.hidden && !editor?.editing) practice?.advance(seconds);
+  if (!document.hidden && !editor?.active) practice?.advance(seconds);
   renderedPractice = practice?.renderSnapshot ?? null;
   renderedAlpha = practice?.renderAlpha ?? 1;
   if (scene) {
-    if (navigation.mode === 'follow'&&!editor?.editing) followCar(false, seconds, renderedPractice);
+    if (navigation.mode === 'follow'&&!editor?.active) followCar(false, seconds, renderedPractice);
     else navigation.step(keys, seconds);
   }
   lastFrame = time;
@@ -373,7 +390,7 @@ function frame(time) {
     textures: element('textures').checked, lighting: element('lighting').checked,
     objects: element('objects').checked, sector: Number(element('sector').value),
     paths: element('paths').checked, pathPoints: element('path-points').checked,
-    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.editing?null:renderedPractice
+    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.active?null:renderedPractice
   });
   if (practice) updatePractice();
   if (navigation.mode === 'fly') setText('speed', `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`);
@@ -405,9 +422,9 @@ function downloadEditorFile({filename,blob}) {
 }
 try {
   renderer = new Renderer(canvas);
-  editor = new PickupEditor({canvas,navigation,renderer,releaseMouse, onDownload:downloadEditorFile,
+  editor = new TrackEditor({canvas,navigation,renderer,releaseMouse, onDownload:downloadEditorFile,
     onModeChange(editing,{testing=false}={}){practice?.pause();if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
-    onChange(){practice?.pause();practiceDirty=true;updatePractice();},
+    onChange(){practice?.pause();practiceDirty=true;refreshEditorScene();updatePractice();},
     onTest(){element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();}
   });
   requestAnimationFrame(frame);

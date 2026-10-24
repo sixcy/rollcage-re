@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "method": "static-original-PE-status-child-recovery",
+  "targetSha256Before": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "targetSha256After": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "provider": {
+    "id": "ghidra",
+    "version": "12.1.4",
+    "profileDigest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896"
+  },
+  "processLocalEnvironment": {
+    "GHIDRA_INSTALL_DIR": "C:/Users/Cyril/Documents/ghidra_12.1.4_PUBLIC",
+    "JAVA_HOME": "C:/Program Files/Eclipse Adoptium/jdk-25.0.4.101-hotspot"
+  },
+  "launcher": "C:/Users/Cyril/AppData/Local/npm-cache/_npx/a1722018f28f9df2/node_modules/rea-agents/scripts/rea.mjs",
+  "unifiedExecSession": 8550,
+  "sessionTerminalExitCode": 0,
+  "binaryClosed": true,
+  "finalCloseResult": null,
+  "retained": [
+    {
+      "path": "analysis/native-simulation/results/20261024-clock-status-568bfd-assembly.json",
+      "sha256": "d7c2fe01d48e0eaa85b8fa2ce47225bd76273efb295252a900dcfe6cf4e0776b",
+      "evidenceId": "ev_bae6b5f11f816781dc21933ed4de136202db89d107763a559ca6506f68dd7373",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/native-simulation/results/20261024-clock-status-568bfd-analysis.json",
+      "sha256": "e8df90469a76683b2abf65b7f7c9dc9697cbee064881084d0194dd05bcecee5a",
+      "evidenceId": "ev_1d5893ed73e8f68e370c86726fa263a9b911aa3d2228e4d982c7a08c4a5f6ce7",
+      "operation": "analyze_function"
+    },
+    {
+      "path": "analysis/native-simulation/results/20261024-clock-status-mask-bytes.json",
+      "sha256": "d6a94d596bfd78437625f38886b59fc47916f0639fcdb2d86fb54e7fedc785a9",
+      "evidenceId": "ev_b4178ba733e313e69f21f753f3b932e54f960030befe6fe6cf8f33d3436151da",
+      "operation": "read_bytes"
+    }
+  ],
+  "statusMask": {
+    "address": "0x56f6ff",
+    "requested_bytes": 35,
+    "returned_bytes": 35,
+    "bytes_hex": "450810000000000001000000000000f020330400003f04000000080000ff1700003f13",
+    "complete": true,
+    "precisionMaskAddress": 5699343,
+    "precisionMaskByte": 32,
+    "exceptionControlWordAddress": 5699360,
+    "exceptionControlWord": 4927
+  },
+  "maskedPrecisionPath": {
+    "incomingEdx": 16,
+    "capturedX87ControlWord": 127,
+    "maskAndControlWordLow": 32,
+    "externalCallReached": false,
+    "stores": [
+      "FSTCW WORD[entryESP-32], preserving adjacent2bytes"
+    ],
+    "returnedEax": 127,
+    "sourceAnswersRequired": false
+  },
+  "unsupportedBranches": {
+    "invalidEdx8": "Always enters FLDCW133f and MSVCR120.DLL::except1 at5692fa",
+    "unmaskedPrecision": "Also enters genuine except1 branch; no returned ST0/service outcome observed here"
+  },
+  "artifacts": [
+    {
+      "path": "analysis/native-clock-conversion-static-20261024/clock-status.evidence.json",
+      "bytes": 1685259,
+      "sha256": "463c3ba4e13b9c6521cc5e00675b2de1329845ceb41488296ddab5a908bc5c8b"
+    },
+    {
+      "path": "analysis/native-clock-conversion-static-20261024/clock-status.snapshot.json",
+      "bytes": 2476906,
+      "sha256": "5420518c65d61e0c6d0dde844842297bd3bc625135da67bf7fa8e1a934dcbd86"
+    }
+  ],
+  "scope": {
+    "nativeGameLaunched": false,
+    "providerConfigurationChanged": false,
+    "productionSourceChanged": false,
+    "fullClockPortImplemented": false
+  }
+}

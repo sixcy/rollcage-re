@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {queryWeatherViewport} from './weather-viewport.mjs';
 
 const ptr = (m, p) => m.readUInt32LE(p), get = (m, p) => m.readInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
@@ -27,16 +28,16 @@ function copyMeasuredText(slot, message, runtime, {frame, countOffset, deltaOffs
   if (countOffset !== undefined) put(m, frame + countOffset, 0);
   do {
     const ch = m[cursor]; m[(cursor + get(m, frame + deltaOffset)) >>> 0] = ch;
-    if (ch === 32) {const font = ptr(m, 0x82dfa0); width = width + (Math.imul(get(m, font + 16), spaceScale ?? get(m, 0x91d338)) >> 8) | 0;}
+    if (ch === 32) {const font = ptr(m, 0x82dfa0); width = width + (Math.imul(get(m, font + 16), spaceScale ?? get(m, nativeGlobalAddress(m, 0x91d338))) >> 8) | 0;}
     else {
       const font = ptr(m, 0x82dfa0), glyph = m[font + 0x101c + ch];
       if (glyph !== 255) {
         const advance = Math.imul(m.readUInt16LE(font + (glyph + 2) * 16), m.readInt16LE(slot + 14)) >> 8;
         //48b7d0 reloads the font pointer after its first multiply;477000 keeps it.
         const spacingFont = capturedScale === undefined ? ptr(m, 0x82dfa0) : font;
-        width = width + ((Math.imul(advance, get(m, 0x91d338)) >> 8) + get(m, spacingFont + 20) | 0) | 0;
+        width = width + ((Math.imul(advance, get(m, nativeGlobalAddress(m, 0x91d338))) >> 8) + get(m, spacingFont + 20) | 0) | 0;
       }
-      if (capturedScale !== undefined) spaceScale = get(m, 0x91d338);
+      if (capturedScale !== undefined) spaceScale = get(m, nativeGlobalAddress(m, 0x91d338));
     }
     cursor++; count = countOffset === undefined ? count + 1 : get(m, frame + countOffset) + 1;
     if (countOffset !== undefined) put(m, frame + countOffset, count);
@@ -49,7 +50,7 @@ export function enqueueRaceText(message, state, x, y, flags, timer, queue, runti
   const {memory: m, scratchBase: S} = runtime, F = S - 0x138, probe = S - 0x128;
   put(m, S - 4, ptr(m, 0x5e8890) ^ probe); save(runtime,F,[['EBX',12],['EBP',8],['ESI',4],['EDI',0]]); put(m,F + 36,state);
   for (const [index,value] of [x,y,flags,timer,queue].entries()) put(m,S + 4 + index * 4,value);
-  const base = queue === 1 ? 0x9028e4 : 0x82dfa4, limit = queue === 1 ? 8 : 28; let index = 0;
+  const base = queue === 1 ? nativeGlobalAddress(m, 0x9028e4) : 0x82dfa4, limit = queue === 1 ? 8 : 28; let index = 0;
   while (index < limit && m[base + index * 80 + 8]) index++;
   let result = -1;
   if (index < limit) {
@@ -64,7 +65,7 @@ export function enqueueRaceText(message, state, x, y, flags, timer, queue, runti
       if (!get(m,F + 0x14c)) {
         viewport(runtime,F,0x28,[0x20,0x1c,0x14,0x18],0x48b948,0x48b967); word(m,slot + 4,m.readUInt16LE(slot + 4) + (get(m,F + 0x14) >> 1));
         viewport(runtime,F,0x28,[0x18,0x1c,0x20,0x14],0x48b99e,0x48b9bd); word(m,slot + 6,m.readUInt16LE(slot + 6) + (get(m,F + 0x14) >> 1)); currentFlags = get(m,F + 0x144);
-      } else {word(m,slot + 4,(ptr(m,0x9020ac) >>> 1) + originalX); word(m,slot + 6,(ptr(m,0x9020b0) >>> 1) + originalY);}
+      } else {word(m,slot + 4,(ptr(m,nativeGlobalAddress(m, 0x9020ac)) >>> 1) + originalX); word(m,slot + 6,(ptr(m,nativeGlobalAddress(m, 0x9020b0)) >>> 1) + originalY);}
     }
     if (currentFlags & 0x40) {
       viewport(runtime,F,0x28,[0x18,0x1c,0x14,0x20],0x48ba20,0x48ba3f); word(m,slot + 4,m.readUInt16LE(slot + 4) + (get(m,F + 0x14) >> 1));
@@ -74,7 +75,7 @@ export function enqueueRaceText(message, state, x, y, flags, timer, queue, runti
     if (currentFlags & 2) word(m,slot + 4,m.readUInt16LE(slot + 4) - (measured.width >> 1));
     else if (currentFlags & 16) word(m,slot + 4,m.readUInt16LE(slot + 4) - measured.width);
     m[slot + 9] = currentFlags & 255; put(m,slot,get(m,F + 36)); word(m,slot + 10,measured.width);
-    if (get(m,F + 0x14c) === 1) {word(m,0x902b68 + index * 2,get(m,F + 0x148)); put(m,0x902b64,get(m,0x902b64) + 1);}
+    if (get(m,F + 0x14c) === 1) {word(m,nativeGlobalAddress(m, 0x902b68) + index * 2,get(m,F + 0x148)); put(m,nativeGlobalAddress(m, 0x902b64),get(m,nativeGlobalAddress(m, 0x902b64)) + 1);}
     result = index;
   }
   cookie(runtime,S - 4,probe,probe - 4,0x48bb69); return result;
@@ -86,7 +87,7 @@ export function initializeNetworkStartupText(mode, runtime) {
   put(m,S - 8,ptr(m,0x5e8890) ^ probe); save(runtime,F,[['EBX',8],['ESI',4],['EDI',0]]);
   if (mode === 1) {
     const session = ptr(m,0x5ecb1c); for (let i = 0; i < m[session + 0x54d]; i++) m[session + i] = 8;
-    word(m,session + 0x58e,1800); const scale = get(m,0x91d338); put(m,F + 16,Math.imul(scale,60) >> 8);
+    word(m,session + 0x58e,1800); const scale = get(m,nativeGlobalAddress(m, 0x91d338)); put(m,F + 16,Math.imul(scale,60) >> 8);
     let index = 0; while (index < 28 && m[0x82dfa4 + index * 80 + 8]) index++;
     if (index < 28) {
       const slot = 0x82dfa4 + index * 80; word(m,slot + 14,m.readUInt16LE(ptr(m,0x82dfa0) + 4));
@@ -104,7 +105,7 @@ export function initializeNetworkStartupText(mode, runtime) {
     for (const [i,v] of [0,y,flags,0,0].entries()) put(m,F - 20 + i * 4,v); put(m,F - 24,returnAddress);
     enqueueRaceText(message,0,0,y,flags,0,0,{...runtime,scratchBase:F - 24,entryRegisters:{EBX:get(m,F + 8),EBP:runtime.entryRegisters?.EBP ?? 0,ESI:get(m,F + 4),EDI:get(m,F)}});
   };
-  call(ptr(m,0x70eaa4),Math.imul(get(m,0x91d338),60) >> 8,7,0x47729b);
-  call(ptr(m,0x70eaa8),Math.imul(get(m,0x91d338),82) >> 8,0x26,0x4772be);
+  call(ptr(m,0x70eaa4),Math.imul(get(m,nativeGlobalAddress(m, 0x91d338)),60) >> 8,7,0x47729b);
+  call(ptr(m,0x70eaa8),Math.imul(get(m,nativeGlobalAddress(m, 0x91d338)),82) >> 8,0x26,0x4772be);
   cookie(runtime,S - 8,probe,probe - 4,0x4772d2);
 }

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {allocateRawEffectParticle, lookupRawSpatialBucket} from './body-retirement-effects.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
@@ -65,17 +66,17 @@ export function updateTerrainPointAnimation({memory, scratchBase}) {
     remaining--; put(memory, local + 16, remaining);
     word(memory, live + 6, (0xfbc0 - (intensity << 6)) | (memory.readUInt16LE(live + 6) & 63)); row += 24;
   }
-  const pack = ptr(memory, 0x90b990); let count = memory[pack + 0x11c], range = ptr(memory, pack + 0x118), dirty = ptr(memory, 0x80f210);
+  const pack = ptr(memory, 0x90b990); let count = memory[pack + 0x11c], range = ptr(memory, pack + 0x118), dirty = ptr(memory, nativeGlobalAddress(memory,0x80f210));
   if (count) {
     do {
       const coordinates = ((memory.readUInt16LE(range + 2) & 2047) << 11) | (memory.readUInt16LE(range) & 2047);
       if (dirty < 64) {
         const value = (((coordinates | 0x800000) << 7) | (memory[range + 4] & 127)) | 0;
-        if (!dirty || get(memory, 0x80f41c + dirty * 4) !== value) {put(memory, 0x80f420 + dirty * 4, value); dirty++;}
+        if (!dirty || get(memory, nativeGlobalAddress(memory,0x80f41c + dirty * 4)) !== value) {put(memory, nativeGlobalAddress(memory,0x80f420 + dirty * 4), value); dirty++;}
       }
       range += 8; count--;
     } while (count > 0);
-    put(memory, 0x80f210, dirty);
+    put(memory, nativeGlobalAddress(memory,0x80f210), dirty);
   }
   let seed = rng(get(memory, 0x5ec958)), records = ptr(memory, 0x90b994), selected = (seed >>> 16) & 511;
   if (selected < ptr(memory, 0x90b998)) {
@@ -85,15 +86,15 @@ export function updateTerrainPointAnimation({memory, scratchBase}) {
     while (debrisCount > 0) {
       seed = rng(seed); const value = seed >>> 16, vx = ((value & 15) - 7) << 15, vy = (-4 - ((value >>> 6) & 15)) << 15; let vz = (((value >>> 10) & 15) - 7) << 15;
       put(memory, local + 32, vx); put(memory, local + 20, vy); put(memory, local + 28, vz);
-      const freeLast = get(memory, 0x902b8c);
+      const freeLast = get(memory, nativeGlobalAddress(memory, 0x902b8c));
       if (freeLast >= 0) {
-        const id = memory.readUInt16LE(ptr(memory, 0x902b7c) + freeLast * 2), active = ptr(memory, 0x902b80);
-        put(memory, 0x902b8c, freeLast - 1); const index = get(memory, 0x902b88); word(memory, active + index * 2, id); put(memory, 0x902b88, index + 1);
-        const debris = (ptr(memory, 0x902b84) + id * 128) >>> 0;
+        const id = memory.readUInt16LE(ptr(memory, nativeGlobalAddress(memory, 0x902b7c)) + freeLast * 2), active = ptr(memory, nativeGlobalAddress(memory, 0x902b80));
+        put(memory, nativeGlobalAddress(memory, 0x902b8c), freeLast - 1); const index = get(memory, nativeGlobalAddress(memory, 0x902b88)); word(memory, active + index * 2, id); put(memory, nativeGlobalAddress(memory, 0x902b88), index + 1);
+        const debris = (ptr(memory, nativeGlobalAddress(memory, 0x902b84)) + id * 128) >>> 0;
         put(memory, debris + 0x4c, x); put(memory, debris + 0x54, get(memory, local + 40)); put(memory, debris + 0x50, get(memory, local + 36));
         const found = lookupRawSpatialBucket(get(memory, local + 16), y, z, {memory}); put(memory, local + 24, found.outside);
         const tagged = found.bucket + found.outside; put(memory, debris + 12, tagged);
-        const base = ptr(memory, 0x902eec), bucket = tagged & 0xfffffffe, packedId = (((debris - base + 128) >>> 0) >>> 7) & 65535, head = memory.readUInt16LE(bucket + 10);
+        const base = ptr(memory, nativeGlobalAddress(memory, 0x902eec)), bucket = tagged & 0xfffffffe, packedId = (((debris - base + 128) >>> 0) >>> 7) & 65535, head = memory.readUInt16LE(bucket + 10);
         put(memory, debris + 4, head);
         if (head) {word(memory, (base - 122 + head * 128) >>> 0, packedId); vz = get(memory, local + 28);}
         word(memory, bucket + 10, packedId); word(memory, debris + 8, 21); word(memory, debris + 0x6a, 1);
@@ -112,7 +113,7 @@ export function updateTerrainPointAnimation({memory, scratchBase}) {
     word(memory, particle + 0x96, 32); put(memory, particle + 0xa0, 0); put(memory, particle, 8); memory[particle + 0x95] = 24;
     put(memory, particle + 0x88, x); put(memory, particle + 0x8c, y); put(memory, particle + 0x90, z); put(memory, particle + 0x9c, 0xfc000000); put(memory, particle + 0x98, 0xc0ffe0e0);
     const found = lookupRawSpatialBucket(x, y, z, {memory}); put(memory, local + 20, found.outside);
-    const base = ptr(memory, 0x902eec), tagged = found.bucket + found.outside, bucket = tagged & 0xfffffffe;
+    const base = ptr(memory, nativeGlobalAddress(memory, 0x902eec)), tagged = found.bucket + found.outside, bucket = tagged & 0xfffffffe;
     put(memory, particle + 12, tagged);
     const head = memory.readUInt16LE(bucket + 10), id = (((particle - base + 128) >>> 0) >>> 7) & 65535;
     put(memory, particle + 4, head); if (head) word(memory, (base - 122 + head * 128) >>> 0, id);

@@ -69,7 +69,7 @@ export function validateCapturedGuardedPointerRanges(input,{expectedDescriptors}
     let progress=false;
     for(let i=0;i<pending.length;){
       const {row,steps}=pending[i];let available=true;
-      for(const step of steps){const value=observedWord(trusted,Number(step.readAddress));if(value===undefined){available=false;break;}if(value!==Number(step.value))bad('proof differs from other actual captured pointer bytes');}
+      for(const step of steps){const value=observedWord(trusted,Number(step.readAddress));if(value===undefined){available=false;break;}if(value!==Number(step.value))bad(`proof differs from other actual captured pointer bytes for ${row.id} at0x${Number(step.readAddress).toString(16)}`);}
       if(!available){i++;continue;}
       if(row.bytes.length)trusted.push(row);else skipped.add(row);
       pending.splice(i,1);progress=true;

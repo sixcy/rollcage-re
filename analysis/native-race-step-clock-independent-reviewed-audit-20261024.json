@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-reviewed-constructed-clock-instruction-audit",
+  "createdUtc": "2026-10-24T13:33:56.389Z",
+  "verified": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "report": {
+    "path": "analysis/native-race-step-clock-reviewed-instruction-check-20261024.json",
+    "sha256": "8c8cbcd6876d3a0dee0731cb60ac60dc90b57b4ccf142634cdd1c93185b181b0"
+  },
+  "historical330Audit": {
+    "path": "analysis/native-race-step-clock-independent-audit-20261024.json",
+    "sha256": "baf4048bf758a95715cbe1bef34ddf20f560907f95bce91c47ecacf47fcb3fee"
+  },
+  "reviewedFiles": [
+    {
+      "path": "tools/verify-native-race-step-clock-instructions.mjs",
+      "sha256": "958861f1dd7f4b673f83100e63ddbd224ed516e1331887d0b03358864d6d31f4"
+    },
+    {
+      "path": "tests/native-race-step-clock-instructions.test.mjs",
+      "sha256": "4b8b993aa8dae9e43ad97bed0d4d87d09d13bbc9e5be5de80956e5190eaedf7c"
+    },
+    {
+      "path": "tools/lib/bounded-x86.mjs",
+      "sha256": "226f541978731a44a1f1e9bbfac520e75d97fc1746c7cb64e47bf91dd91ca69d"
+    },
+    {
+      "path": "src/native-race-step-clock.mjs",
+      "sha256": "348f173aebfb091bbb2aa7e3af5dd663c36845e40136d7d84d945e308ffa5f64"
+    },
+    {
+      "path": "src/native-clock-conversion.mjs",
+      "sha256": "0e800e7a396cd36c7f945d796788bd92b80bb00ef9f5c2baffc36c5b3112b155"
+    },
+    {
+      "path": "src/game-network-protocol.mjs",
+      "sha256": "afb50c7e848934812ac105611c393d06253eeb730017d03e9c9bfc8f59c5b5ef"
+    },
+    {
+      "path": "src/race-clock.mjs",
+      "sha256": "05d550d58bea3cb3f03ab4b84c04a78df77e1e238d8b3450ed13d7e9e7c0d9e4"
+    }
+  ],
+  "authority": "constructed-inputs-with-retained-original-instructions",
+  "staticSignedDivision": {
+    "path": "analysis/native-simulation/results/20261024-clock-signed64-division-assembly.json",
+    "sha256": "0f6a4baa0640d4881314858df3ae05dd178765e242f5cca9cf097826e14023fb",
+    "evidenceId": "ev_5e83da9e8584442f7ba5642a6d79e59a445150641dc7bd8ec0d970d9933c61c2",
+    "instructions": 70,
+    "firstAddress": 5673856,
+    "lastAddress": 5674023,
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "rotates": [
+      {
+        "address": 5673961,
+        "operand": "ECX",
+        "count": "0x1",
+        "bytesHex": "d1d9"
+      },
+      {
+        "address": 5673965,
+        "operand": "EAX",
+        "count": "0x1",
+        "bytesHex": "d1d8"
+      }
+    ],
+    "returnBytesHex": "c21000"
+  },
+  "independentInstructionOnlyReproduction": {
+    "baseFixtures": 330,
+    "explicitFixtures": 11,
+    "totalFixtures": 341,
+    "instructionSteps": 105689,
+    "uniqueInstructions": 343,
+    "schedulerInstructions": 68,
+    "schedulerReached": 68,
+    "unreachedSchedulerInstructions": [],
+    "returnedCounts": [
+      {
+        "count": 1,
+        "fixtures": 298
+      },
+      {
+        "count": 3,
+        "fixtures": 40
+      },
+      {
+        "count": 2,
+        "fixtures": 3
+      }
+    ],
+    "actualChildren": {
+      "0x441c70": 341,
+      "0x489cd0": 341,
+      "0x569380": 1023,
+      "0x568f10": 1023,
+      "0x568d6e": 275,
+      "0x568c41": 275,
+      "0x568bfd": 268
+    },
+    "entryEspVariantCounts": [
+      {
+        "entryEsp": 98304,
+        "fixtures": 171
+      },
+      {
+        "entryEsp": 98308,
+        "fixtures": 170
+      }
+    ],
+    "explicitScheduling": [
+      {
+        "label": "backlog2-streak8",
+        "count": 1,
+        "targetClock": 103,
+        "streak": 9
+      },
+      {
+        "label": "backlog2-streak9",
+        "count": 2,
+        "targetClock": 103,
+        "streak": 10
+      },
+      {
+        "label": "backlog2-streak10",
+        "count": 2,
+        "targetClock": 103,
+        "streak": 11
+      },
+      {
+        "label": "backlog2-streak2147483647",
+        "count": 2,
+        "targetClock": 103,
+        "streak": 2147483648
+      },
+      {
+        "label": "backlog2-streak4294967295",
+        "count": 1,
+        "targetClock": 103,
+        "streak": 0
+      },
+      {
+        "label": "backlog3-streak8",
+        "count": 1,
+        "targetClock": 104,
+        "streak": 9
+      },
+      {
+        "label": "backlog3-streak9",
+        "count": 3,
+        "targetClock": 104,
+        "streak": 10
+      },
+      {
+        "label": "backlog1-reset",
+        "count": 1,
+        "targetClock": 102,
+        "streak": 0
+      },
+      {
+        "label": "equal-target-reset",
+        "count": 1,
+        "targetClock": 101,
+        "streak": 0
+      },
+      {
+        "label": "behind-target-reset",
+        "count": 1,
+        "targetClock": 98,
+        "streak": 0
+      },
+      {
+        "label": "zero-elapsed",
+        "count": 1,
+        "targetClock": 0,
+        "streak": 0
+      }
+    ],
+    "smallBacklogArmHits": [
+      {
+        "address": 4463874,
+        "hits": 7
+      },
+      {
+        "address": 4463885,
+        "hits": 7
+      },
+      {
+        "address": 4463890,
+        "hits": 3
+      },
+      {
+        "address": 4463909,
+        "hits": 3
+      }
+    ]
+  },
+  "resolvedPriorFindings": [
+    {
+      "finding": "441d02..441d25 small-backlog arm and return2 absent",
+      "resolution": "All68scheduler instructions now reached; three explicitfixtures independently return2; cases include streak8/9/10/signed-boundary/wrappingDWORD and backlog3."
+    },
+    {
+      "finding": "One stack alignment in original330matrix",
+      "resolution": "C18000 and18004 both exercised; alignment alternates perfixture, not a Cartesian rerun of eachinput at both alignments."
+    },
+    {
+      "finding": "Source return-eventEIP/ESP subset not compared",
+      "resolution": "Runner now asserts source-derived EAX/EBX/EBP/ESI/EDI/ESP/EIP against retained instruction registers and exact sentinelRET semantics: architectural ESP=sentinelSP+4 and EIP=liveDWORD[sentinelSP]. No fabricated CPUstate is fed into source."
+    }
+  ],
+  "reviewConclusions": [
+    "Original441c70,489cd0,uint64/double/signed64 conversions, masked numerical-status child, three long multiplies and three long divides execute as retained instructions. Only two purpose-specific synthetic Windows services are hooked.",
+    "No service computes a timer result, conversion result, integer helper result, scheduling count or native game-child outcome. Exact API sequence/name/pushed pointer/return word/entryESP/nonvolatiles/preimage/output/result are compared with source publication.",
+    "Whole10MiB equality includes the declared392B stack region and helper-owned CALL argument residue; it is stronger than scalar count equality but not a claim that every fixture byte was dynamically read or written.",
+    "Source and instruction sides consume identical independently constructed input images, raw controls and explicit service outcomes. No later native observation or initialized native output is copied into source.",
+    "Caller-supplied raw x87CW is required and preserved. Source numerical-state derivation is separately tested; this full runner does not compare SSE sticky state, private volatile registers, EFLAGS or all CPU state.",
+    "The11explicit targetClock/count fields are assertions, not timing inputs: only declared elapsed/frequency/origin/flags/streak values alter initialfixtures. Actual instruction EAX at441cd0 independently derives each expectedtarget103/104/102/101/98/0.",
+    "New report correctly distinguishes330modulo-generated basecases from341totalcases; original330report/audit remain immutable historical evidence.",
+    "Seven source-returnevent registers are now compared in addition to full10MiB memory/392B stack/API exacttransport/nonvolatile restoration. This remains a known return subset, not full private CPU ABI."
+  ],
+  "tests": {
+    "command": "node --test tests/native-race-step-clock-instructions.test.mjs",
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 793.6191,
+    "fullChainCases": 341,
+    "priorSeparateComponentSuite": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "auditPath": "analysis/native-race-step-clock-independent-audit-20261024.json"
+    }
+  },
+  "remainingLimits": [
+    "Constructed preferredbase400000 fullchain only. ASLR andPC64 remain separately tested components/sourcefixtures, not fullchain native evidence.",
+    "Two stackalignments are covered but are correlated withfixtureparity/CW; this is not exhaustive cross-product coverage of all legal states.",
+    "Only declared synthetic QPF/QPC outcomes are supplied. FailedAPI fixtures leave OUT8B unchanged bychoice, not a guarantee about realWindowsfailurewrites.",
+    "No original-process clock/continuousrace/next450e50 proof; outer450d60/440930,input/render/event-loop producers remain unconnected.",
+    "Unmasked/invalid except1 branch, full private volatileGPR/EFLAGS/SSEsticky state and x87stack remain outside this fullchain match.",
+    "All68schedulerinstruction coverage is a branch-reachability result, not exhaustive arithmetic/control-state coverage. No production edit or native launch in this audit."
+  ]
+}

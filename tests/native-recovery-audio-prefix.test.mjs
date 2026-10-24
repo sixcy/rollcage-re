@@ -29,7 +29,7 @@ test('retained native parent computes the nonzero ring ECX and complete real aud
   assert.notEqual(result.sourceCalls[0].survivingEcx, 0);
   assert.equal(result.sourceComplete, false);
   assert.equal(result.fullParentOutputCompared, false);
-  assert.match(result.sourceError, /adaptive sound-channel selection requires/);
+  assert.match(result.sourceError, /adaptive selector reached operatorNew12 at40dc50/);
   assert.ok(Object.isFrozen(result.sourceCalls[0]));
   assert.ok(Object.isFrozen(result.sourceCalls[0].args));
   assert.ok(Object.isFrozen(result.sourceCalls[0].entryRegisters));

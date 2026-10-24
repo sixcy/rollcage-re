@@ -78,7 +78,9 @@ export function verifyNativeControlCaptureConfiguration(configuration) {
   const lateStages=latePoints.filter(rows=>rows.length).length;
   if(lateStages&&(!postphysics||latePoints.some((rows,index)=>rows.length!==(index<lateStages?1:0))))throw Error('Late parent checkpoints require a contiguous prefix after all drive checkpoints.');
   const physicsExit = physicsPoints[0], terminal=lateStages?latePoints[lateStages-1][0]:postphysics?tails.at(-1)[0]:physicsExit??after;
-  const frames = terminal.stopAfterHits, skipFrames = before.skipMatchingHits;
+  const finalPoints=configuration.parentRttiObservation?.finalTick?configuration.breakpoints.filter(row=>row.id==='native-parent-return'):[];
+  if(configuration.parentRttiObservation?.finalTick&&(finalPoints.length!==1||!lateStages||terminal.stopAfterHits!==0))throw Error('Final parent capture requires one return endpoint after nonterminal world effects.');
+  const frames = (finalPoints[0]??terminal).stopAfterHits, skipFrames = before.skipMatchingHits;
   if (!Number.isInteger(frames) || frames < 1 || frames > 3 || before.stopAfterHits > 0 || !Number.isInteger(skipFrames) || skipFrames < 0 || skipFrames > 0x7fffffff || after.skipMatchingHits !== skipFrames) throw Error('Native control count or skip window differs.');
   if (physicsExit) {
     if (Number(physicsExit.rva) !== nativeControlBoundaries.physicsExit - 0x400000 || physicsExit.address !== undefined || physicsExit.skipMatchingHits !== skipFrames || after.stopAfterHits > 0
@@ -139,7 +141,8 @@ export function pairNativeControlSnapshots(capture, configuration) {
   if (capture.header?.executableSha256 !== REDUX_SHA256) throw Error('Native control target SHA differs.');
   const {frames, skipFrames, options, afterAiCheckpoint, physicsExitCheckpoint,postphysics,lateStages} = verifyNativeControlCaptureConfiguration(configuration);
   const terminal = capture.snapshots.at(-1);
-  if (capture.complete?.reason !== 'snapshot-bound' || terminal?.breakpointId !== (lateStages?nativeControlLateBoundaries[lateStages-1].id:postphysics?'native-control-after-drive':physicsExitCheckpoint ? 'native-control-after-physics' : ids[1]) || terminal.hit !== frames) throw Error('Native control capture did not reach its declared physics boundary bound.');
+  const terminalId=configuration.parentRttiObservation?.finalTick?'native-parent-return':lateStages?nativeControlLateBoundaries[lateStages-1].id:postphysics?'native-control-after-drive':physicsExitCheckpoint?'native-control-after-physics':ids[1];
+  if (capture.complete?.reason !== 'snapshot-bound' || terminal?.breakpointId !== terminalId || terminal.hit !== frames) throw Error('Native control capture did not reach its declared physics boundary bound.');
   const pending = new Map(), pairs = [];
   let entries = 0, exits = 0, previousOrdinal = 0;
   for (const snapshot of capture.snapshots) {

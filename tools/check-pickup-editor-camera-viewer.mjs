@@ -49,8 +49,16 @@ try {
 
   stage = 'idle-menu-mutations';
   mutations = await page.evaluate(async () => {
-    const result = {camera: 0, editingControls: 0, note: 0};
+    const result = {camera: 0, editingControls: 0, note: 0, page: {}};
     const observers = [];
+    const pageObserver = new MutationObserver(rows => {
+      for (const row of rows) {
+        const key = `${row.target.id || row.target.nodeName}:${row.attributeName || row.type}`;
+        result.page[key] = (result.page[key] || 0) + 1;
+      }
+    });
+    pageObserver.observe(document.body, {attributes: true, childList: true, subtree: true, characterData: true});
+    observers.push(pageObserver);
     for (const [key, ids] of Object.entries({camera: ['mode'], editingControls: ['practice-start','practice-step','practice-reset','practice-recover','practice-weapons','practice-ai-count','practice-car','practice-follow'], note: ['practice-note']})) {
       const observer = new MutationObserver(rows => {result[key] += rows.length;}); observers.push(observer);
       for (const id of ids) observer.observe(document.getElementById(id), {attributes: true, attributeFilter: ['disabled'], childList: true, subtree: true, characterData: true});
@@ -58,8 +66,8 @@ try {
     for (let i = 0; i < 20; i++) await new Promise(requestAnimationFrame);
     observers.forEach(observer => observer.disconnect()); return result;
   });
-  assert.deepEqual(mutations, {camera: 0, editingControls: 0, note: 0}, 'Idle frames must not rewrite paused editor controls or camera options');
-  checks.push('Twenty idle render frames produce zero camera, editor-control or status-text mutations');
+  assert.deepEqual(mutations, {camera: 0, editingControls: 0, note: 0, page: {}}, 'Idle frames must not rewrite any page elements while editing');
+  checks.push('Twenty idle render frames produce zero DOM mutations across the entire page');
 
   stage = 'camera-dropdown';
   await page.locator('#mode').click(); await page.waitForTimeout(350);

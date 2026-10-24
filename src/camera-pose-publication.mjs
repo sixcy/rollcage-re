@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {getViewportApplication} from './weather-viewport.mjs';
 import {updateCameraViewportScale} from './camera-viewport.mjs';
 import {updateCameraAspectProjection} from './camera-projection.mjs';
@@ -19,7 +20,7 @@ export function publishCameraPose(participant, pose, smooth, name, runtime) {
   put(m, frame + 0x18, (200 - scaled) & 65535);
   const limit = m[ptr(m, 0x5ecb1c) + 0x587] ? 525 : 425;
   m.writeFloatLE(speed > limit ? m.readFloatLE(0x5dc774) : speed > 300 ? Math.fround(Math.fround(speed - 300) / Math.fround(limit - 300)) : 0, frame + 0x14);
-  const length = cLength(m, name), flag = get(m, 0x91ce90) & 2;
+  const length = cLength(m, name), flag = get(m, nativeGlobalAddress(m,0x91ce90)) & 2;
   if ((!length && !flag) || (length && flag)) {
     //The incoming name can be replaced by the current viewport's inline/heap
     //std::string only in this call's registers, leaving the argument intact.

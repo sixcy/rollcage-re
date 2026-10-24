@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {emitBodyEffectBurst, removeBodySpatial, unregisterPhysicalBody} from './body-retirement.mjs';
 import {releaseBodyAttachments} from './body-attachment-release.mjs';
 import {releaseRawScriptedBody} from './raw-scripted-motion.mjs';
@@ -9,11 +10,12 @@ const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put =
 //48abc0. The count/source row are captured. A missing body still replaces the
 //one-past row and decrements the live count; retain this native behavior.
 export function removeRaceObjectEffect(body, {memory}) {
-  const count = ptr(memory, 0x82e900); let remaining = count, row = 0x82e880;
+  const registry = nativeGlobalAddress(memory, 0x82e880), countAddress = nativeGlobalAddress(memory, 0x82e900);
+  const count = ptr(memory, countAddress); let remaining = count, row = registry;
   while (remaining && ptr(memory, row) !== (body >>> 0)) {row += 8; remaining--;}
-  put(memory, row, get(memory, 0x82e878 + Math.imul(count, 8)));
-  put(memory, row + 4, get(memory, 0x82e87c + Math.imul(count, 8)));
-  put(memory, 0x82e900, get(memory, 0x82e900) - 1);
+  put(memory, row, get(memory, registry - 8 + Math.imul(count, 8)));
+  put(memory, row + 4, get(memory, registry - 4 + Math.imul(count, 8)));
+  put(memory, countAddress, get(memory, countAddress) - 1);
 }
 
 //412520. Only the first matching authored row and its immediately adjacent

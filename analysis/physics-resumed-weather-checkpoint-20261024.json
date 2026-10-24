@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-24",
+  "goalStatus": "active",
+  "previousGoalTurnClassification": "progress",
+  "previousProgress": "Original mixed camera/weather ABI, three native CRT observations and the genuine tyre-onset caller dependency were retained; the current turn adds original sound2 input observation and resolves actual ASLR/source-carry defects.",
+  "objective": "Faithfully recreate Rollcage Redux 1.3.8.0 physics, including native timing/init/numerical context, controlled replay, vehicle/terrain/car collisions, recovery, moving/destructible scenery and weapon forces, and validated Racing test integration.",
+  "currentTurn": "progress",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureClosed": true,
+  "ownedPid": 19512,
+  "ownedProcessTerminated": true,
+  "sourceComplete": false,
+  "completeParentTickMatched": false,
+  "checkpoints": {
+    "afterAi": {
+      "matched": true,
+      "uniqueBytes": 5107441
+    },
+    "prefix": {
+      "matched": true,
+      "uniqueBytes": 5107849
+    },
+    "physics": {
+      "matched": true,
+      "uniqueBytes": 5107849
+    },
+    "tail": [
+      {
+        "stage": "attachments",
+        "matched": true,
+        "uniqueBytes": 5107873
+      },
+      {
+        "stage": "recovery",
+        "matched": true,
+        "uniqueBytes": 5107873
+      },
+      {
+        "stage": "drive",
+        "matched": true,
+        "uniqueBytes": 5107873
+      },
+      {
+        "stage": "auxiliary",
+        "matched": true,
+        "uniqueBytes": 5107873
+      },
+      {
+        "stage": "cameras",
+        "matched": true,
+        "uniqueBytes": 5108106
+      }
+    ]
+  },
+  "crtFamilies": [
+    {
+      "family": "camera",
+      "weatherQueryIndex": null
+    },
+    {
+      "family": "weather-screen",
+      "weatherQueryIndex": 1
+    },
+    {
+      "family": "weather-screen",
+      "weatherQueryIndex": 2
+    }
+  ],
+  "nextReachedDependency": "QueryPerformanceCounter inside genuine489cd0 after both weather viewport queries; original output/preimage/service lineage must be observed and replayed, never replaced by a timer/game-function answer.",
+  "validation": {
+    "sourceMigrationSuites": [
+      {
+        "scope": "17 fixed-global source modules",
+        "passed": 127,
+        "skipped": 0
+      },
+      {
+        "scope": "22 other fixed-global source modules",
+        "passed": 98,
+        "skipped": 0
+      }
+    ],
+    "finalTargetedGroup": {
+      "scope": "force/event/terrain/postframe/recovery/source constructors and new global physics consumers",
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0
+    },
+    "sourceCarryAndParentGroup": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0
+    },
+    "newGlobalAndWeatherReplayGroup": {
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0
+    },
+    "viewerAndTyreDriveGroup": {
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0
+    },
+    "browserChecks": [
+      "Camera remains usable after genuine pickup placement; zero idle DOM mutations",
+      "Editor reset/duplicate/numeric placement/test restart pass"
+    ],
+    "noAggregateTestCount": "Groups overlap; counts are not additive.",
+    "fullSuiteRun": false,
+    "fullSuiteLimit": "Previously security-rejected native-deferred/distinct fixture remains excluded; no policy bypass."
+  },
+  "installedFiles": {
+    "stockSourceAndRunCopy": 171,
+    "userInstalledAndRetainedMirror": 173,
+    "allMatch": true
+  },
+  "openRequirements": [
+    "Original QPC input and joined weather/world-effects output",
+    "Complete450e50 parent return and next scheduling transition",
+    "Closed long-race source-only parity without intermediate native refresh",
+    "Uninterrupted timing cadence and systematic initialization/numerical-context audit",
+    "Broader terrain, natural chassis walls, ceilings, inverted driving and car collision conditions",
+    "Complete active recovery effects and sound services",
+    "Moving/destructible scenery parity and active weapon-force/combat scenarios",
+    "Final validated full physics integration in Racing test"
+  ],
+  "artifacts": [
+    {
+      "file": "analysis/native-parent-rtti-stock-prepared-v4-20261024.json",
+      "length": 988,
+      "sha256": "a46ae97f9384780a3751c318031292bc8a59182baaa4b6a07706fa70c9f6b0b8"
+    },
+    {
+      "file": "analysis/native-parent-rtti-stock-independent-audit-v4-20261024.json",
+      "length": 24614,
+      "sha256": "bde918fdc30664371749b411a4cdf4940736123c39f72c7ce60718e3655c8ac5"
+    },
+    {
+      "file": "analysis/native-parent-rtti-stock-joined-source-independent-audit-v4-20261024.json",
+      "length": 10572,
+      "sha256": "694e573d0f38ebb6d7c62ee5907e25fca349551dcdd3257c745e3f365ed02778"
+    },
+    {
+      "file": "analysis/native-parent-rtti-stock-sixth-replay-v4-20261024/report.json",
+      "length": 700896,
+      "sha256": "2d6ce1fdf64608327ce79de6e28b13a0b2306f55ffd20e7f65487f74553f2a59"
+    },
+    {
+      "file": "analysis/native-parent-rtti-stock-installation-after-v4-20261024.json",
+      "length": 488,
+      "sha256": "b2b04fceaa76f44c0cebcf17ae230ab557791c4f3ece3dfe25e5fabea6057a29"
+    },
+    {
+      "file": "analysis/native-parent-rtti-installed-edits-after-v4-20261024.json",
+      "length": 488,
+      "sha256": "b7f2121866571853a21d99a8a9df2e9f70dcd804221b9f401cbc28e0a22046ba"
+    },
+    {
+      "file": "analysis/physics-resumed-weather-viewer-camera-stock-20261024/report.json",
+      "length": 597,
+      "sha256": "2de162dd634a4ac2fae062bd5c58ad39dd4f57bbb758cee10f72f2be0947b463"
+    },
+    {
+      "file": "analysis/physics-resumed-weather-viewer-state-stock-20261024/report.json",
+      "length": 502,
+      "sha256": "4737462b80a18033ac6f3d4ca281d9fa48aa7a78b92f96af322bd25ca7c6d96c"
+    },
+    {
+      "file": "re-docs/native-parent-weather-checkpoint.md",
+      "length": 4855,
+      "sha256": "86c148f95f50e42d4f17da53276870b7a64bd49aa5624da226f1424cdfce5713"
+    },
+    {
+      "file": "re-docs/native-parent-weather-counter-plan.md",
+      "length": 12038,
+      "sha256": "7828a1c6725b9dd4ddc59b5cb6430e9d0d2ca88815f9e25d62ef9deb0495cbeb"
+    },
+    {
+      "file": "docs/track-viewer.html",
+      "length": 1852846,
+      "sha256": "7a705bca6fa97924bca92840569de72ef3e814714deaef4b5fafd7fa7068d6e8"
+    }
+  ]
+}

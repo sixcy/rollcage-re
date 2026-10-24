@@ -4,7 +4,8 @@ import {constants} from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {loadPhysicsCapture} from './lib/physics-capture-comparison.mjs';
-import {createCapturedMemory} from './lib/captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './lib/native-frame-memory.mjs';
+import {nativeGlobalAddress} from '../src/native-global-address.mjs';
 import {nativeFrameGlobalRegions} from './lib/native-frame-manifest.mjs';
 import {replayNativeFrame} from './lib/native-frame-replay.mjs';
 import {pairNativeFrameSnapshots,compareNativeFramePair} from './check-native-frame-replay.mjs';
@@ -38,18 +39,18 @@ export function inspectNativeForceEntry(snapshot,{frameEntryEsp,moduleBaseAddres
  if(u32(r.eip,'entry EIP')!==actual(nativeForceBoundaries.entry)||frameEntryEsp!==undefined&&entryEsp!==frameEntryEsp-96)throw Error('Force entry instruction/parent ESP differs from its actual47b020 ABI.');
  const header=snapshot.ranges.get('force-body-header'),caller=snapshot.ranges.get('force-caller'),list=snapshot.ranges.get('force-physical-body-list');
  if(!header||Number(header.address)!==bodyAddress||header.bytes.length!==0x180||!caller||Number(caller.address)!==entryEsp||caller.bytes.length!==4||caller.bytes.readUInt32LE()!==actual(nativeForceBoundaries.returnAddress))throw Error('Force body-header/caller range differs from its actual native input.');
- const allocation=m.readUInt32LE(0x6e6b40),usedBytes=m.readUInt32LE(0x70dcf4),alignedBase=m.readUInt32LE(0x902eec),allocationBytes=((m.readInt32LE(0x709808)+140000)<<5)>>>0;
+ const allocation=m.readUInt32LE(0x6e6b40),usedBytes=m.readUInt32LE(0x70dcf4),alignedBase=m.readUInt32LE(nativeGlobalAddress(m,0x902eec)),allocationBytes=((m.readInt32LE(0x709808)+140000)<<5)>>>0;
  if(!allocation||!usedBytes||allocation+usedBytes>0x100000000||bodyAddress<allocation||bodyAddress>=allocation+usedBytes)throw Error('Force pointer fails the observed used-byte arena admission.');
  if(alignedBase!==Math.ceil(allocation/128)*128||alignedBase+usedBytes>allocation+allocationBytes||bodyAddress<alignedBase||(bodyAddress-alignedBase)%128||bodyAddress+0x180>alignedBase+usedBytes)throw Error('Force body alignment/common extent exceeds the actual aligned used arena.');
- const listAddress=m.readUInt32LE(0x902bc0),count=m.readUInt16LE(0x902bc4);
+ const listAddress=m.readUInt32LE(nativeGlobalAddress(m,0x902bc0)),count=m.readUInt16LE(nativeGlobalAddress(m,0x902bc4));
  if(!list||Number(list.address)!==listAddress||list.bytes.length!==0x180||count<1||count>=96||m.readUInt32LE(listAddress+count*4)!==0)throw Error('Force live physical list lacks its exact root/count/trailing null.');
  const indices=[];for(let i=0;i<count;i++)if(m.readUInt32LE(listAddress+i*4)===bodyAddress)indices.push(i);
  if(indices.length!==1)throw Error('Force body must have one actual live physical-list membership.');
  const flags=header.bytes.readUInt32LE(),type=flags&0x1ff;
- if(m.readInt32LE(0x91cd90)!==1||(flags&0x22000)||[17,21,25].includes(type))throw Error('Force entry contradicts its native ordinary-preparation first-effect gates.');
+ if(m.readInt32LE(nativeGlobalAddress(m,0x91cd90))!==1||(flags&0x22000)||[17,21,25].includes(type))throw Error('Force entry contradicts its native ordinary-preparation first-effect gates.');
  const entryRegisters=Object.fromEntries(['ebx','ebp','esi','edi'].map(name=>[name,u32(r[name],`incoming ${name}`)]));
  if(entryRegisters.edi!==bodyAddress)throw Error('Force incoming EDI differs from the known preparation body register.');
- return {bodyAddress,bodyHeaderHex:header.bytes.toString('hex'),originQ16:[0,4,8].map(o=>m.readInt32LE(0x91cd80+o)),strength:m.readInt32LE(0x91cd8c),entryEsp,entryRegisters,returnAddress:caller.bytes.readUInt32LE(),logicalClock:m.readUInt32LE(0x90a548),moduleBaseAddress,bodyType:type,physicalIndex:indices[0],physicalCount:count,arena:{allocation,alignedBase,usedBytes,allocationBytes}};
+ return {bodyAddress,bodyHeaderHex:header.bytes.toString('hex'),originQ16:[0,4,8].map(o=>m.readInt32LE(nativeGlobalAddress(m,0x91cd80+o))),strength:m.readInt32LE(nativeGlobalAddress(m,0x91cd8c)),entryEsp,entryRegisters,returnAddress:caller.bytes.readUInt32LE(),logicalClock:m.readUInt32LE(0x90a548),moduleBaseAddress,bodyType:type,physicalIndex:indices[0],physicalCount:count,arena:{allocation,alignedBase,usedBytes,allocationBytes}};
 }
 export function classifyNativeForceInput(record){
  const header=Buffer.from(record.bodyHeaderHex,'hex'),differenceQ16=[0,4,8].map((o,i)=>(header.readInt32LE(0x34+o)-record.originQ16[i])|0),reduced=differenceQ16.map(v=>v>>18),squared=reduced.reduce((s,v)=>(s+Math.imul(v,v))|0,0),base={bodyType:header.readUInt32LE()&0x1ff,differenceQ16,reducedSquaredDistance:squared,outputAttribution:'not-isolated-by-entry-observation'};

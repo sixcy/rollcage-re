@@ -1,0 +1,913 @@
+{
+  "schemaVersion": 1,
+  "kind": "read-only-original-entry-light-allocation-input-audit",
+  "createdUtc": "2026-10-24T11:32:05.099Z",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-parent-rtti-stock-capture-v8-20261024",
+  "configurationSha256": "103b8b4b05b7084e0a8ce05ab80f48d9860dbf880cc07a2a0a8ef3e3bb222639",
+  "traceSha256": "b8c15576ad2848a0a8451329eaa0b23b286156db4ac19c12230fe2326b75de84",
+  "beforeSnapshotOrdinal": 4,
+  "moduleBaseAddress": 15335424,
+  "actualInputs": {
+    "globalRootAddress": 19591688,
+    "allocationBase": 387220312,
+    "packRootAddress": 20625804,
+    "packAddress": 20615744,
+    "sectorTableAddress": 65862172,
+    "sectorCount": 18,
+    "bandTableAddress": 19591712,
+    "pointerTableBytes": 76,
+    "computedBytes": 2400,
+    "computedEnd": 387222712,
+    "sectors": [
+      {
+        "index": 0,
+        "address": 65409344,
+        "headerBytesHex": "5345474d009900001500000030000000",
+        "rows": 48,
+        "bands": 4,
+        "bytes": 128,
+        "begin": 387220312,
+        "end": 387220440,
+        "offset": 0
+      },
+      {
+        "index": 1,
+        "address": 65431568,
+        "headerBytesHex": "5345474d009900002400000030000000",
+        "rows": 48,
+        "bands": 4,
+        "bytes": 128,
+        "begin": 387220440,
+        "end": 387220568,
+        "offset": 128
+      },
+      {
+        "index": 2,
+        "address": 65469056,
+        "headerBytesHex": "5345474d009900001500000060000000",
+        "rows": 96,
+        "bands": 7,
+        "bytes": 224,
+        "begin": 387220568,
+        "end": 387220792,
+        "offset": 256
+      },
+      {
+        "index": 3,
+        "address": 65515264,
+        "headerBytesHex": "5345474d009900001a00000028000000",
+        "rows": 40,
+        "bands": 3,
+        "bytes": 96,
+        "begin": 387220792,
+        "end": 387220888,
+        "offset": 480
+      },
+      {
+        "index": 4,
+        "address": 65539008,
+        "headerBytesHex": "5345474d009900001d00000028000000",
+        "rows": 40,
+        "bands": 3,
+        "bytes": 96,
+        "begin": 387220888,
+        "end": 387220984,
+        "offset": 576
+      },
+      {
+        "index": 5,
+        "address": 65564256,
+        "headerBytesHex": "5345474d009900001c00000028000000",
+        "rows": 40,
+        "bands": 3,
+        "bytes": 96,
+        "begin": 387220984,
+        "end": 387221080,
+        "offset": 672
+      },
+      {
+        "index": 6,
+        "address": 65589984,
+        "headerBytesHex": "5345474d009900000800000010000000",
+        "rows": 16,
+        "bands": 2,
+        "bytes": 64,
+        "begin": 387221080,
+        "end": 387221144,
+        "offset": 768
+      },
+      {
+        "index": 7,
+        "address": 65592832,
+        "headerBytesHex": "5345474d0b9900001000000010000000",
+        "rows": 16,
+        "bands": 2,
+        "bytes": 64,
+        "begin": 387221144,
+        "end": 387221208,
+        "offset": 832
+      },
+      {
+        "index": 8,
+        "address": 65598288,
+        "headerBytesHex": "5345474d009900001500000060000000",
+        "rows": 96,
+        "bands": 7,
+        "bytes": 224,
+        "begin": 387221208,
+        "end": 387221432,
+        "offset": 896
+      },
+      {
+        "index": 9,
+        "address": 65643152,
+        "headerBytesHex": "5345474d009900000100000008000000",
+        "rows": 8,
+        "bands": 1,
+        "bytes": 32,
+        "begin": 387221432,
+        "end": 387221464,
+        "offset": 1120
+      },
+      {
+        "index": 10,
+        "address": 65643584,
+        "headerBytesHex": "5345474d009900000600000010000000",
+        "rows": 16,
+        "bands": 2,
+        "bytes": 64,
+        "begin": 387221464,
+        "end": 387221528,
+        "offset": 1152
+      },
+      {
+        "index": 11,
+        "address": 65646064,
+        "headerBytesHex": "5345474d009900000900000098000000",
+        "rows": 152,
+        "bands": 10,
+        "bytes": 320,
+        "begin": 387221528,
+        "end": 387221848,
+        "offset": 1216
+      },
+      {
+        "index": 12,
+        "address": 65679632,
+        "headerBytesHex": "5345474d009900000a000000b0000000",
+        "rows": 176,
+        "bands": 12,
+        "bytes": 384,
+        "begin": 387221848,
+        "end": 387222232,
+        "offset": 1536
+      },
+      {
+        "index": 13,
+        "address": 65722400,
+        "headerBytesHex": "5345474d009900001800000010000000",
+        "rows": 16,
+        "bands": 2,
+        "bytes": 64,
+        "begin": 387222232,
+        "end": 387222296,
+        "offset": 1920
+      },
+      {
+        "index": 14,
+        "address": 65730944,
+        "headerBytesHex": "5345474d009900000900000060000000",
+        "rows": 96,
+        "bands": 7,
+        "bytes": 224,
+        "begin": 387222296,
+        "end": 387222520,
+        "offset": 1984
+      },
+      {
+        "index": 15,
+        "address": 65752240,
+        "headerBytesHex": "5345474d009900000700000010000000",
+        "rows": 16,
+        "bands": 2,
+        "bytes": 64,
+        "begin": 387222520,
+        "end": 387222584,
+        "offset": 2208
+      },
+      {
+        "index": 16,
+        "address": 65754944,
+        "headerBytesHex": "5345474d009900000a00000010000000",
+        "rows": 16,
+        "bands": 2,
+        "bytes": 64,
+        "begin": 387222584,
+        "end": 387222648,
+        "offset": 2272
+      },
+      {
+        "index": 17,
+        "address": 65758928,
+        "headerBytesHex": "5345474d009900000d00000010000000",
+        "rows": 16,
+        "bands": 2,
+        "bytes": 64,
+        "begin": 387222648,
+        "end": 387222712,
+        "offset": 2336
+      }
+    ]
+  },
+  "verifiedOriginalSpans": [
+    {
+      "label": "band-allocation-global",
+      "address": 19591688,
+      "length": 4,
+      "bytesHex": "58831417",
+      "spanSha256": "6ea56f14913f00f2c3fcf2d3d640d6e9c060622688ae9ad0d4b6562fd75819d8",
+      "coveringRangeId": "tail-type2-pointer-domain",
+      "file": "snapshot-000004-range-390.bin",
+      "fileSha256": "95ae8d9a549553cbab13b9bbbf7f4e7c7da638abc0c999acc12ddb7118cf7e56"
+    },
+    {
+      "label": "pack-global",
+      "address": 20625804,
+      "length": 4,
+      "bytesHex": "40923a01",
+      "spanSha256": "5ab0a406a2e16e2c159e65a9b7d259f4bcf2b79a1b6cd74f7c37b167ab0ead94",
+      "coveringRangeId": "pack-roots",
+      "file": "snapshot-000004-range-009.bin",
+      "fileSha256": "0845fe373a979123e228697b0aaca89a0975e81a3abb1165ba76e0c041199ce4"
+    },
+    {
+      "label": "pack-header-through-sector-count",
+      "address": 20615744,
+      "length": 20,
+      "bytesHex": "1cfaec032090c2172010e603207beb0312000000",
+      "spanSha256": "17474956a51a512251b0f9c5710c9d2fd8fb3920e80891a6cde8f00ec7a6c4e5",
+      "coveringRangeId": "runtime-geometry-roots",
+      "file": "snapshot-000004-range-010.bin",
+      "fileSha256": "0030e2b5fa41d3cfb4d93e27e622c9cf20563a6448a8a1c60af5dc95806d66de"
+    },
+    {
+      "label": "sector-pointer-table",
+      "address": 65862172,
+      "length": 72,
+      "bytesHex": "4011e6031068e60380fae60300afe703c00be803606ee803e0d2e80300dee80350f3e80390a2e90340a4e903f0ade9031031ea0320d8ea0380f9ea03b04ceb034057eb03d066eb03",
+      "spanSha256": "3c21f68ccd41f577e4a397d43d15d735df86880a8df9f68a46691cf6fb3488be",
+      "coveringRangeId": "sector-table-region",
+      "file": "snapshot-000004-range-077.bin",
+      "fileSha256": "8bda3ee2893c4ce687969a5a988362ac1b4074db043716bf63c488e2fd5e004b"
+    },
+    {
+      "label": "band-pointer-table-with-sentinel",
+      "address": 19591712,
+      "length": 76,
+      "bytesHex": "58831417d8831417588414173885141798851417f88514175886141798861417d8861417b8871417d88714171888141758891417d88a1417188b1417f88b1417388c1417788c1417b88c1417",
+      "spanSha256": "72e785e35816b950529ea862f65428d2495423359e9df62cabf6aae56c707afa",
+      "coveringRangeId": "tail-type2-pointer-domain",
+      "file": "snapshot-000004-range-390.bin",
+      "fileSha256": "95ae8d9a549553cbab13b9bbbf7f4e7c7da638abc0c999acc12ddb7118cf7e56"
+    },
+    {
+      "label": "sector-0-header",
+      "address": 65409344,
+      "length": 16,
+      "bytesHex": "5345474d009900001500000030000000",
+      "spanSha256": "9bc405d947338153bfd53a4b955102989f7bc81eb4e2d36ed054bcc25182a4fd",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-1-header",
+      "address": 65431568,
+      "length": 16,
+      "bytesHex": "5345474d009900002400000030000000",
+      "spanSha256": "92e0d07ff23c6df688e1a4940c213630465f19ac8c847a104805baf2a37ca646",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-2-header",
+      "address": 65469056,
+      "length": 16,
+      "bytesHex": "5345474d009900001500000060000000",
+      "spanSha256": "561f9753cba1b0c6ed64fb9ecb89da1801da2267ffbd69ced6b6b40198a1f3b5",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-3-header",
+      "address": 65515264,
+      "length": 16,
+      "bytesHex": "5345474d009900001a00000028000000",
+      "spanSha256": "cedaa10cfdd4f2698043320aab3be2ff2e47cbeb6d802a633dbac3d6af2febaa",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-4-header",
+      "address": 65539008,
+      "length": 16,
+      "bytesHex": "5345474d009900001d00000028000000",
+      "spanSha256": "ca92475206a41fb222437fab7bb0392d4d669285aa793cf43f3bcca0684302a4",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-5-header",
+      "address": 65564256,
+      "length": 16,
+      "bytesHex": "5345474d009900001c00000028000000",
+      "spanSha256": "e40bf664292e19e29a477b08d16c1f9e7c2199dd1d4353d523e9bf95b4d12694",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-6-header",
+      "address": 65589984,
+      "length": 16,
+      "bytesHex": "5345474d009900000800000010000000",
+      "spanSha256": "fa8bfe9ed147d09241e34fd49fffb9e4ff436bbab5020eaa1b4835c635522012",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-7-header",
+      "address": 65592832,
+      "length": 16,
+      "bytesHex": "5345474d0b9900001000000010000000",
+      "spanSha256": "362180591937f85aec5233575860bcb79513b5b3b7375c2bc75ac6e3a12a7bd9",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-8-header",
+      "address": 65598288,
+      "length": 16,
+      "bytesHex": "5345474d009900001500000060000000",
+      "spanSha256": "561f9753cba1b0c6ed64fb9ecb89da1801da2267ffbd69ced6b6b40198a1f3b5",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-9-header",
+      "address": 65643152,
+      "length": 16,
+      "bytesHex": "5345474d009900000100000008000000",
+      "spanSha256": "68943aa2738a863a6eb1ff084e58e27d1e04a7c22004138b8b9d0d04dba6b7c5",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-10-header",
+      "address": 65643584,
+      "length": 16,
+      "bytesHex": "5345474d009900000600000010000000",
+      "spanSha256": "079714f2e787e17967dc0fe8ddcc70d2345991f95a545ab00fe8743ca08e9170",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-11-header",
+      "address": 65646064,
+      "length": 16,
+      "bytesHex": "5345474d009900000900000098000000",
+      "spanSha256": "a15607c68f51fd701d0c7e281aaff95ab60e82ab484b2a4559cd819d2779d7ec",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-12-header",
+      "address": 65679632,
+      "length": 16,
+      "bytesHex": "5345474d009900000a000000b0000000",
+      "spanSha256": "ef4980ea66a45a76a88272f39a2e0db15bf9ff09c95e6bc54348bd6eddc9166b",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-13-header",
+      "address": 65722400,
+      "length": 16,
+      "bytesHex": "5345474d009900001800000010000000",
+      "spanSha256": "dc30d99767fb50c632b1fb454835716453e907f9574ba23a3efb104cb41d0e93",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-14-header",
+      "address": 65730944,
+      "length": 16,
+      "bytesHex": "5345474d009900000900000060000000",
+      "spanSha256": "106b5ec7080086764324e3848c7c3df59bce44c7b2159f6179686afe03bd2f5a",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-15-header",
+      "address": 65752240,
+      "length": 16,
+      "bytesHex": "5345474d009900000700000010000000",
+      "spanSha256": "733c54b3b12be6ff3bedeccbb3dce06b272f6a8a2bf8e3818135739a00a502d9",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-16-header",
+      "address": 65754944,
+      "length": 16,
+      "bytesHex": "5345474d009900000a00000010000000",
+      "spanSha256": "77f2b9e1029c421571b845505d277d0f80e61ba96fe4a0e1a25e402456875199",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    },
+    {
+      "label": "sector-17-header",
+      "address": 65758928,
+      "length": 16,
+      "bytesHex": "5345474d009900000d00000010000000",
+      "spanSha256": "b88b9474f4e8a8a6b676948d01f3592e199b19240421b831f040670f565953c9",
+      "coveringRangeId": "geometry-region",
+      "file": "snapshot-000004-range-074.bin",
+      "fileSha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    }
+  ],
+  "verifiedBackingRows": [
+    {
+      "id": "tail-type2-pointer-domain",
+      "address": 19588704,
+      "length": 16384,
+      "file": "snapshot-000004-range-390.bin",
+      "sha256": "95ae8d9a549553cbab13b9bbbf7f4e7c7da638abc0c999acc12ddb7118cf7e56"
+    },
+    {
+      "id": "pack-roots",
+      "address": 20625776,
+      "length": 36,
+      "file": "snapshot-000004-range-009.bin",
+      "sha256": "0845fe373a979123e228697b0aaca89a0975e81a3abb1165ba76e0c041199ce4"
+    },
+    {
+      "id": "runtime-geometry-roots",
+      "address": 20615744,
+      "length": 132,
+      "file": "snapshot-000004-range-010.bin",
+      "sha256": "0030e2b5fa41d3cfb4d93e27e622c9cf20563a6448a8a1c60af5dc95806d66de"
+    },
+    {
+      "id": "sector-table-region",
+      "address": 65859584,
+      "length": 512000,
+      "file": "snapshot-000004-range-077.bin",
+      "sha256": "8bda3ee2893c4ce687969a5a988362ac1b4074db043716bf63c488e2fd5e004b"
+    },
+    {
+      "id": "geometry-region",
+      "address": 65409024,
+      "length": 962560,
+      "file": "snapshot-000004-range-074.bin",
+      "sha256": "11182e550e33121ae6af629634558c1310afee9e573b74e7d0e8f60bde876ba7"
+    }
+  ],
+  "structuralValidation": {
+    "all18SectorHeadersAvailable": true,
+    "all19NativeBandPointersMatchProducerOffsets": true,
+    "allDerivedSectorExtentsMatchActualPointerDifferences": true,
+    "allUsedInputBlobHashesVerified": true,
+    "allocatorImport": {
+      "dll": "MSVCR120.dll",
+      "name": "malloc",
+      "iatPreferredAddress": 5694040,
+      "executableSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+      "callPreferredAddress": 4779917,
+      "callBytesHex": "ff1558e25600"
+    },
+    "historicalNativeMallocCallOrReturnObserved": false,
+    "allCellsKnown": false
+  },
+  "missingInput": {
+    "address": 387221304,
+    "length": 4,
+    "sectorIndex": 8,
+    "sectorRows": 96,
+    "sectorAllocationBytes": 224,
+    "sectorBegin": 387221208,
+    "offsetInSector": 96,
+    "bandIndex": 3,
+    "cellIndex": 0,
+    "offsetInAllocation": 992,
+    "entireAllocationMissing": true,
+    "missingAllocationBytes": 2400,
+    "byteValues": null,
+    "originalParentCheckpointCoverage": [
+      {
+        "breakpointId": "native-control-before",
+        "snapshotOrdinal": 4,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-ai",
+        "snapshotOrdinal": 5,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after",
+        "snapshotOrdinal": 6,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-physics",
+        "snapshotOrdinal": 7,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-attachments",
+        "snapshotOrdinal": 8,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-recovery",
+        "snapshotOrdinal": 9,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-drive",
+        "snapshotOrdinal": 10,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-auxiliary",
+        "snapshotOrdinal": 11,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-cameras",
+        "snapshotOrdinal": 14,
+        "intersections": []
+      },
+      {
+        "breakpointId": "native-control-after-world-effects",
+        "snapshotOrdinal": 21,
+        "intersections": []
+      }
+    ]
+  },
+  "retainedEvidence": [
+    {
+      "file": "analysis/native-simulation/results/1252-light-sector-construction-assembly.json",
+      "fileSha256": "9d34c7106c08b0d512871e5a40c206cb22dcf5ba0a889df4ccd20a743660b801",
+      "evidenceId": "ev_c2348b99dff579d91958e67b16e14753a6fed6051bb6bbed3ac280663ffc610b",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+      "operation": "procedure_assembly",
+      "selectedAssembly": [
+        "0x48ef30: CALL 0x0048eeb0",
+        "0x48ef35: MOV EAX, 0x80f584",
+        "0x48ef3a: MOV ECX, 0x46",
+        "0x48ef3f: NOP",
+        "0x48ef40: XOR EDX, EDX",
+        "0x48ef42: LEA EAX, [EAX + 0x40]",
+        "0x48ef45: MOV word ptr [EAX + -0x40], DX",
+        "0x48ef49: DEC ECX",
+        "0x48ef4a: JNZ 0x0048ef40",
+        "0x48ef4c: PUSH EBX",
+        "0x48ef4d: MOV EBX, dword ptr [0x0090b98c]",
+        "0x48ef53: PUSH ESI",
+        "0x48ef54: PUSH EDI",
+        "0x48ef55: XOR EDI, EDI",
+        "0x48ef57: MOV EDX, dword ptr [EBX + 0x10]",
+        "0x48ef5a: MOV ESI, dword ptr [EBX]",
+        "0x48ef5c: TEST EDX, EDX",
+        "0x48ef5e: JZ 0x0048ef82",
+        "0x48ef60: XOR EAX, EAX",
+        "0x48ef62: MOV dword ptr [EAX*0x4 + 0x80f220], EDI",
+        "0x48ef69: INC ECX",
+        "0x48ef6a: MOV EAX, dword ptr [ESI + EAX*0x4]",
+        "0x48ef6d: MOV EAX, dword ptr [EAX + 0xc]",
+        "0x48ef70: SHR EAX, 0x4",
+        "0x48ef73: SHL EAX, 0x5",
+        "0x48ef76: ADD EAX, 0x20",
+        "0x48ef79: ADD EDI, EAX",
+        "0x48ef7b: MOVZX EAX, CX",
+        "0x48ef7e: CMP EAX, EDX",
+        "0x48ef80: JC 0x0048ef62",
+        "0x48ef82: MOVZX EAX, CX",
+        "0x48ef85: PUSH EDI",
+        "0x48ef86: MOV dword ptr [EAX*0x4 + 0x80f220], EDI",
+        "0x48ef8d: CALL dword ptr [0x0056e258]",
+        "0x48ef93: MOV ESI, EAX",
+        "0x48ef95: ADD ESP, 0x4",
+        "0x48ef98: TEST ESI, ESI",
+        "0x48ef9a: JZ 0x0048efa8",
+        "0x48ef9c: PUSH EDI",
+        "0x48ef9d: PUSH 0x0",
+        "0x48ef9f: PUSH ESI",
+        "0x48efa0: CALL 0x00568a50",
+        "0x48efa5: ADD ESP, 0xc",
+        "0x48efa8: MOV EDX, dword ptr [EBX + 0x10]",
+        "0x48efab: MOV ECX, 0x0",
+        "0x48efb0: MOV dword ptr [0x0080f208], ESI",
+        "0x48efb6: INC EDX",
+        "0x48efb7: JZ 0x0048efcf",
+        "0x48efb9: XOR EAX, EAX",
+        "0x48efbb: JMP 0x0048efc0",
+        "0x48efc0: ADD dword ptr [EAX*0x4 + 0x80f220], ESI",
+        "0x48efc7: INC ECX",
+        "0x48efc8: MOVZX EAX, CX",
+        "0x48efcb: CMP EAX, EDX",
+        "0x48efcd: JC 0x0048efc0",
+        "0x48efcf: SHR EDI, 0x2",
+        "0x48efd2: XOR ECX, ECX",
+        "0x48efd4: TEST EDI, EDI",
+        "0x48efd6: JZ 0x0048eff1",
+        "0x48efd8: JMP 0x0048efe0",
+        "0x48efe0: INC ECX",
+        "0x48efe1: MOV dword ptr [ESI], 0x0",
+        "0x48efe7: MOVZX EAX, CX",
+        "0x48efea: LEA ESI, [ESI + 0x4]",
+        "0x48efed: CMP EAX, EDI",
+        "0x48efef: JC 0x0048efe0",
+        "0x48eff1: XOR EAX, EAX",
+        "0x48eff3: MOV dword ptr [0x0080f20c], 0x0",
+        "0x48effd: MOV ECX, 0x40",
+        "0x48f002: MOV dword ptr [0x0080f214], 0x0",
+        "0x48f00c: MOV EDI, 0x80f420",
+        "0x48f011: MOV [0x0080f210], EAX",
+        "0x48f016: STOSD.REP ES:EDI",
+        "0x48f018: POP EDI",
+        "0x48f019: POP ESI",
+        "0x48f01a: MOV [0x00810920], EAX",
+        "0x48f01f: POP EBX",
+        "0x48f020: RET"
+      ]
+    },
+    {
+      "file": "analysis/native-simulation/results/1167-dynamic-stage-remove-assembly.json",
+      "fileSha256": "18975c9ef5e627a61f1ab253996d37995d48a00c90ece78079827c862676b238",
+      "evidenceId": "ev_d77532d2c9f97586ceac990fc8430c8197ff45612a249b19f44cb405d72ea475",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+      "operation": "procedure_assembly",
+      "selectedAssembly": [
+        "0x44d6a0: SUB ESP, 0xc",
+        "0x44d6a3: PUSH EBX",
+        "0x44d6a4: PUSH EBP",
+        "0x44d6a5: MOV EBP, ECX",
+        "0x44d6a7: MOV EBX, 0xff",
+        "0x44d6ac: MOV EAX, EBP",
+        "0x44d6ae: SHL EAX, 0x6",
+        "0x44d6b1: ADD EAX, 0x80f534",
+        "0x44d6b6: XOR EDX, EDX",
+        "0x44d6b8: PUSH ESI",
+        "0x44d6b9: MOV ESI, dword ptr [0x0080f210]",
+        "0x44d6bf: PUSH EDI",
+        "0x44d6c0: MOV dword ptr [ESP + 0x14], EAX",
+        "0x44d6c4: MOV dword ptr [ESP + 0x10], EDX",
+        "0x44d6c8: JMP 0x0044d6d0",
+        "0x44d6d0: MOV ECX, dword ptr [EAX]",
+        "0x44d6d2: TEST ECX, ECX",
+        "0x44d6d4: JZ 0x0044d796",
+        "0x44d6da: MOV AX, CX",
+        "0x44d6dd: AND AX, BX",
+        "0x44d6e0: MOV EBX, ECX",
+        "0x44d6e2: SHR EBX, 0x14",
+        "0x44d6e5: SHR ECX, 0x8",
+        "0x44d6e8: SHR EBX, 0x4",
+        "0x44d6eb: SHR ECX, 0x4",
+        "0x44d6ee: AND EBX, 0xff",
+        "0x44d6f4: AND ECX, 0xff",
+        "0x44d6fa: MOVZX EAX, AX",
+        "0x44d6fd: MOV dword ptr [ESP + 0x18], EAX",
+        "0x44d701: CMP ECX, EBX",
+        "0x44d703: JA 0x0044d778",
+        "0x44d705: MOV EDI, ECX",
+        "0x44d707: SUB EBX, ECX",
+        "0x44d709: SHL EDI, 0x5",
+        "0x44d70c: ADD EDI, dword ptr [EAX*0x4 + 0x80f220]",
+        "0x44d713: INC EBX",
+        "0x44d714: MOV EDX, EDI",
+        "0x44d716: XOR ECX, ECX",
+        "0x44d718: MOV EAX, dword ptr [EDX]",
+        "0x44d71a: TEST EAX, EAX",
+        "0x44d71c: JZ 0x0044d725",
+        "0x44d71e: SHR EAX, 0x16",
+        "0x44d721: CMP EAX, EBP",
+        "0x44d723: JZ 0x0044d730",
+        "0x44d725: INC ECX",
+        "0x44d726: ADD EDX, 0x4",
+        "0x44d729: CMP ECX, 0x8",
+        "0x44d72c: JC 0x0044d718",
+        "0x44d72e: JMP 0x0044d768",
+        "0x44d730: CMP ESI, 0x40",
+        "0x44d733: JNC 0x0044d762",
+        "0x44d735: MOV EAX, dword ptr [EDX]",
+        "0x44d737: MOV ECX, dword ptr [ESP + 0x18]",
+        "0x44d73b: AND EAX, 0x3fffff",
+        "0x44d740: OR EAX, 0x800000",
+        "0x44d745: AND ECX, 0x7f",
+        "0x44d748: SHL EAX, 0x7",
+        "0x44d74b: OR EAX, ECX",
+        "0x44d74d: TEST ESI, ESI",
+        "0x44d74f: JZ 0x0044d75a",
+        "0x44d751: CMP dword ptr [ESI*0x4 + 0x80f41c], EAX",
+        "0x44d758: JZ 0x0044d762",
+        "0x44d75a: MOV dword ptr [ESI*0x4 + 0x80f420], EAX",
+        "0x44d761: INC ESI",
+        "0x44d762: MOV dword ptr [EDX], 0x0",
+        "0x44d768: ADD EDI, 0x20",
+        "0x44d76b: DEC EBX",
+        "0x44d76c: JNZ 0x0044d714",
+        "0x44d76e: MOV EDX, dword ptr [ESP + 0x10]",
+        "0x44d772: MOV dword ptr [0x0080f210], ESI",
+        "0x44d778: MOV EAX, dword ptr [ESP + 0x14]",
+        "0x44d77c: INC EDX",
+        "0x44d77d: ADD EAX, 0x4",
+        "0x44d780: MOV dword ptr [ESP + 0x10], EDX",
+        "0x44d784: MOV dword ptr [ESP + 0x14], EAX",
+        "0x44d788: MOV EBX, 0xff",
+        "0x44d78d: CMP EDX, 0x4",
+        "0x44d790: JC 0x0044d6d0",
+        "0x44d796: POP EDI",
+        "0x44d797: POP ESI",
+        "0x44d798: POP EBP",
+        "0x44d799: POP EBX",
+        "0x44d79a: ADD ESP, 0xc",
+        "0x44d79d: RET"
+      ]
+    },
+    {
+      "file": "analysis/native-simulation/results/1161-race-final-stage-44d960-assembly.json",
+      "fileSha256": "b9472f0cb1de057afc90abf443c0ae6a5d9e0e6e227e915630694d9aaaf8336e",
+      "evidenceId": "ev_53b76099f66f500701cb6356b73ad4d0ebbb32e0036e1c9a081660863e38deec",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+      "operation": "procedure_assembly",
+      "selectedAssembly": [
+        "0x44db38: CALL 0x0044d6a0",
+        "0x44dd41: CALL 0x0044d6a0",
+        "0x44ddfa: CALL 0x0044d6a0",
+        "0x44de97: CALL 0x0044d6a0"
+      ]
+    }
+  ],
+  "sourceContinuation": {
+    "report": "analysis/native-parent-final-tick-source-attempt-20261024.json",
+    "reportSha256": "026e014433c21e3c55bad3f2860e4821278cd55fdcebf68e5ee9b5cabf18a236",
+    "script": "analysis/native-parent-final-tick-source-attempt-20261024.mjs",
+    "scriptSha256": "2a8696a6324bbe00044424ea04a82b37a6e2380b065c5d7a3c0a8f86cfa95f6c",
+    "completed": false,
+    "matchedNativeFinal": false,
+    "completedChildrenBeyondWorldBeforeFailure": [
+      {
+        "preferredEntry": 4723200,
+        "actualReturn": 15667516
+      },
+      {
+        "preferredEntry": 4779440,
+        "actualReturn": 15667521
+      },
+      {
+        "preferredEntry": 4800832,
+        "actualReturn": 15667526
+      },
+      {
+        "preferredEntry": 4748608,
+        "actualReturn": 15667531
+      },
+      {
+        "preferredEntry": 4499360,
+        "actualReturn": 15667536
+      },
+      {
+        "preferredEntry": 4280880,
+        "actualReturn": 15667541
+      },
+      {
+        "preferredEntry": 4722320,
+        "actualReturn": 15667546
+      },
+      {
+        "preferredEntry": 4520336,
+        "actualReturn": 15667551
+      },
+      {
+        "preferredEntry": 4518816,
+        "actualReturn": 15667556
+      }
+    ],
+    "failingChild": {
+      "entry": 4512096,
+      "entryEsp": 9436220,
+      "returnAddress": 15667572
+    },
+    "dependency": {
+      "address": 387221304,
+      "length": 4
+    },
+    "historicalFilePins": [
+      {
+        "path": "tools/lib/native-parent-tail.mjs",
+        "expectedSha256": "a07b6ba3643a3af975493b79712ed94b0f16db1d4a4fb79beb0fe46375f62a63",
+        "currentSha256": "a07b6ba3643a3af975493b79712ed94b0f16db1d4a4fb79beb0fe46375f62a63",
+        "matches": true
+      },
+      {
+        "path": "src/race-update.mjs",
+        "expectedSha256": "b5f0f7b6fe3f458597014ea1838bdd499b6e617bc136e2b5a94f0bb353ff3fd7",
+        "currentSha256": "b5f0f7b6fe3f458597014ea1838bdd499b6e617bc136e2b5a94f0bb353ff3fd7",
+        "matches": true
+      },
+      {
+        "path": "src/race-phase-state.mjs",
+        "expectedSha256": "434e72fbee831614d0cf9f5d5c446b6fb56d0f67680eab9804a01e657ce000e3",
+        "currentSha256": "434e72fbee831614d0cf9f5d5c446b6fb56d0f67680eab9804a01e657ce000e3",
+        "matches": true
+      },
+      {
+        "path": "src/race-phase-audio.mjs",
+        "expectedSha256": "d8e9d087d7a22be1740f3ab1b3d50e4f42500221f518128659d36e05f89a6bab",
+        "currentSha256": "d8e9d087d7a22be1740f3ab1b3d50e4f42500221f518128659d36e05f89a6bab",
+        "matches": true
+      },
+      {
+        "path": "analysis/native-parent-rtti-stock-capture-v8-20261024/configuration.json",
+        "expectedSha256": "103b8b4b05b7084e0a8ce05ab80f48d9860dbf880cc07a2a0a8ef3e3bb222639",
+        "currentSha256": "103b8b4b05b7084e0a8ce05ab80f48d9860dbf880cc07a2a0a8ef3e3bb222639",
+        "matches": true
+      },
+      {
+        "path": "analysis/native-parent-rtti-stock-capture-v8-20261024/trace.jsonl",
+        "expectedSha256": "b8c15576ad2848a0a8451329eaa0b23b286156db4ac19c12230fe2326b75de84",
+        "currentSha256": "b8c15576ad2848a0a8451329eaa0b23b286156db4ac19c12230fe2326b75de84",
+        "matches": true
+      }
+    ],
+    "authority": "Pure source continuation only; original recording ends at451120. No native final/next-tick result exists here."
+  },
+  "proposedObservation": {
+    "implemented": false,
+    "purpose": "Observe actual current band bytes from current native pack/table/root; never rerun constructor or seed its zeroing result",
+    "policy": {
+      "allocationRootRva": "0x40f208",
+      "sectorTableRva": "0x40f220",
+      "packRootRva": "0x50b98c",
+      "maxSectors": 127,
+      "maxBandBytes": 65536,
+      "breakpointIds": [
+        "native-control-before",
+        "native-control-after-ai",
+        "native-control-after",
+        "native-control-after-physics",
+        "native-control-after-attachments",
+        "native-control-after-recovery",
+        "native-control-after-drive",
+        "native-control-after-auxiliary",
+        "native-control-after-cameras",
+        "native-control-after-world-effects"
+      ]
+    },
+    "limitMeaning": "Observation bounds only, not native format capacities.127 keeps128 table DWORDs including sentinel before adjacent80f420 dirty queue;65536 keeps the derived byte domain bounded. Never clamp a larger native value.",
+    "exactRow": {
+      "id": "parent-light-band-storage",
+      "source": "parent-light-band-observation",
+      "address": "actual allocation root",
+      "length": "exact checked sum of sector bytes; V8=2400",
+      "bytes": "actual successful read only",
+      "sha256": "actual row hash"
+    },
+    "requiredGuards": [
+      "Existing admitted selected-parent mainTID/clock/context/phase/skip and exact startup policy; no new hot site/API hook/write.",
+      "Authenticate same-snapshot original module roots, pack+0/10h, every sector pointer/header+0ch, and full count+1 native pointer table. Prefer existing captured buffers; repeated root/header reads must byte-match.",
+      "Check nonnull root/pack/sector/table spans and32-bit no-overflow before reads; reject malformed/unreadable nonnull input, count/byte bounds, native-wrap or16-bit nontermination domains.",
+      "Compute byte sizes with checked arithmetic, then require table0==root and each pointer==root+cumulative size, including exact sentinel. No inferred cell values.",
+      "Read only the whole exact derived current allocation, before original instruction/thread continuation; check every partial overlap against ordinary captured bytes. No VirtualQuery heap expansion or cross-snapshot cache.",
+      "Emit same-event proof/annotation only after successful data capture; independent JS derives lengths/pointers/counts/hashes again from actual rows. Failure yields no positive observation.",
+      "Only original parent entry may initialize source. Later rows are output observations; admit semantic band cells/ranges lazily when genuine light helpers reach them, not all idle bytes by default.",
+      "Additional current V8 input transport is2400B/checkpoint; bounded observer cannot increase existing capture byte/time/site/snapshot budgets or omit outputs.",
+      "An additive data observer at these existing checkpoints would close this input gap only. A separately reviewed final-parent/clock/next-tick observation contract is still required for native full-tick comparison."
+    ]
+  },
+  "limits": [
+    "No known band-cell byte can be supplied from the constructor historical zeroing loop; authored/runtime light insertions may have changed it.",
+    "Static allocator/root/table producer plus present pointers prove a structurally valid derived input extent, not an observed historical native allocation return or heap-lifetime ledger.",
+    "No source, helper, profile, installed game file, REA target or OS setting changed; no game/native fixture launched.",
+    "No claim that2400B is a universal track allocation size or that127/65536 are game limits."
+  ]
+}

@@ -1,5 +1,6 @@
 import {normalizeCollisionVector,multiplyQ8} from './sphere-collision.mjs';
 import {lookupRawSpatialBucket} from './body-retirement-effects.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p),short=v=>v<<16>>16;
 const shorts=(m,p)=>[0,2,4].map(o=>m.readInt16LE(p+o));
@@ -54,7 +55,7 @@ export function updateVehicleWeaponTarget(record,runtime){
   const{memory:m,scratchBase}=runtime,frame=scratchBase-108,body=ptr(m,record),clear=()=>{put(m,record+0x7c,0);word(m,record+0x6a,0);};
   if(m[body+0x68c]!==1&&m[body+0x68d]!==1){clear();return;}
   let type=1,shape=0,object=0,other=0,selectedPosition=[get(m,frame+0x5c),get(m,frame+0x60),get(m,frame+0x64)];put(m,frame+0x28,-1);
-  const count=get(m,0x82e904);let row=ptr(m,ptr(m,0x90b990)+0xec);
+  const count=get(m,nativeGlobalAddress(m,0x82e904));let row=ptr(m,ptr(m,0x90b990)+0xec);
   for(let i=0;i<count;i++,row+=20){
     const candidate=ptr(m,row),model=ptr(m,row+4),index=get(m,candidate+12)&15;
     if((m[ptr(m,model+0x194)+index*4+3]&15)===5)continue;
@@ -66,9 +67,9 @@ export function updateVehicleWeaponTarget(record,runtime){
     const oldType=m.readUInt16LE(record+0x6a),mode=oldType&&(oldType!==1||ptr(m,record+0x70)!==candidate)?1:0;
     if(evaluateWeaponTarget(record,mode,frame+0x5c,frame+0x28,{...runtime,scratchBase:frame-12})){shape=candidate;object=model;selectedPosition=shorts(m,frame+0x5c).map(v=>v<<16);}
   }
-  const objects=get(m,0x82e900);
+  const objects=get(m,nativeGlobalAddress(m,0x82e900));
   for(let i=0;i<objects;i++){
-    const candidate=ptr(m,0x82e880+i*8),kind=get(m,0x82e884+i*8),live=ptr(m,record);
+    const candidate=ptr(m,nativeGlobalAddress(m,0x82e880+i*8)),kind=get(m,nativeGlobalAddress(m,0x82e884+i*8)),live=ptr(m,record);
     if(kind===1&&(!(get(m,live+0x710)&0x1000)||candidate===live))continue;
     if(get(m,record+0x7c)===2&&(m.readUInt16LE(record+0x6a)!==2||ptr(m,record+0x70)!==candidate))continue;
     const point=[0x36,0x3a,0x3e].map(o=>m.readInt16LE(candidate+o));point.forEach((v,j)=>word(m,frame+0x5c+j*2,v));

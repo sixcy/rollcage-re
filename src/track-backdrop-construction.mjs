@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {loadGameBitmap} from './game-bitmap-images.mjs';
 import {constructGameTexture} from './game-texture-construction.mjs';
 import tables from './track-backdrop-tables.json' with {type:'json'};
@@ -21,7 +22,7 @@ export function constructTrackBackdrop(header,runtime){const{memory:m,scratchBas
  let count=ptr(m,0x920b20),quad=ptr(m,0x920b28);put(m,F+28,quad);const setting=m[ptr(m,0x5ecefc)+0x33];if(!setting){count=0;put(m,0x920b20,0);}else{if(setting===1){count>>>=1;put(m,0x920b20,count);}put(m,F+32,0);if(count){let output=ptr(m,0x6f96f0)+88;input+=4;put(m,F+24,input);do{copyQuad(m,input-4,quad);put(m,F+20,-1);let texture=-1,found=false;
   if(loaded){const id=m.readUInt16LE(input+28);for(let i=0;i<loaded;i++)if(ptr(m,F+80+i*8)===id){texture=get(m,F+84+i*8);put(m,F+20,texture);found=true;break;}}
   if(!found&&loaded<2){put(m,F+80+loaded*8,m.readUInt16LE(input+28));put(m,F-4,1);put(m,F-8,0x4132d4);texture=63;const name=loaded?0x5d03b8:0x5d03ac;
-   if(loadGameBitmap(name,F+44,1,{...runtime,scratchBase:F-8,entryRegisters:{...runtime.entryRegisters,EBX:count,EBP:63,ESI:output,EDI:loaded}})){texture=get(m,0x91ce98)+1|0;if(texture===63)texture=64;const args=[m.readInt16LE(F+50),m[F+54],ptr(m,F+64),0,0];for(let i=0;i<5;i++)put(m,F-20+i*4,args[i]);put(m,F-24,0x41330d);constructGameTexture(texture,m.readInt16LE(F+46),args[0],args[1],args[2],0,0,{...runtime,scratchBase:F-24,entryRegisters:{...runtime.entryRegisters,EBX:count,EBP:texture,ESI:output,EDI:loaded}});}
+   if(loadGameBitmap(name,F+44,1,{...runtime,scratchBase:F-8,entryRegisters:{...runtime.entryRegisters,EBX:count,EBP:63,ESI:output,EDI:loaded}})){texture=get(m,nativeGlobalAddress(m, 0x91ce98))+1|0;if(texture===63)texture=64;const args=[m.readInt16LE(F+50),m[F+54],ptr(m,F+64),0,0];for(let i=0;i<5;i++)put(m,F-20+i*4,args[i]);put(m,F-24,0x41330d);constructGameTexture(texture,m.readInt16LE(F+46),args[0],args[1],args[2],0,0,{...runtime,scratchBase:F-24,entryRegisters:{...runtime.entryRegisters,EBX:count,EBP:texture,ESI:output,EDI:loaded}});}
    count=ptr(m,0x920b20);quad=ptr(m,F+28);put(m,F+84+loaded*8,texture);loaded++;put(m,F+20,texture);
   }
   input=ptr(m,F+24);const mat=ptr(m,0x90b988)+m.readUInt16LE(input+28)*16;material(m,output-56,mat);

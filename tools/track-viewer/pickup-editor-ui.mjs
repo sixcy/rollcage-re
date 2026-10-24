@@ -8,7 +8,7 @@ const element = id => document.getElementById(id);
 const copy = value => structuredClone(value);
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
 const bytesEqual = (a,b) => a.length === b.length && a.every((byte,i) => byte === b[i]);
-const supported = level => Number.isInteger(level) && level >= 1 && level <= 20 && ![15,16,17].includes(level);
+const supported = level => Number.isInteger(level) && level >= 1 && level <= 20 && ![16,17].includes(level);
 const levelOf = track => Number(/\/(?:LEV)(\d+)\.BLP$/i.exec(track?.name ?? '')?.[1]);
 const messageOf = error => error instanceof Error ? error.message : String(error);
 
@@ -52,34 +52,19 @@ export class PickupEditor {
     });
     action('editor-test', () => {this.setEditing(false, {testing:true}); this.onTest(); this.say('Testing edited pickups. Weapons are enabled; the race has restarted.');});
     action('editor-save', async () => {
-      const project = await this.project(); this.onDownload({filename:'pickup-project.json',blob:new Blob([JSON.stringify(project,null,2)],{type:'application/json'})});
-      this.savedRevision = this.revision; this.say('Project download started. Reload it with the original archives to continue editing.'); this.refresh();
+      const project = await this.project(); this.onDownload({filename:project.schemaVersion===2?'track-project.json':'pickup-project.json',blob:new Blob([JSON.stringify(project,null,2)],{type:'application/json'})});
+      this.savedRevision = this.revision; this.say('Project download started. Reload it with the same starting archives to continue editing.'); this.refresh();
     });
     element('editor-load').addEventListener('change', () => this.perform(async () => {
       const file = element('editor-load').files[0]; if (!file) return;
       try {
-        if (file.size > 1048576) throw Error('Pickup project exceeds the 1 MB limit.');
-        const project = parsePickupProject(JSON.parse(await file.text()));
-        if (project.indexSha256 !== this.indexSha256) throw Error('This project requires its matching original Rollcage archives.');
-        const bases = await Promise.all(project.levels.map(row => this.loadLevel(row.level)));
-        validatePickupProject(project, {indexSha256:this.indexSha256,levels:bases.map(row => ({level:row.level,sourceHashes:row.sourceHashes,lowData:row.LOW.data,highData:row.HIGH.data}))});
-        //No draft changes until the whole project and every base resource pass.
-        for (const base of this.levels.values()) {base.draft = copy(base.original); base.undo = []; base.redo = [];}
-        for (const row of project.levels) this.levels.get(row.level).draft = copy(row.pickups);
-        this.revision++; this.savedRevision = this.revision; this.selected = null; this.onChange(); this.setEditing(true);
-        this.say('Project loaded. Edits apply to both LOW and HIGH versions.'); this.refresh();
+        if (file.size > 4194304) throw Error('Track project exceeds the 4 MB limit.');
+        await this.restoreProject(JSON.parse(await file.text()));
       } finally {element('editor-load').value = '';}
     }));
     action('editor-export', async () => {
       this.onModeChange(true); this.releaseMouse();
-      const project = await this.project(), replacements = new Map();
-      for (const row of project.levels) {
-        const base = this.levels.get(row.level);
-        for (const quality of ['LOW','HIGH']) {
-          const data = compilePickupEdits(base[quality].data, row.pickups);
-          if (!bytesEqual(data,base[quality].data)) replacements.set(base[quality].index,data);
-        }
-      }
+      const project = await this.project(), replacements = await this.exportReplacements(project);
       this.abort = new AbortController(); element('editor-cancel-export').hidden = false;
       try {
         const download = await buildPickupGameDownload(this.archive,replacements,project,{signal:this.abort.signal,onProgress:({completed,total})=>this.say(`Preparing game files… ${Math.round(completed / Math.max(1,total) * 100)}%`)});
@@ -96,6 +81,28 @@ export class PickupEditor {
       else if ((event.ctrlKey || event.metaKey) && event.code === 'KeyY') {event.preventDefault(); this.perform(()=>this.history('redo','undo'));}
       else if ((event.code === 'Delete' || event.code === 'Backspace') && document.activeElement === this.canvas) {event.preventDefault(); element('editor-delete').click();}
     });
+  }
+  async restoreProject(value) {
+    const project = parsePickupProject(value);
+    if (project.indexSha256 !== this.indexSha256) throw Error('This project requires its matching original Rollcage archives.');
+    const bases = await Promise.all(project.levels.map(row => this.loadLevel(row.level)));
+    validatePickupProject(project, {indexSha256:this.indexSha256,levels:bases.map(row => ({level:row.level,sourceHashes:row.sourceHashes,lowData:row.LOW.data,highData:row.HIGH.data}))});
+    //No draft changes until the whole project and every base resource pass.
+    for (const base of this.levels.values()) {base.draft = copy(base.original); base.undo = []; base.redo = [];}
+    for (const row of project.levels) this.levels.get(row.level).draft = copy(row.pickups);
+    this.revision++; this.savedRevision = this.revision; this.selected = null; this.onChange(); this.setEditing(true);
+    this.say('Project loaded. Edits apply to both LOW and HIGH versions.'); this.refresh();
+  }
+  async exportReplacements(project) {
+    const replacements = new Map();
+    for (const row of project.levels) {
+      const base = this.levels.get(row.level);
+      for (const quality of ['LOW','HIGH']) {
+        const data = compilePickupEdits(base[quality].data, row.pickups);
+        if (!bytesEqual(data,base[quality].data)) replacements.set(base[quality].index,data);
+      }
+    }
+    return replacements;
   }
   async perform(fn) {
     if (this.busy) return;
@@ -133,7 +140,7 @@ export class PickupEditor {
     }
     if(this.archive!==source)throw Error('The archive source changed while loading pickup definitions.');
     const low=parsePickupPlacements(pair.LOW.data),high=parsePickupPlacements(pair.HIGH.data);
-    if (!low.count || low.count!==high.count || low.records.some((row,i)=>!bytesEqual(row.raw,high.records[i].raw))) throw Error('LOW and HIGH pickup definitions must match the original supported level.');
+    if (low.count!==high.count || low.records.some((row,i)=>!bytesEqual(row.raw,high.records[i].raw))) throw Error('LOW and HIGH pickup definitions must match the original supported level.');
     pair.original=createPickupDraft(pair.LOW.data);pair.draft=copy(pair.original);pair.undo=[];pair.redo=[];
     pair.sourceHashes={LOW:await pickupSha256(pair.LOW.data),HIGH:await pickupSha256(pair.HIGH.data)};
     if(this.archive!==source)throw Error('The archive source changed while checking pickup definitions.');
@@ -152,7 +159,7 @@ export class PickupEditor {
     }catch(error){if(token===this.token){element('editor-error').textContent=messageOf(error);this.editing=false;this.refresh();}}
   }
   setEditing(enabled, {testing = false} = {}) {
-    this.releaseMouse();this.cancelDrag();this.editing=Boolean(enabled&&this.current);this.adding=false;this.pendingDuplicate=null;
+    this.releaseMouse();this.cancelDrag();this.editing=Boolean(enabled&&this.current?.original.length);this.adding=false;this.pendingDuplicate=null;
     if(this.editing)this.navigation.setMode('orbit');this.onModeChange(this.editing, {testing});
     this.refresh();
   }
@@ -219,7 +226,7 @@ export class PickupEditor {
   }
   cancelDrag() {const active=Boolean(this.drag);if(this.drag&&this.current)this.current.draft=this.drag.before;this.drag=null;if(active)this.refresh();}
   refresh() {
-    const available=Boolean(this.current),active=available&&this.editing&&!this.busy,row=this.selectedRow();
+    const available=Boolean(this.current?.original.length),active=available&&this.editing&&!this.busy,row=this.selectedRow();
     element('editor-enable').disabled=!available||this.busy;element('editor-enable').checked=this.editing;
     element('editor-controls').hidden=!this.editing;
     for(const id of ['editor-add','editor-duplicate'])element(id).disabled=!active||(this.current?.draft.length>=16&&!(id==='editor-add'&&this.adding))||(id==='editor-duplicate'&&!row);

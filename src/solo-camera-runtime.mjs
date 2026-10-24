@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {constructCameraController, initializeCameraConstructionConstants} from './camera-construction.mjs';
 import {initializeCameraCurveConstants} from './camera-curve.mjs';
 import {initializeCameraPolicyConstants} from './camera-mode-policy.mjs';
@@ -62,7 +63,7 @@ export function createSoloCameraRuntime(runtime) {
         const value = f32(f32(limit / aspect) * memory.readFloatLE(0x5dca1c));
         distance = (Number.isFinite(value) && value >= -2147483648 && value < 2147483648 ? Math.trunc(value) : -2147483648) & 65535;
       }
-      memory.writeUInt16LE(distance, 0x91d50a); put(frame + 0x18, 104); memory.writeFloatLE(104, 0x91ceb0);
+      memory.writeUInt16LE(distance, 0x91d50a); put(frame + 0x18, 104); memory.writeFloatLE(104, nativeGlobalAddress(memory,0x91ceb0));
       updateCameraProjection(distance << 16 >> 16, context);
       updateCameraProjectionRatios(distance, context);
     },
@@ -126,7 +127,7 @@ export function createSoloCameraRuntime(runtime) {
     },
     get snapshot() {
       const viewCount = getRaceStageCount(runtime);
-      return Object.freeze({viewCount, animationUnconditional: Boolean(nativeMemorySpan(memory, 0x91ce90, 1)[0] & 2),
+      return Object.freeze({viewCount, animationUnconditional: Boolean(nativeMemorySpan(memory, nativeGlobalAddress(memory,0x91ce90), 1)[0] & 2),
         views: Object.freeze(Array.from({length: viewCount}, (_, index) => {
           const row = 0x91ff80 + index * 0x184;
           return Object.freeze({index, mode: nativeMemorySpan(memory, row, 4).readInt32LE(), participant: nativeMemorySpan(memory, row + 0x36, 2).readUInt16LE(),

@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-read-only-original-process-capture-audit",
+  "createdUtc": "2026-10-24T11:17:19.311Z",
+  "captureDirectory": "analysis/native-parent-rtti-stock-capture-v8-20261024",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "verified": true,
+  "provenance": {
+    "configurationSha256": "103b8b4b05b7084e0a8ce05ab80f48d9860dbf880cc07a2a0a8ef3e3bb222639",
+    "traceSha256": "b8c15576ad2848a0a8451329eaa0b23b286156db4ac19c12230fe2326b75de84",
+    "helperSha256": "470f15aac2ee99dd81036e8e559107e94885bee9447a8b98c26a4f8304ff0019",
+    "invocationSha256": "8ba3e3bf2462674423f78ee4c18fd8e7d2815d8b1b81d239614c8bb23b889466",
+    "preparedRecordSha256": "55fe744d151f6d3f2fe55f426cd9cd067ceeafb8bcb5ab4c180e3282089e3922",
+    "invocationRecordSha256": "f35bd9faa8aea85d75fa19e1fbd33c20ccc4ba28349feee641a41322850da467",
+    "immutableHelperRunnerAndConfigurationPinsVerified": true
+  },
+  "transport": {
+    "declaredSites": 17,
+    "maxSnapshots": 21,
+    "actualSnapshots": 21,
+    "maxDurationMs": 90000,
+    "maxEvents": 1000000,
+    "actualEvents": 6963,
+    "phaseActions": 3,
+    "startupWrites": 6,
+    "allReferencedBlobCount": 6702,
+    "allReferencedBlobBytes": 334877446,
+    "allBlobHashesAndLengthsVerified": true,
+    "unreferencedBinaryFiles": 0,
+    "rawContexts716": 70,
+    "registerMetadataChecks": 70,
+    "guardedPointerProofsVerified": true,
+    "snapshotBreakpoints": [
+      {
+        "ordinal": 1,
+        "id": "launcher-policy",
+        "tid": 40996,
+        "event": 145
+      },
+      {
+        "ordinal": 2,
+        "id": "graphics-policy",
+        "tid": 40996,
+        "event": 147
+      },
+      {
+        "ordinal": 3,
+        "id": "before-device-creation",
+        "tid": 40996,
+        "event": 156
+      },
+      {
+        "ordinal": 4,
+        "id": "native-control-before",
+        "tid": 40996,
+        "event": 6929
+      },
+      {
+        "ordinal": 5,
+        "id": "native-control-after-ai",
+        "tid": 40996,
+        "event": 6931
+      },
+      {
+        "ordinal": 6,
+        "id": "native-control-after",
+        "tid": 40996,
+        "event": 6933
+      },
+      {
+        "ordinal": 7,
+        "id": "native-control-after-physics",
+        "tid": 40996,
+        "event": 6935
+      },
+      {
+        "ordinal": 8,
+        "id": "native-control-after-attachments",
+        "tid": 40996,
+        "event": 6937
+      },
+      {
+        "ordinal": 9,
+        "id": "native-control-after-recovery",
+        "tid": 40996,
+        "event": 6939
+      },
+      {
+        "ordinal": 10,
+        "id": "native-control-after-drive",
+        "tid": 40996,
+        "event": 6941
+      },
+      {
+        "ordinal": 11,
+        "id": "native-control-after-auxiliary",
+        "tid": 40996,
+        "event": 6943
+      },
+      {
+        "ordinal": 12,
+        "id": "native-parent-rtti-call",
+        "tid": 40996,
+        "event": 6945
+      },
+      {
+        "ordinal": 13,
+        "id": "native-parent-rtti-return",
+        "tid": 40996,
+        "event": 6947
+      },
+      {
+        "ordinal": 14,
+        "id": "native-control-after-cameras",
+        "tid": 40996,
+        "event": 6949
+      },
+      {
+        "ordinal": 15,
+        "id": "native-parent-rtti-call",
+        "tid": 40996,
+        "event": 6951
+      },
+      {
+        "ordinal": 16,
+        "id": "native-parent-rtti-return",
+        "tid": 40996,
+        "event": 6953
+      },
+      {
+        "ordinal": 17,
+        "id": "native-parent-rtti-call",
+        "tid": 40996,
+        "event": 6955
+      },
+      {
+        "ordinal": 18,
+        "id": "native-parent-rtti-return",
+        "tid": 40996,
+        "event": 6957
+      },
+      {
+        "ordinal": 19,
+        "id": "native-parent-weather-counter-call",
+        "tid": 40996,
+        "event": 6959
+      },
+      {
+        "ordinal": 20,
+        "id": "native-parent-weather-counter-return",
+        "tid": 40996,
+        "event": 6961
+      },
+      {
+        "ordinal": 21,
+        "id": "native-control-after-world-effects",
+        "tid": 40996,
+        "event": 6963
+      }
+    ]
+  },
+  "nativeProof": {
+    "ownedPid": 18120,
+    "ownedMainTid": 40996,
+    "moduleBaseAddress": 15335424,
+    "parentEntryEsp": 9436240,
+    "logicalClock": 288,
+    "crtPairs": 3,
+    "qpcPairs": 1,
+    "viewportMapGraphs": 3,
+    "parentOwnerChannelGraphs": [
+      {
+        "breakpointId": "native-control-before",
+        "snapshotOrdinal": 4,
+        "debugEventOrdinal": 6929,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-ai",
+        "snapshotOrdinal": 5,
+        "debugEventOrdinal": 6931,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after",
+        "snapshotOrdinal": 6,
+        "debugEventOrdinal": 6933,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-physics",
+        "snapshotOrdinal": 7,
+        "debugEventOrdinal": 6935,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-attachments",
+        "snapshotOrdinal": 8,
+        "debugEventOrdinal": 6937,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-recovery",
+        "snapshotOrdinal": 9,
+        "debugEventOrdinal": 6939,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-drive",
+        "snapshotOrdinal": 10,
+        "debugEventOrdinal": 6941,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-auxiliary",
+        "snapshotOrdinal": 11,
+        "debugEventOrdinal": 6943,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-cameras",
+        "snapshotOrdinal": 14,
+        "debugEventOrdinal": 6949,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      },
+      {
+        "breakpointId": "native-control-after-world-effects",
+        "snapshotOrdinal": 21,
+        "debugEventOrdinal": 6963,
+        "tid": 40996,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "bankCapacitySlots": 94,
+        "ownerBytes": 74752,
+        "usedChannelSlots": 34,
+        "storageRows": 13,
+        "wrapperRows": 34,
+        "sourceRows": 34,
+        "vtableRows": 1,
+        "channelBytes": 84728
+      }
+    ],
+    "aggregate": {
+      "checkpoints": 10,
+      "ownerRows": 640,
+      "ownerBytes": 747520,
+      "channelGraph": {
+        "checkpoints": 10,
+        "usedChannelSlots": 340,
+        "storageRows": 130,
+        "wrapperRows": 340,
+        "sourceRows": 340,
+        "vtableRows": 10,
+        "additionalBytes": 847280
+      }
+    },
+    "allRawMarkerAnnotationsScopeOrderingIndicesHashesAndGuardsVerified": true,
+    "actualSourceVtableMap": {
+      "verified": true,
+      "evidenceFile": "analysis/native-simulation/results/11714-audio-factory-constants.json",
+      "evidenceFileSha256": "1d17a1af84c0d756da6d60c368d64e7692c18cb1ebc12a8089fe7d3478834e81",
+      "evidenceId": "ev_a436655c8fc8cf31b16d14f2b20027401c4b3696e54dddf149a532e7c7c64200",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+      "originalPreferredAddress": 6111072,
+      "actualAddress": 17252192,
+      "bytesPerRow": 136,
+      "rows": 10,
+      "wordsPerRow": 34,
+      "totalWordsCompared": 340,
+      "allWordsMatchRelocatedOriginalMap": true
+    }
+  },
+  "cleanup": {
+    "completeElapsedMs": 47876,
+    "cleanupElapsedMs": 47929,
+    "pid": 18120,
+    "terminated": true,
+    "allTrackedThreadsQuiescent": true,
+    "diagnosticContexts": 49,
+    "diagnosticStacks": 49,
+    "currentRollcageProcessCount": 0,
+    "processCheckUtc": "2026-10-24T11:17:19.315Z"
+  },
+  "observedStateChanges": {
+    "authority": "Adjacent stopped-event byte observations only; no actor/worker attribution, concurrency causality or interleaving closure inferred",
+    "transitions": [
+      {
+        "before": "native-control-before",
+        "after": "native-control-after-ai",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      },
+      {
+        "before": "native-control-after-ai",
+        "after": "native-control-after",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 12,
+        "changedSourceBytes": 45,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": [
+          2256,
+          2257,
+          2258,
+          2260,
+          2261,
+          2262
+        ]
+      },
+      {
+        "before": "native-control-after",
+        "after": "native-control-after-physics",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      },
+      {
+        "before": "native-control-after-physics",
+        "after": "native-control-after-attachments",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      },
+      {
+        "before": "native-control-after-attachments",
+        "after": "native-control-after-recovery",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      },
+      {
+        "before": "native-control-after-recovery",
+        "after": "native-control-after-drive",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      },
+      {
+        "before": "native-control-after-drive",
+        "after": "native-control-after-auxiliary",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      },
+      {
+        "before": "native-control-after-auxiliary",
+        "after": "native-control-after-cameras",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      },
+      {
+        "before": "native-control-after-cameras",
+        "after": "native-control-after-world-effects",
+        "changedOwners": 0,
+        "changedOwnerBytes": 0,
+        "changedSources": 0,
+        "changedSourceBytes": 0,
+        "newOrMissingSourceAddresses": [],
+        "sourceChangedOffsets": []
+      }
+    ]
+  },
+  "joinedSourceReport": {
+    "file": "analysis/native-parent-rtti-stock-first-replay-v8-20261024/report.json",
+    "sha256": "97e0f83acfabd678877840322614fe4d8e17022130ea1992270c268e0e48106f",
+    "matched": true,
+    "sourceComplete": true,
+    "completeParentTickMatched": false,
+    "comparedFrames": 1,
+    "afterAi": {
+      "matched": true,
+      "bytesCompared": 5133321,
+      "uniqueBytesCompared": 5108613,
+      "differingBytes": 0,
+      "parentAbiBytesCompared": 0,
+      "differingParentAbiBytes": 0,
+      "protectedControlBytes": 720
+    },
+    "physics": {
+      "matched": true,
+      "bytesCompared": 5133721,
+      "uniqueBytesCompared": 5109013,
+      "differingBytes": 0,
+      "parentAbiBytesCompared": 28,
+      "differingParentAbiBytes": 0,
+      "protectedControlBytes": 720
+    },
+    "stages": [
+      {
+        "stage": "attachments",
+        "nativeOrdinal": 8,
+        "matched": true,
+        "bytesCompared": 5133745,
+        "uniqueBytesCompared": 5109037,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0,
+        "protectedControlBytes": 720
+      },
+      {
+        "stage": "recovery",
+        "nativeOrdinal": 9,
+        "matched": true,
+        "bytesCompared": 5133745,
+        "uniqueBytesCompared": 5109037,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0,
+        "protectedControlBytes": 720
+      },
+      {
+        "stage": "drive",
+        "nativeOrdinal": 10,
+        "matched": true,
+        "bytesCompared": 5133745,
+        "uniqueBytesCompared": 5109037,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0,
+        "protectedControlBytes": 720
+      },
+      {
+        "stage": "auxiliary",
+        "nativeOrdinal": 11,
+        "matched": true,
+        "bytesCompared": 5133745,
+        "uniqueBytesCompared": 5109037,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0,
+        "protectedControlBytes": 720
+      },
+      {
+        "stage": "cameras",
+        "nativeOrdinal": 14,
+        "matched": true,
+        "bytesCompared": 5133978,
+        "uniqueBytesCompared": 5109270,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0,
+        "protectedControlBytes": 720
+      },
+      {
+        "stage": "world-effects",
+        "nativeOrdinal": 21,
+        "matched": true,
+        "bytesCompared": 5133978,
+        "uniqueBytesCompared": 5109270,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0,
+        "protectedControlBytes": 720
+      }
+    ],
+    "sourceCounterEvents": 1,
+    "sourceRttiEvents": 3,
+    "sourceSoundCreationEvents": [],
+    "authority": "Read and asserted the completed joined report; this audit independently validates its raw inputs/provenance, not a second source execution"
+  },
+  "installationReports": {
+    "authority": "Root-generated fullfile integrity reports read and SHA-pinned; no redundant installation rehash in this audit",
+    "reports": [
+      {
+        "file": "analysis/native-parent-rtti-stock-installation-after-v8-20261024.json",
+        "sha256": "fd64828d1953ee02913dae006cb28603d88e8c4b8913ad46bf02b6c8deb25739",
+        "filesPerSide": 171,
+        "identitiesReported": 342,
+        "bytesPerSide": 156187383,
+        "mismatches": 0,
+        "method": "Post-run SHA-256 check of every manifest original installed file and corresponding copied path; redirected runtime files are separate."
+      },
+      {
+        "file": "analysis/native-parent-rtti-installed-edits-after-v8-20261024.json",
+        "sha256": "a6fa5338cad6b6cac53e44ddbe954a2d5ceefcf4c772f1fcd0b7d2a5b24cb5c9",
+        "filesPerSide": 173,
+        "identitiesReported": 346,
+        "bytesPerSide": 239489019,
+        "mismatches": 0,
+        "method": "Post-run SHA-256 check of every manifest original installed file and corresponding copied path; redirected runtime files are separate."
+      }
+    ],
+    "totalIdentitiesReported": 688
+  },
+  "limits": [
+    "Only450e50 entry through world-effects is attempted; final parent return, clock advancement and the next tick remain open.",
+    "All replay inputs come from parent entry; intermediate/exit native bytes are comparison-only.",
+    "Full private CPU/CRT ABI and unobserved scenarios are not established by checkpoint memory parity.",
+    "No native adaptive fresh-channel allocation branch is established: this source replay reports zero creation events. Static instruction tests are separate evidence.",
+    "Raw source/owner byte changes are observed only; no claim that GetTID/QPC/worker callbacks caused them.",
+    "Transported idle owner/channel/source rows receive no automatic source semantic admission or mandatory mutable comparison.",
+    "Runtime resolved-export identity and complete private CPU/CRT ABI remain unproved.",
+    "No game or native fixture launched, no helper/profile/source modified by this audit."
+  ]
+}

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 //42b280: four replay streams use an alternating complemented-byte checksum.
 export function updateReplayChecksum(controller,{memory,validate=false}) {
   let checksum=0x2524;
@@ -18,7 +19,7 @@ export function stepReplayControl(body,{memory}) {
   const u8=p=>memory.readUInt8(p),u16=p=>memory.readUInt16LE(p),s16=p=>memory.readInt16LE(p),u32=p=>memory.readUInt32LE(p),s32=p=>memory.readInt32LE(p);
   const b=(p,value)=>memory.writeUInt8(value&255,p),w=(p,value)=>memory.writeUInt16LE(value&65535,p),d=(p,value)=>memory.writeInt32LE(value|0,p);
   const controller=u32(body+0x660);
-  if(s32(0x9020a0)!==0||controller===0)return;
+  if(s32(nativeGlobalAddress(memory, 0x9020a0))!==0||controller===0)return;
   const state=()=>s32(controller+0x1e880),headers=[0x4e30,0x14c24,0x19a50];
   switch(state()){
   case 2:case 3:case 7:{

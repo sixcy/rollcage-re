@@ -1,0 +1,764 @@
+{
+  "method": "Independent read-only CLOSED V4 native provenance/graph/guardedtyreowner/hash/four-root-integrity audit; no native launch, fixtures, sourceexecution or code edits.",
+  "captureDirectory": "analysis/native-parent-rtti-stock-capture-v4-20261024",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "prepared": {
+    "path": "analysis/native-parent-rtti-stock-prepared-v4-20261024.json",
+    "sha256": "a46ae97f9384780a3751c318031292bc8a59182baaa4b6a07706fa70c9f6b0b8"
+  },
+  "frozenHelperFiles": [
+    {
+      "file": "analysis/native-physics-local/parent-rtti-stock-resumed-v4-20261024/runner-v4/lib/native-physics-debugger.cs",
+      "length": 265906,
+      "sha256": "37ff703795d77956b584226be0638d82a8142430da734298ca0869449dfd7707",
+      "verified": true
+    },
+    {
+      "file": "analysis/native-physics-local/parent-rtti-stock-resumed-v4-20261024/runner-v4/native-physics-capture.ps1",
+      "length": 2865,
+      "sha256": "d63ddc7589d36cd9c81c05525e5951aee6199f3a481ec1eb1af838c46730131f",
+      "verified": true
+    }
+  ],
+  "configurationSha256": "15004642e22fe9b3ca1f0604bd52a3a91716bd3e6b6acc070185d4b2dad15701",
+  "rawSnapshotCount": 19,
+  "hashVerifiedNativeBlobs": 5100,
+  "provenance": {
+    "verified": true,
+    "scope": "Authenticated captured parent/CRT transport; no source result or map memory admission",
+    "ownedPid": 19512,
+    "ownedMainTid": 13808,
+    "moduleBaseAddress": 6225920,
+    "parentEntryEsp": 4323720,
+    "logicalClock": 288,
+    "externalPairs": 3,
+    "snapshots": 19,
+    "mapIdentity": {
+      "appAddress": 9458800,
+      "headAddress": 14923408
+    },
+    "activationDebugEventOrdinal": 6940,
+    "outcomes": [
+      {
+        "pairIndex": 1,
+        "callOrdinal": 12,
+        "returnOrdinal": 13,
+        "entryEsp": 4323440,
+        "args": [
+          9458800,
+          0,
+          9249084,
+          9248932,
+          0
+        ],
+        "eax": 9458800,
+        "family": "camera",
+        "authority": "observed-external-CRT-boundary-only"
+      },
+      {
+        "pairIndex": 2,
+        "callOrdinal": 15,
+        "returnOrdinal": 16,
+        "entryEsp": 4323256,
+        "args": [
+          9458800,
+          0,
+          9249084,
+          9248932,
+          0
+        ],
+        "eax": 9458800,
+        "family": "weather-screen",
+        "weatherQueryIndex": 1,
+        "authority": "observed-external-CRT-boundary-only"
+      },
+      {
+        "pairIndex": 3,
+        "callOrdinal": 17,
+        "returnOrdinal": 18,
+        "entryEsp": 4323256,
+        "args": [
+          9458800,
+          0,
+          9249084,
+          9248932,
+          0
+        ],
+        "eax": 9458800,
+        "family": "weather-screen",
+        "weatherQueryIndex": 2,
+        "authority": "observed-external-CRT-boundary-only"
+      }
+    ],
+    "viewportMapGraph": [
+      {
+        "snapshotOrdinal": 4,
+        "appAddress": 9458800,
+        "headAddress": 14923408,
+        "rootAddress": 260144624,
+        "count": 3,
+        "nodes": [
+          {
+            "index": 0,
+            "path": "root",
+            "address": 260144624,
+            "parentAddress": 14923408,
+            "leftAddress": 141962416,
+            "rightAddress": 143483032,
+            "keyAddress": 260144752,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-0",
+            "keyRangeId": "parent-rtti-map-key-0",
+            "keyHex": "43696e656d617469632057696e646f77"
+          },
+          {
+            "index": 1,
+            "path": "root.left",
+            "address": 141962416,
+            "parentAddress": 260144624,
+            "leftAddress": 14923408,
+            "rightAddress": 14923408,
+            "keyAddress": 141962432,
+            "keyLength": 8,
+            "keyCapacity": 15,
+            "heapKey": false,
+            "nodeRangeId": "parent-rtti-map-node-1",
+            "keyRangeId": null,
+            "keyHex": "3020506c61796572"
+          },
+          {
+            "index": 2,
+            "path": "root.right",
+            "address": 143483032,
+            "parentAddress": 260144624,
+            "leftAddress": 14923408,
+            "rightAddress": 14923408,
+            "keyAddress": 143483160,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-2",
+            "keyRangeId": "parent-rtti-map-key-2",
+            "keyHex": "526561722056696577204d6972726f72"
+          }
+        ],
+        "wholeGraphAdmittedToSource": false
+      },
+      {
+        "snapshotOrdinal": 14,
+        "appAddress": 9458800,
+        "headAddress": 14923408,
+        "rootAddress": 260144624,
+        "count": 3,
+        "nodes": [
+          {
+            "index": 0,
+            "path": "root",
+            "address": 260144624,
+            "parentAddress": 14923408,
+            "leftAddress": 141962416,
+            "rightAddress": 143483032,
+            "keyAddress": 260144752,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-0",
+            "keyRangeId": "parent-rtti-map-key-0",
+            "keyHex": "43696e656d617469632057696e646f77"
+          },
+          {
+            "index": 1,
+            "path": "root.left",
+            "address": 141962416,
+            "parentAddress": 260144624,
+            "leftAddress": 14923408,
+            "rightAddress": 14923408,
+            "keyAddress": 141962432,
+            "keyLength": 8,
+            "keyCapacity": 15,
+            "heapKey": false,
+            "nodeRangeId": "parent-rtti-map-node-1",
+            "keyRangeId": null,
+            "keyHex": "3020506c61796572"
+          },
+          {
+            "index": 2,
+            "path": "root.right",
+            "address": 143483032,
+            "parentAddress": 260144624,
+            "leftAddress": 14923408,
+            "rightAddress": 14923408,
+            "keyAddress": 143483160,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-2",
+            "keyRangeId": "parent-rtti-map-key-2",
+            "keyHex": "526561722056696577204d6972726f72"
+          }
+        ],
+        "wholeGraphAdmittedToSource": false
+      },
+      {
+        "snapshotOrdinal": 19,
+        "appAddress": 9458800,
+        "headAddress": 14923408,
+        "rootAddress": 260144624,
+        "count": 3,
+        "nodes": [
+          {
+            "index": 0,
+            "path": "root",
+            "address": 260144624,
+            "parentAddress": 14923408,
+            "leftAddress": 141962416,
+            "rightAddress": 143483032,
+            "keyAddress": 260144752,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-0",
+            "keyRangeId": "parent-rtti-map-key-0",
+            "keyHex": "43696e656d617469632057696e646f77"
+          },
+          {
+            "index": 1,
+            "path": "root.left",
+            "address": 141962416,
+            "parentAddress": 260144624,
+            "leftAddress": 14923408,
+            "rightAddress": 14923408,
+            "keyAddress": 141962432,
+            "keyLength": 8,
+            "keyCapacity": 15,
+            "heapKey": false,
+            "nodeRangeId": "parent-rtti-map-node-1",
+            "keyRangeId": null,
+            "keyHex": "3020506c61796572"
+          },
+          {
+            "index": 2,
+            "path": "root.right",
+            "address": 143483032,
+            "parentAddress": 260144624,
+            "leftAddress": 14923408,
+            "rightAddress": 14923408,
+            "keyAddress": 143483160,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-2",
+            "keyRangeId": "parent-rtti-map-key-2",
+            "keyHex": "526561722056696577204d6972726f72"
+          }
+        ],
+        "wholeGraphAdmittedToSource": false
+      }
+    ],
+    "runtimeResolvedExportIdentityProved": false
+  },
+  "tyreSound2": {
+    "descriptor": {
+      "id": "control-tyre-sound2-owner",
+      "rva": "0x2f2414",
+      "dereferenceOffsets": [
+        "0",
+        "0x8"
+      ],
+      "dereferenceMinimumValues": [
+        1,
+        1
+      ],
+      "length": 1168
+    },
+    "allocationEvidence": [
+      {
+        "evidenceId": "ev_46bcabb10c7f22695d3aaf8697963cd496246d5cfed4b596a40f0b17737eb507",
+        "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+      }
+    ],
+    "originalAllocationInstructions": [
+      {
+        "address": 4251368,
+        "op": "PUSH",
+        "args": [
+          "0x490"
+        ]
+      },
+      {
+        "address": 4251394,
+        "op": "CALL",
+        "args": [
+          "0x0040d7d0"
+        ]
+      }
+    ],
+    "parentObservations": [
+      {
+        "stage": "native-control-before",
+        "snapshotOrdinal": 4,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-ai",
+        "snapshotOrdinal": 5,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after",
+        "snapshotOrdinal": 6,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-physics",
+        "snapshotOrdinal": 7,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-attachments",
+        "snapshotOrdinal": 8,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-recovery",
+        "snapshotOrdinal": 9,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-drive",
+        "snapshotOrdinal": 10,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-auxiliary",
+        "snapshotOrdinal": 11,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-cameras",
+        "snapshotOrdinal": 14,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      },
+      {
+        "stage": "native-control-after-world-effects",
+        "snapshotOrdinal": 19,
+        "bankHeaderAddress": 9315348,
+        "bankBegin": 387964344,
+        "bankUsedPointers": 64,
+        "bankCapacityPointers": 94,
+        "slot2Address": 387964352,
+        "ownerAddress": 142637912,
+        "ownerBytes": 1168,
+        "ownerSha256": "4b1d71ee46818a367348c149df5e1470abd5e4d76ef5e43ec8c172d6ea0d0ff5",
+        "changedBytesVsEntry": 0,
+        "guardedSteps": [
+          {
+            "index": 0,
+            "readAddress": "0x008e2414",
+            "value": "0x171fddb8",
+            "bytesHex": "b8dd1f17",
+            "minimumValue": 1
+          },
+          {
+            "index": 1,
+            "readAddress": "0x171fddc0",
+            "value": "0x08807b58",
+            "bytesHex": "587b8008",
+            "minimumValue": 1
+          }
+        ],
+        "ownerChannelVectorObservedOnly": {
+          "begin": 388291888,
+          "end": 388291896,
+          "capacity": 388291896,
+          "capacityStorageCaptured": true
+        },
+        "sourceSelectionMaximum": 0,
+        "sourceSelectionCursor": 0
+      }
+    ],
+    "originalEntrySemanticAdmission": [
+      {
+        "id": "control-tyre-sound2-owner",
+        "address": 142637912,
+        "length": 1168,
+        "comparison": "mutable",
+        "evidence": "Original parent-entry nonnull code2 owner; same40dee8/40df02 490h allocation, reached from actual48608f tyre producer. No native after state is supplied."
+      }
+    ],
+    "nativeAfterOwnerUsedAsSourceInput": false
+  },
+  "integrity": [
+    {
+      "manifest": "analysis/native-physics-local/parent-rtti-stock-resumed-v4-20261024/installation-manifest.json",
+      "manifestSha256": "e518bc994e9fbeee2ebed578cf331ed2c18742bc9c3a1b4bfdc725d627977742",
+      "role": "source",
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-baseline-20261024\\installation",
+      "files": 171,
+      "bytes": 156187383,
+      "allMatched": true
+    },
+    {
+      "manifest": "analysis/native-physics-local/parent-rtti-stock-resumed-v4-20261024/installation-manifest.json",
+      "manifestSha256": "e518bc994e9fbeee2ebed578cf331ed2c18742bc9c3a1b4bfdc725d627977742",
+      "role": "retained-copy",
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\parent-rtti-stock-resumed-v4-20261024\\installation",
+      "files": 171,
+      "bytes": 156187383,
+      "allMatched": true
+    },
+    {
+      "manifest": "analysis/native-physics-local/parent-rtti-resumed-20261024/installation-manifest.json",
+      "manifestSha256": "809915d706f85d47864229bd8d13709c78d3060cfa91734b5a28f0503f3909c6",
+      "role": "source",
+      "root": "C:\\Program Files (x86)\\Psygnosis\\Rollcage",
+      "files": 173,
+      "bytes": 239489019,
+      "allMatched": true
+    },
+    {
+      "manifest": "analysis/native-physics-local/parent-rtti-resumed-20261024/installation-manifest.json",
+      "manifestSha256": "809915d706f85d47864229bd8d13709c78d3060cfa91734b5a28f0503f3909c6",
+      "role": "retained-copy",
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\parent-rtti-resumed-20261024\\installation",
+      "files": 173,
+      "bytes": 239489019,
+      "allMatched": true
+    }
+  ],
+  "fileIdentitiesVerified": 688,
+  "firstSourceAttempt": {
+    "path": "analysis/native-parent-rtti-stock-first-replay-v4-20261024/report.json",
+    "sha256": "9e7225e3abe38a5d3c577a1baaab06b276b873c37ee5cc6522478b30ad3c0fe7",
+    "sourceComparisonReached": false,
+    "prefixComparisonMatched": null,
+    "physicsComparisonMatched": null,
+    "cameraWeatherSourceMatched": false,
+    "worldSourceMatched": false,
+    "sourceComplete": false,
+    "completeParentTickMatched": false,
+    "error": "Error: Alias shadows actual captured addresses.",
+    "actualReadOnlyAliasConflictEvidence": [
+      {
+        "sourceRoute": "frame-pools",
+        "preferredAddress": 9448316,
+        "routeLength": 884,
+        "nativeObservationId": "tail-recovery-clone-context",
+        "actualAddress": 9431808,
+        "actualLength": 17576
+      },
+      {
+        "sourceRoute": "attachment-queue",
+        "preferredAddress": 9445440,
+        "routeLength": 1024,
+        "nativeObservationId": "tail-recovery-clone-context",
+        "actualAddress": 9431808,
+        "actualLength": 17576
+      }
+    ],
+    "explanation": "The actual relocated recoveryclone observation overlaps preferred module alias numbers; the strict sourcebinder aborted before replay. New tyreowner capture is valid and doesnot cause these numeric overlaps. No sourcephysics divergence or joinedweatherpositive is claimed."
+  },
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 19512,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 47322
+  },
+  "limits": [
+    "Three native external CRT results and graph observations remain transportevidence only until genuine joinedsource stages complete.",
+    "The1168B tyreowner is observed at all10parentpoints; channel pointers/capacity values do not automatically admit backing storage or authorize guessed allocation outputs.",
+    "Runtime-privateCRT/SEHABI/fullparent/nexttick/wallclockcadence remain unproved.",
+    "All four installation file sets were independently recensused and SHA-256checked; installed edited archives/Backup files were preserved."
+  ]
+}

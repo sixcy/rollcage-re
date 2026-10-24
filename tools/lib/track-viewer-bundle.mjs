@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { Script } from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 // A deliberately limited packer for this repository's static relative imports.
@@ -21,7 +22,7 @@ export async function buildViewerBundle(entry = 'tools/track-viewer/app.mjs') {
       return dependency;
     };
     const destructuring = binding => binding.replace(/\b(\w+)\s+as\s+(\w+)\b/g, '$1: $2');
-    let code = source.replace(/^import\s+([\s\S]+?)\s+from\s+['"](.+?)['"](?:\s+with\s*\{[^}]+\})?\s*;/gm, (_, binding, relative) => {
+    let code = source.replace(/^import\b\s*([\s\S]+?)\bfrom\s*['"](.+?)['"](?:\s+with\s*\{[^}]+\})?\s*;/gm, (_, binding, relative) => {
       const name = binding.trim().replace(/^\*\s+as\s+/, '');
       return `const ${destructuring(name)} = require(${JSON.stringify(dependencyFor(relative))});`;
     });
@@ -36,7 +37,7 @@ export async function buildViewerBundle(entry = 'tools/track-viewer/app.mjs') {
       for (const [source, target = source] of entries) exports.push(`${target}: ${source}`);
       return '';
     });
-    if (/^\s*(import|export)\s/m.test(code)) throw new Error(`Unsupported module syntax in ${id}`);
+    if (/^\s*(import|export)\b/m.test(code)) throw new Error(`Unsupported module syntax in ${id}`);
     //ES module function declarations are initialized before a circular import
     //is evaluated. Publish their hoisted bindings before requiring children;
     //otherwise game-network-protocol/projectile-launch capture undefined.
@@ -47,5 +48,9 @@ export async function buildViewerBundle(entry = 'tools/track-viewer/app.mjs') {
   await visit('tools/track-viewer/byte-buffer.mjs');
   const definitions = [...modules].map(([id, source]) => `${JSON.stringify(id)}: function(require, module, Buffer) {\n${source}\n}`).join(',\n');
   const result = Array.isArray(entry) ? `Object.fromEntries(${JSON.stringify(entries)}.map(id => [id, require(id)]))` : `require(${JSON.stringify(entry)})`;
-  return `(function() {\n'use strict';\nconst modules = {\n${definitions}\n};\nconst cache = {};\nlet Buffer;\nfunction require(id) {\n if (cache[id]) return cache[id].exports;\n const module = cache[id] = {exports:{}};\n modules[id](require, module, Buffer);\n return module.exports;\n}\nBuffer = require('tools/track-viewer/byte-buffer.mjs').ByteBuffer;\nreturn ${result};\n})()`;
+  const bundle = `(function() {\n'use strict';\nconst modules = {\n${definitions}\n};\nconst cache = {};\nlet Buffer;\nfunction require(id) {\n if (cache[id]) return cache[id].exports;\n const module = cache[id] = {exports:{}};\n modules[id](require, module, Buffer);\n return module.exports;\n}\nBuffer = require('tools/track-viewer/byte-buffer.mjs').ByteBuffer;\nreturn ${result};\n})()`;
+  //Compile without executing. A classic script must never retain an import
+  //that the static packer missed, including compact import{...}from syntax.
+  new Script(bundle, {filename: 'track-viewer-bundle.js'});
+  return bundle;
 }

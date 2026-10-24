@@ -1,0 +1,456 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-original-final-parent-source-audit",
+  "createdUtc": "2026-10-24T12:58:33.326Z",
+  "verified": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "report": {
+    "path": "analysis/native-parent-final-stock-fifth-replay-v2-20261024/report.json",
+    "sha256": "49a00db15e1bfc8ef1ed0802a0324f26170e481a72762a19aa841ac1f132c6f6"
+  },
+  "originalRawAudit": {
+    "path": "analysis/native-parent-final-stock-independent-audit-v2-20261024.json",
+    "sha256": "8e8ef4e16a425613d6bb7170316f65598d34e4126e10feb53739c04bc0118f03"
+  },
+  "copiedPins": [
+    {
+      "name": "trace.jsonl",
+      "sourceSha256": "8f72395cf5aa9d8fb87803e784b1cb294df8a3bd47cc6cb0cae2cdaffdb1b504",
+      "copiedSha256": "8f72395cf5aa9d8fb87803e784b1cb294df8a3bd47cc6cb0cae2cdaffdb1b504",
+      "identical": true
+    },
+    {
+      "name": "configuration.json",
+      "sourceSha256": "85287138f04a877ad9865e9bf3fb3d375ea14ea555c01841d9cccbdc45654ccb",
+      "copiedSha256": "85287138f04a877ad9865e9bf3fb3d375ea14ea555c01841d9cccbdc45654ccb",
+      "identical": true
+    }
+  ],
+  "reviewedCode": [
+    {
+      "path": "tools/check-native-parent-tail.mjs",
+      "sha256": "d2ef5ae75220a1e595e1a9e11b17751712125d64baa75e6742877bdc5b9a4239"
+    },
+    {
+      "path": "tools/check-native-frame-control-prefix.mjs",
+      "sha256": "544168c6506721ac840535a1335462eb3ba749415c32cbaba275e5ed2fc831eb"
+    },
+    {
+      "path": "tools/lib/native-parent-tail.mjs",
+      "sha256": "7a6d1fb53f04c6d9320b624761f17a31617d14febd33c9adfd49e82fc59a95fb"
+    },
+    {
+      "path": "tools/lib/native-source-carried-ranges.mjs",
+      "sha256": "877fdfa749c5efbbbd5a635ae19cac883105fdcb43f3b115b974a65c833bfbb8"
+    },
+    {
+      "path": "tools/lib/native-parent-final-inputs.mjs",
+      "sha256": "0283926e324423b4fdc2f33cc1c590ad811b45f95b711d260625969b2377b03c"
+    },
+    {
+      "path": "tools/lib/native-parent-final-capture.mjs",
+      "sha256": "d91bd344f45dd67d8fee5d30473eb29c3dbad52708533d233769e7079b4f9de6"
+    },
+    {
+      "path": "tools/lib/native-parent-tail-inputs.mjs",
+      "sha256": "b84dc1c263249f2ad2de27eafcbc05884bde556f118fdd3f7b0d5964e2311e53"
+    },
+    {
+      "path": "tools/lib/native-parent-late-inputs.mjs",
+      "sha256": "8df8aa880a359a6f3c2ebdf55a937ed9fa984c99bd92794a66eadcf775f78213"
+    },
+    {
+      "path": "tools/lib/native-parent-rtti.mjs",
+      "sha256": "6434e831cdd3aaeeb2287c0e57fe6312ecaa286919d2040cd7b5101df099f615"
+    },
+    {
+      "path": "tools/lib/native-parent-weather-counter.mjs",
+      "sha256": "d1f852fd9c73dad1abe01a0e5cb2fdc34a1a60389e54c81c46be45dde949a58e"
+    },
+    {
+      "path": "tools/lib/captured-memory.mjs",
+      "sha256": "23b08fe0b75732a8702d1fef9876d55d21a214aa04001e48a401848f9d30bbc5"
+    }
+  ],
+  "originalCapture": {
+    "snapshots": 22,
+    "contexts716": true,
+    "rawProtocolReverified": true,
+    "provenanceResultKeys": [
+      "verified",
+      "scope",
+      "ownedPid",
+      "ownedMainTid",
+      "moduleBaseAddress",
+      "parentEntryEsp",
+      "logicalClock",
+      "externalPairs",
+      "snapshots",
+      "mapIdentity",
+      "activationDebugEventOrdinal",
+      "outcomes",
+      "viewportMapGraph",
+      "weatherCounter",
+      "soundBankOwnerGraph",
+      "finalTick",
+      "runtimeResolvedExportIdentityProved"
+    ],
+    "entryOrdinal": 4,
+    "entryEsp": 18283488,
+    "finalOrdinal": 22,
+    "finalEip": 7867960,
+    "finalEsp": 18283492
+  },
+  "source": {
+    "matched": true,
+    "sourceComplete": true,
+    "completeParentTickMatched": true,
+    "frames": 1,
+    "stages": [
+      {
+        "stage": "attachments",
+        "nativeOrdinal": 8,
+        "regionCount": 512,
+        "logicalBytes": 5129373,
+        "uniqueBytes": 5104645,
+        "overlapBytes": 24728,
+        "protectedControlBytes": 720,
+        "parentAbiBytes": 28,
+        "differingBytes": 0
+      },
+      {
+        "stage": "recovery",
+        "nativeOrdinal": 9,
+        "regionCount": 512,
+        "logicalBytes": 5129373,
+        "uniqueBytes": 5104645,
+        "overlapBytes": 24728,
+        "protectedControlBytes": 720,
+        "parentAbiBytes": 28,
+        "differingBytes": 0
+      },
+      {
+        "stage": "drive",
+        "nativeOrdinal": 10,
+        "regionCount": 512,
+        "logicalBytes": 5129373,
+        "uniqueBytes": 5104645,
+        "overlapBytes": 24728,
+        "protectedControlBytes": 720,
+        "parentAbiBytes": 28,
+        "differingBytes": 0
+      },
+      {
+        "stage": "auxiliary",
+        "nativeOrdinal": 11,
+        "regionCount": 512,
+        "logicalBytes": 5129373,
+        "uniqueBytes": 5104645,
+        "overlapBytes": 24728,
+        "protectedControlBytes": 720,
+        "parentAbiBytes": 28,
+        "differingBytes": 0
+      },
+      {
+        "stage": "cameras",
+        "nativeOrdinal": 14,
+        "regionCount": 516,
+        "logicalBytes": 5129606,
+        "uniqueBytes": 5104878,
+        "overlapBytes": 24728,
+        "protectedControlBytes": 720,
+        "parentAbiBytes": 28,
+        "differingBytes": 0
+      },
+      {
+        "stage": "world-effects",
+        "nativeOrdinal": 21,
+        "regionCount": 516,
+        "logicalBytes": 5129606,
+        "uniqueBytes": 5104878,
+        "overlapBytes": 24728,
+        "protectedControlBytes": 720,
+        "parentAbiBytes": 28,
+        "differingBytes": 0
+      },
+      {
+        "stage": "parent-return",
+        "nativeOrdinal": 22,
+        "regionCount": 520,
+        "logicalBytes": 5131966,
+        "uniqueBytes": 5107238,
+        "overlapBytes": 24728,
+        "protectedControlBytes": 720,
+        "parentAbiBytes": 28,
+        "differingBytes": 0
+      }
+    ],
+    "returnedRegisters": [
+      {
+        "name": "eax",
+        "source": 1,
+        "native": 1,
+        "matched": true
+      },
+      {
+        "name": "edi",
+        "source": 1,
+        "native": 1,
+        "matched": true
+      },
+      {
+        "name": "esi",
+        "source": 0,
+        "native": 0,
+        "matched": true
+      },
+      {
+        "name": "ebp",
+        "source": 0,
+        "native": 0,
+        "matched": true
+      },
+      {
+        "name": "ebx",
+        "source": 0,
+        "native": 0,
+        "matched": true
+      },
+      {
+        "name": "esp",
+        "source": 18283492,
+        "native": 18283492,
+        "matched": true
+      },
+      {
+        "name": "eip",
+        "source": 7867960,
+        "native": 7867960,
+        "matched": true
+      }
+    ],
+    "clocks": [
+      {
+        "preferredAddress": 9479496,
+        "actualAddress": 12821832,
+        "before": 288,
+        "world": 288,
+        "after": 289
+      },
+      {
+        "preferredAddress": 7235420,
+        "actualAddress": 10577756,
+        "before": 288,
+        "world": 288,
+        "after": 289
+      }
+    ],
+    "originalFinalAdmissionOrdinals": [
+      {
+        "stage": "lights",
+        "originalOrdinal": 4
+      },
+      {
+        "stage": "listeners",
+        "originalOrdinal": 4
+      },
+      {
+        "stage": "manager",
+        "originalOrdinal": 4
+      }
+    ],
+    "sourceSoundCreationEvents": 0,
+    "typedExternalOutcomes": {
+      "rtti": [
+        {
+          "family": "camera",
+          "callOrdinal": 12,
+          "returnOrdinal": 13,
+          "eax": 10769520,
+          "authority": "observed-external-MSVCR120-__RTDynamicCast"
+        },
+        {
+          "family": "weather-screen",
+          "callOrdinal": 15,
+          "returnOrdinal": 16,
+          "eax": 10769520,
+          "authority": "observed-external-MSVCR120-__RTDynamicCast"
+        },
+        {
+          "family": "weather-screen",
+          "callOrdinal": 17,
+          "returnOrdinal": 18,
+          "eax": 10769520,
+          "authority": "observed-external-MSVCR120-__RTDynamicCast"
+        }
+      ],
+      "counter": [
+        {
+          "service": "QueryPerformanceCounter",
+          "outputAddress": 18283112,
+          "preimageHex": "f5807c0090fa1601",
+          "outputHex": "c3f1aba157100000",
+          "returnedEax": 1,
+          "authority": "observed-external-QPC-only"
+        }
+      ]
+    }
+  },
+  "newInputs": {
+    "alternateMesh": {
+      "id": "late-attachment-alternate-mesh",
+      "preferredAddress": 9539904,
+      "length": 4,
+      "comparison": "read-only",
+      "evidence": "44f887 CMOVNZ original alternate mesh DWORD, retained1065; observed original-entry bytes only",
+      "address": 12882240,
+      "originalBytesHex": "2601000c",
+      "pointeeAdmitted": false
+    },
+    "liveKind1UnscriptedLightSlots": [
+      {
+        "id": "tail-live-light-point-1-c3b688",
+        "address": 12826248,
+        "preferredAddress": 9483912,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-2-c3b690",
+        "address": 12826256,
+        "preferredAddress": 9483920,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-3-c3b698",
+        "address": 12826264,
+        "preferredAddress": 9483928,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-4-c3b6a0",
+        "address": 12826272,
+        "preferredAddress": 9483936,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-5-c3b6a8",
+        "address": 12826280,
+        "preferredAddress": 9483944,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-6-c3b6b0",
+        "address": 12826288,
+        "preferredAddress": 9483952,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-7-c3b6b8",
+        "address": 12826296,
+        "preferredAddress": 9483960,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-8-c3b6c0",
+        "address": 12826304,
+        "preferredAddress": 9483968,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-9-c3b6c8",
+        "address": 12826312,
+        "preferredAddress": 9483976,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-10-c3b6d0",
+        "address": 12826320,
+        "preferredAddress": 9483984,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-11-c3b6d8",
+        "address": 12826328,
+        "preferredAddress": 9483992,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-12-c3b6e0",
+        "address": 12826336,
+        "preferredAddress": 9484000,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-13-c3b6e8",
+        "address": 12826344,
+        "preferredAddress": 9484008,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      },
+      {
+        "id": "tail-live-light-point-14-c3b6f0",
+        "address": 12826352,
+        "preferredAddress": 9484016,
+        "length": 8,
+        "originalBytesHex": "0000000000000000"
+      }
+    ],
+    "semantics": "Only actual original/source-carried pool metadata selects exact8B fields; no allocation-capacity claim, defaults, state clearing or later native refresh."
+  },
+  "reviewConclusions": [
+    "Original450e50 entry is the sole game-state input snapshot. All source-carried physical extents are authenticated against that snapshot before binding; source-mutated pointers do not grant new storage.",
+    "Final typed graph metadata authenticates original extents; live source lights/listeners/manager paths only add source-reached semantic comparison. Later graphs remain comparison-only.",
+    "onStage observes the single carried source instance; native checkpoints are used only as expected bytes/registers. No postphysics, camera, weather, final-result or saved-register output is restored into source memory.",
+    "RTTI supplies only three authenticated external CRT EAX outcomes, each with exact game-produced arguments/caller lineage and original84B result-storage coverage. QPC supplies only the actual eight-byte OUT result and EAX after matching its exact source-produced preimage/caller/globals/import. Neither binding supplies a game-child result.",
+    "Actual afterRET EIP/ESP/EAX and four nonvolatile registers are compared; live saved words, caller/argument and independently produced clock increments are retained. Private ECX/EDX/EFLAGS/x87 data stack and all callee scratch are outside this source-register comparison.",
+    "UInt16BE is a2B bounded sparse access using existing actual spans/aliases; it grants no extra bytes or generic pointer translation."
+  ],
+  "tests": {
+    "command": "node --test tests/native-source-carried-ranges.test.mjs tests/native-parent-tail-inputs.test.mjs tests/native-parent-final-inputs.test.mjs tests/native-parent-final-return.test.mjs tests/native-parent-final-capture.test.mjs tests/native-parent-final-replay.test.mjs tests/native-parent-weather-counter.test.mjs tests/native-parent-rtti.test.mjs tests/captured-memory.test.mjs",
+    "passed": 56,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 8530.9535,
+    "includesFreshRetainedFinalV2Replay": true,
+    "meaningfulNegatives": [
+      "after-snapshot admission and unobserved live pointers rejected",
+      "forged original guard proof/missing carried physical extent rejected",
+      "changed live RET target fails; changed live saved word is not repaired from metadata",
+      "wrong RTTI type/caller/name-mode/order/thread or missing external record fails",
+      "QPC preimage/global/private ABI changes fail before external write; outcome reuse/forgedproof rejected",
+      "typed graph pointers, lengths, vtable, sentinel, bounds, overlapping bytes and extra rows rejected",
+      "big-endian word exact2B alias and physical boundaries rejected"
+    ]
+  },
+  "findings": [
+    {
+      "severity": "documentation",
+      "location": "analysis/native-parent-final-stock-fifth-replay-v2-20261024/report.json limits[0]",
+      "description": "Historical fifth report still says final parent return/clock remain open despite matched finalreturn. Current checker has been corrected by root; historical artifact retained."
+    },
+    {
+      "severity": "scope wording",
+      "description": "All replay inputs come from parent entry should be read as all game-state/storage inputs; explicitly declared observed external CRT/QPC outcomes are also consumed."
+    }
+  ],
+  "remainingLimits": [
+    "One recorded parent call, one phase/track/roster/schedule and original2D/3D light/listener branch domain; no continuous original-process race or intervening outer scheduler closure.",
+    "5,107,238 unique bytes count declared semantic comparison only, plus separately reported720owned and28ABI bytes that may overlap; not all captured transport or process memory.",
+    "No claim that every cell in the source-owned2272B light allocation was read; the whole typed logical allocation is compared.",
+    "No full private CPU/CRT ABI, all native worker interleavings, audible playback or full service reconstruction. Runtime-resolved Windows export identity is not separately proved beyond pinned PE import/IAT/call provenance.",
+    "No new adaptive sound creation occurred in this original final case; static/constructed branch tests do not become native coverage. Collision wall/ceiling/inverted matrix, active weapon/pickup/destruction/all-tracks edge cases remain separate required evidence.",
+    "No original game launch, installed-file write, helper change or production edit performed by this audit."
+  ]
+}

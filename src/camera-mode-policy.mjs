@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import constants from './camera-policy-constants.json' with {type: 'json'};
 import {abs32} from './fixed-integer.mjs';
 import {measureWormholeVector} from './wormhole-targeting.mjs';
@@ -107,7 +108,7 @@ export function chooseCameraMode(index, runtime) {
   const duration = mode === 1 || mode === 7 ? 210 : mode === 6 ? 150 : mode === 8 ? 60 : mode === 9 ? 180 : mode === 10 ? 300 : undefined;
   if (duration !== undefined) word(m, camera + 0x34, duration);
   if (get(m, frame + 0x38) === 14 && m[ptr(m, 0x5ecb1c) + 0x58c] === 0 && get(m, 0x91ff80) !== 14) {
-    put(m, 0x91ce90, get(m, 0x91ce90) & 0xfffffffd);
+    put(m, nativeGlobalAddress(m,0x91ce90), get(m, nativeGlobalAddress(m,0x91ce90)) & 0xfffffffd);
     for (const address of [0x849482, 0x8494d6, 0x84952a, 0x84957e]) word(m, address, 0);
   }
 }

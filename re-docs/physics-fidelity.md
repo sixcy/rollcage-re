@@ -4,6 +4,66 @@ Target: **Rollcage Redux 1.3.8.0**, x86, SHA-256 `c0582271862ec373f00d01545c2a95
 
 The Track Viewer remains **Super experimental**. LEV16/17 remain excluded. Existing source, installed files and retained evidence are preserved. New capture runs use exclusive output paths.
 
+The [full441c70 timing calculation](native-race-step-clock-checkpoint.md) now
+executes in source with real counter/multiply/divide/conversion algorithms and
+exact helper stack publication. Its341-case instruction comparison covers all
+68 scheduler instructions, both stack alignments and the small-backlog/streak
+threshold; components additionally cover relocated images. This is constructed
+instruction evidence, not a new native-process clock or continuous-race result.
+
+The later [original warm-clock check](native-race-clock-runtime-checkpoint.md)
+matches one scalar calculation, scheduled count, fixed fields, known return
+registers and numerical state. Strict full-stack comparison remains failed:
+Windows QPC private residues leave105 final differences. Only actual counter
+output/BOOL is supplied externally. This is partial native timing evidence,
+with no continuous-race or complete clock-storage claim.
+
+The [outer dispatcher implementation](native-race-dispatch.md) adds genuine
+source orchestration and a source-carried return bridge. Its450 isolated
+parent-control cases and504 suffix cases match retained instructions; the
+existing verified parent can continue to its enclosing RET using live source
+memory. Native outer endpoints, child ABI closure, pause policy, sampled-input
+and render/event-loop producers still prevent a closed second-tick claim.
+
+Latest: the [FinalV2 complete parent checkpoint](native-parent-final-tick-checkpoint.md)
+matches one recorded six-car update from450e50 entry through actual450e38 return,
+with5,107,238 distinct declared bytes, seven known return registers and both
+90a548/6e675c increments288→289. Original-entry storage is carried in source;
+only three authenticated CRT casts and one QPC result are supplied externally.
+This closes the first single-case complete parent check, not continuous-race
+parity. Outer producers/timing, broader physical scenarios and the full goal
+remain open. The following chronology preserves the scope of earlier reports.
+
+The goal resumed on24 October. The new [parent camera checkpoint](native-parent-camera-checkpoint.md)
+matches a stock original-process update through cameras at5,106,930 unique
+semantic bytes, after the same carried source prefix/physics and auxiliary
+output. Authenticated CRT and bounded original-entry viewport-tree observations
+close the earlier camera dependency for this one case. The subsequent
+[mixed V4 replay](native-parent-weather-checkpoint.md) matches through cameras
+at5,108,106 unique bytes and consumes both separately recorded weather viewport
+casts, then stops at the missing performance-counter input. Weather output,
+whole-tick, long-race, timing and broader interaction requirements remain open.
+
+The subsequent [QPC observations](native-parent-weather-counter.md) authenticate
+the original eight-byte performance-counter call/return input in V5 and V6.
+The typed source boundary and aligned preimages are implemented, but those fresh
+joined recordings stop earlier at newly reached audio-owner inputs. They do not
+yet establish joined weather/world output. Earlier camera regressions still pass.
+
+The later [V7 owner checkpoint](native-parent-sound-owner-checkpoint.md) verifies
+all64 used sound owners at each of ten checkpoints. After a low-address ASLR
+adapter correction, joined source matches after-AI at5,175,607 unique bytes.
+The recovered adaptive selector now reaches the exact missing first channel
+wrapper input; the saved recording still cannot complete physics or consume
+the joined QPC outcome. A bounded channel-input observer is being prepared.
+
+The subsequent [V8 world-effects checkpoint](native-parent-world-effects-checkpoint.md)
+passes one joined source-carried six-car update through cameras and weather/world
+effects at5,109,270 unique semantic bytes. The source consumes all three CRT
+outcomes and one original QPC call. The bounded channel observer is validated;
+this run has no new sound-creation events. Final parent return, subsequent ticks
+and continuous-race equivalence remain unverified.
+
 ## Work and acceptance
 
 Latest original-process evidence adds an independent HIGH/LEV3 physics
@@ -37,11 +97,12 @@ establish natural walls, ceilings, inverted driving or long-race parity.
 | Area | Required evidence | Current status |
 | --- | --- | --- |
 | Gravity and initialization | Exact shipped data, writers and reached startup state | Corrected to native normal `0x10000`, including the verified configuration selector. Original process confirms 65536. Other startup defaults still need systematic comparison. |
-| Clock | Outer timer/scheduling, logical tick and HUD conversion | Corrected to recovered nominal 30 ticks/s; exact wrapped native timer and integer catch-up tail verified. Uninterrupted original cadence/render gating remains open. |
+| Clock | Outer timer/scheduling, logical tick and HUD conversion | Recovered nominal30 ticks/s and exact HUD/wrapped timing. Full441c70 now includes both conversions/status child and actual helper stack writes, matching341 constructed instruction cases and all68 scheduler instructions. Original-process timing, outer cadence/input/render gating and continuous racing remain open. |
 | Numerical environment | Original x87 control/status, MXCSR, entry registers and inputs | Native startup is PC53, main renderer/race entry PC24, nearest-even. V15's actual audio-worker checkpoint retains PC53 (`CW027f`, `MXCSR1fa0`), so worker replay must use its own observed context. Exact PC24 attachment arithmetic is connected; other reached operations still require context audit. |
 | Controlled vehicle replay | Native state before/after each ordered stage, exact first divergence | Ten native frames match610 source stage comparisons. Three complete three-frame windows also match independent and carried replay: launch228..230, moving288..290, and terrain-contact348..350. All six cars move in the latter windows; each moving/contact frame compares4,880,872 declared bytes. A fresh three-frame drive continuation compares4,902,122 bytes per frame and produces384 protected motion/timer/drive bytes across two transitions. Remaining native producers and caller ABI inputs are still supplied, not a closed source-only trajectory. |
 | Joined parent prefix and physics | Actual parent entry, independent AI/physics boundaries and carried source output | V4 matches the complete prephysics prefix and following physics at4,984,964 listed bytes (4,984,832 unique),720 protected controls and28 parent ABI bytes, with seven source-derived entry registers. All six cars move and24 wheel queries hit. This is one call, with no queued collision responses; the postphysics parent tail, next tick and wider native scenarios remain open. |
-| Source-carried parent through auxiliary updates | Independent original checkpoints after attachments, recovery, drive and auxiliary processing without native state refresh | V6 matches all four checkpoints at5,102,089 unique semantic bytes, continuing the same source AI/prefix/physics output. Four type2 attachment points update; ordinary recovery respawns/retires zero bodies. All six wheel-render and auxiliary updates, animation lights and body debris execute. Camera processing reaches an unobserved CRT dynamic cast. Camera/weather/final parent return, active combat and continuous racing remain open. |
+| Source-carried parent through cameras | Independent original checkpoints after attachments, recovery, drive, auxiliary and camera processing without native state refresh | Resumed V2 matches cameras at5,106,930 unique bytes. Later stock V4 matches the four preceding tail checkpoints at5,107,873 unique bytes each and cameras at5,108,106, then consumes both weather viewport casts before missing QueryPerformanceCounter. V4 also verifies explicit fixed-global versus actual-pointer roles under overlapping ASLR addresses and source carry after a channel pointer changes. Weather output, final parent return, active combat and continuous racing remain open. |
+| Complete parent update | Original450e50 entry and actual450e38 after-RET observation, carried source game state and independent return/counter comparison | FinalV2 matches5,107,238 distinct declared bytes,28 parent stack bytes, seven returned registers and separate90a548/6e675c increments288→289. Three CRT outcomes and one QPC outcome are explicit external inputs. One successful case; private callee ABI, the next outer producer interval, long races and unobserved scenarios remain open. |
 | Forces and damping | Live shared-memory producers and consumers | Live recovered globals/body caches connected. Native class-two deferred effects can now publish their actual force events. Other event producers remain open. |
 | Track and car collision | Terrain, surfaces, walls, ceilings, inverted driving, pairs | Whole frames348..350 match13/9/7 source responses. Selected native cases directly match two physical-camera/border7 events and four car-chassis/car-chassis events. Controlled HIGH/LEV3 V5 additionally matches actual car-chassis/border7 swept and penetration responses, its complete eight-event stream and4,885,468 declared frame bytes after one force-only input. Natural chassis walls, ceilings, inverted driving and broader profile/condition coverage remain open. |
 | Moving/destructible world | Full object construction, scripts, registry and pending effects | Ordinary and nonordinary placement construction, native scripted motion, lights/attachments, class-one/two contacts, type-four damage, destruction queue and fragment physics lifecycle connected. Moving ordinary meshes render from native poses. Render visibility attachment-effect queue production, animated UVs, deforming/fragment/particle rendering and native scenario comparisons remain open. |

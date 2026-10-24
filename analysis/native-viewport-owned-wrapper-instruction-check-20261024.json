@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "matched": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "authority": "constructed-owned-wrapper-instructions-with-isolated-synthetic-string-map-children",
+  "bases": [
+    4194304,
+    3276800,
+    7536640
+  ],
+  "lookupCases": 12,
+  "enableCases": 78,
+  "unknownEaxCases": 33,
+  "wrapperInstructionsReached": 99,
+  "coverage": {
+    "initializedLookupInstructions": 25,
+    "initializedLookupReached": 25,
+    "enableInstructions": 71,
+    "enableReached": 71
+  },
+  "cookieProof": [
+    {
+      "base": 4194304,
+      "bytesHex": "3b0d90885e007502f3c3",
+      "evidence": [
+        "ev_af9ae69ed9db78a714381999a949dba246f1bac8a65c92a3239c27f068b70358",
+        "ev_1f5b95d22335cb2c78658771707e0bfa40e3cbfcdefb239142446663ec1ce147"
+      ]
+    },
+    {
+      "base": 3276800,
+      "bytesHex": "3b0d908850007502f3c3",
+      "evidence": [
+        "ev_af9ae69ed9db78a714381999a949dba246f1bac8a65c92a3239c27f068b70358",
+        "ev_1f5b95d22335cb2c78658771707e0bfa40e3cbfcdefb239142446663ec1ce147"
+      ]
+    },
+    {
+      "base": 7536640,
+      "bytesHex": "3b0d908891007502f3c3",
+      "evidence": [
+        "ev_af9ae69ed9db78a714381999a949dba246f1bac8a65c92a3239c27f068b70358",
+        "ev_1f5b95d22335cb2c78658771707e0bfa40e3cbfcdefb239142446663ec1ce147"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "label": "enabled-late-string",
+      "enabled": true,
+      "registers": {
+        "ecx": 3141592654,
+        "ebx": 305419896,
+        "ebp": 591751049,
+        "esi": 878082202,
+        "edi": 1164413355,
+        "esp": 98320,
+        "eip": 4294967295
+      },
+      "external": [
+        "string"
+      ],
+      "scope": "406b80-owned-wrapper-with-semantic-string-map-children"
+    },
+    {
+      "label": "enabled-latched-map",
+      "enabled": true,
+      "registers": {
+        "eax": 0,
+        "ecx": 4045620583,
+        "ebx": 305419896,
+        "ebp": 591751049,
+        "esi": 878082202,
+        "edi": 1164413355,
+        "esp": 98316,
+        "eip": 4294967295
+      },
+      "external": [],
+      "scope": "406b80-owned-wrapper-with-semantic-string-map-children"
+    },
+    {
+      "label": "both-frees",
+      "enabled": false,
+      "registers": {
+        "ecx": 3141592654,
+        "ebx": 305419896,
+        "ebp": 591751049,
+        "esi": 878082202,
+        "edi": 1164413355,
+        "esp": 98316,
+        "eip": 4294967295
+      },
+      "external": [
+        "array",
+        "string"
+      ],
+      "scope": "406b80-owned-wrapper-with-semantic-string-map-children"
+    },
+    {
+      "label": "live-saved-edi",
+      "enabled": true,
+      "registers": {
+        "eax": 0,
+        "ecx": 4045620583,
+        "ebx": 305419896,
+        "ebp": 591751049,
+        "esi": 878082202,
+        "edi": 3405691582,
+        "esp": 98320,
+        "eip": 4294967295
+      },
+      "external": [],
+      "scope": "406b80-owned-wrapper-with-semantic-string-map-children"
+    }
+  ],
+  "sourceSha256": "e3f5f8649a3d2381f4c3682f36b6d510e9056cdf940bc3c6c778efae6ad79195",
+  "limits": [
+    "Only initialized nonnull402d10 path; cold bootstrap remains a reached unclosed ABI.",
+    "406b80 own frames/control/cookies/SEH/pops are compared with synthetic405310/404fa0 outcomes; their transitive private ABI and real allocation/string/map instructions remain unclosed.",
+    "CRT dynamicCast EAX and free outcomes are explicitly declared constructed services, not native original-process observations.",
+    "Unknown EAX after voidfree and other unproven volatile registers are omitted, never filled from a native result."
+  ]
+}

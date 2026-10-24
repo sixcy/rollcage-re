@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Constructed strict sparse source versus retained original instructions loaded under actual PE32 HIGHLOW relocation",
+  "nativeRuntime": false,
+  "command": "node --test tests/native-sound-callback.test.mjs",
+  "testsPassed": 7,
+  "testsFailed": 0,
+  "testsSkipped": 0,
+  "fullSetterCases": 64,
+  "cloneOverlapCases": 8,
+  "liveSehAliasCases": 2,
+  "moduleBaseAddresses": [
+    4194304,
+    3276800
+  ],
+  "stackAlignments": [
+    0,
+    4,
+    8,
+    12
+  ],
+  "implemented": [
+    4903968,
+    4256320,
+    4256416,
+    4255360
+  ],
+  "gameChildrenReplaced": 0,
+  "explicitConstructedServices": [
+    "operatorNew12",
+    "operatorDelete",
+    "allocationFailure"
+  ],
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/9266-audio-retirement-children-procedure_assembly.json",
+      "evidenceId": "ev_31d05f16d510c9f5c9a91cffb1da330fdb3c9802e5028afe3478f30ee629d5b2",
+      "sha256": "7499154af9a3b97bfc7ddcf44640fd9f8d0218796124f42625c88a2a38d1642a",
+      "bytes": 14836
+    },
+    {
+      "path": "analysis/native-simulation/results/20261024-callback-40f240-assembly.json",
+      "evidenceId": "ev_df8ce73e8dee801a04ef740d072c1d11d47bdaddb7a8a8c4961db95374a4b91e",
+      "sha256": "add747ffd68aa083d7b8148cafb4932225a936b96a4944f185691d2c0b95a54c",
+      "bytes": 11831
+    },
+    {
+      "path": "analysis/native-simulation/results/9143-audio-listener-child-40f2a0-procedure_assembly.json",
+      "evidenceId": "ev_6bb338a8e6faef3db89acb251d1e02d8eb6e3c5f63253772f4b3a5a7272f1a2d",
+      "sha256": "2d18d7db2602cfd9be122e8dee4504d2d71f450f143102a6dae44f34d41b2ea5",
+      "bytes": 9990
+    },
+    {
+      "path": "analysis/native-simulation/results/12248-queued-audio-lambda-0x40ee80-procedure_assembly.json",
+      "evidenceId": "ev_3dea2a969e07fc31126468219453239bdde58f0f53ca2b72039c750606ee0a53",
+      "sha256": "fd016f09c7bc840fa4a912ef2195b020feae6b6adb75911eb4b345a27b943afb",
+      "bytes": 9872
+    }
+  ],
+  "files": [
+    {
+      "path": "src/native-sound-callback.mjs",
+      "sha256": "831db91101c36e33a38b9a6136309c2e93de34866149a6d9a33bd1c43f0d0dbf",
+      "bytes": 6885
+    },
+    {
+      "path": "tests/native-sound-callback.test.mjs",
+      "sha256": "8bf3b49b59c41eee8d3eb11f192daa4e4ae7550f7edacf0e6e3acc0bdd662ca3",
+      "bytes": 9695
+    },
+    {
+      "path": "re-docs/native-sound-callback.md",
+      "sha256": "698c1948a60ba166ebf5e919749b390b2c2c939e8a0605311cc1dad54150d75f",
+      "bytes": 4724
+    }
+  ],
+  "limits": [
+    "No original-process positional creation observed by these tests.",
+    "Known inline function class only; unknown virtual implementations stay strict.",
+    "No actual allocation/deallocation outcome bound.",
+    "No exception unwinding, callback invocation, full selector runtime or playback claim."
+  ]
+}

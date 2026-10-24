@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {constructTrackPlacedObject} from './track-placed-object-construction.mjs';
 import {constructTrackNonordinaryObject} from './track-nonordinary-object-construction.mjs';
 import tables from './track-runtime-tables.json' with {type:'json'};
@@ -16,8 +17,8 @@ export function initializeTrackRuntimeTables(memory){for(const t of tables)Buffe
 export function loadRuntimeRaceTrack(name,runtime){const{memory:m,scratchBase:S,entryRegisters={}}=runtime,F=S-76;for(const[n,o]of[['EBX',12],['EBP',8],['ESI',4],['EDI',0]])if(entryRegisters[n]!==undefined)put(m,F+o,entryRegisters[n]);put(m,F+44,0);put(m,F+20,0);
  const fileName=(output,extension)=>{let source=name,destination=output;do{m[destination++]=m[source++];}while(m[destination-1]);let end=output;while(m[end])end++;put(m,end,get(m,extension));m[end+4]=m[extension+4];};fileName(0x90b920,0x5d22e0);fileName(0x90b8c0,0x5d22e8);
  put(m,F-4,0x44c339);let base=loadTrackResource(0x90b920,{...runtime,scratchBase:F-4}),header=base;put(m,0x70dcf4,0);put(m,0x90b970,base);put(m,0x90b990,header);put(m,0x709808,m.readInt16LE(base+0x11e));
- if(!get(m,0x6e6b40)){put(m,F-4,0x44c37b);initializeRawBodyArena({memory:m,allocate:size=>runtime.services.libraryCall('allocate',[size],{...runtime,scratchBase:F-24})});header=ptr(m,0x90b990);base=ptr(m,0x90b970);}else put(m,0x902eec,(get(m,0x6e6b40)+127)&~127);
- put(m,0x5ec0e8,get(m,header+84));for(let i=0;i<3;i++){m[0x91d5b9+i]=m[header+48+i]*2;m[0x91de29+i]=m[0x91d5b9+i];}put(m,0x91ce1c,((m[header+48]*2&255)<<16)|((m[header+49]*2&255)<<8)|(m[header+50]*2&255));
+ if(!get(m,0x6e6b40)){put(m,F-4,0x44c37b);initializeRawBodyArena({memory:m,allocate:size=>runtime.services.libraryCall('allocate',[size],{...runtime,scratchBase:F-24})});header=ptr(m,0x90b990);base=ptr(m,0x90b970);}else put(m,nativeGlobalAddress(m, 0x902eec),(get(m,0x6e6b40)+127)&~127);
+ put(m,0x5ec0e8,get(m,header+84));for(let i=0;i<3;i++){m[0x91d5b9+i]=m[header+48+i]*2;m[0x91de29+i]=m[0x91d5b9+i];}put(m,nativeGlobalAddress(m, 0x91ce1c),((m[header+48]*2&255)<<16)|((m[header+49]*2&255)<<8)|(m[header+50]*2&255));
  put(m,F+28,get(m,header+8));let bytes=Math.imul(get(m,F+28),288),primitive=callLibrary(runtime,F,'allocate',[bytes>>>0],0x44c3fe)>>>0;put(m,F+24,primitive);if(primitive)callLibrary(runtime,F,'memset',[primitive,0,bytes>>>0],0x44c41a);
  if(!get(m,0x6e6754)){const pool=callLibrary(runtime,F,'allocate',[660000],0x44c431)>>>0;if(pool)callLibrary(runtime,F,'memset',[pool,0,660000],0x44c447);put(m,0x6e6754,pool);put(m,0x90b97c,pool+330000);put(m,0x90b978,pool+330000);put(m,0x90b974,pool+660000);}
  ({base}=relocateRaceTrackPointers(header,base,runtime));

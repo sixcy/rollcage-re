@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import constants from './race-viewport-layout-constants.json' with {type: 'json'};
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 export function initializeRaceViewportLayoutConstants(memory) {for (const table of constants.tables) Buffer.from(table.bytes_hex, 'hex').copy(memory, Number(table.address)); return memory;}
@@ -32,9 +33,9 @@ export function layoutRaceViewports(first, second, third, fourth, {memory: m, sc
   }
   const halfWidth = width >>> 1, halfHeight = height >>> 1;
   word(m, 0x91d508, halfHeight); word(m, 0x91d506, halfWidth); put(m, frame + 0x18, halfWidth);
-  put(m, 0x91d3c0, halfWidth << 16); put(m, 0x91d3c4, halfHeight << 16); m.writeFloatLE(halfWidth, 0x91cdf8);
+  put(m, 0x91d3c0, halfWidth << 16); put(m, 0x91d3c4, halfHeight << 16); m.writeFloatLE(halfWidth, nativeGlobalAddress(m,0x91cdf8));
   put(m, frame + 0x18, halfHeight); put(m, 0x91d594, (height << 16) + width);
-  config = ptr(m, 0x5ecefc); m.writeFloatLE(halfHeight, 0x91cdfc);
+  config = ptr(m, 0x5ecefc); m.writeFloatLE(halfHeight, nativeGlobalAddress(m,0x91cdfc));
   const fullWidth = m.readUInt16LE(config + 0x42c), fullHeight = m.readUInt16LE(config + 0x42e);
   put(m, frame + 0x1c, fullWidth); put(m, frame + 0x18, fullWidth >>> 1);
   const border = m[ptr(m, 0x5ecb1c) + 0x552] ? Math.max(2, Math.trunc(fullWidth / 640)) : 0;

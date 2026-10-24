@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32, lookupSqrt, multiplyQ16, dotQ16} from './fixed-integer.mjs';
 import {quaternionMatrix} from './fixed-math.mjs';
 import {updateBodyDerived} from './body-physics.mjs';
@@ -46,7 +47,7 @@ export function createRawBody(model, flags, size, mode, {memory, scratchBase}) {
   const outputs = [local + 0x18, local + 0x14, local + 0x24, local + 0x20, local + 0x30, local + 0x2c];
   let required = size | 0;
   if (model) required = measureRawBodyStorage(model, size, [!mode, auxiliary !== model && !mode, third !== model && !mode], outputs, {memory});
-  const old = pointer(memory, 0x70dcf4), body = (pointer(memory, 0x902eec) + (old & 0xfffffffc)) >>> 0, advanced = (old + ((required + 127) & 0xffffff80)) | 0;
+  const old = pointer(memory, 0x70dcf4), body = (pointer(memory, nativeGlobalAddress(memory, 0x902eec)) + (old & 0xfffffffc)) >>> 0, advanced = (old + ((required + 127) & 0xffffff80)) | 0;
   if (model) put(memory, 0x70dcf4, advanced);
   memory.fill(255, body, body + 384);
   put(memory, body, flags); put(memory, body + 4, 0); word(memory, body + 8, 0); put(memory, body + 12, 0);
@@ -93,7 +94,7 @@ export function updateRawBodyDerived(body, {memory, scratchBase}) {
 //474600. Physical objects use bucket+8; particles use its separate+a head.
 export function registerRawBodySpatial(body, {memory}) {
   const {bucket, outside} = lookupRawSpatialBucket(...vector(memory, body + 0x34), {memory}), tagged = (bucket + (outside ? 1 : 0)) >>> 0;
-  const base = pointer(memory, 0x902eec); put(memory, body + 12, tagged);
+  const base = pointer(memory, nativeGlobalAddress(memory, 0x902eec)); put(memory, body + 12, tagged);
   const selected = tagged & 0xfffffffe, head = memory.readUInt16LE(selected + 8), id = (((body - base + 128) >>> 0) >>> 7) & 65535;
   put(memory, body + 4, head);
   if (head) word(memory, (base - 122 + head * 128) >>> 0, id);
@@ -139,7 +140,7 @@ export function registerRawBodyShapes(body, count, descriptors, {memory}) {
     const {id, record} = allocate(); memory[body + 0x140 + index] = id; put(memory, record, 0); word(memory, record + 4, 0); memory.fill(0, record + 0x20, record + 0x38); word(memory, record + 0x44, 0);
     put(memory, record + 0x40, (memory.readUInt32LE(body) & 0x1ff) === 17 ? 0x5000 : radius); word(memory, record + 0x46, count);
   }
-  const physicalCount = memory.readUInt16LE(0x902bc4), physical = pointer(memory, 0x902bc0); put(memory, physical + physicalCount * 4, body); put(memory, physical + physicalCount * 4 + 4, 0); word(memory, 0x902bc4, physicalCount + 1);
+  const physicalCount = memory.readUInt16LE(nativeGlobalAddress(memory, 0x902bc4)), physical = pointer(memory, nativeGlobalAddress(memory, 0x902bc0)); put(memory, physical + physicalCount * 4, body); put(memory, physical + physicalCount * 4 + 4, 0); word(memory, nativeGlobalAddress(memory, 0x902bc4), physicalCount + 1);
   if (count) put(memory, body, memory.readInt32LE(body) & 0xffff7fff);
   put(memory, body + 0x130, 0);
 }

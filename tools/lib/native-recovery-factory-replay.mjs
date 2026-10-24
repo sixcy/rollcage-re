@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
 import {selectNativeRecoverySoundSnapshots} from './native-recovery-sound-selection.mjs';
 import {createGameAudioSample, findGameAudioWaveform} from '../../src/game-audio-sample-factory.mjs';
 import {nativeCodeAddress} from '../../src/native-memory-spans.mjs';

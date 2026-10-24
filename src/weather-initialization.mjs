@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {initializeWeatherVolume} from './weather-volumes.mjs';
 import {readGameMicroseconds} from './game-network-protocol.mjs';
 import {loadGameBitmap} from './game-bitmap-images.mjs';
@@ -13,7 +14,7 @@ const encodeMaterial = index => {let value = index << 2; value = value & ~0xff00
 export function loadWeatherTexture(snow, runtime) {
   const {memory: m, scratchBase} = runtime, frame = scratchBase - 44, descriptor = scratchBase - 36;
   if (!loadGameBitmap(snow ? 0x56fe5c : 0x56fe4c, descriptor, 1, {...runtime, scratchBase: frame - 8})) return 63;
-  let index = get(m, 0x91ce98) + 1 | 0; if (index === 63) index = 64;
+  let index = get(m, nativeGlobalAddress(m,0x91ce98)) + 1 | 0; if (index === 63) index = 64;
   (runtime.handlers?.createTexture408680 ?? constructGameTexture)(index, m.readInt16LE(descriptor + 2), m.readInt16LE(descriptor + 6), m[descriptor + 10], ptr(m, descriptor + 20), 0, 0, {...runtime, scratchBase: frame - 24}); return index;
 }
 
@@ -21,7 +22,7 @@ export function loadWeatherTexture(snow, runtime) {
 export function initializeRainRenderBuffer(runtime) {
   const {memory: m, scratchBase} = runtime;
   if (Number.isInteger(scratchBase) && runtime.entryRegisters?.ESI !== undefined) put(m, scratchBase - 4, runtime.entryRegisters.ESI);
-  const first = allocateZero(runtime, 0x1e000); put(m, 0x80dee0, first); put(m, 0x80ddfc, first + 0x1e000);
+  const first = allocateZero(runtime, 0x1e000); put(m, nativeGlobalAddress(m,0x80dee0), first); put(m, nativeGlobalAddress(m,0x80ddfc), first + 0x1e000);
   for (let p = first; p < first + 0x1e000; p += 60) {put(m, p + 4, 0x2f0000); put(m, p + 32, 0x181818); m[p + 3] = 12; m[p + 7] = 0xae;}
 }
 
@@ -31,7 +32,7 @@ export function initializeSnowRenderBuffer(runtime) {
   for (const [register, offset] of [['EBX', -28], ['ESI', -32], ['EDI', -36]]) if (runtime.entryRegisters?.[register] !== undefined) put(m, scratchBase + offset, runtime.entryRegisters[register]);
   word(m, frame + 0x14, 0); word(m, frame + 0x18, 15); put(m, frame + 0x1c, 0xf0f0f00);
   const texture = loadWeatherTexture(true, {...runtime, scratchBase: frame - 4}); put(m, frame + 0x10, texture); const encoded = encodeMaterial(texture); word(m, frame + 0x1a, encoded);
-  const first = allocateZero(runtime, 0x3c000); put(m, 0x80dee4, first + 0x3c000); put(m, 0x80ded8, first);
+  const first = allocateZero(runtime, 0x3c000); put(m, nativeGlobalAddress(m,0x80dee4), first + 0x3c000); put(m, nativeGlobalAddress(m,0x80ded8), first);
   const tail = m.readUInt16LE(frame + 0x1e), textureWord = get(m, frame + 0x18), staleWord = get(m, frame + 0x14), uv = m.readUInt16LE(frame + 0x1c);
   for (let p = first; p < first + 0x3c000; p += 120) {put(m, p + 4, 0x606060); m[p + 3] = 12; m[p + 7] = 0x9a; put(m, p + 0x20, staleWord); put(m, p + 0x3c, textureWord); word(m, p + 0x58, uv); word(m, p + 0x74, tail);}
 }
@@ -40,7 +41,7 @@ export function initializeSnowRenderBuffer(runtime) {
 //remain native-width writes to the shared environment globals.
 export function initializeWeatherEnvironment(runtime) {
   const {memory: m, scratchBase} = runtime; put(m, 0x6e6cd8, allocateZero(runtime, 0x1000)); const clock = readGameMicroseconds({...runtime, scratchBase: scratchBase - 8}); put(m, 0x5ed2bc, Number(BigInt.asUintN(64, clock) / 1000n & 0xffffffffn));
-  const quality = m[ptr(m, 0x5ecefc) + 0x26]; let mode = get(m, 0x80dedc); if (quality <= 2) {mode = 2 - quality; put(m, 0x80dedc, mode);}
+  const quality = m[ptr(m, 0x5ecefc) + 0x26]; let mode = get(m, nativeGlobalAddress(m,0x80dedc)); if (quality <= 2) {mode = 2 - quality; put(m, nativeGlobalAddress(m,0x80dedc), mode);}
   const session = ptr(m, 0x5ecb1c); if (m[session + 0x555]) {if (m[session + 0x553] === 1) put(m, 0x5ed2c0, 128); else if (m[session + 0x553] === 2) put(m, 0x5ed2c0, 192);}
   if (mode === 1) {put(m, 0x6e6ce8, 30); put(m, 0x5ed2b8, 128); put(m, 0x6e6cd0, 0);} else {put(m, 0x5ed2b8, 256); put(m, 0x6e6ce8, 0); put(m, 0x6e6cd0, 0);}
 }
@@ -62,12 +63,12 @@ export function initializeWeatherScreen(runtime) {
 
 //496290. Storage/activation producer for the update graph.
 export function initializeWeather(runtime) {
-  const {memory: m, scratchBase} = runtime, frame = scratchBase - 20, session = ptr(m, 0x5ecb1c); for (let i = 0; i < 6; i++) put(m, 0x80dde0 + i * 4, -1);
+  const {memory: m, scratchBase} = runtime, frame = scratchBase - 20, session = ptr(m, 0x5ecb1c); for (let i = 0; i < 6; i++) put(m, nativeGlobalAddress(m,0x80dde0 + i * 4), -1);
   if (m[session + 0x553]) {
-    const mode = m[session + 0x552], count = (mode === 1 || mode === 2 ? 2 : mode === 3 ? 3 : mode === 4 ? 4 : 1) + 2; put(m, 0x80ddf8, count);
-    for (let index = 0; index < count; index++) put(m, 0x80dde0 + index * 4, allocateZero(runtime, 0x4030));
+    const mode = m[session + 0x552], count = (mode === 1 || mode === 2 ? 2 : mode === 3 ? 3 : mode === 4 ? 4 : 1) + 2; put(m, nativeGlobalAddress(m,0x80ddf8), count);
+    for (let index = 0; index < count; index++) put(m, nativeGlobalAddress(m,0x80dde0 + index * 4), allocateZero(runtime, 0x4030));
     const kind = m[ptr(m, 0x5ecb1c) + 0x553]; if (kind === 1) initializeRainRenderBuffer({...runtime, scratchBase: frame - 4}); else if (kind === 2) initializeSnowRenderBuffer({...runtime, scratchBase: frame - 4});
-    for (let index = 0; index < count; index++) {const row = ptr(m, 0x80dde0 + index * 4), kind = m[ptr(m, 0x5ecb1c) + 0x553]; const voice = kind & 1 ? emitNativeEffect(39, 0, [0, -1, 0, 9, 0, 0, 0], {dispatch40ea40: request => dispatchNativeSound(request, runtime.soundRuntime ?? runtime)}) : 127; put(m, row + 0x4024, voice); put(m, row + 0x4028, 0); initializeWeatherVolume(index, {...runtime, scratchBase: frame - 4});}
+    for (let index = 0; index < count; index++) {const row = ptr(m, nativeGlobalAddress(m,0x80dde0 + index * 4)), kind = m[ptr(m, 0x5ecb1c) + 0x553]; const voice = kind & 1 ? emitNativeEffect(39, 0, [0, -1, 0, 9, 0, 0, 0], {dispatch40ea40: request => dispatchNativeSound(request, runtime.soundRuntime ?? runtime)}) : 127; put(m, row + 0x4024, voice); put(m, row + 0x4028, 0); initializeWeatherVolume(index, {...runtime, scratchBase: frame - 4});}
   }
   initializeWeatherScreen({...runtime, scratchBase: frame - 4});
 }

@@ -10,7 +10,8 @@ import {RollcageArchive} from '../src/archive.mjs';
 import {parseIndex} from '../src/archive-index.mjs';
 import {getGame} from '../src/track-games.mjs';
 import {createSession} from '../src/solo-session.mjs';
-import {compilePickupEdits,createPickupDraft,parsePickupProject,parsePickupPlacements} from '../src/pickup-editor.mjs';
+import {compilePickupEdits,createPickupDraft,parsePickupPlacements} from '../src/pickup-editor.mjs';
+import {parseTrackProject} from '../src/track-editor-project.mjs';
 import {readTrackZIP} from './lib/check-track-download.mjs';
 import {Navigation} from './track-viewer/navigation.mjs';
 import {cameraRay,intersectTerrain,pickPickup,sourceToDisplay} from './track-viewer/pickup-picking.mjs';
@@ -40,8 +41,8 @@ try {
   const numeric=async(axis,value)=>{await page.locator(`#editor-${axis}`).fill(String(value));await page.locator(`#editor-${axis}`).press('Tab');await idle();};
   const saveProject=async filename=>{
     const promised=page.waitForEvent('download');await click('editor-save');const download=await promised;
-    assert.equal(download.suggestedFilename(),'pickup-project.json');const target=path.join(output,filename);await download.saveAs(target);
-    return {target,project:parsePickupProject(JSON.parse(await readFile(target,'utf8')))};
+    assert.equal(download.suggestedFilename(),'track-project.json');const target=path.join(output,filename);await download.saveAs(target);
+    return {target,project:parseTrackProject(JSON.parse(await readFile(target,'utf8')))};
   };
   const navFor=(state,scene)=>{const n=new Navigation();n.reset(scene.bounds);Object.assign(n,{mode:state.mode,eye:state.eye,target:state.target,yaw:state.yaw,pitch:state.pitch,distance:state.distance});return n;};
   const canvasRect=async()=>{await page.locator('#canvas').scrollIntoViewIfNeeded();const box=await page.locator('#canvas').boundingBox();return {left:box.x,top:box.y,width:box.width,height:box.height};};
@@ -110,7 +111,7 @@ try {
   assert.deepEqual((await inspect()).editor.pickups,edited2);
   const invalid=structuredClone(saved.project);invalid.indexSha256='0'.repeat(64);
   await page.locator('#editor-load').setInputFiles({name:'invalid-project.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(invalid))});await idle();
-  assert.match(await page.locator('#editor-error').textContent(),/matching original/);assert.deepEqual((await inspect()).editor.pickups,edited2);
+  assert.match(await page.locator('#editor-error').textContent(),/same starting files/);assert.deepEqual((await inspect()).editor.pickups,edited2);
   await page.locator('#editor-load').setInputFiles(saved.target);await idle();assert.equal(await page.locator('#editor-error').textContent(),'');
   checks.push('LOW/HIGH shared draft, multiple levels, project save/load and atomic rejection');
 
@@ -159,9 +160,9 @@ try {
   stage='export-cancel';await page.locator('#editor-export').click();await page.locator('#editor-cancel-export').waitFor({state:'visible'});await page.locator('#editor-cancel-export').click();await idle();
   assert.match(await page.locator('#editor-status').textContent(),/cancelled/);assert.deepEqual((await inspect()).editor.pickups,edited2);
   stage='native-archive-export';const promised=page.waitForEvent('download',{timeout:120000});await page.locator('#editor-export').click();const download=await promised;await idle();
-  assert.equal(download.suggestedFilename(),'rollcage-pickup-edits.zip');const zipPath=path.join(output,'rollcage-pickup-edits.zip');await download.saveAs(zipPath);
-  const files=readTrackZIP(await readFile(zipPath));assert.deepEqual([...files.keys()],['Rollcage.img','Rollcage.idx','pickup-project.json','README.txt']);
-  const project=parsePickupProject(JSON.parse(files.get('pickup-project.json').toString('utf8')));assert.deepEqual(project,saved.project);
+  assert.equal(download.suggestedFilename(),'rollcage-track-edits.zip');const zipPath=path.join(output,'rollcage-track-edits.zip');await download.saveAs(zipPath);
+  const files=readTrackZIP(await readFile(zipPath));assert.deepEqual([...files.keys()],['Rollcage.img','Rollcage.idx','track-project.json','README.txt']);
+  const project=parseTrackProject(JSON.parse(files.get('track-project.json').toString('utf8')));assert.deepEqual(project,saved.project);
   const image=files.get('Rollcage.img'),index=files.get('Rollcage.idx');assert.deepEqual(image.subarray(0,originalImage.length),originalImage);
   const oldEntries=parseIndex(originalIndex,originalImage.length),newEntries=parseIndex(index,image.length),changed=[];
   for(let i=0;i<oldEntries.length;i++)if(!index.subarray(i*16,i*16+16).equals(originalIndex.subarray(i*16,i*16+16)))changed.push(i);

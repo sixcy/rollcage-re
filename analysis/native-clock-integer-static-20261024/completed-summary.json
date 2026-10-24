@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "method": "static-original-signed64-division-recovery",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "session": 54289,
+  "sessionTerminalExitCode": 0,
+  "binaryClosed": true,
+  "gameLaunched": false,
+  "configurationChanged": false,
+  "evidence": "ev_5e83da9e8584442f7ba5642a6d79e59a445150641dc7bd8ec0d970d9933c61c2",
+  "canonicalAssembly": "analysis/native-simulation/results/20261024-clock-signed64-division-assembly.json",
+  "instructions": 70,
+  "nativeFunction": "0x569380",
+  "importantBehavior": "Actual three nonvolatile spills, in-place negative argument normalization, two divide paths, quotient correction and RET16; source and instruction checks must preserve these writes.",
+  "pins": [
+    {
+      "path": "analysis/native-clock-integer-static-20261024/results/001-open.json",
+      "bytes": 749,
+      "sha256": "7b72e20b8f30b8c83f3547e7ad844e3912c4dbae790f7840b97df663a4c4d2b2"
+    },
+    {
+      "path": "analysis/native-clock-integer-static-20261024/results/002-signed64-division-assembly.json",
+      "bytes": 16518,
+      "sha256": "0f6a4baa0640d4881314858df3ae05dd178765e242f5cca9cf097826e14023fb"
+    },
+    {
+      "path": "analysis/native-clock-integer-static-20261024/results/003-export-evidence.json",
+      "bytes": 532,
+      "sha256": "d717c4eea51a4c0a38e1056e831bf69f0a4e7a1df5a5abe771117ec6e966ecfc"
+    },
+    {
+      "path": "analysis/native-clock-integer-static-20261024/results/004-close-snapshot.json",
+      "bytes": 731,
+      "sha256": "a77c6b550c36de1a6d3a226b7d62cc48accaead1fb5ea73edf4f65477485c0dc"
+    },
+    {
+      "path": "analysis/native-clock-integer-static-20261024/rea-close.json",
+      "bytes": 250,
+      "sha256": "052cc72acfb75907e9ff703ebd805df08cd7d770bdebc4c2da17cf9d10cd8447"
+    },
+    {
+      "path": "analysis/native-clock-integer-static-20261024/clock-integer.evidence.json",
+      "bytes": 1692849,
+      "sha256": "7b8ab291cb529a539fd9c40782507e1c47f0c7192de1c47b75b7e7d3949fbc90"
+    },
+    {
+      "path": "analysis/native-clock-integer-static-20261024/clock-integer.snapshot.json",
+      "bytes": 2484496,
+      "sha256": "9105b18fb0a9e2dfd6ea179e54974d81161f240a18690800f58e563d18035754"
+    }
+  ]
+}

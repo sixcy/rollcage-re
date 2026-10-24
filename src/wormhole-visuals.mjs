@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32, multiplyQ16, divideQ16, sqrtQ16, vectorLengthQ16, crossQ16} from './fixed-integer.mjs';
 import {normalizeCollisionVector} from './sphere-collision.mjs';
 import {transformAttachmentPoint, ATTACHMENT_SCRATCH_BASE, ATTACHMENT_SCRATCH_LENGTH} from './body-attachments.mjs';
@@ -6,7 +7,7 @@ import {removeRawParticleSpatial, registerRawEffectSpatial, lookupRawSpatialBuck
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 const vector = (m, p) => [0, 4, 8].map(offset => get(m, p + offset)), store = (m, p, values) => values.forEach((value, index) => put(m, p + index * 4, value));
 const rng = value => Math.imul(value, 0x41a7) & 0x7fffffff;
-const scratch = m => m.subarray(ATTACHMENT_SCRATCH_BASE, ATTACHMENT_SCRATCH_BASE + ATTACHMENT_SCRATCH_LENGTH);
+const scratch = m => {const start=nativeGlobalAddress(m,ATTACHMENT_SCRATCH_BASE);return m.subarray(start,start+ATTACHMENT_SCRATCH_LENGTH);};
 function length(m, values) {
   let squares = values.map(value => multiplyQ16(value, value)), reduced = !!(squares.reduce((a, b) => a | b, 0) & 0xe0000000);
   if (reduced) squares = squares.map(value => value >>> 2);
@@ -72,8 +73,8 @@ export function buildWormholeMesh(body, runtime) {
   const {memory: m, roundingMode} = runtime; let radius = get(m, body + 0x33c) >> 1, target = body + 0x344;
   for (let offset = 0; offset < 20; offset += 4) put(m, 0x91d360 + offset, get(m, body + 0xc4 + offset));
   const scale = m.readFloatLE(0x5dc5f4);
-  for (let lane = 0; lane < 9; lane++) m.writeFloatLE(Math.fround(m.readInt16LE(0x91d360 + lane * 2) * scale), 0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4);
-  for (let lane = 0; lane < 3; lane++) {const value = m.readInt16LE(body + 0x36 + lane * 4); put(m, 0x91d374 + lane * 4, value); m.writeFloatLE(value, 0x91cdb0 + lane * 4);}
+  for (let lane = 0; lane < 9; lane++) m.writeFloatLE(Math.fround(m.readInt16LE(0x91d360 + lane * 2) * scale), nativeGlobalAddress(m,0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4));
+  for (let lane = 0; lane < 3; lane++) {const value = m.readInt16LE(body + 0x36 + lane * 4); put(m, 0x91d374 + lane * 4, value); m.writeFloatLE(value, nativeGlobalAddress(m,0x91cdb0 + lane * 4));}
   const baseRadius = radius, step = Math.trunc(radius / 16); let diameter = radius << 2;
   for (let ring = 0; ring < 6; ring++) {
     const height = Math.trunc(Math.imul(Math.imul(ring, ring), baseRadius) / -5), sideRadius = Math.trunc(diameter / 5);
@@ -97,7 +98,7 @@ export function buildWormholeMesh(body, runtime) {
 
 //4901d0. Fixed256-byte arena render record, not the particle free-list pool.
 export function createWormholeRenderParticle(x, y, z, materialIndex, width, flags, {memory: m, scratchBase}) {
-  const old = ptr(m, 0x70dcf4), result = ptr(m, 0x902eec) + (old >>> 2) * 4 >>> 0, material = ptr(m, 0x90b988) + (materialIndex << 4) >>> 0;
+  const old = ptr(m, 0x70dcf4), result = ptr(m, nativeGlobalAddress(m, 0x902eec)) + (old >>> 2) * 4 >>> 0, material = ptr(m, 0x90b988) + (materialIndex << 4) >>> 0;
   put(m, 0x70dcf4, old + 256); m[result + 0x1f] = 0x98; m[result + 0x1b] = 12;
   put(m, result + 0x38, get(m, material)); put(m, result + 0x54, get(m, material + 4)); word(m, result + 0x70, m.readUInt16LE(material + 8)); word(m, result + 0x8c, m.readUInt16LE(material + 10)); word(m, result + 0x56, m.readUInt16LE(result + 0x56) | 0x800);
   m[result + 0x1f] = 0x9a; put(m, result + 4, 0); word(m, result + 8, 0); put(m, result + 12, 0); put(m, result, 2); m[result + 0x17] = flags & 255; m[result + 0x16] = width & 255;
@@ -138,7 +139,7 @@ function removeWithArena(object, arena, m) {
   put(m, object + 4, 0);
 }
 export function removeWormholeEffects(body, {memory: m}) {
-  const arena = ptr(m, 0x902eec);
+  const arena = ptr(m, nativeGlobalAddress(m, 0x902eec));
   for (const [offset, count] of [[0x1e0, 5], [0x1f4, 32]]) for (let index = 0; index < count; index++) removeWithArena(ptr(m, body + offset + index * 4), arena, m);
   for (let index = 0; index < 10; index++) {const life = body + 0x2a4 + index * 16; if (get(m, life) > 0) removeWithArena(ptr(m, body + 0x274 + index * 4), arena, m); put(m, life, 0);}
 }
@@ -149,7 +150,7 @@ export function initializeWormholeEffectPool(body, runtime) {
   const {memory: m, scratchBase} = runtime; let texture = m.readUInt16LE(ptr(m, 0x90b990) + 0x2e);
   const allocate = (material, size) => {const object = createWormholeRenderParticle(0, 0, 0, material, size, 0x80, {...runtime, scratchBase: Number.isInteger(scratchBase) ? scratchBase - 52 : undefined}); put(m, object, 13); word(m, object + 0x90, 0); m[object + 0x92] = 0; return object;};
   for (let index = 0; index < 5; index++) {const object = allocate(texture + 0x3f, 0x30); removeRawParticleSpatial(object, runtime); put(m, body + 0x1e0 + index * 4, object);}
-  const arena = ptr(m, 0x902eec); texture = m.readUInt16LE(ptr(m, 0x90b990) + 0x2e); let seed = get(m, 0x5ed2c8);
+  const arena = ptr(m, nativeGlobalAddress(m, 0x902eec)); texture = m.readUInt16LE(ptr(m, 0x90b990) + 0x2e); let seed = get(m, 0x5ed2c8);
   for (let index = 0; index < 10; index++) {
     const object = allocate(texture + 100, 0x20); removeWithArena(object, arena, m); put(m, body + 0x274 + index * 4, object);
     seed = rng(seed); const first = seed; seed = rng(seed); const second = seed;
@@ -186,7 +187,7 @@ export function updateWormholeEffects(body, runtime) {
   let arena;
   const insert = (object, outsideSlot) => {
     const position = [0, 2, 4].map(offset => m.readInt16LE(object + 0x10 + offset) << 16), found = lookupRawSpatialBucket(...position, runtime); put(m, outsideSlot, found.outside);
-    arena = ptr(m, 0x902eec); const tagged = found.bucket + found.outside, selected = tagged & 0xfffffffe, id = ((object - arena + 128) >>> 7) & 65535;
+    arena = ptr(m, nativeGlobalAddress(m, 0x902eec)); const tagged = found.bucket + found.outside, selected = tagged & 0xfffffffe, id = ((object - arena + 128) >>> 7) & 65535;
     put(m, object + 12, tagged); const head = m.readUInt16LE(selected + 10); put(m, object + 4, head); if (head) word(m, arena - 122 + head * 128 >>> 0, id); word(m, selected + 10, id);
   };
   for (const [offset, count, inner, outsideOffset] of [[0x1e0, 5, false, 0x14], [0x1f4, 32, true, 0x18]]) for (let index = 0; index < count; index++) {
@@ -206,7 +207,7 @@ export function updateWormholeEffects(body, runtime) {
 //49c190. Reactivate the37 ring records at their current short positions, then
 //reset ten staggered spark rows and tail into the actual visual update.
 export function activateWormholeEffects(body, runtime) {
-  const {memory: m} = runtime, arena = ptr(m, 0x902eec);
+  const {memory: m} = runtime, arena = ptr(m, nativeGlobalAddress(m, 0x902eec));
   for (const [offset, count] of [[0x1e0, 5], [0x1f4, 32]]) for (let index = 0; index < count; index++) {
     const object = ptr(m, body + offset + index * 4), position = [0, 2, 4].map(lane => m.readInt16LE(object + 0x10 + lane) << 16), found = lookupRawSpatialBucket(...position, runtime), tagged = found.bucket + found.outside, bucket = tagged & 0xfffffffe, id = ((object - arena + 128) >>> 7) & 65535;
     put(m, object + 12, tagged); const head = m.readUInt16LE(bucket + 10); put(m, object + 4, head); if (head) word(m, arena - 122 + head * 128 >>> 0, id); word(m, bucket + 10, id);

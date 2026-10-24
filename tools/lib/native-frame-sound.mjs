@@ -89,6 +89,7 @@ export function createNativeFrameSoundBindings({memory, moduleBaseAddress, numer
       admit(0x5e8890, 4, 'cookie');
       return populated(request, runtime);
     }} : {}),
+    onSoundSourceRead({address, length, label, comparison}) {if (length) admit(address, length, label, comparison);},
     onSoundChannelRead({address, length}) {admit(address, length, 'channel-slot');},
     onSoundBankRead({address, length}) {admit(address, length, 'bank-entry');}};
   function dispatch40ea40(request) {
@@ -100,5 +101,5 @@ export function createNativeFrameSoundBindings({memory, moduleBaseAddress, numer
     return emitNativeEffectOnStack(request.code, request.registerEdx, request.args, {...request, moduleBaseAddress, numericalContext, soundRuntime, dispatch40ea40});
   }
   return {soundRuntime, dispatch40ea40, call484bb0, comparisonRegions,
-    limits: ['Integer-only484bb0,40ea40 early exits and the explicit-TLS round-robin null-channel branch preserve shared stack.', 'Nonnull channels/adaptive selection require complete child-stack/service bindings; numeric-only source handlers are insufficient.', 'This binding does not establish audible playback, native wall-clock timing or populated-bank runtime equivalence.']};
+    limits: ['Integer-only484bb0,40ea40 early exits, explicit-TLS round-robin null-channel and reconstructed adaptive scan/reuse/limit branches preserve shared stack.', 'Adaptive allocation, unknown/heap positional callbacks and nonnull playback require complete child-stack/service bindings; numeric-only source handlers are insufficient.', 'This binding does not establish audible playback, native wall-clock timing or populated-bank runtime equivalence.']};
 }

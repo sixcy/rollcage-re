@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {selectCameraTrigger, measureCameraLineDistance} from './camera-route-triggers.mjs';
 import {selectCameraEvent} from './camera-event-selection.mjs';
 import {chooseCameraMode, measureCameraVector} from './camera-mode-policy.mjs';
@@ -32,7 +33,7 @@ export function updateCamera(index, runtime) {
   const child = depth => ({...runtime, scratchBase: frame - depth});
   put(m, frame + 0xc4, get(m, 0x5e8890) ^ (scratchBase - 188)); put(m, frame + 0x28, 0);
   put(m, frame + 0x5c, get(m, 0x5ec120 + index * 4)); put(m, frame + 0x14, index); put(m, frame + 0x24, row);
-  put(m, frame + 0x1c, resolveNativeMemoryAddress(m,0x909300+Math.imul(get(m,frame+0x5c),0x30c),4)); put(m, frame + 0x6c, get(m, camera + 0x3c)); put(m, frame + 0x50, trunc32(m.readFloatLE(0x91ceb0)));
+  put(m, frame + 0x1c, resolveNativeMemoryAddress(m,0x909300+Math.imul(get(m,frame+0x5c),0x30c),4)); put(m, frame + 0x6c, get(m, camera + 0x3c)); put(m, frame + 0x50, trunc32(m.readFloatLE(nativeGlobalAddress(m,0x91ceb0))));
   if (typeof runtime.handlers?.formatCameraName !== 'function') throw Error('Camera update requires CRT player-name formatting.');
   runtime.handlers.formatCameraName(frame + 0xa4, 0x5d043c, index, child(16));
   if (selectCameraTrigger(index, camera + 0x36, camera + 0x174, child(8))) {put(m, camera, 16); word(m, camera + 0x32, 0);}
@@ -59,7 +60,7 @@ export function updateCamera(index, runtime) {
       }
       if (!changed) {
         if (eventClass === 4) {
-          const event = ptr(m, 0x80b5e0 + m.readInt16LE(camera + 0x38) * 4);
+          const event = ptr(m, nativeGlobalAddress(m, 0x80b5e0) + m.readInt16LE(camera + 0x38) * 4);
           if (m[event + 0x188] & 64) {put(m, camera, 9); put(m, camera + 0x32, 0xd20000); word(m, camera + 0x36, m.readUInt16LE(ptr(m, event + 0x198) + 0x65e));}
         } else if (!eventClass) pick();
         else put(m, camera + 0x118, get(m, 0x90a548));
@@ -73,7 +74,7 @@ export function updateCamera(index, runtime) {
     if (mode === 0 || mode === 9) {copy(m, ptr(m, ptr(m, frame + 0x30)) + 0x34, pose, 54); break;}
     if (mode === 1 || mode === 7) {
       publishCameraPose(0x909300 + Math.imul(m.readUInt16LE(camera + 0x36), 0x30c), pose, 1, frame + 0xa4, child(12));
-      put(m, camera + 0x1c, 1); put(m, camera + 0x24, trunc32(m.readFloatLE(0x91ceb0))); word(m, camera + 0x30, m.readUInt16LE(camera + 0x36));
+      put(m, camera + 0x1c, 1); put(m, camera + 0x24, trunc32(m.readFloatLE(nativeGlobalAddress(m,0x91ceb0)))); word(m, camera + 0x30, m.readUInt16LE(camera + 0x36));
       copyPair(m, body + 0x68, pose + 0x34); put(m, pose + 0x3c, get(m, body + 0x70));
       for (let axis = 0; axis < 3; axis++) put(m, direction + axis * 4, (mode === 1 ? -1 : 1) * m.readInt16LE(body + 0xc8 + axis * 6));
       const selected = ptr(m, 0x909300 + Math.imul(m.readUInt16LE(camera + 0x36), 0x30c));
@@ -133,7 +134,7 @@ export function updateCamera(index, runtime) {
         put(m, frame + 0xa0, get(m, camera + 0x164)); copyPair(m, camera + 0x15c, frame + 0x98); put(m, frame + 0x28, 2);
         if (!m.readInt16LE(camera + 0x32)) put(m, camera + 0x20, (rng() >>> 15) & 65535);
         put(m, frame + 0x24, body + 0x34);
-      } else {observed = ptr(m, (mode === 11 ? 0x9034a0 : mode === 12 ? 0x903480 : 0x80b5e0) + m.readInt16LE(camera + 0x38) * 4); put(m, frame + 0x24, observed);}
+      } else {observed = ptr(m, (mode === 11 ? 0x9034a0 : mode === 12 ? 0x903480 : nativeGlobalAddress(m, 0x80b5e0)) + m.readInt16LE(camera + 0x38) * 4); put(m, frame + 0x24, observed);}
       selectModelDestructionObserver(observed + 0x34, frame + 0x18, 0, child(12));
       const observer = ptr(m, frame + 0x18); copyPair(m, observer + 4, camera + 0x15c); put(m, camera + 0x164, get(m, observer + 12));
       const large = m[ptr(m, 0x5ecefc) + 0x31] === 1;
@@ -171,7 +172,7 @@ export function updateCamera(index, runtime) {
     if (mode === 16) {if (updateTriggerMode(body)) continue; break;}
     break; //Unsigned out-of-table modes follow the native common tail.
   }
-  if (!suppressViewportReset && (m[0x91ce90] & 2)) {
+  if (!suppressViewportReset && (m[nativeGlobalAddress(m,0x91ce90)] & 2)) {
     let name = frame + 0xa4; if (!m[name]) {const current = ptr(m, 0x6efb3c); name = current ? ptr(m, current + 0x28) >= 16 ? ptr(m, current + 0x14) : current + 0x14 : 0;}
     if (name) {put(m, frame - 4, 1); put(m, frame - 8, name); const application = getViewportApplication(child(12)); updateCameraViewportScale(application, name, 1, 0, child(12));}
   }
@@ -181,7 +182,7 @@ export function updateCamera(index, runtime) {
   function publishBodyMatrix(body, locals) {
     for (const offset of [0, 4, 8, 12, 16]) put(m, 0x91d360 + offset, get(m, body + 0xc4 + offset));
     const scale = m.readFloatLE(0x5dc5f4);
-    for (let i = 0; i < 9; i++) {const value = Math.fround(m.readInt16LE(0x91d360 + i * 2)); m.writeFloatLE(value, frame + locals[i]); m.writeFloatLE(Math.fround(value * scale), 0x91cdc0 + Math.floor(i / 3) * 16 + i % 3 * 4);}
+    for (let i = 0; i < 9; i++) {const value = Math.fround(m.readInt16LE(0x91d360 + i * 2)); m.writeFloatLE(value, frame + locals[i]); m.writeFloatLE(Math.fround(value * scale), nativeGlobalAddress(m,0x91cdc0) + Math.floor(i / 3) * 16 + i % 3 * 4);}
   }
   function updateCurveMode() {
     const i = get(m, frame + 0x14), base = Math.imul(i, 12), points = 0x6f98f0 + Math.imul(i, 60);

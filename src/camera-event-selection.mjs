@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 const get = (memory, address) => memory.readInt32LE(address);
 const ptr = (memory, address) => memory.readUInt32LE(address);
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
@@ -10,7 +11,7 @@ export function selectCameraEvent(index, {memory}) {
   let kind = get(memory, camera + 0x3c);
   if ((kind === 1 || kind === 3) && get(memory, ptr(memory, 0x9034a0 + memory.readInt16LE(camera + 0x38) * 4) + 0x188) === 0) put(memory, camera + 0x3c, 0);
   if (get(memory, camera + 0x3c) === 2 && get(memory, ptr(memory, 0x903480 + memory.readInt16LE(camera + 0x38) * 4) + 0x194) === 0) put(memory, camera + 0x3c, 0);
-  if (get(memory, camera + 0x3c) === 4 && get(memory, ptr(memory, 0x80b5e0 + memory.readInt16LE(camera + 0x38) * 4) + 0x188) === 0) put(memory, camera + 0x3c, 0);
+  if (get(memory, camera + 0x3c) === 4 && get(memory, ptr(memory, nativeGlobalAddress(memory, 0x80b5e0) + memory.readInt16LE(camera + 0x38) * 4) + 0x188) === 0) put(memory, camera + 0x3c, 0);
 
   const session = ptr(memory, 0x5ecb1c), mode = memory[session + 0x552];
   let timestamp;
@@ -45,7 +46,7 @@ export function selectCameraEvent(index, {memory}) {
     break;
   }
   if (get(memory, camera + 0x3c) !== 0) return;
-  if (memory[ptr(memory, 0x80b5e0) + 0x188] & 1) {
+  if (memory[ptr(memory, nativeGlobalAddress(memory, 0x80b5e0)) + 0x188] & 1) {
     put(memory, camera + 0x3c, 4); memory.writeUInt16LE(0, camera + 0x38); put(memory, camera, 13);
   }
 }

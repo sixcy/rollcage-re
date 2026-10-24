@@ -1,4 +1,5 @@
 //41dbb0 and its raw vehicle-state producers. All addresses share caller memory.
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import tables from './vehicle-construction-tables.json' with {type:'json'};
 import {abs32,lookupSqrt} from './fixed-integer.mjs';
 import {quaternionFromReleaseDirection} from './scripted-release.mjs';
@@ -66,7 +67,7 @@ export function initializeRawVehicleDescriptors(body,{memory:m}){
 export function initializeVehicleAnimationBody(body,type,{memory:m}){
  let vertices=ptr(m,body+0x24),offsets=ptr(m,0x5ecfec+type*4);const count=m[body+0x10d],primaryModel=ptr(m,ptr(m,0x909300)+0x10);
  if(m.readUInt16LE(primaryModel+6)>250){put(m,0x5ecff4,0x5ecfc4);put(m,0x5ecff8,0x5ed01c);put(m,0x5ed004,0x5ecfe4);offsets=ptr(m,0x5ecfec+type*4);}
- if(!m[0x810940+type]){m[0x810940+type]=1;for(let i=0;i<count;i++,vertices+=8){word(m,vertices,m.readUInt16LE(vertices)+m.readUInt16LE(offsets));word(m,vertices+2,m.readUInt16LE(vertices+2)+m.readUInt16LE(offsets+2));word(m,vertices+4,m.readUInt16LE(vertices+4)+m.readUInt16LE(offsets+4)-2);}}
+ if(!m[nativeGlobalAddress(m, 0x810940)+type]){m[nativeGlobalAddress(m, 0x810940)+type]=1;for(let i=0;i<count;i++,vertices+=8){word(m,vertices,m.readUInt16LE(vertices)+m.readUInt16LE(offsets));word(m,vertices+2,m.readUInt16LE(vertices+2)+m.readUInt16LE(offsets+2));word(m,vertices+4,m.readUInt16LE(vertices+4)+m.readUInt16LE(offsets+4)-2);}}
 }
 
 //48dda0: selection temporaries retain their actual native stack addresses.
@@ -102,14 +103,14 @@ export function initializeVehiclePresentation(body,type,runtime){
  const block=allocate(runtime,0x121c);if(block)m.fill(0,block,block+0x121c);put(m,body+0x3e70,block);put(m,0x5ecb18,body);m[block+0x1218]=type&255;
  for(let i=0;i<6;i++){const pack=ptr(m,0x90b98c),models=ptr(m,pack+0x18),lookup=ptr(m,pack+0x58),first=ptr(m,models+m.readInt16LE(lookup+m.readUInt16LE(0x5eadc4+i*2)*2)*4),second=ptr(m,models+m.readInt16LE(lookup+m.readUInt16LE(0x5ead50+i*2)*2)*4);const object=createRawBody(first,0x1c03,384,0,{...runtime,scratchBase:scratchBase-40});put(m,block+i*4,object);createVehicleAnimation(block+24+i*0x300,second,i,{...runtime,scratchBase:scratchBase-44});}
  const x=m.readInt16LE(0x9118d0),scaled=Math.trunc((m.readUInt16LE(ptr(m,0x5ecefc)+0x42c)<<8)/400),y=((Math.imul(scaled,25)>>>8)+m.readInt16LE(0x9118d2))|0;
- const panel=allocate(runtime,0x14c0);if(panel)m.fill(0,panel,panel+0x14c0);put(m,0x902018,panel);put(m,0x90201c,panel+0xa60);
+ const panel=allocate(runtime,0x14c0);if(panel)m.fill(0,panel,panel+0x14c0);put(m,nativeGlobalAddress(m, 0x902018),panel);put(m,nativeGlobalAddress(m, 0x90201c),panel+0xa60);
  for(let i=0;i<4;i++){
   const p=panel+i*0x298,material=(m.readUInt16LE(ptr(m,0x90b990)+0x2e)+0x99+i)*16+ptr(m,0x90b988);put(m,p+0x294,0x10000000);put(m,p+0x0c,get(m,material));word(m,p+0x10,m[material+10]-m[material]+1);put(m,p+4,0);word(m,p+8,x);word(m,p+0x12,m[material+11]-m[material+1]+1);m[p+3]=4;word(m,p+10,y+i*33);m[p+7]=0x46;word(m,p+14,m.readUInt16LE(material+6));
   for(let j=0;j<16;j++){
    const q=p+0x1c+j*40,entry=(m.readUInt16LE(ptr(m,0x90b990)+0x2e)+0x84)*16+ptr(m,0x90b988);put(m,q+4,get(m,entry));put(m,q+12,get(m,entry+4));word(m,q+20,m.readUInt16LE(entry+8));word(m,q+28,m.readUInt16LE(entry+10));const left=(j*10+m.readUInt16LE(p+8))&65535,top=(m.readUInt16LE(p+10)+18)&65535;word(m,q,left);word(m,q+2,top);word(m,q+10,top);put(m,q-4,0);word(m,q+8,left+8);word(m,q+24,left+8);word(m,q+16,left);word(m,q+18,top+8);word(m,q+26,top+8);m[q-5]=9;m[q-1]=0x2e;
   }
  }
- const end=ptr(m,0x90201c);for(let p=panel;p<end;p+=4)put(m,end+p-panel,get(m,p));
+ const end=ptr(m,nativeGlobalAddress(m, 0x90201c));for(let p=panel;p<end;p+=4)put(m,end+p-panel,get(m,p));
 }
 
 //41cfc0 clones the four wheel records forward, then gives each a new render
@@ -120,7 +121,7 @@ export function cloneSecondaryVehicleWheels(record,model,{memory:m,scratchBase})
   const wheel=secondary+0x324+i*200;for(let o=0;o<200;o+=4)put(m,wheel+o,get(m,wheel+difference+o));let required=384,auxiliary=0,third=0;
   const outputs=[local+0x20,local+0x1c,local+0x28,local+0x24,local+0x34,local+0x30];
   if(model){auxiliary=model+m.readUInt16LE(model+0x1c);third=model+m.readUInt16LE(model+0x1e);required=measureRawBodyStorage(model,384,[true,auxiliary!==model,third!==model],outputs,{memory:m});}
-  const old=ptr(m,0x70dcf4),body=(ptr(m,0x902eec)+(old&0xfffffffc))>>>0;put(m,0x70dcf4,old+((required+127)&0xffffff80));for(let o=0;o<384;o+=4)put(m,body+o,-1);
+  const old=ptr(m,0x70dcf4),body=(ptr(m,nativeGlobalAddress(m, 0x902eec))+(old&0xfffffffc))>>>0;put(m,0x70dcf4,old+((required+127)&0xffffff80));for(let o=0;o<384;o+=4)put(m,body+o,-1);
   put(m,body,0xc00);put(m,body+4,0);word(m,body+8,0);put(m,body+12,0);put(m,body+0x118,0);put(m,body+0x11c,-1);put(m,body+0x110,0);m[body+0x12f]=255;put(m,body+0x148,0);m.fill(0,body+0x16a,body+0x172);word(m,body+0x172,0);
   if(registry<512){put(m,0x70e200+registry*4,body);word(m,body+0x10e,registry);registry=(registry+1)|0;put(m,0x6e6b44,registry);}
   if(model){put(m,body+0x24,get(m,model+0x40));m[body+0x162]=m[model+4];m[body+0x10d]=m[model+4];put(m,body+0x2c,get(m,model+12));put(m,body+0x28,get(m,model+12));let displacement=m.readUInt16LE(model+0x1c);if(displacement){put(m,body+0x2c,get(m,model+displacement+12));displacement=m.readUInt16LE(model+0x1c);m[body+0x162]=m[model+displacement+4];}put(m,body+0x30,get(m,body+0x2c));m[body+0x163]=m[body+0x162];displacement=m.readUInt16LE(model+0x1e);if(displacement){put(m,body+0x30,get(m,model+displacement+12));displacement=m.readUInt16LE(model+0x1e);m[body+0x163]=m[model+displacement+4];}put(m,body+0x10,model);
@@ -148,6 +149,6 @@ export function constructVehicle(record,index,runtime){
  const liveBody=ptr(m,record);word(m,liveBody+0x6a0,0);word(m,liveBody+0x6a2,65535);word(m,liveBody+0x6a4,65535);m[liveBody+0x671]=0;initializeVehicleEffectBlock(body+0x728,runtime);for(const[o,v]of[[0x6a8,0x60000],[0x6ac,0x60000],[0x6b0,0],[0x6b4,0],[0x6b8,0],[0x148,0x41e080]])put(m,body+o,v);initializeVehicleSkidStorage(body,{...runtime,scratchBase:local-4});createVehicleAnimation(body+0x2b88,ptr(m,local+0x1c),type,{...runtime,scratchBase:local-8});initializeVehicleSurfaceLinks(body,runtime);initializeVehicleGripRecords(body,runtime);formatLapTimeDigits(m.subarray(record,record+0x30c),1);
  put(m,body+0x2f38,0x10000040);put(m,record+0x7c,0);put(m,record+0x80,0);for(const o of[0x2f44,0x2f40,0x2f3c,0x2f48])put(m,body+o,0);current=ptr(m,0x5ecb1c);word(m,body+0x66d,0);m[body+0x66c]=0;put(m,body+0x3e74,-1);const parameters=m[current+0x587]?0x5ead40:0x5eacd0+type*16;for(let i=0;i<4;i++)put(m,body+0x3cf4+i*4,get(m,parameters+i*4));if(m[current+get(m,local+0x14)]!==8)put(m,body+0x3d00,get(m,body+0x3d00)+1);
  m[record+0x248]=0;m[body+0x64f]=0;word(m,body+0x654,0);put(m,body+0x3d04,0);put(m,body+0x3d08,0);if(m[current+m.readUInt16LE(body+0x65e)]!==8)initializeVehicleController(body,m[current+0x58c]===2||get(m,0x6e6650)===1?4:1,runtime);else put(m,body+0x660,0);for(const o of[0x67c,0x678,0x674,0x688,0x684,0x680])put(m,body+o,0);
- const linked=ptr(m,record),participant=m.readUInt16LE(linked+0x65e),owner=0x8495e0+Math.imul(participant,0x8c);if(participant<6){put(m,owner+0x6c,linked);put(m,ptr(m,record)+0x6bc,owner);}const count=get(m,0x82e900);put(m,0x82e880+count*8,body);put(m,0x82e884+count*8,1);put(m,0x82e900,get(m,0x82e900)+1);word(m,record+0x249,0);initializeVehiclePresentation(body,type,{...runtime,scratchBase:local-12});
+ const linked=ptr(m,record),participant=m.readUInt16LE(linked+0x65e),owner=0x8495e0+Math.imul(participant,0x8c);if(participant<6){put(m,owner+0x6c,linked);put(m,ptr(m,record)+0x6bc,owner);}const count=get(m,nativeGlobalAddress(m,0x82e900));put(m,nativeGlobalAddress(m,0x82e880)+count*8,body);put(m,nativeGlobalAddress(m,0x82e884)+count*8,1);put(m,nativeGlobalAddress(m,0x82e900),get(m,nativeGlobalAddress(m,0x82e900))+1);word(m,record+0x249,0);initializeVehiclePresentation(body,type,{...runtime,scratchBase:local-12});
  if(m[ptr(m,0x5ecb1c)+0x54e]){const secondary=ptr(m,record+0x250);cloneSecondaryVehicleWheels(record,ptr(m,local+0x18),{...runtime,scratchBase:local-4});createVehicleAnimation(secondary+0x2b88,ptr(m,local+0x1c),type,{...runtime,scratchBase:local-8});initializeVehicleSurfaceLinks(secondary,runtime);initializeVehicleGripRecords(secondary,runtime);}return body;
 }

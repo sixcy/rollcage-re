@@ -1,6 +1,6 @@
 // Read-only bindings for the genuine post-physics recovery graph. No native
 // process launch, constructor, route answer or state reset is supplied here.
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
 import {buildNativeFrameManifest} from './native-frame-manifest.mjs';
 import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
 import {extendNativeFrameGeometryComparison} from './native-frame-replay.mjs';

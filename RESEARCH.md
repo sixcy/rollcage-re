@@ -14,6 +14,80 @@ SHA-256: `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
 
 The goal is a source reconstruction. Recovered pseudocode and inferred names are analysis inputs, not original source. Begin with the archive loader and decompressor, then build asset readers and map the game systems. Each reconstructed component needs checks against the installed artifacts.
 
+The [complete timing calculation](re-docs/native-race-step-clock-checkpoint.md)
+is now implemented with genuine counter arithmetic, both numeric conversions
+and helper stack writes. A341-case retained-instruction comparison reaches all
+68 scheduler instructions; separate checks cover ASLR and exception-entry
+boundaries. Only synthetic Windows timing outcomes are supplied in that
+instruction comparison; it does not establish original-process timing or
+continuous-race parity. The remaining outer producer interval is documented there.
+
+A subsequent [original warm-clock observation](re-docs/native-race-clock-runtime-checkpoint.md)
+matches the scalar binary64 result, scheduled count, fixed storage, known
+return registers and numerical state from original entry inputs and one real
+QPC outcome. Its strict whole-stack comparison remains failed at105 final
+bytes because external Windows QPC leaves private stack residues. Those bytes
+are retained as differences, never copied into source. Continuous timing and
+the full physics objective remain open.
+
+The [outer450d60 dispatcher](re-docs/native-race-dispatch.md) now composes the
+reconstructed viewport, clock and update algorithms, with an explicit failure
+for the unrecovered reached pause policy. Parent-control comparisons pass450
+synthetic cases across three relocated bases and all87 parent instructions;
+these do not prove synthetic child outcomes. A separate504-case return bridge
+extends the actual verified FinalV2 source carry through the enclosing RET,
+without refreshing from a native after-state. Native outer-return, full child
+ABI and second-tick comparisons remain open.
+
+Latest: [FinalV2](re-docs/native-parent-final-tick-checkpoint.md) matches one
+complete recorded six-car450e50 update through actual return to450e38:
+5,107,238 distinct declared bytes, seven returned registers and both independent
+clock increments288→289. This uses original-entry game state carried through
+source, three authenticated CRT outcomes and one QPC outcome. The viewer now
+reports this checkpoint. Continuous ticks, outer scheduling and the original
+goal's broader physics/weapon/recovery scenarios remain open; earlier checkpoint
+limits below describe their historical recordings.
+
+The [next-tick timing plan](re-docs/native-next-tick-timing-plan-20261024.md)
+identifies the actual intervening outer producers and missing mutable inputs.
+Its static follow-up recovers the68-byte conversion-status helper and original
+mask/control bytes, without launching the game. The later timing checkpoints
+implement the441c70 source/oracle coverage; a closed second tick remains open.
+No conversion answers or future-entry game state are substituted.
+
+Resumed stock V4 now carries the original six-car parent through cameras at
+5,108,106 unique semantic bytes and consumes both following weather viewport
+casts. It then stops at the missing original performance-counter service;
+weather output and a complete tick remain unproved. This recording exposed
+overlapping actual-image/preferred-global addresses and stale guard metadata
+after a source-produced audio-pointer change; both adapter defects are corrected
+without rebasing pointers or supplying native intermediate state. See the
+[mixed weather checkpoint](re-docs/native-parent-weather-checkpoint.md).
+
+Later V5/V6 recordings authenticate the initialized original performance-counter
+call/return, with exact eight-byte pre/post storage and unchanged caller/control
+state. A typed single-use source binding is implemented, and additional actual
+stack/global address collisions are corrected. Their joined replay still stops
+at genuine newly reached audio-owner inputs before physics; weather/world output
+and complete ticks remain unproved. See [counter evidence and current source
+limits](re-docs/native-parent-weather-counter.md).
+
+V7 records all64 used sound-bank owners at ten existing checkpoints and passes
+the independent5,784-hash/688-file-identity audit. A below-preferred ASLR case
+corrects target-registry/overlay instruction operands while preserving raw
+pointers. Joined source matches after-AI at5,175,607 unique bytes, then its new
+genuine adaptive selector reaches an uncaptured first channel-wrapper DWORD.
+Full parent, joined QPC consumption and continuous races remain open. See the
+[owner checkpoint and exact next input](re-docs/native-parent-sound-owner-checkpoint.md).
+
+The next stock V8 recording now passes joined source through weather/world
+effects at5,109,270 unique semantic bytes, consuming three original CRT casts
+and one QPC outcome. The ten-checkpoint channel observer records actual used
+wrappers/sources without semantic grants. This particular update has no new
+control sound creation; adaptive/positional audio is still covered by separate
+retained-instruction tests. The final450e50 return, next tick and long races
+remain open. See [the original-process checkpoint](re-docs/native-parent-world-effects-checkpoint.md).
+
 Controlled native HIGH/LEV3 V5 now verifies one car-chassis/wall scenario:
 one guarded12-byte force input produces type7-border swept and penetration
 responses, all eight collision-dispatch events and4,885,468 declared frame
@@ -702,3 +776,28 @@ re-docs/pickup-editor-native-validation.md and
 analysis/pickup-editor-native-acceptance-20261024.json. Native coverage is LEV1
 in both qualities; this does not establish complete physics or weapon parity.
 The broader physics reconstruction goal remains paused.
+
+## Physics goal resumed: source-carried camera checkpoint, 24 October 2026
+
+The physics goal is active again. Stock native V2 now matches source-carried
+AI/prefix/physics, attachments, ordinary recovery, drive and auxiliary output
+at5,106,697 unique bytes per tail checkpoint, then cameras at5,106,930. The
+original CRT call/return is authenticated, and only source-traversed original
+viewport map spans enter semantic comparison. The native run finishes with
+15 snapshots in47.407 seconds; no source result or native physics value is
+forced. Full replay still fails at weather's distinct unobserved CRT caller.
+
+Retained instruction order corrected the camera RTTI NAME/MODE guard reversal.
+A real camera47d040 query additionally exposed an eager vehicle-only body+6bc
+controller read for nonvehicle bodies. That type gate is corrected and the
+parent camera adapter uses the existing explicit module clone view. Sparse,
+retained-instruction and actual-process regressions prove the corrections;
+112 focused tests pass with no failures/skips. Racing test is rebuilt with
+the source correction and an updated progress note, remaining experimental.
+
+The installed173-file state now contains user-edited pickup archives/backups,
+so native physics runs use a separate verified171-file stock copy. Both remain
+unchanged after captures. See re-docs/native-parent-camera-checkpoint.md and
+analysis/native-parent-rtti-stock-first-replay-v2-20261024/report.json. Whole
+tick, weather/world effects, continuous race, timing and scenario requirements
+remain open; this checkpoint does not complete the broader goal.

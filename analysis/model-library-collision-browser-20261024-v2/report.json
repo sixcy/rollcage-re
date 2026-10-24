@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "case": "LEV3 model 27 is placeable with seven disabled collision records",
+      "label": "Model 27 / placement-uv-1088 · no active collision",
+      "detail": "Authored collision · LOW: No active collision (7 disabled shape records).\nHIGH: No active collision (7 disabled shape records).\nEnabled shapes may cover only part of the visible model. Placement keeps these settings.",
+      "placeEnabled": true
+    },
+    {
+      "case": "LEV3 model 11 has collision but remains locked for placement",
+      "label": "Model 11 / placement-uv-392 · collision enabled · locked",
+      "detail": "Authored collision · LOW: Collision enabled: 4/8 active shapes (4 volumes).\nHIGH: Collision enabled: 4/8 active shapes (4 volumes).\nEnabled shapes may cover only part of the visible model. Placement keeps these settings.",
+      "placeEnabled": false
+    },
+    {
+      "case": "Empty placeable/collision search clears stale details"
+    },
+    {
+      "case": "LEV2 placeable collision search returns models 0, 4 and 22",
+      "labels": [
+        "Model 0 / placement-uv-1289 · collision enabled",
+        "Model 4 / placement-uv-1329 · collision enabled",
+        "Model 22 / placement-uv-1309 · collision enabled"
+      ],
+      "label": "Model 0 / placement-uv-1289 · collision enabled",
+      "detail": "Authored collision · LOW: Collision enabled: 1/1 active shapes (1 volume).\nHIGH: Collision enabled: 1/1 active shapes (1 volume).\nEnabled shapes may cover only part of the visible model. Placement keeps these settings.",
+      "placeEnabled": true
+    },
+    {
+      "case": "Twenty idle modal frames produce no DOM mutations",
+      "mutations": 0
+    }
+  ],
+  "errors": [],
+  "scope": "Headless Edge, authored collision metadata; no original-process contact test."
+}

@@ -1,7 +1,8 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {initializeBodyRetirementEffectTables} from './body-retirement-effects.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, value) => m.writeInt32LE(value | 0, p), word = (m, p, value) => m.writeUInt16LE(value & 65535, p);
-const blockAt = index => 0x82eda0 + Math.imul(index, 0x4208) >>> 0;
+const blockAt = (m, index) => nativeGlobalAddress(m, 0x82eda0) + Math.imul(index, 0x4208) >>> 0;
 const speedAmount = (m, body) => Math.trunc(((get(m, body + 0x664) - 0x3a0000 | 0) << 8) / 0x190000);
 
 export function initializeVehicleOverlayTables(memory) {return initializeBodyRetirementEffectTables(memory);}
@@ -10,7 +11,7 @@ export function initializeVehicleOverlayTables(memory) {return initializeBodyRet
 //Only the first two source dwords retain their material high words. The last
 //two start as zero-extended WORDs; the geometry/primitive gaps stay unchanged.
 export function updateVehicleOverlayGrid(index, {memory: m}) {
-  const block = blockAt(index);
+  const block = blockAt(m, index);
   if (m[0x90a548] & 1) {const next = get(m, block + 0x4200) + 1 | 0; put(m, block + 0x4200, next >= 9 ? 0 : next);}
   const material = ptr(m, 0x90b988) + ((m.readUInt16LE(ptr(m, 0x90b990) + 0x2e) + 0x86 + get(m, block + 0x4200)) << 4) >>> 0;
   const first = ptr(m, material), second = ptr(m, material + 4), third = m.readUInt16LE(material + 8), fourth = m.readUInt16LE(material + 10);
@@ -55,11 +56,11 @@ export function updateVehicleOverlayGrids(runtime) {
 export function initializeVehicleOverlayGrids(runtime) {
   const {memory: m} = runtime;
   for (let index = 0; index < 6; index++) {
-    const block = blockAt(index); put(m, block + 0x4200, 0); put(m, block + 0x4204, -1); updateVehicleOverlayGrid(index, runtime);
+    const block = blockAt(m, index); put(m, block + 0x4200, 0); put(m, block + 0x4204, -1); updateVehicleOverlayGrid(index, runtime);
     for (let row = 0; row < 9; row++) {
       const radius = row * 8, height = 80 - Math.trunc((row * 6) ** 2 / 64);
       for (let column = 0; column < 16; column++) {
-        const target = 0x82e920 + row * 8 + column * 0x48;
+        const target = nativeGlobalAddress(m, 0x82e920) + row * 8 + column * 0x48;
         word(m, target + 4, height);
         word(m, target, Math.trunc(Math.imul(m.readInt16LE(0x5ed030 + column * 32), radius) / 14000));
         word(m, target + 2, Math.trunc(Math.imul(m.readInt16LE(0x5ed0b0 + column * 32), radius) / 27500));
@@ -82,7 +83,7 @@ export function updateVehicleOverlayAppearance(index, colorsAddress, {memory: m}
     if (row) {seed = Math.imul(seed, 0x41a7) & 0x7fffffff; height += (seed >>> 31) * row;}
     seed = Math.imul(seed, 0x41a7) & 0x7fffffff;
     const color = Math.min(255, Math.imul(255 - Math.floor(row * 192 / 9), (seed >>> 26) + amount) >> 8), square = Math.min(255, Math.imul(color, color) >> 8), packed = (square | 0xff8e0000) << 8 | color;
-    for (let column = 0; column < 16; column++) {word(m, 0x82e924 + row * 8 + column * 0x48, height); put(m, colorsAddress + row * 4 + column * 0x24, packed);}
+    for (let column = 0; column < 16; column++) {word(m, nativeGlobalAddress(m, 0x82e924) + row * 8 + column * 0x48, height); put(m, colorsAddress + row * 4 + column * 0x24, packed);}
   }
   put(m, 0x5ec958, seed);
 }

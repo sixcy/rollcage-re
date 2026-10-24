@@ -1,0 +1,869 @@
+{
+  "schemaVersion": 1,
+  "scope": "Pure source continuation beyond observed world-effects; no native final/next-tick comparison",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-parent-rtti-stock-capture-v8-20261024",
+  "beforeOrdinal": 4,
+  "moduleBaseAddress": 15335424,
+  "entryEsp": 9436240,
+  "requestedThrough": "parent-return",
+  "completed": false,
+  "matchedNativeFinal": false,
+  "stages": [
+    {
+      "stage": "attachments",
+      "entry": 4517968,
+      "returnAddress": 15667228,
+      "report": {
+        "processedBodies": 4,
+        "transformedPoints": 17,
+        "type1Writes": 3,
+        "type2Writes": 10,
+        "type4Writes": 4,
+        "spatialMoves": 0
+      }
+    },
+    {
+      "stage": "recovery",
+      "entry": 4705472,
+      "returnAddress": 15667233,
+      "report": {
+        "respawnedBodies": 0,
+        "retiredBodies": 0,
+        "fullRecoveryContextReached": false
+      }
+    },
+    {
+      "stage": "drive",
+      "entry": 4628432,
+      "returnAddress": 15667356,
+      "report": {
+        "stage": "complete",
+        "calls": [
+          {
+            "index": 0,
+            "recordAddress": 20615936,
+            "bodyAddress": 278716160,
+            "entryEsp": 9436220,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 1,
+            "recordAddress": 20616716,
+            "bodyAddress": 278951552,
+            "entryEsp": 9436220,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 2,
+            "recordAddress": 20617496,
+            "bodyAddress": 279172096,
+            "entryEsp": 9436220,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 3,
+            "recordAddress": 20618276,
+            "bodyAddress": 279382656,
+            "entryEsp": 9436220,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 4,
+            "recordAddress": 20619056,
+            "bodyAddress": 279575808,
+            "entryEsp": 9436220,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "index": 5,
+            "recordAddress": 20619836,
+            "bodyAddress": 279792640,
+            "entryEsp": 9436220,
+            "stages": [
+              "443d90",
+              "48d680"
+            ]
+          },
+          {
+            "stage": "48d7c0",
+            "entryEsp": 9436220,
+            "entryRegisters": {
+              "EBX": 6,
+              "EBP": 0,
+              "EDI": 6,
+              "ESI": 20620616
+            }
+          }
+        ],
+        "gates": [
+          {
+            "stage": "499de0",
+            "enabled": true,
+            "wormholeAddress": 277706752,
+            "mode": 0,
+            "called": false
+          },
+          {
+            "stage": "49ac30",
+            "called": true,
+            "incomingMode": 0
+          },
+          {
+            "stage": "469fd0",
+            "called": true,
+            "enabled": true
+          }
+        ],
+        "inputs": [
+          {
+            "id": "drive-wormhole-root",
+            "preferredAddress": 8435168,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 19576288,
+            "captured": true,
+            "bytesHex": "00788d10"
+          },
+          {
+            "id": "drive-pickup-roots",
+            "preferredAddress": 9445408,
+            "length": 8,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 20586528,
+            "captured": true,
+            "bytesHex": "705d13100c000000"
+          },
+          {
+            "id": "drive-projectile-roots",
+            "preferredAddress": 9450656,
+            "length": 96,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 20591776,
+            "captured": true
+          },
+          {
+            "id": "drive-terrain-wave-gate",
+            "preferredAddress": 9489280,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 20630400,
+            "captured": true,
+            "bytesHex": "00000000"
+          },
+          {
+            "id": "drive-security-cookie",
+            "preferredAddress": 6195344,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 17336464,
+            "captured": true,
+            "bytesHex": "0a28eae7"
+          },
+          {
+            "id": "drive-time-effect-output",
+            "preferredAddress": 7236780,
+            "length": 8,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 18377900,
+            "captured": true,
+            "bytesHex": "0000000000000000"
+          },
+          {
+            "id": "drive-target-registry-observation",
+            "preferredAddress": 8579200,
+            "length": 128,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 19720320,
+            "captured": true
+          },
+          {
+            "id": "drive-target-counts",
+            "preferredAddress": 8579328,
+            "length": 8,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 19720448,
+            "captured": true,
+            "bytesHex": "090000000c000000"
+          },
+          {
+            "id": "drive-pickup-controller-observation",
+            "preferredAddress": 9557120,
+            "length": 50,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 20698240,
+            "captured": true
+          },
+          {
+            "id": "drive-periodic-state",
+            "preferredAddress": 9450768,
+            "length": 20,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 20591888,
+            "captured": true
+          },
+          {
+            "id": "drive-periodic-selector",
+            "preferredAddress": 7236344,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 18377464,
+            "captured": true,
+            "bytesHex": "00000000"
+          },
+          {
+            "id": "drive-procedural-handle",
+            "preferredAddress": 6213676,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 17354796,
+            "captured": true,
+            "bytesHex": "43000000"
+          },
+          {
+            "id": "drive-procedural-clock",
+            "preferredAddress": 6214340,
+            "length": 4,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 17355460,
+            "captured": true,
+            "bytesHex": "00000000"
+          },
+          {
+            "id": "drive-render-angle-table",
+            "preferredAddress": 5703456,
+            "length": 16384,
+            "comparison": "mutable",
+            "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+            "address": 16844576,
+            "captured": true
+          }
+        ]
+      }
+    },
+    {
+      "stage": "auxiliary",
+      "entry": 4677200,
+      "returnAddress": 15667439,
+      "report": {
+        "participants": 6
+      }
+    },
+    {
+      "stage": "cameras",
+      "entry": 4308720,
+      "returnAddress": 15667469,
+      "report": {
+        "cameras": 1
+      }
+    },
+    {
+      "stage": "world-effects",
+      "entry": 4425040,
+      "returnAddress": 15667488,
+      "report": {}
+    }
+  ],
+  "externalInputs": "Only already authenticated same-process CRT RTTI and weather QPC external outcomes; game memory only from original parent entry.",
+  "limits": [
+    "The original capture stops at451120. All newly executed later stages lack an original-process final comparison.",
+    "No intermediate/after native snapshot supplies game state.",
+    "Private CPU POP/RET and outer450d60 are not performed by this continuation."
+  ],
+  "error": "Error: Uncaptured native memory at 0x17148738 (4 bytes).\n    at span (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:77:21)\n    at api.<computed> (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/captured-memory.mjs:82:37)\n    at pointer (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/dynamic-light-state.mjs:7:45)\n    at removeDynamicLightRanges (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/dynamic-light-state.mjs:124:48)\n    at moveLight (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/dynamic-light-state.mjs:164:5)\n    at updateDynamicLightPosition (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/dynamic-light-state.mjs:174:3)\n    at updateVehicleDynamicLight (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/dynamic-light-state.mjs:197:3)\n    at updateDynamicLights (file:///C:/Users/Cyril/Documents/Rollcage%20RE/src/dynamic-light-state.mjs:252:7)\n    at file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-parent-tail.mjs:131:139\n    at call (file:///C:/Users/Cyril/Documents/Rollcage%20RE/tools/lib/native-parent-tail.mjs:114:180)",
+  "progress": {
+    "scope": "parent-return",
+    "stage": "render-and-late-state",
+    "childEsp": 9436220,
+    "parentCheckpointEsp": 9436224,
+    "stages": [
+      {
+        "stage": "attachments",
+        "entry": 4517968,
+        "returnAddress": 15667228,
+        "entryEsp": 9436220,
+        "report": {
+          "processedBodies": 4,
+          "transformedPoints": 17,
+          "type1Writes": 3,
+          "type2Writes": 10,
+          "type4Writes": 4,
+          "spatialMoves": 0
+        }
+      },
+      {
+        "stage": "recovery",
+        "entry": 4705472,
+        "returnAddress": 15667233,
+        "entryEsp": 9436220,
+        "report": {
+          "respawnedBodies": 0,
+          "retiredBodies": 0,
+          "fullRecoveryContextReached": false
+        }
+      },
+      {
+        "stage": "drive",
+        "entry": 4628432,
+        "returnAddress": 15667356,
+        "entryEsp": 9436220,
+        "report": {
+          "stage": "complete",
+          "calls": [
+            {
+              "index": 0,
+              "recordAddress": 20615936,
+              "bodyAddress": 278716160,
+              "entryEsp": 9436220,
+              "stages": [
+                "443d90",
+                "48d680"
+              ]
+            },
+            {
+              "index": 1,
+              "recordAddress": 20616716,
+              "bodyAddress": 278951552,
+              "entryEsp": 9436220,
+              "stages": [
+                "443d90",
+                "48d680"
+              ]
+            },
+            {
+              "index": 2,
+              "recordAddress": 20617496,
+              "bodyAddress": 279172096,
+              "entryEsp": 9436220,
+              "stages": [
+                "443d90",
+                "48d680"
+              ]
+            },
+            {
+              "index": 3,
+              "recordAddress": 20618276,
+              "bodyAddress": 279382656,
+              "entryEsp": 9436220,
+              "stages": [
+                "443d90",
+                "48d680"
+              ]
+            },
+            {
+              "index": 4,
+              "recordAddress": 20619056,
+              "bodyAddress": 279575808,
+              "entryEsp": 9436220,
+              "stages": [
+                "443d90",
+                "48d680"
+              ]
+            },
+            {
+              "index": 5,
+              "recordAddress": 20619836,
+              "bodyAddress": 279792640,
+              "entryEsp": 9436220,
+              "stages": [
+                "443d90",
+                "48d680"
+              ]
+            },
+            {
+              "stage": "48d7c0",
+              "entryEsp": 9436220,
+              "entryRegisters": {
+                "EBX": 6,
+                "EBP": 0,
+                "EDI": 6,
+                "ESI": 20620616
+              }
+            }
+          ],
+          "gates": [
+            {
+              "stage": "499de0",
+              "enabled": true,
+              "wormholeAddress": 277706752,
+              "mode": 0,
+              "called": false
+            },
+            {
+              "stage": "49ac30",
+              "called": true,
+              "incomingMode": 0
+            },
+            {
+              "stage": "469fd0",
+              "called": true,
+              "enabled": true
+            }
+          ],
+          "inputs": [
+            {
+              "id": "drive-wormhole-root",
+              "preferredAddress": 8435168,
+              "length": 4,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 19576288,
+              "captured": true,
+              "bytesHex": "00788d10"
+            },
+            {
+              "id": "drive-pickup-roots",
+              "preferredAddress": 9445408,
+              "length": 8,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 20586528,
+              "captured": true,
+              "bytesHex": "705d13100c000000"
+            },
+            {
+              "id": "drive-projectile-roots",
+              "preferredAddress": 9450656,
+              "length": 96,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 20591776,
+              "captured": true
+            },
+            {
+              "id": "drive-terrain-wave-gate",
+              "preferredAddress": 9489280,
+              "length": 4,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 20630400,
+              "captured": true,
+              "bytesHex": "00000000"
+            },
+            {
+              "id": "drive-security-cookie",
+              "preferredAddress": 6195344,
+              "length": 4,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 17336464,
+              "captured": true,
+              "bytesHex": "0a28eae7"
+            },
+            {
+              "id": "drive-time-effect-output",
+              "preferredAddress": 7236780,
+              "length": 8,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 18377900,
+              "captured": true,
+              "bytesHex": "0000000000000000"
+            },
+            {
+              "id": "drive-target-registry-observation",
+              "preferredAddress": 8579200,
+              "length": 128,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 19720320,
+              "captured": true
+            },
+            {
+              "id": "drive-target-counts",
+              "preferredAddress": 8579328,
+              "length": 8,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 19720448,
+              "captured": true,
+              "bytesHex": "090000000c000000"
+            },
+            {
+              "id": "drive-pickup-controller-observation",
+              "preferredAddress": 9557120,
+              "length": 50,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 20698240,
+              "captured": true
+            },
+            {
+              "id": "drive-periodic-state",
+              "preferredAddress": 9450768,
+              "length": 20,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 20591888,
+              "captured": true
+            },
+            {
+              "id": "drive-periodic-selector",
+              "preferredAddress": 7236344,
+              "length": 4,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 18377464,
+              "captured": true,
+              "bytesHex": "00000000"
+            },
+            {
+              "id": "drive-procedural-handle",
+              "preferredAddress": 6213676,
+              "length": 4,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 17354796,
+              "captured": true,
+              "bytesHex": "43000000"
+            },
+            {
+              "id": "drive-procedural-clock",
+              "preferredAddress": 6214340,
+              "length": 4,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 17355460,
+              "captured": true,
+              "bytesHex": "00000000"
+            },
+            {
+              "id": "drive-render-angle-table",
+              "preferredAddress": 5703456,
+              "length": 16384,
+              "comparison": "mutable",
+              "evidence": "450e50→499de0/49ac30/48d7c0/469fd0 actual reached source module inputs; no initialization or fallback.",
+              "address": 16844576,
+              "captured": true
+            }
+          ]
+        }
+      },
+      {
+        "stage": "auxiliary",
+        "entry": 4677200,
+        "returnAddress": 15667439,
+        "entryEsp": 9436220,
+        "report": {
+          "participants": 6
+        }
+      },
+      {
+        "stage": "cameras",
+        "entry": 4308720,
+        "returnAddress": 15667469,
+        "entryEsp": 9436220,
+        "report": {
+          "cameras": 1
+        }
+      },
+      {
+        "stage": "world-effects",
+        "entry": 4425040,
+        "returnAddress": 15667488,
+        "entryEsp": 9436220,
+        "report": {}
+      }
+    ],
+    "calls": [
+      {
+        "entry": 4517968,
+        "entryEsp": 9436220,
+        "returnAddress": 15667228
+      },
+      {
+        "entry": 4705472,
+        "entryEsp": 9436220,
+        "returnAddress": 15667233
+      },
+      {
+        "entry": 4313776,
+        "entryEsp": 9436220,
+        "returnAddress": 15667399
+      },
+      {
+        "entry": 4285440,
+        "entryEsp": 9436220,
+        "returnAddress": 15667406
+      },
+      {
+        "entry": 4313776,
+        "entryEsp": 9436220,
+        "returnAddress": 15667399
+      },
+      {
+        "entry": 4285440,
+        "entryEsp": 9436220,
+        "returnAddress": 15667406
+      },
+      {
+        "entry": 4313776,
+        "entryEsp": 9436220,
+        "returnAddress": 15667399
+      },
+      {
+        "entry": 4285440,
+        "entryEsp": 9436220,
+        "returnAddress": 15667406
+      },
+      {
+        "entry": 4313776,
+        "entryEsp": 9436220,
+        "returnAddress": 15667399
+      },
+      {
+        "entry": 4285440,
+        "entryEsp": 9436220,
+        "returnAddress": 15667406
+      },
+      {
+        "entry": 4313776,
+        "entryEsp": 9436220,
+        "returnAddress": 15667399
+      },
+      {
+        "entry": 4285440,
+        "entryEsp": 9436220,
+        "returnAddress": 15667406
+      },
+      {
+        "entry": 4313776,
+        "entryEsp": 9436220,
+        "returnAddress": 15667399
+      },
+      {
+        "entry": 4285440,
+        "entryEsp": 9436220,
+        "returnAddress": 15667406
+      },
+      {
+        "entry": 4776720,
+        "entryEsp": 9436220,
+        "returnAddress": 15667434
+      },
+      {
+        "entry": 4677200,
+        "entryEsp": 9436220,
+        "returnAddress": 15667439
+      },
+      {
+        "entry": 4308720,
+        "entryEsp": 9436220,
+        "returnAddress": 15667446
+      },
+      {
+        "entry": 4292768,
+        "entryEsp": 9436220,
+        "returnAddress": 15667463
+      },
+      {
+        "entry": 4308720,
+        "entryEsp": 9436220,
+        "returnAddress": 15667469
+      },
+      {
+        "entry": 4810496,
+        "entryEsp": 9436220,
+        "returnAddress": 15667478
+      },
+      {
+        "entry": 4276320,
+        "entryEsp": 9436220,
+        "returnAddress": 15667483
+      },
+      {
+        "entry": 4425040,
+        "entryEsp": 9436220,
+        "returnAddress": 15667488
+      },
+      {
+        "entry": 4723200,
+        "entryEsp": 9436220,
+        "returnAddress": 15667516
+      },
+      {
+        "entry": 4779440,
+        "entryEsp": 9436220,
+        "returnAddress": 15667521
+      },
+      {
+        "entry": 4800832,
+        "entryEsp": 9436220,
+        "returnAddress": 15667526
+      },
+      {
+        "entry": 4748608,
+        "entryEsp": 9436220,
+        "returnAddress": 15667531
+      },
+      {
+        "entry": 4499360,
+        "entryEsp": 9436220,
+        "returnAddress": 15667536
+      },
+      {
+        "entry": 4280880,
+        "entryEsp": 9436220,
+        "returnAddress": 15667541
+      },
+      {
+        "entry": 4722320,
+        "entryEsp": 9436220,
+        "returnAddress": 15667546
+      },
+      {
+        "entry": 4520336,
+        "entryEsp": 9436220,
+        "returnAddress": 15667551
+      },
+      {
+        "entry": 4518816,
+        "entryEsp": 9436220,
+        "returnAddress": 15667556
+      },
+      {
+        "entry": 4512096,
+        "entryEsp": 9436220,
+        "returnAddress": 15667572
+      }
+    ],
+    "parentReturned": false,
+    "lastCall": {
+      "entry": 4512096,
+      "entryEsp": 9436220,
+      "returnAddress": 15667572
+    }
+  },
+  "dependency": {
+    "address": 387221304,
+    "length": 4
+  },
+  "rttiEvents": [
+    {
+      "callOrdinal": 12,
+      "returnOrdinal": 13,
+      "entryEsp": 9435960,
+      "wrapperEntryEsp": 9436004,
+      "args": [
+        18568304,
+        0,
+        18358588,
+        18358436,
+        0
+      ],
+      "eax": 18568304,
+      "sourceNameAddress": 9436180,
+      "sourceNameHex": "3020506c61796572",
+      "family": "camera",
+      "authority": "observed-external-MSVCR120-__RTDynamicCast"
+    },
+    {
+      "callOrdinal": 15,
+      "returnOrdinal": 16,
+      "entryEsp": 9435776,
+      "wrapperEntryEsp": 9435820,
+      "args": [
+        18568304,
+        0,
+        18358588,
+        18358436,
+        0
+      ],
+      "eax": 18568304,
+      "sourceNameAddress": 9435920,
+      "sourceNameHex": "3020506c61796572",
+      "family": "weather-screen",
+      "weatherQueryIndex": 1,
+      "authority": "observed-external-MSVCR120-__RTDynamicCast"
+    },
+    {
+      "callOrdinal": 17,
+      "returnOrdinal": 18,
+      "entryEsp": 9435776,
+      "wrapperEntryEsp": 9435820,
+      "args": [
+        18568304,
+        0,
+        18358588,
+        18358436,
+        0
+      ],
+      "eax": 18568304,
+      "sourceNameAddress": 9435920,
+      "sourceNameHex": "3020506c61796572",
+      "family": "weather-screen",
+      "weatherQueryIndex": 2,
+      "authority": "observed-external-MSVCR120-__RTDynamicCast"
+    }
+  ],
+  "counterEvents": [
+    {
+      "service": "QueryPerformanceCounter",
+      "outputAddress": 9435864,
+      "preimageHex": "f580f30000fb8f00",
+      "outputHex": "6e0ab5494c100000",
+      "returnedEax": 1,
+      "authority": "observed-external-QPC-only"
+    }
+  ],
+  "files": [
+    {
+      "path": "tools/lib/native-parent-tail.mjs",
+      "sha256": "a07b6ba3643a3af975493b79712ed94b0f16db1d4a4fb79beb0fe46375f62a63",
+      "bytes": 17376
+    },
+    {
+      "path": "src/race-update.mjs",
+      "sha256": "b5f0f7b6fe3f458597014ea1838bdd499b6e617bc136e2b5a94f0bb353ff3fd7",
+      "bytes": 11016
+    },
+    {
+      "path": "src/race-phase-state.mjs",
+      "sha256": "434e72fbee831614d0cf9f5d5c446b6fb56d0f67680eab9804a01e657ce000e3",
+      "bytes": 10086
+    },
+    {
+      "path": "src/race-phase-audio.mjs",
+      "sha256": "d8e9d087d7a22be1740f3ab1b3d50e4f42500221f518128659d36e05f89a6bab",
+      "bytes": 6321
+    },
+    {
+      "path": "analysis/native-parent-rtti-stock-capture-v8-20261024/configuration.json",
+      "sha256": "103b8b4b05b7084e0a8ce05ab80f48d9860dbf880cc07a2a0a8ef3e3bb222639",
+      "bytes": 979125
+    },
+    {
+      "path": "analysis/native-parent-rtti-stock-capture-v8-20261024/trace.jsonl",
+      "sha256": "b8c15576ad2848a0a8451329eaa0b23b286156db4ac19c12230fe2326b75de84",
+      "bytes": 6918003
+    }
+  ]
+}

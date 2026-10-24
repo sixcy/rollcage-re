@@ -1,5 +1,6 @@
 // Bounded494c80/494f60 composition. This does not create camera/controller
 // handles or alter91ce90: those belong to416180/4180a0 and41a170.
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {initializeTrackDeformation, updateTrackDeformation} from './track-deformation.mjs';
 import {nativeMemorySpan} from './native-memory-spans.mjs';
 import {createRawTerrainGrid} from './raw-terrain-query.mjs';
@@ -83,7 +84,7 @@ export function initializeSoloTerrainRuntime(runtime) {
     surfaceModeFor,
     terrainVerticesFor(index) {return geometryFor(index).address;},
     get snapshot() {
-      const rowCount = u32(0x80df00), base = u32(0x80df04);
+      const rowCount = u32(nativeGlobalAddress(memory, 0x80df00)), base = u32(nativeGlobalAddress(memory, 0x80df04));
       if (rowCount > count()) throw Error('Solo terrain row count exceeds the constructed sector count.');
       nativeMemorySpan(memory, base, rowCount * 28);
       const rows = [], segments = [], seen = new Set();
@@ -99,7 +100,7 @@ export function initializeSoloTerrainRuntime(runtime) {
           segments.push(Object.freeze({index: sector, columns: geometry.columns, rows: geometry.rows, vertices: Object.freeze(vertices)}));
         }
       }
-      return Object.freeze({animationUnconditional: Boolean(nativeMemorySpan(memory, 0x91ce90, 1)[0] & 2),
+      return Object.freeze({animationUnconditional: Boolean(nativeMemorySpan(memory, nativeGlobalAddress(memory, 0x91ce90), 1)[0] & 2),
         rows: Object.freeze(rows), segments: Object.freeze(segments)});
     }
   });

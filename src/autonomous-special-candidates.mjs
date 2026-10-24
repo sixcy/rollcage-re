@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32, lookupSqrt, dotQ16, multiplyQ16, signedShort} from './fixed-integer.mjs';
 import {evaluateAutonomousPositionCost, evaluateAutonomousObstacleCost} from './autonomous-candidate-costs.mjs';
 
@@ -63,8 +64,8 @@ function appendSpecialCandidates(kind, body, lowestFreeAddress, {memory, scratch
     const point = read32(memory, groups + groupIndex * 12 + 8) + pointIndex * 16;
     if (!(memory.readUInt32LE(point + 8) & config.pointFlag)) continue;
     let count, source;
-    if (kind === 'pickup') {count = memory.readInt32LE(0x902024); source = read32(memory, 0x902020);}
-    else if (kind === 'object') {count = read32(memory, 0x82e904); source = read32(memory, read32(memory, 0x90b990) + 0xec);}
+    if (kind === 'pickup') {count = memory.readInt32LE(nativeGlobalAddress(memory, 0x902024)); source = read32(memory, nativeGlobalAddress(memory, 0x902020));}
+    else if (kind === 'object') {count = read32(memory, nativeGlobalAddress(memory,0x82e904)); source = read32(memory, read32(memory, 0x90b990) + 0xec);}
     else {const resource = read32(memory, pack + 8); count = memory[resource + 0xf5]; source = read32(memory, resource + 0xe4);}
     for (let sourceNumber = 0; sourceNumber < count; sourceNumber++, source += kind === 'pickup' ? 4 : 20) {
       step(); let position, delta, metadata, pickupObject;

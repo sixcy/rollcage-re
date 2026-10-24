@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 
 //494140: two12-position histories per participant. History blocks are6d4
@@ -10,7 +11,7 @@ export function updateVehicleWheelHistories({memory}) {
   for (let participant = 0, record = 0x909300; participant < memory[ptr(memory, 0x5ecb1c) + 0x54d]; participant++, record += 0x30c) {
     const body = ptr(memory, record);
     for (let offset = 0; offset <= 16; offset += 4) put(memory, 0x91d360 + offset, get(memory, body + 0xc4 + offset));
-    for (let index = 0; index < 9; index++) memory.writeFloatLE(Math.fround(memory.readInt16LE(0x91d360 + index * 2) * scale), 0x91cdc0 + Math.floor(index / 3) * 16 + index % 3 * 4);
+    for (let index = 0; index < 9; index++) memory.writeFloatLE(Math.fround(memory.readInt16LE(0x91d360 + index * 2) * scale), nativeGlobalAddress(memory, 0x91cdc0) + Math.floor(index / 3) * 16 + index % 3 * 4);
     const seed = Math.imul(get(memory, 0x5ec958), 0x41a7) & 0x7fffffff;
     put(memory, 0x5ec958, seed); const increment = (seed >>> 16 & 31) + 15;
     for (let side = 0; side < 2; side++) {

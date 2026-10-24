@@ -12,7 +12,7 @@
 .racing-actions{display:flex;flex-wrap:wrap;gap:2px}.racing-options{display:flex;flex-wrap:wrap;gap:12px;margin:9px 0}.racing-progress{margin:12px 0 4px}.physics-hud{position:fixed;right:18px;bottom:18px;width:300px;max-width:calc(100vw - 36px);padding:14px;background:#111d2af2;border:1px solid #4b6078;border-radius:10px;pointer-events:none;font-variant-numeric:tabular-nums}.physics-hud[hidden]{display:none}.physics-heading{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.physics-heading strong{font-size:14px}.physics-heading small{color:#ffd48a;font-size:11px}.physics-speed{margin:6px 0;font-size:30px;font-weight:700;color:#fff;line-height:1.2}.physics-speed small{font-size:12px;font-weight:400;color:#b4c4d7}.physics-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}.physics-metrics dt{color:#b4c4d7;font-size:11px}.physics-metrics dd{margin:2px 0 0;font-size:16px;font-weight:600}.physics-wheel-grid{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;padding:0;margin:10px 0}.physics-wheel-grid li{display:flex;justify-content:space-between;gap:6px;font-size:11px;color:#b4c4d7}.physics-wheel-state{color:#b4c4d7}.physics-wheel-state[data-contact=true]{color:#91e6b4}.physics-wheel-state[data-contact=false]{color:#ffd48a}.physics-wheel-state::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:4px}.physics-footnote{font-size:11px;margin:6px 0 0;color:#b4c4d7}@media(max-width:600px){.physics-hud{right:10px;bottom:10px;max-width:calc(100vw - 20px);padding:10px}}@media(max-height:500px){.physics-hud{padding:8px;font-size:11px}.physics-speed{font-size:22px;margin:4px 0}.physics-metrics{gap:4px;margin:6px 0}.physics-metrics dd{font-size:13px}.physics-wheel-grid{gap:4px 10px;margin:6px 0}.physics-footnote{margin:4px 0 0}}
 </style>
 <style>
-#editor-controls input[type=number]{box-sizing:border-box;background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:6px;font:inherit}#editor-controls input:disabled{opacity:.5}#pickup-editor button:disabled{cursor:default;opacity:.5}#editor-status{color:#91dce4}#editor-error:empty{display:none}
+:is(#editor-controls,#models-transform) input[type=number]{box-sizing:border-box;background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:6px;font:inherit}:is(#editor-controls,#models-transform) input:disabled{opacity:.5}#pickup-editor button:disabled{cursor:default;opacity:.5}#editor-status{color:#91dce4}#editor-error:empty{display:none}
 </style>
 </head>
 <body>
@@ -26,10 +26,12 @@
 <p class="note">You can paste the folder path for your game into the Browse dialog.</p>
 <label class="file" for="image">Rollcage.img<input id="image" type="file" accept=".img"></label>
 <label class="file" for="index">Rollcage.idx<input id="index" type="file" accept=".idx"></label>
+<p class="note" id="project-workflow"><strong>Continue a Rollcage project:</strong> select the same IMG/IDX pair you used when creating that project, then choose <strong>Load project</strong> below. Most projects start with the original game files.<br><strong>Exported game files</strong> already contain your edits. Reopening a recognized export starts a new project from those changes; keep the earlier starting files to reopen your earlier project.</p>
 </div>
 <div id="disc-files"><label class="file" for="disc">Firebugs disc ZIP<input id="disc" type="file" accept=".zip,application/zip"></label></div>
 <p class="note">Files are read locally and stay on your computer. Select another source to switch games. Disc loading can take a moment while the data BIN is decompressed; audio tracks are skipped.</p>
 <p id="game-info" class="note"></p>
+<p id="editor-source-note" class="note"></p>
 <div class="row"><label for="track">Track</label><select id="track" disabled aria-label="Track"></select><button id="reload" type="button">Load / retry</button></div>
 <p id="status" role="status">Select both Rollcage.img and Rollcage.idx, or a Firebugs disc ZIP.</p>
 <p id="error" role="alert"></p><p id="counts" class="note"></p>
@@ -50,9 +52,9 @@
 <p id="practice-roster" class="note"></p>
 <p id="practice-readout" class="note" style="font-variant-numeric:tabular-nums"></p>
 <p id="practice-note" class="note">Available on verified Rollcage tracks, except LEV16 and LEV17.</p><p id="practice-error" class="note" role="alert" style="color:#ffb4ac"></p>
-<details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks match a recorded six-car update through AI, physics, attachment movement, recovery checks, drive feedback and wheel and animation updates. Other checks cover selected car-to-car, car-wall and camera-border collisions, force responses and controlled respawn placement. Continuous race parity, active combat, full respawn effects and timing remain under work. This remains a super experimental reconstruction.</p></details>
+<details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks now match one complete recorded six-car update, including AI, physics, attachment movement, recovery checks, drive feedback, wheel and animation updates, cameras, weather/world effects, and the final return and clock increments. This check uses recorded external clock and runtime-library results. Other checks cover selected car-to-car, car-wall and camera-border collisions, force responses and controlled respawn placement. Separate instruction checks now cover the clock calculations and step scheduling. Continuous race parity, active combat, full respawn effects and native timing validation remain under work. This remains a super experimental reconstruction.</p></details>
 </fieldset>
-<fieldset id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Pickup editor</legend>
+<fieldset id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Track editor · experimental</legend>
 <label><input id="editor-enable" type="checkbox" disabled>Edit pickups</label>
 <p id="editor-note" class="note">Load verified Rollcage archives to edit pickup spawn points.</p>
 <p id="editor-count" class="note"></p>
@@ -63,10 +65,22 @@
 <div class="row"><button id="editor-undo" type="button" disabled>Undo</button><button id="editor-redo" type="button" disabled>Redo</button><button id="editor-reset-level" type="button" disabled>Reset level</button></div>
 <p class="note">Select or drag a marker. Add pickup, then click the terrain to place it. Adjust Height for clearance. Empty-space drag rotates the camera; right-drag pans. Esc cancels placement.</p>
 </div>
+<hr style="border:0;border-top:1px solid #344457">
+<label><input id="models-enable" type="checkbox" disabled>Edit static models</label>
+<p id="models-note" class="note">Move, rotate, add or remove plain scenery. Special and destructible objects are locked.</p>
+<div id="models-controls" hidden>
+<div class="row"><button id="models-add" type="button">Model library…</button><button id="models-duplicate" type="button" disabled>Duplicate</button><button id="models-delete" type="button" disabled>Delete</button></div>
+<label for="models-selection">Placed model</label><select id="models-selection" aria-label="Model to edit"></select>
+<p id="models-reason" class="note"></p>
+<div class="row" id="models-transform"><label>X <input id="models-x" type="number" step="1" style="width:85px"></label><label>Height <input id="models-y" type="number" step="1" style="width:85px"></label><label>Z <input id="models-z" type="number" step="1" style="width:85px"></label><label>Yaw ° <input id="models-yaw" type="number" step="1.40625" style="width:95px"></label></div>
+<div class="row"><button id="models-focus" type="button">Focus selection</button><button id="models-cancel" type="button" hidden>Cancel placement</button></div>
+<div class="row"><button id="models-undo" type="button" disabled>Undo</button><button id="models-redo" type="button" disabled>Redo</button><button id="models-reset" type="button" disabled>Reset models</button></div>
+<p class="note">Click a model to select it; drag to move it over terrain. Adjust Height and Yaw above. Right-drag or Shift-drag controls the camera. Esc cancels. Rotation uses native 1.40625° steps.</p>
+</div>
 <button id="editor-test" type="button" disabled>Test changes</button>
 <div class="row"><button id="editor-save" type="button" disabled>Save project</button><label class="note" for="editor-load">Load project<input id="editor-load" type="file" accept=".json,application/json" style="display:block;max-width:170px" disabled></label></div>
 <button id="editor-export" type="button" disabled>Export game files</button><button id="editor-cancel-export" type="button" hidden>Cancel export</button>
-<p class="note">Game export includes new IMG and IDX files for a separate game copy. Your selected files stay unchanged. Save the project to continue editing with the original archives.</p>
+<p class="note">Save project keeps pickups and scenery edits for later. Keep that project with its starting IMG/IDX pair. Export game files creates a new edited pair for a separate game copy. Scenery export is experimental and has not yet been validated in a running game. Your selected files stay unchanged.</p>
 <p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
 </fieldset>
 <div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option><option value="follow" id="camera-follow" disabled>Follow car 1</option></select><button id="reset" type="button">Reset view</button></div>
@@ -90,6 +104,22 @@
 <ul class="physics-wheel-grid" aria-label="Wheel contacts"><li><span>Wheel 1</span><span id="physics-wheel-0" class="physics-wheel-state">—</span></li><li><span>Wheel 2</span><span id="physics-wheel-1" class="physics-wheel-state">—</span></li><li><span>Wheel 3</span><span id="physics-wheel-2" class="physics-wheel-state">—</span></li><li><span>Wheel 4</span><span id="physics-wheel-3" class="physics-wheel-state">—</span></li></ul>
 <p id="physics-recovery-state" class="physics-footnote">Latest physics frame</p>
 </section>
+<section id="model-placement-feedback" hidden role="status" aria-live="polite" style="position:fixed;right:18px;bottom:18px;width:360px;max-width:calc(100vw - 36px);padding:12px;background:#111d2af2;border:1px solid #75d7df;border-radius:8px;pointer-events:none">
+<strong id="model-placement-title">Place model</strong><p id="model-placement-message" class="note" style="margin-bottom:0"></p>
+</section>
+<dialog id="model-library" style="background:#111d2a;color:#e6edf7;border:1px solid #4b6078;border-radius:10px;width:min(900px,92vw);max-height:90vh;overflow:auto">
+<h2>Static model library</h2>
+<label>Library <select id="model-library-level"></select></label>
+<label>Search <input id="model-library-search" type="search" placeholder="Model, variant or collision status"></label>
+<label style="display:block;margin:10px 0"><input id="model-library-placeable-only" type="checkbox"> Show only placeable models</label>
+<select id="model-library-entry" aria-label="Library model" style="display:block;width:100%"></select>
+<div class="checks" style="margin:8px 0"><label><input id="model-library-show-collision" type="checkbox" checked> Show collision shapes</label><label><input id="model-library-show-model" type="checkbox" checked> Show textured model</label><label><input id="model-library-show-normals" type="checkbox" checked> Face normals</label><label><input id="model-library-show-disabled" type="checkbox"> Show disabled records</label></div>
+<canvas id="model-library-canvas" tabindex="0" style="height:320px" aria-label="Textured model preview. Drag to orbit, scroll to zoom."></canvas>
+<p class="note">LOW preview · Cyan: active records · Grey: disabled records · Amber arrows: face normals. Point shapes and disabled records without faces use cross markers; markers have no collision radius. Lines show through the mesh.</p>
+<p id="model-library-collision" class="note" style="white-space:pre-line;color:#91dce4" role="status" hidden></p>
+<p id="model-library-note" class="note" role="status"></p>
+<button id="model-library-place" type="button" disabled>Place this model</button><button id="model-library-cancel" type="button">Cancel</button>
+</dialog>
 <script>
 __VIEWER_BUNDLE__
 </script>

@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "status": "active",
+  "fullObjectiveUnchanged": true,
+  "currentGoalTurnClassification": "progress",
+  "createdUtc": "2026-10-24T13:10:56.262Z",
+  "completeParentTicksMatched": 1,
+  "completeParentTickMatched": true,
+  "fullObjectiveComplete": false,
+  "longRaceParityEstablished": false,
+  "newGameLaunchesThisTurn": 0,
+  "staticSessionClosed": true,
+  "originalExecutableUnchanged": true,
+  "conversionStatusChildRecovered": true,
+  "complete441c70SourceImplemented": false,
+  "completeNextTickProducerIntervalMatched": false,
+  "maskedPrecisionPath": {
+    "capturedControlWord": "0x007f",
+    "incomingEdx": "0x10",
+    "originalMaskByte": "0x20",
+    "externalCallReached": false
+  },
+  "unprovedBranches": [
+    "Actual MSVCR120 except1 behavior for invalid or unmasked status",
+    "Full uint64/binary64/signed64 conversion source and instruction-oracle coverage",
+    "Outer scheduling, sampled input, viewport and render producers",
+    "Continuous racing and broader collisions/recovery/weapons/scenery/startup numerical cases"
+  ],
+  "nextRequiredWork": "Implement and verify genuine441c70 timing/conversion and its stack/status behavior; connect actual450d60/440930 producers and compare a next original parent entry without refreshing game state.",
+  "evidence": [
+    {
+      "path": "analysis/physics-resumed-complete-parent-checkpoint-20261024.json",
+      "bytes": 6378,
+      "sha256": "5e9b29bd3337f375f702ab70357192211d39a1738ddcf0cbd83160c47c18f195"
+    },
+    {
+      "path": "analysis/native-clock-conversion-static-20261024/completed-summary.json",
+      "bytes": 3307,
+      "sha256": "136512ea3f846932e1e99fb8885c936687e628a48bcb709570ced147f6915c99"
+    },
+    {
+      "path": "analysis/native-next-tick-timing-audit-20261024.json",
+      "bytes": 21170,
+      "sha256": "7355c95624b7161ca61f0868d9e51c540fc9c68d902259239bdb3b7863716e8a"
+    },
+    {
+      "path": "re-docs/native-next-tick-timing-plan-20261024.md",
+      "bytes": 14285,
+      "sha256": "1b9a7f95a9170e6cd0a4e6936b0644f11cd60911641b04be5c9789f52267d992"
+    },
+    {
+      "path": "analysis/native-simulation/results/20261024-clock-status-568bfd-assembly.json",
+      "bytes": 10908,
+      "sha256": "d7c2fe01d48e0eaa85b8fa2ce47225bd76273efb295252a900dcfe6cf4e0776b"
+    },
+    {
+      "path": "analysis/native-simulation/results/20261024-clock-status-568bfd-analysis.json",
+      "bytes": 220300,
+      "sha256": "e8df90469a76683b2abf65b7f7c9dc9697cbee064881084d0194dd05bcecee5a"
+    },
+    {
+      "path": "analysis/native-simulation/results/20261024-clock-status-mask-bytes.json",
+      "bytes": 9491,
+      "sha256": "d6a94d596bfd78437625f38886b59fc47916f0639fcdb2d86fb54e7fedc785a9"
+    },
+    {
+      "path": "analysis/native-clock-conversion-static-20261024/clock-status.evidence.json",
+      "bytes": 1685259,
+      "sha256": "463c3ba4e13b9c6521cc5e00675b2de1329845ceb41488296ddab5a908bc5c8b"
+    },
+    {
+      "path": "analysis/native-clock-conversion-static-20261024/clock-status.snapshot.json",
+      "bytes": 2476906,
+      "sha256": "5420518c65d61e0c6d0dde844842297bd3bc625135da67bf7fa8e1a934dcbd86"
+    }
+  ]
+}

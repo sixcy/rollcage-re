@@ -2,6 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createCapturedMemory} from '../tools/lib/captured-memory.mjs';
 
+test('input packet big-endian words share real bytes and retain strict observed bounds', () => {
+  const original = Buffer.from([0x12, 0x80, 0xff]);
+  const {memory} = createCapturedMemory([{address: 0x20000000, bytes: original}], {
+    aliases: [{address: 0x6e7ede, targetAddress: 0x20000000, length: 3}]
+  });
+  assert.equal(memory.readUInt16BE(0x6e7ede), 0x1280);
+  assert.equal(memory.readUInt16LE(0x20000000), 0x8012);
+  memory.writeUInt16BE(0xabcd, 0x6e7edf);
+  assert.equal(memory.readUInt16LE(0x20000001), 0xcdab);
+  assert.throws(() => memory.readUInt16BE(0x20000002), /Uncaptured/);
+  assert.throws(() => memory.readUInt16BE(0x6e7ee0), /alias boundary/);
+  assert.deepEqual(original, Buffer.from([0x12, 0x80, 0xff]));
+});
+
 test('preferred-base identity aliases preserve contiguous real spans and still require target coverage', () => {
   const {memory} = createCapturedMemory([{address: 100, bytes: Buffer.alloc(32, 7)}], {aliases: [{address: 108, targetAddress: 108, length: 8}]});
   assert.equal(memory.subarray(100, 132).length, 32);

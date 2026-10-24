@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {dotQ16} from './fixed-integer.mjs';
 import {removeBodySpatial, unregisterPhysicalBody, emitBodyEffectBurst} from './body-retirement.mjs';
 import {removeWormholeEffects, updateWormholeEffects, orientWormholeBody} from './wormhole-visuals.mjs';
@@ -99,7 +100,7 @@ export function updateWormholeWait(body, runtime) {
 //49ac30 outer stage. Unknown nonzero modes still orient and draw; mode0
 //returns without either. This is not yet an integration-completeness claim.
 export function updateWormholeState(runtime) {
-  const {memory: m, scratchBase} = runtime, frame = scratchBase - 28, body = ptr(m, 0x80b5e0), mode = get(m, body + 0x188); if (!mode) return;
+  const {memory: m, scratchBase} = runtime, frame = scratchBase - 28, body = ptr(m, nativeGlobalAddress(m,0x80b5e0)), mode = get(m, body + 0x188); if (!mode) return;
   const child = {...runtime, scratchBase: frame - 4};
   if (mode === 1) updateWormholeEmergence(body, child);
   else if (mode === 2) {if (updateWormholeChase(body, child) && get(m, body + 0x2a38) !== 127) {stopVehicleSound(ptr(m, body + 0x2a38), runtime.soundRuntime ?? runtime); put(m, body + 0x2a38, 127);}}

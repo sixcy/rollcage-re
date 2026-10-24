@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {loadGameBitmap} from './game-bitmap-images.mjs';
 import {constructGameTexture} from './game-texture-construction.mjs';
 import {convertVehicleAnimationColor} from './vehicle-animation-lights.mjs';
@@ -44,7 +45,7 @@ function allocationFailure(kib, runtime) {
 //retains native leaked allocations; only the successful exit frees both.
 export function constructTiledGameBitmap(pixels, palette, width, height, depth, pitch, runtime) {
   const {memory: m, scratchBase} = runtime, frame = scratchBase - 68; [width, height, depth, pitch].forEach((v, i) => put(m, scratchBase + 4 + i * 4, v));
-  const initial = nextId(get(m, 0x91ce98)); put(m, frame + 0x2c, pixels); put(m, frame + 0x40, initial); put(m, frame + 0x20, initial); if (!pixels) return -1;
+  const initial = nextId(get(m, nativeGlobalAddress(m, 0x91ce98))); put(m, frame + 0x2c, pixels); put(m, frame + 0x40, initial); put(m, frame + 0x20, initial); if (!pixels) return -1;
   const bytes = get(m, scratchBase + 12) >> 3, allocationBytes = bytes << 16; put(m, frame + 0x1c, bytes); put(m, frame + 0x30, allocationBytes);
   const tile = crt(runtime, 'allocate', [allocationBytes >>> 0]) >>> 0; put(m, frame + 0x14, tile); if (!tile) allocationFailure(allocationBytes >>> 10, runtime);
   const colors = crt(runtime, 'allocate', [1024]) >>> 0; put(m, frame + 0x18, colors); if (!colors) allocationFailure(1, runtime); if (!tile || !colors) return -1;
@@ -81,11 +82,11 @@ export function initializeRaceIceSheet(runtime) {
 export function initializeRaceTextures(runtime) {
   const {memory: m, scratchBase} = runtime, frame = scratchBase - 44, descriptor = frame + 8; put(m, 0x6e6cac, 0);
   if (loadGameBitmap(0x5d3614, descriptor, 1, {...runtime, scratchBase: frame - 8})) {
-    const id = nextId(get(m, 0x91ce98)); put(m, 0x5ed024, id);
+    const id = nextId(get(m, nativeGlobalAddress(m, 0x91ce98))); put(m, 0x5ed024, id);
     constructGameTexture(id, m.readInt16LE(descriptor + 2), m.readInt16LE(descriptor + 6), m[descriptor + 10], ptr(m, descriptor + 20), 0, 0, {...runtime, scratchBase: frame - 24, entryRegisters: {...runtime.entryRegisters, ESI: 64}});
   }
   put(m, frame - 4, 0x490103); initializeTimeEffectGeometry({...runtime, scratchBase: frame - 4, entryRegisters: {...runtime.entryRegisters, ESI: 64}});
-  const id = nextId(get(m, 0x91ce98)); put(m, 0x5ed02c, id); put(m, 0x80e890, encodedMaterial(get(m, 0x5ed02c)));
+  const id = nextId(get(m, nativeGlobalAddress(m, 0x91ce98))); put(m, 0x5ed02c, id); put(m, nativeGlobalAddress(m, 0x80e890), encodedMaterial(get(m, 0x5ed02c)));
   if (!constructGameTexture(get(m, 0x5ed02c), 256, 256, 8, 0, 0, 9, {...runtime, scratchBase: frame - 24, entryRegisters: {...runtime.entryRegisters, ESI: 64}})) {put(m, 0x5ed02c, -1); return 0;}
   initializeRaceIceSheet({...runtime, scratchBase: frame - 4, entryRegisters: {...runtime.entryRegisters, ESI: 64}}); return 1;
 }

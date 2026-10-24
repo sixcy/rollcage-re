@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import constants from './particle-pool-constants.json' with {type: 'json'};
 import sqrt from './sqrt-table.json' with {type: 'json'};
 const ptr = (m, p) => m.readUInt32LE(p), get = (m, p) => m.readInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
@@ -15,7 +16,7 @@ export function truncateParticleCountFloat(value) {
 export function initializeRawParticleStorage({memory, convertFloatToInt64 = truncateParticleCountFloat}) {
   const quality = memory.readFloatLE(ptr(memory, 0x5ecefc) + 0x68), product = Math.fround(quality * memory.readFloatLE(0x5dca60)), converted = convertFloatToInt64(product);
   if (typeof converted !== 'bigint' || converted < -(1n << 63n) || converted >= 1n << 63n) throw Error('Particle count CRT service must return signed64 BigInt.');
-  const count = Number(BigInt.asIntN(32, converted)), old = ptr(memory, 0x70dcf4), start = (ptr(memory, 0x902eec) + (old & 0xfffffffc)) >>> 0, bytes = count << 8;
+  const count = Number(BigInt.asIntN(32, converted)), old = ptr(memory, 0x70dcf4), start = (ptr(memory, nativeGlobalAddress(memory, 0x902eec)) + (old & 0xfffffffc)) >>> 0, bytes = count << 8;
   put(memory, 0x5eb504, count); put(memory, 0x9153d4, start); put(memory, 0x9153c4, start); put(memory, 0x70dcf4, old + ((bytes + 127) & 0xffffff80)); put(memory, 0x91900c, start + bytes);
   for (let index = 0; index < count; index++) {
     const p = start + index * 256; memory[p + 0x94] = 0; word(memory, p + 0x96, 0); memory[p + 0x13] = 12; memory[p + 0x17] = 0x9a; put(memory, p + 4, 0); put(memory, p, 9); word(memory, p + 8, 0); put(memory, p + 12, 0);
@@ -47,7 +48,7 @@ export function initializeRawEffectRecordBanks({memory}) {
     for (const field of [0x5c, 0x40, 0x24, 8]) put(memory, p + field, 64);
     word(memory, p + 0x3e, 63); memory[p + 7] = 0x9a;
   }
-  word(memory, 0x91cd60, 0);
+  word(memory, nativeGlobalAddress(memory,0x91cd60), 0);
 }
 
 //432ee0: table-basedQ6 root; raw globals retain the original input/clz.
@@ -68,8 +69,8 @@ export function initializeRawTerrainEffectRecords({memory, allocate}) {
 //4758d0.512128-byte debris records come from the shared body arena, while
 //free/active ushort-ID arrays are two separate1024-byte malloc allocations.
 export function initializeRawBodyDebrisPool({memory, allocate}) {
-  const old = ptr(memory, 0x70dcf4), start = (ptr(memory, 0x902eec) + (old & 0xfffffffc)) >>> 0;
-  put(memory, 0x70dcf4, old + 0x10000); put(memory, 0x902b84, start);
+  const old = ptr(memory, 0x70dcf4), start = (ptr(memory, nativeGlobalAddress(memory, 0x902eec)) + (old & 0xfffffffc)) >>> 0;
+  put(memory, 0x70dcf4, old + 0x10000); put(memory, nativeGlobalAddress(memory, 0x902b84), start);
   for (let index = 0; index < 512; index++) {
     const p = start + index * 128; put(memory, p, 5); put(memory, p + 4, 0); word(memory, p + 8, 0); put(memory, p + 12, 0); word(memory, p + 0x6a, 0);
     for (const offset of [0x14, 0x50, 0x30]) put(memory, p + offset, 0x40404040);
@@ -78,10 +79,10 @@ export function initializeRawBodyDebrisPool({memory, allocate}) {
     for (const offset of [0x60, 0x5c, 0x7c, 0x78]) put(memory, p + offset, 0);
     memory[p + 0x4f] = 12; memory[p + 0x53] = 0xae;
   }
-  const free = cleared(0x400, memory, allocate); put(memory, 0x902b7c, free);
-  put(memory, 0x902b80, cleared(0x400, memory, allocate));
+  const free = cleared(0x400, memory, allocate); put(memory, nativeGlobalAddress(memory, 0x902b7c), free);
+  put(memory, nativeGlobalAddress(memory, 0x902b80), cleared(0x400, memory, allocate));
   for (let index = 0; index < 512; index++) word(memory, free + index * 2, index);
-  put(memory, 0x902b8c, 511); put(memory, 0x902b88, 0);
+  put(memory, nativeGlobalAddress(memory, 0x902b8c), 511); put(memory, nativeGlobalAddress(memory, 0x902b88), 0);
 }
 
 function integerByRoundingMode(value, mode) {
@@ -94,7 +95,7 @@ function integerByRoundingMode(value, mode) {
 //4356a0 complete game-owned constructor; services areCRT malloc/memset and
 //float→signed64 conversion. The final quality FISTP uses explicit x87 context.
 export function initializeRawParticlePools(context) {
-  const {memory, roundingMode} = context; put(memory, 0x91cd90, 0); put(memory, 0x9153d0, 0);
+  const {memory, roundingMode} = context; put(memory, nativeGlobalAddress(memory,0x91cd90), 0); put(memory, 0x9153d0, 0);
   initializeRawParticleStorage(context); initializeRawLargeEffectRecords(context); initializeRawSmallEffectRecords(context); initializeRawEffectRecordBanks(context);
   let target = ptr(memory, 0x90b980) + 0xfc2;
   for (let value = 8; value < 136; value += 8, target += 4) {memory[target - 2] = value; memory[target - 1] = value; memory[target] = value; memory[target + 1] = 60;}

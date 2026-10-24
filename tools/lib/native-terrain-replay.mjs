@@ -1,4 +1,4 @@
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
 import {queryRawTerrain} from '../../src/raw-terrain-query.mjs';
 import {unpackCollisionNormal} from '../../src/collision-grid.mjs';
 import {decodePhysicsNumericalContext} from '../../src/race-clock.mjs';

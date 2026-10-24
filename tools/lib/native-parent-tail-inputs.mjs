@@ -33,6 +33,18 @@ export function nativeParentTailAdditionalRegions(snapshot, options = {}) {
       }
     }
   }
+  //44d960 also reads the position/dirty slot for every live authored light
+  //without a scripted body, even if no body queued a type1 handle this tick.
+  //Use the observed live pool, not a guessed table allocation or zero flags.
+  let lightCount;
+  try{lightCount=captured.span(base+0x40f20c,4).readUInt32LE();}catch{}
+  if(lightCount!==undefined){
+    if(lightCount>71)throw Error('Live light count exceeds the recovered70-slot light pool.');
+    for(let index=1;index<lightCount;index++){
+      const light=captured.span(base+0x40f520+index*64,64);
+      if(light.readInt16LE(0x24)===1&&!light.readUInt32LE(0x30))observedType1.push({id:`tail-live-light-point-${index}`,preferredAddress:0x90b688+(index-1)*8,length:8,comparison:'mutable',evidence:'44d960 live kind1 light without a script body reads its actual eight-byte queued position/dirty record; original/source-carried bytes only.'});
+    }
+  }
   const declared=[...nativeFrameGlobalRegions.map(row=>({address:base+row.preferredAddress-0x400000,length:row.id==='attachment-queue'?options.attachmentWindowBytes??row.length:row.length})),
     ...(options.additionalRegions??[]),...nativeControlAdditionalRegions(snapshot,options)],result=[];
   for(const region of [...nativeParentTailModuleRegions,...observedType1]){

@@ -1,5 +1,5 @@
 import {obtainViewportApplication} from './application-bootstrap.mjs';
-import {copyToNativeMemory,nativeMemorySpan} from './native-memory-spans.mjs';
+import {copyToNativeMemory,nativeMemorySpan,nativeCodeAddress} from './native-memory-spans.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const copy = (m, dest, source, size) => copyToNativeMemory(m,dest,Buffer.from(m.subarray(source,source+size)));
 const stringData = (m, object) => ptr(m, object + 20) > 15 ? ptr(m, object) : object;
@@ -110,12 +110,35 @@ export function getViewportApplication(runtime) {
 //40ab70 /407050. Native outputs are ordered writes and may alias each other.
 export function queryWeatherViewport(name, xOut, yOut, widthOut, heightOut, runtime) {
   const {memory: m, scratchBase} = runtime;
-  if (!m[name]) {
+  //Only498030's two direct callers currently publish their real shared-stack
+  //arguments. Other viewport callers retain their existing explicit scope.
+  const nativeCall = runtime.nativeViewportQueryCall;
+  if (nativeCall !== undefined) {
+    if (!nativeCall || Object.keys(nativeCall).length !== 1 || ![0x498092, 0x4980f5].includes(nativeCall.returnAddress)
+      || !Number.isInteger(scratchBase) || ptr(m, scratchBase) !== nativeCodeAddress(nativeCall.returnAddress, runtime)
+      || ptr(m, scratchBase + 4) !== yOut || ptr(m, scratchBase + 8) !== widthOut || ptr(m, scratchBase + 12) !== heightOut) throw Error('Weather viewport requires its source-published direct screen caller/arguments.');
+    put(m, scratchBase - 4, name); //40ab70 PUSH ECX, before the strlen loop.
+  }
+  //40ab78..89 finishes the original strlen before forwarding any arguments.
+  //Its saved ECX remains NAME+1, independently of the resulting length.
+  const nameLength = cLength(m, name);
+  if (!nameLength) {
     const current = ptr(m, 0x6efb3c); let from = ptr(m, current + 40) >= 16 ? ptr(m, current + 20) : current + 20, dest = name;
     do {m[dest++] = m[from++];} while (m[dest - 1]);
     const y = get(m, current + 0x88); put(m, xOut, get(m, current + 0x84)); put(m, yOut, y); put(m, widthOut, get(m, current + 0x8c)); put(m, heightOut, get(m, current + 0x90)); return;
   }
+  if (nativeCall) {
+    //40abdf..ee: preserve each live stack-argument load/PUSH in native order.
+    put(m, scratchBase - 20, get(m, scratchBase + 12));
+    put(m, scratchBase - 24, get(m, scratchBase + 8));
+    put(m, scratchBase - 28, get(m, scratchBase + 4));
+    put(m, scratchBase - 32, xOut); put(m, scratchBase - 36, name); put(m, scratchBase - 40, name + 1);
+    put(m, scratchBase - 44, nativeCodeAddress(0x40abf3, runtime));
+  }
   const application = getViewportApplication({...runtime, scratchBase: scratchBase - 44}), entry = scratchBase - 40, frame = entry - 72, key = frame + 0x1c;
+  //After ADD ESP,4,40abf8 CALL407050 replaces the saved ECX slot. The five
+  //forwarded query arguments remain above it; no saved registers/SEH invented.
+  if (nativeCall) put(m, entry, nativeCodeAddress(0x40abfd, runtime));
   put(m, frame + 0x18, application); put(m, frame + 0x14, heightOut); put(m, key + 20, 15); put(m, key + 16, 0); m[key] = 0;
   assignViewportString(key, name, cLength(m, name), runtime); put(m, frame + 0x34, 0);
   const record = getOrCreateViewportRecord(application + 0x7c, key, runtime);

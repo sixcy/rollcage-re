@@ -4,6 +4,7 @@ import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
 import {spatialBucketContainsSector} from './track-deformation.mjs';
 import {copyToNativeMemory,resolveNativeMemoryAddress} from './native-memory-spans.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 const vector=(m,p)=>[0,4,8].map(o=>get(m,p+o));
 const copy=(m,a,b)=>{for(const o of[0,4,8])put(m,b+o,get(m,a+o));};
@@ -53,7 +54,7 @@ export function emitPlacedShapeDebris(object,shapeSlot,velocity,{memory,scratchB
  for(const o of[0,4,8])put(memory,velocity+o,get(memory,velocity+o)>>9);
  for(const o of[0,2,4])word(memory,local+o,memory.readUInt16LE(shapes+offset+o));
  for(const o of[0,4,8,12,16])put(memory,0x91d360+o,get(memory,object+0xc4+o));
- for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(memory.readInt16LE(0x91d360+i*2)*memory.readFloatLE(0x5dc5f4)),0x91cdc0+(Math.floor(i/3)*4+i%3)*4);
+ for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(memory.readInt16LE(0x91d360+i*2)*memory.readFloatLE(0x5dc5f4)),nativeGlobalAddress(memory,0x91cdc0+(Math.floor(i/3)*4+i%3)*4));
  put(memory,0x91d3e4,get(memory,local));put(memory,0x91d3e8,get(memory,local+4));
  const transformed=transformShortQ12(Array.from({length:9},(_,i)=>memory.readInt16LE(0x91d360+i*2)),[0,2,4].map(o=>memory.readInt16LE(0x91d3e4+o)));
  transformed.forEach((x,i)=>put(memory,0x91d448+i*4,x));

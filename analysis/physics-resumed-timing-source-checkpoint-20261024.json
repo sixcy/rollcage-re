@@ -1,0 +1,199 @@
+{
+  "schemaVersion": 1,
+  "status": "active",
+  "createdUtc": "2026-10-24T13:44:42.068Z",
+  "previousGoalTurnClassification": "progress",
+  "currentGoalTurnClassification": "progress",
+  "fullObjectiveUnchanged": true,
+  "fullObjectiveComplete": false,
+  "completeParentTicksMatched": 1,
+  "completeParentTickMatched": true,
+  "complete441c70SourceImplemented": true,
+  "clockOriginalProcessMatched": false,
+  "completeNextTickProducerIntervalMatched": false,
+  "longRaceParityEstablished": false,
+  "timingProof": {
+    "authority": "constructed-inputs-with-retained-original-instructions",
+    "cases": 341,
+    "instructionSteps": 105689,
+    "schedulerInstructionsReached": 68,
+    "schedulerInstructions": 68,
+    "stackAlignments": [
+      98304,
+      98308
+    ],
+    "originalHelpersExecuted": {
+      "0x441c70": 341,
+      "0x489cd0": 341,
+      "0x569380": 1023,
+      "0x568f10": 1023,
+      "0x568d6e": 275,
+      "0x568c41": 275,
+      "0x568bfd": 268
+    },
+    "answerHooks": [
+      "Declared synthetic Windows QPF/QPC only"
+    ],
+    "exactAPIInputsAndPreimages": true,
+    "wholeFixtureMemoryCompared": true,
+    "knownReturnSubsetCompared": true,
+    "numericalStickyFlags": "Source-derived metadata, not complete original-process/interpreter status parity"
+  },
+  "sourceContextFix": "Explicit supplied x87 status survives all conversion stages; missing status remains unknown, and unmasked cases stage the genuine except1 boundary.",
+  "validation": {
+    "combinedSourceProtocolWeatherNativeParentTests": {
+      "passed": 40,
+      "failed": 0,
+      "skipped": 0,
+      "terminalSession": 98186
+    },
+    "afterStatusFixIndependentTests": [
+      {
+        "command": "node --test tests/native-race-step-clock.test.mjs tests/native-clock-conversion.test.mjs tests/native-race-step-clock-instructions.test.mjs tests/race-clock.test.mjs",
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 15997.1349
+      },
+      {
+        "command": "node --test tests/native-race-clock-timer.test.mjs",
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "durationMs": 4036.3981
+      }
+    ],
+    "interpreterFocusedTests": {
+      "passed": 103,
+      "failed": 0,
+      "skipped": 0
+    },
+    "cameraAndEditorBrowserChecksPassed": true,
+    "viewerRebuilt": true,
+    "experimentalLabelAndThreeCarDefaultPreserved": true
+  },
+  "preservation": {
+    "newGameLaunchesThisTurn": 0,
+    "gameCurrentlyRunning": false,
+    "staticSessionClosed": true,
+    "originalExecutableSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "installedFilesWritten": false,
+    "existingEvidenceOverwritten": false
+  },
+  "nextRequiredWork": "Implement and test a separate bounded warm441c70 native call/QPC/return observation, validate this source against actual original outcomes, then connect450d60/440930 input/viewport/render producers through the next parent without native game-state refresh.",
+  "remainingFullObjective": [
+    "Original-process clock and continuous-race timing",
+    "Outer input/render/event-loop producers and closed second tick",
+    "Broader car/terrain/wall/ceiling/inverted-driving collision scenarios",
+    "Startup and numerical-context coverage",
+    "Full recovery and active weapon-force effects",
+    "Moving/destructible scenery and complete native scenario coverage"
+  ],
+  "evidence": [
+    {
+      "path": "analysis/native-race-step-clock-independent-status-reviewed-audit-20261024.json",
+      "bytes": 6505,
+      "sha256": "20a0018f088026a280a8c2c1518e0e082400141744355a560a7f6fae08975c0a"
+    },
+    {
+      "path": "analysis/native-race-step-clock-status-preserved-instruction-check-20261024.json",
+      "bytes": 3345,
+      "sha256": "8c8cbcd6876d3a0dee0731cb60ac60dc90b57b4ccf142634cdd1c93185b181b0"
+    },
+    {
+      "path": "analysis/native-race-step-clock-independent-reviewed-audit-20261024.json",
+      "bytes": 9084,
+      "sha256": "b2b18987df83365b8a083409f10e29f28a0cf016b52d1ff40afe3bb75433dc7e"
+    },
+    {
+      "path": "analysis/native-clock-integer-static-20261024/completed-summary.json",
+      "bytes": 2239,
+      "sha256": "faa52a28da691abd079414e36ab7a15b57cb235f475a845dd52cf7b1ab482c5b"
+    },
+    {
+      "path": "analysis/physics-resumed-next-tick-evidence-checkpoint-20261024.json",
+      "bytes": 3147,
+      "sha256": "349a76825764835c28f51250bee87c86a82e6cbea54d77f72e3c7e0739e67021"
+    },
+    {
+      "path": "analysis/native-parent-final-stock-reviewed-replay-v2-20261024/report.json",
+      "bytes": 2430013,
+      "sha256": "cec8ecc32b954c844da53e5d69481d4c139f0715afe9f1f3d9836d39ac8007bb"
+    },
+    {
+      "path": "re-docs/native-race-step-clock-checkpoint.md",
+      "bytes": 8107,
+      "sha256": "6f887d8e5892c997e6fad3c8c92028ecd1b11f33f6c0aeba9bc7ea97aee61e75"
+    },
+    {
+      "path": "analysis/physics-clock-source-viewer-camera-20261024/report.json",
+      "bytes": 597,
+      "sha256": "2de162dd634a4ac2fae062bd5c58ad39dd4f57bbb758cee10f72f2be0947b463"
+    },
+    {
+      "path": "analysis/physics-clock-source-viewer-state-20261024/report.json",
+      "bytes": 502,
+      "sha256": "4737462b80a18033ac6f3d4ca281d9fa48aa7a78b92f96af322bd25ca7c6d96c"
+    },
+    {
+      "path": "docs/track-viewer.html",
+      "bytes": 2124215,
+      "sha256": "636db55b6525b80125b118a542d501233a71ab27b167d8eb65349d235d4a0aa4"
+    },
+    {
+      "path": "src/native-race-step-clock.mjs",
+      "bytes": 6276,
+      "sha256": "69dbc3451dfd7ea6025d52ac241b6bf97aa7ce4ba9f1912f33616fb14de366bd"
+    },
+    {
+      "path": "src/native-clock-conversion.mjs",
+      "bytes": 8329,
+      "sha256": "0e800e7a396cd36c7f945d796788bd92b80bb00ef9f5c2baffc36c5b3112b155"
+    },
+    {
+      "path": "src/game-network-protocol.mjs",
+      "bytes": 25478,
+      "sha256": "afb50c7e848934812ac105611c393d06253eeb730017d03e9c9bfc8f59c5b5ef"
+    },
+    {
+      "path": "src/race-clock.mjs",
+      "bytes": 3208,
+      "sha256": "05d550d58bea3cb3f03ab4b84c04a78df77e1e238d8b3450ed13d7e9e7c0d9e4"
+    },
+    {
+      "path": "tools/lib/bounded-x86.mjs",
+      "bytes": 45177,
+      "sha256": "226f541978731a44a1f1e9bbfac520e75d97fc1746c7cb64e47bf91dd91ca69d"
+    },
+    {
+      "path": "tools/verify-native-race-step-clock-instructions.mjs",
+      "bytes": 13459,
+      "sha256": "958861f1dd7f4b673f83100e63ddbd224ed516e1331887d0b03358864d6d31f4"
+    },
+    {
+      "path": "tests/native-race-step-clock.test.mjs",
+      "bytes": 9477,
+      "sha256": "b7417c1dabb702206a3ac345d8a30310bf2b4428698e5b56d5182ca152aaf5df"
+    },
+    {
+      "path": "tests/native-clock-conversion.test.mjs",
+      "bytes": 12089,
+      "sha256": "b1d251add9709677c0b2285b48eb3fa9716f082dd1f22ece346977bf4fcdbe8c"
+    },
+    {
+      "path": "tests/native-race-clock-timer.test.mjs",
+      "bytes": 6600,
+      "sha256": "3982ab9b71bb5b7bca65006c7aad26296295928139000c94c3541e0d3eda26c1"
+    },
+    {
+      "path": "tests/native-race-step-clock-instructions.test.mjs",
+      "bytes": 1375,
+      "sha256": "4b8b993aa8dae9e43ad97bed0d4d87d09d13bbc9e5be5de80956e5190eaedf7c"
+    },
+    {
+      "path": "tests/bounded-x86-clock-conversion.test.mjs",
+      "bytes": 7473,
+      "sha256": "c90e099ee1e0c89719cf1dd50a7c7145b01136d038b9f3c5e2d1f5a606c018ab"
+    }
+  ]
+}

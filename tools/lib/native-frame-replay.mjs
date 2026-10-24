@@ -1,4 +1,4 @@
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
 import {buildNativeFrameManifest} from './native-frame-manifest.mjs';
 import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
 import {createNativeFrameVehicleBindings} from './native-frame-vehicles.mjs';

@@ -73,13 +73,15 @@ test('sparse ASLR stack keeps real caller registers and relocates only module re
   assert.equal(memory.readUInt32LE(0x6f2414), bank);
 });
 
-test('actual populated adaptive owner remains an explicit unsupported source/service boundary', () => {
+test('actual empty adaptive owner reaches its genuine unobserved allocator boundary', () => {
   const memory = Buffer.alloc(0xa00000), parentEntryEsp = 0x9200, sound = 0x20000, bank = 0x10000;
   memory.writeUInt32LE(bank, 0x6f2414); memory.writeUInt32LE(bank + 256, 0x6f2418);
   memory.writeUInt32LE(sound, bank + 43 * 4); memory.writeInt32LE(0, sound + 0x488);
   const nativeTls = {sehWord: 0x12345678}, binding = createNativeFrameSoundBindings({memory, moduleBaseAddress, numericalContext, nativeTls});
   assert.throws(() => callNativeRecoveryAudio({memory, parentEntryEsp, registerEcx: 0x71234567, nativeStack, moduleBaseAddress,
-    soundRuntime: binding.soundRuntime, dispatch40ea40: binding.dispatch40ea40}), /adaptive sound-channel selection requires its complete source\/allocation\/vector stack services/);
+    soundRuntime: binding.soundRuntime, dispatch40ea40: binding.dispatch40ea40}), /adaptive selector reached operatorNew12 at40dc50/);
+  const selectorFrame = nativeRecoveryAudioCallLayout(parentEntryEsp).emitter.dispatchEntry - 24 - 44;
+  assert.equal(memory.readUInt32LE(selectorFrame - 4), 12, 'The original PUSH0xc precedes the missing allocator call.');
   assert.equal(memory.readUInt32LE(bank + 43 * 4), sound);
   assert.equal(memory.readUInt32LE(nativeRecoveryAudioCallLayout(parentEntryEsp).entryEsp + 20), 0x71234567);
   assert.equal(memory.readInt32LE(sound + 0x464), 6);

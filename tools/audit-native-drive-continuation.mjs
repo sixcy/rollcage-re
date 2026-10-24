@@ -9,6 +9,7 @@ import {pairNativeFrameSnapshots} from './check-native-frame-replay.mjs';
 import {replayNativeFrameSequence, expandNativeFramePatchRuns} from './lib/native-frame-sequence.mjs';
 import {createNativeDriveContinuation, replayNativeDriveFrame} from './lib/native-frame-drive-continuation.mjs';
 import {createCapturedMemory} from './lib/captured-memory.mjs';
+import {nativeGlobalAddress} from '../src/native-global-address.mjs';
 
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 export async function auditNativeDriveContinuation(reportFile) {
@@ -24,7 +25,7 @@ export async function auditNativeDriveContinuation(reportFile) {
     const after = createCapturedMemory([...pairing.pairs[index].after.ranges.values()]), next = createCapturedMemory([...pairing.pairs[index + 1].before.ranges.values()]);
     const {source} = context, m = source.memory, actual = preferred => source.manifest.moduleBaseAddress + preferred - 0x400000;
     const count = source.manifest.observed.participantCount, cars = Array.from({length: count}, (_, i) => m.readUInt32LE(actual(0x909300 + i * 0x30c)));
-    const pickupCount = m.readInt32LE(0x902024), pickupList = m.readUInt32LE(0x902020), pickups = Array.from({length: pickupCount}, (_, i) => m.readUInt32LE(pickupList + i * 4));
+    const pickupCount = m.readInt32LE(nativeGlobalAddress(m,0x902024)), pickupList = m.readUInt32LE(nativeGlobalAddress(m,0x902020)), pickups = Array.from({length: pickupCount}, (_, i) => m.readUInt32LE(pickupList + i * 4));
     const gfxm = m.readUInt32LE(0x90b990), controllerPointers = Array.from({length: m[gfxm + 0xf7]}, (_, i) => m.readUInt32LE(0x91d480 + i * 4));
     const classes = [...pickups.map((address, i) => ({id: 'pickup-matrices', address: address + 0xc4, length: 18, objectIndex: i})),
       ...pickups.map((address, i) => ({id: 'pickup-state-counter', address: address + 0x180, length: 0x10, objectIndex: i})),
@@ -51,7 +52,7 @@ export async function auditNativeDriveContinuation(reportFile) {
     const projectilePointers = Array.from({length: 24}, (_, i) => m.readUInt32LE(0x9034a0 + i * 4));
     observations.push({transition: index + 1, overwrittenSourceDivergenceBytes: differing, changedByThisContinuation, carriedSourceDifferencesAlreadyPresent: differing - changedByThisContinuation, alreadyMatchesNextBytes: alreadyMatchesNext, laterDifferentBytes: differing - alreadyMatchesNext,
       groups: [...groups.values()], samples, sourceStateAfterContinuation: {pickupCount, pickupControllerCount: m[gfxm + 0xf7], activeProjectiles: projectilePointers.filter(body => m.readInt32LE(body + 0x188)).length,
-        terrainWaveState: m.readInt32LE(0x90cb80), timeEffectState: m.readInt32LE(0x811180), registryCount: m.readInt32LE(0x82e900), modelTargetCount: m.readInt32LE(0x82e904),
+        terrainWaveState: m.readInt32LE(0x90cb80), timeEffectState: m.readInt32LE(nativeGlobalAddress(m,0x811180)), registryCount: m.readInt32LE(nativeGlobalAddress(m,0x82e900)), modelTargetCount: m.readInt32LE(nativeGlobalAddress(m,0x82e904)),
         periodicAge: m.readInt32LE(0x903514), periodicRetiredClock: m.readUInt32LE(0x903520), logicalClock: m.readUInt32LE(0x90a548),
         launchStates: cars.map(body => m.readInt16LE(body + 0x6a0)), launchAges: cars.map(body => m.readInt16LE(body + 0x6a2)), contactOwnersActive: cars.filter(body => {const owner = m.readUInt32LE(body + 0x6bc); return owner !== 0xffffffff && m[owner];}).length}});
     return result;

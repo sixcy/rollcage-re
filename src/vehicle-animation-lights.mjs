@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 //48e310: linked model vertices/colors and one-time attached-light publication.
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 const trunc10=value=>Math.trunc((value|0)/1024);
@@ -41,7 +42,7 @@ export function updateVehicleLinkedAnimation(body,{memory:m,scratchBase}){
 
 //44e470. Queue capacity is16; an omitted payload keeps the old three DWORDs.
 export function appendVehicleAnimationLight(position,color,mode,kind,lifetime,payload,{memory:m}){
- const count=ptr(m,0x810920);if(count>=16)return;const row=0x8106e0+count*36;for(let o=0;o<12;o+=4)put(m,row+o,get(m,position+o));put(m,row+12,get(m,color));word(m,row+16,mode);word(m,row+18,kind);put(m,row+20,lifetime);if(payload)for(let o=0;o<12;o+=4)put(m,row+24+o,get(m,payload+o));put(m,0x810920,count+1);
+ const count=ptr(m,nativeGlobalAddress(m, 0x810920));if(count>=16)return;const row=nativeGlobalAddress(m, 0x8106e0)+count*36;for(let o=0;o<12;o+=4)put(m,row+o,get(m,position+o));put(m,row+12,get(m,color));word(m,row+16,mode);word(m,row+18,kind);put(m,row+20,lifetime);if(payload)for(let o=0;o<12;o+=4)put(m,row+24+o,get(m,payload+o));put(m,nativeGlobalAddress(m, 0x810920),count+1);
 }
 
 //48e310. Session pointer is captured once; the count at that pointer stays live.

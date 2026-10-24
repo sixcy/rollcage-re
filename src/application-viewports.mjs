@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {assignViewportString, getOrCreateViewportRecord} from './weather-viewport.mjs';
 import {getApplicationDebugger} from './application-bootstrap.mjs';
 import {obtainRendererTextureIndex} from './renderer-texture-ownership.mjs';
@@ -60,7 +61,7 @@ export function createApplicationViewport(application, name, x, y, width, height
   for (let i = 0; i < 16; i++) m[object + 0x84 + i] = m[f + 0x34 + i];
   appendGameImagePointer(target + 0x40, f + 0x18, {...runtime, scratchBase: f - 8});
   put(m, f + 0x34, get(m, s + 8)); put(m, f + 0x38, get(m, s + 12)); put(m, f + 0x3c, get(m, f + 0x30)); put(m, f + 0x40, get(m, f + 0x24));
-  m.writeUInt16LE(0x101, target + 0x3d); put(m, target + 0x39, get(m, 0x91ce1c)); object = ptr(m, f + 0x10); m.writeUInt16LE(0, object + 0xbd);
+  m.writeUInt16LE(0x101, target + 0x3d); put(m, target + 0x39, get(m, nativeGlobalAddress(m,0x91ce1c))); object = ptr(m, f + 0x10); m.writeUInt16LE(0, object + 0xbd);
   const record = getOrCreateViewportRecord(ptr(m, f + 0x20) + 0x7c, key, {...runtime, scratchBase: f - 8});
   object = ptr(m, f + 0x10); put(m, record, target); put(m, record + 4, object);
   for (let i = 0; i < 16; i++) m[record + 8 + i] = m[f + 0x34 + i];

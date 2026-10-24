@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "authority": "independent-read-only-audit-of-closed-original-process-capture",
+  "captureDirectory": "analysis/native-race-clock-stock-capture-v2-20261024",
+  "identities": {
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "helper": {
+      "path": "analysis\\native-physics-local\\race-clock-stock-resumed-v2-20261024\\runner-v2\\lib\\native-physics-debugger.cs",
+      "sha256": "c2e4d9e5b67866dd365adc7c9f3f829d195a6110e1a5313da8eb4e65e8e7b59d"
+    },
+    "configurationSha256": "3caceccb52c5bdcbaa74fddcd1213c157d011d0bac2ed7abe432a1180d5b0a61",
+    "traceSha256": "d91b2534b2fa40d8c6b5835177dae50c4f83c1fff959a4a09afa03b30ed3001c",
+    "sourceReport": {
+      "path": "analysis/native-race-clock-stock-replay-v2-20261024/report.json",
+      "sha256": "423d2f5e94880585b60327ad0fc21fcae1b0b6b808710e950f096730b77eaf1a"
+    },
+    "installationChecks": [
+      {
+        "manifest": "analysis\\native-physics-local\\race-clock-stock-resumed-v2-20261024\\installation-manifest.json",
+        "manifestSha256": "09323943d49520e9bda1bf925acc5539b5ee6a4e8f034913ad489cfb3fa81fb1",
+        "filesPerRoot": 171,
+        "verifiedRoots": [
+          "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-baseline-20261024\\installation",
+          "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\race-clock-stock-resumed-v2-20261024\\installation"
+        ],
+        "fileHashesChecked": 342,
+        "bytesRead": 312374766,
+        "matched": true
+      },
+      {
+        "manifest": "analysis/native-physics-local/parent-rtti-resumed-20261024/installation-manifest.json",
+        "manifestSha256": "809915d706f85d47864229bd8d13709c78d3060cfa91734b5a28f0503f3909c6",
+        "filesPerRoot": 173,
+        "verifiedRoots": [
+          "C:\\Program Files (x86)\\Psygnosis\\Rollcage",
+          "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-physics-local\\parent-rtti-resumed-20261024\\installation"
+        ],
+        "fileHashesChecked": 346,
+        "bytesRead": 478978038,
+        "matched": true
+      }
+    ],
+    "installationReports": [
+      {
+        "filename": "analysis/native-race-clock-stock-installation-before-v2-20261024.json",
+        "sha256": "38966dd3f0fc35d78600530911e5fbaaaec02f23184b5ce458a5f45c55042160",
+        "files": 171,
+        "matched": true
+      },
+      {
+        "filename": "analysis/native-race-clock-stock-installation-after-v2-20261024.json",
+        "sha256": "b1ad8929f00f28b05d66342ca90abbc08f6296fe17e65ddcaec82589cfa1fca7",
+        "files": 171,
+        "matched": true
+      },
+      {
+        "filename": "analysis/native-race-clock-installed-edits-after-v2-20261024.json",
+        "sha256": "f6e92c5f5411008b5aa3bb5c562a0c33ba28fb26b4d72fb6506518e815dda784",
+        "files": 173,
+        "matched": true
+      }
+    ]
+  },
+  "raw": {
+    "jsonRecords": 4382,
+    "everyLineParsed": true,
+    "complete": true,
+    "snapshots": 7,
+    "purposeSnapshots": 4,
+    "typedRowsPerPurpose": 15,
+    "originalEntrySemanticBytes": 742,
+    "blobFiles": 179,
+    "blobBytes": 50338,
+    "snapshotContexts": 7,
+    "snapshotRanges": 72,
+    "stopThreadContexts": 50,
+    "stopThreadStacks": 50,
+    "allBlobHashesMatched": true,
+    "unreferencedFiles": 0,
+    "orderedBlobManifestSha256": "ed5b1082f16aea4d2cf76c2d8902cefc5b68761e32e5384c4fbc2b6b1a2b5556",
+    "exactPolicyAndAdmissionVerified": true,
+    "ownerPid": 24632,
+    "ownerMainTid": 25500,
+    "moduleBaseAddress": "0x5f0000",
+    "entryLogicalClock": 288,
+    "layout": {
+      "entryEsp": 15727380,
+      "timerEntryEsp": 15727364,
+      "timerEbp": 15727360,
+      "alignedAddress": 15727360,
+      "frame": 15727328,
+      "counterCallEsp": 15727324,
+      "counterReturnEsp": 15727328,
+      "outputAddress": 15727352,
+      "returnEsp": 15727384,
+      "stackAddress": 15726868,
+      "stackBytes": 540
+    },
+    "roles": [
+      {
+        "id": "native-race-clock-entry",
+        "ordinal": 4,
+        "event": 1764,
+        "esp": "0x00effb14",
+        "eip": "0x00631c70"
+      },
+      {
+        "id": "native-race-clock-counter-call",
+        "ordinal": 5,
+        "event": 1766,
+        "esp": "0x00effadc",
+        "eip": "0x00679d11"
+      },
+      {
+        "id": "native-race-clock-counter-return",
+        "ordinal": 6,
+        "event": 1768,
+        "esp": "0x00effae0",
+        "eip": "0x00679d13"
+      },
+      {
+        "id": "native-race-clock-return",
+        "ordinal": 7,
+        "event": 1770,
+        "esp": "0x00effb18",
+        "eip": "0x00640df0"
+      }
+    ],
+    "activationsAfterEntryPublicationSameEvent": 3,
+    "startupGuardedWrites": 6,
+    "counterNeutralSkips": 288,
+    "completion": {
+      "events": 1770,
+      "elapsedMs": 45537,
+      "returnValue": 1
+    },
+    "ownedCleanup": {
+      "type": "owned-process-cleanup",
+      "pid": 24632,
+      "terminated": true,
+      "win32Error": 0,
+      "elapsedMs": 45591
+    },
+    "stopDiagnostics": {
+      "type": "thread-diagnostics-complete",
+      "pid": 24632,
+      "mainTid": 25500,
+      "requestedThreads": 50,
+      "suspendedThreads": 50,
+      "contexts": 50,
+      "stacks": 50,
+      "stackBytesPerThread": 128,
+      "errors": 0,
+      "limitation": "Best-effort WOW64 contexts may describe a thread waiting in system code; these are diagnostic samples, not ordered physics stages.",
+      "elapsedMs": 45588
+    }
+  },
+  "source": {
+    "executed": true,
+    "onlyOriginalEntryGameInputs": true,
+    "aliasesApplied": 0,
+    "onlyExternalOutcome": {
+      "service": "QueryPerformanceCounter",
+      "outputAddress": 15727352,
+      "preimageHex": "0000000083bd577c",
+      "outputHex": "2a91ed4868100000",
+      "returnedEax": 1,
+      "authority": "actual-QPC-only"
+    },
+    "counterNumericalStatePreserved": true,
+    "strictMatched": false,
+    "sourceComplete": false,
+    "clockResultMatched": true,
+    "sourceReturn": {
+      "eax": 1,
+      "ebx": 0,
+      "ebp": 0,
+      "esi": 461212,
+      "edi": 1996805936,
+      "esp": 15727384,
+      "eip": 6557168
+    },
+    "numericalMatched": {
+      "x87ControlWord": 127,
+      "mxcsr": 8101,
+      "x87StatusWord": 22651
+    },
+    "finalXmm0": {
+      "contextFlags": "0x1003f",
+      "offset": 364,
+      "bytes": 8,
+      "sourceHex": "62b9a5d510b17240",
+      "nativeHex": "62b9a5d510b17240",
+      "matched": true
+    },
+    "all14NonstackRegionsMatched": true,
+    "nonstackBytes": 202,
+    "privateApiByteChanges": 109,
+    "cpuReturnByteChanges": 3,
+    "apiOutputByteChanges": 8,
+    "otherApiByteChanges": 0,
+    "finalPrivateByteDifferences": 105,
+    "allFinalDifferencesSubsetOfActualApiPrivateChanges": true,
+    "privateBytesSubsequentlyOverwrittenByGenuineSource": [
+      "0xeffad4",
+      "0xeffad5",
+      "0xeffad6",
+      "0xeffad7"
+    ],
+    "finalDifferenceIntervals": [
+      {
+        "address": 15727136,
+        "length": 13
+      },
+      {
+        "address": 15727152,
+        "length": 4
+      },
+      {
+        "address": 15727164,
+        "length": 4
+      },
+      {
+        "address": 15727192,
+        "length": 19
+      },
+      {
+        "address": 15727212,
+        "length": 8
+      },
+      {
+        "address": 15727221,
+        "length": 6
+      },
+      {
+        "address": 15727232,
+        "length": 2
+      },
+      {
+        "address": 15727236,
+        "length": 2
+      },
+      {
+        "address": 15727240,
+        "length": 7
+      },
+      {
+        "address": 15727248,
+        "length": 3
+      },
+      {
+        "address": 15727252,
+        "length": 3
+      },
+      {
+        "address": 15727256,
+        "length": 3
+      },
+      {
+        "address": 15727261,
+        "length": 2
+      },
+      {
+        "address": 15727265,
+        "length": 29
+      }
+    ],
+    "noAfterStackRefresh": true
+  },
+  "correctedInitialVerifierFailure": {
+    "message": "Race clock uint32 startup module",
+    "cause": "Verifier incorrectly required moduleBaseAddress on actual register-rooted startup rows; the original range writer explicitly publishes null for those rows.",
+    "correction": "Require null for register roots, validate their addresses from actual raw registers, and retain exact actual module base/address checks for RVA roots.",
+    "newCaptureRequired": false,
+    "focusedNegativeMutationsAdded": 4
+  },
+  "limits": [
+    "Capture transport completed; the strict742-byte source comparison did not match because105 actual private QPC stack bytes remain unbound.",
+    "The observed count1, scaled XMM0 and declared nonstack state agree for this one warm call; no natural wall-clock cadence, second parent tick or whole-parent continuity is established.",
+    "No native after-stack bytes were applied as source input, no private differences were masked, and no game/timer/conversion result callbacks were supplied.",
+    "Stop-thread diagnostics are hashed evidence only, not ordered simulation inputs."
+  ]
+}

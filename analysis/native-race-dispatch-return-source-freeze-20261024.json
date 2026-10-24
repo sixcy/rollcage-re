@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "kind": "source-carried-race-dispatch-return-checkpoint",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "filePins": [
+    {
+      "path": "src/native-race-dispatch-return.mjs",
+      "sha256": "cdfccd63a1ce1e7b69e01dba9b4c7736cc790198ed0bd1b3005b8d494a8609cf"
+    },
+    {
+      "path": "tools/check-native-parent-tail.mjs",
+      "sha256": "31475046ce15fa0f84e228249487f9f9a34e93e3df58dc2b720125522073a7bc"
+    },
+    {
+      "path": "tools/verify-native-race-dispatch-return-instructions.mjs",
+      "sha256": "7d69687ffdaed13cbbb2b884cf7c658d74f96855542838f9837d165030d0e9fa"
+    },
+    {
+      "path": "tools/check-native-race-dispatch-carried-return.mjs",
+      "sha256": "0248468710a2d9d2fb12293c48a94ea742968d7239fbdcdd00484b477a1f3661"
+    },
+    {
+      "path": "tests/native-race-dispatch-return.test.mjs",
+      "sha256": "25a95f42d46bc980dd0921a38d92aefc1e7e744ec19e9eba9f28da231559b0df"
+    },
+    {
+      "path": "tests/native-race-dispatch-carried-return.test.mjs",
+      "sha256": "c6153aa11fbd3548f976855d483139111115b73726b08aa588c8cc9b83ecdbb3"
+    },
+    {
+      "path": "re-docs/native-race-dispatch-return.md",
+      "sha256": "a2ae228de6fa74621acc6c5c56ae3ceca11d585b0c48ef62f470fd4c749a2901"
+    },
+    {
+      "path": "analysis/native-race-dispatch-return-instruction-check-20261024.json",
+      "sha256": "52d610e2c523e85be67e9bbde74a0868c9ee1b799f81d916073cf84f1aebf69e"
+    },
+    {
+      "path": "analysis/native-race-dispatch-carried-return-20261024/report.json",
+      "sha256": "42f10aa909cbeca0ab55d4464814601dc1c7ac8e0a09478b042b2d535b70a8ef"
+    }
+  ],
+  "instructionFixtures": 504,
+  "instructionMatched": true,
+  "actualSourceCarriedParentMatched": true,
+  "parentUniqueBytes": 5107238,
+  "parentReportUnchangedSha256": "cec8ecc32b954c844da53e5d69481d4c139f0715afe9f1f3d9836d39ac8007bb",
+  "sourceBridge": {
+    "kind": "returned",
+    "parentEntryEsp": 18283488,
+    "dispatchEntryEsp": 18283516,
+    "childResult": 1,
+    "iteration": 0,
+    "totalIterations": 1,
+    "nextIteration": 1,
+    "registers": {
+      "eax": 1,
+      "ebx": 0,
+      "ebp": 4,
+      "esi": 10883416,
+      "edi": 1996805936,
+      "ecx": 0,
+      "eip": 7802069,
+      "esp": 18283520
+    },
+    "arithmeticFlags": {
+      "carry": false,
+      "parity": true,
+      "auxiliary": false,
+      "zero": true,
+      "sign": false,
+      "overflow": false
+    },
+    "flags": {
+      "value": 68,
+      "knownMask": 2261
+    },
+    "continuation": null,
+    "childExecuted": false
+  },
+  "nativeOuterEndpointCaptured": false,
+  "newGameInputBytes": 0,
+  "nativeLaunches": 0,
+  "tests": {
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/native-race-dispatch-return.test.mjs tests/native-race-dispatch-carried-return.test.mjs tests/native-parent-final-replay.test.mjs"
+  },
+  "scope": "Source suffix from actual verified parent output, plus constructed retained-instruction equivalence; no new original-process outer-return or secondtick claim."
+}

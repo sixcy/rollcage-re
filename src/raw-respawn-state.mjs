@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {quaternionFromReleaseDirection} from './scripted-release.mjs';
 import {queryRawRespawnPlacement} from './raw-respawn-query.mjs';
 import {unregisterPhysicalBody, removeBodySpatial, retireType33Body} from './body-retirement.mjs';
@@ -132,7 +133,7 @@ export function applyRawRespawn(body, position, quaternion, rotation, route, ind
   const selected = lookupRawSpatialBucket(...vector(memory, body + 0x34), {memory});
   //The inline lookup writes through47d440's original first argument slot.
   put(memory, scratchBase + 4, selected.outside);
-  const tagged = selected.bucket + (selected.outside ? 1 : 0), bucket = tagged & 0xfffffffe, base = ptr(memory, 0x902eec);
+  const tagged = selected.bucket + (selected.outside ? 1 : 0), bucket = tagged & 0xfffffffe, base = ptr(memory, nativeGlobalAddress(memory, 0x902eec));
   put(memory, body + 12, tagged);
   const head = memory.readUInt16LE(bucket + 8), id = ((body - base + 128 >>> 0) >>> 7) & 65535;
   put(memory, body + 4, head); if (head) word(memory, base - 122 + head * 128, id); word(memory, bucket + 8, id);
@@ -148,7 +149,7 @@ export function runRawPostFrameBodyStates(runtime) {
   const {memory, scratchBase} = runtime;
   if (!Buffer.isBuffer(memory) || !Number.isInteger(scratchBase) || runtime.views?.memory !== memory) throw Error('Raw post-frame states require coherent memory/views and native entry ESP.');
   checkRawPostFrameVehicles(runtime);
-  let remaining = memory.readUInt16LE(0x902bc4), cursor = ptr(memory, 0x902bc0);
+  let remaining = memory.readUInt16LE(nativeGlobalAddress(memory, 0x902bc4)), cursor = ptr(memory, nativeGlobalAddress(memory, 0x902bc0));
   let closestRoute = 0, closestPoint = 0, closestIndex = -1, closestDistance = 0x7fffffff;
   let secondRoute = 0, secondPoint = 0, secondIndex = -1, secondDistance = 0x7fffffff;
   let respawnedBodies = 0, retiredBodies = 0;

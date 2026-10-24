@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {createRawBody, initializeRawBody} from './raw-body-construction.mjs';
 import {removeBodySpatial} from './body-retirement.mjs';
 import {createWormholeBody, initializeWormholeConstructionTables} from './wormhole-construction.mjs';
@@ -30,7 +31,7 @@ export function initializeProjectilePools(runtime) {
     const body = createRawBody(firstModel, 0x1c0c, 0x6bc, 0, {...runtime, scratchBase: frame - 12}); put(m, 0x9034a0 + i * 4, body); put(m, body + 0x148, 0x46b820); put(m, body + 0x184, 1);
     initializeRawBody(body, 0x5ec408, child); removeBodySpatial(body, runtime); initializeProjectileState(body, i, child);
   }
-  let arena = ptr(m, 0x902eec);
+  let arena = ptr(m, nativeGlobalAddress(m, 0x902eec));
   for (let masterIndex = 0; masterIndex < 6; masterIndex++) {
     const old = ptr(m, 0x70dcf4), master = arena + (old & 0xfffffffc) >>> 0; put(m, 0x70dcf4, old + 512); m.fill(255, master, master + 384);
     put(m, master, 0x811); put(m, master + 4, 0); word(m, master + 8, 0); put(m, master + 12, 0);
@@ -40,7 +41,7 @@ export function initializeProjectilePools(runtime) {
     put(m, master + 0x108, get(m, master + 0x108) | 1); put(m, master + 0x148, 0x4302f0); put(m, master + 0x1ac, 127);
     for (let i = 0; i < 3; i++) {
       const body = createRawBody(firstModel, 0x8c0c, 0x6bc, 0, {...runtime, scratchBase: frame - 12}); put(m, 0x9034b0 + (masterIndex * 3 + i) * 4, body); put(m, body + 0x148, 0); put(m, body + 0x184, 2);
-      initializeRawBody(body, 0x5ec408, child); arena = ptr(m, 0x902eec); removeBodySpatial(body, runtime); initializeProjectileState(body, i, child); put(m, master + 0x184 + i * 4, body); put(m, body + 0x194, master);
+      initializeRawBody(body, 0x5ec408, child); arena = ptr(m, nativeGlobalAddress(m, 0x902eec)); removeBodySpatial(body, runtime); initializeProjectileState(body, i, child); put(m, master + 0x184 + i * 4, body); put(m, body + 0x194, master);
     }
     put(m, master + 0x190, -1); put(m, master + 0x194, 0);
   }

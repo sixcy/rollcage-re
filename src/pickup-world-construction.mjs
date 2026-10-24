@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {createRawBody,initializeRawBody} from './raw-body-construction.mjs';
 import {removeBodySpatial} from './body-retirement.mjs';
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
@@ -36,11 +37,11 @@ export function initializePickupRespawnControllers(runtime){
 //47b580: mode/option gate, allocated pointer list and actual common constructors.
 export function initializeWorldPickups(runtime){
  const{memory:m,scratchBase,handlers={}}=runtime,frame=scratchBase-28,pack=ptr(m,0x90b98c),session=ptr(m,0x5ecb1c),count=m[pack+0x36];
- if(!m[session+0xa86]&&m[session+0x551]!==3&&m[session+0x551]!==8){put(m,0x902024,0);return;}
+ if(!m[session+0xa86]&&m[session+0x551]!==3&&m[session+0x551]!==8){put(m,nativeGlobalAddress(m, 0x902024),0);return;}
  const metadata=ptr(m,pack+0x58),model=ptr(m,ptr(m,pack+0x18)+m.readInt16LE(metadata+12)*4);
- if(typeof handlers.allocate!=='function')throw Error('Pickup construction requires mapped CRT allocation.');const result=handlers.allocate(count*4,runtime),list=(typeof result==='number'?result:result.eax)>>>0;if(list)m.fill(0,list,list+count*4);put(m,0x902020,list);
+ if(typeof handlers.allocate!=='function')throw Error('Pickup construction requires mapped CRT allocation.');const result=handlers.allocate(count*4,runtime),list=(typeof result==='number'?result:result.eax)>>>0;if(list)m.fill(0,list,list+count*4);put(m,nativeGlobalAddress(m, 0x902020),list);
  for(let i=0;i<count;i++){
   const body=createRawBody(model,0x8c0a,0x554,0,{...runtime,scratchBase:frame-12});put(m,list+i*4,body);initializeRawBody(body,0x5ec9f8,{...runtime,scratchBase:frame-4});removeBodySpatial(body,runtime);put(m,body+0x180,0x820001);put(m,body+0x11c,0);initializePickupRenderRecords(body,runtime);
  }
- put(m,0x902024,count);initializePickupRespawnControllers(runtime);
+ put(m,nativeGlobalAddress(m, 0x902024),count);initializePickupRespawnControllers(runtime);
 }

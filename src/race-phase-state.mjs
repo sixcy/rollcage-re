@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {finishLapBookkeeping} from './lap-bookkeeping.mjs';
 import {pollInputPacket} from './vehicle-input-packets.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
@@ -34,7 +35,7 @@ export function spawnRaceModeFourIndicators(runtime) {
   const y = ((Math.imul(memory.readUInt16LE(settings + 0x42e), factor) >>> 1) - 60) | 0;
   if (typeof handlers.call48b7d0 !== 'function') throw Error('Race phase requires reached game handler call48b7d0.');
   for (const [slot, offset] of [[0x70ea94, 0], [0x70ea98, 22]]) {
-    const scale = get(memory, 0x91d338);
+    const scale = get(memory, nativeGlobalAddress(memory, 0x91d338));
     handlers.call48b7d0({memory, ecx: pointer(memory, slot), edx: 0, args: [Math.imul(scale, width) >>> 8, Math.imul(scale, (y + offset) | 0) >>> 8, 49, 0, 0], scratchBase: scratchBase - 36});
   }
 }

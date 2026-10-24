@@ -464,6 +464,7 @@ const { decodeTrackScene } = require("src/track-scene.mjs");
 const { parseStage2Placements } = require("src/stage2-placements.mjs");
 const { buildStage2PlacedMeshes } = require("src/stage2-placed-meshes.mjs");
 const { firebugsGame, identifyFirebugs } = require("src/firebugs.mjs");
+const {recoverEditedRollcageIndex, originalRollcageView} = require("src/edited-rollcage-index.mjs");
 
 // Exact index identities plus decoded sentinel resources bind auto-detection to
 // the supplied archives, including a check that the IMG belongs to that IDX.
@@ -527,7 +528,16 @@ async function digest(bytes) {
 async function identifyGame(archive, requested = 'auto') {
   if (archive.game === 'firebugs' || requested === 'firebugs') return identifyFirebugs(archive, requested);
   const indexHash = archive.indexData ? await digest(archive.indexData) : null;
-  const known = games.find(game => fingerprints[game.id].index === indexHash);
+  let known = games.find(game => fingerprints[game.id].index === indexHash), modified=false;
+  if(!known){
+    const edited=recoverEditedRollcageIndex(archive.indexData);
+    if(edited&&await digest(edited.indexData)===edited.expectedIndexSha256){
+      const original=originalRollcageView(archive,edited.indexData),rollcage=getGame('rollcage'),sentinel=rollcage.tracks[0];
+      const geometry=await original.readResource(sentinel.index),texture=await original.readResource(sentinel.textureIndex);
+      if(await digest(geometry.data)!==fingerprints.rollcage.geometry||await digest(texture.data)!==fingerprints.rollcage.texture)throw Error('The edited IDX does not match the original IMG data retained by the editor. Select its matching IMG and IDX files.');
+      known=rollcage;modified=true;
+    }
+  }
   if (requested !== 'auto' && known && known.id !== requested) {
     throw new Error(`These files belong to ${known.label}. Choose Automatic or ${known.label}.`);
   }
@@ -541,10 +551,10 @@ async function identifyGame(archive, requested = 'auto') {
       texture.data.toString('ascii', 0, 4) !== 'BTP ') {
     throw new Error(`Invalid GFXM/BTP data for ${game.label}. Select the matching IMG and IDX files.`);
   }
-  if (known && (await digest(geometry.data) !== fingerprints[game.id].geometry || await digest(texture.data) !== fingerprints[game.id].texture)) {
+  if (known && !modified && (await digest(geometry.data) !== fingerprints[game.id].geometry || await digest(texture.data) !== fingerprints[game.id].texture)) {
     throw new Error('The selected IMG does not match this IDX, or its track data is damaged. Select the matching files.');
   }
-  return { game, tracks, verified: Boolean(known), indexSHA256: indexHash };
+  return { game, tracks, verified: Boolean(known), modified, indexSHA256: indexHash };
 }
 
 Object.assign(module.exports, {games,getGame,identifyGame});
@@ -1359,6 +1369,49 @@ function decodeFirebugsScene(geometry, vram, btx) {
 
 Object.assign(module.exports, {readFirebugsMaterial,parseFirebugsTerrain,parseFirebugsModels,parseFirebugsPlacements,decodeFirebugsTexture,decodeFirebugsScene});
 },
+"src/edited-rollcage-index.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {recoverEditedRollcageIndex,originalRollcageView});
+const stock = require("src/rollcage-editable-index.json");
+const {parseIndex} = require("src/archive-index.mjs");
+
+const equal=(a,b)=>a.length===b.length&&a.every((n,i)=>n===b[i]);
+
+// buildEditedArchive retains the stock IMG prefix, changes only editable IDX
+// rows' offset/size fields, and appends aligned uncompressed replacements.
+// Recover the known base index for fingerprint verification; this alone does
+// not verify the selected IMG. The caller must read/hash its original sentinels.
+function recoverEditedRollcageIndex(indexData) {
+  if(!Buffer.isBuffer(indexData)||indexData.length!==stock.indexBytes)return null;
+  const canonical=Buffer.from(indexData),changed=[],ranges=[];
+  for(const {index,bytesHex}of stock.entries){
+    const offset=index*16,original=Buffer.from(bytesHex,'hex'),current=indexData.subarray(offset,offset+16);
+    if(!equal(current,original)){
+      if(!equal(current.subarray(12),original.subarray(12)))return null;
+      const start=current.readUInt32LE(0),stored=current.readUInt32LE(4),decoded=current.readUInt32LE(8);
+      if(start<stock.imageBytes||start%4||!stored||stored!==decoded||stored>128*1024*1024||start+stored>=0x80000000)return null;
+      changed.push(index);ranges.push([start,start+stored]);
+    }
+    canonical.set(original,offset);
+  }
+  if(!changed.length)return null;
+  ranges.sort((a,b)=>a[0]-b[0]);
+  if(ranges.some((r,i)=>i&&r[0]<ranges[i-1][1]))return null;
+  return {indexData:canonical,changed,expectedIndexSha256:stock.indexSha256};
+}
+
+// A separate view reads the retained stock resources from the same IMG bytes.
+// It neither replaces nor mutates the selected archive's current index/cursor.
+function originalRollcageView(archive,canonicalIndex) {
+  const view=Object.create(archive);
+  view.entries=parseIndex(canonicalIndex,stock.imageBytes);view.position=0;
+  return view;
+}
+
+Object.assign(module.exports, {recoverEditedRollcageIndex,originalRollcageView});
+},
+"src/rollcage-editable-index.json": function(require, module, Buffer) {
+module.exports = {"description":"Stock Rollcage IDX metadata for editable track resource pairs; no geometry or textures.","indexSha256":"28c30b94d5612b98cc9d68540982f40bc1ae6f05df3113cb964c6b2eccf02377","indexBytes":5504,"imageBytes":81752396,"entries":[{"index":30,"bytesHex":"837740006b790500a8680a0003000000"},{"index":31,"bytesHex":"eef04500a63107006084170003000000"},{"index":32,"bytesHex":"94224d00e4e90500a00b0b0003000000"},{"index":33,"bytesHex":"780c5300d9c206002052180003000000"},{"index":34,"bytesHex":"51cf59005c91060058ea0b0007000000"},{"index":35,"bytesHex":"ad6060005b44070058d4160003000000"},{"index":36,"bytesHex":"08a56700f2610700ac3b0d0003000000"},{"index":37,"bytesHex":"fa066f00ab1a070028e2150003000000"},{"index":38,"bytesHex":"a5217600b34f0600dced0b0003000000"},{"index":39,"bytesHex":"58717c0081120700cc0e1b0003000000"},{"index":40,"bytesHex":"d9838300dc590600a0720b0003000000"},{"index":41,"bytesHex":"b5dd8900d8b00700e4fb160003000000"},{"index":42,"bytesHex":"8d8e910049470600bc8e0b0003000000"},{"index":43,"bytesHex":"d6d59700c3db060004c2150003000000"},{"index":44,"bytesHex":"99b19e00839b050070860a0003000000"},{"index":45,"bytesHex":"1c4da400a96c07009859180003000000"},{"index":46,"bytesHex":"c5b9ab0059a00600fcae0c0003000000"},{"index":47,"bytesHex":"1e5ab2007e79070044a01a0003000000"},{"index":48,"bytesHex":"9cd3b900d2ad050070eb0a0003000000"},{"index":49,"bytesHex":"6e81bf002f560600ec7b190003000000"},{"index":50,"bytesHex":"9dd7c5003bd50600f8d90b0003000000"},{"index":51,"bytesHex":"d8accc0028c30600707f180003000000"},{"index":52,"bytesHex":"0070d3004a470600d8830b0003000000"},{"index":53,"bytesHex":"4ab7d900c69a0700586e180003000000"},{"index":54,"bytesHex":"1052e100d6ac05006c060b0003000000"},{"index":55,"bytesHex":"e6fee60040a506001cc0180007000000"},{"index":56,"bytesHex":"26a4ed000c270600d0880b0003000000"},{"index":57,"bytesHex":"32cbf3007ff106009c0f170003000000"},{"index":58,"bytesHex":"b1bcfa006e6e030060b3070003000000"},{"index":59,"bytesHex":"1f2bfe00df1005000c10110003000000"},{"index":60,"bytesHex":"fe3b0301e91101000c5d030003000000"},{"index":61,"bytesHex":"e74d0401f0f504006c3b120003000000"},{"index":62,"bytesHex":"d7430901709f01002c3b040003000000"},{"index":63,"bytesHex":"47e30a01f94805006403130003000000"},{"index":64,"bytesHex":"402c1001ad0c020084a2040003000000"},{"index":65,"bytesHex":"ed38120182ae05008c6d100003000000"},{"index":66,"bytesHex":"6fe71701258803009c3a070003000000"},{"index":67,"bytesHex":"946f1b01145606002c19120003000000"},{"index":68,"bytesHex":"a8c52101438c0400c8a4090003000000"},{"index":69,"bytesHex":"eb5126011aa80500a427160003000000"},{"index":70,"bytesHex":"05fa2b0199dc050010240d0003000000"},{"index":71,"bytesHex":"9ed6310128be0a005086200003000000"},{"index":72,"bytesHex":"c6943c01e6770600e8e00d0003000000"},{"index":73,"bytesHex":"ac0c43011f4d0a00f02d210003000000"},{"index":74,"bytesHex":"cb594d01b6fe060090ad0e0003000000"},{"index":75,"bytesHex":"81585401c1da0a00c8c51f0003000000"},{"index":76,"bytesHex":"42335f01e2cc07002402100003000000"},{"index":77,"bytesHex":"240067010eac0a0004121f0007000000"},{"index":78,"bytesHex":"32ac710187a1060054aa0e0003000000"},{"index":79,"bytesHex":"b94d78018a9b0a001cc8230003000000"},{"index":80,"bytesHex":"43e9820153b30600e82d0e0003000000"},{"index":81,"bytesHex":"969c8901ff3c0b0020d61f0003000000"},{"index":82,"bytesHex":"95d994014bbd060084550e0003000000"},{"index":83,"bytesHex":"e0969b0190690a00e0a11e0003000000"},{"index":84,"bytesHex":"7000a601a80f060098440d0003000000"},{"index":85,"bytesHex":"1810ac0146010b00d44f210003000000"},{"index":86,"bytesHex":"5e11b70184f7060004610f0003000000"},{"index":87,"bytesHex":"e208be01f0040b0034af230003000000"},{"index":88,"bytesHex":"d20dc901cb11060088b70d0003000000"},{"index":89,"bytesHex":"9d1fcf016fe309000845220003000000"},{"index":90,"bytesHex":"0c03d901763a070090a80e0003000000"},{"index":91,"bytesHex":"823de001814c0a004040210007000000"},{"index":92,"bytesHex":"038aea01edf0060090620e0003000000"},{"index":93,"bytesHex":"f07af1013b2f0b007c2f210003000000"},{"index":94,"bytesHex":"2baafc01ca4f0600f4d90d0003000000"},{"index":95,"bytesHex":"f5f902023d300a002cf5210003000000"},{"index":96,"bytesHex":"322a0d020c9c060098500e0003000000"},{"index":97,"bytesHex":"3ec6130291830a00b884200007000000"},{"index":98,"bytesHex":"cf491e028b260400d0970a0003000000"},{"index":99,"bytesHex":"5a70220249ae0800dcf2190003000000"},{"index":100,"bytesHex":"a31e2b025daf01003c31060003000000"},{"index":101,"bytesHex":"00ce2c02018608005c261b0003000000"},{"index":102,"bytesHex":"01543502a83002005413070003000000"},{"index":103,"bytesHex":"a984370260d40800bcec1b0003000000"},{"index":104,"bytesHex":"09594002ac9c02009c78070003000000"},{"index":105,"bytesHex":"b5f54202143d09009c54190003000000"},{"index":106,"bytesHex":"c9324c027f400400b4140a0007000000"},{"index":107,"bytesHex":"4873500233e809005c2a1b0003000000"},{"index":108,"bytesHex":"7b5b5a0204300500008b0c0007000000"},{"index":109,"bytesHex":"7f8b5f0234360900082b1f0003000000"}]};
+},
 "src/firebugs-archive.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
 const { parseIndex } = require("src/archive-index.mjs");
@@ -1765,13 +1818,13 @@ class Renderer {
     };
     const program = this.program = gl.createProgram();
     const vertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;attribute vec3 color;uniform mat4 mvp;uniform mat4 model;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;void main(){gl_Position=mvp*model*vec4(position,1.0);vUV=uv;vNormal=mat3(model)*normal;vColor=color;}');
-    const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;uniform sampler2D image;uniform bool textured;uniform bool lit;uniform bool colored;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*(colored?vColor:vec3(1.0))*light,color.a);}');
+    const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;uniform sampler2D image;uniform bool textured;uniform bool lit;uniform bool colored;uniform float opacity;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*(colored?vColor:vec3(1.0))*light,color.a*opacity);}');
     gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
     gl.deleteShader(vertex); gl.deleteShader(fragment);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
     gl.useProgram(program);
     this.attributes = Object.fromEntries(['position', 'uv', 'normal', 'color'].map(key => [key, gl.getAttribLocation(program, key)]));
-    this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit', 'colored'].map(key => [key, gl.getUniformLocation(program, key)]));
+    this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit', 'colored', 'opacity'].map(key => [key, gl.getUniformLocation(program, key)]));
     const pathProgram = this.pathProgram = gl.createProgram();
     const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;void main(){gl_Position=mvp*vec4(position,1.0);gl_PointSize=pointSize;}');
     const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;void main(){gl_FragColor=vec4(color,1.0);}');
@@ -1789,16 +1842,72 @@ class Renderer {
     this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
     this.terrainTemplates = new Map(); this.terrainGroups = new Map(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
+    this.editorBuffer = null; this.editorMarkers = []; this.editorSignature = '';
+    this.editorGhostGroups=[]; this.editorGhostTextures=new Map(); this.editorGhostMatrix=null;
+    this.editorBoundsBuffer=null; this.editorBoundsSignature=''; this.editorTransforms=new Map();
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
     gl.uniform1i(this.uniforms.image, 0);
   }
   clear() {
     this.clearCar();
+    this.setEditorGhost(null); this.setEditorBounds(null); this.editorTransforms.clear();
+    this.setEditorPickups([]);
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
     this.groups = []; this.pathGroups = []; this.textures.clear(); this.textureSizes.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+  }
+  setEditorGhost(scene) {
+    for(const group of this.editorGhostGroups)this.gl.deleteBuffer(group.buffer);
+    for(const texture of this.editorGhostTextures.values())this.gl.deleteTexture(texture);
+    this.editorGhostGroups=[];this.editorGhostTextures.clear();this.editorGhostMatrix=null;
+    if(scene){this.uploadRuntimeMeshes(scene,this.editorGhostGroups,this.editorGhostTextures);this.setFilters(this.smooth);}
+  }
+  setEditorBounds(bounds) {
+    const signature=JSON.stringify(bounds);if(signature===this.editorBoundsSignature)return;this.editorBoundsSignature=signature;
+    if(!bounds){if(this.editorBoundsBuffer)this.gl.deleteBuffer(this.editorBoundsBuffer);this.editorBoundsBuffer=null;return;}
+    const points=Array.from({length:8},(_,i)=>bounds.map(([min,max],axis)=>i&(1<<axis)?max:min)),values=[];
+    for(let i=0;i<8;i++)for(let axis=0;axis<3;axis++)if(!(i&(1<<axis)))values.push(...points[i],...points[i|(1<<axis)]);
+    this.editorBoundsBuffer??=this.gl.createBuffer();this.gl.bindBuffer(this.gl.ARRAY_BUFFER,this.editorBoundsBuffer);this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(values),this.gl.DYNAMIC_DRAW);
+  }
+  renderEditorModels(matrix) {
+    const gl=this.gl;
+    if(this.editorGhostMatrix){
+      gl.useProgram(this.program);gl.uniformMatrix4fv(this.uniforms.model,false,this.editorGhostMatrix);gl.uniform1i(this.uniforms.colored,false);gl.disableVertexAttribArray(this.attributes.color);gl.uniform1f(this.uniforms.opacity,0.5);
+      gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);
+      for(const group of this.editorGhostGroups){gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);for(const[key,size,offset]of[['position',3,0],['uv',2,12],['normal',3,20]]){gl.enableVertexAttribArray(this.attributes[key]);gl.vertexAttribPointer(this.attributes[key],size,gl.FLOAT,false,32,offset);}gl.bindTexture(gl.TEXTURE_2D,this.editorGhostTextures.get(group.page));gl.drawArrays(gl.TRIANGLES,0,group.vertices);}
+      gl.disable(gl.BLEND);gl.depthMask(true);gl.uniform1f(this.uniforms.opacity,1);gl.uniformMatrix4fv(this.uniforms.model,false,identity);
+    }
+    if(this.editorBoundsBuffer){
+      gl.useProgram(this.pathProgram);for(const attribute of Object.values(this.attributes))gl.disableVertexAttribArray(attribute);gl.enableVertexAttribArray(this.pathPosition);gl.bindBuffer(gl.ARRAY_BUFFER,this.editorBoundsBuffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);gl.uniformMatrix4fv(this.pathUniforms.mvp,false,matrix);gl.uniform3fv(this.pathUniforms.color,[0.3,1,1]);gl.drawArrays(gl.LINES,0,24);gl.disableVertexAttribArray(this.pathPosition);gl.useProgram(this.program);
+    }
+  }
+  setEditorPickups(points) {
+    const signature = JSON.stringify(points);
+    if (signature === this.editorSignature) return;
+    this.editorSignature = signature; this.editorMarkers = [];
+    if (!points.length) {if (this.editorBuffer) this.gl.deleteBuffer(this.editorBuffer);this.editorBuffer=null;return;}
+    if (points.some(row=>!Array.isArray(row.position)||row.position.length!==3||row.position.some(n=>!Number.isFinite(n)))) throw Error('Invalid pickup editor marker.');
+    if (!this.editorBuffer) this.editorBuffer=this.gl.createBuffer();
+    const vertices=[];
+    for(const row of points){this.editorMarkers.push({offset:vertices.length/3,selected:row.selected,added:row.added});vertices.push(...row.position);}
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER,this.editorBuffer);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(vertices),this.gl.DYNAMIC_DRAW);
+  }
+  renderEditorPickups(matrix,ratio) {
+    if(!this.editorBuffer)return;
+    const gl=this.gl;gl.useProgram(this.pathProgram);
+    for(const attribute of Object.values(this.attributes))gl.disableVertexAttribArray(attribute);
+    gl.enableVertexAttribArray(this.pathPosition);gl.bindBuffer(gl.ARRAY_BUFFER,this.editorBuffer);
+    gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);gl.uniformMatrix4fv(this.pathUniforms.mvp,false,matrix);
+    gl.depthMask(false);gl.disable(gl.DEPTH_TEST);
+    try {
+      for(const marker of this.editorMarkers){
+        if(marker.selected){gl.uniform1f(this.pathUniforms.pointSize,16*ratio);gl.uniform3fv(this.pathUniforms.color,[1,1,1]);gl.drawArrays(gl.POINTS,marker.offset,1);}
+        gl.uniform1f(this.pathUniforms.pointSize,10*ratio);gl.uniform3fv(this.pathUniforms.color,marker.added?[0.3,1,1]:[1,0.78,0.25]);gl.drawArrays(gl.POINTS,marker.offset,1);
+      }
+    }finally{gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.disableVertexAttribArray(this.pathPosition);gl.useProgram(this.program);}
   }
   clearCar() {
     for (const group of [...this.carGroups, ...this.worldGroups, ...this.weaponGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
@@ -1890,7 +1999,7 @@ class Renderer {
   setFilters(smooth) {
     this.smooth = smooth;
     const gl = this.gl, filter = smooth ? gl.LINEAR : gl.NEAREST;
-    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values()]) {
+    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values(), ...this.editorGhostTextures.values()]) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
@@ -1921,6 +2030,7 @@ class Renderer {
     const matrix = navigation.matrix(width / height);
     gl.uniformMatrix4fv(this.uniforms.mvp, false, matrix);
     gl.uniformMatrix4fv(this.uniforms.model, false, identity);
+    gl.uniform1f(this.uniforms.opacity,1);
     gl.uniform1i(this.uniforms.textured, options.textures); gl.uniform1i(this.uniforms.lit, options.lighting);
     this.updateTerrain(options.car?.terrain);
     const animated = options.car?.terrain ? new Set(this.terrainState.segments.map(row => row.index)) : new Set();
@@ -1928,6 +2038,7 @@ class Renderer {
     this.terrainDraws.segments = 0; this.terrainDraws.groups = 0;
     const terrainSegments = new Set();
     for (const group of sceneGroups) {
+      if(this.editorTransforms.size)gl.uniformMatrix4fv(this.uniforms.model,false,this.editorTransforms.get(group.instance)??identity);
       if (group.kind === 'object') {
         if (!options.objects || options.car?.brokenPlacements?.includes(group.instance) || (options.car?.worldObjects && this.worldPlacements.has(group.instance))) continue;
       } else if (options.sector !== -1 && group.segment !== options.sector) continue;
@@ -1944,6 +2055,7 @@ class Renderer {
       gl.bindTexture(gl.TEXTURE_2D, this.textures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
     }
     this.terrainDraws.segments = terrainSegments.size;
+    gl.uniformMatrix4fv(this.uniforms.model,false,identity);
     gl.uniform1i(this.uniforms.colored, false); gl.disableVertexAttribArray(this.attributes.color);
     // Runtime meshes replace their authored static placements. The immutable
     // snapshot supplies native visibility and pose; object toggles still apply.
@@ -2002,6 +2114,8 @@ class Renderer {
       gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
     }
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+    this.renderEditorPickups(matrix,ratio);
+    this.renderEditorModels(matrix);
     if (!options.paths || !this.pathGroups.length) return;
     gl.useProgram(this.pathProgram);
     for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);
@@ -2634,6 +2748,7 @@ Object.assign(module.exports, {relocateRaceTrackPointers});
 },
 "src/world-physics-pools.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {initializeWorldPhysicsConstants,initializeRawBodyArena,initializeRawCollisionPool,initializeRawShapePools});
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
 const constants = require("src/world-physics-constants.json");
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
 function initializeWorldPhysicsConstants(memory) {
@@ -2650,20 +2765,20 @@ const clearedAllocation = (size, memory, allocate) => {
 function initializeRawBodyArena({memory, allocate}) {
   const size = (memory.readInt32LE(0x709808) + 140000) << 5;
   const block = clearedAllocation(size, memory, allocate);
-  put(memory, 0x6e6b40, block); put(memory, 0x902eec, (block + 127) & 0xffffff80);
+  put(memory, 0x6e6b40, block); put(memory, nativeGlobalAddress(memory, 0x902eec), (block + 127) & 0xffffff80);
 }
 
 //440410. Retains the live four-lane executable constant read at5dcc60;
 //the final four scalar entries deliberately do not use that constant.
 function initializeRawCollisionPool({memory, allocate}) {
-  put(memory, 0x902ba8, clearedAllocation(0x28a0, memory, allocate));
-  put(memory, 0x902bac, clearedAllocation(0x194, memory, allocate));
+  put(memory, nativeGlobalAddress(memory, 0x902ba8), clearedAllocation(0x28a0, memory, allocate));
+  put(memory, nativeGlobalAddress(memory, 0x902bac), clearedAllocation(0x194, memory, allocate));
   const free = clearedAllocation(0x190, memory, allocate);
   const lanes = Array.from({length: 4}, (_, index) => memory.readInt32LE(0x5dcc60 + index * 4));
-  put(memory, 0x902bb0, free); put(memory, 0x902ba4, 100); put(memory, 0x902ba0, 0);
+  put(memory, nativeGlobalAddress(memory, 0x902bb0), free); put(memory, nativeGlobalAddress(memory, 0x902ba4), 100); put(memory, nativeGlobalAddress(memory, 0x902ba0), 0);
   for (let base = 0; base < 96; base += 8) for (let half = 0; half < 2; half++) for (let lane = 0; lane < 4; lane++) put(memory, free + (base + half * 4 + lane) * 4, (base + half * 4 + lanes[lane]) << 20);
   for (let index = 96; index < 100; index++) put(memory, free + index * 4, index << 20);
-  put(memory, 0x902bb4, 99);
+  put(memory, nativeGlobalAddress(memory, 0x902bb4), 99);
 }
 
 //428100. Includes actual440410 before the shape/free/active/reverse arrays,
@@ -2676,13 +2791,50 @@ function initializeRawShapePools({memory, allocate}) {
   for (let index = 0; index < 256; index++) {memory[indices + index] = index; memory[active + index] = 0; memory[reverse + index] = 0;}
   put(memory, 0x91e784, -1); put(memory, 0x91e794, 255);
   put(memory, 0x91e788, clearedAllocation(0x8000, memory, allocate));
-  put(memory, 0x902bc0, clearedAllocation(0x180, memory, allocate)); put(memory, 0x902bc4, 0); put(memory, 0x902bc8, 0);
+  put(memory, nativeGlobalAddress(memory, 0x902bc0), clearedAllocation(0x180, memory, allocate)); put(memory, nativeGlobalAddress(memory, 0x902bc4), 0); put(memory, nativeGlobalAddress(memory, 0x902bc8), 0);
   const groups = clearedAllocation(0x2108, memory, allocate);
-  for (let index = 0; index < 65; index++) {const row = 0x902be0 + index * 12; put(memory, row, groups + index * 132); put(memory, row + 4, 0); put(memory, row + 8, 0);}
-  put(memory, 0x902bcc, 0);
+  for (let index = 0; index < 65; index++) {const row = nativeGlobalAddress(memory, 0x902be0 + index * 12); put(memory, row, groups + index * 132); put(memory, row + 4, 0); put(memory, row + 8, 0);}
+  put(memory, nativeGlobalAddress(memory, 0x902bcc), 0);
 }
 
 Object.assign(module.exports, {initializeWorldPhysicsConstants,initializeRawBodyArena,initializeRawCollisionPool,initializeRawShapePools});
+},
+"src/native-global-address.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {registerNativeGlobalAddresses,nativeGlobalAddress});
+//Fixed module data operands and values read from native pointers have different
+//address roles. Only explicit instruction-global call sites use this helper.
+const globalRoutes = new WeakMap();
+const nativeExplicitGlobalDomain = Object.freeze({start:0x902000,end:0x903300});
+const nativeExplicitGlobalDomains = Object.freeze([
+  Object.freeze({start:0x80b5e0,end:0x812660}),
+  Object.freeze({start:0x82e880,end:0x8479d0}),
+  nativeExplicitGlobalDomain,
+  Object.freeze({start:0x91cd60,end:0x91d360}),
+]);
+
+function registerNativeGlobalAddresses(memory,routes){
+  if(!Buffer.isBuffer(memory)||globalRoutes.has(memory)||!Array.isArray(routes))throw Error('Native globals require one explicit memory/route registration.');
+  const declared=routes.map(({address,targetAddress,length})=>{
+    if(!Number.isSafeInteger(address)||!Number.isSafeInteger(targetAddress)||!Number.isSafeInteger(length)||length<=0||!nativeExplicitGlobalDomains.some(domain=>address>=domain.start&&address+length<=domain.end)||targetAddress<0||targetAddress+length>0x100000000)throw Error('Invalid explicit native global route.');
+    return {address,targetAddress,length};
+  }).sort((a,b)=>a.address-b.address);
+  for(let i=1;i<declared.length;i++)if(declared[i-1].address+declared[i-1].length>declared[i].address)throw Error('Explicit native global routes overlap.');
+  globalRoutes.set(memory,declared);
+}
+
+function nativeGlobalAddress(memory,preferredAddress){
+  if(!Buffer.isBuffer(memory)||!Number.isSafeInteger(preferredAddress)||preferredAddress<0||preferredAddress>0xffffffff)throw Error('Native global access requires a fixed uint32 operand and memory.');
+  const routes=globalRoutes.get(memory);
+  //Ordinary original-base buffers and legacy sparse facades retain their
+  //existing storage contract. This never guesses a native module or pointer.
+  if(!routes)return preferredAddress;
+  if(!nativeExplicitGlobalDomains.some(domain=>preferredAddress>=domain.start&&preferredAddress<domain.end))throw Error('Native global operand is outside the explicitly migrated domain.');
+  const route=routes.find(row=>preferredAddress>=row.address&&preferredAddress<row.address+row.length);
+  if(!route)throw Error(`Unobserved native global operand0x${preferredAddress.toString(16)}.`);
+  return route.targetAddress+preferredAddress-route.address;
+}
+
+Object.assign(module.exports, {nativeExplicitGlobalDomain,nativeExplicitGlobalDomains,registerNativeGlobalAddresses,nativeGlobalAddress});
 },
 "src/world-physics-constants.json": function(require, module, Buffer) {
 module.exports = {"address":6147168,"evidence":"ev_eaad3a892390e8218d38c631394ed873cd5df2ec013cde8d52c4015e17f0984d","bytesHex":"00000000010000000200000003000000"};
@@ -2690,6 +2842,7 @@ module.exports = {"address":6147168,"evidence":"ev_eaad3a892390e8218d38c631394ed
 "src/vehicle-construction.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {initializeVehicleConstructionTables,resetVehicleParticipant,initializeVehicleEffectBlock,initializeVehicleSkidStorage,initializeVehicleSurfaceLinks,initializeVehicleGripRecords,initializeVehicleController,initializeRawVehicleDescriptors,initializeVehicleAnimationBody,initializeVehicleAnimationRange,initializeVehicleAnimationState,createVehicleAnimation,initializeVehiclePresentation,cloneSecondaryVehicleWheels,initializeVehicleSpawnQuaternion,constructVehicle});
 //41dbb0 and its raw vehicle-state producers. All addresses share caller memory.
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
 const tables = require("src/vehicle-construction-tables.json");
 const {abs32,lookupSqrt} = require("src/fixed-integer.mjs");
 const {quaternionFromReleaseDirection} = require("src/scripted-release.mjs");
@@ -2757,7 +2910,7 @@ function initializeRawVehicleDescriptors(body,{memory:m}){
 function initializeVehicleAnimationBody(body,type,{memory:m}){
  let vertices=ptr(m,body+0x24),offsets=ptr(m,0x5ecfec+type*4);const count=m[body+0x10d],primaryModel=ptr(m,ptr(m,0x909300)+0x10);
  if(m.readUInt16LE(primaryModel+6)>250){put(m,0x5ecff4,0x5ecfc4);put(m,0x5ecff8,0x5ed01c);put(m,0x5ed004,0x5ecfe4);offsets=ptr(m,0x5ecfec+type*4);}
- if(!m[0x810940+type]){m[0x810940+type]=1;for(let i=0;i<count;i++,vertices+=8){word(m,vertices,m.readUInt16LE(vertices)+m.readUInt16LE(offsets));word(m,vertices+2,m.readUInt16LE(vertices+2)+m.readUInt16LE(offsets+2));word(m,vertices+4,m.readUInt16LE(vertices+4)+m.readUInt16LE(offsets+4)-2);}}
+ if(!m[nativeGlobalAddress(m, 0x810940)+type]){m[nativeGlobalAddress(m, 0x810940)+type]=1;for(let i=0;i<count;i++,vertices+=8){word(m,vertices,m.readUInt16LE(vertices)+m.readUInt16LE(offsets));word(m,vertices+2,m.readUInt16LE(vertices+2)+m.readUInt16LE(offsets+2));word(m,vertices+4,m.readUInt16LE(vertices+4)+m.readUInt16LE(offsets+4)-2);}}
 }
 
 //48dda0: selection temporaries retain their actual native stack addresses.
@@ -2793,14 +2946,14 @@ function initializeVehiclePresentation(body,type,runtime){
  const block=allocate(runtime,0x121c);if(block)m.fill(0,block,block+0x121c);put(m,body+0x3e70,block);put(m,0x5ecb18,body);m[block+0x1218]=type&255;
  for(let i=0;i<6;i++){const pack=ptr(m,0x90b98c),models=ptr(m,pack+0x18),lookup=ptr(m,pack+0x58),first=ptr(m,models+m.readInt16LE(lookup+m.readUInt16LE(0x5eadc4+i*2)*2)*4),second=ptr(m,models+m.readInt16LE(lookup+m.readUInt16LE(0x5ead50+i*2)*2)*4);const object=createRawBody(first,0x1c03,384,0,{...runtime,scratchBase:scratchBase-40});put(m,block+i*4,object);createVehicleAnimation(block+24+i*0x300,second,i,{...runtime,scratchBase:scratchBase-44});}
  const x=m.readInt16LE(0x9118d0),scaled=Math.trunc((m.readUInt16LE(ptr(m,0x5ecefc)+0x42c)<<8)/400),y=((Math.imul(scaled,25)>>>8)+m.readInt16LE(0x9118d2))|0;
- const panel=allocate(runtime,0x14c0);if(panel)m.fill(0,panel,panel+0x14c0);put(m,0x902018,panel);put(m,0x90201c,panel+0xa60);
+ const panel=allocate(runtime,0x14c0);if(panel)m.fill(0,panel,panel+0x14c0);put(m,nativeGlobalAddress(m, 0x902018),panel);put(m,nativeGlobalAddress(m, 0x90201c),panel+0xa60);
  for(let i=0;i<4;i++){
   const p=panel+i*0x298,material=(m.readUInt16LE(ptr(m,0x90b990)+0x2e)+0x99+i)*16+ptr(m,0x90b988);put(m,p+0x294,0x10000000);put(m,p+0x0c,get(m,material));word(m,p+0x10,m[material+10]-m[material]+1);put(m,p+4,0);word(m,p+8,x);word(m,p+0x12,m[material+11]-m[material+1]+1);m[p+3]=4;word(m,p+10,y+i*33);m[p+7]=0x46;word(m,p+14,m.readUInt16LE(material+6));
   for(let j=0;j<16;j++){
    const q=p+0x1c+j*40,entry=(m.readUInt16LE(ptr(m,0x90b990)+0x2e)+0x84)*16+ptr(m,0x90b988);put(m,q+4,get(m,entry));put(m,q+12,get(m,entry+4));word(m,q+20,m.readUInt16LE(entry+8));word(m,q+28,m.readUInt16LE(entry+10));const left=(j*10+m.readUInt16LE(p+8))&65535,top=(m.readUInt16LE(p+10)+18)&65535;word(m,q,left);word(m,q+2,top);word(m,q+10,top);put(m,q-4,0);word(m,q+8,left+8);word(m,q+24,left+8);word(m,q+16,left);word(m,q+18,top+8);word(m,q+26,top+8);m[q-5]=9;m[q-1]=0x2e;
   }
  }
- const end=ptr(m,0x90201c);for(let p=panel;p<end;p+=4)put(m,end+p-panel,get(m,p));
+ const end=ptr(m,nativeGlobalAddress(m, 0x90201c));for(let p=panel;p<end;p+=4)put(m,end+p-panel,get(m,p));
 }
 
 //41cfc0 clones the four wheel records forward, then gives each a new render
@@ -2811,7 +2964,7 @@ function cloneSecondaryVehicleWheels(record,model,{memory:m,scratchBase}){
   const wheel=secondary+0x324+i*200;for(let o=0;o<200;o+=4)put(m,wheel+o,get(m,wheel+difference+o));let required=384,auxiliary=0,third=0;
   const outputs=[local+0x20,local+0x1c,local+0x28,local+0x24,local+0x34,local+0x30];
   if(model){auxiliary=model+m.readUInt16LE(model+0x1c);third=model+m.readUInt16LE(model+0x1e);required=measureRawBodyStorage(model,384,[true,auxiliary!==model,third!==model],outputs,{memory:m});}
-  const old=ptr(m,0x70dcf4),body=(ptr(m,0x902eec)+(old&0xfffffffc))>>>0;put(m,0x70dcf4,old+((required+127)&0xffffff80));for(let o=0;o<384;o+=4)put(m,body+o,-1);
+  const old=ptr(m,0x70dcf4),body=(ptr(m,nativeGlobalAddress(m, 0x902eec))+(old&0xfffffffc))>>>0;put(m,0x70dcf4,old+((required+127)&0xffffff80));for(let o=0;o<384;o+=4)put(m,body+o,-1);
   put(m,body,0xc00);put(m,body+4,0);word(m,body+8,0);put(m,body+12,0);put(m,body+0x118,0);put(m,body+0x11c,-1);put(m,body+0x110,0);m[body+0x12f]=255;put(m,body+0x148,0);m.fill(0,body+0x16a,body+0x172);word(m,body+0x172,0);
   if(registry<512){put(m,0x70e200+registry*4,body);word(m,body+0x10e,registry);registry=(registry+1)|0;put(m,0x6e6b44,registry);}
   if(model){put(m,body+0x24,get(m,model+0x40));m[body+0x162]=m[model+4];m[body+0x10d]=m[model+4];put(m,body+0x2c,get(m,model+12));put(m,body+0x28,get(m,model+12));let displacement=m.readUInt16LE(model+0x1c);if(displacement){put(m,body+0x2c,get(m,model+displacement+12));displacement=m.readUInt16LE(model+0x1c);m[body+0x162]=m[model+displacement+4];}put(m,body+0x30,get(m,body+0x2c));m[body+0x163]=m[body+0x162];displacement=m.readUInt16LE(model+0x1e);if(displacement){put(m,body+0x30,get(m,model+displacement+12));displacement=m.readUInt16LE(model+0x1e);m[body+0x163]=m[model+displacement+4];}put(m,body+0x10,model);
@@ -2839,7 +2992,7 @@ function constructVehicle(record,index,runtime){
  const liveBody=ptr(m,record);word(m,liveBody+0x6a0,0);word(m,liveBody+0x6a2,65535);word(m,liveBody+0x6a4,65535);m[liveBody+0x671]=0;initializeVehicleEffectBlock(body+0x728,runtime);for(const[o,v]of[[0x6a8,0x60000],[0x6ac,0x60000],[0x6b0,0],[0x6b4,0],[0x6b8,0],[0x148,0x41e080]])put(m,body+o,v);initializeVehicleSkidStorage(body,{...runtime,scratchBase:local-4});createVehicleAnimation(body+0x2b88,ptr(m,local+0x1c),type,{...runtime,scratchBase:local-8});initializeVehicleSurfaceLinks(body,runtime);initializeVehicleGripRecords(body,runtime);formatLapTimeDigits(m.subarray(record,record+0x30c),1);
  put(m,body+0x2f38,0x10000040);put(m,record+0x7c,0);put(m,record+0x80,0);for(const o of[0x2f44,0x2f40,0x2f3c,0x2f48])put(m,body+o,0);current=ptr(m,0x5ecb1c);word(m,body+0x66d,0);m[body+0x66c]=0;put(m,body+0x3e74,-1);const parameters=m[current+0x587]?0x5ead40:0x5eacd0+type*16;for(let i=0;i<4;i++)put(m,body+0x3cf4+i*4,get(m,parameters+i*4));if(m[current+get(m,local+0x14)]!==8)put(m,body+0x3d00,get(m,body+0x3d00)+1);
  m[record+0x248]=0;m[body+0x64f]=0;word(m,body+0x654,0);put(m,body+0x3d04,0);put(m,body+0x3d08,0);if(m[current+m.readUInt16LE(body+0x65e)]!==8)initializeVehicleController(body,m[current+0x58c]===2||get(m,0x6e6650)===1?4:1,runtime);else put(m,body+0x660,0);for(const o of[0x67c,0x678,0x674,0x688,0x684,0x680])put(m,body+o,0);
- const linked=ptr(m,record),participant=m.readUInt16LE(linked+0x65e),owner=0x8495e0+Math.imul(participant,0x8c);if(participant<6){put(m,owner+0x6c,linked);put(m,ptr(m,record)+0x6bc,owner);}const count=get(m,0x82e900);put(m,0x82e880+count*8,body);put(m,0x82e884+count*8,1);put(m,0x82e900,get(m,0x82e900)+1);word(m,record+0x249,0);initializeVehiclePresentation(body,type,{...runtime,scratchBase:local-12});
+ const linked=ptr(m,record),participant=m.readUInt16LE(linked+0x65e),owner=0x8495e0+Math.imul(participant,0x8c);if(participant<6){put(m,owner+0x6c,linked);put(m,ptr(m,record)+0x6bc,owner);}const count=get(m,nativeGlobalAddress(m,0x82e900));put(m,nativeGlobalAddress(m,0x82e880)+count*8,body);put(m,nativeGlobalAddress(m,0x82e884)+count*8,1);put(m,nativeGlobalAddress(m,0x82e900),get(m,nativeGlobalAddress(m,0x82e900))+1);word(m,record+0x249,0);initializeVehiclePresentation(body,type,{...runtime,scratchBase:local-12});
  if(m[ptr(m,0x5ecb1c)+0x54e]){const secondary=ptr(m,record+0x250);cloneSecondaryVehicleWheels(record,ptr(m,local+0x18),{...runtime,scratchBase:local-4});createVehicleAnimation(secondary+0x2b88,ptr(m,local+0x1c),type,{...runtime,scratchBase:local-8});initializeVehicleSurfaceLinks(secondary,runtime);initializeVehicleGripRecords(secondary,runtime);}return body;
 }
 
@@ -2966,6 +3119,7 @@ Object.assign(module.exports, {quaternionFromReleaseDirection,releaseScriptedBod
 },
 "src/raw-body-construction.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {measureRawBodyStorage,publishRawBodyStorage,createRawBody,updateRawBodyDerived,registerRawBodySpatial,initializeRawBody,registerRawBodyShapes});
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
 const {abs32, lookupSqrt, multiplyQ16, dotQ16} = require("src/fixed-integer.mjs");
 const {quaternionMatrix} = require("src/fixed-math.mjs");
 const {updateBodyDerived} = require("src/body-physics.mjs");
@@ -3014,7 +3168,7 @@ function createRawBody(model, flags, size, mode, {memory, scratchBase}) {
   const outputs = [local + 0x18, local + 0x14, local + 0x24, local + 0x20, local + 0x30, local + 0x2c];
   let required = size | 0;
   if (model) required = measureRawBodyStorage(model, size, [!mode, auxiliary !== model && !mode, third !== model && !mode], outputs, {memory});
-  const old = pointer(memory, 0x70dcf4), body = (pointer(memory, 0x902eec) + (old & 0xfffffffc)) >>> 0, advanced = (old + ((required + 127) & 0xffffff80)) | 0;
+  const old = pointer(memory, 0x70dcf4), body = (pointer(memory, nativeGlobalAddress(memory, 0x902eec)) + (old & 0xfffffffc)) >>> 0, advanced = (old + ((required + 127) & 0xffffff80)) | 0;
   if (model) put(memory, 0x70dcf4, advanced);
   memory.fill(255, body, body + 384);
   put(memory, body, flags); put(memory, body + 4, 0); word(memory, body + 8, 0); put(memory, body + 12, 0);
@@ -3061,7 +3215,7 @@ function updateRawBodyDerived(body, {memory, scratchBase}) {
 //474600. Physical objects use bucket+8; particles use its separate+a head.
 function registerRawBodySpatial(body, {memory}) {
   const {bucket, outside} = lookupRawSpatialBucket(...vector(memory, body + 0x34), {memory}), tagged = (bucket + (outside ? 1 : 0)) >>> 0;
-  const base = pointer(memory, 0x902eec); put(memory, body + 12, tagged);
+  const base = pointer(memory, nativeGlobalAddress(memory, 0x902eec)); put(memory, body + 12, tagged);
   const selected = tagged & 0xfffffffe, head = memory.readUInt16LE(selected + 8), id = (((body - base + 128) >>> 0) >>> 7) & 65535;
   put(memory, body + 4, head);
   if (head) word(memory, (base - 122 + head * 128) >>> 0, id);
@@ -3107,7 +3261,7 @@ function registerRawBodyShapes(body, count, descriptors, {memory}) {
     const {id, record} = allocate(); memory[body + 0x140 + index] = id; put(memory, record, 0); word(memory, record + 4, 0); memory.fill(0, record + 0x20, record + 0x38); word(memory, record + 0x44, 0);
     put(memory, record + 0x40, (memory.readUInt32LE(body) & 0x1ff) === 17 ? 0x5000 : radius); word(memory, record + 0x46, count);
   }
-  const physicalCount = memory.readUInt16LE(0x902bc4), physical = pointer(memory, 0x902bc0); put(memory, physical + physicalCount * 4, body); put(memory, physical + physicalCount * 4 + 4, 0); word(memory, 0x902bc4, physicalCount + 1);
+  const physicalCount = memory.readUInt16LE(nativeGlobalAddress(memory, 0x902bc4)), physical = pointer(memory, nativeGlobalAddress(memory, 0x902bc0)); put(memory, physical + physicalCount * 4, body); put(memory, physical + physicalCount * 4 + 4, 0); word(memory, nativeGlobalAddress(memory, 0x902bc4), physicalCount + 1);
   if (count) put(memory, body, memory.readInt32LE(body) & 0xffff7fff);
   put(memory, body + 0x130, 0);
 }
@@ -3202,7 +3356,13 @@ Object.assign(module.exports, {initializeBody,applyBodyForces,updateLinearVeloci
 },
 "src/body-retirement-effects.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {initializeBodyRetirementEffectTables,findNearestRawSpatialColumn,lookupRawSpatialBucket,removeRawParticleSpatial,allocateRawEffectParticle,registerRawEffectSpatial,calculateRawEffectColor,emitRawEffectParticles,emitRawBodyDebris,expandRawTerrainRanges,alterRawTerrainBrightness,appendRawBodyFlash,activateRawBodyTrail,activateRawBodyPulse});
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
+const {nativeCodeAddress} = require("src/native-memory-spans.mjs");
 const yaw = require("src/yaw-table.json");
+//Explicit physical module operands for the attachment allocation/spatial
+//chain. Legacy callers retain their existing global-role/alias contract.
+const fixed=(runtime,p)=>runtime.moduleBaseAddress===undefined?p:nativeCodeAddress(p,runtime);
+const global=(runtime,p)=>runtime.moduleBaseAddress===undefined?nativeGlobalAddress(runtime.memory,p):nativeCodeAddress(p,runtime);
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p),short=v=>(v<<16)>>16;
 const rng=seed=>Math.imul(seed,0x41a7)&0x7fffffff;
 const vector=(m,p)=>[0,4,8].map(o=>get(m,p+o));
@@ -3232,8 +3392,8 @@ function findNearestRawSpatialColumn(rows,z,x,{memory}){
 }
 
 //4286e0. Packed row ranges select a column; tagged vertical entries select Y.
-function lookupRawSpatialBucket(x,y,z,{memory}){
- const rowIndex=((z>>24)+128)&65535,xIndex=((x>>24)+128)&65535,yIndex=((y>>24)+32)&65535,rows=ptr(memory,0x909254);
+function lookupRawSpatialBucket(x,y,z,runtime){
+ const {memory}=runtime,rowIndex=((z>>24)+128)&65535,xIndex=((x>>24)+128)&65535,yIndex=((y>>24)+32)&65535,rows=ptr(memory,fixed(runtime,0x909254));
  let ranges=rows+rowIndex*16,indices=ptr(memory,ranges+12),offset=0,selected,outside=0;
  if(indices){
   for(let remaining=6;remaining>0;remaining--,ranges+=2){
@@ -3244,42 +3404,44 @@ function lookupRawSpatialBucket(x,y,z,{memory}){
   }
   if(selected===undefined&&!outside)selected=indices+offset*2;
  }else outside=1;
- if(outside)selected=findNearestRawSpatialColumn(rows,rowIndex,xIndex,{memory});
- let bucket=ptr(memory,0x909278)+memory.readUInt16LE(selected);
+ if(outside)selected=findNearestRawSpatialColumn(rows,rowIndex,xIndex,runtime);
+ let bucket=ptr(memory,fixed(runtime,0x909278))+memory.readUInt16LE(selected);
  while(get(memory,bucket+4)<0&&yIndex<=((ptr(memory,bucket+12)>>>13)&63))bucket+=12;
  return {bucket,outside};
 }
 
 //4748d0, particle-head sibling of physical474850.
-function removeRawParticleSpatial(particle,{memory}){
+function removeRawParticleSpatial(particle,runtime){
+ const {memory}=runtime;
  const previous=memory.readUInt16LE(particle+6);
- if(!previous){const bucket=ptr(memory,particle+12)&0xfffffffe;word(memory,bucket+10,memory.readUInt16LE(particle+4));const next=memory.readUInt16LE(particle+4);if(next){const p=(ptr(memory,0x902eec)-128+next*128)>>>0;if(p)word(memory,p+6,0);}}
- else{const next=memory.readUInt16LE(particle+4),base=ptr(memory,0x902eec);if(next){const p=(base-128+next*128)>>>0;if(p)word(memory,p+6,previous);}word(memory,(base-124+previous*128)>>>0,memory.readUInt16LE(particle+4));}
+ if(!previous){const bucket=ptr(memory,particle+12)&0xfffffffe;word(memory,bucket+10,memory.readUInt16LE(particle+4));const next=memory.readUInt16LE(particle+4);if(next){const p=(ptr(memory,global(runtime,0x902eec))-128+next*128)>>>0;if(p)word(memory,p+6,0);}}
+ else{const next=memory.readUInt16LE(particle+4),base=ptr(memory,global(runtime,0x902eec));if(next){const p=(base-128+next*128)>>>0;if(p)word(memory,p+6,previous);}word(memory,(base-124+previous*128)>>>0,memory.readUInt16LE(particle+4));}
  put(memory,particle+4,0);
 }
 
 //435df0. Free-list allocation or oldest eligible active-list reuse.
-function allocateRawEffectParticle({memory}){
- let particle=ptr(memory,0x6e65b4),head,previous;
- if(particle){put(memory,0x6e65b4,get(memory,particle+0xac));head=ptr(memory,0x6e65c0);previous=ptr(memory,0x6e65c8);}
+function allocateRawEffectParticle(runtime){
+ const {memory}=runtime;
+ let particle=ptr(memory,fixed(runtime,0x6e65b4)),head,previous;
+ if(particle){put(memory,fixed(runtime,0x6e65b4),get(memory,particle+0xac));head=ptr(memory,fixed(runtime,0x6e65c0));previous=ptr(memory,fixed(runtime,0x6e65c8));}
  else{
-  head=ptr(memory,0x6e65c0);particle=head;
+  head=ptr(memory,fixed(runtime,0x6e65c0));particle=head;
   while(get(memory,particle+0xb0)!==0){particle=ptr(memory,particle+0xa8);if(!particle){particle=head;break;}}
   previous=ptr(memory,particle+0xac);const next=ptr(memory,particle+0xa8);
   if(previous)put(memory,previous+0xa8,next);else head=next;
-  if(next){put(memory,next+0xac,previous);previous=ptr(memory,0x6e65c8);}
+  if(next){put(memory,next+0xac,previous);previous=ptr(memory,fixed(runtime,0x6e65c8));}
  }
- put(memory,particle+0xac,previous);put(memory,particle+0xa8,0);put(memory,0x6e65c8,particle);
- if(previous)put(memory,previous+0xa8,particle);put(memory,0x6e65c0,head||particle);
- if(memory[particle+0x94]===1)removeRawParticleSpatial(particle,{memory});
+ put(memory,particle+0xac,previous);put(memory,particle+0xa8,0);put(memory,fixed(runtime,0x6e65c8),particle);
+ if(previous)put(memory,previous+0xa8,particle);put(memory,fixed(runtime,0x6e65c0),head||particle);
+ if(memory[particle+0x94]===1)removeRawParticleSpatial(particle,runtime);
  put(memory,particle+0xb0,0);put(memory,particle+0xb4,0);return particle;
 }
 
 //474670, also inlined by435f20. Registration precedes later position jitter.
-function registerRawEffectSpatial(particle,x,y,z,{memory}){
- const found=lookupRawSpatialBucket(x,y,z,{memory}),tagged=found.bucket+found.outside;put(memory,particle+12,tagged);
- const bucket=tagged&0xfffffffe,id=((particle-ptr(memory,0x902eec)+128)>>>7)&65535,head=memory.readUInt16LE(bucket+10);
- put(memory,particle+4,head);if(head)word(memory,ptr(memory,0x902eec)-122+head*128,id);word(memory,bucket+10,id);
+function registerRawEffectSpatial(particle,x,y,z,runtime){
+ const {memory}=runtime,found=lookupRawSpatialBucket(x,y,z,runtime),tagged=found.bucket+found.outside;put(memory,particle+12,tagged);
+ const bucket=tagged&0xfffffffe,id=((particle-ptr(memory,global(runtime,0x902eec))+128)>>>7)&65535,head=memory.readUInt16LE(bucket+10);
+ put(memory,particle+4,head);if(head)word(memory,ptr(memory,global(runtime,0x902eec))-122+head*128,id);word(memory,bucket+10,id);
  return found;
 }
 
@@ -3328,15 +3490,15 @@ function emitRawEffectParticles(position,velocity,count,color,kind,{memory}){
 //475a10. Debris free/active index arrays and actual packed spatial insertion.
 function emitRawBodyDebris(position,velocity,count,{memory}){
  let remaining=(Math.imul(count,3)+12)|0;if(remaining<=0)return 0;
- const free=ptr(memory,0x902b7c);let freeLast=get(memory,0x902b8c),activeCount=get(memory,0x902b88),emitted=0;
+ const free=ptr(memory,nativeGlobalAddress(memory, 0x902b7c));let freeLast=get(memory,nativeGlobalAddress(memory, 0x902b8c)),activeCount=get(memory,nativeGlobalAddress(memory, 0x902b88)),emitted=0;
  while(remaining>0&&freeLast>=0){
-  const id=memory.readUInt16LE(free+freeLast*2);freeLast--;word(memory,ptr(memory,0x902b80)+activeCount*2,id);activeCount++;
-  const p=(ptr(memory,0x902b84)+(id<<7))>>>0;word(memory,p+0x6a,1);copy(memory,position,p+0x4c);registerRawEffectSpatial(p,...vector(memory,p+0x4c),{memory});
+  const id=memory.readUInt16LE(free+freeLast*2);freeLast--;word(memory,ptr(memory,nativeGlobalAddress(memory, 0x902b80))+activeCount*2,id);activeCount++;
+  const p=(ptr(memory,nativeGlobalAddress(memory, 0x902b84))+(id<<7))>>>0;word(memory,p+0x6a,1);copy(memory,position,p+0x4c);registerRawEffectSpatial(p,...vector(memory,p+0x4c),{memory});
   let seed=rng(get(memory,0x5ec958));word(memory,p+8,((seed>>>15)*16>>>16)+39);
   for(let i=0;i<3;i++){seed=rng(seed);put(memory,p+0x58+i*4,Math.imul((seed>>>20)-1024,2048)+((get(memory,velocity+i*4)>>2)&0xfffff800));}put(memory,0x5ec958,seed);
   for(let i=0;i<3;i++)word(memory,p+0x64+i*2,memory.readUInt16LE(p+0x4e+i*4));put(memory,p+0x30,0x2f6f6f);put(memory,p+0x14,0xae00052f);remaining--;emitted++;
  }
- put(memory,0x902b88,activeCount);put(memory,0x902b8c,freeLast);return emitted;
+ put(memory,nativeGlobalAddress(memory, 0x902b88),activeCount);put(memory,nativeGlobalAddress(memory, 0x902b8c),freeLast);return emitted;
 }
 
 //44d230. Decode up to four authored sector ranges and expand around midpoint.
@@ -3391,8 +3553,8 @@ function alterRawTerrainBrightness(position,count,{memory,scratchBase}){
   const packed=ptr(memory,output+index*4);if(!packed)break;
   const segment=ptr(memory,ptr(memory,0x909240)+(packed&255)*4),width=(get(memory,segment+8)+1)|0,start=(packed>>>8)&4095;
   let end=(packed>>>20)+1;if(end>get(memory,segment+12)+1)end--;
-  const range=((start&2047)|((end&2047)<<11)),dirtyCount=ptr(memory,0x80f210),dirty=(((range|0x800000)<<7)|(packed&127))|0;
-  if(dirtyCount<64&&(dirtyCount===0||get(memory,0x80f41c+dirtyCount*4)!==dirty)){put(memory,0x80f420+dirtyCount*4,dirty);put(memory,0x80f210,dirtyCount+1);}
+  const range=((start&2047)|((end&2047)<<11)),dirtyCount=ptr(memory,nativeGlobalAddress(memory,0x80f210)),dirty=(((range|0x800000)<<7)|(packed&127))|0;
+  if(dirtyCount<64&&(dirtyCount===0||get(memory,nativeGlobalAddress(memory,0x80f41c+dirtyCount*4))!==dirty)){put(memory,nativeGlobalAddress(memory,0x80f420+dirtyCount*4),dirty);put(memory,nativeGlobalAddress(memory,0x80f210),dirtyCount+1);}
   const base=ptr(memory,segment+32),begin=(base+Math.imul(Math.imul(width,start),8))>>>0,finish=(base+Math.imul(Math.imul(width,end),8))>>>0;
   if(begin>=finish)continue;
   for(let p=begin;p<finish;p+=8){
@@ -3410,8 +3572,8 @@ function alterRawTerrainBrightness(position,count,{memory,scratchBase}){
 
 //436490. Alternate36-byte position effect, with unsigned count-derived words.
 function appendRawBodyFlash(position,count,{memory}){
- const length=ptr(memory,0x810920);if(length>=16)return;
- const row=0x8106e0+length*36;copy(memory,position,row);put(memory,row+12,position);word(memory,row+16,((count>>>2)+5));word(memory,row+18,3);put(memory,row+20,(Math.imul(count,8)+0x2d0)&65535);put(memory,0x810920,length+1);
+ const length=ptr(memory,nativeGlobalAddress(memory,0x810920));if(length>=16)return;
+ const row=nativeGlobalAddress(memory,0x8106e0+length*36);copy(memory,position,row);put(memory,row+12,position);word(memory,row+16,((count>>>2)+5));word(memory,row+18,3);put(memory,row+20,(Math.imul(count,8)+0x2d0)&65535);put(memory,nativeGlobalAddress(memory,0x810920),length+1);
 }
 
 //436510. Find one of ten inactive7724-byte trail/effect records.
@@ -3436,6 +3598,85 @@ function activateRawBodyPulse(position,{memory}){
 }
 
 Object.assign(module.exports, {initializeBodyRetirementEffectTables,findNearestRawSpatialColumn,lookupRawSpatialBucket,removeRawParticleSpatial,allocateRawEffectParticle,registerRawEffectSpatial,calculateRawEffectColor,emitRawEffectParticles,emitRawBodyDebris,expandRawTerrainRanges,alterRawTerrainBrightness,appendRawBodyFlash,activateRawBodyTrail,activateRawBodyPulse});
+},
+"src/native-memory-spans.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {nativeCodeAddress,registerNativeMemorySpans,assertNativeMemorySpan,nativeMemorySpan,nativeMemoryAddress,resolveNativeMemoryAddress,sharesNativeMemorySpan,copyToNativeMemory});
+// Explicit ownership for original-address replay spans. Ordinary Buffer users
+// retain their backing-store identity checks; sparse memories register only
+// actual captured spans, never a fictitious contiguous x86 backing store.
+const sparseSpans = new WeakMap();
+const sameStart = (a, b) => a.buffer === b.buffer && a.byteOffset === b.byteOffset;
+const containsBytes = (owner, bytes) => owner.buffer === bytes.buffer && bytes.byteOffset >= owner.byteOffset && bytes.byteOffset + bytes.length <= owner.byteOffset + owner.length;
+const validRange = (memory, address, length) => Number.isSafeInteger(address) && address >= 0 && Number.isSafeInteger(length) && length >= 0 && address + length <= memory.length;
+
+// Only explicit source instruction/function identities use this relocation.
+// Never apply it to arbitrary integers or captured heap/data pointer bytes.
+function nativeCodeAddress(preferredAddress, {moduleBaseAddress = 0x400000} = {}) {
+  const actual = moduleBaseAddress + preferredAddress - 0x400000;
+  if (!Number.isSafeInteger(moduleBaseAddress) || moduleBaseAddress <= 0 || !Number.isSafeInteger(preferredAddress) || preferredAddress < 0x400000 || !Number.isSafeInteger(actual) || actual < 0 || actual > 0xffffffff) throw Error('Invalid explicit native code address.');
+  return actual;
+}
+
+function registerNativeMemorySpans(memory, regions) {
+  if (!Buffer.isBuffer(memory) || sparseSpans.has(memory) || !Array.isArray(regions) || !regions.length) throw Error('Native sparse spans require one explicit ownership registration.');
+  const rows = regions.map(({address, bytes}) => {
+    if (!Buffer.isBuffer(bytes) || !bytes.length || !validRange(memory, address, bytes.length)) throw Error('Invalid native sparse ownership span.');
+    const live = memory.subarray(address, address + bytes.length);
+    if (live.length !== bytes.length || !sameStart(live, bytes)) throw Error('Native sparse ownership must reference the actual live memory span.');
+    return {address, bytes};
+  }).sort((a, b) => a.address - b.address);
+  for (let i = 0; i < rows.length; i++) {
+    if (i && rows[i - 1].address + rows[i - 1].bytes.length > rows[i].address) throw Error('Native sparse ownership addresses overlap.');
+    for (let j = 0; j < i; j++) {
+      const a = rows[i].bytes, b = rows[j].bytes;
+      if (a.buffer === b.buffer && a.byteOffset < b.byteOffset + b.length && b.byteOffset < a.byteOffset + a.length) throw Error('Native sparse ownership backing spans overlap.');
+    }
+  }
+  sparseSpans.set(memory, rows);
+  return memory;
+}
+
+function assertNativeMemorySpan(memory, address, length) {
+  if (!Buffer.isBuffer(memory) || !validRange(memory, address, length)) throw Error('Native memory span exceeds supplied storage.');
+  // The facade resolves only explicit aliases and fails at uncaptured bytes.
+  if (sparseSpans.has(memory) && memory.subarray(address, address + length).length !== length) throw Error('Incomplete native sparse memory span.');
+}
+
+function nativeMemorySpan(memory, address, length) {
+  assertNativeMemorySpan(memory, address, length);
+  return memory.subarray(address, address + length);
+}
+
+function nativeMemoryAddress(memory, bytes) {
+  if (!Buffer.isBuffer(memory) || !Buffer.isBuffer(bytes)) return null;
+  const rows = sparseSpans.get(memory);
+  if (rows) {
+    const row = rows.find(row => containsBytes(row.bytes, bytes));
+    return row ? row.address + bytes.byteOffset - row.bytes.byteOffset : null;
+  }
+  return containsBytes(memory, bytes) ? bytes.byteOffset - memory.byteOffset : null;
+}
+
+function resolveNativeMemoryAddress(memory, address, length = 1) {
+  assertNativeMemorySpan(memory, address, length);
+  if (!sparseSpans.has(memory)) return address;
+  const result = nativeMemoryAddress(memory, memory.subarray(address, address + length));
+  if (result === null) throw Error('Native memory address has no registered ownership.');
+  return result;
+}
+
+function sharesNativeMemorySpan(memory, bytes, address, minimumLength) {
+  if (!Buffer.isBuffer(bytes) || bytes.length < minimumLength) return false;
+  const live = nativeMemorySpan(memory, address, bytes.length);
+  return sameStart(live, bytes);
+}
+
+function copyToNativeMemory(memory, address, bytes) {
+  if (!Buffer.isBuffer(bytes)) throw Error('Native memory copy requires explicit source bytes.');
+  return bytes.copy(nativeMemorySpan(memory, address, bytes.length));
+}
+
+Object.assign(module.exports, {nativeCodeAddress,registerNativeMemorySpans,assertNativeMemorySpan,nativeMemorySpan,nativeMemoryAddress,resolveNativeMemoryAddress,sharesNativeMemorySpan,copyToNativeMemory});
 },
 "src/yaw-table.json": function(require, module, Buffer) {
 module.exports = {"executableSHA256":"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5","address":"0x5ed030","fileOffset":2015280,"evidence":"ev_f2b04d8b6ef54e468978fde5d7e1c51258e31a0ec672232ece1dcb89e4271411","values":[0,402,804,1205,1606,2006,2404,2801,3196,3590,3981,4370,4756,5139,5520,5897,6270,6639,7005,7366,7723,8076,8423,8765,9102,9434,9760,10080,10394,10702,11003,11297,11585,11866,12140,12406,12665,12916,13160,13395,13623,13842,14053,14256,14449,14635,14811,14978,15137,15286,15426,15557,15679,15791,15893,15986,16069,16143,16207,16261,16305,16340,16364,16379,16384,16379,16364,16340,16305,16261,16207,16143,16069,15986,15893,15791,15679,15557,15426,15286,15137,14978,14811,14635,14449,14256,14053,13842,13623,13395,13160,12916,12665,12406,12140,11866,11585,11297,11003,10702,10394,10080,9760,9434,9102,8765,8423,8076,7723,7366,7005,6639,6270,5897,5520,5139,4756,4370,3981,3590,3196,2801,2404,2006,1606,1205,804,402,0,-402,-804,-1205,-1606,-2006,-2404,-2801,-3196,-3590,-3981,-4370,-4756,-5139,-5520,-5897,-6270,-6639,-7005,-7366,-7723,-8076,-8423,-8765,-9102,-9434,-9760,-10080,-10394,-10702,-11003,-11297,-11585,-11866,-12140,-12406,-12665,-12916,-13160,-13395,-13623,-13842,-14053,-14256,-14449,-14635,-14811,-14978,-15137,-15286,-15426,-15557,-15679,-15791,-15893,-15986,-16069,-16143,-16207,-16261,-16305,-16340,-16364,-16379,-16384,-16379,-16364,-16340,-16305,-16261,-16207,-16143,-16069,-15986,-15893,-15791,-15679,-15557,-15426,-15286,-15137,-14978,-14811,-14635,-14449,-14256,-14053,-13842,-13623,-13395,-13160,-12916,-12665,-12406,-12140,-11866,-11585,-11297,-11003,-10702,-10394,-10080,-9760,-9434,-9102,-8765,-8423,-8076,-7723,-7366,-7005,-6639,-6270,-5897,-5520,-5139,-4756,-4370,-3981,-3590,-3196,-2801,-2404,-2006,-1606,-1205,-804,-402,0,402,804,1205,1606,2006,2404,2801,3196,3590,3981,4370,4756,5139,5520,5897,6270,6639,7005,7366,7723,8076,8423,8765,9102,9434,9760,10080,10394,10702,11003,11297,11585,11866,12140,12406,12665,12916,13160,13395,13623,13842,14053,14256,14449,14635,14811,14978,15137,15286,15426,15557,15679,15791,15893,15986,16069,16143,16207,16261,16305,16340,16364,16379,16384]};
@@ -3500,6 +3741,7 @@ Object.assign(module.exports, {formatLapTimeDigits,formatRawLapTimeDigits,update
 },
 "src/replay-codec.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {updateReplayChecksum,stepReplayControl});
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
 //42b280: four replay streams use an alternating complemented-byte checksum.
 function updateReplayChecksum(controller,{memory,validate=false}) {
   let checksum=0x2524;
@@ -3520,7 +3762,7 @@ function stepReplayControl(body,{memory}) {
   const u8=p=>memory.readUInt8(p),u16=p=>memory.readUInt16LE(p),s16=p=>memory.readInt16LE(p),u32=p=>memory.readUInt32LE(p),s32=p=>memory.readInt32LE(p);
   const b=(p,value)=>memory.writeUInt8(value&255,p),w=(p,value)=>memory.writeUInt16LE(value&65535,p),d=(p,value)=>memory.writeInt32LE(value|0,p);
   const controller=u32(body+0x660);
-  if(s32(0x9020a0)!==0||controller===0)return;
+  if(s32(nativeGlobalAddress(memory, 0x9020a0))!==0||controller===0)return;
   const state=()=>s32(controller+0x1e880),headers=[0x4e30,0x14c24,0x19a50];
   switch(state()){
   case 2:case 3:case 7:{
@@ -3591,6 +3833,7 @@ Object.assign(module.exports, {updateReplayChecksum,stepReplayControl});
 },
 "src/vehicle-wheel-construction.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {initializeVehicleWheelConstructionTables,createVehicleWheels});
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
 const tables = require("src/vehicle-wheel-construction-tables.json");
 const {abs32, multiplyQ16, divideQ16} = require("src/fixed-integer.mjs");
 const {createRawBody} = require("src/raw-body-construction.mjs");
@@ -3623,7 +3866,7 @@ function createVehicleWheels(body, wheelModel, vehicleIndex, runtime) {
   const steering = get(m, body + 0x644); put(m, frame + 0x28, body); put(m, frame + 0x2c, steering);
   for (let offset = 0; offset < 20; offset += 4) put(m, 0x91d360 + offset, get(m, body + 0xc4 + offset));
   let scale;
-  for (let lane = 0; lane < 9; lane++) {const value = m.readInt16LE(0x91d360 + lane * 2); m.writeFloatLE(value, frame + 0x18); if (!lane) scale = m.readFloatLE(0x5dc5f4); m.writeFloatLE(Math.fround(value * scale), 0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4);}
+  for (let lane = 0; lane < 9; lane++) {const value = m.readInt16LE(0x91d360 + lane * 2); m.writeFloatLE(value, frame + 0x18); if (!lane) scale = m.readFloatLE(0x5dc5f4); m.writeFloatLE(Math.fround(value * scale), nativeGlobalAddress(m, 0x91cdc0) + Math.floor(lane / 3) * 16 + lane % 3 * 4);}
   m[frame + 0x13] = 0; put(m, frame + 0x18, 0x5eac42); put(m, frame + 0x14, body + 0x184);
   let wheel = body + 0x324;
   do {
@@ -3660,6 +3903,7 @@ module.exports = [{"address":"0x5eac18","bytesHex":"0e000e0008000000","evidence"
 "src/wheel-render-state.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {initializeWheelRenderTables,buildRenderRotationMatrix,transformRenderShortVector,updateWheelRenderOffset,prepareWheelRender,prepareVehicleWheelRender});
 const table = require("src/render-angle-table.json");
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
 const {transformWheelEffectOffset} = require("src/wheel-effects.mjs");
 
 const get = (memory, address) => memory.readInt32LE(address);
@@ -3742,7 +3986,7 @@ function prepareVehicleWheelRender(body, runtime) {
   for (let lane = 0; lane < 9; lane++) {
     const value = memory.readInt16LE(0x91d360 + lane * 2); memory.writeFloatLE(value, scratchBase - 4);
     if (!lane) scale = memory.readFloatLE(0x5dc5f4);
-    memory.writeFloatLE(Math.fround(value * scale), 0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4);
+    memory.writeFloatLE(Math.fround(value * scale), nativeGlobalAddress(memory,0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4));
   }
   for (let index = 0; index < 4; index++) prepareWheelRender(body + 0x324 + index * 200, body, index < 2 ? steering : 0, {...runtime, scratchBase: scratchBase - 28});
 }
@@ -3754,6 +3998,7 @@ module.exports = {"address":"0x570720","bytesHex":"00000010060000100d00001013000
 },
 "src/wheel-effects.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {initializeWheelEffectTables,measureSkidSegment,shouldAdvanceWheelSkid,updateWheelSkidEndpoint,mergeWheelSkidSegment,appendWheelSkidSegment,updateWheelTractionEffects,permitWheelEmission,shadeWheelDebrisColor,emitWheelRearParticle,transformWheelEffectOffset,emitWheelSurfaceDebris,emitWheelSurfaceParticles});
+const {nativeGlobalAddress} = require("src/native-global-address.mjs");
 const {abs32,lookupSqrt,dotQ16,crossQ16,multiplyQ16,divideQ16,vectorLengthQ16,transformShortQ12} = require("src/fixed-integer.mjs");
 const {allocateRawEffectParticle,registerRawEffectSpatial} = require("src/body-retirement-effects.mjs");
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p),short=v=>(v<<16)>>16;
@@ -3841,7 +4086,7 @@ function emitWheelRearParticle(body,position,direction,color,intensity,effectRec
  if((intensity|0)===-1)intensity=32;
  const opacity=Math.imul(brightnessFactor(memory),intensity)>>>8,p=allocateRawEffectParticle({memory});word(memory,p+0x96,32);word(memory,p+0xa2,0);put(memory,p,8);memory[p+0x95]=24;
  let velocity=vector(memory,body+0x68).map(value=>value>>8);
- if(get(memory,0x811180)!==0&&body!==ptr(memory,0x811184))velocity=velocity.map(value=>multiplyQ16(value,get(memory,0x81118c)));
+ if(get(memory,nativeGlobalAddress(memory,0x811180))!==0&&body!==ptr(memory,nativeGlobalAddress(memory,0x811184)))velocity=velocity.map(value=>multiplyQ16(value,get(memory,nativeGlobalAddress(memory,0x81118c))));
  const translated=vector(memory,position).map((value,i)=>(value+(velocity[i]<<8))|0);store(memory,p+0x88,translated);
  for(let i=0;i<3;i++){const product=Math.imul(velocity[i],3);word(memory,p+0x9c+i*2,((product+((product>>31)&3))>>2)+(get(memory,direction+i*4)>>9));}
  const seed=rng(get(memory,0x5ec958));put(memory,0x5ec958,seed);put(memory,p+0xb4,(seed>>>16)&3);put(memory,p+0x98,(Math.min(255,Math.imul(opacity,6)>>>0)<<24)|color);
@@ -3861,9 +4106,9 @@ function emitWheelSurfaceDebris(position,velocity,kind,{memory}){
  else if(kind===19){first=shadeWheelDebrisColor(0x7f4040,{memory});second=shadeWheelDebrisColor(0xae300000,{memory});lifetime=10;}
  else if(kind===20){first=shadeWheelDebrisColor(0x102030,{memory});second=shadeWheelDebrisColor(0xae081018,{memory});for(let i=0;i<3;i++)put(memory,velocity+i*4,get(memory,velocity+i*4)>>2);lifetime=10;}
  else{variant=1;[first,second,lifetime]=({21:[0x9fff9f,0xae1f3f1f,15],22:[0x4fffff,0xae20205f,13],23:[0xff004f,0xae5f0020,13],24:[0x9f,0xae000020,21],25:[0x409f,0xae000020,43]})[kind]??[0x4f5f5f,0xae5f2020,18];}
- const freeLast=get(memory,0x902b8c);if(freeLast<0)return 0;
- const id=memory.readUInt16LE(ptr(memory,0x902b7c)+freeLast*2);put(memory,0x902b8c,freeLast-1);const active=get(memory,0x902b88);word(memory,ptr(memory,0x902b80)+active*2,id);put(memory,0x902b88,active+1);
- const p=(ptr(memory,0x902b84)+(id<<7))>>>0,values=vector(memory,position);put(memory,p+0x50,values[1]);put(memory,p+0x4c,values[0]);put(memory,p+0x54,values[2]);registerRawEffectSpatial(p,...values,{memory});word(memory,p+0x6a,1);
+ const freeLast=get(memory,nativeGlobalAddress(memory, 0x902b8c));if(freeLast<0)return 0;
+ const id=memory.readUInt16LE(ptr(memory,nativeGlobalAddress(memory, 0x902b7c))+freeLast*2);put(memory,nativeGlobalAddress(memory, 0x902b8c),freeLast-1);const active=get(memory,nativeGlobalAddress(memory, 0x902b88));word(memory,ptr(memory,nativeGlobalAddress(memory, 0x902b80))+active*2,id);put(memory,nativeGlobalAddress(memory, 0x902b88),active+1);
+ const p=(ptr(memory,nativeGlobalAddress(memory, 0x902b84))+(id<<7))>>>0,values=vector(memory,position);put(memory,p+0x50,values[1]);put(memory,p+0x4c,values[0]);put(memory,p+0x54,values[2]);registerRawEffectSpatial(p,...values,{memory});word(memory,p+0x6a,1);
  for(let i=0;i<3;i++)word(memory,p+0x64+i*2,memory.readUInt16LE(p+0x4e+i*4));for(let i=0;i<3;i++)put(memory,p+0x58+i*4,get(memory,velocity+i*4));word(memory,p+8,lifetime);put(memory,p+0x30,first);put(memory,p+0x14,second);memory[p+0x6c]=variant;return p;
 }
 
@@ -3872,7 +4117,7 @@ function emitWheelSurfaceParticles(body,{memory,scratchBase}){
  if(get(memory,body+0x664)<0x20000)return 0;
  for(let i=0;i<5;i++)put(memory,0x91d360+i*4,get(memory,body+0xc4+i*4));
  const scale=memory.readFloatLE(0x5dc5f4);
- for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360+i*2))*scale),0x91cdc0+Math.floor(i/3)*16+(i%3)*4);
+ for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360+i*2))*scale),nativeGlobalAddress(memory,0x91cdc0+Math.floor(i/3)*16+(i%3)*4));
  const threshold=memory.readFloatLE(0x5dc97c),local=scratchBase-32,position=scratchBase-12,velocity=scratchBase-24;let seed=get(memory,0x5ec958),emitted=0;
  for(let wheelIndex=2;wheelIndex<4;wheelIndex++){
   const wheel=body+0x324+wheelIndex*200;if(!(memory[wheel]&1))continue;const descriptor=ptr(memory,body+0x198+wheelIndex*28);if(!descriptor)continue;
@@ -4023,7 +4268,7 @@ async function buildObjectDownload(scene, {encodeTexturePNG = browserEncodeTextu
 Object.assign(module.exports, {buildObjectManifest,buildObjectDownload});
 },
 "tools/track-viewer/zip.mjs": function(require, module, Buffer) {
-Object.assign(module.exports, {createZIP});
+Object.assign(module.exports, {createZIP,createBlobZIP});
 // ZIP's stored method keeps the standalone viewer dependency-free. PNG files
 // are already compressed; all sizes/offsets below use the classic ZIP layout.
 const crcTable = Array.from({ length: 256 }, (_, value) => {
@@ -4066,7 +4311,51 @@ function createZIP(files) {
   return new Blob([...local, ...directory, end], { type: 'application/zip' });
 }
 
-Object.assign(module.exports, {createZIP});
+//Large archive downloads retain Blob slices; only one checksum chunk is read
+//at a time. The existing small-file export API remains synchronous.
+async function createBlobZIP(files, {signal, onProgress} = {}) {
+  if (files.length > 65535) throw Error('Too many ZIP entries.');
+  const encoder = new TextEncoder(), local = [], directory = [], names = new Set();
+  let offset = 0, directoryBytes = 0, completed = 0;
+  const blobs = files.map(file => {
+    if (!(file.data instanceof Blob) && !(file.data instanceof Uint8Array) && typeof file.data !== 'string') throw Error('ZIP file data must be a Blob, text or bytes.');
+    return {name: file.name, blob: file.data instanceof Blob ? file.data : new Blob([file.data])};
+  });
+  const total = blobs.reduce((sum, file) => sum + file.blob.size, 0);
+  for (const {name: filename, blob} of blobs) {
+    signal?.throwIfAborted();
+    if (!filename || /[/\\\0]/.test(filename) || filename === '.' || filename === '..' || names.has(filename)) throw Error('Invalid or duplicate ZIP filename.');
+    names.add(filename);
+    const name = encoder.encode(filename), size = blob.size;
+    if (name.length > 65535 || size >= 0xffffffff || offset + 30 + name.length + size >= 0xffffffff) throw Error('Archive exceeds the ZIP size limit.');
+    let crc = 0xffffffff;
+    for (let start = 0; start < size; start += 1048576) {
+      signal?.throwIfAborted();
+      const chunk = new Uint8Array(await blob.slice(start, start + 1048576).arrayBuffer());
+      for (const byte of chunk) crc = crcTable[(crc ^ byte) & 255] ^ (crc >>> 8);
+      completed += chunk.length; onProgress?.({completed, total, filename});
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+    crc = (crc ^ 0xffffffff) >>> 0;
+    const header = new Uint8Array(30 + name.length), view = new DataView(header.buffer);
+    view.setUint32(0, 0x04034b50, true); view.setUint16(4, 20, true); view.setUint16(6, 0x800, true);
+    view.setUint16(12, 0x21, true); view.setUint32(14, crc, true); view.setUint32(18, size, true); view.setUint32(22, size, true);
+    view.setUint16(26, name.length, true); header.set(name, 30);
+    const central = new Uint8Array(46 + name.length), entry = new DataView(central.buffer);
+    entry.setUint32(0, 0x02014b50, true); entry.setUint16(4, 20, true); entry.setUint16(6, 20, true); entry.setUint16(8, 0x800, true);
+    entry.setUint16(14, 0x21, true); entry.setUint32(16, crc, true); entry.setUint32(20, size, true); entry.setUint32(24, size, true);
+    entry.setUint16(28, name.length, true); entry.setUint32(42, offset, true); central.set(name, 46);
+    local.push(header, blob); directory.push(central); offset += header.length + size; directoryBytes += central.length;
+  }
+  signal?.throwIfAborted();
+  if (offset + directoryBytes + 22 >= 0xffffffff) throw Error('Archive exceeds the ZIP size limit.');
+  const end = new Uint8Array(22), view = new DataView(end.buffer);
+  view.setUint32(0, 0x06054b50, true); view.setUint16(8, files.length, true); view.setUint16(10, files.length, true);
+  view.setUint32(12, directoryBytes, true); view.setUint32(16, offset, true);
+  return new Blob([...local, ...directory, end], {type: 'application/zip'});
+}
+
+Object.assign(module.exports, {createZIP,createBlobZIP});
 },
 "tools/track-viewer/export-track.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {encodeTexturePNG,buildTrackDownload});

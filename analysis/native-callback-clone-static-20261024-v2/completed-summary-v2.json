@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "method": "REA6.7.0 public stdio static Ghidra12.1.4 session with existing process-local Java25; originaltarget not executed",
+  "target": {
+    "path": "C:/Program Files (x86)/Psygnosis/Rollcage/Direct3D/Rollcage Redux.exe",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "bytes": 3120640,
+    "unchangedAfter": true
+  },
+  "profileDigest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896",
+  "cachedSnapshotReused": "analysis/scene/redux.snapshot.json",
+  "provider": {
+    "id": "ghidra",
+    "name": "Ghidra",
+    "version": "12.1.4"
+  },
+  "ownedExecSession": 42818,
+  "terminalExitCode": 0,
+  "closed": true,
+  "configurationChanged": false,
+  "gameLaunched": false,
+  "bodies": [
+    {
+      "procedure": "0x40f240",
+      "evidenceId": "ev_df8ce73e8dee801a04ef740d072c1d11d47bdaddb7a8a8c4961db95374a4b91e",
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "profileDigest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896",
+      "canonicalResult": "analysis/native-simulation/results/20261024-callback-40f240-assembly.json",
+      "replySha256": "add747ffd68aa083d7b8148cafb4932225a936b96a4944f185691d2c0b95a54c",
+      "assembly": "0x40f240: MOV EAX, dword ptr [ESP + 0x4]\n0x40f244: PUSH ESI\n0x40f245: MOV ESI, ECX\n0x40f247: TEST EAX, EAX\n0x40f249: JNZ 0x0040f260\n0x40f24b: PUSH 0xc\n0x40f24d: CALL dword ptr [0x0056e220]\n0x40f253: ADD ESP, 0x4\n0x40f256: TEST EAX, EAX\n0x40f258: JNZ 0x0040f260\n0x40f25a: CALL dword ptr [0x0056e200]\n0x40f260: MOV dword ptr [EAX], 0x5d0294\n0x40f266: MOV ECX, dword ptr [ESI + 0x4]\n0x40f269: MOV dword ptr [EAX + 0x4], ECX\n0x40f26c: POP ESI\n0x40f26d: RET 0x4",
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Assembly is Ghidra Listing text and does not claim textual equivalence with Hopper output.",
+        "Ghidra Listing reports a terminal call at 0x40f25a to EXTERNAL:0x195 MSVCP120.DLL::std::_Xbad_alloc (external=true, thunk=false, hasNoReturn=true); fallthrough is excluded by Ghidra's flow model. This records Ghidra's FunctionManager flag, not an independent verification that the callee cannot return.",
+        "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+        "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+        "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+      ]
+    },
+    {
+      "procedure": "0x40f270",
+      "evidenceId": "ev_6e8c434281f2451206c1be6f2737a710086388a1c07b066f014d178807430c80",
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "profileDigest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896",
+      "canonicalResult": "analysis/native-simulation/results/20261024-callback-40f270-assembly.json",
+      "replySha256": "2aaa7b61ff67bb62acb477219b22557a739c91aa42e839a02618ddc5402f7334",
+      "assembly": "0x40f270: MOV ECX, dword ptr [ECX + 0x4]\n0x40f273: CALL 0x0040d6d0\n0x40f278: RET 0x4",
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Assembly is Ghidra Listing text and does not claim textual equivalence with Hopper output.",
+        "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+        "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+        "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+      ]
+    },
+    {
+      "procedure": "0x40f280",
+      "evidenceId": "ev_3090c69503e5efcf036d9ccca9987554bd0af5bda85b4a9c21ca2b15484b48a0",
+      "provider": {
+        "id": "ghidra",
+        "name": "Ghidra",
+        "version": "12.1.4"
+      },
+      "profileDigest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896",
+      "canonicalResult": "analysis/native-simulation/results/20261024-callback-40f280-assembly.json",
+      "replySha256": "feb9d8ed03913ec2908dab4fa25c7fe4fd6da288229064c9d905dbad8aa043ff",
+      "assembly": "0x40f280: MOV EAX, 0x6e24bc\n0x40f285: RET",
+      "limitations": [
+        "The session serves operations only after Ghidra reports default auto-analysis complete; incomplete analysis does not expose partial results.",
+        "The imported Program and temporary project are ephemeral and deleted on close. Annotation operations edit session database metadata; original executable bytes are never written.",
+        "Cancelling an active Ghidra request terminates its ephemeral database and discards session annotations. The selected target remains open; the next provider query imports the original artifact again.",
+        "Default-space addresses use lowercase 0x-prefixed hexadecimal; other address spaces use <percent-encoded-space>:0x<hex>.",
+        "Assembly is Ghidra Listing text and does not claim textual equivalence with Hopper output.",
+        "Windows Ghidra P0 accepts native x86, x86-64, ARMNT (Thumb-2) and ARM64 PE applications and DLLs, and explicitly selected raw 6502 images; managed, hostile, sensitive, and mutable-path targets are unsupported.",
+        "The Windows bridge uses authenticated IPv4 loopback because Node path-based IPC does not expose Java AF_UNIX sockets; the endpoint file contains no bearer token.",
+        "Windows sessions require the matching packaged Windows x64 native addon, local NTFS targets and runtimes, and Windows 10 or later. Native handles enforce path admission, private DACLs, and Job Object ownership automatically."
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "path": "analysis/native-callback-clone-static-20261024-v2/callback-procedures.evidence.json",
+      "bytes": 1603345,
+      "sha256": "1deed2bc017f23bdb94dda679b938df6d3e8f37cdd6485a08352913aeb81710e",
+      "allThreeNewEvidenceIdsPresent": true
+    },
+    {
+      "path": "analysis/native-callback-clone-static-20261024-v2/callback-procedures.snapshot.json",
+      "bytes": 2323850,
+      "sha256": "a460a9198794a4aa1b19878895e834bc6a2cef400d8337f5bb2ebc37426de77d",
+      "evidenceRecords": 91,
+      "primitiveEntries": 1
+    }
+  ],
+  "findings": [
+    {
+      "procedure": "0x40f240",
+      "kind": "observed original assembly",
+      "contract": "ECX is source functor; [entryESP+4] is optional destination. Save incoming ESI atS-4; ESI=ECX. NULLdestination pushes12 atS-8, CALL[56e220] return40f253 atS-12; ADDESP4. AllocationNULL calls[56e200] at40f25a (external behavior not executed). Writes only dst[0]=actualmodule5d0294 and dst[4]=source[4]; byte8..11 untouched. POPESI thenRET4. EAX is destination."
+    },
+    {
+      "procedure": "0x40f270",
+      "kind": "observed original assembly",
+      "contract": "ECX=[functor+4]; CALL40d6d0 at40f273 publishes40f278 atS-4; RET4. Does not itself interpret or rewrite callerargument."
+    },
+    {
+      "procedure": "0x40f280",
+      "kind": "observed original assembly",
+      "contract": "EAX=actualmodule6e24bc; RET. No memory write."
+    }
+  ],
+  "notRepeated": {
+    "procedure": "0x40f2a0",
+    "retained": "analysis/native-simulation/results/9143-audio-listener-child-40f2a0-procedure_assembly.json",
+    "evidenceId": "ev_6bb338a8e6faef3db89acb251d1e02d8eb6e3c5f63253772f4b3a5a7272f1a2d"
+  },
+  "limits": [
+    "Static originalprocedureassembly is not observed runtime callback execution.",
+    "Allocator/exception service results and any called game/body/source virtualchildren are not supplied by this analysis.",
+    "The callbackclone thirdDWORD is not written; no zero initialization of its 12-byte extent is implied.",
+    "Snapshot retains91evidence records but onlyone eligible cached primitive query binding; newfullprocedure replies and evidencebundle are the direct retained assembly sources."
+  ],
+  "supersedes": "analysis/native-callback-clone-static-20261024-v2/completed-summary.json",
+  "correction": "Terminology only:12-byte clone has an untouched THIRD DWORD at+8; the assembly/contract already says byte8..11 untouched."
+}

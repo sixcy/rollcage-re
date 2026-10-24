@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {quaternionMatrix} from './fixed-math.mjs';
 import {prepareBodyShapeCache} from './body-shape-cache.mjs';
 import {lookupRawSpatialBucket} from './body-retirement-effects.mjs';
@@ -18,7 +19,7 @@ function cacheState(memory, scratchBase) {
     cacheRotation: body => {
       for (const offset of [0, 4, 8, 12, 16]) put(memory, 0x91d360 + offset, get(memory, body.address + 0xc4 + offset));
       const scale = memory.readFloatLE(0x5dc5f4);
-      for (let index = 0; index < 9; index++) memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360 + index * 2)) * scale), 0x91cdc0 + Math.floor(index / 3) * 16 + index % 3 * 4);
+      for (let index = 0; index < 9; index++) memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360 + index * 2)) * scale), nativeGlobalAddress(memory,0x91cdc0 + Math.floor(index / 3) * 16 + index % 3 * 4));
     },
     shapeTransform: (record, offset) => {
       put(memory, 0x91d3e4, record.readInt32LE(0)); put(memory, 0x91d3e8, record.readInt32LE(4));
@@ -91,8 +92,8 @@ export function queryRawRespawnObstruction(original, mode, runtime) {
   } while (remaining !== 0);
   const excluded = value => [4, 22, 12, 17].includes(value & 511);
   if (excluded(get(memory, CLONE))) return 0;
-  const count = memory.readUInt16LE(0x902bc4), radius = get(memory, records + memory[CLONE + 0x140 + memory.readInt8(CLONE + 0x10c)] * 72 + 64);
-  let list = pointer(memory, 0x902bc0);
+  const count = memory.readUInt16LE(nativeGlobalAddress(memory, 0x902bc4)), radius = get(memory, records + memory[CLONE + 0x140 + memory.readInt8(CLONE + 0x10c)] * 72 + 64);
+  let list = pointer(memory, nativeGlobalAddress(memory, 0x902bc0));
   for (let index = 0; index < count; index++, list += 4) {
     const other = pointer(memory, list); if (other === original || excluded(get(memory, other))) continue;
     const [x, y, z] = vector(memory, CLONE + 0x34).map((value, axis) => (value - get(memory, other + 0x34 + axis * 4) | 0) >>> 8);

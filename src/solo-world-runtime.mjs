@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {constructTrackPlacedObject} from './track-placed-object-construction.mjs';
 import {constructTrackNonordinaryObject} from './track-nonordinary-object-construction.mjs';
 import trackRuntimeTables from './track-runtime-tables.json' with {type: 'json'};
@@ -21,7 +22,7 @@ export function initializeSoloAuthoredObjectList(runtime) {
   const list = allocate(64) >>> 0;
   if (!list || list + 64 > memory.length) throw Error('Solo authored object list allocation exceeds native storage.');
   memory.writeUInt32LE(list, 0x91e77c); memory.writeUInt32LE(0, 0x91e778); memory.writeUInt32LE(0, 0x91e744);
-  memory.writeUInt32LE(0, 0x82e904); memory.writeUInt32LE(0, 0x82e900);
+  memory.writeUInt32LE(0, nativeGlobalAddress(memory, 0x82e904)); memory.writeUInt32LE(0, nativeGlobalAddress(memory, 0x82e900));
   return list;
 }
 
@@ -35,7 +36,7 @@ export function initializeSoloWorldDestruction(runtime) {
   const allocate = runtime.allocate ?? runtime.handlers?.allocate;
   if (!Buffer.isBuffer(memory) || memory.length < 0x920b20 || !Number.isInteger(scratchBase) || scratchBase < 0x200 || typeof allocate !== 'function') throw Error('Solo world destruction requires native storage, entry ESP and CRT allocation.');
   const ptr = address => memory.readUInt32LE(address);
-  for (const address of [0x902eec, 0x90b98c, 0x90b988, 0x909254, 0x909278, 0x91e79c]) {
+  for (const address of [nativeGlobalAddress(memory, 0x902eec), 0x90b98c, 0x90b988, 0x909254, 0x909278, 0x91e79c]) {
     const value = ptr(address);
     if (!value || value + 0x120 > memory.length) throw Error('Solo world destruction requires initialized native world pools.');
   }

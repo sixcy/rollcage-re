@@ -1,11 +1,12 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {registerRawBodyShapes} from './raw-body-construction.mjs';
 import {initializeRaceObjectType20} from './race-object-update.mjs';
 import tables from './race-object-startup-tables.json' with {type:'json'};
 const ptr=(m,p)=>m.readUInt32LE(p),get=(m,p)=>m.readInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 export function initializeRaceObjectStartupTables(memory){for(const t of tables)Buffer.from(t.bytesHex,'hex').copy(memory,Number(t.address));return memory;}
 function save(runtime,name,address){if(runtime.entryRegisters?.[name]!==undefined)put(runtime.memory,address,runtime.entryRegisters[name]);}
-function appendPhysical(body,m){const index=m.readUInt16LE(0x902bc4),array=ptr(m,0x902bc0);put(m,array+index*4,body);put(m,array+index*4+4,0);word(m,0x902bc4,m.readUInt16LE(0x902bc4)+1);}
-function appendObjectEffect(body,m){const index=get(m,0x82e900);put(m,0x82e880+Math.imul(index,8),body);put(m,0x82e884+Math.imul(index,8),0);put(m,0x82e900,get(m,0x82e900)+1);}
+function appendPhysical(body,m){const index=m.readUInt16LE(nativeGlobalAddress(m, 0x902bc4)),array=ptr(m,nativeGlobalAddress(m, 0x902bc0));put(m,array+index*4,body);put(m,array+index*4+4,0);word(m,nativeGlobalAddress(m, 0x902bc4),m.readUInt16LE(nativeGlobalAddress(m, 0x902bc4))+1);}
+function appendObjectEffect(body,m){const index=get(m,nativeGlobalAddress(m,0x82e900));put(m,nativeGlobalAddress(m,0x82e880)+Math.imul(index,8),body);put(m,nativeGlobalAddress(m,0x82e884)+Math.imul(index,8),0);put(m,nativeGlobalAddress(m,0x82e900),get(m,nativeGlobalAddress(m,0x82e900))+1);}
 function activateRoute(body,m){const table=ptr(m,0x9092b4),index=m.readUInt16LE(body+0x138),last=m.readInt16LE(body+0x13a),offset=m.readUInt16LE(table+index*2);put(m,body,get(m,body)|0x2000);put(m,body+0x134,table+offset);put(m,body+0x138,0);word(m,body+0x13c,0);m[body+0x13e]=0;m[body+0x13f]=last&255;}
 function shapes(body,count,descriptor,returnAddress,runtime){const{memory:m,scratchBase:S}=runtime;put(m,S-8,body);put(m,S-12,descriptor);put(m,S-16,returnAddress);registerRawBodyShapes(body,count,descriptor,{...runtime,scratchBase:S-16});}
 //40ff90. Type20 is already physically listed here without shape allocation;

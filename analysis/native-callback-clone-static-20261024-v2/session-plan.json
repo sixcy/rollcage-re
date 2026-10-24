@@ -1,0 +1,81 @@
+{
+  "status": "prepared-not-started; hold until root confirms V8 closed",
+  "target": {
+    "architecture": "x86",
+    "format": "pe",
+    "kind": "executable",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "provider": {
+    "id": "ghidra",
+    "name": "Ghidra",
+    "version": "12.1.4"
+  },
+  "profileDigest": "3de5374fadd78e0d56219c4afc6b4f2efac7101ff92b72faf375fb0070bbc896",
+  "processLocalEnvironment": {
+    "GHIDRA_INSTALL_DIR": "C:/Users/Cyril/Documents/ghidra_12.1.4_PUBLIC",
+    "JAVA_HOME": "C:/Program Files/Eclipse Adoptium/jdk-25.0.4.101-hotspot"
+  },
+  "cli": {
+    "path": "C:/Users/Cyril/AppData/Local/npm-cache/_npx/a1722018f28f9df2/node_modules/rea-agents/scripts/rea.mjs",
+    "version": "6.7.0"
+  },
+  "command": "powershell -NoProfile -File \"C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-callback-clone-static-20261024-v2\\run-static-session.ps1\"",
+  "executionPolicyOverride": false,
+  "onlyOpenQueued": true,
+  "nextRequestsAfterSuccessfulExactOpen": [
+    {
+      "filename": "002-callback-40f240-assembly.json",
+      "request": {
+        "tool": "procedure_assembly",
+        "arguments": {
+          "procedure": "0x40f240"
+        }
+      },
+      "canonicalRetainedDestination": "analysis/native-simulation/results/20261024-callback-40f240-assembly.json"
+    },
+    {
+      "filename": "003-callback-40f270-assembly.json",
+      "request": {
+        "tool": "procedure_assembly",
+        "arguments": {
+          "procedure": "0x40f270"
+        }
+      },
+      "canonicalRetainedDestination": "analysis/native-simulation/results/20261024-callback-40f270-assembly.json"
+    },
+    {
+      "filename": "004-callback-40f280-assembly.json",
+      "request": {
+        "tool": "procedure_assembly",
+        "arguments": {
+          "procedure": "0x40f280"
+        }
+      },
+      "canonicalRetainedDestination": "analysis/native-simulation/results/20261024-callback-40f280-assembly.json"
+    }
+  ],
+  "finish": {
+    "exportEvidence": {
+      "tool": "export_evidence_bundle",
+      "arguments": {
+        "path": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-callback-clone-static-20261024-v2\\callback-procedures.evidence.json"
+      }
+    },
+    "closeSnapshot": {
+      "tool": "close_binary",
+      "arguments": {
+        "snapshot_path": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-callback-clone-static-20261024-v2\\callback-procedures.snapshot.json"
+      }
+    },
+    "thenStop": {
+      "stop": true
+    }
+  },
+  "limits": [
+    "No native game/fixture launch",
+    "Original target remains read-only",
+    "No persistent environment/MCP/client/skill/provider configuration or install change",
+    "Later requests are queued only after prerequisite results are authenticated; existing retained replies are never overwritten"
+  ]
+}

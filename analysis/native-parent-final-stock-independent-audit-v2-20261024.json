@@ -1,0 +1,587 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-read-only-original-post-return-capture-audit",
+  "createdUtc": "2026-10-24T12:39:40.725Z",
+  "captureDirectory": "analysis/native-parent-final-stock-capture-v2-20261024",
+  "verified": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "pins": {
+    "helperSha256": "944da06c6b1da49ba7242e3e11eada27f8504f9bb98d7b7e9d776a8f279e7fe5",
+    "configurationSha256": "85287138f04a877ad9865e9bf3fb3d375ea14ea555c01841d9cccbdc45654ccb",
+    "invokerSha256": "fdfe669d3bf15b2a609254e6104fadd1859e30a7fe2620449955c9f253a59221",
+    "preparedFile": "analysis/native-parent-final-stock-prepared-v2-20261024.json",
+    "preparedSha256": "ecfbe38b685cd69046dda1eeed6e934e296d30907615acfaf74e456010c851d2",
+    "traceSha256": "8f72395cf5aa9d8fb87803e784b1cb294df8a3bd47cc6cb0cae2cdaffdb1b504",
+    "allPinnedHelperRunnerInvokerAndConfigurationFilesVerified": true,
+    "executableSha256Verified": true
+  },
+  "retryComparison": {
+    "priorFailure": "analysis/native-parent-final-stock-capture-v1-20261024",
+    "sameHelper": true,
+    "samePurposeAfterOnlyIsolatedPathNormalization": true,
+    "startupSucceededThisRecording": true,
+    "v1CauseInferred": false
+  },
+  "transport": {
+    "sites": 18,
+    "snapshots": 22,
+    "maximumSnapshots": 22,
+    "maxDurationMs": 90000,
+    "maxEvents": 1000000,
+    "events": 6957,
+    "phaseActions": 3,
+    "startupWrites": 6,
+    "blobsVerified": 7645,
+    "blobBytesVerified": 416133625,
+    "allBlobHashesLengthsAndDirectChildPathsVerified": true,
+    "unreferencedBinaryFiles": 0,
+    "contexts716Verified": 70,
+    "snapshotContexts": 22,
+    "diagnosticContexts": 48,
+    "allRegisterMetadataMatchedRawContext": true,
+    "allGuardedPointerAndThreadEnvironmentProofsVerified": true,
+    "snapshotOrder": [
+      {
+        "ordinal": 1,
+        "id": "launcher-policy",
+        "tid": 19644,
+        "event": 148
+      },
+      {
+        "ordinal": 2,
+        "id": "graphics-policy",
+        "tid": 19644,
+        "event": 150
+      },
+      {
+        "ordinal": 3,
+        "id": "before-device-creation",
+        "tid": 19644,
+        "event": 156
+      },
+      {
+        "ordinal": 4,
+        "id": "native-control-before",
+        "tid": 19644,
+        "event": 6921
+      },
+      {
+        "ordinal": 5,
+        "id": "native-control-after-ai",
+        "tid": 19644,
+        "event": 6923
+      },
+      {
+        "ordinal": 6,
+        "id": "native-control-after",
+        "tid": 19644,
+        "event": 6925
+      },
+      {
+        "ordinal": 7,
+        "id": "native-control-after-physics",
+        "tid": 19644,
+        "event": 6927
+      },
+      {
+        "ordinal": 8,
+        "id": "native-control-after-attachments",
+        "tid": 19644,
+        "event": 6929
+      },
+      {
+        "ordinal": 9,
+        "id": "native-control-after-recovery",
+        "tid": 19644,
+        "event": 6931
+      },
+      {
+        "ordinal": 10,
+        "id": "native-control-after-drive",
+        "tid": 19644,
+        "event": 6933
+      },
+      {
+        "ordinal": 11,
+        "id": "native-control-after-auxiliary",
+        "tid": 19644,
+        "event": 6935
+      },
+      {
+        "ordinal": 12,
+        "id": "native-parent-rtti-call",
+        "tid": 19644,
+        "event": 6937
+      },
+      {
+        "ordinal": 13,
+        "id": "native-parent-rtti-return",
+        "tid": 19644,
+        "event": 6939
+      },
+      {
+        "ordinal": 14,
+        "id": "native-control-after-cameras",
+        "tid": 19644,
+        "event": 6941
+      },
+      {
+        "ordinal": 15,
+        "id": "native-parent-rtti-call",
+        "tid": 19644,
+        "event": 6943
+      },
+      {
+        "ordinal": 16,
+        "id": "native-parent-rtti-return",
+        "tid": 19644,
+        "event": 6945
+      },
+      {
+        "ordinal": 17,
+        "id": "native-parent-rtti-call",
+        "tid": 19644,
+        "event": 6947
+      },
+      {
+        "ordinal": 18,
+        "id": "native-parent-rtti-return",
+        "tid": 19644,
+        "event": 6949
+      },
+      {
+        "ordinal": 19,
+        "id": "native-parent-weather-counter-call",
+        "tid": 19644,
+        "event": 6951
+      },
+      {
+        "ordinal": 20,
+        "id": "native-parent-weather-counter-return",
+        "tid": 19644,
+        "event": 6953
+      },
+      {
+        "ordinal": 21,
+        "id": "native-control-after-world-effects",
+        "tid": 19644,
+        "event": 6955
+      },
+      {
+        "ordinal": 22,
+        "id": "native-parent-return",
+        "tid": 19644,
+        "event": 6957
+      }
+    ]
+  },
+  "rawScope": {
+    "ownedPid": 33524,
+    "ownedMainTid": 19644,
+    "moduleBaseAddress": 7536640,
+    "parentEntryEsp": 18283488,
+    "originalClock": 288,
+    "crtPairs": 3,
+    "qpcPairs": 1,
+    "viewportMapGraphs": 4,
+    "typedOwnerChannelInputCheckpoints": 11,
+    "allActualMarkerAnnotationsChronologyIndicesTypeGuardsCountsAndHashesVerified": true,
+    "graphs": [
+      {
+        "snapshotOrdinal": 4,
+        "breakpointId": "native-control-before",
+        "debugEventOrdinal": 6921,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 5,
+        "breakpointId": "native-control-after-ai",
+        "debugEventOrdinal": 6923,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 6,
+        "breakpointId": "native-control-after",
+        "debugEventOrdinal": 6925,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 7,
+        "breakpointId": "native-control-after-physics",
+        "debugEventOrdinal": 6927,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 8,
+        "breakpointId": "native-control-after-attachments",
+        "debugEventOrdinal": 6929,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 9,
+        "breakpointId": "native-control-after-recovery",
+        "debugEventOrdinal": 6931,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 10,
+        "breakpointId": "native-control-after-drive",
+        "debugEventOrdinal": 6933,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 11,
+        "breakpointId": "native-control-after-auxiliary",
+        "debugEventOrdinal": 6935,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 14,
+        "breakpointId": "native-control-after-cameras",
+        "debugEventOrdinal": 6941,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 21,
+        "breakpointId": "native-control-after-world-effects",
+        "debugEventOrdinal": 6955,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      },
+      {
+        "snapshotOrdinal": 22,
+        "breakpointId": "native-parent-return",
+        "debugEventOrdinal": 6957,
+        "ownerRows": 64,
+        "usedBankSlots": 64,
+        "capacityBankSlots": 94,
+        "channelRows": 28,
+        "sourceRows": 28,
+        "lightSectors": 24,
+        "lightBandBytes": 2272,
+        "listenerUsedSlots": 1,
+        "listenerWrappers": 1,
+        "activePoseRecords": 1,
+        "poseRanges": 3,
+        "inputBytes": 3462
+      }
+    ],
+    "completion": {
+      "type": "complete",
+      "reason": "snapshot-bound",
+      "events": 6957,
+      "snapshots": 22,
+      "parentRttiObservation": {
+        "selectedParentCheckpoints": 10,
+        "startupSnapshots": 3,
+        "externalPairs": 3,
+        "externalSnapshots": 6,
+        "mapPreflights": 4,
+        "windowClosed": true,
+        "callOpen": false,
+        "activationDebugEventOrdinal": 6935,
+        "counterPairs": 1,
+        "counterSnapshots": 2
+      },
+      "soundBankOwnerGraph": {
+        "checkpoints": 11,
+        "ownerRows": 704,
+        "ownerBytes": 822272,
+        "channelGraph": {
+          "checkpoints": 11,
+          "usedChannelSlots": 308,
+          "storageRows": 110,
+          "wrapperRows": 308,
+          "sourceRows": 308,
+          "vtableRows": 11,
+          "additionalBytes": 767800
+        }
+      },
+      "parentFinalTick": {
+        "completed": true,
+        "returnSnapshots": 1,
+        "returnSnapshotOrdinal": 22,
+        "returnDebugEventOrdinal": 6957,
+        "returnValue": 1,
+        "activationDebugEventOrdinal": 6921,
+        "inputs": {
+          "checkpoints": 11,
+          "lightBandBytes": 24992,
+          "listenerWrappers": 11,
+          "listenerBytes": 880,
+          "managerObservations": 11,
+          "additionalBytes": 38082
+        }
+      },
+      "elapsedMs": 48222
+    },
+    "parentReturn": {
+      "nativeAddress": 7867960,
+      "preferredAddress": 4525624,
+      "originalNextInstructionBytesHex": "8bd8",
+      "observationPhase": "After450e50 RET; before caller MOV EBX,EAX",
+      "entryEsp": 18283488,
+      "returnEsp": 18283492,
+      "returnValue": 1,
+      "entryNonvolatile": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "actualNonvolatile": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "callerStackHex": "01000000000000000000000000000000380e78000100000030d70477",
+      "clocks": [
+        {
+          "preferredAddress": 9479496,
+          "actualAddress": 12821832,
+          "before": 288,
+          "world": 288,
+          "after": 289
+        },
+        {
+          "preferredAddress": 7235420,
+          "actualAddress": 10577756,
+          "before": 288,
+          "world": 288,
+          "after": 289
+        }
+      ],
+      "entryControlWord": 127,
+      "finalControlWord": 127,
+      "entryMxcsr": 8103,
+      "finalMxcsr": 8103,
+      "controlFieldsVerifiedByRawVerifier": true,
+      "sehHeadRestored": true
+    },
+    "actualSourceVtableMap": {
+      "evidenceFile": "analysis/native-simulation/results/11714-audio-factory-constants.json",
+      "evidenceSha256": "1d17a1af84c0d756da6d60c368d64e7692c18cb1ebc12a8089fe7d3478834e81",
+      "evidenceId": "ev_a436655c8fc8cf31b16d14f2b20027401c4b3696e54dddf149a532e7c7c64200",
+      "rows": 11,
+      "wordsPerRow": 34,
+      "totalWordsCompared": 374,
+      "allRelocatedOriginalWordsMatch": true
+    }
+  },
+  "observedInputStateChanges": {
+    "authority": "Stopped-event byte changes only; no actor, background-thread causality or interleaving closure inferred",
+    "entryToWorld": [],
+    "worldToReturned": [
+      {
+        "id": "parent-final-light-bands",
+        "address": 391873352,
+        "changedBytes": 7,
+        "changedOffsets": [
+          868,
+          896,
+          929,
+          1536,
+          1537,
+          1760,
+          1761
+        ]
+      },
+      {
+        "id": "parent-final-listener-wrapper-0",
+        "address": 270626384,
+        "changedBytes": 35,
+        "changedOffsets": [
+          8,
+          9,
+          12,
+          13,
+          14,
+          16,
+          17,
+          18,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          33,
+          34,
+          41,
+          42,
+          50,
+          53,
+          54,
+          55,
+          57,
+          58,
+          61,
+          62,
+          65,
+          66,
+          67,
+          69,
+          70,
+          73,
+          74
+        ]
+      }
+    ]
+  },
+  "cleanup": {
+    "pid": 33524,
+    "terminated": true,
+    "win32Error": 0,
+    "completeElapsedMs": 48222,
+    "cleanupElapsedMs": 48270,
+    "allFrozen": true,
+    "allTrackedThreadsQuiescent": true,
+    "trackedThreads": 48,
+    "diagnosticContexts": 48,
+    "diagnosticStacks": 48,
+    "diagnosticErrors": 0,
+    "currentRollcageProcessCount": 0,
+    "processCheckUtc": "2026-10-24T12:39:40.730Z"
+  },
+  "installationReports": {
+    "reports": [
+      {
+        "file": "analysis/native-parent-final-stock-installation-after-v2-20261024.json",
+        "sha256": "bea4a9ab55372f25e3b5c9706794dd74369d27f8521b896757d2bdeb1ad4d9ad",
+        "filesPerSide": 171,
+        "identitiesReported": 342,
+        "allMatch": true
+      },
+      {
+        "file": "analysis/native-parent-final-installed-edits-after-v2-20261024.json",
+        "sha256": "2fcd0b9423922bae6d3e881187208e21e736a309bf20f089967d7b5302ad508c",
+        "filesPerSide": 173,
+        "identitiesReported": 346,
+        "allMatch": true
+      }
+    ],
+    "identitiesReported": 688,
+    "authority": "Root-generated complete file-hash reports read and SHA-pinned; no redundant installation rehash here"
+  },
+  "limits": [
+    "This is an independent raw observer/provenance audit, not a second full source execution. Root is separately comparing the captured actual final state.",
+    "The endpoint observes one original450e50 return and the two actual clock increments; the caller instruction450e38, outer450d60 completion and next tick are not executed/compared by this audit.",
+    "Restored nonvolatiles/EAX/ESP/SEH/numerical control fields are a declared ABI subset; complete volatile registers, flags and all CPU/CRT private effects remain unproved.",
+    "Actual type/extent graphs grant no automatic semantic access to idle owners/channels/sources or every light cell. Only original entry may supply source inputs; later rows are comparison-only.",
+    "Fresh adaptive allocation reachability is not inferred from stable object counts; source creation/call evidence is separate.",
+    "The unchanged-helper success does not identify the cause of the earlier startup suspension denial.",
+    "No source/helper/profile/security changes, native launch or fixture run performed by this audit."
+  ]
+}

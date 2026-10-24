@@ -1,5 +1,11 @@
 # Rollcage pickup editor
 
+The Track Viewer now shares project saving and export with the
+[static scenery editor](scenery-editor.md). New saves use `track-project.json`
+(version 2, including geometry/BTP donor hashes); existing version-1
+`pickup-project.json` files remain accepted. The version-1 description below
+documents the original pickup-only format and retained native validation.
+
 Open `docs/track-viewer.html`, select the original Rollcage IMG/IDX pair and
 load a racing track. The Pickup editor panel supports levels1–14 and18–20.
 LEV15 has no original pickup definitions or respawn controllers and remains
@@ -59,8 +65,11 @@ Copy both archive files into the separate installation's `IDXData` directory.
 Enable weapons/pickups in that game. Edits apply in both LOW and HIGH graphics
 settings. The page never writes to the selected files or installed game, and
 does not upload archives or projects. The browser can cancel ZIP preparation
-without losing drafts. Modified archives do not retain the stock identification
-fingerprint; use original archives plus the project for further editing.
+without losing drafts. Modified archives do not retain the stock index
+fingerprint. The viewer now recognizes supported append-only editor exports
+and can open them as a new project base. To resume an existing saved project,
+reopen the exact starting IMG/IDX pair used to save it, then load the project.
+See the [edited-archive recognition checks](scenery-editor.md#recognizing-edited-archives).
 
 ## Binary and validation boundaries
 

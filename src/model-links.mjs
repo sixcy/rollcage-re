@@ -1,5 +1,6 @@
-// Static placement lists used by FUN_00429360. Runtime loader replaces small
-// serialized placement indices with object pointers; preserve indices here.
+// Static placement lists used by FUN_00429360. The word at start also serves
+// 48da10's packed route fallback; model references begin at start+1. Runtime
+// loading relocates small serialized model indices, so retain raw words here.
 export function parseStaticModelLinks(data,spatial,placements) {
  if(!spatial.available)return {available:false,nodes:[],entries:[]};
  if(data.length<0xb0)throw Error('Static model-link header is truncated.');

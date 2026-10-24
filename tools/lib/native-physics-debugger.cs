@@ -225,6 +225,159 @@ namespace RollcageCapture {
     public string parentBreakpointId, beginBreakpointId, endBreakpointId, callBreakpointId, returnBreakpointId;
     public int maxPairs, maxSnapshots;
     public ParentRttiMapPreflight singletonMapPreflight;
+    public ParentRttiViewportMapGraph viewportMapGraph;
+    public bool weatherScreenQueries;
+    public ParentWeatherCounterObservation weatherCounterObservation;
+    public ParentSoundBankOwnerGraph soundBankOwnerGraph;
+    public ParentFinalTick finalTick;
+  }
+  public sealed class ParentFinalTick {
+    public string returnBreakpointId;
+    public ParentFinalLightBands lightBands;
+    public ParentFinalListenerWrappers listenerWrappers;
+    public ParentFinalMasterLevel masterLevel;
+  }
+  public sealed class ParentFinalLightBands {
+    public string allocationRootRva,sectorTableRva,packRootRva;
+    public int maxSectors,maxBandBytes;
+  }
+  public sealed class ParentFinalListenerWrappers {
+    public string headerRva,poseRecordsRva;
+    public int maxUsedSlots,wrapperBytes,poseRecordBytes;
+  }
+  public sealed class ParentFinalMasterLevel {
+    public string managerRootRva,levelOffset,methodOffset,methodRva;
+    public int vtableBytes;
+  }
+  public sealed class ParentFinalRange {
+    public string id,role;
+    public int index;
+    public uint address;
+    public byte[] data;
+    public int[] referenceIndices;
+  }
+  public sealed class ParentFinalInputsRead {
+    public Dictionary<string,object> lightBands,listenerWrappers,masterLevel;
+    public List<ParentFinalRange> ranges=new List<ParentFinalRange>();
+    public int additionalBytes,lightBandBytes,listenerCount,listenerBytes;
+  }
+  public sealed class ParentFinalProgress {
+    public bool activated,admitted,complete;
+    public int activationDebugOrdinal,returnDebugOrdinal,returnSnapshotOrdinal,inputChecks,inputBytes,lightBandBytes,listenerCount,listenerBytes,managerObservations;
+    public uint result;
+    public void ValidateInputs(ParentRttiProgress parent,uint ownerTid,uint actualTid,string id,int debugOrdinal) {
+      int index=Array.IndexOf(ParentRttiProgress.Stages,id);if(id=="native-parent-return")index=10;
+      if(parent==null||parent.finalTick!=this||!parent.selected||ownerTid==0||ownerTid!=actualTid||parent.tid!=actualTid||index<0||inputChecks!=index||(index==10?(!admitted||complete||parent.stage!=10||debugOrdinal!=returnDebugOrdinal):(parent.stage!=index+1||debugOrdinal!=parent.lastStageDebugOrdinal)))throw new InvalidDataException("Final typed inputs require the same stopped owned selected checkpoint in exact order.");
+    }
+    public void CommitInputs(ParentRttiProgress parent,ParentFinalInputsRead observed,uint ownerTid,uint actualTid,string id,int debugOrdinal) {
+      ValidateInputs(parent,ownerTid,actualTid,id,debugOrdinal);if(observed==null||observed.lightBands==null||observed.listenerWrappers==null||observed.masterLevel==null||observed.additionalBytes<1||observed.additionalBytes>70000)throw new InvalidDataException("Final typed input publication is incomplete or over-bound.");inputChecks++;inputBytes=checked(inputBytes+observed.additionalBytes);lightBandBytes=checked(lightBandBytes+observed.lightBandBytes);listenerCount=checked(listenerCount+observed.listenerCount);listenerBytes=checked(listenerBytes+observed.listenerBytes);managerObservations++;
+    }
+    public void Activate(ParentRttiProgress parent,uint mainBase,uint ownerTid,uint actualTid,int debugOrdinal,byte original,bool armed,int hits,byte[] code) {
+      if(parent==null||!parent.selected||parent.stage!=1||parent.tid!=actualTid||actualTid!=ownerTid||ownerTid==0||parent.parentEsp<16||(ulong)parent.parentEsp+12>0x100000000UL||parent.parentDebugOrdinal!=debugOrdinal||activated||parent.caller!=checked(mainBase+0x50e38)||original!=0x8b||armed||hits!=0||code==null||code.Length!=2||code[0]!=0x8b||code[1]!=0xd8)throw new InvalidDataException("Final return activation requires captured selected parent entry and exact cold original caller.");
+      activated=true;activationDebugOrdinal=debugOrdinal;
+    }
+    public void Admit(ParentRttiProgress parent,uint mainBase,uint ownerTid,uint actualTid,uint eip,uint esp,uint eax,uint[] nonvolatileRegisters,byte[] stack,int debugOrdinal,int snapshotOrdinal) {
+      if(parent==null||!activated||admitted||complete||!parent.selected||parent.stage!=10||!parent.closed||parent.windowOpen||parent.callOpen||parent.weatherPairs!=2||parent.counter==null||!parent.counter.complete||parent.mapChecks!=3||parent.graphChecks!=3||inputChecks!=10||parent.soundOwnerChecks!=10||parent.soundChannelChecks!=10||ownerTid==0||ownerTid!=actualTid||actualTid!=parent.tid||parent.parentEsp<16||(ulong)parent.parentEsp+12>0x100000000UL||eip!=checked(mainBase+0x50e38)||esp!=parent.parentEsp+4||eax>1||debugOrdinal<=parent.lastStageDebugOrdinal||debugOrdinal<=activationDebugOrdinal||snapshotOrdinal!=22||stack==null||stack.Length!=28||nonvolatileRegisters==null||nonvolatileRegisters.Length!=4||parent.incomingNonvolatile==null)throw new InvalidDataException("Final return lacks exact completed owned parent, caller stack, pair/snapshot lifecycle or return domain.");
+      for(int i=0;i<4;i++)if(nonvolatileRegisters[i]!=parent.incomingNonvolatile[i]||BitConverter.ToUInt32(stack,i*4)!=parent.incomingNonvolatile[i])throw new InvalidDataException("Final native return changed a preserved parent register.");
+      if(BitConverter.ToUInt32(stack,16)!=checked(mainBase+0x50e38)||BitConverter.ToUInt32(stack,20)!=parent.totalIterations)throw new InvalidDataException("Final native return word/argument differs from the original parent entry.");
+      admitted=true;returnDebugOrdinal=debugOrdinal;returnSnapshotOrdinal=snapshotOrdinal;result=eax;
+    }
+    public void CommitReturn(ParentRttiProgress parent) {if(!admitted||complete||inputChecks!=11||parent.soundOwnerChecks!=11||parent.soundChannelChecks!=11||parent.mapChecks!=4||parent.graphChecks!=4)throw new InvalidDataException("Final return publication lacks complete typed/owner/map observations.");complete=true;}
+  }
+  public sealed class ParentSoundBankOwnerGraph {
+    public string rootRva,headerRangeId,storageRangeId;
+    public int maxUsedSlots,ownerBytes;
+    public string[] breakpointIds;
+    public ParentSoundBankChannelGraph channelGraph;
+  }
+  public sealed class ParentSoundBankChannelGraph {
+    public int maxUsedChannelSlots,wrapperBytes,sourceBytes,vtableBytes;
+    public string sourceVtableRva;
+  }
+  public sealed class ParentSoundChannelRange {
+    public string id,role,probeBytesHex;
+    public int index,length;
+    public uint address,sourceAddress,vtableAddress;
+    public byte[] data;
+    public ParentSoundChannelRange source,vtable;
+    public List<int> referenceIndices=new List<int>();
+  }
+  public sealed class ParentSoundChannelRead {
+    public int usedChannelSlots,additionalBytes;
+    public List<Dictionary<string,object>> owners=new List<Dictionary<string,object>>(),slots=new List<Dictionary<string,object>>();
+    public List<ParentSoundChannelRange> storages=new List<ParentSoundChannelRange>(),wrappers=new List<ParentSoundChannelRange>(),sources=new List<ParentSoundChannelRange>(),vtables=new List<ParentSoundChannelRange>(),ranges=new List<ParentSoundChannelRange>();
+  }
+  public sealed class ParentSoundBankCapturedRange {
+    public string id;
+    public uint address,vectorHeaderAddress;
+    public byte[] data;
+    public VectorStorageInfo vector;
+  }
+  public sealed class ParentSoundBankOwnerRange {
+    public string id;
+    public int index;
+    public uint address;
+    public byte[] data;
+    public List<int> slotIndices=new List<int>();
+  }
+  public sealed class ParentSoundBankOwnerRead {
+    public uint headerAddress,begin,end,capacity;
+    public int usedSlots,capacitySlots,additionalOwnerBytes;
+    public ParentSoundBankCapturedRange header,storage;
+    public List<int> nullSlots=new List<int>();
+    public List<Dictionary<string,object>> slots=new List<Dictionary<string,object>>();
+    public List<ParentSoundBankOwnerRange> owners=new List<ParentSoundBankOwnerRange>();
+    public ParentSoundChannelRead channelGraph;
+  }
+  public sealed class ParentWeatherCounterObservation {
+    public string callBreakpointId, returnBreakpointId;
+    public int maxPairs, maxSnapshots;
+  }
+  public sealed class ParentWeatherCounterRead {
+    public uint parentU,timerEntry,ebp,aligned,frame,beforeEsp,afterEsp,output;
+    public List<ParentRttiObservedRange> ranges=new List<ParentRttiObservedRange>();
+    public byte[] argument,outputBytes,frameBytes,timerReturn,screenReturn,parentReturn,iat,initialized,originFrequency,clockBytes;
+  }
+  public sealed class ParentWeatherCounterProgress {
+    public byte[] initialFlag,initialOriginFrequency,initialIat;
+    public bool originalLatched,open,complete;
+    public int captured,pairs,callDebugEventOrdinal,returnDebugEventOrdinal,callSnapshotOrdinal;
+    public uint parentU,iatTarget,moduleBaseAddress;
+    byte[] beforeFrame;
+    public void LatchOriginal(ParentRttiProgress parent,uint mainBase,uint actualTid,Func<uint,int,byte[]> read) {
+      if(originalLatched||parent==null||!parent.selected||!parent.weatherScreenQueries||parent.stage!=1||parent.tid!=actualTid||parent.parentEsp<4096||parent.parentEsp%4!=0||mainBase==0||(ulong)mainBase+0x3135b4>0x100000000UL||read==null)throw new InvalidDataException("Counter original inputs require the actual selected owned parent entry.");
+      byte[] flag=NativeDebugger.ReadParentCounterBytes(checked(mainBase+0x2e6c8c),4,read),origin=NativeDebugger.ReadParentCounterBytes(checked(mainBase+0x3135a4),16,read),iat=NativeDebugger.ReadParentCounterBytes(checked(mainBase+0x16e0fc),4,read);
+      if(BitConverter.ToUInt32(flag,0)!=1||BitConverter.ToInt64(origin,0)<=0||BitConverter.ToUInt32(iat,0)==0)throw new InvalidDataException("Counter observation requires an already initialized original clock, positive frequency and actual nonnull IAT target.");
+      initialFlag=(byte[])flag.Clone();initialOriginFrequency=(byte[])origin.Clone();initialIat=(byte[])iat.Clone();parentU=parent.parentEsp;moduleBaseAddress=mainBase;iatTarget=BitConverter.ToUInt32(iat,0);originalLatched=true;
+    }
+    public bool CanRead(ParentRttiProgress parent,uint actualTid,bool entry,uint esp) {
+      if(!originalLatched||parent==null||!parent.selected||!parent.weatherScreenQueries||!parent.windowOpen||parent.closed||parent.stage!=9||parent.weatherPairs!=2||parent.callOpen||parent.tid!=actualTid||parent.parentEsp!=parentU)return false;
+      uint aligned=(parentU-368)&~7u,frame=aligned-32;return esp==(entry?frame-4:frame);
+    }
+    public void Validate(ParentRttiProgress parent,bool entry,uint mainBase,uint actualTid,uint eip,uint ebp,uint esi,uint esp,ParentWeatherCounterRead observed,int debugOrdinal,int snapshotOrdinal,int snapshotLimit) {
+      if(!CanRead(parent,actualTid,entry,esp)||mainBase!=moduleBaseAddress||eip!=checked(mainBase+(entry?0x89d11u:0x89d13u))||ebp!=parentU-368||esi!=iatTarget||observed==null||observed.parentU!=parentU||debugOrdinal<=parent.lastEndpointDebugOrdinal||debugOrdinal<=parent.activationDebugOrdinal||snapshotOrdinal!=3+parent.stage+parent.captured+(entry?0:1)+1||snapshotLimit!=(parent.finalTick==null?21:22)||NativeDebugger.RequiredParentCounterSnapshots(parent)>snapshotLimit)throw new InvalidDataException("Counter admission lacks exact caller/parent scope or the combined original checkpoint snapshot budget.");
+      NativeDebugger.ValidateParentWeatherCounterRead(this,parent,mainBase,observed);
+      if(entry){if(open||complete||captured!=0||pairs!=0)throw new InvalidDataException("Counter observation permits one genuine nonnested call only.");beforeFrame=(byte[])observed.frameBytes.Clone();callDebugEventOrdinal=debugOrdinal;callSnapshotOrdinal=snapshotOrdinal;open=true;}
+      else {if(!open||complete||captured!=1||pairs!=0||debugOrdinal<=callDebugEventOrdinal||snapshotOrdinal!=callSnapshotOrdinal+1)throw new InvalidDataException("Counter return lacks its same original open call.");for(int i=0;i<24;i++)if(beforeFrame[i]!=observed.frameBytes[i])throw new InvalidDataException("Counter call changed captured non-output frame bytes.");returnDebugEventOrdinal=debugOrdinal;}
+    }
+    public void Commit(bool entry) {if(!open||complete||captured!=(entry?0:1))throw new InvalidDataException("Counter snapshot commit order differs.");captured++;if(!entry){open=false;complete=true;pairs=1;}}
+    public void RequireComplete(int worldDebugOrdinal) {if(!originalLatched||open||!complete||pairs!=1||captured!=2||returnDebugEventOrdinal<=callDebugEventOrdinal||worldDebugOrdinal<=returnDebugEventOrdinal)throw new InvalidDataException("World checkpoint lacks one fully observed original performance-counter call/return.");}
+  }
+  public sealed class ParentRttiViewportMapGraph {
+    public int maxNodes, maxKeyBytes;
+    public string[] breakpointIds;
+  }
+  public sealed class ParentRttiMapGraphRange {
+    public string id, role, path;
+    public int nodeIndex;
+    public uint address, nodeAddress;
+    public byte[] data;
+  }
+  public sealed class ParentRttiMapGraphRead {
+    public uint appAddress, headerAddress, headAddress, rootAddress, count;
+    public byte[] headerBytes, headBytes;
+    public List<ParentRttiMapGraphRange> ranges=new List<ParentRttiMapGraphRange>();
+    public List<Dictionary<string,object>> nodes=new List<Dictionary<string,object>>();
   }
   public sealed class ParentRttiMapRead {
     public uint rootAddress, appAddress, headSlotAddress, headAddress;
@@ -232,13 +385,26 @@ namespace RollcageCapture {
   }
   public sealed class ParentRttiEndpointRead {
     public byte[] context, cameraReturn, clockBytes, singletonBytes;
-    public bool commonCaller;
+    public byte[] queryReturn, screenReturn, parentReturn, name;
+    public bool commonCaller, weather;
+    public int weatherQueryIndex;
+    public List<ParentRttiObservedRange> ranges=new List<ParentRttiObservedRange>();
+  }
+  public sealed class ParentRttiObservedRange {
+    public string id;
+    public uint address;
+    public byte[] data;
   }
   public sealed class ParentRttiProgress {
+    public ParentWeatherCounterProgress counter;
+    public ParentFinalProgress finalTick;
     public uint tid, parentEsp, clock, iteration, caller, totalIterations, appAddress, headAddress;
     public uint[] incomingNonvolatile;
-    public int parentDebugOrdinal, activationDebugOrdinal, auxiliarySnapshotOrdinal, lastStageDebugOrdinal, lastEndpointDebugOrdinal, stage, captured, pairs, mapChecks;
-    public bool selected, windowOpen, closed, callOpen, auxiliaryCaptured, auxiliaryPublished;
+    public int parentDebugOrdinal, activationDebugOrdinal, auxiliarySnapshotOrdinal, lastStageDebugOrdinal, lastEndpointDebugOrdinal, stage, captured, pairs, mapChecks, graphChecks;
+    public int soundOwnerChecks,soundOwnerRows,soundOwnerBytes;
+    public int soundChannelChecks,soundChannelSlots,soundChannelStorages,soundChannelWrappers,soundChannelSources,soundChannelVtables,soundChannelBytes;
+    public bool selected, windowOpen, closed, callOpen, auxiliaryCaptured, auxiliaryPublished, weatherScreenQueries, openWeather;
+    public int weatherPairs, openWeatherQueryIndex;
     byte[] arguments;
     public static readonly string[] Stages={"native-control-before","native-control-after-ai","native-control-after","native-control-after-physics","native-control-after-attachments","native-control-after-recovery","native-control-after-drive","native-control-after-auxiliary","native-control-after-cameras","native-control-after-world-effects"};
     public void ObserveStage(string id,uint mainBase,uint ownerTid,uint actualTid,uint esp,uint actualClock,uint currentIteration,byte[] stack,uint[] nonvolatileRegisters,int debugOrdinal) {
@@ -250,13 +416,13 @@ namespace RollcageCapture {
         if(physical&&BitConverter.ToUInt32(stack,0)!=checked(mainBase+0x51017))throw new InvalidDataException("Parent RTTI physical caller differs.");
         for(int i=0;i<4;i++)if(BitConverter.ToUInt32(stack,shift+i*4)!=incomingNonvolatile[i])throw new InvalidDataException("Parent RTTI saved parent register differs.");
         if(BitConverter.ToUInt32(stack,shift+16)!=caller||BitConverter.ToUInt32(stack,shift+20)!=totalIterations)throw new InvalidDataException("Parent RTTI saved parent caller/iteration argument differs.");
-        if(id=="native-control-after-cameras"){if(!windowOpen||closed||callOpen||captured!=pairs*2||debugOrdinal<=lastEndpointDebugOrdinal)throw new InvalidDataException("Parent RTTI camera closure has an unmatched external call.");windowOpen=false;closed=true;}
+        if(id=="native-control-after-cameras"||weatherScreenQueries&&id=="native-control-after-world-effects"){if(!windowOpen||closed||callOpen||captured!=pairs*2||debugOrdinal<=lastEndpointDebugOrdinal)throw new InvalidDataException("Parent RTTI camera/world boundary has an unmatched external call.");if(!weatherScreenQueries||id=="native-control-after-world-effects"){if(weatherScreenQueries&&weatherPairs!=2)throw new InvalidDataException("Parent RTTI mixed window lacks both original ordered weather queries.");if(counter!=null)counter.RequireComplete(debugOrdinal);windowOpen=false;closed=true;}}
       }
       stage++;lastStageDebugOrdinal=debugOrdinal;
     }
     public void ObserveMap(string id,uint app,uint head) {
       bool entry=id=="native-control-before";
-      bool valid=entry?(stage==1&&mapChecks==0):id=="native-control-after-cameras"?(stage==9&&mapChecks==1):id=="native-control-after-world-effects"&&(stage==10&&mapChecks==2);
+      bool valid=entry?(stage==1&&mapChecks==0):id=="native-control-after-cameras"?(stage==9&&mapChecks==1):id=="native-parent-return"?(finalTick!=null&&finalTick.admitted&&stage==10&&mapChecks==3):id=="native-control-after-world-effects"&&(stage==10&&mapChecks==2);
       if(!selected||app==0||head==0||!valid)throw new InvalidDataException("Parent RTTI map preflight stage/null identity differs.");
       if(entry){appAddress=app;headAddress=head;}else if(appAddress!=app||headAddress!=head)throw new InvalidDataException("Parent RTTI singleton/head identity changed after selected parent entry.");mapChecks++;
     }
@@ -265,15 +431,22 @@ namespace RollcageCapture {
     }
     public void MarkAuxiliaryCaptured(int ordinal){if(stage!=8||auxiliaryCaptured||ordinal<1)throw new InvalidDataException("Parent RTTI auxiliary capture order differs.");auxiliaryCaptured=true;auxiliarySnapshotOrdinal=ordinal;}
     public void MarkAuxiliaryPublished(){if(!auxiliaryCaptured||auxiliaryPublished||!windowOpen||activationDebugOrdinal==0)throw new InvalidDataException("Parent RTTI auxiliary publication precedes guarded activation.");auxiliaryPublished=true;}
-    public bool CanRead(uint actualTid,uint esp) {return selected&&windowOpen&&!closed&&actualTid==tid&&esp==parentEsp-276;}
+    public bool CanRead(uint actualTid,uint esp) {return selected&&windowOpen&&!closed&&actualTid==tid&&(esp==parentEsp-276&&(!weatherScreenQueries||stage==8)||weatherScreenQueries&&stage==9&&esp==parentEsp-460);}
     public void ValidateEndpoint(bool entry,uint mainBase,uint actualTid,uint esp,uint actualClock,uint singleton,byte[] context,byte[] cameraReturn,int debugOrdinal) {
-      if(!CanRead(actualTid,esp)||actualClock!=clock||singleton!=appAddress||debugOrdinal<=activationDebugOrdinal||debugOrdinal<=lastEndpointDebugOrdinal||context==null||context.Length!=52||cameraReturn==null||cameraReturn.Length!=4)throw new InvalidDataException("Parent RTTI endpoint scope/clock/extents differs.");
-      if(BitConverter.ToUInt32(context,40)!=checked(mainBase+0x1a0c8)||BitConverter.ToUInt32(context,44)!=1||BitConverter.ToUInt32(context,48)!=parentEsp-60||BitConverter.ToUInt32(cameraReturn,0)!=checked(mainBase+0x51107)||BitConverter.ToUInt32(context,0)!=appAddress||BitConverter.ToUInt32(context,4)!=0||BitConverter.ToUInt32(context,8)!=checked(mainBase+0x2e213c)||BitConverter.ToUInt32(context,12)!=checked(mainBase+0x2e20a4)||BitConverter.ToUInt32(context,16)!=0)throw new InvalidDataException("Parent RTTI common wrapper/camera/type arguments differ.");
+      if(!CanRead(actualTid,esp)||esp!=parentEsp-276||weatherScreenQueries&&(stage!=8||openWeather)||actualClock!=clock||singleton!=appAddress||debugOrdinal<=activationDebugOrdinal||debugOrdinal<=lastEndpointDebugOrdinal||context==null||context.Length!=52||cameraReturn==null||cameraReturn.Length!=4)throw new InvalidDataException("Parent RTTI endpoint scope/clock/extents differs.");
+      //41a0c0 PUSH1;41a0c2 PUSHname: wrapper R+4 is NAME, R+8 is MODE.
+      if(BitConverter.ToUInt32(context,40)!=checked(mainBase+0x1a0c8)||BitConverter.ToUInt32(context,44)!=parentEsp-60||BitConverter.ToUInt32(context,48)!=1||BitConverter.ToUInt32(cameraReturn,0)!=checked(mainBase+0x51107)||BitConverter.ToUInt32(context,0)!=appAddress||BitConverter.ToUInt32(context,4)!=0||BitConverter.ToUInt32(context,8)!=checked(mainBase+0x2e213c)||BitConverter.ToUInt32(context,12)!=checked(mainBase+0x2e20a4)||BitConverter.ToUInt32(context,16)!=0)throw new InvalidDataException("Parent RTTI common wrapper/camera/type arguments differ.");
       if(entry){if(callOpen||pairs>=4||captured!=pairs*2)throw new InvalidDataException("Parent RTTI external pair bound/nesting differs.");arguments=new byte[20];Buffer.BlockCopy(context,0,arguments,0,20);callOpen=true;}
       else {if(!callOpen||captured!=pairs*2+1)throw new InvalidDataException("Parent RTTI return lacks its captured call.");for(int i=0;i<20;i++)if(arguments[i]!=context[i])throw new InvalidDataException("Parent RTTI external arguments changed across its call.");}lastEndpointDebugOrdinal=debugOrdinal;
     }
-    public void CommitEndpoint(bool entry) {if(!callOpen||captured!=(entry?pairs*2:pairs*2+1))throw new InvalidDataException("Parent RTTI endpoint commit differs.");captured++;if(!entry){pairs++;callOpen=false;}}
-    public void RequireComplete(int snapshots) {if(!selected||stage!=10||!closed||windowOpen||callOpen||!auxiliaryPublished||mapChecks!=3||captured!=pairs*2||pairs>4||snapshots!=13+captured)throw new InvalidDataException("Parent RTTI capture lacks complete original checkpoints and matched scoped external snapshots.");}
+    public void ValidateWeatherEndpoint(bool entry,uint mainBase,uint actualTid,uint esp,ParentRttiEndpointRead observed,int debugOrdinal) {
+      if(!weatherScreenQueries||!CanRead(actualTid,esp)||stage!=9||esp!=parentEsp-460||observed==null||!observed.weather||!observed.commonCaller||!NativeDebugger.ParentRttiWeatherAbiMatches(this,mainBase,observed)||observed.clockBytes==null||observed.clockBytes.Length!=4||BitConverter.ToUInt32(observed.clockBytes,0)!=clock||observed.singletonBytes==null||observed.singletonBytes.Length!=4||BitConverter.ToUInt32(observed.singletonBytes,0)!=appAddress||debugOrdinal<=activationDebugOrdinal||debugOrdinal<=lastEndpointDebugOrdinal)throw new InvalidDataException("Parent RTTI direct weather scope/caller/arguments differs.");
+      int query=observed.weatherQueryIndex;
+      if(entry){if(callOpen||pairs>=4||captured!=pairs*2||query!=weatherPairs+1||query>2)throw new InvalidDataException("Parent RTTI weather queries must be separately observed in original first/second order.");arguments=new byte[20];Buffer.BlockCopy(observed.context,0,arguments,0,20);callOpen=true;openWeather=true;openWeatherQueryIndex=query;}
+      else {if(!callOpen||!openWeather||query!=openWeatherQueryIndex||query!=weatherPairs+1||captured!=pairs*2+1)throw new InvalidDataException("Parent RTTI weather return lacks the same original query call.");for(int i=0;i<20;i++)if(arguments[i]!=observed.context[i])throw new InvalidDataException("Parent RTTI weather external arguments changed across its call.");}lastEndpointDebugOrdinal=debugOrdinal;
+    }
+    public void CommitEndpoint(bool entry) {if(!callOpen||captured!=(entry?pairs*2:pairs*2+1))throw new InvalidDataException("Parent RTTI endpoint commit differs.");captured++;if(!entry){pairs++;callOpen=false;if(openWeather){weatherPairs++;openWeather=false;openWeatherQueryIndex=0;}}}
+    public void RequireComplete(int snapshots) {if(!selected||stage!=10||!closed||windowOpen||callOpen||!auxiliaryPublished||mapChecks!=(finalTick==null?3:4)||captured!=pairs*2||pairs>4||weatherScreenQueries&&weatherPairs!=2||snapshots!=13+captured+(counter==null?0:counter.captured)+(finalTick==null?0:1))throw new InvalidDataException("Parent RTTI capture lacks complete original checkpoints and matched scoped external snapshots.");if(counter!=null)counter.RequireComplete(lastStageDebugOrdinal);if(finalTick!=null&&!finalTick.complete)throw new InvalidDataException("Final purpose lacks the actual post-return endpoint.");}
   }
   public sealed class ContainedRangeView {
     public int ownerIndex, dataOffset, length;
@@ -290,6 +463,34 @@ namespace RollcageCapture {
     public string bodySha256, planSha256;
     public byte[] original, replacement;
     public int[] normal;
+  }
+  public sealed class RaceClockObservation {
+    public string entryBreakpointId,counterCallBreakpointId,counterReturnBreakpointId,returnBreakpointId;
+    public int minimumLogicalClock,stackBytesBefore,stackBytesAfter,maxCounterPairs,maxSnapshots;
+  }
+  public sealed class RaceClockRange { public string id;public uint address;public byte[] data; }
+  public sealed class RaceClockRead {
+    public string role,id;public uint moduleBase,entryEsp,session,logical,delivered;public uint[] nonvolatile;
+    public int debugOrdinal,snapshotOrdinal,index;public byte[] context;
+    public List<RaceClockRange> ranges=new List<RaceClockRange>();
+  }
+  public sealed class RaceClockProgress {
+    public int stage,lastDebugOrdinal,entryDebugOrdinal,entrySnapshotOrdinal,activationDebugOrdinal,callDebugOrdinal,callSnapshotOrdinal,returnDebugOrdinal,returnSnapshotOrdinal;
+    public uint tid,result;public RaceClockRead original;
+    public bool activated;
+    public void Commit(RaceClockRead read,uint ownerTid,uint actualTid) {
+      string[] ids={"native-race-clock-entry","native-race-clock-counter-call","native-race-clock-counter-return","native-race-clock-return"};
+      if(read==null||ownerTid==0||ownerTid!=actualTid||read.index!=stage+1||stage>=4||read.id!=ids[stage]||read.snapshotOrdinal!=4+stage||read.debugOrdinal<1||read.debugOrdinal<=lastDebugOrdinal||stage>0&&!activated)throw new InvalidDataException("Race clock commit lacks an actual published ordered snapshot.");
+      if(stage==0){original=read;tid=actualTid;entryDebugOrdinal=read.debugOrdinal;entrySnapshotOrdinal=read.snapshotOrdinal;}
+      if(stage==1){callDebugOrdinal=read.debugOrdinal;callSnapshotOrdinal=read.snapshotOrdinal;}
+      if(stage==3){returnDebugOrdinal=read.debugOrdinal;returnSnapshotOrdinal=read.snapshotOrdinal;result=BitConverter.ToUInt32(read.context,176);}
+      lastDebugOrdinal=read.debugOrdinal;stage++;
+    }
+    public void Activate(int debugOrdinal,int publishedSnapshotOrdinal) {
+      if(stage!=1||activated||debugOrdinal!=entryDebugOrdinal||publishedSnapshotOrdinal!=entrySnapshotOrdinal)throw new InvalidDataException("Race clock activation must follow published selected entry at the same stopped event.");
+      activated=true;activationDebugOrdinal=debugOrdinal;
+    }
+    public void RequireComplete(int snapshots){if(stage!=4||!activated||snapshots!=7||entrySnapshotOrdinal!=4||callSnapshotOrdinal!=5||returnSnapshotOrdinal!=7)throw new InvalidDataException("Race clock lacks its complete original four-observation group.");}
   }
   public sealed class Options {
     public int schemaVersion = 1;
@@ -324,36 +525,293 @@ namespace RollcageCapture {
     public HeldForceInput heldForceInput;
     public ControlledRaceSettings controlledRaceSettings;
     public ParentRttiObservation parentRttiObservation;
+    public RaceClockObservation raceClockObservation;
   }
   public static class NativeDebugger {
     public const string ParentRttiCapability="scoped-parent-rtti-and-singleton-map-preflight-v1";
-    public static string[] GetCapabilities(){return new string[]{ParentRttiCapability};}
+    public const string ParentRttiMapGraphCapability="scoped-parent-rtti-viewport-map-graph-v2";
+    public const string ParentRttiWeatherCapability="scoped-parent-camera-weather-rtti-v3";
+    public const string ParentWeatherCounterCapability="scoped-parent-weather-counter-v4";
+    public const string ParentSoundBankOwnerCapability="scoped-parent-sound-bank-owner-graph-v1";
+    public const string ParentSoundBankChannelCapability="scoped-parent-sound-bank-channel-graph-v1";
+    public const string ParentFinalTickCapability="scoped-parent-final-tick-v1";
+    public const string RaceClockCapability="scoped-race-step-clock-v1";
+    public static void ValidateRaceClockPolicy(Options o) {
+      RaceClockObservation p=o.raceClockObservation;if(p==null)return;
+      if(p.entryBreakpointId!="native-race-clock-entry"||p.counterCallBreakpointId!="native-race-clock-counter-call"||p.counterReturnBreakpointId!="native-race-clock-counter-return"||p.returnBreakpointId!="native-race-clock-return"||p.minimumLogicalClock!=288||p.stackBytesBefore!=512||p.stackBytesAfter!=28||p.maxCounterPairs!=1||p.maxSnapshots!=4||o.maxSnapshots!=7||o.maxDurationMs!=90000||o.maxEvents!=1000000||!o.captureThreadEnvironment||o.ranges.Length!=0||o.breakpoints.Length!=7||o.phaseActions.Length!=3||o.parentRttiObservation!=null||o.pendingFrameObserver!=null||o.observationActivation!=null||o.ownedWorkerObservation!=null||o.ownedWorkerGainPair!=null||o.ownedWorkerGainWindow!=null||o.heldForceInput!=null||o.controlledRaceSettings!=null)throw new InvalidDataException("Race clock requires its exact separate warm bounded purpose.");
+      if(!o.denyRegistryWrites||!o.denyChildProcesses||!o.denyPlayerMailslot||!o.hideOwnedWindows||!o.captureThreadsOnStop||o.stopThreadStackBytes!=128||o.showWindow||String.Join(",",o.arguments)!="/windowed,/width,800,/height,600"||!String.Equals(o.expectedSha256,"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",StringComparison.OrdinalIgnoreCase)||!SameRange(o.foregroundWindowSource,new MemoryRange{id="owned-application-hwnd",rva="0x2efb38",dereferenceOffsets=new string[]{"0"},offset="4",length=4}))throw new InvalidDataException("Race clock original owned/security startup policy differs.");
+      string[] ids={"launcher-policy","graphics-policy","before-device-creation",p.entryBreakpointId,p.counterCallBreakpointId,p.counterReturnBreakpointId,p.returnBreakpointId};uint[] sites={0x42890,0x35be,0x112a30,0x41c70,0x89d11,0x89d13,0x50df0};
+      for(int i=0;i<7;i++){Breakpoint b=o.breakpoints[i];if(b.id!=ids[i]||Number(b.rva)!=sites[i]||b.address!=null||b.service!=null||b.stopAfterHits!=0||b.captureWhen!=null||b.skipMatchingHits.HasValue||i>=3&&b.ranges.Length!=0)throw new InvalidDataException("Race clock extra/reordered/moved/filtering code site differs.");}
+      MemoryRange[][] startup={new MemoryRange[]{new MemoryRange{id="launcher-skip",rva="0x2e66ec",length=4},new MemoryRange{id="launcher-config",rva="0x1ecefc",dereferenceOffsets=new string[]{"0"},offset="0x42c",length=10}},new MemoryRange[]{new MemoryRange{id="graphics-mode",rva="0x2e64a4",dereferenceOffsets=new string[]{"0"},offset="0x24",length=28}},new MemoryRange[]{new MemoryRange{id="presentation",baseRegister="ecx",offset="0x378",length=56},new MemoryRange{id="entry-stack",baseRegister="esp",length=32}}};
+      for(int i=0;i<3;i++){if(o.breakpoints[i].ranges.Length!=startup[i].Length||o.phaseActions[i].breakpointId!=ids[i]||o.phaseActions[i].hit!=1||o.phaseActions[i].writes.Length!=(i==0?3:i==1?1:2))throw new InvalidDataException("Race clock startup observations/actions differ.");for(int j=0;j<startup[i].Length;j++)if(!SameRange(o.breakpoints[i].ranges[j],startup[i][j]))throw new InvalidDataException("Race clock startup input differs.");}
+      uint[] roots={0x2e66ec,0x1ecefc,0x1ecefc,0x2e64a4,0,0};int[] offsets={0,10,14,60,0x398,0x3a8};string[] replacements={"01000000","01","01","00","01000000","00000000"};int slot=0;
+      foreach(PhaseAction a in o.phaseActions)foreach(MemoryWrite w in a.writes){bool chain=slot>=1&&slot<=3;if(w.address!=null||Number(w.rva)!=roots[slot]||(slot>=4?w.baseRegister!="ecx":w.baseRegister!=null)||Offset(w.offset)!=offsets[slot]||w.dereferenceOffsets.Length!=(chain?1:0)||chain&&Offset(w.dereferenceOffsets[0])!=0||BytesHex(ParseBytes(w.bytesHex))!=replacements[slot])throw new InvalidDataException("Race clock forbids nonstartup/game writes.");if(slot<4){string[] expected=slot==0?new string[]{"00000000","01000000"}:new string[]{"00","01"};if(w.expectedBytesHex!=null||w.expectedAnyBytesHex==null||w.expectedAnyBytesHex.Length!=2||w.expectedAnyBytesHex[0]!=expected[0]||w.expectedAnyBytesHex[1]!=expected[1])throw new InvalidDataException("Race clock original startup guard differs.");}else if(w.expectedAnyBytesHex!=null||w.expectedBytesHex!=replacements[slot])throw new InvalidDataException("Race clock device writes must be exact guarded noops.");slot++;}
+    }
+    public static byte[] RaceClockCode(string id,uint mainBase) {
+      if(id=="native-race-clock-entry")return ParseBytes("83ec08");if(id=="native-race-clock-counter-call")return ParseBytes("ffd6");if(id=="native-race-clock-counter-return")return ParseBytes("8b442418");
+      if(id!="native-race-clock-return"||mainBase==0||(ulong)mainBase+0x2e6b50>0x100000000UL)throw new InvalidDataException("Unknown race clock code domain.");byte[] b=new byte[6];b[0]=0x8b;b[1]=0x35;Buffer.BlockCopy(BitConverter.GetBytes(mainBase+0x2e6b4c),0,b,2,4);return b;
+    }
+    public static void ValidateRaceClockDeferred(string id,uint mainBase,byte original,bool armed,int raw,int matching,int captured,byte[] code){byte[] expected=RaceClockCode(id,mainBase);if(id=="native-race-clock-entry"||armed||raw!=0||matching!=0||captured!=0||original!=expected[0]||code==null||Digest(code)!=Digest(expected))throw new InvalidDataException("Race clock deferred code/counters changed before arming.");}
+    public static byte[] ValidateRaceClockStoppedCode(string id,uint mainBase,byte original,bool armed,byte[] code){byte[] expected=RaceClockCode(id,mainBase);if(!armed||original!=expected[0]||code==null||code.Length!=expected.Length||code[0]!=0xcc)throw new InvalidDataException("Race clock stopped code is not its actual armed original site.");byte[] normalized=(byte[])code.Clone();normalized[0]=original;if(Digest(normalized)!=Digest(expected))throw new InvalidDataException("Race clock actual relocated original instruction changed.");return normalized;}
+    public static Dictionary<string,uint> RaceClockLayout(uint C){if(C<512||(C&3)!=0||(ulong)C+28>0x100000000UL)throw new InvalidDataException("Race clock stack exceeds bounded DWORD-aligned x86 extent.");uint T=C-16,A=(C-20)&~7u,F=A-32;return new Dictionary<string,uint>{{"entryEsp",C},{"timerEntryEsp",T},{"timerEbp",C-20},{"alignedAddress",A},{"frame",F},{"counterCallEsp",F-4},{"counterReturnEsp",F},{"outputAddress",F+24},{"returnEsp",C+4},{"stackAddress",C-512},{"stackBytes",540}};}
+    static byte[] ClockPart(RaceClockRead r,string id){RaceClockRange p=r.ranges.Find(delegate(RaceClockRange x){return x.id==id;});if(p==null)throw new InvalidDataException("Race clock missing exact observed row.");return p.data;}
+    static byte[] ClockRead(Func<uint,int,byte[]> read,uint address,int length){if(address==0||length<1||(ulong)address+(ulong)length>0x100000000UL)throw new InvalidDataException("Race clock real pointer span overflows.");byte[] b=read(address,length);if(b==null||b.Length!=length)throw new InvalidDataException("Race clock actual read extent differs.");return(byte[])b.Clone();}
+    public static RaceClockRead ReadRaceClockObservation(RaceClockProgress state,uint ownerTid,uint tid,uint mainBase,string id,byte[] context,int debugOrdinal,int snapshotOrdinal,Func<uint,int,byte[]> read) {
+      if(ownerTid==0||tid!=ownerTid)return null; //Before all foreign stack/root reads.
+      if(state==null||context==null||context.Length!=716||read==null||mainBase==0||(ulong)mainBase+0x50a54c>0x100000000UL||debugOrdinal<1)throw new InvalidDataException("Race clock missing actual context/owned module/reader.");
+      string[] sites={"native-race-clock-entry","native-race-clock-counter-call","native-race-clock-counter-return","native-race-clock-return"};uint[] rvas={0x41c70,0x89d11,0x89d13,0x50df0};int index=Array.IndexOf(sites,id);
+      if(index<0||index!=state.stage||state.stage>=4||state.stage>0&&(!state.activated||state.tid!=tid||mainBase!=state.original.moduleBase))throw new InvalidDataException("Nested/reordered/duplicate selected race clock observation.");
+      uint esp=BitConverter.ToUInt32(context,196),C=state.stage==0?esp:state.original.entryEsp;
+      if(state.stage==0&&(C<512||(C&3)!=0||(ulong)C+28>0x100000000UL))return null;
+      Dictionary<string,uint> l=RaceClockLayout(C);if(BitConverter.ToUInt32(context,184)!=mainBase+rvas[index]||esp!=(index==0?C:index==1?l["counterCallEsp"]:index==2?l["counterReturnEsp"]:l["returnEsp"]))throw new InvalidDataException("Race clock selected EIP/stack differs.");
+      if(state.stage==0){if(BitConverter.ToUInt32(ClockRead(read,C,4),0)!=mainBase+0x50df0||BitConverter.ToUInt32(ClockRead(read,C+24,4),0)!=mainBase+0x40cd5)return null;}
+      uint session=BitConverter.ToUInt32(ClockRead(read,mainBase+0x1ecb1c,4),0);if(session==0){if(state.stage==0)return null;throw new InvalidDataException("Race clock selected session became NULL.");}
+      uint phase=BitConverter.ToUInt32(ClockRead(read,checked(session+0x57c),4),0),logical=BitConverter.ToUInt32(ClockRead(read,mainBase+0x50a548,4),0),delivered=BitConverter.ToUInt32(ClockRead(read,mainBase+0x2e66f8,4),0);
+      if(state.stage==0&&(phase!=4||logical<288||delivered==0||BitConverter.ToUInt32(ClockRead(read,mainBase+0x2e6c8c,4),0)!=1||BitConverter.ToInt64(ClockRead(read,mainBase+0x3135a4,8),0)<=0||BitConverter.ToUInt32(ClockRead(read,mainBase+0x16e0fc,4),0)==0||BitConverter.ToUInt32(ClockRead(read,mainBase+0x16e114,4),0)==0))return null;
+      if(snapshotOrdinal!=4+index||state.stage>0&&(session!=state.original.session||logical!=state.original.logical))throw new InvalidDataException("Race clock snapshot/root/logical lineage differs.");
+      RaceClockRead observed=new RaceClockRead{id=id,role=index==0?"entry":index==1?"counter-call":index==2?"counter-return":"return",index=index+1,moduleBase=mainBase,entryEsp=C,session=session,logical=logical,delivered=delivered,debugOrdinal=debugOrdinal,snapshotOrdinal=snapshotOrdinal,context=(byte[])context.Clone(),nonvolatile=new uint[]{BitConverter.ToUInt32(context,164),BitConverter.ToUInt32(context,180),BitConverter.ToUInt32(context,160),BitConverter.ToUInt32(context,156)}};
+      string[] ids={"race-clock-origin","race-clock-streak","race-clock-delivered","race-clock-network","race-clock-enabled","race-clock-frequency-origin","race-clock-qpc-import","race-clock-qpf-import","race-clock-scale","race-clock-conversion-tables","race-clock-logical","race-clock-sample","race-clock-session-root"};uint[] roots={0x2e66b0,0x2e66e4,0x2e66f8,0x2eafe0,0x2e6c8c,0x3135a4,0x16e0fc,0x16e114,0x1dc6e0,0x16f6a0,0x50a548,0x2e675c,0x1ecb1c};int[] lengths={8,4,4,4,4,16,4,4,8,130,4,4,4};
+      for(int i=0;i<ids.Length;i++)observed.ranges.Add(new RaceClockRange{id=ids[i],address=mainBase+roots[i],data=ClockRead(read,mainBase+roots[i],lengths[i])});
+      observed.ranges.Add(new RaceClockRange{id="race-clock-session-phase",address=checked(session+0x57c),data=ClockRead(read,checked(session+0x57c),4)});observed.ranges.Add(new RaceClockRange{id="race-clock-stack",address=C-512,data=ClockRead(read,C-512,540)});
+      if(BitConverter.ToUInt32(ClockPart(observed,"race-clock-session-root"),0)!=session||BitConverter.ToUInt32(ClockPart(observed,"race-clock-logical"),0)!=logical||BitConverter.ToUInt32(ClockPart(observed,"race-clock-delivered"),0)!=delivered||BitConverter.ToUInt32(ClockPart(observed,"race-clock-session-phase"),0)!=phase)throw new InvalidDataException("Race clock guard/payload observations disagree.");
+      byte[] stack=ClockPart(observed,"race-clock-stack");if(BitConverter.ToUInt32(stack,512)!=mainBase+0x50df0||BitConverter.ToUInt32(stack,536)!=mainBase+0x40cd5||phase!=4)throw new InvalidDataException("Race clock live caller/outer/phase guard differs.");
+      if(index>0&&debugOrdinal<=state.lastDebugOrdinal)throw new InvalidDataException("Race clock observation event order differs.");
+      if(index>0){byte[] oldStack=ClockPart(state.original,"race-clock-stack");for(int i=512;i<540;i++)if(stack[i]!=oldStack[i])throw new InvalidDataException("Race clock live entry/outer caller stack changed.");foreach(RaceClockRange row in observed.ranges){if(row.id=="race-clock-stack"||row.id=="race-clock-streak"||row.id=="race-clock-delivered")continue;if(Digest(row.data)!=Digest(ClockPart(state.original,row.id)))throw new InvalidDataException("Race clock original input changed: "+row.id);}if((BitConverter.ToUInt32(context,28)&65535)!=(BitConverter.ToUInt32(state.original.context,28)&65535)||(BitConverter.ToUInt32(context,228)&0xffc0)!=(BitConverter.ToUInt32(state.original.context,228)&0xffc0))throw new InvalidDataException("Race clock original numerical controls changed.");}
+      if(index==1||index==2){uint qpc=BitConverter.ToUInt32(ClockPart(state.original,"race-clock-qpc-import"),0);if(observed.nonvolatile[0]!=state.original.nonvolatile[0]||observed.nonvolatile[1]!=l["timerEbp"]||observed.nonvolatile[2]!=qpc||observed.nonvolatile[3]!=state.original.nonvolatile[3]||BitConverter.ToUInt32(stack,checked((int)(l["counterCallEsp"]-(C-512))))!=l["outputAddress"]||BitConverter.ToUInt32(stack,496)!=mainBase+0x41cb0||delivered!=state.original.delivered||Digest(ClockPart(observed,"race-clock-streak"))!=Digest(ClockPart(state.original,"race-clock-streak"))||index==1&&BitConverter.ToUInt32(context,176)!=l["outputAddress"])throw new InvalidDataException("Race clock QPC actual caller/argument/nonvolatiles differ.");}
+      if(index==1||index==2){int f=checked((int)(l["frame"]-(C-512)));uint[] saves={state.original.nonvolatile[3],state.original.nonvolatile[2],l["timerEbp"],state.original.nonvolatile[0]};for(int i=0;i<4;i++)if(BitConverter.ToUInt32(stack,f+i*4)!=saves[i])throw new InvalidDataException("Race clock QPC actual prologue save differs.");if(BitConverter.ToUInt32(stack,492)!=state.original.nonvolatile[1]||index==2&&BitConverter.ToUInt32(stack,checked((int)(l["frame"]-8-(C-512))))!=mainBase+0x89d13)throw new InvalidDataException("Race clock timer saved EBP/API return differs.");}
+      if(index==3){uint eax=BitConverter.ToUInt32(context,176);if(eax<1||eax>3||delivered!=unchecked(state.original.delivered+eax)||BitConverter.ToUInt32(stack,500)!=state.original.nonvolatile[0])throw new InvalidDataException("Race clock selected return/count/save differs.");for(int i=0;i<4;i++)if(observed.nonvolatile[i]!=state.original.nonvolatile[i])throw new InvalidDataException("Race clock return did not restore original nonvolatiles.");}
+      return observed;
+    }
+    public static Dictionary<string,object> RaceClockProof(RaceClockProgress state,RaceClockRead observed,uint pid,uint ownerTid,uint tid) {
+      RaceClockRead initial=state.original??observed;Dictionary<string,object> input=new Dictionary<string,object>();foreach(RaceClockRange p in initial.ranges)input.Add(p.id,BytesHex(p.data));byte[] stack=ClockPart(initial,"race-clock-stack");
+      Dictionary<string,object> proof=Record("type","race-clock-admitted","role",observed.role,"pid",pid,"tid",tid,"ownerMainTid",ownerTid,"breakpointId",observed.id,"mainModuleBaseAddress",Hex(observed.moduleBase),"observedDebugEventOrdinal",observed.debugOrdinal,"snapshotOrdinal",observed.snapshotOrdinal,"entryDebugEventOrdinal",initial.debugOrdinal,"entrySnapshotOrdinal",initial.snapshotOrdinal,"observationIndex",observed.index,"entryCaller",Hex(BitConverter.ToUInt32(stack,512)),"outerCaller",Hex(BitConverter.ToUInt32(stack,536)),"sessionAddress",Hex(initial.session),"logicalClock",initial.logical,"initialDelivered",initial.delivered,"entryNonvolatile",initial.nonvolatile,"initialControlWordHex",BytesHex(new byte[]{initial.context[28],initial.context[29]}),"initialStatusWordHex",BytesHex(new byte[]{initial.context[32],initial.context[33]}),"initialMxcsrHex",BytesHex(new byte[]{initial.context[228],initial.context[229],initial.context[230],initial.context[231]}),"initialInputHex",input,"activationDebugEventOrdinal",state.activationDebugOrdinal,"callDebugEventOrdinal",state.callDebugOrdinal,"callSnapshotOrdinal",state.callSnapshotOrdinal,"beforeSnapshotRangeResolution",true,"beforeOriginalInstruction",true,"originalInstructionBytesHex",BytesHex(RaceClockCode(observed.id,observed.moduleBase)),"originalInstructionVerified",true);
+      foreach(KeyValuePair<string,uint> p in RaceClockLayout(initial.entryEsp))proof.Add(p.Key,p.Key=="stackBytes"?(object)p.Value:Hex(p.Value));return proof;
+    }
+    static void ActivateRaceClockSites(Options o,RaceClockProgress state,ProcessInfo child,uint mainBase,int debugOrdinal,int snapshotOrdinal,List<Breakpoint> breakpoints,Action<Dictionary<string,object>> emit) {
+      if(state.stage!=1||state.activated||state.entrySnapshotOrdinal!=snapshotOrdinal||state.entryDebugOrdinal!=debugOrdinal)throw new InvalidDataException("Race clock activation is not after its actual published entry.");
+      string[] ids={o.raceClockObservation.counterCallBreakpointId,o.raceClockObservation.counterReturnBreakpointId,o.raceClockObservation.returnBreakpointId};
+      foreach(string id in ids){Breakpoint b=breakpoints.Find(delegate(Breakpoint p){return p.id==id;});byte[] expected=RaceClockCode(id,mainBase);ValidateRaceClockDeferred(id,mainBase,b.original,b.armed,b.hits,b.matchingHits,b.captureHits,Bytes(child.process,b.resolved,expected.Length));}
+      foreach(string id in ids){Breakpoint b=breakpoints.Find(delegate(Breakpoint p){return p.id==id;});byte[] expected=RaceClockCode(id,mainBase);Write(child.process,b.resolved,new byte[]{0xcc});b.armed=true;emit(Record("type","race-clock-breakpoint-activated","pid",child.pid,"tid",state.tid,"ownerMainTid",child.tid,"id",b.id,"address",Hex(b.resolved),"originalBytesHex",BytesHex(expected),"patchBytesHex","cc","activationBreakpointId",o.raceClockObservation.entryBreakpointId,"activationSelection","selected-owned-warm-clock-entry","capability",RaceClockCapability,"codeModified",true,"observedDebugEventOrdinal",debugOrdinal,"entryDebugEventOrdinal",state.entryDebugOrdinal,"entrySnapshotOrdinal",state.entrySnapshotOrdinal,"mainModuleBaseAddress",Hex(mainBase),"rawHit",0,"matchingHit",0,"capturedHit",0,"afterEntrySnapshotPublication",true,"beforeOriginalInstruction",true));}
+      state.Activate(debugOrdinal,snapshotOrdinal);
+    }
+    static void WriteRaceClockObservation(Options o,RaceClockProgress state,ProcessInfo child,IntPtr thread,uint mainBase,Breakpoint hit,uint tid,IntPtr context,Dictionary<string,object> regs,int events,long elapsed,List<Breakpoint> breakpoints,ref int snapshots,Action<Dictionary<string,object>> emit) {
+      if(tid!=child.tid){emit(Record("type","race-clock-skipped","pid",child.pid,"tid",tid,"ownerMainTid",child.tid,"breakpointId",hit.id,"observedDebugEventOrdinal",events,"rawHit",hit.hits,"reason","different-owned-thread","matchingHitAdvanced",false,"snapshotCountAdvanced",false,"originalInstructionSkipped",false,"beforePurposeRangeRead",true,"beforeStackGraphRead",true));return;}
+      byte[] expected=RaceClockCode(hit.id,mainBase);ValidateRaceClockStoppedCode(hit.id,mainBase,hit.original,hit.armed,Bytes(child.process,hit.resolved,expected.Length));
+      byte[] rawContext=new byte[716];Marshal.Copy(context,rawContext,0,716);RaceClockRead observed=ReadRaceClockObservation(state,child.tid,tid,mainBase,hit.id,rawContext,events,snapshots+1,delegate(uint address,int length){return Bytes(child.process,address,length);});
+      if(observed==null){emit(Record("type","race-clock-skipped","pid",child.pid,"tid",tid,"ownerMainTid",child.tid,"breakpointId",hit.id,"observedDebugEventOrdinal",events,"rawHit",hit.hits,"reason","warm-entry-selection-not-matched","matchingHitAdvanced",false,"snapshotCountAdvanced",false,"originalInstructionSkipped",false,"beforePurposeRangeRead",true,"beforeStackGraphRead",false));return;}
+      Dictionary<string,object> proof=RaceClockProof(state,observed,child.pid,child.tid,tid);emit(proof);
+      List<object> ranges=new List<object>();int ordinal=0;foreach(RaceClockRange part in observed.ranges){string file="snapshot-"+observed.snapshotOrdinal.ToString("D6")+"-range-"+(++ordinal).ToString("D3")+".bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,file),FileMode.CreateNew))blob.Write(part.data,0,part.data.Length);ranges.Add(Record("id",part.id,"address",Hex(part.address),"length",part.data.Length,"file",file,"sha256",Digest(part.data),"source","race-clock-observation"));}
+      ThreadEnvironmentCapture environment=ReadThreadEnvironment(child.process,thread,context,tid);BufferedRange seh=environment.range;string sehFile="snapshot-"+observed.snapshotOrdinal.ToString("D6")+"-range-"+(++ordinal).ToString("D3")+".bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,sehFile),FileMode.CreateNew))WriteRangeSegment(blob,seh.data,seh.dataOffset,seh.length);seh.row["file"]=sehFile;ranges.Add(seh.row);
+      string contextFile="snapshot-"+observed.snapshotOrdinal.ToString("D6")+"-context.bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,contextFile),FileMode.CreateNew))blob.Write(rawContext,0,716);
+      emit(Record("type","snapshot","ordinal",observed.snapshotOrdinal,"breakpointId",hit.id,"hit",hit.captureHits+1,"tid",tid,"registers",regs,"contextFile",contextFile,"contextSha256",Digest(rawContext),"ranges",ranges,"capturePhase","before-declared-writes-before-original-instruction","observedElapsedMs",elapsed,"observedDebugEventOrdinal",events,"threadEnvironment",environment.metadata,"raceClockObservation",proof));
+      snapshots=observed.snapshotOrdinal;hit.captureHits++;state.Commit(observed,child.tid,tid);if(observed.index==1)ActivateRaceClockSites(o,state,child,mainBase,events,snapshots,breakpoints,emit);
+    }
+    public static Dictionary<string,object> RaceClockPolicyMetadata(RaceClockObservation p){if(p==null)throw new ArgumentNullException("p");return Record("entryBreakpointId",p.entryBreakpointId,"counterCallBreakpointId",p.counterCallBreakpointId,"counterReturnBreakpointId",p.counterReturnBreakpointId,"returnBreakpointId",p.returnBreakpointId,"minimumLogicalClock",p.minimumLogicalClock,"stackBytesBefore",p.stackBytesBefore,"stackBytesAfter",p.stackBytesAfter,"maxCounterPairs",p.maxCounterPairs,"maxSnapshots",p.maxSnapshots);}
+    public static Dictionary<string,object> CaptureHeader(Options o){Dictionary<string,object> header=Record("type", "capture", "schemaVersion", 1, "executablePath", o.executablePath, "workingDirectory", o.workingDirectory, "arguments", o.arguments, "executableSha256", o.expectedSha256.ToLowerInvariant(), "breakpointMode", "software-int3", "cleanupPolicy", "freeze-or-prove-terminated-owned-threads-before-unpatch-and-termination", "maxDurationMs", o.maxDurationMs, "maxEvents", o.maxEvents, "maxSnapshots", o.maxSnapshots, "timingLimitation", "Debugger-paused elapsed time does not establish native wall-clock simulation rate.");if(o.parentRttiObservation!=null||o.raceClockObservation!=null)header["helperCapabilities"]=GetCaptureCapabilities(o);if(o.raceClockObservation!=null)header["raceClockObservation"]=RaceClockPolicyMetadata(o.raceClockObservation);return header;}
+    public static Dictionary<string,object> RaceClockCompletion(RaceClockProgress state){state.RequireComplete(7);return Record("selectedSnapshots",state.stage,"counterPairs",1,"counterSnapshots",2,"entryDebugEventOrdinal",state.entryDebugOrdinal,"entrySnapshotOrdinal",state.entrySnapshotOrdinal,"activationDebugEventOrdinal",state.activationDebugOrdinal,"returnDebugEventOrdinal",state.returnDebugOrdinal,"returnSnapshotOrdinal",state.returnSnapshotOrdinal,"returnValue",state.result);}
+    public static string[] GetCapabilities(){return new string[]{ParentRttiCapability,ParentRttiMapGraphCapability,ParentRttiWeatherCapability,ParentWeatherCounterCapability,ParentSoundBankOwnerCapability,ParentSoundBankChannelCapability,ParentFinalTickCapability,RaceClockCapability};}
+    public static string[] GetCaptureCapabilities(Options o){if(o.raceClockObservation!=null)return new string[]{RaceClockCapability};List<string> capabilities=new List<string>();capabilities.Add(ParentRttiCapability);if(o.parentRttiObservation!=null&&o.parentRttiObservation.viewportMapGraph!=null)capabilities.Add(ParentRttiMapGraphCapability);if(o.parentRttiObservation!=null&&o.parentRttiObservation.weatherScreenQueries)capabilities.Add(ParentRttiWeatherCapability);if(o.parentRttiObservation!=null&&o.parentRttiObservation.weatherCounterObservation!=null)capabilities.Add(ParentWeatherCounterCapability);if(o.parentRttiObservation!=null&&o.parentRttiObservation.soundBankOwnerGraph!=null){capabilities.Add(ParentSoundBankOwnerCapability);if(o.parentRttiObservation.soundBankOwnerGraph.channelGraph!=null)capabilities.Add(ParentSoundBankChannelCapability);}if(o.parentRttiObservation!=null&&o.parentRttiObservation.finalTick!=null)capabilities.Add(ParentFinalTickCapability);return capabilities.ToArray();}
     static bool SameRange(MemoryRange a,MemoryRange b) {
       return a!=null&&b!=null&&a.id==b.id&&a.address==b.address&&a.rva==b.rva&&a.baseRegister==b.baseRegister&&a.offset==b.offset&&a.length==b.length&&a.readableRegion==b.readableRegion&&a.maxRegionBytes==b.maxRegionBytes&&a.vectorStorage==b.vectorStorage&&a.maxVectorBytes==b.maxVectorBytes&&String.Join(",",a.dereferenceOffsets)==String.Join(",",b.dereferenceOffsets)&&(a.dereferenceMinimumValues==null?b.dereferenceMinimumValues==null:b.dereferenceMinimumValues!=null&&String.Join(",",a.dereferenceMinimumValues)==String.Join(",",b.dereferenceMinimumValues));
     }
+    public static int RequiredParentCounterSnapshots(ParentRttiProgress parent){if(parent==null)throw new ArgumentNullException("parent");return checked(13+parent.captured+2+(parent.finalTick==null?0:1));}
+    public static void ValidateParentFinalTickPolicy(ParentFinalTick p) {
+      if(p==null||p.returnBreakpointId!="native-parent-return"||p.lightBands==null||p.lightBands.allocationRootRva!="0x40f208"||p.lightBands.sectorTableRva!="0x40f220"||p.lightBands.packRootRva!="0x50b98c"||p.lightBands.maxSectors!=127||p.lightBands.maxBandBytes!=65536||p.listenerWrappers==null||p.listenerWrappers.headerRva!="0x2f2408"||p.listenerWrappers.maxUsedSlots!=4||p.listenerWrappers.wrapperBytes!=80||p.listenerWrappers.poseRecordsRva!="0x449480"||p.listenerWrappers.poseRecordBytes!=84||p.masterLevel==null||p.masterLevel.managerRootRva!="0x314b08"||p.masterLevel.levelOffset!="0x850"||p.masterLevel.vtableBytes!=96||p.masterLevel.methodOffset!="0x5c"||p.masterLevel.methodRva!="0xa90e0")throw new InvalidDataException("Final parent purpose requires exact typed light/listener/master/return policy.");
+    }
+    static byte[] ReadParentFinalRange(ParentFinalInputsRead result,string id,string role,int index,uint address,int length,IList<ParentSoundBankCapturedRange> captured,ParentSoundBankOwnerRead ownerGraph,Func<uint,int,byte[]> read) {
+      if(address==0||length<1||(ulong)address+(uint)length>0x100000000UL||result.additionalBytes+length>70000)throw new InvalidDataException("Final typed input extent is null/overflowing/over-bound.");byte[] bytes=null;
+      foreach(ParentSoundBankCapturedRange row in captured)if(row.data!=null&&address>=row.address&&(ulong)address+(uint)length<=(ulong)row.address+(uint)row.data.Length){bytes=new byte[length];Buffer.BlockCopy(row.data,checked((int)(address-row.address)),bytes,0,length);break;}
+      if(bytes==null)bytes=read(address,length);if(bytes==null||bytes.Length!=length)throw new InvalidDataException("Final typed inputs require complete actual bytes, never defaults.");
+      foreach(ParentSoundBankCapturedRange row in captured)CheckParentSoundBankOverlap(address,bytes,row.address,row.data);
+      if(ownerGraph!=null){foreach(ParentSoundBankOwnerRange row in ownerGraph.owners)CheckParentSoundBankOverlap(address,bytes,row.address,row.data);if(ownerGraph.channelGraph!=null)foreach(ParentSoundChannelRange row in ownerGraph.channelGraph.ranges)CheckParentSoundBankOverlap(address,bytes,row.address,row.data);}
+      foreach(ParentFinalRange row in result.ranges)CheckParentSoundBankOverlap(address,bytes,row.address,row.data);
+      result.ranges.Add(new ParentFinalRange{id=id,role=role,index=index,address=address,data=bytes});result.additionalBytes=checked(result.additionalBytes+length);return bytes;
+    }
+    public static ParentFinalInputsRead ReadParentFinalInputs(ParentFinalTick p,uint mainBase,IList<ParentSoundBankCapturedRange> captured,ParentSoundBankOwnerRead ownerGraph,Func<uint,int,byte[]> read) {
+      ValidateParentFinalTickPolicy(p);if(mainBase==0||(ulong)mainBase+0x50b990>0x100000000UL||captured==null||read==null)throw new InvalidDataException("Final inputs lack the actual module/captured data/reader.");ParentFinalInputsRead result=new ParentFinalInputsRead();
+      uint rootAddress=checked(mainBase+0x40f208),packRootAddress=checked(mainBase+0x50b98c),tableAddress=checked(mainBase+0x40f220);
+      byte[] root=ReadParentFinalRange(result,"parent-final-light-root","light-root",0,rootAddress,4,captured,ownerGraph,read),packRoot=ReadParentFinalRange(result,"parent-final-light-pack-root","light-pack-root",0,packRootAddress,4,captured,ownerGraph,read);uint allocation=BitConverter.ToUInt32(root,0),pack=BitConverter.ToUInt32(packRoot,0);
+      byte[] packHeader=ReadParentFinalRange(result,"parent-final-light-pack-header","light-pack-header",0,pack,20,captured,ownerGraph,read);uint sectorTable=BitConverter.ToUInt32(packHeader,0),count=BitConverter.ToUInt32(packHeader,16);if(count>127)throw new InvalidDataException("Final light sector count exceeds observation domain.");
+      byte[] pointers=count==0?new byte[0]:ReadParentFinalRange(result,"parent-final-light-sector-pointers","light-sector-pointers",0,sectorTable,checked((int)count*4),captured,ownerGraph,read),table=ReadParentFinalRange(result,"parent-final-light-table","light-table",0,tableAddress,checked(((int)count+1)*4),captured,ownerGraph,read);List<object> sectors=new List<object>();ulong total=0;
+      if(BitConverter.ToUInt32(table,0)!=allocation)throw new InvalidDataException("Final light table does not begin at actual allocation root.");
+      for(int i=0;i<count;i++){
+        uint address=BitConverter.ToUInt32(pointers,i*4);byte[] header=ReadParentFinalRange(result,"parent-final-light-sector-header-"+i,"light-sector-header",i,address,16,captured,ownerGraph,read);uint rows=BitConverter.ToUInt32(header,12);ulong bytes=((ulong)(rows>>4)<<5)+32,begin=(ulong)allocation+total,end=begin+bytes;
+        if(total+bytes>65536||end>UInt32.MaxValue||allocation==0||BitConverter.ToUInt32(table,i*4)!=begin||BitConverter.ToUInt32(table,(i+1)*4)!=end)throw new InvalidDataException("Final light dimensions/root/table/sentinel overflow or disagree; no band backing read.");
+        sectors.Add(Record("index",i,"address",Hex(address),"headerBytesHex",BytesHex(header),"rows",rows,"bytes",(int)bytes,"begin",Hex((uint)begin),"end",Hex((uint)end),"offset",(int)total));total+=bytes;
+      }
+      if(total!=0)ReadParentFinalRange(result,"parent-final-light-bands","light-bands",0,allocation,(int)total,captured,ownerGraph,read);result.lightBandBytes=(int)total;
+      result.lightBands=Record("allocationRootAddress",Hex(rootAddress),"allocationRootBytesHex",BytesHex(root),"allocationBase",Hex(allocation),"packRootAddress",Hex(packRootAddress),"packRootBytesHex",BytesHex(packRoot),"packAddress",Hex(pack),"packHeaderHex",BytesHex(packHeader),"sectorTableAddress",Hex(sectorTable),"sectorCount",count,"pointerTableAddress",Hex(tableAddress),"pointerTableHex",BytesHex(table),"sectors",sectors,"totalBytes",(int)total,"endAddress",Hex(checked(allocation+(uint)total)));
+      uint listenerHeaderAddress=checked(mainBase+0x2f2408);byte[] listenerHeader=ReadParentFinalRange(result,"parent-final-listener-header","listener-header",0,listenerHeaderAddress,12,captured,ownerGraph,read);uint beginListeners=BitConverter.ToUInt32(listenerHeader,0),endListeners=BitConverter.ToUInt32(listenerHeader,4),capacityListeners=BitConverter.ToUInt32(listenerHeader,8);
+      if(beginListeners==0&&(endListeners!=0||capacityListeners!=0)||beginListeners>endListeners||endListeners>capacityListeners||(endListeners-beginListeners)%4!=0||(capacityListeners-beginListeners)%4!=0||(endListeners-beginListeners)/4>4)throw new InvalidDataException("Final listener vector exceeds actual ordered used-slot domain.");
+      int used=checked((int)((endListeners-beginListeners)/4));byte[] listenerSlots=used==0?new byte[0]:ReadParentFinalRange(result,"parent-final-listener-slots","listener-slots",0,beginListeners,used*4,captured,ownerGraph,read);List<object> slots=new List<object>(),wrappers=new List<object>();Dictionary<uint,ParentFinalRange> seenWrappers=new Dictionary<uint,ParentFinalRange>();Dictionary<uint,List<int>> wrapperRefs=new Dictionary<uint,List<int>>();
+      for(int i=0;i<used;i++){
+        uint address=BitConverter.ToUInt32(listenerSlots,i*4);ParentFinalRange row=null;
+        if(address!=0){if(!seenWrappers.TryGetValue(address,out row)){int index=seenWrappers.Count;ReadParentFinalRange(result,"parent-final-listener-wrapper-"+index,"listener-wrapper",index,address,80,captured,ownerGraph,read);row=result.ranges[result.ranges.Count-1];seenWrappers.Add(address,row);wrapperRefs.Add(address,new List<int>());}wrapperRefs[address].Add(i);}
+        slots.Add(Record("index",i,"slotAddress",Hex(checked(beginListeners+(uint)i*4)),"wrapperAddress",Hex(address),"wrapperIndex",row==null?null:(object)row.index,"wrapperRangeId",row==null?null:row.id));
+      }
+      for(int i=0;i<seenWrappers.Count;i++)foreach(ParentFinalRange row in seenWrappers.Values)if(row.index==i){row.referenceIndices=wrapperRefs[row.address].ToArray();wrappers.Add(Record("index",i,"address",Hex(row.address),"rangeId",row.id,"bytes",80,"sha256",Digest(row.data),"referenceIndices",row.referenceIndices));}
+      uint poseRecordsAddress=checked(mainBase+0x449480);byte[] poseRecords=ReadParentFinalRange(result,"parent-final-listener-pose-records","listener-pose-records",0,poseRecordsAddress,336,captured,ownerGraph,read);List<object> poses=new List<object>(),poseRanges=new List<object>();Dictionary<string,ParentFinalRange> seenPoses=new Dictionary<string,ParentFinalRange>();Dictionary<string,List<int>> poseRefs=new Dictionary<string,List<int>>();
+      for(int i=0;i<4;i++){
+        bool active=poseRecords[i*84]!=0,dynamic=active&&BitConverter.ToUInt16(poseRecords,i*84+2)!=0;Dictionary<string,object> pose=Record("index",i,"active",active,"dynamic",dynamic);string[] names={"position","velocity","rotation"};int[] lengths={12,12,18};
+        for(int role=0;role<3;role++){
+          uint address=active?BitConverter.ToUInt32(poseRecords,i*84+(dynamic?16+role*16:4+role*4)):0;ParentFinalRange row=null;
+          if(active&&address!=0){string key=Hex(address)+":"+lengths[role];if(!seenPoses.TryGetValue(key,out row)){int index=seenPoses.Count;ReadParentFinalRange(result,"parent-final-listener-pose-"+index,"listener-pose",index,address,lengths[role],captured,ownerGraph,read);row=result.ranges[result.ranges.Count-1];seenPoses.Add(key,row);poseRefs.Add(key,new List<int>());}poseRefs[key].Add(i*3+role);}
+          pose[names[role]+"Address"]=active?(object)Hex(address):null;pose[names[role]+"Index"]=row==null?null:(object)row.index;pose[names[role]+"RangeId"]=row==null?null:row.id;
+        }poses.Add(pose);
+      }
+      for(int i=0;i<seenPoses.Count;i++)foreach(KeyValuePair<string,ParentFinalRange> item in seenPoses)if(item.Value.index==i){ParentFinalRange row=item.Value;row.referenceIndices=poseRefs[item.Key].ToArray();poseRanges.Add(Record("index",i,"address",Hex(row.address),"rangeId",row.id,"bytes",row.data.Length,"sha256",Digest(row.data),"referenceIndices",row.referenceIndices));}
+      result.listenerCount=seenWrappers.Count;result.listenerBytes=seenWrappers.Count*80;result.listenerWrappers=Record("headerAddress",Hex(listenerHeaderAddress),"headerBytesHex",BytesHex(listenerHeader),"begin",Hex(beginListeners),"end",Hex(endListeners),"capacity",Hex(capacityListeners),"usedSlots",used,"uniqueWrappers",seenWrappers.Count,"slots",slots,"wrappers",wrappers,"poseRecordsAddress",Hex(poseRecordsAddress),"poseRecordsHex",BytesHex(poseRecords),"poses",poses,"poseRanges",poseRanges);
+      uint managerRootAddress=checked(mainBase+0x314b08);byte[] managerRoot=ReadParentFinalRange(result,"parent-final-manager-root","manager-root",0,managerRootAddress,4,captured,ownerGraph,read);uint manager=BitConverter.ToUInt32(managerRoot,0);byte[] vptr=ReadParentFinalRange(result,"parent-final-manager-vtable-pointer","manager-vtable-pointer",0,manager,4,captured,ownerGraph,read);uint vtable=BitConverter.ToUInt32(vptr,0);byte[] vtableBytes=ReadParentFinalRange(result,"parent-final-manager-vtable","manager-vtable",0,vtable,96,captured,ownerGraph,read);uint method=BitConverter.ToUInt32(vtableBytes,0x5c);
+      if(method!=checked(mainBase+0xa90e0))throw new InvalidDataException("Final manager method5c is not the proven master-level setter; no850 field read.");uint level=Add(manager,0x850);byte[] levelBytes=ReadParentFinalRange(result,"parent-final-manager-level","manager-level",0,level,4,captured,ownerGraph,read);
+      byte[] methodBytes=new byte[4];Buffer.BlockCopy(vtableBytes,0x5c,methodBytes,0,4);result.masterLevel=Record("rootAddress",Hex(managerRootAddress),"rootBytesHex",BytesHex(managerRoot),"managerAddress",Hex(manager),"vtablePointerBytesHex",BytesHex(vptr),"vtableAddress",Hex(vtable),"levelAddress",Hex(level),"levelBytesHex",BytesHex(levelBytes),"methodAddress",Hex(method),"methodBytesHex",BytesHex(methodBytes),"vtableSha256",Digest(vtableBytes));return result;
+    }
+    public static Dictionary<string,object> ParentFinalInputsDetails(ParentFinalInputsRead observed) {
+      return Record("lightBands",observed.lightBands,"listenerWrappers",observed.listenerWrappers,"masterLevel",observed.masterLevel,"additionalBytes",observed.additionalBytes,"sameStoppedDebugEvent",true,"afterParentAdmission",true,"beforeOriginalInstruction",true,"completeInputsObserved",true);
+    }
+    public static Dictionary<string,object> ParentFinalRangeMetadata(ParentFinalRange row,string file) {
+      Dictionary<string,object> result=Record("id",row.id,"address",Hex(row.address),"length",row.data.Length,"file",file,"sha256",Digest(row.data),"source","parent-final-inputs","graphRole",row.role,"graphIndex",row.index);if(row.referenceIndices!=null)result["referenceIndices"]=row.referenceIndices;return result;
+    }
     public static void ValidateParentRttiPolicy(Options o) {
-      ParentRttiObservation p=o.parentRttiObservation;if(p==null)return;
-      if(p.parentBreakpointId!="native-control-before"||p.beginBreakpointId!="native-control-after-auxiliary"||p.endBreakpointId!="native-control-after-cameras"||p.callBreakpointId!="native-parent-rtti-call"||p.returnBreakpointId!="native-parent-rtti-return"||p.maxPairs!=4||p.maxSnapshots!=8||o.maxSnapshots!=21||o.maxDurationMs!=90000||o.maxEvents!=1000000||!o.captureThreadEnvironment||o.ranges.Length!=0||o.pendingFrameObserver!=null||o.observationActivation!=null||o.ownedWorkerObservation!=null||o.ownedWorkerGainPair!=null||o.ownedWorkerGainWindow!=null||o.heldForceInput!=null||o.controlledRaceSettings!=null||o.breakpoints.Length!=15||o.phaseActions.Length!=3)throw new InvalidDataException("Parent RTTI requires its exact separate bounded parent policy.");
+      ParentRttiObservation p=o.parentRttiObservation;if(p==null)return;if(o.raceClockObservation!=null)throw new InvalidDataException("Parent and clock purposes are mutually exclusive.");
+      if(p.parentBreakpointId!="native-control-before"||p.beginBreakpointId!="native-control-after-auxiliary"||p.endBreakpointId!=(p.weatherScreenQueries?"native-control-after-world-effects":"native-control-after-cameras")||p.callBreakpointId!="native-parent-rtti-call"||p.returnBreakpointId!="native-parent-rtti-return"||p.maxPairs!=4||p.maxSnapshots!=8||o.maxSnapshots!=(p.finalTick==null?21:22)||o.maxDurationMs!=90000||o.maxEvents!=1000000||!o.captureThreadEnvironment||o.ranges.Length!=0||o.pendingFrameObserver!=null||o.observationActivation!=null||o.ownedWorkerObservation!=null||o.ownedWorkerGainPair!=null||o.ownedWorkerGainWindow!=null||o.heldForceInput!=null||o.controlledRaceSettings!=null||o.breakpoints.Length!=(p.finalTick!=null?18:p.weatherCounterObservation==null?15:17)||o.phaseActions.Length!=3)throw new InvalidDataException("Parent RTTI requires its exact separate bounded parent policy.");
+      if(p.weatherCounterObservation!=null&&(!p.weatherScreenQueries||p.weatherCounterObservation.callBreakpointId!="native-parent-weather-counter-call"||p.weatherCounterObservation.returnBreakpointId!="native-parent-weather-counter-return"||p.weatherCounterObservation.maxPairs!=1||p.weatherCounterObservation.maxSnapshots!=2))throw new InvalidDataException("Weather counter requires its exact separate paired mixed profile.");
+      if(p.finalTick!=null){ValidateParentFinalTickPolicy(p.finalTick);if(!p.weatherScreenQueries||p.weatherCounterObservation==null||p.viewportMapGraph==null||p.soundBankOwnerGraph==null||p.soundBankOwnerGraph.channelGraph==null)throw new InvalidDataException("Final purpose requires all existing V8 typed parent observations.");}
       ParentRttiMapPreflight map=p.singletonMapPreflight;
-      if(map==null||map.rootRva!="0x2efb38"||map.dereferenceOffsets==null||String.Join(",",map.dereferenceOffsets)!="0,0x7c"||map.fixedHeadRangeId!="late-singleton-candidate-viewport-map-head"||map.regionRangeId!="late-singleton-candidate-viewport-map-region"||map.maxRegionBytes!=16*1024*1024||map.breakpointIds==null||String.Join(",",map.breakpointIds)!="native-control-before,native-control-after-cameras,native-control-after-world-effects")throw new InvalidDataException("Parent RTTI singleton map preflight policy differs.");
+      if(map==null||map.rootRva!="0x2efb38"||map.dereferenceOffsets==null||String.Join(",",map.dereferenceOffsets)!="0,0x7c"||map.fixedHeadRangeId!="late-singleton-candidate-viewport-map-head"||map.regionRangeId!="late-singleton-candidate-viewport-map-region"||map.maxRegionBytes!=16*1024*1024||map.breakpointIds==null||String.Join(",",map.breakpointIds)!=("native-control-before,native-control-after-cameras,native-control-after-world-effects"+(p.finalTick==null?"":",native-parent-return")))throw new InvalidDataException("Parent RTTI singleton map preflight policy differs.");
+      if(p.viewportMapGraph!=null)ValidateParentRttiMapGraphPolicy(p.viewportMapGraph,p.finalTick!=null);
+      if(p.soundBankOwnerGraph!=null)ValidateParentSoundBankOwnerPolicy(p.soundBankOwnerGraph,p.finalTick!=null);
       if(!o.denyRegistryWrites||!o.denyChildProcesses||!o.denyPlayerMailslot||!o.hideOwnedWindows||!o.captureThreadsOnStop||o.stopThreadStackBytes!=128||o.showWindow||String.Join(",",o.arguments)!="/windowed,/width,800,/height,600"||!String.Equals(o.expectedSha256,"c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",StringComparison.OrdinalIgnoreCase)||!SameRange(o.foregroundWindowSource,new MemoryRange{id="owned-application-hwnd",rva="0x2efb38",dereferenceOffsets=new string[]{"0"},offset="4",length=4}))throw new InvalidDataException("Parent RTTI original owned/security startup policy differs.");
       string[] ids={"launcher-policy","graphics-policy","before-device-creation","native-control-before","native-control-after","native-control-after-ai","native-control-after-physics","native-control-after-attachments","native-control-after-recovery","native-control-after-drive","native-control-after-auxiliary","native-control-after-cameras","native-control-after-world-effects","native-parent-rtti-call","native-parent-rtti-return"};
       uint[] sites={0x42890,0x35be,0x112a30,0x50e50,0x749e0,0x50f18,0x74b1e,0x5101c,0x51021,0x5109c,0x510ef,0x51111,0x51120,0x2d86,0x2d8b};
+      if(p.weatherCounterObservation!=null){Array.Resize(ref ids,17);Array.Resize(ref sites,17);ids[15]=p.weatherCounterObservation.callBreakpointId;ids[16]=p.weatherCounterObservation.returnBreakpointId;sites[15]=0x89d11;sites[16]=0x89d13;}
+      if(p.finalTick!=null){Array.Resize(ref ids,18);Array.Resize(ref sites,18);ids[17]="native-parent-return";sites[17]=0x50e38;}
       int? skip=o.breakpoints[3].skipMatchingHits;if(!skip.HasValue||skip.Value<0)throw new InvalidDataException("Parent RTTI selected skip window differs.");
       MemoryRange fixedHead=new MemoryRange{id=map.fixedHeadRangeId,rva="0x2efb38",dereferenceOffsets=new string[]{"0","0x7c"},dereferenceMinimumValues=new int[]{1,1},length=100},region=new MemoryRange{id=map.regionRangeId,rva="0x2efb38",dereferenceOffsets=new string[]{"0","0x7c"},readableRegion=true,maxRegionBytes=16*1024*1024};
       int stackBefore=0;
       for(int i=0;i<ids.Length;i++) {
-        Breakpoint b=o.breakpoints[i];if(b.id!=ids[i]||Number(b.rva)!=sites[i]||!String.IsNullOrEmpty(b.address)||b.service!=null||b.stopAfterHits!=(i==12?1:0))throw new InvalidDataException("Parent RTTI extra/reordered/moved/stopping site differs.");
+        Breakpoint b=o.breakpoints[i];if(b.id!=ids[i]||Number(b.rva)!=sites[i]||!String.IsNullOrEmpty(b.address)||b.service!=null||b.stopAfterHits!=(p.finalTick!=null?(i==17?1:0):(i==12?1:0)))throw new InvalidDataException("Parent RTTI extra/reordered/moved/stopping site differs.");
         HashSet<string> rangeIds=new HashSet<string>();foreach(MemoryRange r in b.ranges)if(!rangeIds.Add(r.id))throw new InvalidDataException("Parent RTTI duplicated range id.");
         if(i>=3&&i<=12){CaptureCondition g=b.captureWhen;if(g==null||g.equalsBytesHex!="04000000"||!SameRange(g.range,new MemoryRange{id="active-race-phase",rva="0x1ecb1c",dereferenceOffsets=new string[]{"0"},offset="0x57c",length=4})||b.skipMatchingHits!=skip)throw new InvalidDataException("Parent RTTI actual phase/skip checkpoints differ.");MemoryRange stack=Array.Find(b.ranges,delegate(MemoryRange r){return r.id=="frame-stack";});int depth=stack==null?0:checked((int)-Offset(stack.offset));if(stack==null||stack.baseRegister!="esp"||stack.address!=null||stack.rva!=null||stack.dereferenceOffsets.Length!=0||stack.readableRegion||stack.vectorStorage||depth<4||depth>65536||stack.length!=depth+32||i>3&&depth!=stackBefore)throw new InvalidDataException("Parent RTTI full parent stack bounds differ.");stackBefore=depth;}
         else if(b.captureWhen!=null||b.skipMatchingHits.HasValue)throw new InvalidDataException("Parent RTTI startup/external sites cannot be filtered/skipped.");
         bool wantsMap=Array.IndexOf(map.breakpointIds,b.id)>=0;MemoryRange[] observed=Array.FindAll(b.ranges,delegate(MemoryRange r){return r.id==map.fixedHeadRangeId||r.id==map.regionRangeId;});if(wantsMap?(observed.Length!=2||!SameRange(observed[0],fixedHead)||!SameRange(observed[1],region)):observed.Length!=0)throw new InvalidDataException("Parent RTTI map observations/preflight points differ.");
-        if(i>=13&&(b.ranges.Length!=3||!SameRange(b.ranges[0],new MemoryRange{id="native-parent-rtti-context",baseRegister="esp",length=52})||!SameRange(b.ranges[1],new MemoryRange{id="native-parent-rtti-camera-return",baseRegister="esp",offset="256",length=4})||!SameRange(b.ranges[2],new MemoryRange{id="native-parent-rtti-clock",rva="0x50a548",length=4})))throw new InvalidDataException("Parent RTTI exact external range ABI differs.");
+        if(p.soundBankOwnerGraph!=null)ValidateParentSoundBankOwnerDescriptors(p.soundBankOwnerGraph,b,i>=3&&i<=12||p.finalTick!=null&&i==17,p.finalTick!=null);
+        if(p.weatherCounterObservation!=null&&(i>=3&&i<=12||p.finalTick!=null&&i==17)){MemoryRange[] imports=Array.FindAll(b.ranges,delegate(MemoryRange r){return r.id=="parent-weather-counter-import";});if(imports.Length!=1||!SameRange(imports[0],new MemoryRange{id="parent-weather-counter-import",rva="0x16e0fc",length=4}))throw new InvalidDataException("Weather counter requires the original IAT input at all ten parent checkpoints.");}
+        if(i>=13&&!(p.finalTick!=null&&i==17)&&(p.weatherScreenQueries?b.ranges.Length!=0:(b.ranges.Length!=3||!SameRange(b.ranges[0],new MemoryRange{id="native-parent-rtti-context",baseRegister="esp",length=52})||!SameRange(b.ranges[1],new MemoryRange{id="native-parent-rtti-camera-return",baseRegister="esp",offset="256",length=4})||!SameRange(b.ranges[2],new MemoryRange{id="native-parent-rtti-clock",rva="0x50a548",length=4}))))throw new InvalidDataException("Parent RTTI exact external range ABI differs.");
       }
+      if(p.finalTick!=null){MemoryRange[] world=o.breakpoints[12].ranges,final=o.breakpoints[17].ranges;if(final.Length!=world.Length)throw new InvalidDataException("Final return requires all unchanged world observation ranges.");for(int i=0;i<world.Length;i++)if(!SameRange(world[i],final[i]))throw new InvalidDataException("Final return ordinary observation range differs from world.");}
       MemoryRange[][] startup={new MemoryRange[]{new MemoryRange{id="launcher-skip",rva="0x2e66ec",length=4},new MemoryRange{id="launcher-config",rva="0x1ecefc",dereferenceOffsets=new string[]{"0"},offset="0x42c",length=10}},new MemoryRange[]{new MemoryRange{id="graphics-mode",rva="0x2e64a4",dereferenceOffsets=new string[]{"0"},offset="0x24",length=28}},new MemoryRange[]{new MemoryRange{id="presentation",baseRegister="ecx",offset="0x378",length=56},new MemoryRange{id="entry-stack",baseRegister="esp",length=32}}};
       for(int i=0;i<3;i++){if(o.breakpoints[i].ranges.Length!=startup[i].Length||o.phaseActions[i].breakpointId!=ids[i]||o.phaseActions[i].hit!=1||o.phaseActions[i].writes.Length!=(i==0?3:i==1?1:2))throw new InvalidDataException("Parent RTTI original startup action differs.");for(int j=0;j<startup[i].Length;j++)if(!SameRange(o.breakpoints[i].ranges[j],startup[i][j]))throw new InvalidDataException("Parent RTTI original startup observation differs.");}
       uint[] roots={0x2e66ec,0x1ecefc,0x1ecefc,0x2e64a4,0,0};int[] offsets={0,10,14,60,0x398,0x3a8};string[] replacements={"01000000","01","01","00","01000000","00000000"};int slot=0;
       foreach(PhaseAction a in o.phaseActions)foreach(MemoryWrite w in a.writes){bool chain=slot>=1&&slot<=3;if(w.address!=null||Number(w.rva)!=roots[slot]||(slot>=4?w.baseRegister!="ecx":w.baseRegister!=null)||Offset(w.offset)!=offsets[slot]||w.dereferenceOffsets.Length!=(chain?1:0)||chain&&Offset(w.dereferenceOffsets[0])!=0||BytesHex(ParseBytes(w.bytesHex))!=replacements[slot])throw new InvalidDataException("Parent RTTI undeclared startup/game write.");if(slot<4){string[] expected=slot==0?new string[]{"00000000","01000000"}:new string[]{"00","01"};if(w.expectedBytesHex!=null||w.expectedAnyBytesHex==null||w.expectedAnyBytesHex.Length!=2||w.expectedAnyBytesHex[0]!=expected[0]||w.expectedAnyBytesHex[1]!=expected[1])throw new InvalidDataException("Parent RTTI startup write guard differs.");}else if(w.expectedAnyBytesHex!=null||w.expectedBytesHex!=replacements[slot])throw new InvalidDataException("Parent RTTI device writes require exact no-op guards.");slot++;}
+    }
+    public static void ValidateParentSoundBankOwnerPolicy(ParentSoundBankOwnerGraph p,bool finalPurpose=false) {
+      if(p==null||p.rootRva!="0x2f2414"||p.headerRangeId!="sound-owner-vector-roots"||p.storageRangeId!="control-sound-bank-storage"||p.maxUsedSlots!=256||p.ownerBytes!=0x490||p.breakpointIds==null||String.Join(",",p.breakpointIds)!=(String.Join(",",ParentRttiProgress.Stages)+(finalPurpose?",native-parent-return":"")))throw new InvalidDataException("Sound owner graph requires its exact root, typed extent and ten bounded checkpoints.");
+      if(p.channelGraph!=null)ValidateParentSoundBankChannelPolicy(p.channelGraph);
+    }
+    public static void ValidateParentSoundBankOwnerDescriptors(ParentSoundBankOwnerGraph p,Breakpoint b,bool wanted,bool finalPurpose=false) {
+      ValidateParentSoundBankOwnerPolicy(p,finalPurpose);MemoryRange header=null,storage=null;int headers=0,stores=0;
+      foreach(MemoryRange r in b.ranges){if(r.id!=null&&(r.id.StartsWith("parent-sound-bank-owner-",StringComparison.Ordinal)||p.channelGraph!=null&&r.id.StartsWith("parent-sound-channel-",StringComparison.Ordinal)))throw new InvalidDataException("Sound owner graph dynamic rows cannot be configured ordinary ranges.");if(r.id==p.headerRangeId){headers++;header=r;}if(r.id==p.storageRangeId){stores++;storage=r;}}
+      if(wanted){if(headers!=1||stores!=1||!SameRange(header,new MemoryRange{id=p.headerRangeId,rva=p.rootRva,length=12})||!SameRange(storage,new MemoryRange{id=p.storageRangeId,rva=p.rootRva,vectorStorage=true,maxVectorBytes=65536}))throw new InvalidDataException("Sound owner graph requires its exact ordinary header and full-capacity vector storage at every parent checkpoint.");}
+      else if(headers!=0||stores!=0)throw new InvalidDataException("Sound owner graph cannot observe its bank at startup/external sites.");
+    }
+    public static void ValidateParentSoundBankOwnerCheckpoint(ParentRttiProgress state,uint ownerMainTid,uint actualTid,string id,int debugOrdinal) {
+      if(id=="native-parent-return"){if(state==null||state.finalTick==null||!state.finalTick.admitted||state.finalTick.complete||ownerMainTid==0||ownerMainTid!=actualTid||actualTid!=state.tid||state.stage!=10||state.soundOwnerChecks!=10||debugOrdinal!=state.finalTick.returnDebugOrdinal)throw new InvalidDataException("Final owner graph requires the admitted same stopped return endpoint.");return;}
+      int index=Array.IndexOf(ParentRttiProgress.Stages,id);
+      if(state==null||!state.selected||ownerMainTid==0||actualTid!=ownerMainTid||actualTid!=state.tid||index<0||state.stage!=index+1||state.soundOwnerChecks!=index||debugOrdinal!=state.lastStageDebugOrdinal||debugOrdinal<state.parentDebugOrdinal)throw new InvalidDataException("Sound owner graph requires the same stopped admitted owned-main parent checkpoint in exact order.");
+    }
+    static void CheckParentSoundBankOverlap(uint a,byte[] first,uint b,byte[] second) {
+      if(first==null||second==null||(ulong)a+(ulong)first.Length>0x100000000UL||(ulong)b+(ulong)second.Length>0x100000000UL)throw new InvalidDataException("Sound owner graph captured extent is unavailable or overflows32bits.");
+      ulong start=Math.Max((ulong)a,(ulong)b),end=Math.Min((ulong)a+(ulong)first.Length,(ulong)b+(ulong)second.Length);
+      for(ulong address=start;address<end;address++)if(first[checked((int)(address-a))]!=second[checked((int)(address-b))])throw new InvalidDataException("Sound owner graph overlapping actual captured bytes disagree.");
+    }
+    public static void ValidateParentSoundBankChannelPolicy(ParentSoundBankChannelGraph p) {
+      if(p==null||p.maxUsedChannelSlots!=256||p.wrapperBytes!=12||p.sourceBytes!=0x9a8||p.sourceVtableRva!="0x1d3f60"||p.vtableBytes!=0x88)throw new InvalidDataException("Sound channel graph requires exact used-slot, wrapper/source/class/vtable bounds.");
+    }
+    static ParentSoundChannelRange AddParentSoundChannelRange(ParentSoundChannelRead result,List<ParentSoundChannelRange> kind,string role,uint address,int length) {
+      if(address==0||length<1||(ulong)address+(uint)length>0x100000000UL||result.additionalBytes+length>637064)throw new InvalidDataException("Sound channel graph descendant extent is null/overflowing/over its bounded transport.");
+      ParentSoundChannelRange row=new ParentSoundChannelRange{index=kind.Count,id="parent-sound-channel-"+role+"-"+kind.Count,role=role,address=address,length=length};kind.Add(row);result.ranges.Add(row);result.additionalBytes=checked(result.additionalBytes+length);return row;
+    }
+    static void CheckParentSoundChannelBytes(uint address,byte[] data,IList<ParentSoundBankCapturedRange> captured,IList<ParentSoundBankOwnerRange> owners,ParentSoundChannelRead graph) {
+      foreach(ParentSoundBankCapturedRange row in captured)CheckParentSoundBankOverlap(address,data,row.address,row.data);
+      foreach(ParentSoundBankOwnerRange row in owners)CheckParentSoundBankOverlap(address,data,row.address,row.data);
+      foreach(ParentSoundChannelRange row in graph.ranges)if(row.data!=null)CheckParentSoundBankOverlap(address,data,row.address,row.data);
+    }
+    static void ReadParentSoundChannelRange(ParentSoundChannelRange row,IList<ParentSoundBankCapturedRange> captured,IList<ParentSoundBankOwnerRange> owners,ParentSoundChannelRead graph,Func<uint,int,byte[]> read) {
+      byte[] data=read(row.address,row.length);if(data==null||data.Length!=row.length)throw new InvalidDataException("Sound channel graph requires all exact descendant bytes; no missing/zero-filled replacement.");CheckParentSoundChannelBytes(row.address,data,captured,owners,graph);row.data=data;
+    }
+    public static ParentSoundChannelRead ReadParentSoundBankChannels(ParentSoundBankChannelGraph p,uint mainBase,IList<ParentSoundBankCapturedRange> captured,IList<ParentSoundBankOwnerRange> owners,Func<uint,int,byte[]> read) {
+      ValidateParentSoundBankChannelPolicy(p);if(mainBase==0||(ulong)mainBase+0x1d3fe8>0x100000000UL||captured==null||owners==null||owners.Count>256||read==null)throw new InvalidDataException("Sound channel graph requires its actual original owner observations and module.");
+      ParentSoundChannelRead result=new ParentSoundChannelRead();Dictionary<string,ParentSoundChannelRange> storages=new Dictionary<string,ParentSoundChannelRange>();Dictionary<uint,ParentSoundChannelRange> wrappers=new Dictionary<uint,ParentSoundChannelRange>(),sources=new Dictionary<uint,ParentSoundChannelRange>(),vtables=new Dictionary<uint,ParentSoundChannelRange>();ParentSoundChannelRange[] ownerStorage=new ParentSoundChannelRange[owners.Count];
+      //Validate ALL owner headers and the aggregate observation bound before any descendant read.
+      for(int i=0;i<owners.Count;i++){
+        ParentSoundBankOwnerRange owner=owners[i];if(owner==null||owner.index!=i||owner.data==null||owner.data.Length!=0x490)throw new InvalidDataException("Sound channel graph owner identity/extent is not the original typed observation.");
+        uint begin=BitConverter.ToUInt32(owner.data,4),end=BitConverter.ToUInt32(owner.data,8),capacity=BitConverter.ToUInt32(owner.data,12);
+        if(begin==0&&(end!=0||capacity!=0)||begin>end||end>capacity||(end-begin)%4!=0||(capacity-begin)%4!=0)throw new InvalidDataException("Sound channel graph actual vector header is malformed.");
+        uint used=(end-begin)/4;if(used>256||used>256-result.usedChannelSlots)throw new InvalidDataException("Sound channel graph aggregate used slots exceed observation bound; no descendant read.");result.usedChannelSlots+=checked((int)used);ParentSoundChannelRange storage=null;
+        if(used!=0){string key=Hex(begin)+":"+(end-begin);if(!storages.TryGetValue(key,out storage)){storage=AddParentSoundChannelRange(result,result.storages,"storage",begin,checked((int)(end-begin)));storages.Add(key,storage);}storage.referenceIndices.Add(i);}ownerStorage[i]=storage;
+        result.owners.Add(Record("ownerIndex",i,"ownerAddress",Hex(owner.address),"begin",Hex(begin),"end",Hex(end),"capacity",Hex(capacity),"usedSlots",used,"storageIndex",storage==null?null:(object)storage.index,"storageRangeId",storage==null?null:storage.id));
+      }
+      foreach(ParentSoundChannelRange storage in result.storages)ReadParentSoundChannelRange(storage,captured,owners,result,read);
+      for(int ownerIndex=0;ownerIndex<owners.Count;ownerIndex++){
+        ParentSoundChannelRange storage=ownerStorage[ownerIndex];if(storage==null)continue;
+        for(int i=0;i<storage.length/4;i++){
+          uint address=BitConverter.ToUInt32(storage.data,i*4);ParentSoundChannelRange wrapper=null;
+          if(address!=0){if(!wrappers.TryGetValue(address,out wrapper)){wrapper=AddParentSoundChannelRange(result,result.wrappers,"wrapper",address,p.wrapperBytes);wrappers.Add(address,wrapper);}wrapper.referenceIndices.Add(result.slots.Count);}
+          result.slots.Add(Record("ownerIndex",ownerIndex,"index",i,"slotAddress",Hex(checked(storage.address+(uint)i*4)),"wrapperAddress",Hex(address),"wrapperIndex",wrapper==null?null:(object)wrapper.index,"wrapperRangeId",wrapper==null?null:wrapper.id,"sourceAddress",null,"sourceIndex",null,"sourceRangeId",null));
+        }
+      }
+      foreach(ParentSoundChannelRange wrapper in result.wrappers){ReadParentSoundChannelRange(wrapper,captured,owners,result,read);wrapper.sourceAddress=BitConverter.ToUInt32(wrapper.data,0);ParentSoundChannelRange source=null;if(wrapper.sourceAddress!=0){if(!sources.TryGetValue(wrapper.sourceAddress,out source)){source=AddParentSoundChannelRange(result,result.sources,"source",wrapper.sourceAddress,p.sourceBytes);sources.Add(source.address,source);}source.referenceIndices.Add(wrapper.index);}wrapper.source=source;}
+      foreach(ParentSoundChannelRange source in result.sources){
+        byte[] probe=read(source.address,4);if(probe==null||probe.Length!=4)throw new InvalidDataException("Sound channel graph requires the actual source class DWORD before full source resolution.");CheckParentSoundChannelBytes(source.address,probe,captured,owners,result);source.vtableAddress=BitConverter.ToUInt32(probe,0);source.probeBytesHex=BytesHex(probe);
+        if(source.vtableAddress!=mainBase+0x1d3f60)throw new InvalidDataException("Sound channel graph unclassified source; no9a8 range read.");ReadParentSoundChannelRange(source,captured,owners,result,read);if(BytesHex(new byte[]{source.data[0],source.data[1],source.data[2],source.data[3]})!=source.probeBytesHex)throw new InvalidDataException("Sound channel graph source prefix changed after its guarded class probe.");
+        ParentSoundChannelRange vtable;if(!vtables.TryGetValue(source.vtableAddress,out vtable)){vtable=AddParentSoundChannelRange(result,result.vtables,"vtable",source.vtableAddress,p.vtableBytes);vtables.Add(vtable.address,vtable);}vtable.referenceIndices.Add(source.index);source.vtable=vtable;
+      }
+      foreach(ParentSoundChannelRange vtable in result.vtables)ReadParentSoundChannelRange(vtable,captured,owners,result,read);
+      foreach(Dictionary<string,object> slot in result.slots){if(slot["wrapperIndex"]==null)continue;ParentSoundChannelRange wrapper=result.wrappers[(int)slot["wrapperIndex"]];slot["sourceAddress"]=Hex(wrapper.sourceAddress);slot["sourceIndex"]=wrapper.source==null?null:(object)wrapper.source.index;slot["sourceRangeId"]=wrapper.source==null?null:wrapper.source.id;}
+      return result;
+    }
+    static List<object> ParentSoundChannelInventory(List<ParentSoundChannelRange> rows) {
+      List<object> result=new List<object>();foreach(ParentSoundChannelRange row in rows){Dictionary<string,object> item=Record("index",row.index,"address",Hex(row.address),"rangeId",row.id,"bytes",row.data.Length,"sha256",Digest(row.data),"referenceIndices",row.referenceIndices.ToArray());if(row.role=="wrapper"){item["sourceAddress"]=Hex(row.sourceAddress);item["sourceIndex"]=row.source==null?null:(object)row.source.index;item["sourceRangeId"]=row.source==null?null:row.source.id;}if(row.role=="source"){item["vtableAddress"]=Hex(row.vtableAddress);item["vtableIndex"]=row.vtable.index;item["vtableRangeId"]=row.vtable.id;item["probeBytesHex"]=row.probeBytesHex;item["beforeSourceRangeRead"]=true;}result.Add(item);}return result;
+    }
+    public static Dictionary<string,object> ParentSoundChannelDetails(ParentSoundChannelRead observed) {
+      return Record("maxUsedChannelSlots",256,"usedChannelSlots",observed.usedChannelSlots,"storageRows",observed.storages.Count,"wrapperRows",observed.wrappers.Count,"sourceRows",observed.sources.Count,"vtableRows",observed.vtables.Count,"additionalBytes",observed.additionalBytes,"owners",observed.owners,"slots",observed.slots,"storages",ParentSoundChannelInventory(observed.storages),"wrappers",ParentSoundChannelInventory(observed.wrappers),"sources",ParentSoundChannelInventory(observed.sources),"vtables",ParentSoundChannelInventory(observed.vtables));
+    }
+    public static Dictionary<string,object> ParentSoundChannelRangeMetadata(ParentSoundChannelRange row,string file) {
+      return Record("id",row.id,"address",Hex(row.address),"length",row.data.Length,"file",file,"sha256",Digest(row.data),"source","parent-sound-bank-channel-graph","graphRole",row.role,"graphIndex",row.index,"referenceIndices",row.referenceIndices.ToArray());
+    }
+    public static ParentSoundBankOwnerRead ReadParentSoundBankOwners(ParentSoundBankOwnerGraph p,uint mainBase,IList<ParentSoundBankCapturedRange> captured,Func<uint,int,byte[]> read,bool finalPurpose=false) {
+      ValidateParentSoundBankOwnerPolicy(p,finalPurpose);
+      if(mainBase==0||(ulong)mainBase+0x2f2420>0x100000000UL||captured==null||read==null)throw new InvalidDataException("Sound owner graph lacks its actual module/captured ranges/reader.");
+      ParentSoundBankOwnerRead result=new ParentSoundBankOwnerRead();HashSet<string> ids=new HashSet<string>();
+      foreach(ParentSoundBankCapturedRange row in captured){if(row==null||row.id==null||!ids.Add(row.id)||row.id.StartsWith("parent-sound-bank-owner-",StringComparison.Ordinal)||row.data==null||(ulong)row.address+(ulong)row.data.Length>0x100000000UL)throw new InvalidDataException("Sound owner graph ordinary captured row is missing/duplicated/overflowing.");if(row.id==p.headerRangeId)result.header=row;if(row.id==p.storageRangeId)result.storage=row;}
+      if(result.header==null||result.storage==null||result.header.address!=mainBase+0x2f2414||result.header.data.Length!=12||result.header.vector!=null||result.storage.vector==null)throw new InvalidDataException("Sound owner graph lacks the exact already captured ordinary header/storage.");
+      result.headerAddress=result.header.address;VectorStorageInfo vector=DecodeVectorStorage(result.header.data,65536),stored=result.storage.vector;
+      if(result.storage.vectorHeaderAddress!=result.headerAddress||stored.header==null||BytesHex(stored.header)!=BytesHex(result.header.data)||stored.begin!=vector.begin||stored.end!=vector.end||stored.capacity!=vector.capacity||stored.length!=vector.length||result.storage.address!=vector.begin||result.storage.data.Length!=vector.length||(vector.end-vector.begin)%4!=0||(vector.capacity-vector.begin)%4!=0)throw new InvalidDataException("Sound owner graph header/full-capacity bytes and actual vector metadata disagree.");
+      result.begin=vector.begin;result.end=vector.end;result.capacity=vector.capacity;result.usedSlots=checked((int)((vector.end-vector.begin)/4));result.capacitySlots=checked((int)((vector.capacity-vector.begin)/4));
+      if(result.usedSlots>p.maxUsedSlots)throw new InvalidDataException("Sound owner graph actual used slots exceed observation bound; no owner read attempted.");
+      Dictionary<uint,ParentSoundBankOwnerRange> owners=new Dictionary<uint,ParentSoundBankOwnerRange>();
+      //Enumerate actual used slots first; never follow unused capacity or null.
+      for(int i=0;i<result.usedSlots;i++){
+        uint owner=BitConverter.ToUInt32(result.storage.data,i*4);ParentSoundBankOwnerRange part=null;
+        if(owner!=0){if((ulong)owner+(uint)p.ownerBytes>0x100000000UL)throw new InvalidDataException("Sound owner graph nonnull owner extent overflows32bits.");if(!owners.TryGetValue(owner,out part)){part=new ParentSoundBankOwnerRange{index=result.owners.Count,id="parent-sound-bank-owner-"+result.owners.Count,address=owner};owners.Add(owner,part);result.owners.Add(part);}part.slotIndices.Add(i);}else result.nullSlots.Add(i);
+        result.slots.Add(Record("index",i,"slotAddress",Hex(checked(result.begin+(uint)i*4)),"ownerAddress",Hex(owner),"ownerIndex",part==null?null:(object)part.index,"rangeId",part==null?null:part.id));
+      }
+      result.additionalOwnerBytes=checked(result.owners.Count*p.ownerBytes);
+      if(result.additionalOwnerBytes>299008)throw new InvalidDataException("Sound owner graph additional storage exceeds its unchanged bounded domain.");
+      foreach(ParentSoundBankOwnerRange part in result.owners){part.data=read(part.address,p.ownerBytes);if(part.data==null||part.data.Length!=p.ownerBytes)throw new InvalidDataException("Sound owner graph requires an exact successful490h nonnull read, never default/missing bytes.");foreach(ParentSoundBankCapturedRange row in captured)CheckParentSoundBankOverlap(part.address,part.data,row.address,row.data);foreach(ParentSoundBankOwnerRange earlier in result.owners){if(earlier==part)break;CheckParentSoundBankOverlap(part.address,part.data,earlier.address,earlier.data);}}
+      if(p.channelGraph!=null)result.channelGraph=ReadParentSoundBankChannels(p.channelGraph,mainBase,captured,result.owners,read);
+      return result;
+    }
+    public static void CommitParentSoundBankOwners(ParentRttiProgress state,ParentSoundBankOwnerRead observed,uint ownerMainTid,uint actualTid,string id,int debugOrdinal) {
+      ValidateParentSoundBankOwnerCheckpoint(state,ownerMainTid,actualTid,id,debugOrdinal);if(observed==null||observed.additionalOwnerBytes!=observed.owners.Count*0x490||observed.additionalOwnerBytes>299008)throw new InvalidDataException("Sound owner graph snapshot lacks its actual completed owner-byte accounting.");
+      foreach(ParentSoundBankOwnerRange row in observed.owners)if(row.data==null||row.data.Length!=0x490)throw new InvalidDataException("Sound owner graph cannot commit partial owner reads.");
+      if(observed.channelGraph!=null){ParentSoundChannelRead c=observed.channelGraph;if(state.soundChannelChecks!=state.soundOwnerChecks||c.usedChannelSlots>256||c.additionalBytes>637064)throw new InvalidDataException("Sound channel graph cannot commit an out-of-order or over-bound checkpoint.");foreach(ParentSoundChannelRange row in c.ranges)if(row.data==null)throw new InvalidDataException("Sound channel graph cannot commit an unread descendant.");state.soundChannelChecks++;state.soundChannelSlots=checked(state.soundChannelSlots+c.usedChannelSlots);state.soundChannelStorages=checked(state.soundChannelStorages+c.storages.Count);state.soundChannelWrappers=checked(state.soundChannelWrappers+c.wrappers.Count);state.soundChannelSources=checked(state.soundChannelSources+c.sources.Count);state.soundChannelVtables=checked(state.soundChannelVtables+c.vtables.Count);state.soundChannelBytes=checked(state.soundChannelBytes+c.additionalBytes);}
+      state.soundOwnerChecks++;state.soundOwnerRows=checked(state.soundOwnerRows+observed.owners.Count);state.soundOwnerBytes=checked(state.soundOwnerBytes+observed.additionalOwnerBytes);
+    }
+    public static Dictionary<string,object> ParentSoundBankOwnerDetails(ParentSoundBankOwnerRead observed) {
+      List<object> owners=new List<object>();foreach(ParentSoundBankOwnerRange row in observed.owners)owners.Add(Record("index",row.index,"address",Hex(row.address),"slotIndices",row.slotIndices.ToArray(),"rangeId",row.id,"bytes",row.data.Length,"sha256",Digest(row.data)));
+      Dictionary<string,object> details=Record("headerAddress",Hex(observed.headerAddress),"headerBytesHex",BytesHex(observed.header.data),"headerRangeId",observed.header.id,"headerSha256",Digest(observed.header.data),"begin",Hex(observed.begin),"end",Hex(observed.end),"capacity",Hex(observed.capacity),"usedSlots",observed.usedSlots,"capacitySlots",observed.capacitySlots,"storageRangeId",observed.storage.id,"storageAddress",Hex(observed.storage.address),"storageBytes",observed.storage.data.Length,"storageSha256",Digest(observed.storage.data),"maxUsedSlots",256,"ownerBytes",0x490,"uniqueOwners",observed.owners.Count,"nullSlots",observed.nullSlots.Count,"slots",observed.slots,"owners",owners,"additionalOwnerBytes",observed.additionalOwnerBytes,"sameStoppedDebugEvent",true,"afterParentAdmission",true,"beforeOriginalInstruction",true,"completeUsedOwnerObservation",true);
+      if(observed.channelGraph!=null)details["channelGraph"]=ParentSoundChannelDetails(observed.channelGraph);return details;
     }
     public static ParentRttiMapRead ReadParentRttiMapSource(uint mainBase,uint ownerTid,uint actualTid,Func<uint,int,byte[]> read) {
       if(ownerTid==0||actualTid!=ownerTid||read==null||mainBase==0||(ulong)mainBase+0x2efb3c>0x100000000UL)throw new InvalidDataException("Parent RTTI map source requires the owned main thread and actual image root.");
@@ -361,12 +819,84 @@ namespace RollcageCapture {
       if(p.appAddress==0||(ulong)p.appAddress+0x80>0x100000000UL)throw new InvalidDataException("Parent RTTI actual singleton is null/overflow; no map range resolved.");p.headSlotAddress=Add(p.appAddress,0x7c);p.headBytes=read(p.headSlotAddress,4);if(p.headBytes==null||p.headBytes.Length!=4)throw new InvalidDataException("Parent RTTI actual map-head DWORD is unobserved.");p.headAddress=BitConverter.ToUInt32(p.headBytes,0);
       if(p.headAddress==0||(ulong)p.headAddress+100>0x100000000UL)throw new InvalidDataException("Parent RTTI actual map head is null/overflow; no map range resolved.");return p;
     }
+    public static void ValidateParentRttiMapGraphPolicy(ParentRttiViewportMapGraph p,bool finalPurpose=false) {
+      if(p==null||p.maxNodes!=8||p.maxKeyBytes!=256||p.breakpointIds==null||String.Join(",",p.breakpointIds)!=("native-control-before,native-control-after-cameras,native-control-after-world-effects"+(finalPurpose?",native-parent-return":"")))throw new InvalidDataException("Parent RTTI viewport graph requires exact node/key/three-checkpoint bounds.");
+    }
+    static byte[] ReadParentRttiGraphBytes(uint address,int length,Func<uint,int,byte[]> read) {
+      if(address==0||length<1||(ulong)address+(ulong)length>0x100000000UL)throw new InvalidDataException("Parent RTTI graph pointer/extent is null or overflows32bits.");
+      byte[] bytes=read(address,length);if(bytes==null||bytes.Length!=length)throw new InvalidDataException("Parent RTTI graph requires all actual bytes; no missing/default storage.");return bytes;
+    }
+    public static ParentRttiMapGraphRead ReadParentRttiViewportMapGraph(ParentRttiViewportMapGraph policy,uint app,uint expectedHead,Func<uint,int,byte[]> read,bool finalPurpose=false) {
+      ValidateParentRttiMapGraphPolicy(policy,finalPurpose);if(read==null)throw new ArgumentNullException("read");
+      if(app==0||(ulong)app+0x84>0x100000000UL||expectedHead==0)throw new InvalidDataException("Parent RTTI graph requires the preflight's bounded actual APP/head.");
+      ParentRttiMapGraphRead result=new ParentRttiMapGraphRead {appAddress=app,headerAddress=Add(app,0x7c),headAddress=expectedHead};
+      result.headerBytes=ReadParentRttiGraphBytes(result.headerAddress,8,read);uint head=BitConverter.ToUInt32(result.headerBytes,0);result.count=BitConverter.ToUInt32(result.headerBytes,4);
+      if(head!=expectedHead||result.count>policy.maxNodes)throw new InvalidDataException("Parent RTTI graph head changed or actual node count exceeds bound.");
+      result.headBytes=ReadParentRttiGraphBytes(head,16,read);if(result.headBytes[12]!=1||result.headBytes[13]!=1)throw new InvalidDataException("Parent RTTI map head is not the actual nil/color sentinel.");
+      uint minimum=BitConverter.ToUInt32(result.headBytes,0),root=BitConverter.ToUInt32(result.headBytes,4),maximum=BitConverter.ToUInt32(result.headBytes,8);result.rootAddress=root;
+      result.ranges.Add(new ParentRttiMapGraphRange{id="parent-rtti-map-graph-header",role="header",address=result.headerAddress,data=result.headerBytes});
+      result.ranges.Add(new ParentRttiMapGraphRange{id="parent-rtti-map-graph-head",role="head",address=head,data=result.headBytes});
+      if(result.count==0){if(root!=head||minimum!=head||maximum!=head)throw new InvalidDataException("Parent RTTI empty map sentinel links disagree with actual count.");return result;}
+      if(root==0||root==head||minimum==0||minimum==head||maximum==0||maximum==head)throw new InvalidDataException("Parent RTTI nonempty graph has a null/nil root or extrema.");
+      List<uint> addresses=new List<uint>(),parents=new List<uint>();List<string> paths=new List<string>();HashSet<uint> discovered=new HashSet<uint>();Dictionary<uint,byte[]> bytesByAddress=new Dictionary<uint,byte[]>();
+      addresses.Add(root);parents.Add(head);paths.Add("root");discovered.Add(root);
+      for(int index=0;index<addresses.Count;index++) {
+        uint address=addresses[index];byte[] node=ReadParentRttiGraphBytes(address,100,read);bytesByAddress.Add(address,node);
+        uint left=BitConverter.ToUInt32(node,0),parent=BitConverter.ToUInt32(node,4),right=BitConverter.ToUInt32(node,8);
+        if(node[13]!=0||node[12]>1||parent!=parents[index])throw new InvalidDataException("Parent RTTI node nil/color or actual parent backlink differs.");
+        uint length=BitConverter.ToUInt32(node,32),capacity=BitConverter.ToUInt32(node,36);bool heap=capacity>=16;
+        if(length>capacity||(ulong)length+1>(ulong)policy.maxKeyBytes||!heap&&length>=16)throw new InvalidDataException("Parent RTTI key length/capacity exceeds native storage or bounded bytes.");
+        uint key=heap?BitConverter.ToUInt32(node,16):Add(address,16);string nodeId="parent-rtti-map-node-"+index,keyId=heap?"parent-rtti-map-key-"+index:null;
+        result.ranges.Add(new ParentRttiMapGraphRange{id=nodeId,role="node",address=address,nodeAddress=address,nodeIndex=index,path=paths[index],data=node});
+        byte[] keyBytes;if(heap){keyBytes=ReadParentRttiGraphBytes(key,checked((int)length+1),read);result.ranges.Add(new ParentRttiMapGraphRange{id=keyId,role="heap-key",address=key,nodeAddress=address,nodeIndex=index,path=paths[index],data=keyBytes});}else{keyBytes=new byte[checked((int)length+1)];Buffer.BlockCopy(node,16,keyBytes,0,keyBytes.Length);}
+        if(keyBytes[(int)length]!=0)throw new InvalidDataException("Parent RTTI actual key length has no observed terminating NUL.");
+        result.nodes.Add(Record("index",index,"path",paths[index],"address",Hex(address),"parentAddress",Hex(parent),"leftAddress",Hex(left),"rightAddress",Hex(right),"keyAddress",Hex(key),"keyLength",length,"keyCapacity",capacity,"heapKey",heap,"nodeRangeId",nodeId,"keyRangeId",keyId));
+        for(int side=0;side<2;side++){uint child=side==0?left:right;if(child==head)continue;if(child==0||!discovered.Add(child))throw new InvalidDataException("Parent RTTI graph contains a null child, duplicate/shared node or cycle.");if(discovered.Count>result.count||discovered.Count>policy.maxNodes)throw new InvalidDataException("Parent RTTI actual graph exceeds declared node count/bound.");addresses.Add(child);parents.Add(address);paths.Add(paths[index]+(side==0?".left":".right"));}
+      }
+      if(addresses.Count!=result.count)throw new InvalidDataException("Parent RTTI actual reachable node count disagrees with map header.");
+      uint first=root,last=root;while(BitConverter.ToUInt32(bytesByAddress[first],0)!=head)first=BitConverter.ToUInt32(bytesByAddress[first],0);while(BitConverter.ToUInt32(bytesByAddress[last],8)!=head)last=BitConverter.ToUInt32(bytesByAddress[last],8);
+      if(first!=minimum||last!=maximum)throw new InvalidDataException("Parent RTTI actual sentinel minimum/maximum links disagree with graph.");return result;
+    }
     public static ParentRttiEndpointRead ReadParentRttiEndpoint(ParentRttiProgress state,uint mainBase,uint actualTid,uint esp,Func<uint,int,byte[]> read) {
       if(state==null||read==null)throw new ArgumentNullException("state/read");if(!state.CanRead(actualTid,esp))return null;
       ParentRttiEndpointRead p=new ParentRttiEndpointRead {clockBytes=read(Add(mainBase,0x50a548),4)};if(p.clockBytes==null||p.clockBytes.Length!=4||BitConverter.ToUInt32(p.clockBytes,0)!=state.clock)throw new InvalidDataException("Parent RTTI scoped logical clock changed before range reads.");
+      if(state.weatherScreenQueries&&esp==state.parentEsp-460) {
+        p.weather=true;p.context=read(esp,68);p.queryReturn=read(Add(esp,84),4);p.screenReturn=read(Add(esp,416),4);p.parentReturn=read(Add(esp,440),4);p.name=read(Add(esp,140),9);p.singletonBytes=read(Add(mainBase,0x2efb38),4);
+        if(p.context==null||p.context.Length!=68||p.queryReturn==null||p.queryReturn.Length!=4||p.screenReturn==null||p.screenReturn.Length!=4||p.parentReturn==null||p.parentReturn.Length!=4||p.name==null||p.name.Length!=9||p.singletonBytes==null||p.singletonBytes.Length!=4)throw new InvalidDataException("Parent RTTI weather argument/return/name extent is unobserved.");
+        uint queryReturn=BitConverter.ToUInt32(p.queryReturn,0);p.weatherQueryIndex=queryReturn==Add(mainBase,0x98092)?1:queryReturn==Add(mainBase,0x980f5)?2:0;p.commonCaller=ParentRttiWeatherAbiMatches(state,mainBase,p);
+        p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-context",address=esp,data=p.context});p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-clock",address=Add(mainBase,0x50a548),data=p.clockBytes});
+        p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-weather-query-return",address=Add(esp,84),data=p.queryReturn});p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-weather-screen-return",address=Add(esp,416),data=p.screenReturn});p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-weather-parent-return",address=Add(esp,440),data=p.parentReturn});p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-weather-name",address=Add(esp,140),data=p.name});return p;
+      }
       p.context=read(esp,52);p.cameraReturn=read(Add(esp,256),4);p.singletonBytes=read(Add(mainBase,0x2efb38),4);
       if(p.context==null||p.context.Length!=52||p.cameraReturn==null||p.cameraReturn.Length!=4||p.singletonBytes==null||p.singletonBytes.Length!=4)throw new InvalidDataException("Parent RTTI actual scoped argument extent is unobserved.");
-      p.commonCaller=BitConverter.ToUInt32(p.context,40)==Add(mainBase,0x1a0c8)&&BitConverter.ToUInt32(p.context,44)==1&&BitConverter.ToUInt32(p.context,48)==state.parentEsp-60&&BitConverter.ToUInt32(p.cameraReturn,0)==Add(mainBase,0x51107);return p;
+      p.commonCaller=BitConverter.ToUInt32(p.context,40)==Add(mainBase,0x1a0c8)&&BitConverter.ToUInt32(p.context,44)==state.parentEsp-60&&BitConverter.ToUInt32(p.context,48)==1&&BitConverter.ToUInt32(p.cameraReturn,0)==Add(mainBase,0x51107);
+      if(state.weatherScreenQueries){p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-context",address=esp,data=p.context});p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-camera-return",address=Add(esp,256),data=p.cameraReturn});p.ranges.Add(new ParentRttiObservedRange{id="native-parent-rtti-clock",address=Add(mainBase,0x50a548),data=p.clockBytes});}return p;
+    }
+    public static bool ParentRttiWeatherAbiMatches(ParentRttiProgress state,uint mainBase,ParentRttiEndpointRead p) {
+      if(state==null||p==null||!p.weather||p.weatherQueryIndex<1||p.weatherQueryIndex>2||p.context==null||p.context.Length!=68||p.queryReturn==null||p.queryReturn.Length!=4||p.screenReturn==null||p.screenReturn.Length!=4||p.parentReturn==null||p.parentReturn.Length!=4||p.name==null||p.name.Length!=9)return false;
+      uint U=state.parentEsp;bool second=p.weatherQueryIndex==2;
+      return BytesHex(p.name)=="3020506c6179657200"&&BitConverter.ToUInt32(p.context,0)==state.appAddress&&BitConverter.ToUInt32(p.context,4)==0&&BitConverter.ToUInt32(p.context,8)==Add(mainBase,0x2e213c)&&BitConverter.ToUInt32(p.context,12)==Add(mainBase,0x2e20a4)&&BitConverter.ToUInt32(p.context,16)==0&&BitConverter.ToUInt32(p.context,40)==Add(mainBase,0xabf3)&&BitConverter.ToUInt32(p.context,44)==U-319&&BitConverter.ToUInt32(p.context,48)==U-320&&BitConverter.ToUInt32(p.context,52)==U-(second?344u:336u)&&BitConverter.ToUInt32(p.context,56)==U-(second?336u:332u)&&BitConverter.ToUInt32(p.context,60)==U-(second?332u:340u)&&BitConverter.ToUInt32(p.context,64)==U-328&&BitConverter.ToUInt32(p.queryReturn,0)==Add(mainBase,second?0x980f5u:0x98092u)&&BitConverter.ToUInt32(p.screenReturn,0)==Add(mainBase,0x96822)&&BitConverter.ToUInt32(p.parentReturn,0)==Add(mainBase,0x51116);
+    }
+    public static byte[] ReadParentCounterBytes(uint address,int length,Func<uint,int,byte[]> read) {
+      if(read==null||address==0||length<1||(ulong)address+(ulong)length>0x100000000UL)throw new InvalidDataException("Counter observation requires a bounded actual address/extent.");byte[] bytes=read(address,length);if(bytes==null||bytes.Length!=length)throw new InvalidDataException("Counter observation lacks its complete actual bytes.");return bytes;
+    }
+    static bool CounterBytesEqual(byte[] a,byte[] b) {if(a==null||b==null||a.Length!=b.Length)return false;for(int i=0;i<a.Length;i++)if(a[i]!=b[i])return false;return true;}
+    public static ParentWeatherCounterRead ReadParentWeatherCounter(ParentRttiProgress parent,ParentWeatherCounterProgress state,uint mainBase,uint actualTid,bool entry,uint esp,uint eip,uint ebp,uint esi,Func<uint,int,byte[]> read) {
+      if(state==null||parent==null||read==null)throw new ArgumentNullException("counter state/parent/read");if(!state.CanRead(parent,actualTid,entry,esp))return null;
+      if(mainBase!=state.moduleBaseAddress||eip!=checked(mainBase+(entry?0x89d11u:0x89d13u))||ebp!=state.parentU-368||esi!=state.iatTarget||RequiredParentCounterSnapshots(parent)>(parent.finalTick==null?21:22)||entry&&(state.open||state.complete||state.captured!=0)||!entry&&(!state.open||state.complete||state.captured!=1))throw new InvalidDataException("Counter raw context/call lifecycle or full checkpoint reservation differs before range reads.");
+      uint U=state.parentU,A=(U-368)&~7u,B=A-32;ParentWeatherCounterRead p=new ParentWeatherCounterRead {parentU=U,timerEntry=U-364,ebp=U-368,aligned=A,frame=B,beforeEsp=B-4,afterEsp=B,output=B+24};
+      p.argument=ReadParentCounterBytes(p.beforeEsp,4,read);p.outputBytes=ReadParentCounterBytes(p.output,8,read);p.frameBytes=ReadParentCounterBytes(p.frame,32,read);p.timerReturn=ReadParentCounterBytes(p.timerEntry,4,read);p.screenReturn=ReadParentCounterBytes(U-44,4,read);p.parentReturn=ReadParentCounterBytes(U-20,4,read);p.iat=ReadParentCounterBytes(checked(mainBase+0x16e0fc),4,read);p.initialized=ReadParentCounterBytes(checked(mainBase+0x2e6c8c),4,read);p.originFrequency=ReadParentCounterBytes(checked(mainBase+0x3135a4),16,read);p.clockBytes=ReadParentCounterBytes(checked(mainBase+0x50a548),4,read);
+      ValidateParentWeatherCounterRead(state,parent,mainBase,p);
+      string[] ids={"argument","output","frame","timer-return","screen-return","parent-return","iat","initialized","origin-frequency","clock"};uint[] addresses={p.beforeEsp,p.output,p.frame,p.timerEntry,U-44,U-20,checked(mainBase+0x16e0fc),checked(mainBase+0x2e6c8c),checked(mainBase+0x3135a4),checked(mainBase+0x50a548)};byte[][] bytes={p.argument,p.outputBytes,p.frameBytes,p.timerReturn,p.screenReturn,p.parentReturn,p.iat,p.initialized,p.originFrequency,p.clockBytes};for(int i=0;i<ids.Length;i++)p.ranges.Add(new ParentRttiObservedRange{id="native-parent-counter-"+ids[i],address=addresses[i],data=bytes[i]});return p;
+    }
+    public static void ValidateParentWeatherCounterRead(ParentWeatherCounterProgress state,ParentRttiProgress parent,uint mainBase,ParentWeatherCounterRead p) {
+      if(state==null||parent==null||p==null||!state.originalLatched||mainBase!=state.moduleBaseAddress)throw new InvalidDataException("Counter has no original parent input identity.");uint U=state.parentU,A=(U-368)&~7u,B=A-32;
+      if(p.parentU!=U||p.timerEntry!=U-364||p.ebp!=U-368||p.aligned!=A||p.frame!=B||p.beforeEsp!=B-4||p.afterEsp!=B||p.output!=B+24||p.argument==null||p.argument.Length!=4||p.outputBytes==null||p.outputBytes.Length!=8||p.frameBytes==null||p.frameBytes.Length!=32||p.timerReturn==null||p.timerReturn.Length!=4||p.screenReturn==null||p.screenReturn.Length!=4||p.parentReturn==null||p.parentReturn.Length!=4||p.iat==null||p.iat.Length!=4||p.initialized==null||p.initialized.Length!=4||p.originFrequency==null||p.originFrequency.Length!=16||p.clockBytes==null||p.clockBytes.Length!=4)throw new InvalidDataException("Counter actual frame/row extents differ.");
+      if(BitConverter.ToUInt32(p.argument,0)!=p.output||BitConverter.ToUInt32(p.frameBytes,8)!=p.ebp||BitConverter.ToUInt32(p.timerReturn,0)!=checked(mainBase+0x98458)||BitConverter.ToUInt32(p.screenReturn,0)!=checked(mainBase+0x96822)||BitConverter.ToUInt32(p.parentReturn,0)!=checked(mainBase+0x51116)||BitConverter.ToUInt32(p.clockBytes,0)!=parent.clock||BitConverter.ToUInt32(p.initialized,0)!=1||!CounterBytesEqual(p.initialized,state.initialFlag)||!CounterBytesEqual(p.originFrequency,state.initialOriginFrequency)||!CounterBytesEqual(p.iat,state.initialIat)||BitConverter.ToUInt32(p.iat,0)!=state.iatTarget)throw new InvalidDataException("Counter original caller/clock/IAT/initialized frequency-origin guards differ.");
+      for(int i=0;i<8;i++)if(p.frameBytes[24+i]!=p.outputBytes[i])throw new InvalidDataException("Counter frame/output overlapping actual bytes disagree.");
+    }
+    public static void ValidateParentCounterDeferredCode(bool call,byte original,bool armed,int rawHits,int matchingHits,int captureHits,byte[] code) {
+      string expected=call?"ffd6":"8b442418";if(armed||rawHits!=0||matchingHits!=0||captureHits!=0||code==null||code.Length!=expected.Length/2||original!=code[0]||BytesHex(code)!=expected)throw new InvalidDataException("Counter deferred original code/counters changed before selected activation.");
     }
     public static void ValidateParentRttiDeferredCode(bool call,byte original,bool armed,int rawHits,int matchingHits,int captureHits,byte[] code) {
       string expected=call?"e89f651600":"83c414";if(armed||rawHits!=0||matchingHits!=0||captureHits!=0||code==null||code.Length!=expected.Length/2||original!=code[0]||BytesHex(code)!=expected)throw new InvalidDataException("Parent RTTI deferred original code/counters changed before selected activation.");
@@ -1044,6 +1574,7 @@ namespace RollcageCapture {
       ValidateOwnedWorkerObservationPolicy(o);
       ValidateOwnedWorkerGainPairPolicy(o);
       ValidateOwnedWorkerGainWindowPolicy(o);
+      ValidateRaceClockPolicy(o);
       ValidateHeldForcePolicy(o);
       ValidateControlledRaceSettingsPolicy(o);
       ValidateParentRttiPolicy(o);
@@ -1451,33 +1982,71 @@ namespace RollcageCapture {
     static Dictionary<string,object> ParentRttiProof(ParentRttiProgress state,ProcessInfo child,Breakpoint hit,uint tid,int debugOrdinal,string type) {
       return Record("type",type,"pid",child.pid,"tid",tid,"ownerMainTid",child.tid,"breakpointId",hit.id,"observedDebugEventOrdinal",debugOrdinal,"parentEntryDebugEventOrdinal",state.parentDebugOrdinal,"parentEntryEsp",Hex(state.parentEsp),"parentClock",state.clock,"parentIteration",state.iteration,"parentCaller",Hex(state.caller),"parentTotalIterations",state.totalIterations,"activationDebugEventOrdinal",state.activationDebugOrdinal);
     }
+    static Dictionary<string,object> ActivateParentFinalReturn(Options o,ParentRttiProgress parent,ProcessInfo child,uint mainBase,Breakpoint entry,uint tid,int debugOrdinal,int snapshotOrdinal,List<Breakpoint> breakpoints,Action<Dictionary<string,object>> emit) {
+      Breakpoint point=breakpoints.Find(delegate(Breakpoint b){return b.id==o.parentRttiObservation.finalTick.returnBreakpointId;});byte[] code=Bytes(child.process,point.resolved,2);parent.finalTick.Activate(parent,mainBase,child.tid,tid,debugOrdinal,point.original,point.armed,point.hits,code);Write(child.process,point.resolved,new byte[]{0xcc});point.armed=true;
+      Dictionary<string,object> proof=ParentRttiProof(parent,child,entry,tid,debugOrdinal,"parent-final-return-activated");proof["mainModuleBaseAddress"]=Hex(mainBase);proof["snapshotOrdinal"]=snapshotOrdinal;proof["id"]=point.id;proof["address"]=Hex(point.resolved);proof["originalBytesHex"]=BytesHex(code);proof["patchBytesHex"]="cc";proof["activationSelection"]="selected-owned-parent-entry";proof["afterSnapshotBytesCaptured"]=true;proof["beforeSnapshotPublication"]=true;proof["beforeOriginalInstruction"]=true;emit(proof);return proof;
+    }
+    static Dictionary<string,object> AdmitParentFinalReturn(Options o,ParentRttiProgress parent,ProcessInfo child,uint mainBase,Breakpoint hit,uint tid,Dictionary<string,object> regs,int debugOrdinal,int snapshotOrdinal,Action<Dictionary<string,object>> emit) {
+      ParentFinalProgress progress=parent.finalTick;
+      if(tid!=child.tid){emit(Record("type","parent-final-return-skipped","pid",child.pid,"tid",tid,"ownerMainTid",child.tid,"breakpointId",hit.id,"observedDebugEventOrdinal",debugOrdinal,"reason","different-owned-thread","matchingHitAdvanced",false,"snapshotCountAdvanced",false,"originalInstructionSkipped",false));return null;}
+      uint esp=Number((string)regs["esp"]),eip=Number((string)regs["eip"]),eax=Number((string)regs["eax"]);
+      if(progress==null||!progress.activated||progress.admitted||progress.complete||!parent.selected||parent.stage!=10||!parent.closed||parent.windowOpen||parent.callOpen||parent.parentEsp<16||(ulong)parent.parentEsp+12>0x100000000UL||esp!=parent.parentEsp+4||eip!=checked(mainBase+0x50e38))throw new InvalidDataException("Unproved same-main final caller is unsupported before endpoint range reads.");
+      byte[] stack=Bytes(child.process,parent.parentEsp-16,28);uint[] nonvolatileRegisters={Number((string)regs["edi"]),Number((string)regs["esi"]),Number((string)regs["ebp"]),Number((string)regs["ebx"])};progress.Admit(parent,mainBase,child.tid,tid,eip,esp,eax,nonvolatileRegisters,stack,debugOrdinal,snapshotOrdinal);
+      byte[] returned=new byte[4],total=new byte[4];Buffer.BlockCopy(stack,16,returned,0,4);Buffer.BlockCopy(stack,20,total,0,4);
+      Dictionary<string,object> proof=ParentRttiProof(parent,child,hit,tid,debugOrdinal,"parent-final-return-admitted");proof["mainModuleBaseAddress"]=Hex(mainBase);proof["snapshotOrdinal"]=snapshotOrdinal;proof["returnActivationDebugEventOrdinal"]=progress.activationDebugOrdinal;proof["afterWorldDebugEventOrdinal"]=parent.lastStageDebugOrdinal;proof["entryEsp"]=Hex(parent.parentEsp);proof["returnEsp"]=Hex(esp);proof["stackAddress"]=Hex(parent.parentEsp-16);proof["stackBytesHex"]=BytesHex(stack);proof["entryNonvolatile"]=parent.incomingNonvolatile;proof["actualNonvolatile"]=nonvolatileRegisters;proof["returnValue"]=eax;proof["returnWordBytesHex"]=BytesHex(returned);proof["totalWordBytesHex"]=BytesHex(total);proof["beforeSnapshotRangeResolution"]=true;proof["beforeOriginalInstruction"]=true;proof["observationPhase"]="native-caller-after-parent-return";emit(proof);return proof;
+    }
     static Dictionary<string,object> PrepareParentRttiCheckpoint(Options o,ParentRttiProgress state,ProcessInfo child,uint mainBase,Breakpoint hit,uint tid,Dictionary<string,object> regs,int debugOrdinal,int snapshotOrdinal,Action<Dictionary<string,object>> emit,out Dictionary<string,object> closed) {
-      closed=null;
+      closed=null;bool finalPoint=o.parentRttiObservation.finalTick!=null&&hit.id==o.parentRttiObservation.finalTick.returnBreakpointId;bool entry=false;
+      if(!finalPoint){
       if(tid!=child.tid||hit.captureHits!=0||hit.matchingHits!=hit.skipMatchingHits.Value+1)throw new InvalidDataException("Parent RTTI selected checkpoint is not its first owned main observation.");
-      uint esp=Number((string)regs["esp"]),clock=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x50a548),4),0);bool entry=hit.id==o.parentRttiObservation.parentBreakpointId,physical=hit.id=="native-control-after"||hit.id=="native-control-after-physics";
+      uint esp=Number((string)regs["esp"]),clock=BitConverter.ToUInt32(Bytes(child.process,Add(mainBase,0x50a548),4),0);entry=hit.id==o.parentRttiObservation.parentBreakpointId;bool physical=hit.id=="native-control-after"||hit.id=="native-control-after-physics";
       uint[] nonvolatileRegisters={Number((string)regs["edi"]),Number((string)regs["esi"]),Number((string)regs["ebp"]),Number((string)regs["ebx"])};
       state.ObserveStage(hit.id,mainBase,child.tid,tid,esp,clock,Number((string)regs[entry?"edx":"ebp"]),Bytes(child.process,esp,entry?8:physical?28:24),nonvolatileRegisters,debugOrdinal);
-      if(hit.id==o.parentRttiObservation.endBreakpointId){closed=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-closed");closed["snapshotOrdinal"]=snapshotOrdinal;closed["actualPairs"]=state.pairs;closed["actualSnapshots"]=state.captured;closed["callOpen"]=false;closed["windowOpen"]=false;closed["breakpointsRemainArmedForDeferredReplay"]=true;closed["beforeSnapshotRangeResolution"]=true;closed["beforeOriginalInstruction"]=true;emit(closed);}
+      if(entry&&state.counter!=null)state.counter.LatchOriginal(state,mainBase,tid,delegate(uint address,int length){return Bytes(child.process,address,length);});
+      if(hit.id==o.parentRttiObservation.endBreakpointId){closed=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-closed");closed["snapshotOrdinal"]=snapshotOrdinal;closed["actualPairs"]=state.pairs;closed["actualSnapshots"]=state.captured;closed["callOpen"]=false;closed["windowOpen"]=false;closed["breakpointsRemainArmedForDeferredReplay"]=true;closed["beforeSnapshotRangeResolution"]=true;closed["beforeOriginalInstruction"]=true;if(state.counter!=null){closed["actualCounterPairs"]=state.counter.pairs;closed["actualCounterSnapshots"]=state.counter.captured;}emit(closed);}
+      }
       if(Array.IndexOf(o.parentRttiObservation.singletonMapPreflight.breakpointIds,hit.id)<0)return null;
       ParentRttiMapRead map;
       try {map=ReadParentRttiMapSource(mainBase,child.tid,tid,delegate(uint address,int length){return Bytes(child.process,address,length);});state.ObserveMap(hit.id,map.appAddress,map.headAddress);}
       catch(Exception error){Dictionary<string,object> failed=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-map-preflight-failed");failed["beforeSnapshotRangeResolution"]=true;failed["sameStoppedDebugEvent"]=true;failed["error"]=error.ToString();emit(failed);throw;}
-      Dictionary<string,object> proof=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-map-preflight");proof["snapshotOrdinal"]=snapshotOrdinal;proof["rootAddress"]=Hex(map.rootAddress);proof["rootBytesHex"]=BytesHex(map.rootBytes);proof["appAddress"]=Hex(map.appAddress);proof["headSlotAddress"]=Hex(map.headSlotAddress);proof["headBytesHex"]=BytesHex(map.headBytes);proof["headAddress"]=Hex(map.headAddress);proof["identitiesLatchedOrStable"]=true;proof["identityAction"]=entry?"latched":"stable";proof["beforeSnapshotRangeResolution"]=true;proof["phasePredicateAlreadySelected"]=true;proof["sameStoppedDebugEvent"]=true;emit(proof);return proof;
+      Dictionary<string,object> proof=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-map-preflight");proof["snapshotOrdinal"]=snapshotOrdinal;proof["rootAddress"]=Hex(map.rootAddress);proof["rootBytesHex"]=BytesHex(map.rootBytes);proof["appAddress"]=Hex(map.appAddress);proof["headSlotAddress"]=Hex(map.headSlotAddress);proof["headBytesHex"]=BytesHex(map.headBytes);proof["headAddress"]=Hex(map.headAddress);proof["identitiesLatchedOrStable"]=true;proof["identityAction"]=entry?"latched":"stable";proof["beforeSnapshotRangeResolution"]=true;proof["phasePredicateAlreadySelected"]=!finalPoint;proof["sameStoppedDebugEvent"]=true;emit(proof);return proof;
     }
     static Dictionary<string,object> ActivateParentRtti(Options o,ParentRttiProgress state,ProcessInfo child,uint mainBase,Breakpoint auxiliary,uint tid,int debugOrdinal,int snapshotOrdinal,List<Breakpoint> breakpoints,Action<Dictionary<string,object>> emit) {
       state.MarkAuxiliaryCaptured(snapshotOrdinal);state.Activate(debugOrdinal,tid);List<object> installed=new List<object>();
-      foreach(string id in new string[]{o.parentRttiObservation.callBreakpointId,o.parentRttiObservation.returnBreakpointId}) {
-        Breakpoint b=breakpoints.Find(delegate(Breakpoint point){return point.id==id;});string expected=id==o.parentRttiObservation.callBreakpointId?"e89f651600":"83c414";
-        byte[] code=Bytes(child.process,b.resolved,expected.Length/2);ValidateParentRttiDeferredCode(id==o.parentRttiObservation.callBreakpointId,b.original,b.armed,b.hits,b.matchingHits,b.captureHits,code);
+      List<string> ids=new List<string>(new string[]{o.parentRttiObservation.callBreakpointId,o.parentRttiObservation.returnBreakpointId});ParentWeatherCounterObservation counter=o.parentRttiObservation.weatherCounterObservation;if(counter!=null){ids.Add(counter.callBreakpointId);ids.Add(counter.returnBreakpointId);}
+      foreach(string id in ids) {
+        bool counterSite=counter!=null&&(id==counter.callBreakpointId||id==counter.returnBreakpointId);Breakpoint b=breakpoints.Find(delegate(Breakpoint point){return point.id==id;});string expected=counterSite?(id==counter.callBreakpointId?"ffd6":"8b442418"):id==o.parentRttiObservation.callBreakpointId?"e89f651600":"83c414";
+        byte[] code=Bytes(child.process,b.resolved,expected.Length/2);if(counterSite)ValidateParentCounterDeferredCode(id==counter.callBreakpointId,b.original,b.armed,b.hits,b.matchingHits,b.captureHits,code);else ValidateParentRttiDeferredCode(id==o.parentRttiObservation.callBreakpointId,b.original,b.armed,b.hits,b.matchingHits,b.captureHits,code);
         Write(child.process,b.resolved,new byte[]{0xcc});b.armed=true;Dictionary<string,object> armed=ParentRttiProof(state,child,auxiliary,tid,debugOrdinal,"parent-rtti-breakpoint-activated");armed["id"]=b.id;armed["address"]=Hex(b.resolved);armed["originalBytesHex"]=expected;armed["patchBytesHex"]="cc";armed["beforeOriginalInstruction"]=true;emit(armed);installed.Add(Record("id",b.id,"address",Hex(b.resolved),"originalBytesHex",expected,"patchBytesHex","cc"));
       }
       Dictionary<string,object> proof=ParentRttiProof(state,child,auxiliary,tid,debugOrdinal,"parent-rtti-activation");proof["auxiliarySnapshotOrdinal"]=snapshotOrdinal;proof["installed"]=installed;proof["afterSnapshotBytesCaptured"]=true;proof["beforeSnapshotPublication"]=true;proof["beforeOriginalInstruction"]=true;emit(proof);return proof;
     }
-    static Dictionary<string,object> AdmitParentRtti(Options o,ParentRttiProgress state,ProcessInfo child,uint mainBase,Breakpoint hit,uint tid,Dictionary<string,object> regs,int debugOrdinal,int snapshotOrdinal,Action<Dictionary<string,object>> emit) {
+    static Dictionary<string,object> PrepareParentRttiMapGraph(Options o,ParentRttiProgress state,ProcessInfo child,Breakpoint hit,uint tid,int debugOrdinal,int snapshotOrdinal,Action<Dictionary<string,object>> emit,out ParentRttiMapGraphRead graph) {
+      graph=null;ParentRttiViewportMapGraph policy=o.parentRttiObservation.viewportMapGraph;
+      if(policy==null||Array.IndexOf(policy.breakpointIds,hit.id)<0)return null;
+      if(tid!=child.tid||tid!=state.tid||state.mapChecks!=state.graphChecks+1)throw new InvalidDataException("Parent RTTI graph requires the same stopped owned checkpoint after its actual preflight.");
+      try {graph=ReadParentRttiViewportMapGraph(policy,state.appAddress,state.headAddress,delegate(uint address,int length){return Bytes(child.process,address,length);},o.parentRttiObservation.finalTick!=null);}
+      catch(Exception error){Dictionary<string,object> failed=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-map-graph-failed");failed["afterSingletonPreflight"]=true;failed["sameStoppedDebugEvent"]=true;failed["error"]=error.ToString();emit(failed);throw;}
+      state.graphChecks++;Dictionary<string,object> proof=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-map-graph");
+      proof["snapshotOrdinal"]=snapshotOrdinal;proof["appAddress"]=Hex(graph.appAddress);proof["headerAddress"]=Hex(graph.headerAddress);proof["headerBytesHex"]=BytesHex(graph.headerBytes);proof["headAddress"]=Hex(graph.headAddress);proof["headBytesHex"]=BytesHex(graph.headBytes);proof["rootAddress"]=Hex(graph.rootAddress);proof["count"]=graph.count;proof["maxNodes"]=policy.maxNodes;proof["maxKeyBytes"]=policy.maxKeyBytes;proof["nodes"]=graph.nodes;proof["sameStoppedDebugEvent"]=true;proof["afterSingletonPreflight"]=true;proof["beforeOriginalInstruction"]=true;proof["completeGraphObserved"]=true;emit(proof);return proof;
+    }
+    static Dictionary<string,object> AdmitParentRtti(Options o,ParentRttiProgress state,ProcessInfo child,uint mainBase,Breakpoint hit,uint tid,Dictionary<string,object> regs,int debugOrdinal,int snapshotOrdinal,Action<Dictionary<string,object>> emit,out ParentRttiEndpointRead captured) {
+      captured=null;
       uint esp=Number((string)regs["esp"]);ParentRttiEndpointRead observed=ReadParentRttiEndpoint(state,mainBase,tid,esp,delegate(uint address,int length){return Bytes(child.process,address,length);});bool entry=hit.id==o.parentRttiObservation.callBreakpointId;
+      if(state.weatherScreenQueries&&state.windowOpen&&tid==state.tid&&(observed==null||!observed.commonCaller))throw new InvalidDataException("Parent RTTI mixed camera/weather window reached an unproved same-thread caller or argument layout.");
       if(observed==null||!observed.commonCaller){if(observed!=null&&!entry&&state.callOpen)throw new InvalidDataException("Parent RTTI matched return changed its common wrapper lineage.");Dictionary<string,object> skipped=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-skipped");skipped["rawHit"]=hit.hits;skipped["reason"]=observed==null?(!state.windowOpen?"outside-selected-parent-camera-window":tid!=state.tid?"different-owned-thread":"different-derived-stack"):"different-common-camera-caller";skipped["matchingHitAdvanced"]=false;skipped["snapshotCountAdvanced"]=false;skipped["originalInstructionSkipped"]=false;emit(skipped);return null;}
-      state.ValidateEndpoint(entry,mainBase,tid,esp,BitConverter.ToUInt32(observed.clockBytes,0),BitConverter.ToUInt32(observed.singletonBytes,0),observed.context,observed.cameraReturn,debugOrdinal);
-      Dictionary<string,object> proof=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-admitted");proof["role"]=entry?"call":"return";proof["rawHit"]=hit.hits;proof["pairIndex"]=state.pairs+1;proof["snapshotOrdinal"]=snapshotOrdinal;proof["derivedQ"]=Hex(state.parentEsp-276);proof["stackAddress"]=Hex(esp);proof["stackBytesHex"]=BytesHex(observed.context);proof["cameraReturnAddress"]=Hex(state.parentEsp-20);proof["cameraReturnBytesHex"]=BytesHex(observed.cameraReturn);proof["actualSingletonBytesHex"]=BytesHex(observed.singletonBytes);proof["actualClockBytesHex"]=BytesHex(observed.clockBytes);proof["actualArgumentsHex"]=BytesHex(CopyRangeSegment(observed.context,0,20));proof["commonAbiMatched"]=true;proof["beforeSnapshotRangeResolution"]=true;proof["beforeOriginalInstruction"]=true;emit(proof);return proof;
+      if(observed.weather)state.ValidateWeatherEndpoint(entry,mainBase,tid,esp,observed,debugOrdinal);else state.ValidateEndpoint(entry,mainBase,tid,esp,BitConverter.ToUInt32(observed.clockBytes,0),BitConverter.ToUInt32(observed.singletonBytes,0),observed.context,observed.cameraReturn,debugOrdinal);
+      Dictionary<string,object> proof=ParentRttiProof(state,child,hit,tid,debugOrdinal,"parent-rtti-admitted");proof["role"]=entry?"call":"return";proof["rawHit"]=hit.hits;proof["pairIndex"]=state.pairs+1;proof["snapshotOrdinal"]=snapshotOrdinal;proof["derivedQ"]=Hex(esp);proof["stackAddress"]=Hex(esp);proof["stackBytesHex"]=BytesHex(observed.context);
+      if(observed.weather){proof["weatherQueryIndex"]=observed.weatherQueryIndex;proof["queryReturnAddress"]=Hex(Add(esp,84));proof["queryReturnBytesHex"]=BytesHex(observed.queryReturn);proof["screenReturnAddress"]=Hex(Add(esp,416));proof["screenReturnBytesHex"]=BytesHex(observed.screenReturn);proof["parentReturnAddress"]=Hex(Add(esp,440));proof["parentReturnBytesHex"]=BytesHex(observed.parentReturn);proof["nameAddress"]=Hex(Add(esp,140));proof["nameBytesHex"]=BytesHex(observed.name);}else{proof["cameraReturnAddress"]=Hex(state.parentEsp-20);proof["cameraReturnBytesHex"]=BytesHex(observed.cameraReturn);}
+      if(state.weatherScreenQueries)proof["family"]=observed.weather?"weather-screen":"camera";
+      proof["actualSingletonBytesHex"]=BytesHex(observed.singletonBytes);proof["actualClockBytesHex"]=BytesHex(observed.clockBytes);proof["actualArgumentsHex"]=BytesHex(CopyRangeSegment(observed.context,0,20));proof["commonAbiMatched"]=true;proof["beforeSnapshotRangeResolution"]=true;proof["beforeOriginalInstruction"]=true;captured=observed;emit(proof);return proof;
+    }
+    static Dictionary<string,object> AdmitParentWeatherCounter(Options o,ParentRttiProgress parent,ProcessInfo child,uint mainBase,Breakpoint hit,uint tid,Dictionary<string,object> regs,int debugOrdinal,int snapshotOrdinal,Action<Dictionary<string,object>> emit,out ParentWeatherCounterRead observed) {
+      observed=null;ParentWeatherCounterProgress state=parent.counter;bool entry=hit.id==o.parentRttiObservation.weatherCounterObservation.callBreakpointId;uint esp=Number((string)regs["esp"]),eip=Number((string)regs["eip"]),ebp=Number((string)regs["ebp"]),esi=Number((string)regs["esi"]);
+      if(!state.CanRead(parent,tid,entry,esp)){if(parent.selected&&parent.windowOpen&&!parent.closed&&tid==parent.tid&&parent.stage==9&&parent.weatherPairs==2&&!parent.callOpen)throw new InvalidDataException("Counter selected main-thread window reached an unproved derived caller frame.");if(!entry&&state.open&&tid==parent.tid)throw new InvalidDataException("Counter return lost the exact original open frame.");Dictionary<string,object> skipped=ParentRttiProof(parent,child,hit,tid,debugOrdinal,"parent-weather-counter-skipped");skipped["rawHit"]=hit.hits;skipped["reason"]=tid!=parent.tid?"different-owned-thread":!parent.windowOpen?"outside-selected-parent-window":parent.weatherPairs!=2?"before-second-weather-return":"different-derived-stack";skipped["matchingHitAdvanced"]=false;skipped["snapshotCountAdvanced"]=false;skipped["originalInstructionSkipped"]=false;emit(skipped);return null;}
+      observed=ReadParentWeatherCounter(parent,state,mainBase,tid,entry,esp,eip,ebp,esi,delegate(uint address,int length){return Bytes(child.process,address,length);});state.Validate(parent,entry,mainBase,tid,eip,ebp,esi,esp,observed,debugOrdinal,snapshotOrdinal,o.maxSnapshots);
+      Dictionary<string,object> proof=ParentRttiProof(parent,child,hit,tid,debugOrdinal,"parent-weather-counter-admitted");proof["role"]=entry?"call":"return";proof["rawHit"]=hit.hits;proof["snapshotOrdinal"]=snapshotOrdinal;proof["pairIndex"]=1;proof["observationIndex"]=entry?1:2;proof["callDebugEventOrdinal"]=state.callDebugEventOrdinal;proof["callSnapshotOrdinal"]=state.callSnapshotOrdinal;proof["open"]=state.open;proof["completesPair"]=!entry;proof["parentU"]=Hex(observed.parentU);proof["timerEntryAddress"]=Hex(observed.timerEntry);proof["timerEbp"]=Hex(observed.ebp);proof["alignedAddress"]=Hex(observed.aligned);proof["beforeEsp"]=Hex(observed.beforeEsp);proof["afterEsp"]=Hex(observed.afterEsp);proof["outputAddress"]=Hex(observed.output);proof["initialFlagHex"]=BytesHex(state.initialFlag);proof["initialOriginFrequencyHex"]=BytesHex(state.initialOriginFrequency);proof["initialIatHex"]=BytesHex(state.initialIat);proof["initialInputDebugEventOrdinal"]=parent.parentDebugOrdinal;proof["totalRequiredSnapshots"]=RequiredParentCounterSnapshots(parent);proof["snapshotLimit"]=o.maxSnapshots;proof["beforeSnapshotRangeResolution"]=true;proof["beforeOriginalInstruction"]=true;
+      string[] names={"argument","output","frame","timerReturn","screenReturn","parentReturn","iat","initialized","originFrequency","clock"};for(int i=0;i<names.Length;i++){proof[names[i]+"Address"]=Hex(observed.ranges[i].address);proof[names[i]+"BytesHex"]=BytesHex(observed.ranges[i].data);}emit(proof);return proof;
     }
     static void CaptureThreadDiagnostics(ProcessInfo child, Dictionary<uint, IntPtr> ownedThreads, string directory, int stackLength, Action<Dictionary<string, object>> emit) {
       // These handles come only from this debugger's CREATE_PROCESS/CREATE_THREAD
@@ -1555,7 +2124,10 @@ namespace RollcageCapture {
       List<IntPtr> suspended = new List<IntPtr>(); Breakpoint pending = null; uint pendingThread = 0;
       List<DeferredOwnedBreakpoint> deferredBreakpoints = new List<DeferredOwnedBreakpoint>();
       bool observationsActivated = false;
-      ParentRttiProgress parentRtti = new ParentRttiProgress();
+      RaceClockProgress raceClock=new RaceClockProgress();
+      ParentRttiProgress parentRtti = new ParentRttiProgress {weatherScreenQueries=o.parentRttiObservation!=null&&o.parentRttiObservation.weatherScreenQueries};
+      if(o.parentRttiObservation!=null&&o.parentRttiObservation.weatherCounterObservation!=null)parentRtti.counter=new ParentWeatherCounterProgress();
+      if(o.parentRttiObservation!=null&&o.parentRttiObservation.finalTick!=null)parentRtti.finalTick=new ParentFinalProgress();
       bool heldForceUsed = false;
       bool controlledRaceSettingsUsed = false;
       OwnedWorkerObservationProgress workerObservation = new OwnedWorkerObservationProgress();
@@ -1574,7 +2146,7 @@ namespace RollcageCapture {
           log.WriteLine(line); log.Flush(); if (!quietConsole) {Console.WriteLine(line); Console.Out.Flush();}
         };
         try {
-          Dictionary<string,object> header=Record("type", "capture", "schemaVersion", 1, "executablePath", o.executablePath, "workingDirectory", o.workingDirectory, "arguments", o.arguments, "executableSha256", o.expectedSha256.ToLowerInvariant(), "breakpointMode", "software-int3", "cleanupPolicy", "freeze-or-prove-terminated-owned-threads-before-unpatch-and-termination", "maxDurationMs", o.maxDurationMs, "maxEvents", o.maxEvents, "maxSnapshots", o.maxSnapshots, "timingLimitation", "Debugger-paused elapsed time does not establish native wall-clock simulation rate.");if(o.parentRttiObservation!=null)header["helperCapabilities"]=GetCapabilities();emit(header);
+          emit(CaptureHeader(o));
           Startup startup = new Startup(); startup.cb = (uint)Marshal.SizeOf(typeof(Startup)); startup.flags = 1; startup.show = (ushort)(o.showWindow ? 1 : 0);
           StringBuilder command = new StringBuilder(Quote(o.executablePath)); foreach (string arg in o.arguments) command.Append(' ').Append(Quote(arg));
           IntPtr environment = IntPtr.Zero;
@@ -1619,9 +2191,13 @@ namespace RollcageCapture {
                 if (!locations.Add(b.resolved)) throw new InvalidDataException("Breakpoints resolve to the same address.");
                 b.original = Bytes(child.process, b.resolved, 1)[0];
                 if (b.original == 0xcc) throw new InvalidDataException("Refusing original INT3 at " + Hex(b.resolved));
-                bool parentDeferred=o.parentRttiObservation!=null&&(b.id==o.parentRttiObservation.callBreakpointId||b.id==o.parentRttiObservation.returnBreakpointId);
-                bool deferredInstallation = parentDeferred||o.observationActivation != null && Array.IndexOf(o.observationActivation.observationBreakpointIds, b.id) >= 0;
-                if (deferredInstallation) emit(parentDeferred?Record("type","breakpoint-installation-deferred","id",b.id,"address",Hex(b.resolved),"originalBytesHex",b.original.ToString("x2"),"activationBreakpointId",o.parentRttiObservation.beginBreakpointId,"activationSelection","selected-owned-parent-auxiliary","capability",ParentRttiCapability,"codeModified",false):Record("type", "breakpoint-installation-deferred", "id", b.id, "address", Hex(b.resolved), "originalBytesHex", b.original.ToString("x2"), "activationBreakpointId", o.observationActivation.breakpointId, "activationRawHit", o.observationActivation.rawHit, "codeModified", false));
+                bool raceSite=o.raceClockObservation!=null&&b.id.StartsWith("native-race-clock-",StringComparison.Ordinal);byte[] raceCode=raceSite?RaceClockCode(b.id,mainBase):null;if(raceSite&&Digest(Bytes(child.process,b.resolved,raceCode.Length))!=Digest(raceCode))throw new InvalidDataException("Race clock original module code differs before any arming.");bool raceDeferred=raceSite&&b.id!=o.raceClockObservation.entryBreakpointId;
+                bool finalDeferred=o.parentRttiObservation!=null&&o.parentRttiObservation.finalTick!=null&&b.id==o.parentRttiObservation.finalTick.returnBreakpointId;
+                bool parentDeferred=o.parentRttiObservation!=null&&(b.id==o.parentRttiObservation.callBreakpointId||b.id==o.parentRttiObservation.returnBreakpointId||o.parentRttiObservation.weatherCounterObservation!=null&&(b.id==o.parentRttiObservation.weatherCounterObservation.callBreakpointId||b.id==o.parentRttiObservation.weatherCounterObservation.returnBreakpointId));
+                bool deferredInstallation = raceDeferred||finalDeferred||parentDeferred||o.observationActivation != null && Array.IndexOf(o.observationActivation.observationBreakpointIds, b.id) >= 0;
+                if(raceDeferred)emit(Record("type","breakpoint-installation-deferred","id",b.id,"address",Hex(b.resolved),"originalBytesHex",BytesHex(raceCode),"activationBreakpointId",o.raceClockObservation.entryBreakpointId,"activationSelection","selected-owned-warm-clock-entry","capability",RaceClockCapability,"codeModified",false));
+                else if(finalDeferred)emit(Record("type","breakpoint-installation-deferred","id",b.id,"address",Hex(b.resolved),"originalBytesHex",b.original.ToString("x2"),"activationBreakpointId",o.parentRttiObservation.parentBreakpointId,"activationSelection","selected-owned-parent-entry","capability",ParentFinalTickCapability,"codeModified",false));
+                else if (deferredInstallation) emit(parentDeferred?Record("type","breakpoint-installation-deferred","id",b.id,"address",Hex(b.resolved),"originalBytesHex",b.original.ToString("x2"),"activationBreakpointId",o.parentRttiObservation.beginBreakpointId,"activationSelection","selected-owned-parent-auxiliary","capability",ParentRttiCapability,"codeModified",false):Record("type", "breakpoint-installation-deferred", "id", b.id, "address", Hex(b.resolved), "originalBytesHex", b.original.ToString("x2"), "activationBreakpointId", o.observationActivation.breakpointId, "activationRawHit", o.observationActivation.rawHit, "codeModified", false));
                 else {
                   Write(child.process, b.resolved, new byte[] {0xcc}); b.armed = true;
                   emit(Record("type", "breakpoint-installed", "id", b.id, "address", Hex(b.resolved), "originalBytesHex", b.original.ToString("x2"), "patchBytesHex", "cc"));
@@ -1771,11 +2347,16 @@ namespace RollcageCapture {
                   }
                   if (emulated) { Check(ContinueDebugEvent(pid, tid, Continue), "Continue emulated API"); continue; }
                   bool capture = hit.service == null;
+                  if(capture&&o.raceClockObservation!=null&&hit.id.StartsWith("native-race-clock-",StringComparison.Ordinal)){WriteRaceClockObservation(o,raceClock,child,threads[tid],mainBase,hit,tid,context,regs,events,elapsed.ElapsedMilliseconds,breakpoints,ref snapshots,emit);capture=false;}
                   Dictionary<string, object> predicateEvidence = null;
-                  Dictionary<string,object> parentRttiAdmission=null,parentRttiMap=null,parentRttiClosed=null;
+                  Dictionary<string,object> parentRttiAdmission=null,parentRttiMap=null,parentRttiClosed=null,parentRttiGraphProof=null,parentCounterAdmission=null,parentFinalAdmission=null;ParentRttiMapGraphRead parentRttiGraph=null;ParentRttiEndpointRead parentRttiEndpoint=null;ParentWeatherCounterRead parentCounterEndpoint=null;
+                  bool parentFinalSite=o.parentRttiObservation!=null&&o.parentRttiObservation.finalTick!=null&&hit.id==o.parentRttiObservation.finalTick.returnBreakpointId;
                   bool parentRttiSite=o.parentRttiObservation!=null&&(hit.id==o.parentRttiObservation.callBreakpointId||hit.id==o.parentRttiObservation.returnBreakpointId);
+                  bool parentCounterSite=o.parentRttiObservation!=null&&o.parentRttiObservation.weatherCounterObservation!=null&&(hit.id==o.parentRttiObservation.weatherCounterObservation.callBreakpointId||hit.id==o.parentRttiObservation.weatherCounterObservation.returnBreakpointId);
                   if(capture&&o.parentRttiObservation!=null&&hit.id.StartsWith("native-control-",StringComparison.Ordinal)&&tid!=child.tid){capture=false;emit(Record("type","parent-rtti-checkpoint-skipped","breakpointId",hit.id,"pid",child.pid,"tid",tid,"ownerMainTid",child.tid,"observedDebugEventOrdinal",events,"rawHit",hit.hits,"reason","different-owned-thread","matchingHitAdvanced",false,"snapshotCountAdvanced",false,"originalInstructionSkipped",false));}
-                  if(capture&&parentRttiSite){parentRttiAdmission=AdmitParentRtti(o,parentRtti,child,mainBase,hit,tid,regs,events,snapshots+1,emit);capture=parentRttiAdmission!=null;}
+                  if(capture&&parentFinalSite){parentFinalAdmission=AdmitParentFinalReturn(o,parentRtti,child,mainBase,hit,tid,regs,events,snapshots+1,emit);capture=parentFinalAdmission!=null;}
+                  if(capture&&parentRttiSite){parentRttiAdmission=AdmitParentRtti(o,parentRtti,child,mainBase,hit,tid,regs,events,snapshots+1,emit,out parentRttiEndpoint);capture=parentRttiAdmission!=null;}
+                  if(capture&&parentCounterSite){parentCounterAdmission=AdmitParentWeatherCounter(o,parentRtti,child,mainBase,hit,tid,regs,events,snapshots+1,emit,out parentCounterEndpoint);capture=parentCounterAdmission!=null;}
                   PendingFrameObserver scopePolicy = o.pendingFrameObserver;
                   OwnedWorkerObservation workerPolicy = o.ownedWorkerObservation;
                   OwnedWorkerGainWindow leafPolicy=o.ownedWorkerGainWindow;
@@ -1967,9 +2548,15 @@ namespace RollcageCapture {
                     if (beforeFrame || afterFrame || eventFrame) capture = false;
                   }
                   if(capture&&o.parentRttiObservation!=null&&hit.id.StartsWith("native-control-",StringComparison.Ordinal))parentRttiMap=PrepareParentRttiCheckpoint(o,parentRtti,child,mainBase,hit,tid,regs,events,snapshots+1,emit,out parentRttiClosed);
+                  if(capture&&parentFinalSite)parentRttiMap=PrepareParentRttiCheckpoint(o,parentRtti,child,mainBase,hit,tid,regs,events,snapshots+1,emit,out parentRttiClosed);
+                  if(parentRttiMap!=null&&o.parentRttiObservation.viewportMapGraph!=null)parentRttiGraphProof=PrepareParentRttiMapGraph(o,parentRtti,child,hit,tid,events,snapshots+1,emit,out parentRttiGraph);
                   if (capture) {
                   int snapshotOrdinal = snapshots + 1;
                   List<object> ranges = new List<object>(); List<MemoryRange> selected = new List<MemoryRange>(o.ranges); selected.AddRange(hit.ranges);
+                  ParentSoundBankOwnerGraph ownerGraphPolicy=o.parentRttiObservation==null?null:o.parentRttiObservation.soundBankOwnerGraph;
+                  bool observeOwners=ownerGraphPolicy!=null&&Array.IndexOf(ownerGraphPolicy.breakpointIds,hit.id)>=0;
+                  List<ParentSoundBankCapturedRange> ownerInputs=observeOwners?new List<ParentSoundBankCapturedRange>():null;ParentSoundBankOwnerRead ownerGraph=null;ParentFinalInputsRead finalInputs=null;
+                  if(observeOwners)ValidateParentSoundBankOwnerCheckpoint(parentRtti,child.tid,tid,hit.id,events);
                   int rangeOrdinal = 0;
                   foreach (MemoryRange range in selected) {
                     GuardedPointerInfo guard = range.dereferenceMinimumValues == null ? null : ReadGuardedPointerRange(child.process, mainBase, range);
@@ -1987,6 +2574,33 @@ namespace RollcageCapture {
                     if (vector != null) AddVectorCaptureMetadata(row, root, range, vector);
                     if (guard != null) AddGuardedPointerMetadata(row, range, guard);
                     ranges.Add(row);
+                    if(observeOwners)ownerInputs.Add(new ParentSoundBankCapturedRange{id=range.id,address=start,data=data,vector=vector,vectorHeaderAddress=vector==null?0:root});
+                  }
+                  if(observeOwners){
+                    ownerGraph=ReadParentSoundBankOwners(ownerGraphPolicy,mainBase,ownerInputs,delegate(uint ownerAddress,int ownerLength){return Bytes(child.process,ownerAddress,ownerLength);},o.parentRttiObservation.finalTick!=null);
+                    foreach(ParentSoundBankOwnerRange part in ownerGraph.owners){
+                      string file="snapshot-"+snapshotOrdinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,file),FileMode.CreateNew))blob.Write(part.data,0,part.data.Length);
+                      ranges.Add(Record("id",part.id,"address",Hex(part.address),"length",part.data.Length,"file",file,"sha256",Digest(part.data),"source","parent-sound-bank-owner-graph","graphRole","owner","ownerIndex",part.index,"bankSlotIndices",part.slotIndices.ToArray()));
+                    }
+                    if(o.parentRttiObservation.finalTick!=null){parentRtti.finalTick.ValidateInputs(parentRtti,child.tid,tid,hit.id,events);finalInputs=ReadParentFinalInputs(o.parentRttiObservation.finalTick,mainBase,ownerInputs,ownerGraph,delegate(uint finalAddress,int finalLength){return Bytes(child.process,finalAddress,finalLength);});foreach(ParentFinalRange part in finalInputs.ranges){string file="snapshot-"+snapshotOrdinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,file),FileMode.CreateNew))blob.Write(part.data,0,part.data.Length);ranges.Add(ParentFinalRangeMetadata(part,file));}}
+                    if(ownerGraph.channelGraph!=null)foreach(ParentSoundChannelRange part in ownerGraph.channelGraph.ranges){
+                      string file="snapshot-"+snapshotOrdinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,file),FileMode.CreateNew))blob.Write(part.data,0,part.data.Length);
+                      ranges.Add(ParentSoundChannelRangeMetadata(part,file));
+                    }
+                  }
+                  if(parentRttiGraph!=null)foreach(ParentRttiMapGraphRange part in parentRttiGraph.ranges) {
+                    string file="snapshot-"+snapshotOrdinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";
+                    using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,file),FileMode.CreateNew))blob.Write(part.data,0,part.data.Length);
+                    Dictionary<string,object> row=Record("id",part.id,"address",Hex(part.address),"length",part.data.Length,"file",file,"sha256",Digest(part.data),"source","parent-rtti-viewport-map-graph","graphRole",part.role);
+                    if(part.path!=null){row["graphNodeIndex"]=part.nodeIndex;row["graphPath"]=part.path;row["nodeAddress"]=Hex(part.nodeAddress);}ranges.Add(row);
+                  }
+                  if(parentRttiEndpoint!=null&&o.parentRttiObservation.weatherScreenQueries)foreach(ParentRttiObservedRange part in parentRttiEndpoint.ranges) {
+                    string file="snapshot-"+snapshotOrdinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,file),FileMode.CreateNew))blob.Write(part.data,0,part.data.Length);
+                    ranges.Add(Record("id",part.id,"address",Hex(part.address),"length",part.data.Length,"file",file,"sha256",Digest(part.data),"source","parent-rtti-scoped-caller"));
+                  }
+                  if(parentCounterEndpoint!=null)foreach(ParentRttiObservedRange part in parentCounterEndpoint.ranges) {
+                    string file="snapshot-"+snapshotOrdinal.ToString("D6")+"-range-"+(++rangeOrdinal).ToString("D3")+".bin";using(FileStream blob=new FileStream(Path.Combine(o.outputDirectory,file),FileMode.CreateNew))blob.Write(part.data,0,part.data.Length);
+                    ranges.Add(Record("id",part.id,"address",Hex(part.address),"length",part.data.Length,"file",file,"sha256",Digest(part.data),"source","parent-weather-counter-observation"));
                   }
                   ThreadEnvironmentCapture capturedThreadEnvironment = o.captureThreadEnvironment ? ReadThreadEnvironment(child.process, threads[tid], context, tid) : null;
                   if (capturedThreadEnvironment != null) {
@@ -2004,11 +2618,21 @@ namespace RollcageCapture {
                   if (predicateEvidence != null) { snapshot["rawHit"] = hit.hits; snapshot["matchingHit"] = hit.matchingHits; snapshot["captureWhen"] = predicateEvidence; }
                   if (capturedThreadEnvironment != null) snapshot["threadEnvironment"] = capturedThreadEnvironment.metadata;
                   if(parentRttiAdmission!=null)snapshot["parentRttiObservation"]=parentRttiAdmission;
+                  if(parentCounterAdmission!=null)snapshot["parentWeatherCounterObservation"]=parentCounterAdmission;
+                  if(parentFinalAdmission!=null)snapshot["parentFinalReturn"]=parentFinalAdmission;
                   if(parentRttiMap!=null)snapshot["parentRttiMapPreflight"]=parentRttiMap;
+                  if(parentRttiGraphProof!=null)snapshot["parentRttiViewportMapGraph"]=parentRttiGraphProof;
                   if(parentRttiClosed!=null)snapshot["parentRttiClosure"]=parentRttiClosed;
+                  if(ownerGraph!=null){Dictionary<string,object> proof=ParentRttiProof(parentRtti,child,hit,tid,events,"parent-sound-bank-owners-observed");foreach(KeyValuePair<string,object> field in ParentSoundBankOwnerDetails(ownerGraph))proof.Add(field.Key,field.Value);proof["mainModuleBaseAddress"]=Hex(mainBase);proof["snapshotOrdinal"]=snapshotOrdinal;snapshot["parentSoundBankOwnerGraph"]=proof;emit(proof);}
+                  if(finalInputs!=null){Dictionary<string,object> finalProof=ParentRttiProof(parentRtti,child,hit,tid,events,"parent-final-inputs-observed");foreach(KeyValuePair<string,object> field in ParentFinalInputsDetails(finalInputs))finalProof.Add(field.Key,field.Value);finalProof["mainModuleBaseAddress"]=Hex(mainBase);finalProof["snapshotOrdinal"]=snapshotOrdinal;snapshot["parentFinalInputs"]=finalProof;emit(finalProof);}
+                  if(o.parentRttiObservation!=null&&o.parentRttiObservation.finalTick!=null&&hit.id==o.parentRttiObservation.parentBreakpointId)snapshot["parentFinalReturnActivation"]=ActivateParentFinalReturn(o,parentRtti,child,mainBase,hit,tid,events,snapshots,breakpoints,emit);
                   if(o.parentRttiObservation!=null&&hit.id==o.parentRttiObservation.beginBreakpointId)snapshot["parentRttiActivation"]=ActivateParentRtti(o,parentRtti,child,mainBase,hit,tid,events,snapshots,breakpoints,emit);
                   emit(snapshot);
+                  if(ownerGraph!=null)CommitParentSoundBankOwners(parentRtti,ownerGraph,child.tid,tid,hit.id,events);
+                  if(finalInputs!=null)parentRtti.finalTick.CommitInputs(parentRtti,finalInputs,child.tid,tid,hit.id,events);
+                  if(parentFinalAdmission!=null)parentRtti.finalTick.CommitReturn(parentRtti);
                   if(parentRttiAdmission!=null)parentRtti.CommitEndpoint(hit.id==o.parentRttiObservation.callBreakpointId);
+                  if(parentCounterAdmission!=null)parentRtti.counter.Commit(hit.id==o.parentRttiObservation.weatherCounterObservation.callBreakpointId);
                   if(o.parentRttiObservation!=null&&hit.id==o.parentRttiObservation.beginBreakpointId)parentRtti.MarkAuxiliaryPublished();
                   if(o.controlledRaceSettings!=null&&hit.id==o.controlledRaceSettings.breakpointId) {
                     if(controlledRaceSettingsUsed)throw new InvalidDataException("Controlled settings one-shot was already consumed.");
@@ -2092,7 +2716,11 @@ namespace RollcageCapture {
           }
           if (frame.active) throw new InvalidDataException("Capture stopped before the pending frame's matching after boundary: " + (reason == "unknown" ? "duration/event/snapshot bound" : reason));
           if(o.ownedWorkerGainWindow!=null)workerGainWindow.RequireComplete();
+          if(o.raceClockObservation!=null)raceClock.RequireComplete(snapshots);
           if(o.parentRttiObservation!=null)parentRtti.RequireComplete(snapshots);
+          if(o.parentRttiObservation!=null&&o.parentRttiObservation.viewportMapGraph!=null&&parentRtti.graphChecks!=(o.parentRttiObservation.finalTick==null?3:4))throw new InvalidDataException("Parent RTTI opt-in graph lacks all three actual checkpoint observations.");
+          if(o.parentRttiObservation!=null&&o.parentRttiObservation.soundBankOwnerGraph!=null&&parentRtti.soundOwnerChecks!=(o.parentRttiObservation.finalTick==null?10:11))throw new InvalidDataException("Sound owner graph lacks all ten completed original parent checkpoint observations.");
+          if(o.parentRttiObservation!=null&&o.parentRttiObservation.soundBankOwnerGraph!=null&&o.parentRttiObservation.soundBankOwnerGraph.channelGraph!=null&&parentRtti.soundChannelChecks!=(o.parentRttiObservation.finalTick==null?10:11))throw new InvalidDataException("Sound channel graph lacks all ten completed original parent checkpoint observations.");
           if (reason == "unknown") reason = elapsed.ElapsedMilliseconds >= o.maxDurationMs ? "duration-bound" : events >= o.maxEvents ? "event-bound" : "snapshot-bound";
           Dictionary<string, object> completion = Record("type", "complete", "reason", reason, "events", events, "snapshots", snapshots);
           if (deferredBreakpoints.Count != 0) {
@@ -2103,6 +2731,11 @@ namespace RollcageCapture {
           if (frameSelection != null) completion["pendingFrameSelection"] = frameSelection;
           if(o.ownedWorkerGainWindow!=null)completion["workerGainWindow"]=Record("activationDebugEventOrdinal",workerGainWindow.activationDebugOrdinal,"parentRetained",workerGainWindow.parentComplete,"pairComplete",workerGainWindow.call.complete,"endpointSnapshots",workerGainWindow.call.captured,"sameParentInterleavingClaimed",false);
           if(o.parentRttiObservation!=null)completion["parentRttiObservation"]=Record("selectedParentCheckpoints",parentRtti.stage,"startupSnapshots",3,"externalPairs",parentRtti.pairs,"externalSnapshots",parentRtti.captured,"mapPreflights",parentRtti.mapChecks,"windowClosed",parentRtti.closed,"callOpen",parentRtti.callOpen,"activationDebugEventOrdinal",parentRtti.activationDebugOrdinal);
+          if(parentRtti.counter!=null){Dictionary<string,object> summary=(Dictionary<string,object>)completion["parentRttiObservation"];summary["counterPairs"]=parentRtti.counter.pairs;summary["counterSnapshots"]=parentRtti.counter.captured;}
+          if(o.parentRttiObservation!=null&&o.parentRttiObservation.soundBankOwnerGraph!=null)completion["soundBankOwnerGraph"]=Record("checkpoints",parentRtti.soundOwnerChecks,"ownerRows",parentRtti.soundOwnerRows,"ownerBytes",parentRtti.soundOwnerBytes);
+          if(o.parentRttiObservation!=null&&o.parentRttiObservation.soundBankOwnerGraph!=null&&o.parentRttiObservation.soundBankOwnerGraph.channelGraph!=null)((Dictionary<string,object>)completion["soundBankOwnerGraph"])["channelGraph"]=Record("checkpoints",parentRtti.soundChannelChecks,"usedChannelSlots",parentRtti.soundChannelSlots,"storageRows",parentRtti.soundChannelStorages,"wrapperRows",parentRtti.soundChannelWrappers,"sourceRows",parentRtti.soundChannelSources,"vtableRows",parentRtti.soundChannelVtables,"additionalBytes",parentRtti.soundChannelBytes);
+          if(parentRtti.finalTick!=null){ParentFinalProgress final=parentRtti.finalTick;completion["parentFinalTick"]=Record("completed",final.complete,"returnSnapshots",final.complete?1:0,"returnSnapshotOrdinal",final.returnSnapshotOrdinal,"returnDebugEventOrdinal",final.returnDebugOrdinal,"returnValue",final.result,"activationDebugEventOrdinal",final.activationDebugOrdinal,"inputs",Record("checkpoints",final.inputChecks,"lightBandBytes",final.lightBandBytes,"listenerWrappers",final.listenerCount,"listenerBytes",final.listenerBytes,"managerObservations",final.managerObservations,"additionalBytes",final.inputBytes));}
+          if(o.raceClockObservation!=null)completion["raceClockObservation"]=RaceClockCompletion(raceClock);
           emit(completion);
           return fatal ? 2 : 0;
         } catch (Exception error) {

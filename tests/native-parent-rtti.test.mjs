@@ -18,10 +18,16 @@ function fixture(base=0x400000){
   const initialRows=[{address:Q-64,bytes:Buffer.alloc(512,0x79)},{address:application,bytes:Buffer.alloc(0x84,0x53)},{address:actual(0x6efb38),bytes:Buffer.alloc(4)}];
   initialRows[2].bytes.writeUInt32LE(application);
   const owned=createCapturedMemory(initialRows,{aliases:base===0x400000?[]:[{address:0x6efb38,targetAddress:actual(0x6efb38),length:4}]});
-  const m=owned.memory;m.writeUInt32LE(1,R+4);m.writeUInt32LE(S-40,R+8);m.writeUInt32LE(actual(0x451107),S);
+  const m=owned.memory;
+  //Construct the caller words in original instruction order, independently
+  //of the adapter's offsets: PUSHmode, PUSHname, CALLreturn.
+  let callerEsp=S-204;
+  for(const value of [1,S-40,actual(0x41a0c8)]){callerEsp-=4;m.writeUInt32LE(value,callerEsp);}
+  assert.equal(callerEsp,R);m.writeUInt32LE(actual(0x451107),S);
+  for(const [i,byte]of Buffer.from('1 Player\0').entries())m[S-40+i]=byte;
   const initial=createCapturedMemory(initialRows);
   const pair={moduleBaseAddress:base,logicalClock:288,before:{tid:7,ordinal:1,observedDebugEventOrdinal:10,registers:{esp:U}},postphysics:{auxiliary:{tid:7,observedDebugEventOrdinal:20},cameras:{tid:7,observedDebugEventOrdinal:40}}};
-  const args=[application,0,actual(0x6e213c),actual(0x6e20a4),0],context=Buffer.alloc(52,0xa5);args.forEach((v,i)=>context.writeUInt32LE(v,i*4));context.writeUInt32LE(actual(0x41a0c8),40);context.writeUInt32LE(1,44);context.writeUInt32LE(S-40,48);
+  const args=[application,0,actual(0x6e213c),actual(0x6e20a4),0],context=Buffer.alloc(52,0xa5);args.forEach((v,i)=>context.writeUInt32LE(v,i*4));context.set(m.subarray(R,R+12),40);
   const snapshot=(id,address,ordinal)=>({breakpointId:id,tid:7,ordinal,observedDebugEventOrdinal:ordinal,registers:{esp:Q,eip:actual(address),eax:application},ranges:new Map([
     ['native-parent-rtti-context',{address:Q,bytes:Buffer.from(context)}],
     ['native-parent-rtti-camera-return',{address:S,bytes:Buffer.from(Uint32Array.of(actual(0x451107)).buffer)}],
@@ -46,7 +52,22 @@ test('typed CRT observation returns only authenticated EAX and publishes genuine
     assertNativeParentRttiService(binding.crtDynamicCast);assert.equal(f.call(binding),f.application);binding.assertComplete();
     assert.deepEqual(Array.from({length:5},(_,i)=>f.m.readUInt32LE(f.Q+i*4)),f.args);
     assert.equal(f.m.readUInt32LE(f.Q-4),f.actual(0x402d8b));assert.deepEqual(f.m.subarray(f.application,f.application+0x84),before);
-    assert.equal(binding.events.length,1);assert.throws(()=>f.call(binding),/authenticated CRT/);
+    assert.equal(f.m.readUInt32LE(f.R+4),f.S-40);assert.equal(f.m.readUInt32LE(f.R+8),1);
+    assert.equal(binding.events.length,1);assert.equal(binding.events[0].sourceNameAddress,f.S-40);assert.equal(binding.events[0].sourceNameHex,Buffer.from('1 Player').toString('hex'));assert.throws(()=>f.call(binding),/authenticated CRT/);
+  }
+});
+
+test('swapped NAME/MODE is rejected in both observed context and carried source, including without CRT evidence',()=>{
+  for(const base of [0x400000,0x6e0000]){
+    const observed=fixture(base);
+    for(const row of observed.capture.snapshots){const context=row.ranges.get('native-parent-rtti-context').bytes;context.writeUInt32LE(1,44);context.writeUInt32LE(observed.S-40,48);}
+    assert.throws(()=>createNativeParentRttiBindings(observed.options),/enclosing camera return\/arguments/);
+    for(const hasEvidence of [true,false]){
+      const f=fixture(base);if(!hasEvidence)f.capture.snapshots=[];
+      const b=createNativeParentRttiBindings(f.options);
+      f.m.writeUInt32LE(1,f.R+4);f.m.writeUInt32LE(f.S-40,f.R+8);
+      assert.throws(()=>f.call(b),/source arguments or parent lineage/);assert.equal(b.events.length,0);
+    }
   }
 });
 
@@ -77,4 +98,7 @@ test('original V6 reaches the proven common camera depth and retains its missing
   const source=bindNativeParentTail(initial,{snapshot:pair.before,includeLateInputs:true}),binding=createNativeParentRttiBindings({capture,pair,memory:source.memory,initialSpan:input.span});
   const seen=[];assert.throws(()=>executeNativeParentTail(source,{through:'cameras',crtDynamicCast:binding.crtDynamicCast,onStage:event=>seen.push(event.stage)}),/authenticated CRT dynamicCast call\/return evidence/);
   assert.deepEqual(seen,['attachments','recovery','drive','auxiliary']);assert.equal(binding.events.length,0);
+  const S=Number(pair.before.registers.esp)-20,R=S-216;
+  assert.equal(source.memory.readUInt32LE(R+4),S-40,'Actual reached source PUSHname is first argument.');
+  assert.equal(source.memory.readUInt32LE(R+8),1,'Actual reached source PUSHmode is second argument.');
 });

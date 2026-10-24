@@ -1,0 +1,461 @@
+{
+  "method": "Independent read-only CLOSED native V2 proof and fresh source-only execution from450e50 entry throughcamera. No native target/fixture launch, code changes, or after-state refresh.",
+  "captureDirectory": "analysis/native-parent-rtti-stock-capture-v2-20261024",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "frozenHelperFiles": [
+    {
+      "file": "analysis/native-physics-local/parent-rtti-stock-resumed-v2-20261024/runner-v2/lib/native-physics-debugger.cs",
+      "length": 257669,
+      "sha256": "989f72cb52c1228c59d644f2889d97c8b9085bd8b9c4302146d82491399b393f",
+      "verified": true
+    },
+    {
+      "file": "analysis/native-physics-local/parent-rtti-stock-resumed-v2-20261024/runner-v2/native-physics-capture.ps1",
+      "length": 2865,
+      "sha256": "d63ddc7589d36cd9c81c05525e5951aee6199f3a481ec1eb1af838c46730131f",
+      "verified": true
+    }
+  ],
+  "configurationSha256": "15f49c70586711a80f40e02380d67013e3961aed067a9495499f7237418bbd80",
+  "hashVerifiedBlobs": 5058,
+  "snapshotCount": 15,
+  "provenance": {
+    "verified": true,
+    "scope": "Authenticated captured parent/CRT transport; no source result or map memory admission",
+    "ownedPid": 10040,
+    "ownedMainTid": 29136,
+    "moduleBaseAddress": 9830400,
+    "parentEntryEsp": 19921208,
+    "logicalClock": 288,
+    "externalPairs": 1,
+    "snapshots": 15,
+    "mapIdentity": {
+      "appAddress": 13063280,
+      "headAddress": 21803216
+    },
+    "activationDebugEventOrdinal": 6945,
+    "outcomes": [
+      {
+        "pairIndex": 1,
+        "callOrdinal": 12,
+        "returnOrdinal": 13,
+        "entryEsp": 19920928,
+        "args": [
+          13063280,
+          0,
+          12853564,
+          12853412,
+          0
+        ],
+        "eax": 13063280,
+        "authority": "observed-external-CRT-boundary-only"
+      }
+    ],
+    "viewportMapGraph": [
+      {
+        "snapshotOrdinal": 4,
+        "appAddress": 13063280,
+        "headAddress": 21803216,
+        "rootAddress": 269952896,
+        "count": 3,
+        "nodes": [
+          {
+            "index": 0,
+            "path": "root",
+            "address": 269952896,
+            "parentAddress": 21803216,
+            "leftAddress": 290049200,
+            "rightAddress": 290332448,
+            "keyAddress": 71966680,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-0",
+            "keyRangeId": "parent-rtti-map-key-0",
+            "keyHex": "43696e656d617469632057696e646f77"
+          },
+          {
+            "index": 1,
+            "path": "root.left",
+            "address": 290049200,
+            "parentAddress": 269952896,
+            "leftAddress": 21803216,
+            "rightAddress": 21803216,
+            "keyAddress": 290049216,
+            "keyLength": 8,
+            "keyCapacity": 15,
+            "heapKey": false,
+            "nodeRangeId": "parent-rtti-map-node-1",
+            "keyRangeId": null,
+            "keyHex": "3020506c61796572"
+          },
+          {
+            "index": 2,
+            "path": "root.right",
+            "address": 290332448,
+            "parentAddress": 269952896,
+            "leftAddress": 21803216,
+            "rightAddress": 21803216,
+            "keyAddress": 287704504,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-2",
+            "keyRangeId": "parent-rtti-map-key-2",
+            "keyHex": "526561722056696577204d6972726f72"
+          }
+        ],
+        "wholeGraphAdmittedToSource": false
+      },
+      {
+        "snapshotOrdinal": 14,
+        "appAddress": 13063280,
+        "headAddress": 21803216,
+        "rootAddress": 269952896,
+        "count": 3,
+        "nodes": [
+          {
+            "index": 0,
+            "path": "root",
+            "address": 269952896,
+            "parentAddress": 21803216,
+            "leftAddress": 290049200,
+            "rightAddress": 290332448,
+            "keyAddress": 71966680,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-0",
+            "keyRangeId": "parent-rtti-map-key-0",
+            "keyHex": "43696e656d617469632057696e646f77"
+          },
+          {
+            "index": 1,
+            "path": "root.left",
+            "address": 290049200,
+            "parentAddress": 269952896,
+            "leftAddress": 21803216,
+            "rightAddress": 21803216,
+            "keyAddress": 290049216,
+            "keyLength": 8,
+            "keyCapacity": 15,
+            "heapKey": false,
+            "nodeRangeId": "parent-rtti-map-node-1",
+            "keyRangeId": null,
+            "keyHex": "3020506c61796572"
+          },
+          {
+            "index": 2,
+            "path": "root.right",
+            "address": 290332448,
+            "parentAddress": 269952896,
+            "leftAddress": 21803216,
+            "rightAddress": 21803216,
+            "keyAddress": 287704504,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-2",
+            "keyRangeId": "parent-rtti-map-key-2",
+            "keyHex": "526561722056696577204d6972726f72"
+          }
+        ],
+        "wholeGraphAdmittedToSource": false
+      },
+      {
+        "snapshotOrdinal": 15,
+        "appAddress": 13063280,
+        "headAddress": 21803216,
+        "rootAddress": 269952896,
+        "count": 3,
+        "nodes": [
+          {
+            "index": 0,
+            "path": "root",
+            "address": 269952896,
+            "parentAddress": 21803216,
+            "leftAddress": 290049200,
+            "rightAddress": 290332448,
+            "keyAddress": 71966680,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-0",
+            "keyRangeId": "parent-rtti-map-key-0",
+            "keyHex": "43696e656d617469632057696e646f77"
+          },
+          {
+            "index": 1,
+            "path": "root.left",
+            "address": 290049200,
+            "parentAddress": 269952896,
+            "leftAddress": 21803216,
+            "rightAddress": 21803216,
+            "keyAddress": 290049216,
+            "keyLength": 8,
+            "keyCapacity": 15,
+            "heapKey": false,
+            "nodeRangeId": "parent-rtti-map-node-1",
+            "keyRangeId": null,
+            "keyHex": "3020506c61796572"
+          },
+          {
+            "index": 2,
+            "path": "root.right",
+            "address": 290332448,
+            "parentAddress": 269952896,
+            "leftAddress": 21803216,
+            "rightAddress": 21803216,
+            "keyAddress": 287704504,
+            "keyLength": 16,
+            "keyCapacity": 31,
+            "heapKey": true,
+            "nodeRangeId": "parent-rtti-map-node-2",
+            "keyRangeId": "parent-rtti-map-key-2",
+            "keyHex": "526561722056696577204d6972726f72"
+          }
+        ],
+        "wholeGraphAdmittedToSource": false
+      }
+    ],
+    "runtimeResolvedExportIdentityProved": false
+  },
+  "sourceHashes": [
+    {
+      "file": "tools/check-native-parent-tail.mjs",
+      "sha256": "9f662e67c0ff11f30509c68889af72616ed27d2d46eb0ab54e803cfe1da519aa"
+    },
+    {
+      "file": "tools/lib/native-parent-tail.mjs",
+      "sha256": "92696773e22ea73fd22d9be963c4a017296a42ab42eb8ae1fe277a8b2278878d"
+    },
+    {
+      "file": "tools/lib/native-parent-rtti.mjs",
+      "sha256": "4fa9428b9dc19b4369fe5f15fe78a055637b10607314651425b086c752fb3e92"
+    },
+    {
+      "file": "tools/lib/native-parent-rtti-capture.mjs",
+      "sha256": "e7af498fa79d85b54e0628d621181fd322652a70afe7bc4cff60e8e184aa9b37"
+    },
+    {
+      "file": "tools/lib/native-parent-viewport-map.mjs",
+      "sha256": "48eadd8b86bbb828a6e6075d142566c7a0ad561ac9145037a918f5f9407d8544"
+    },
+    {
+      "file": "tools/lib/native-control-physics.mjs",
+      "sha256": "0f1b548393beba59c67262814bc1c2581c38c354ccf3d5af264a83f0677af297"
+    },
+    {
+      "file": "src/camera-update.mjs",
+      "sha256": "cb8f6322e5088015c6b0443887b9145b1ab4f2f36109941bf15430d44985159e"
+    },
+    {
+      "file": "src/camera-viewport.mjs",
+      "sha256": "48f198dcca998e321f594f0b16d8fd98ee2561ae5a34160c012d792bd2c714f7"
+    },
+    {
+      "file": "src/weather-viewport.mjs",
+      "sha256": "feff842c9c58c1c77521c72373ab4150db44cb30dffd7d7eb73776732e57f6f9"
+    },
+    {
+      "file": "src/weather-screen.mjs",
+      "sha256": "a6740e73651659705ff52818b97594ef1b8c4e33bf4c63f47156b45bd49ce6b0"
+    },
+    {
+      "file": "src/weather-update.mjs",
+      "sha256": "cf78c762adaba40cdd26e6adeef69b378e2e94ea40a7bac2c5ffee209ea18562"
+    }
+  ],
+  "independentSourceReplay": {
+    "originalInputOrdinal": 4,
+    "originalInputOnly": true,
+    "externalCrtOutcomes": 1,
+    "sourceRttiEvents": [
+      {
+        "callOrdinal": 12,
+        "returnOrdinal": 13,
+        "entryEsp": 19920928,
+        "wrapperEntryEsp": 19920972,
+        "args": [
+          13063280,
+          0,
+          12853564,
+          12853412,
+          0
+        ],
+        "eax": 13063280,
+        "sourceNameAddress": 19921148,
+        "sourceNameHex": "3020506c61796572",
+        "authority": "observed-external-MSVCR120-__RTDynamicCast"
+      }
+    ],
+    "afterAiMatched": true,
+    "prefixMatched": true,
+    "physicsMatched": true,
+    "physicsUniqueBytes": 5106673,
+    "stages": [
+      {
+        "stage": "attachments",
+        "matched": true,
+        "uniqueBytes": 5106697,
+        "bytesCompared": 5131405,
+        "differingBytes": 0,
+        "parentAbiBytes": 28,
+        "differingParentAbiBytes": 0,
+        "regionCount": 423
+      },
+      {
+        "stage": "recovery",
+        "matched": true,
+        "uniqueBytes": 5106697,
+        "bytesCompared": 5131405,
+        "differingBytes": 0,
+        "parentAbiBytes": 28,
+        "differingParentAbiBytes": 0,
+        "regionCount": 423
+      },
+      {
+        "stage": "drive",
+        "matched": true,
+        "uniqueBytes": 5106697,
+        "bytesCompared": 5131405,
+        "differingBytes": 0,
+        "parentAbiBytes": 28,
+        "differingParentAbiBytes": 0,
+        "regionCount": 423
+      },
+      {
+        "stage": "auxiliary",
+        "matched": true,
+        "uniqueBytes": 5106697,
+        "bytesCompared": 5131405,
+        "differingBytes": 0,
+        "parentAbiBytes": 28,
+        "differingParentAbiBytes": 0,
+        "regionCount": 423
+      },
+      {
+        "stage": "cameras",
+        "matched": true,
+        "uniqueBytes": 5106930,
+        "bytesCompared": 5131638,
+        "differingBytes": 0,
+        "parentAbiBytes": 28,
+        "differingParentAbiBytes": 0,
+        "regionCount": 427
+      }
+    ],
+    "cameraLedgerIndependentUnion": 5106930,
+    "cameraParentAbiBytes": 28,
+    "sourceMemoryRefreshedFromNativeAfter": false
+  },
+  "viewportAudit": {
+    "sourceName": "0 Player",
+    "sourceNameHex": "3020506c61796572",
+    "graphNodeKeys": [
+      {
+        "address": 269952896,
+        "key": "Cinematic Window",
+        "heap": true
+      },
+      {
+        "address": 290049200,
+        "key": "0 Player",
+        "heap": false
+      },
+      {
+        "address": 290332448,
+        "key": "Rear View Mirror",
+        "heap": true
+      }
+    ],
+    "independentlyRecomputedPath": [
+      269952896,
+      290049200
+    ],
+    "selectedRecord": 290049244,
+    "unusedNodes": [
+      {
+        "address": 290332448,
+        "key": "Rear View Mirror"
+      }
+    ],
+    "candidateGraphWholeAdmission": false,
+    "sourceVisitedRegions": [
+      {
+        "id": "viewport-map-header",
+        "address": 13063404,
+        "length": 8,
+        "comparison": "mutable",
+        "evidence": "Original parent-entry storage actually traversed by source405720/404e10/404fa0 after authenticated CRT EAX; no native after bytes."
+      },
+      {
+        "id": "viewport-map-head",
+        "address": 21803216,
+        "length": 16,
+        "comparison": "mutable",
+        "evidence": "Original parent-entry storage actually traversed by source405720/404e10/404fa0 after authenticated CRT EAX; no native after bytes."
+      },
+      {
+        "id": "viewport-map-node",
+        "address": 269952896,
+        "length": 100,
+        "comparison": "mutable",
+        "evidence": "Original parent-entry storage actually traversed by source405720/404e10/404fa0 after authenticated CRT EAX; no native after bytes."
+      },
+      {
+        "id": "viewport-map-key",
+        "address": 71966680,
+        "length": 17,
+        "comparison": "mutable",
+        "evidence": "Original parent-entry storage actually traversed by source405720/404e10/404fa0 after authenticated CRT EAX; no native after bytes."
+      },
+      {
+        "id": "viewport-map-node",
+        "address": 290049200,
+        "length": 100,
+        "comparison": "mutable",
+        "evidence": "Original parent-entry storage actually traversed by source405720/404e10/404fa0 after authenticated CRT EAX; no native after bytes."
+      }
+    ],
+    "sourceVisitedBytes": 241,
+    "newSemanticBytes": 233,
+    "explanation": "Mapheader8B already lies inside compared original APP84B; new domains areHEAD16B +two visitednodes100B each +one17B heapkey. The third node and its heapkey are not admitted by viewport comparison.",
+    "nativeBeforeToCameraChangedBytesAcrossVisitedDomains": 0,
+    "afterBytesUsedOnlyForComparison": true
+  },
+  "negativeOutputCorruption": {
+    "constructedComparisonOnly": true,
+    "address": 290049244,
+    "matched": false,
+    "firstDivergence": {
+      "region": "viewport-map-node-1149ccb0",
+      "address": 290049244,
+      "sourceByte": 208,
+      "nativeByte": 209
+    },
+    "differingBytes": 1
+  },
+  "rootAttempt": {
+    "path": "analysis/native-parent-rtti-stock-first-replay-v2-20261024/report.json",
+    "sha256": "d769bbc0eb1599f13bc9aed1bc524136c64fa8dbf85cb0c3367685a5237a6162",
+    "matched": false,
+    "sourceComplete": false,
+    "completeParentTickMatched": false,
+    "firstUnsupportedStage": "weather viewport RTTI uses a different caller frame",
+    "error": "Error: Native parent RTTI source call lacks its recovered common-tail frame/type tokens."
+  },
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 10040,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 47407
+  },
+  "limits": [
+    "One originalclock288 stockscenario throughcamera is proved; weather/world effects andfullparent/nexttick remainunmatched.",
+    "RTTI authenticates only observed external CRT EAX. PrivateCRT/SEH/registerABI andruntime-resolvedexportidentity are notproved.",
+    "All game data/graph bytes/source geometry come from originalparent entry; camera/world native snapshots are comparisononly.",
+    "Installed173/current andisolated171 integrity are parent-owned separatecensuses, not re-claimed by thisraw/sourceaudit."
+  ]
+}

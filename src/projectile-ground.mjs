@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {updateProjectileTrail, emitProjectileLaunchRing, startProjectileLoopSound} from './projectile-trails.mjs';
 import {computeProjectileRouteVector, updateProjectileRouteMotion} from './projectile-guidance.mjs';
 import {updateProjectileRoute} from './projectile-routes.mjs';
@@ -43,6 +44,6 @@ export function updateGroundProjectile(body, runtime) {
   const vx = get(m, targetPosition + 0x34), vz = get(m, targetPosition + 0x3c), vy = get(m, targetPosition + 0x38);
   put(m, frame + 0x10, vz); put(m, frame + 0x14, vx); put(m, frame + 0x1c, vy);
   const projection = Math.max(-2048, Math.min(2048, Math.imul(m.readInt16LE(body + 0x6a), vx >> 16) + Math.imul(m.readInt16LE(body + 0x6e), vy >> 16) + Math.imul(m.readInt16LE(body + 0x72), vz >> 16) | 0));
-  if (!get(m, 0x811180)) {const lead = Math.max(0, Math.min(4, (distance - (projection >> 8) | 0) >> 7)); put(m, frame + 0x28, get(m, frame + 0x18) + (Math.imul(vx, lead) >> 16)); put(m, frame + 0x2c, get(m, frame + 0x20) + (Math.imul(vy, lead) >> 16)); put(m, frame + 0x30, get(m, frame + 0x24) + (Math.imul(vz, lead) >> 16));}
+  if (!get(m, nativeGlobalAddress(m, 0x811180))) {const lead = Math.max(0, Math.min(4, (distance - (projection >> 8) | 0) >> 7)); put(m, frame + 0x28, get(m, frame + 0x18) + (Math.imul(vx, lead) >> 16)); put(m, frame + 0x2c, get(m, frame + 0x20) + (Math.imul(vy, lead) >> 16)); put(m, frame + 0x30, get(m, frame + 0x24) + (Math.imul(vz, lead) >> 16));}
   distance = Math.max(1, distance + (projection >> 3) | 0); updateProjectileRouteMotion(body, frame + 0x28, 0, distance, {...runtime, scratchBase: frame - 12});
 }

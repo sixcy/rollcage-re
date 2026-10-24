@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import tables from './vehicle-wheel-construction-tables.json' with {type: 'json'};
 import {abs32, multiplyQ16, divideQ16} from './fixed-integer.mjs';
 import {createRawBody} from './raw-body-construction.mjs';
@@ -30,7 +31,7 @@ export function createVehicleWheels(body, wheelModel, vehicleIndex, runtime) {
   const steering = get(m, body + 0x644); put(m, frame + 0x28, body); put(m, frame + 0x2c, steering);
   for (let offset = 0; offset < 20; offset += 4) put(m, 0x91d360 + offset, get(m, body + 0xc4 + offset));
   let scale;
-  for (let lane = 0; lane < 9; lane++) {const value = m.readInt16LE(0x91d360 + lane * 2); m.writeFloatLE(value, frame + 0x18); if (!lane) scale = m.readFloatLE(0x5dc5f4); m.writeFloatLE(Math.fround(value * scale), 0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4);}
+  for (let lane = 0; lane < 9; lane++) {const value = m.readInt16LE(0x91d360 + lane * 2); m.writeFloatLE(value, frame + 0x18); if (!lane) scale = m.readFloatLE(0x5dc5f4); m.writeFloatLE(Math.fround(value * scale), nativeGlobalAddress(m, 0x91cdc0) + Math.floor(lane / 3) * 16 + lane % 3 * 4);}
   m[frame + 0x13] = 0; put(m, frame + 0x18, 0x5eac42); put(m, frame + 0x14, body + 0x184);
   let wheel = body + 0x324;
   do {

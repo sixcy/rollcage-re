@@ -1,4 +1,5 @@
 import table from './render-angle-table.json' with {type: 'json'};
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {transformWheelEffectOffset} from './wheel-effects.mjs';
 
 const get = (memory, address) => memory.readInt32LE(address);
@@ -81,7 +82,7 @@ export function prepareVehicleWheelRender(body, runtime) {
   for (let lane = 0; lane < 9; lane++) {
     const value = memory.readInt16LE(0x91d360 + lane * 2); memory.writeFloatLE(value, scratchBase - 4);
     if (!lane) scale = memory.readFloatLE(0x5dc5f4);
-    memory.writeFloatLE(Math.fround(value * scale), 0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4);
+    memory.writeFloatLE(Math.fround(value * scale), nativeGlobalAddress(memory,0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4));
   }
   for (let index = 0; index < 4; index++) prepareWheelRender(body + 0x324 + index * 200, body, index < 2 ? steering : 0, {...runtime, scratchBase: scratchBase - 28});
 }

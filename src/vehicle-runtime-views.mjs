@@ -1,5 +1,6 @@
 // Live native-storage views, not constructors or synchronization snapshots.
 // Layout anchors: 488220/488370/41c080/499e90 and 483b90/436630/42c590.
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {updateWheelTractionEffects,emitWheelRearParticle,emitWheelSurfaceParticles} from './wheel-effects.mjs';
 import {assertNativeMemorySpan,sharesNativeMemorySpan,resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 
@@ -77,7 +78,7 @@ export function createVehicleRuntimeViews({memory,bodyAt:bodyFactory,vehicleStat
   const p=bodyAt(value).address;if(contexts.has(p))return contexts.get(p);const context={};
   scalar(context,'gameMode',()=>session(0x57c));scalar(context,'modeFlags',()=>session(0x553),'u8');scalar(context,'effectMode',()=>session(0x579),'u8');scalar(context,'effectLevel',()=>config(0x68),'f32');define(context,'specialMode',{get:()=>read(session(0x587),'u8')!==0,set:value=>write(session(0x587),'u8',value?1:0)});contexts.set(p,context);return context;
  }
- function timeOptionsFor(value){const body=bodyAt(value);return {timeScaleActive:read(0x811180,'s32')!==0,timeScaleQ16:read(0x81118c,'s32'),timeScaleExempt:body.address===read(0x811184,'u32')};}
+ function timeOptionsFor(value){const body=bodyAt(value);return {timeScaleActive:read(nativeGlobalAddress(memory, 0x811180),'s32')!==0,timeScaleQ16:read(nativeGlobalAddress(memory, 0x81118c),'s32'),timeScaleExempt:body.address===read(nativeGlobalAddress(memory, 0x811184),'u32')};}
  function vehicleFor(value){
   const body=bodyAt(value),p=body.address;if(vehicles.has(p))return vehicles.get(p);const vehicle={body,state:stateFor(body),drive:driveFor(body),driveContext:driveContextFor(body)};
   scalar(vehicle,'steeringAngleQ16',p+0x644);scalar(vehicle,'registeredCellRef',p+0x11c);define(vehicle,'reverseSteering',{get:()=>read(p+0x64f,'u8')!==0,set:value=>write(p+0x64f,'u8',value?1:0)});Object.defineProperty(vehicle,'timeOptions',{enumerable:true,get:()=>timeOptionsFor(body)});vehicles.set(p,vehicle);return vehicle;

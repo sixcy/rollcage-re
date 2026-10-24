@@ -9,7 +9,8 @@ import {nativeMotionStateOwnedRegions, verifyNativeMotionStateContinuationEviden
 import {resolveNativeMemoryAddress, nativeCodeAddress} from '../../src/native-memory-spans.mjs';
 import {readInstructionEvidence} from './instruction-evidence.mjs';
 import {REDUX_SHA256} from './retained-native-program.mjs';
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
+import {nativeGlobalAddress,nativeExplicitGlobalDomains} from '../../src/native-global-address.mjs';
 import {nativeFrameGlobalRegions} from './native-frame-manifest.mjs';
 import {replayNativeFrame, createNativeFrameContext} from './native-frame-replay.mjs';
 import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
@@ -103,7 +104,8 @@ function literal(source, preferred, length, label) {
   const actual = source.manifest.moduleBaseAddress + preferred - 0x400000;
   try {source.span(actual, length);} catch (cause) {throw dependency(label, actual, length, cause);}
   try {
-    if (resolveNativeMemoryAddress(source.memory, preferred, length) !== actual) throw Error('Missing explicit module input alias.');
+    const address=nativeExplicitGlobalDomains.some(domain=>preferred>=domain.start&&preferred<domain.end)?nativeGlobalAddress(source.memory,preferred):preferred;
+    if (resolveNativeMemoryAddress(source.memory, address, length) !== actual) throw Error('Missing explicit module input alias.');
   } catch (cause) {throw dependency(label, actual, length, cause, 'unbound-captured-module-input');}
   return actual;
 }
@@ -168,7 +170,7 @@ export function executeNativeDriveContinuation({source, pair}) {
     if (controllers > 6) throw Error('Pickup-controller count exceeds the declared six-pointer observation; no native capacity is inferred.');
     literal(source, 0x91d480, 0x32, 'pickup-controller/pending observation');
     literal(source, 0x82e900, 8, 'target registry counts');
-    const targetCount = m.readInt32LE(0x82e900);
+    const targetCount = m.readInt32LE(nativeGlobalAddress(m,0x82e900));
     if (targetCount < 0 || targetCount > 16) throw Error('Target registry count exceeds the declared128-byte observation; no native capacity is inferred.');
     if (targetCount) literal(source, 0x82e880, targetCount * 8, 'observed target rows');
     const incoming = {};

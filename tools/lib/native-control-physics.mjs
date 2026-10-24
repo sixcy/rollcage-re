@@ -7,6 +7,7 @@ import {mergeNativeDriveModuleAliases} from './native-frame-drive-continuation.m
 import {createNativeFrameContext, extendNativeFrameGeometryComparison, extendNativeFrameSoundComparison} from './native-frame-replay.mjs';
 import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
 import {stepSimulationFrame} from '../../src/simulation-frame.mjs';
+import {nativeSourceCarriedRanges} from './native-source-carried-ranges.mjs';
 
 export function replayNativeControlThroughPhysics(snapshot, options = {}) {
   let stage = 'joined-control-prefix';
@@ -25,7 +26,7 @@ export function replayNativeControlThroughPhysics(snapshot, options = {}) {
     stage = 'carried-physics-coverage';
     const rows = snapshot.ranges instanceof Map ? [...snapshot.ranges.values()] : snapshot.ranges;
     const carried = {moduleBaseAddress: source.manifest.moduleBaseAddress, registers,
-      ranges: rows.map(row => ({...row, bytes: row.bytes.length ? Buffer.from(source.span(Number(row.address), row.bytes.length)) : Buffer.alloc(0)}))};
+      ranges: nativeSourceCarriedRanges(rows,source)};
     const manifestOptions = {...options, moduleBaseAddress: source.manifest.moduleBaseAddress, stackBytesBefore: depth};
     //Coverage/counts/views are rebuilt from carried SOURCE bytes. A world
     //producer can change a list or arena cursor before the physics call.

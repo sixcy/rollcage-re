@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-clock-scale-xmm0-layout-and-preservation-proof",
+  "verified": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "layout": {
+    "contextBytes": 716,
+    "contextFlagsRequested": 65599,
+    "requiredExtendedFlags": 65568,
+    "extendedRegistersOffset": 204,
+    "extendedRegistersBytes": 512,
+    "fxsaveXmm0Offset": 160,
+    "rawXmm0Offset": 364,
+    "rawXmm0Bytes": 16,
+    "rawXmm0LowOffset": 364,
+    "rawXmm0LowBytes": 8,
+    "rawMxcsrOffset": 228,
+    "derivation": {
+      "contextAndDebugWords": 28,
+      "floatingSaveAreaBytes": 112,
+      "segmentWordsBytes": 16,
+      "integerAndControlWordsBytes": 48,
+      "sumBeforeExtendedRegisters": 204
+    }
+  },
+  "host": {
+    "path": "tools/lib/native-physics-debugger.cs",
+    "sha256": "efcdd615852550f8912d602d469d482b0d4c63bd25f23bce255019bb5d6060e2",
+    "contextAndRegistersSectionSha256": "65da1aa815f53c27d27bf156564694f101e470f0516f5466c325e1973619d0b2",
+    "zeroInitializedThenNativeGetContext": true,
+    "full716BytesPublished": true
+  },
+  "externalPrimaryReferences": [
+    {
+      "title": "Microsoft WOW64_CONTEXT",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-wow64_context",
+      "supports": "Actual field order placing ExtendedRegisters after SegSs."
+    },
+    {
+      "title": "Microsoft WOW64_FLOATING_SAVE_AREA",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-wow64_floating_save_area",
+      "supports": "Legacy80387 save-area member order."
+    },
+    {
+      "title": "Intel SDM Vol2A FXSAVE, non64-bit layout Table3-45",
+      "url": "https://cdrdv2-public.intel.com/868140/253666-089-sdm-vol-2a.pdf",
+      "supports": "FXSAVE XMM0 bytes160..175 and MXCSR bytes24..27."
+    }
+  ],
+  "evidence": [
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/010-clock-source-assembly.json",
+      "sha256": "128ce386572b76561ada35d8a5cacb11e109e9c63bb950d1854a371b1d4d1454",
+      "evidenceId": "ev_38b8d5dfff1b32d7bb9ba4457b9681775a4c160c95e12a9b821e21a9e17e4f64"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/028-clock-double-to-uint.json",
+      "sha256": "fa0d592eb546d214a364454f6817e3f9bfc02a1864dd46472320c114661ca331",
+      "evidenceId": "ev_dea8f9153f9c5540481625f806668d34f05024d0fd095a2098120032433d8d7c"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/029-double-conversion-body.json",
+      "sha256": "63778f241ca09311d66b2def8890d8e04ebfce70840f7a67bc127dc8ac2d715a",
+      "evidenceId": "ev_ae16480d2e16f6e81b67e3acda55e2e6e6d6e944ede36888fbe94743a7387192"
+    },
+    {
+      "path": "analysis/native-simulation/results/1047-world-particle-count-convert-assembly.json",
+      "sha256": "2ab2c1403fecab2b320a9416a1eb48383bad6df912cd54d9a6db1c6cb7147bb9",
+      "evidenceId": "ev_46c84235837b2045303a643dfb9b21e492613b7cd28996b74c32208f8ed9b021"
+    },
+    {
+      "path": "analysis/native-simulation/results/20261024-clock-status-568bfd-assembly.json",
+      "sha256": "d7c2fe01d48e0eaa85b8fa2ce47225bd76273efb295252a900dcfe6cf4e0776b",
+      "evidenceId": "ev_bae6b5f11f816781dc21933ed4de136202db89d107763a559ca6506f68dd7373"
+    }
+  ],
+  "preservation": {
+    "entry": 5672001,
+    "knownModeEcx": 1,
+    "scopeIntervals": [
+      [
+        5672001,
+        5672014
+      ],
+      [
+        5672044,
+        5672076
+      ],
+      [
+        5671587,
+        5671914
+      ],
+      [
+        5671933,
+        5671955
+      ],
+      [
+        5671997,
+        5672000
+      ],
+      [
+        4463824,
+        4463974
+      ]
+    ],
+    "instructionsInspected": 148,
+    "xmm0Writes": [],
+    "excludedUnreachableWriter": {
+      "address": 5671583,
+      "op": "CVTSS2SD",
+      "reason": "Float32 entry reached via568a60/568a8b, not the568c41→568c6c→568aa3 mode1 double entry."
+    },
+    "maskedStatusBranch": {
+      "entry": 5671933,
+      "statusEdx": 16,
+      "maskAddress": 5699343,
+      "maskByte": 32,
+      "capturedControlWordExample": 127,
+      "branchTarget": 5671997,
+      "xmm0Unchanged": true
+    },
+    "integerSchedulerTail": [
+      4463824,
+      4463974
+    ],
+    "stopSite": 4525552,
+    "except1UnboundExcluded": true
+  },
+  "closedContextLayoutCorroboration": {
+    "directory": "analysis/native-parent-final-stock-capture-v2-20261024",
+    "contexts": [
+      {
+        "breakpointId": "native-control-before",
+        "ordinal": 4,
+        "file": "analysis/native-parent-final-stock-capture-v2-20261024/snapshot-000004-context.bin",
+        "sha256": "b18ffc2bd5fcc130ea83cb0e02366598f4b4d175f53066483bf80b631e346a89",
+        "flags": 65599,
+        "legacyControlWord": 127,
+        "fxsaveControlWord": 127,
+        "legacyStatusWord": 18555,
+        "fxsaveStatusWord": 18555,
+        "mxcsr": 8103,
+        "xmm0LowHex": "1405fa449e847240",
+        "clockValueAttribution": false
+      },
+      {
+        "breakpointId": "native-parent-return",
+        "ordinal": 22,
+        "file": "analysis/native-parent-final-stock-capture-v2-20261024/snapshot-000022-context.bin",
+        "sha256": "ecbf06cbaaee07f1f2664cbf497eda0cffe0666f6cc29e540224ffe4502298ef",
+        "flags": 65599,
+        "legacyControlWord": 127,
+        "fxsaveControlWord": 127,
+        "legacyStatusWord": 2171,
+        "fxsaveStatusWord": 2171,
+        "mxcsr": 8103,
+        "xmm0LowHex": "0000000000000000",
+        "clockValueAttribution": false
+      }
+    ],
+    "purpose": "Layout/flag/cross-save-area consistency only; these old fullparent endpoints do not prove the new clock scale outcome."
+  },
+  "recommendation": {
+    "valid": true,
+    "sourceValue": "source observeNativeClock scale event.value before signed64 conversion",
+    "nativeValue": "final original raw context bytes364..371 at450df0 beforeMOVESI",
+    "comparison": "Serialize source binary64 with writeDoubleLE and compare all8bytes exactly.",
+    "guards": [
+      "Raw context length716 and EXTENDED flag0x10020 present.",
+      "Selected warm initialized call actually emits one source scale event.",
+      "Complete source conversion/status path returns without reaching unbound except1.",
+      "Final actualendpoint/thread/caller is authenticated beforeusingrawXMM0."
+    ],
+    "unsupported": [
+      "First-delivery zero-counter branch has no scale event.",
+      "except1 may clobberXMM0; it is an explicit unsupported external boundary.",
+      "Matching XMM0 does not alone establish everySSE/x87statusbit or outercadence."
+    ]
+  },
+  "productionEdits": 0,
+  "nativeLaunches": 0,
+  "newReaSessions": 0
+}

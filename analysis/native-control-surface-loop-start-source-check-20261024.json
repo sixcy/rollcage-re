@@ -1,0 +1,617 @@
+{
+  "schemaVersion": 1,
+  "method": "source4860db-first-surface-loop-and-genuine484bb0-dispatch",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidence": {
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "evidenceIds": [
+      "ev_ba18dbda8825a020d0f56e7504d1377e94372004104491c290fe6f9097616702",
+      "ev_55774611163ec94ae80a1e26fed4474bf04f8c077f1fa53df8691843b5c8e3f8",
+      "ev_276e723742684068016129e93a54f6b66c48ae2564c6cbdd1d58fc0dd8998ee6"
+    ]
+  },
+  "inputs": {
+    "parentSnapshotOrdinal": 4,
+    "rawDirectory": "analysis/native-parent-rtti-stock-capture-v6-20261024",
+    "trace": {
+      "file": "analysis/native-parent-rtti-stock-capture-v6-20261024/trace.jsonl",
+      "sha256": "73f14087b5028f4c26cc6c90eb4538e51f1bcefdbf9a45e31cf88de536916a38"
+    },
+    "configuration": {
+      "file": "analysis/native-parent-rtti-stock-capture-v6-20261024/configuration.json",
+      "sha256": "5a4262a28468ba9eb29f0973162e62d0cfb7e6ea00d23745eb3f47764ac5d919"
+    }
+  },
+  "sourceHashes": [
+    {
+      "file": "src/vehicle-audio.mjs",
+      "sha256": "6c89cad6d48d14fbfadb69e4722c845d8faeed4be07d19b5095234a2a925a156"
+    },
+    {
+      "file": "tools/lib/native-control-sound-creation.mjs",
+      "sha256": "3b5dbbe618e50e8fe6ad350034d80955c3e884315041fcfe162f25d005cd969b"
+    },
+    {
+      "file": "tests/native-control-surface-loop-start.test.mjs",
+      "sha256": "33cbcb5ed0e97b1a24ba3e728f8a103cb761d929a74e2165257db7c70488647b"
+    }
+  ],
+  "retainedInstructionChecks": {
+    "constructedCases": 40,
+    "moduleBases": [
+      4194304,
+      9764864
+    ],
+    "stackAlignments": [
+      0,
+      4,
+      8,
+      12
+    ],
+    "signedCounterCases": [
+      1,
+      0,
+      -1,
+      -32768
+    ],
+    "branches": [
+      "ordinary high slip",
+      "smoke SAR-before-CL argument",
+      "low slip explicitly synthetic allow-table1",
+      "smoke guard retains high slip when oldbyte9"
+    ],
+    "comparison": "All declared data including complete640B sharedstack,body3e78,bank256 and material/audio/global inputs plus all7 incoming integer registers andESP.",
+    "matched": true,
+    "originalProcessRun": false
+  },
+  "checks": {
+    "command": "node --test tests/native-control-surface-loop-start.test.mjs tests/native-control-surface-loop-creation.test.mjs tests/native-control-tyre-sound-creation.test.mjs tests/native-control-sound-creation.test.mjs tests/native-control-audio.test.mjs tests/vehicle-audio.test.mjs",
+    "passed": 24,
+    "failed": 0,
+    "skipped": 0
+  },
+  "actualReplay": {
+    "report": {
+      "file": "analysis/native-parent-rtti-stock-surface-start-replay-v6-20261024/report.json",
+      "sha256": "5f36edfb926db4c4a4f5b479fb7a152ecf450af0fae96d74cb2f2a873da969e3"
+    },
+    "afterAi": {
+      "matched": true,
+      "uniqueBytesCompared": 5108613
+    },
+    "matched": false,
+    "sourceComplete": false,
+    "firstBoundary": "Error: Uncaptured native memory at 0x10d71930 (1168 bytes).",
+    "sourceCreation": {
+      "kind": "surface-loop-start",
+      "callAddress": 10313947,
+      "returnAddress": 10313952,
+      "entryEsp": 7599672,
+      "callerEntryEsp": 7599788,
+      "entryRegisters": {
+        "ebx": 278935168,
+        "ebp": 5,
+        "esi": 127,
+        "edi": 9143,
+        "ecx": 3,
+        "edx": 278935220,
+        "eax": 3
+      },
+      "args": [
+        0,
+        1200,
+        0,
+        9,
+        510616,
+        0,
+        0
+      ],
+      "layout": {
+        "entryEsp": 7599672,
+        "savedEbp": 7599668,
+        "aligned": 7599664,
+        "frame": 7599632,
+        "parameters": 7599648,
+        "dispatchEntry": 7599612
+      },
+      "completed": false,
+      "error": "Uncaptured native memory at 0x10d71930 (1168 bytes)."
+    }
+  },
+  "originalParentEntryBank": {
+    "headerAddress": 12854292,
+    "begin": 270614024,
+    "end": 270614280,
+    "capacity": 270614400,
+    "usedSlots": 64,
+    "capacitySlots": 94,
+    "owners": [
+      {
+        "code": 0,
+        "address": 277072336,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 1,
+        "address": 143730288,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 2,
+        "address": 282646192,
+        "full490": true,
+        "overlappingRows": [
+          "control-tyre-sound2-owner"
+        ]
+      },
+      {
+        "code": 3,
+        "address": 282532144,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 4,
+        "address": 143718080,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 5,
+        "address": 143719272,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 6,
+        "address": 282761496,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 7,
+        "address": 282527312,
+        "full490": true,
+        "overlappingRows": [
+          "control-surface-sound7-owner"
+        ]
+      },
+      {
+        "code": 8,
+        "address": 282786024,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 9,
+        "address": 282545696,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 10,
+        "address": 282553872,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 11,
+        "address": 282577688,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 12,
+        "address": 282962400,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 13,
+        "address": 282691488,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 14,
+        "address": 282587176,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 15,
+        "address": 282583368,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 16,
+        "address": 283064872,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 17,
+        "address": 282584560,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 18,
+        "address": 282993024,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 19,
+        "address": 283109800,
+        "full490": true,
+        "overlappingRows": [
+          "control-sound19-owner"
+        ]
+      },
+      {
+        "code": 20,
+        "address": 282701000,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 21,
+        "address": 282875696,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 22,
+        "address": 282881664,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 23,
+        "address": 282989840,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 24,
+        "address": 282878480,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 25,
+        "address": 283245360,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 26,
+        "address": 283205024,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 27,
+        "address": 283314456,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 28,
+        "address": 282815576,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 29,
+        "address": 283140928,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 30,
+        "address": 283280568,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 31,
+        "address": 282806712,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 32,
+        "address": 283301624,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 33,
+        "address": 282812392,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 34,
+        "address": 283492680,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 35,
+        "address": 283707992,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 36,
+        "address": 283542752,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 37,
+        "address": 283342216,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 38,
+        "address": 283110992,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 39,
+        "address": 283116672,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 40,
+        "address": 283793672,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 41,
+        "address": 283532776,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 42,
+        "address": 283949280,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 43,
+        "address": 283538456,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 44,
+        "address": 283746496,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 45,
+        "address": 283315648,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 46,
+        "address": 283324936,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 47,
+        "address": 283647608,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 48,
+        "address": 283993864,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 49,
+        "address": 283598336,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 50,
+        "address": 283870456,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 51,
+        "address": 283604016,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 52,
+        "address": 283609696,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 53,
+        "address": 283833472,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 54,
+        "address": 283043496,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 55,
+        "address": 283839152,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 56,
+        "address": 283248544,
+        "full490": false,
+        "overlappingRows": []
+      },
+      {
+        "code": 57,
+        "address": 284140200,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 58,
+        "address": 284089912,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 59,
+        "address": 284091104,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 60,
+        "address": 284069672,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 61,
+        "address": 284072856,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 62,
+        "address": 284076544,
+        "full490": true,
+        "overlappingRows": [
+          "control-authored-body-list-region"
+        ]
+      },
+      {
+        "code": 63,
+        "address": 387053256,
+        "full490": true,
+        "overlappingRows": [
+          "skid-region"
+        ]
+      }
+    ],
+    "summary": {
+      "nonnull": 64,
+      "completeOwners": 24,
+      "missingOwners": [
+        0,
+        1,
+        3,
+        4,
+        5,
+        6,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        37,
+        38,
+        39,
+        41,
+        45,
+        46,
+        54,
+        56
+      ]
+    }
+  },
+  "nextEvidenceScope": "Future capture should observe a bounded group of original-entry live bank owners, each490h from its genuine used slot, preserving null guards and owner aliases. Owner channel-vector and decoder/source descendants require their own actual count/capacity/branch evidence. No additional owner bytes are admitted here.",
+  "limits": [
+    "Existing486146/48608f/48627c behavior remains unchanged. Other unsupported creation callers still fail explicitly.",
+    "Code3owner10d71930 is genuinely nonnull but no original entry range intersects its1168B span. No mode/index/vector guesses are supplied.",
+    "V6joined execution stops during prephysics audio; later physics/camera/weather/QPC and completeparent are not claimed.",
+    "Constructed interpreted checks are not original-process runtime fidelity proof. No game/nativefixture/capture was launched."
+  ],
+  "frozen": true
+}

@@ -1,4 +1,5 @@
 import {buildRenderRotationMatrix, transformRenderShortVector} from './wheel-render-state.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {transformWheelEffectOffset} from './wheel-effects.mjs';
 import {releaseBodyAttachments} from './body-attachment-release.mjs';
 import {registerRawBodySpatial} from './raw-body-construction.mjs';
@@ -88,7 +89,7 @@ export function updatePlacedObjectDestruction(runtime) {
   const local = (offset, value) => put(memory, frame + offset, value), load = offset => get(memory, frame + offset);
   const loadMatrix = source => {
     for (let offset = 0; offset < 20; offset += 4) put(memory, 0x91d360 + offset, get(memory, source + offset));
-    for (let index = 0; index < 9; index++) memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360 + index * 2)) * scale), 0x91cdc0 + Math.floor(index / 3) * 16 + index % 3 * 4);
+    for (let index = 0; index < 9; index++) memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360 + index * 2)) * scale), nativeGlobalAddress(memory,0x91cdc0 + Math.floor(index / 3) * 16 + index % 3 * 4));
   };
   const transform = (source, target, object) => {
     put(memory, 0x91d3e4, get(memory, source)); put(memory, 0x91d3e8, get(memory, source + 4)); transformWheelEffectOffset(options);
@@ -192,7 +193,7 @@ export function updatePlacedObjectDestruction(runtime) {
             }
             if (memory[row + 0x7c + group] === (groupFaces & 255)) {
               emitRawEffectParticles(frame + 0x38, object + 0x40, 0, get(memory, 0x919000), 1, options); alterRawTerrainBrightness(frame + 0x38, 0, {...runtime, scratchBase: frame - 4});
-              put(memory, 0x91cd80, load(0x38)); put(memory, 0x91cd84, load(0x3c)); put(memory, 0x91cd90, 1); put(memory, 0x91cd88, load(0x40)); put(memory, 0x91cd8c, 16);
+              put(memory, nativeGlobalAddress(memory,0x91cd80), load(0x38)); put(memory, nativeGlobalAddress(memory,0x91cd84), load(0x3c)); put(memory, nativeGlobalAddress(memory,0x91cd90), 1); put(memory, nativeGlobalAddress(memory,0x91cd88), load(0x40)); put(memory, nativeGlobalAddress(memory,0x91cd8c), 16);
             }
             if (!(face & 3)) {emitRawEffectParticles(frame + 0x100, object + 0x40, 1, get(memory, 0x9153d8), 4, options); emitRawBodyDebris(frame + 0x100, object + 0x40, 1, options);}
             memory[ptr(memory, ptr(memory, 0x9205dc) + offset + 0xa0) + face] = 5; base = ptr(memory, 0x9205dc); row = base + offset; word(memory, row + 0x32, memory.readUInt16LE(row + 0x32) - 1);

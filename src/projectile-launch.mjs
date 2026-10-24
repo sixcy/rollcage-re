@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32, multiplyQ16} from './fixed-integer.mjs';
 import {orientWormholeBody} from './wormhole-visuals.mjs';
 import {updateRawLinearVelocity} from './raw-linear-velocity.mjs';
@@ -169,7 +170,7 @@ export function activateHomingProjectile(record, localMode, unused, receivedPack
   const row = ptr(m, 0x909254) + ((((get(m, body + 0x3c) >> 24) + 128) & 65535) << 4), map = get(m, row + 12);
   const found = lookupRawSpatialBucket(get(m, body + 0x34), get(m, body + 0x38), get(m, body + 0x3c), runtime); put(m, frame - 8, map); //42871f numeric local, consumed by later trail scratch.
   put(m, frame + 0x18, found.outside); const tagged = found.bucket + (found.outside ? 1 : 0), bucket = tagged & 0xfffffffe; put(m, body + 12, tagged);
-  const id = ((body - ptr(m, 0x902eec) + 128) >>> 7) & 65535, head = m.readUInt16LE(bucket + 8); put(m, body + 4, head); if (head) word(m, ptr(m, 0x902eec) + (head << 7) - 122, id); word(m, bucket + 8, id);
+  const id = ((body - ptr(m, nativeGlobalAddress(m, 0x902eec)) + 128) >>> 7) & 65535, head = m.readUInt16LE(bucket + 8); put(m, body + 4, head); if (head) word(m, ptr(m, nativeGlobalAddress(m, 0x902eec)) + (head << 7) - 122, id); word(m, bucket + 8, id);
   word(m, body + 0x18c, 0); m[body + 0x18e] = 0; updateProjectileTrail(body, 2, {...runtime, scratchBase: frame - 4});
   //The just-reset mode2 trail leaves ECX=0 after its zero-count tail loop;
   //46b6a4 PUSH ECX reserves the shape call's otherwise unused argument slot.

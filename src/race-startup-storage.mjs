@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {scaleWormholeColor} from './wormhole-visuals.mjs';
 const ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
@@ -25,11 +26,11 @@ export function initializeRaceInputLatches({memory: m}) {
 //495320.256 records, each containing four132-byte renderer primitives.
 //The native ECX loop counter is published only after reaching zero.
 export function initializeRaceQuadStorage(runtime) {
-  const {memory: m} = runtime, base = cleared(0x21000, runtime); put(m, 0x80def0, base);
+  const {memory: m} = runtime, base = cleared(0x21000, runtime); put(m, nativeGlobalAddress(m, 0x80def0), base);
   for (let i = 0; i < 256; i++) for (let j = 0; j < 4; j++) {
     const p = base + i * 0x210 + j * 132; m[p + 3] = 12; m[p + 7] = 0x8e;
   }
-  put(m, 0x80def4, 0); put(m, 0x80def8, 0);
+  put(m, nativeGlobalAddress(m, 0x80def4), 0); put(m, nativeGlobalAddress(m, 0x80def8), 0);
 }
 
 //43f130.64 groups of four104-byte primitives; clear the eight WORD flags,
@@ -171,7 +172,7 @@ export function applyRaceLightingTint({memory: m}) {
   for (let i = 0; i < 3; i++) {const color = m[auxiliary + 0x30 + i] * 2 & 255; m[0x91d5b9 + i] = color; m[0x91de29 + i] = color;}
   tint(0x6f96e4);
   const red = m[auxiliary + 0x30] * 2 & 255, green = m[auxiliary + 0x31] * 2 & 255, blue = m[auxiliary + 0x32] * 2 & 255;
-  put(m, 0x91ce1c, red << 16 | green << 8 | blue);
+  put(m, nativeGlobalAddress(m, 0x91ce1c), red << 16 | green << 8 | blue);
 }
 
 //483a00.150 or300 paired primitive records, selected by the exact quality

@@ -1,7 +1,8 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {readGameMicroseconds} from './game-network-protocol.mjs';
 import {advanceWeatherRandom} from './weather-volumes.mjs';
 import {queryWeatherViewport, readWeatherViewportExtent} from './weather-viewport.mjs';
-import {nativeMemorySpan} from './native-memory-spans.mjs';
+import {nativeMemorySpan,nativeCodeAddress} from './native-memory-spans.mjs';
 
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const f = (m, p) => m.readFloatLE(p), sf = (m, p, v) => m.writeFloatLE(v, p), mul = (a, b) => Math.fround(a * b), add = (a, b) => Math.fround(a + b), sub = (a, b) => Math.fround(a - b), div = (a, b) => Math.fround(a / b);
@@ -58,12 +59,19 @@ export function spawnWeatherScreenParticle(index, runtime) {
 //498030. Every screen query and per-particle reload remains in native order.
 export function updateWeatherScreenParticles(emitEnabled, runtime) {
   const {memory: m, scratchBase} = runtime, frame = scratchBase - 0x13c;
-  playerName(m, frame + 0x28); queryWeatherViewport(frame + 0x28, frame + 0x18, frame + 0x1c, frame + 0x14, frame + 0x20, {...runtime, scratchBase: frame - 16});
+  const directViewport = (xOut, yOut, widthOut, heightOut, returnAddress) => {
+    //498082..8d /4980e5..f0: actual h/w/y PUSH order then CALL. Every
+    //published value comes from this source call's live pointer arguments.
+    put(m, frame - 4, heightOut); put(m, frame - 8, widthOut); put(m, frame - 12, yOut);
+    put(m, frame - 16, nativeCodeAddress(returnAddress, runtime));
+    queryWeatherViewport(frame + 0x28, xOut, yOut, widthOut, heightOut, {...runtime, scratchBase: frame - 16, nativeViewportQueryCall: {returnAddress}});
+  };
+  playerName(m, frame + 0x28); directViewport(frame + 0x18, frame + 0x1c, frame + 0x14, frame + 0x20, 0x498092);
   const halfWidth = mul(Math.fround(get(m, frame + 0x14)), f(m, 0x5dc6ec)); playerName(m, frame + 0x28); sf(m, frame + 0x14, halfWidth);
-  queryWeatherViewport(frame + 0x28, frame + 0x10, frame + 0x18, frame + 0x1c, frame + 0x20, {...runtime, scratchBase: frame - 16});
+  directViewport(frame + 0x10, frame + 0x18, frame + 0x1c, frame + 0x20, 0x4980f5);
   let session = ptr(m, 0x5ecb1c); if (m[session + 0x552]) return;
   let speed = 0;
-  if (!(m[0x91ce90] & 2)) {let index = get(m, 0x6e9f70); if (index === -1) index = 0; speed = m.readInt16LE(ptr(m, 0x909300 + Math.imul(index, 0x30c)) + 0x668); session = ptr(m, 0x5ecb1c);}
+  if (!(m[nativeGlobalAddress(m,0x91ce90)] & 2)) {let index = get(m, 0x6e9f70); if (index === -1) index = 0; speed = m.readInt16LE(ptr(m, 0x909300 + Math.imul(index, 0x30c)) + 0x668); session = ptr(m, 0x5ecb1c);}
   sf(m, frame + 0x10, speed); sf(m, frame + 0x24, mul(speed, f(m, 0x5dc5d4))); const kind = m[session + 0x553];
   if (kind === 2) {
     for (let offset = 0, index = 0; offset < 0x500; offset += 160, index++) {
@@ -97,7 +105,15 @@ export function updateWeatherScreenParticles(emitEnabled, runtime) {
     return;
   }
   if (kind !== 0) return;
-  const milliseconds = Number((BigInt.asUintN(64, readGameMicroseconds({...runtime, scratchBase: frame - 4})) / 1000n) & 0xffffffffn) >>> 0;
+  const counterEntry = frame - 4, counterFrame = ((counterEntry - 4) & ~7) - 32;
+  //The optional native contract covers the initialized branch. Lazy frequency
+  //and origin calls retain the generic protocol service path and its limits.
+  let nativeWeatherCounterCall;
+  if (runtime.nativeWeatherCounterCalls === true && get(m, 0x6e6c8c) === 1) {
+    put(m, counterEntry, nativeCodeAddress(0x498458, runtime)); //498453 CALL489cd0.
+    nativeWeatherCounterCall = {returnAddress: 0x498458, screenEntryEsp: scratchBase, entryEsp: counterEntry, frame: counterFrame, outputAddress: counterFrame + 24, ebx: emitEnabled};
+  }
+  const milliseconds = Number((BigInt.asUintN(64, readGameMicroseconds({...runtime, scratchBase: counterEntry, nativeWeatherCounterCall})) / 1000n) & 0xffffffffn) >>> 0;
   let random = advanceWeatherRandom(m), active = get(m, 0x6e6cf4);
   if (!active) {if (!(random >>> 15 & 0x3fffc0)) {active = 1; put(m, 0x6e6ce0, milliseconds); put(m, 0x6e6cf4, active);}}
   else if (active === 1) {if (milliseconds > (ptr(m, 0x6e6ce0) + 30000 >>> 0)) active = 0; put(m, 0x6e6cf4, active);}

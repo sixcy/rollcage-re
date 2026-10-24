@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
 const f32 = Math.fround, read = (m, p) => m.readFloatLE(p), write = (m, p, v) => m.writeFloatLE(v, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 
@@ -21,39 +22,39 @@ export function transformWeatherDrawPoint(output, runtime, rejectNegative = fals
   const x = m.readInt16LE(0x91d3e4), y = m.readInt16LE(0x91d3e6), z = m.readInt16LE(0x91d3e8);
   const component = (translation, matrix) => ((read(m, translation) + read(m, matrix) * x) + read(m, matrix + 4) * y) + read(m, matrix + 8) * z;
   if (rejectNegative) put(m, output, 16);
-  const depth = component(0x91cdb8, 0x91cde0);
+  const depth = component(nativeGlobalAddress(m,0x91cdb8), nativeGlobalAddress(m,0x91cde0));
   if (rejectNegative) {
     write(m, output + 4, depth);
-    if (get(m, output + 4) < 0) {write(m, bp - 8, x); put(m, 0x91ce18, output); return null;}
+    if (get(m, output + 4) < 0) {write(m, bp - 8, x); put(m, nativeGlobalAddress(m,0x91ce18), output); return null;}
   }
-  const transformedX = component(0x91cdb0, 0x91cdc0);
+  const transformedX = component(nativeGlobalAddress(m,0x91cdb0), nativeGlobalAddress(m,0x91cdc0));
   //432320 computes both coordinates before either store;432470 stores X
   //before computing Y. Preserve that distinction when output aliases globals.
   if (rejectNegative) write(m, output + 16, transformedX);
-  const transformedY = component(0x91cdb4, 0x91cdd0);
+  const transformedY = component(nativeGlobalAddress(m,0x91cdb4), nativeGlobalAddress(m,0x91cdd0));
   if (!rejectNegative) write(m, output + 16, transformedX);
   write(m, output + 20, transformedY);
   if (!rejectNegative) write(m, output + 4, depth);
   write(m, bp - 8, rejectNegative ? x : y);
-  const visible = get(m, output + 4) >= get(m, 0x91cda4);
+  const visible = get(m, output + 4) >= get(m, nativeGlobalAddress(m,0x91cda4));
   if (rejectNegative) {if (visible) put(m, output, get(m, output) & ~16);}
   else put(m, output, visible ? 0 : 16);
-  put(m, 0x91ce18, output);
+  put(m, nativeGlobalAddress(m,0x91ce18), output);
   const pending = rejectNegative ? read(m, output + 4) : depth;
-  return visible ? read(m, 0x91cda0) / pending : pending;
+  return visible ? read(m, nativeGlobalAddress(m,0x91cda0)) / pending : pending;
 }
 
 //4323f0. Clip tests compare signed IEEE float words, rather than numeric
 //coordinates. The final FSTP publishes the live ratio (or clipped depth).
 export function finishWeatherDrawPoint(pending, {memory: m}) {
-  const output = ptr(m, 0x91ce18);
+  const output = ptr(m, nativeGlobalAddress(m,0x91ce18));
   if (!(get(m, output) & 16)) {
     let flags = get(m, output);
-    write(m, output + 8, read(m, output + 16) * pending + read(m, 0x91cdf0));
-    write(m, output + 12, read(m, output + 20) * pending + read(m, 0x91cdf4));
+    write(m, output + 8, read(m, output + 16) * pending + read(m, nativeGlobalAddress(m,0x91cdf0)));
+    write(m, output + 12, read(m, output + 20) * pending + read(m, nativeGlobalAddress(m,0x91cdf4)));
     const x = get(m, output + 8), y = get(m, output + 12);
-    if (x < get(m, 0x91ce00)) flags |= 1; else if (x >= get(m, 0x91ce04)) flags |= 2;
-    if (y < get(m, 0x91ce08)) flags |= 4; else if (y >= get(m, 0x91ce0c)) flags |= 8;
+    if (x < get(m, nativeGlobalAddress(m,0x91ce00))) flags |= 1; else if (x >= get(m, nativeGlobalAddress(m,0x91ce04))) flags |= 2;
+    if (y < get(m, nativeGlobalAddress(m,0x91ce08))) flags |= 4; else if (y >= get(m, nativeGlobalAddress(m,0x91ce0c))) flags |= 8;
     put(m, output, flags);
   }
   write(m, 0x6fb5dc, pending);
@@ -68,10 +69,10 @@ function depthBucket(value) {
 //fully accepted exit deliberately retains the expanded clipping boundaries.
 export function drawWeatherRain(index, runtime) {
   const {memory: m, scratchBase, roundingMode} = runtime, frame = scratchBase - 60;
-  const radius = read(m, 0x91d33c), row = ptr(m, 0x80dde0 + index * 4), body = ptr(m, row + 16), buckets = ptr(m, 0x91d590);
-  write(m, 0x91ce00, f32(read(m, 0x91ce00) + radius)); write(m, 0x91ce04, f32(read(m, 0x91ce04) - radius));
-  put(m, frame + 40, buckets); put(m, frame + 28, 0); put(m, frame + 20, get(m, 0x80dee0));
-  write(m, 0x91ce08, f32(read(m, 0x91ce08) + radius)); write(m, 0x91ce0c, f32(read(m, 0x91ce0c) - radius));
+  const radius = read(m, nativeGlobalAddress(m,0x91d33c)), row = ptr(m, nativeGlobalAddress(m,0x80dde0 + index * 4)), body = ptr(m, row + 16), buckets = ptr(m, 0x91d590);
+  write(m, nativeGlobalAddress(m,0x91ce00), f32(read(m, nativeGlobalAddress(m,0x91ce00)) + radius)); write(m, nativeGlobalAddress(m,0x91ce04), f32(read(m, nativeGlobalAddress(m,0x91ce04)) - radius));
+  put(m, frame + 40, buckets); put(m, frame + 28, 0); put(m, frame + 20, get(m, nativeGlobalAddress(m,0x80dee0)));
+  write(m, nativeGlobalAddress(m,0x91ce08), f32(read(m, nativeGlobalAddress(m,0x91ce08)) + radius)); write(m, nativeGlobalAddress(m,0x91ce0c), f32(read(m, nativeGlobalAddress(m,0x91ce0c)) - radius));
   word(m, frame + 44, m.readUInt16LE(row + 0x4018) - m.readUInt16LE(body + 0x6a));
   word(m, frame + 46, m.readUInt16LE(row + 0x401a) - m.readUInt16LE(body + 0x6e));
   word(m, frame + 18, m.readUInt16LE(row + 0x401c) - m.readUInt16LE(body + 0x72)); put(m, frame + 24, 0);
@@ -97,16 +98,16 @@ export function drawWeatherRain(index, runtime) {
     }
     put(m, frame + 24, i + 1);
   }
-  write(m, 0x91ce00, f32(read(m, 0x91ce00) - radius)); write(m, 0x91ce04, f32(read(m, 0x91ce04) + radius));
-  write(m, 0x91ce08, f32(read(m, 0x91ce08) - radius)); write(m, 0x91ce0c, f32(read(m, 0x91ce0c) + radius));
+  write(m, nativeGlobalAddress(m,0x91ce00), f32(read(m, nativeGlobalAddress(m,0x91ce00)) - radius)); write(m, nativeGlobalAddress(m,0x91ce04), f32(read(m, nativeGlobalAddress(m,0x91ce04)) + radius));
+  write(m, nativeGlobalAddress(m,0x91ce08), f32(read(m, nativeGlobalAddress(m,0x91ce08)) - radius)); write(m, nativeGlobalAddress(m,0x91ce0c), f32(read(m, nativeGlobalAddress(m,0x91ce0c)) + radius));
 }
 
 //497350. Projected snow quads enter the same depth buckets. Packed integer
 //screen clipping includes native carry/borrow between the two16-bit lanes.
 export function drawWeatherSnow(index, runtime) {
   const {memory: m, scratchBase, roundingMode} = runtime, frame = scratchBase - 76, buckets = ptr(m, 0x91d590);
-  let output = ptr(m, 0x80ded8), particle = ptr(m, 0x80dde0 + index * 4) + index * 8 + 20;
-  const end = output + 0x3c000, maximum = read(m, 0x5dc9c8), scale = f32(f32(f32(get(m, 0x91ce94)) * read(m, 0x5dc614)) * read(m, 0x5dca7c));
+  let output = ptr(m, nativeGlobalAddress(m,0x80ded8)), particle = ptr(m, nativeGlobalAddress(m,0x80dde0 + index * 4)) + index * 8 + 20;
+  const end = output + 0x3c000, maximum = read(m, 0x5dc9c8), scale = f32(f32(f32(get(m, nativeGlobalAddress(m,0x91ce94))) * read(m, 0x5dc614)) * read(m, 0x5dca7c));
   put(m, frame + 44, buckets); put(m, frame + 20, end); put(m, frame + 16, 2048);
   for (let i = 0; i < 2048; i++, particle += 8) {
     if (m.readInt16LE(particle + 6)) {
@@ -120,8 +121,8 @@ export function drawWeatherSnow(index, runtime) {
           const bucketIndex = depthBucket(get(m, frame + 28) >> 5); if (radius > maximum) {radius = maximum; write(m, frame + 24, radius);}
           if ((output >>> 0) < (end >>> 0)) {
             const extent = get(m, 0x91d594); put(m, frame + 40, fist(read(m, frame + 24), roundingMode));
-            write(m, frame + 24, f32(read(m, frame + 56) - read(m, 0x91ce00))); put(m, frame + 32, fist(read(m, frame + 24), roundingMode));
-            write(m, frame + 24, f32(read(m, frame + 60) - read(m, 0x91ce08))); put(m, frame + 36, fist(read(m, frame + 24), roundingMode));
+            write(m, frame + 24, f32(read(m, frame + 56) - read(m, nativeGlobalAddress(m,0x91ce00)))); put(m, frame + 32, fist(read(m, frame + 24), roundingMode));
+            write(m, frame + 24, f32(read(m, frame + 60) - read(m, nativeGlobalAddress(m,0x91ce08)))); put(m, frame + 36, fist(read(m, frame + 24), roundingMode));
             const center = get(m, frame + 36) << 16 | get(m, frame + 32), half = get(m, frame + 40) << 16 | get(m, frame + 40);
             const remaining = center - half - extent | 0;
             if (!((center + half) & 0x80008000) && remaining <= 0 && (remaining & 0x8000)) {

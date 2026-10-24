@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {constructGamePixelImage, allocateGamePixelImage, releaseGameImageList} from './game-image-storage.mjs';
 import {convertGamePixelImage} from './game-image-conversion.mjs';
 import {readGameImageRgba, writeGameImageRgba} from './game-image-format.mjs';
@@ -62,5 +63,5 @@ export function constructGameTexture(index, width, height, depth, pixels, palett
   //its PUSH EDI can later be published by image-list cleanup.
   m[bp - 0x835] = 0; const uploaded = renderer({...runtime, scratchBase: frame - 28, entryRegisters: settingsRegisters}, 0x88, [texture, list, 0, 0, flags >>> 3 & 1, bp - 0x835]) & 255, result = uploaded === 1 ? 1 : 0; m[bp - 0x81d] = result;
   releaseGameImageList(list, {...runtime, scratchBase: frame - 4}); releaseGameImageList(list, {...runtime, scratchBase: frame - 4}); if (ptr(m, list)) crt(runtime, 'operatorDelete', [ptr(m, list)]);
-  let bit = 0; while (bit < 10 && !((paddedWidth >> bit) & 1)) bit++; put(m, 0x6f3a00 + index * 4, get(m, 0x6e64d0 + bit * 4)); bit = 0; while (bit < 10 && !((paddedHeight >> bit) & 1)) bit++; put(m, 0x6f4680 + index * 4, get(m, 0x6e64d0 + bit * 4)); put(m, 0x91ce98, Math.max(get(m, 0x91ce98), index)); return result;
+  let bit = 0; while (bit < 10 && !((paddedWidth >> bit) & 1)) bit++; put(m, 0x6f3a00 + index * 4, get(m, 0x6e64d0 + bit * 4)); bit = 0; while (bit < 10 && !((paddedHeight >> bit) & 1)) bit++; put(m, 0x6f4680 + index * 4, get(m, 0x6e64d0 + bit * 4)); put(m, nativeGlobalAddress(m, 0x91ce98), Math.max(get(m, nativeGlobalAddress(m, 0x91ce98)), index)); return result;
 }

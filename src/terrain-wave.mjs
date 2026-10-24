@@ -1,4 +1,5 @@
 import {lookupRawSpatialBucket} from './body-retirement-effects.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {multiplyQ16} from './fixed-integer.mjs';
 import {addVehicleContactScore,subtractVehicleContactScore} from './vehicle-contact-state.mjs';
 import {markVehicleWeaponReleased} from './race-time-effect.mjs';
@@ -113,7 +114,7 @@ export function updateTerrainWave(runtime){
   for(;group<groups;group++){const p=0x90cc90+group*4,start=m.readInt16LE(p);if(changeSector===m[p+3]&&(changeRow===start-1||changeRow===start+m[p+2])){if(changeRow<start)word(m,p,m.readUInt16LE(p)-1);m[p+2]++;break;}}
   if(group===groups){const p=0x90cc90+groups*4;m[p+3]=m[record+2];word(m,p,m.readUInt16LE(record));m[p+2]=1;groups++;}
  }
- if(groups){let queued=get(m,0x80f210);for(let i=0;i<groups;i++){const p=0x90cc90+i*4,start=m.readInt16LE(p),length=m[p+2],encoded=((((start&2047)|(((start+length)<<11)&0x3ff800)|0x800000)<<7)|(m[p+3]&127))|0;if((queued>>>0)<64&&(!queued||get(m,0x80f41c+queued*4)!==encoded)){put(m,0x80f420+queued*4,encoded);queued++;}}put(m,0x80f210,queued);}
+ if(groups){let queued=get(m,nativeGlobalAddress(m,0x80f210));for(let i=0;i<groups;i++){const p=0x90cc90+i*4,start=m.readInt16LE(p),length=m[p+2],encoded=((((start&2047)|(((start+length)<<11)&0x3ff800)|0x800000)<<7)|(m[p+3]&127))|0;if((queued>>>0)<64&&(!queued||get(m,nativeGlobalAddress(m,0x80f41c+queued*4))!==encoded)){put(m,nativeGlobalAddress(m,0x80f420+queued*4),encoded);queued++;}}put(m,nativeGlobalAddress(m,0x80f210),queued);}
  const body=ptr(m,ptr(m,0x90cb84));for(let i=0;i<3;i++)word(m,0x90d984+i*2,(m.readInt16LE(body+[0xc8,0xce,0xd4][i])>>6)+m.readUInt16LE(body+[0x36,0x3a,0x3e][i]));
  let first=current,last=count?current+(count-1)*4:frame+0x10;if(!count){word(m,last,m.readUInt16LE(progress+2));m[last+2]=m[progress];first=last;}
  const pack=ptr(m,0x90b98c),selected=ptr(m,ptr(m,pack)+m.readInt8(last+2)*4),width=get(m,selected+8)+1;let offset=get(m,0x90d98c);if(m[0x90a548]&1)offset=(offset+1)|0;if(offset>=width)offset=0;put(m,0x90d98c,offset);const base=ptr(m,selected+0x20)+Math.imul(m.readInt16LE(last),width)*8;put(m,0x90d97c,base+offset*8);put(m,0x90d980,base+(width-offset)*8);

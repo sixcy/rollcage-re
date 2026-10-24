@@ -1,5 +1,6 @@
 import {lookupRawSpatialBucket} from './body-retirement-effects.mjs';
 import {normalizeCollisionVector} from './sphere-collision.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 
 const pointer = (memory, address) => memory.readUInt32LE(address);
 const word = (memory, address, value) => memory.writeUInt16LE(value & 65535, address);
@@ -12,14 +13,14 @@ export function initializeTrackDeformation(runtime) {
   const {memory, handlers = {}, roundingMode} = runtime;
   let pack = pointer(memory, 0x90b98c), count = 0, sectors = pointer(memory, pack), remaining = pointer(memory, pack + 16);
   for (; remaining; remaining--, sectors += 4) if (memory[pointer(memory, sectors) + 6] & 63) count++;
-  put(memory, 0x80df00, count); put(memory, 0x80df04, 0);
+  put(memory, nativeGlobalAddress(memory,0x80df00), count); put(memory, nativeGlobalAddress(memory,0x80df04), 0);
   if (!count) return;
   if (typeof handlers.allocate !== 'function') throw Error('Track deformation construction requires library allocate service.');
   const size = Math.imul(count, 28) >>> 0, returned = handlers.allocate(size, runtime), allocated = typeof returned === 'number' ? returned : returned?.eax;
   if (!Number.isInteger(allocated)) throw Error('Track deformation allocation requires explicit EAX pointer.');
   const base = allocated >>> 0;
   if (base) memory.fill(0, base, base + size);
-  put(memory, 0x80df04, base);
+  put(memory, nativeGlobalAddress(memory,0x80df04), base);
   const sample = phase => memory.readInt16LE(0x5ed030 + (phase & 255) * 2) >> (((phase >> 8) & 3) === 0 ? 9 : 10);
   const enteredScan = pointer(memory, pack + 16) !== 0;
   let record = base;
@@ -57,7 +58,7 @@ export function initializeTrackDeformation(runtime) {
   }
   //The empty-after-allocation jump bypasses494efb/f01: EDI/EBX still hold
   //the original count/base. A reached scan reloads both ownership globals.
-  const finalCount = enteredScan ? pointer(memory, 0x80df00) : count, finalBase = enteredScan ? pointer(memory, 0x80df04) : base;
+  const finalCount = enteredScan ? pointer(memory, nativeGlobalAddress(memory,0x80df00)) : count, finalBase = enteredScan ? pointer(memory, nativeGlobalAddress(memory,0x80df04)) : base;
   if (finalCount) {
     const first = pointer(memory, finalBase + 12);
     let colors = pointer(memory, 0x909270);
@@ -90,10 +91,10 @@ export function spatialBucketContainsSector(sector, position, runtime) {
 //participant test; do not replace this native behavior with each body's pose.
 export function updateTrackDeformation(runtime) {
   const {memory} = runtime;
-  let remaining = memory.readInt32LE(0x80df00), record = pointer(memory, 0x80df04);
+  let remaining = memory.readInt32LE(nativeGlobalAddress(memory,0x80df00)), record = pointer(memory, nativeGlobalAddress(memory,0x80df04));
   const sample = (phase, shift) => memory.readInt16LE(0x5ed030 + (phase & 255) * 2) >> ((((phase >> 8) & 3) === 0 ? shift - 1 : shift) & 31);
   for (; remaining > 0; remaining--, record += 28) {
-    let enabled = !!(memory[0x91ce90] & 2);
+    let enabled = !!(memory[nativeGlobalAddress(memory,0x91ce90)] & 2);
     if (!enabled) {
       let participants = memory[pointer(memory, 0x5ecb1c) + 0x54d], participant = 0x909318;
       for (; participants > 0; participants--, participant += 0x30c) {
@@ -134,10 +135,10 @@ export function updateTrackDeformation(runtime) {
       const xDelta = ((Math.imul(current, xAmplitude) >> 9) - (Math.imul(previous, xAmplitude) >> 9)) | 0;
       word(memory, border, memory.readUInt16LE(border) + xDelta);
     }
-    const height = memory.readUInt16LE(record + 6), dirtyCount = pointer(memory, 0x80f210);
+    const height = memory.readUInt16LE(record + 6), dirtyCount = pointer(memory, nativeGlobalAddress(memory,0x80f210));
     if (dirtyCount < 64) {
       const dirty = (((height & 2047) << 18) | 0x40000000 | (memory.readUInt16LE(record) & 127)) | 0;
-      if (!dirtyCount || memory.readInt32LE(0x80f41c + dirtyCount * 4) !== dirty) {put(memory, 0x80f420 + dirtyCount * 4, dirty); put(memory, 0x80f210, dirtyCount + 1);}
+      if (!dirtyCount || memory.readInt32LE(nativeGlobalAddress(memory,0x80f41c + dirtyCount * 4)) !== dirty) {put(memory, nativeGlobalAddress(memory,0x80f420 + dirtyCount * 4), dirty); put(memory, nativeGlobalAddress(memory,0x80f210), dirtyCount + 1);}
     }
   }
 }

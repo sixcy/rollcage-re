@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {applyRawActiveVehicleEffect} from './vehicle-collision-filter.mjs';
 import {appendBodyPositionEffect, emitBodyEffectBurst, removeBodySpatial, unregisterPhysicalBody} from './body-retirement.mjs';
 import {emitRawEffectParticles, emitRawBodyDebris, activateRawBodyTrail, alterRawTerrainBrightness} from './body-retirement-effects.mjs';
@@ -26,7 +27,7 @@ export function applyProjectileVehicleImpact(body, event, runtime) {
   const index = get(m, 0x9153dc), position = 0x919020 + Math.imul(index, 12), next = index + 1 | 0; put(m, position, x); put(m, position + 4, y); put(m, position + 8, z); put(m, 0x9153dc, (next >>> 0) < 24 ? next : 0);
   emitNativeEffect(11, position, [0, 1024, 12000, 6, next, 0, 0], {dispatch40ea40: request => dispatchNativeSound(request, runtime.soundRuntime ?? runtime)});
   appendBodyPositionEffect(frame + 0x14, 2, runtime); emitRawEffectParticles(frame + 0x14, frame + 0x20, 2, get(m, 0x919000), 1, runtime);
-  put(m, 0x91cd90, 1); put(m, 0x91cd80, x); put(m, 0x91cd84, y); put(m, 0x91cd88, z); put(m, 0x91cd8c, 12); emitRawBodyDebris(frame + 0x14, frame + 0x20, 2, runtime);
+  put(m, nativeGlobalAddress(m,0x91cd90), 1); put(m, nativeGlobalAddress(m,0x91cd80), x); put(m, nativeGlobalAddress(m,0x91cd84), y); put(m, nativeGlobalAddress(m,0x91cd88), z); put(m, nativeGlobalAddress(m,0x91cd8c), 12); emitRawBodyDebris(frame + 0x14, frame + 0x20, 2, runtime);
   for (const offset of [0x68, 0x6c, 0x70, 0x40, 0x44, 0x48]) put(m, body + offset, 0);
 }
 
@@ -88,8 +89,8 @@ export function filterSatelliteMasterCollision(body, other, event, runtime) {
   const index = get(m, 0x9153dc), next = index + 1 | 0, position = 0x919020 + Math.imul(index, 12); put(m, 0x9153dc, (next >>> 0) < 24 ? next : 0); for (const offset of [0, 4, 8]) put(m, position + offset, get(m, body + 0x34 + offset));
   emitNativeEffect(11, position, [0, 1024, 12000, 6, next, 0, 0], {dispatch40ea40: request => dispatchNativeSound(request, runtime.soundRuntime ?? runtime)});
   emitRawEffectParticles(body + 0x34, frame + 0x14, 1, get(m, 0x9153e0), 8, runtime); appendBodyPositionEffect(body + 0x34, 1, runtime); emitRawEffectParticles(body + 0x34, frame + 0x14, 1, get(m, 0x919000), 1, runtime);
-  for (const offset of [0, 4, 8]) put(m, 0x91cd80 + offset, get(m, body + 0x34 + offset)); put(m, 0x91cd90, 1); put(m, 0x91cd8c, 8); activateRawBodyTrail(body + 0x34, 2, runtime);
-  if (!get(m, 0x811180)) {for (const offset of [0, 4, 8]) put(m, 0x91cd6c + offset, get(m, body + 0x34 + offset)); put(m, 0x91cd60, 1); put(m, 0x91cd64, 31); put(m, 0x91cd68, 1);}
+  for (const offset of [0, 4, 8]) put(m, nativeGlobalAddress(m,0x91cd80 + offset), get(m, body + 0x34 + offset)); put(m, nativeGlobalAddress(m,0x91cd90), 1); put(m, nativeGlobalAddress(m,0x91cd8c), 8); activateRawBodyTrail(body + 0x34, 2, runtime);
+  if (!get(m, nativeGlobalAddress(m, 0x811180))) {for (const offset of [0, 4, 8]) put(m, nativeGlobalAddress(m,0x91cd6c + offset), get(m, body + 0x34 + offset)); put(m, nativeGlobalAddress(m,0x91cd60), 1); put(m, nativeGlobalAddress(m,0x91cd64), 31); put(m, nativeGlobalAddress(m,0x91cd68), 1);}
   alterRawTerrainBrightness(body + 0x34, 1, child);
   for (let j = 0; j < 3; j++) m.writeUInt16LE(m.readUInt16LE(body + 0x36 + j * 4), 0x6fb954 + j * 2); put(m, 0x6fb9a4, 1); emitRawEffectParticles(body + 0x34, frame + 0x14, 1, get(m, 0x9153c8), 0x4000, runtime);
   put(m, body + 0x198, 0); put(m, body + 0x194, 16); removeBodySpatial(body, runtime); unregisterPhysicalBody(body, runtime); const channel = get(m, body + 0x1ac); if (channel !== 127) {stopVehicleSound(channel, runtime.soundRuntime ?? runtime); put(m, body + 0x1ac, 127);}

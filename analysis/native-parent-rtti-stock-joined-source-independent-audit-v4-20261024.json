@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "method": "Independent read-only source review plus fresh source-only replay from CLOSED original V4 parent-entry; no native launch or source edits",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-parent-rtti-stock-capture-v4-20261024",
+  "baselineReport": {
+    "path": "analysis/native-parent-rtti-stock-sixth-replay-v4-20261024/report.json",
+    "sha256": "2d6ce1fdf64608327ce79de6e28b13a0b2306f55ffd20e7f65487f74553f2a59"
+  },
+  "priorRawAudit": {
+    "path": "analysis/native-parent-rtti-stock-independent-audit-v4-20261024.json",
+    "sha256": "bde918fdc30664371749b411a4cdf4940736123c39f72c7ce60718e3655c8ac5",
+    "preserved": true
+  },
+  "reviewedFiles": [
+    {
+      "file": "src/native-global-address.mjs",
+      "length": 2103,
+      "sha256": "3e8d6368d2910133e48a66be96244da85b10231a820091ddd04ea7c57d8c9c72"
+    },
+    {
+      "file": "tools/lib/native-frame-memory.mjs",
+      "length": 1546,
+      "sha256": "c2098afcbefae0b420dc730156d1aeb3169f5e6e78f800589399a82e907b8395"
+    },
+    {
+      "file": "tools/lib/native-source-carried-ranges.mjs",
+      "length": 945,
+      "sha256": "877fdfa749c5efbbbd5a635ae19cac883105fdcb43f3b115b974a65c833bfbb8"
+    },
+    {
+      "file": "tools/lib/captured-memory.mjs",
+      "length": 8015,
+      "sha256": "fc4fb4d34fc01aac2da492683270946088faa3b12d198073fb7486f26044d4fd"
+    },
+    {
+      "file": "tools/lib/native-control-physics.mjs",
+      "length": 4392,
+      "sha256": "34fcd74bca11e3b0d45adcb5916617581908512d28c874706f0957cd1e6ca020"
+    },
+    {
+      "file": "tools/lib/native-parent-tail.mjs",
+      "length": 17015,
+      "sha256": "e67b9f91885911d3cb49cc6fc62f5c96dec5caaeecf4c6dbe56911d9a1b88420"
+    },
+    {
+      "file": "tools/lib/native-frame-manifest.mjs",
+      "length": 20943,
+      "sha256": "f56706387d57ab450849feb9b15e942cb086e8d38be60af141b286e42dcaf5a7"
+    },
+    {
+      "file": "tools/lib/native-frame-drive-continuation.mjs",
+      "length": 15192,
+      "sha256": "e7a1b1bb133dc366f9f3105cb79316a85609fb3611212a452e8d3ba0058f1fa9"
+    },
+    {
+      "file": "tools/lib/native-recovery-parent-replay.mjs",
+      "length": 5223,
+      "sha256": "b84136e86471edab9ef4eba206f33f6978569327ef36382e443829d74abdeb3b"
+    },
+    {
+      "file": "tools/lib/native-frame-sound.mjs",
+      "length": 9323,
+      "sha256": "b1800fd9aacd293881735b0f88c3e1af7451672621e9ef8364820ae5f4dbe091"
+    },
+    {
+      "file": "tools/check-native-parent-tail.mjs",
+      "length": 11659,
+      "sha256": "8ac2231a94d89982e3790fe0612f4b9385903af919eb94d1a94a85d76e63f47e"
+    },
+    {
+      "file": "tests/native-global-address.test.mjs",
+      "length": 9824,
+      "sha256": "85cd9f7d5ab8ee272562cfbea7453c63c29791f72176e5a24b93e25c075ac7ca"
+    },
+    {
+      "file": "tests/native-source-carried-ranges.test.mjs",
+      "length": 2571,
+      "sha256": "78bef136c8890bf48860a3cb8c6fd4caddcc64f5b1a470fad682aca2d6492bfc"
+    },
+    {
+      "file": "tests/native-parent-weather-replay.test.mjs",
+      "length": 2224,
+      "sha256": "e7aec9b5abc87817d1a10178e6b9d8a25cde922ef13e37024a9305d2b8bb323e"
+    }
+  ],
+  "review": {
+    "blockers": [],
+    "sourceCarry": "Original observation proofs are authenticated against original rows before any source copy. Only nonempty original physical extents survive. Source bytes replace bytes at those same addresses; native pointer/vector/hash metadata is not republished as a new observation.",
+    "noNewCoverage": "New source pointers grant no storage. Original skipped/empty observations grant no bytes. Sparse missing storage remains an error.",
+    "tls": "bindNativeParentTail authenticates original hash-verified context/FS descriptor/head, then requires original head bytes equal current carried source head. It does not authenticate source-created metadata.",
+    "afterData": "Native intermediate/after rows enter comparisons and authenticated external CRT EAX outcome handling only. Control-through-physics receives parent-before alone; tail rebind copies actual SOURCE spans at ORIGINAL before extents. Map comparison admission uses source-traversed original-entry node/key bytes.",
+    "toolGlobalSites": [
+      {
+        "file": "tools/lib/native-frame-manifest.mjs",
+        "scope": "Fixed collision queue/header/physical list/group headers/arena root operands use G; list/arena/body pointers read from them remain raw actual pointers."
+      },
+      {
+        "file": "tools/lib/native-frame-drive-continuation.mjs",
+        "scope": "literal() uses G only for explicit module operands inside902000..903300; physical coverage and actual ASLR target equality still checked."
+      },
+      {
+        "file": "tools/lib/native-recovery-parent-replay.mjs",
+        "scope": "Only fixed physical count/root902bc4/902bc0 use G. Physical-list/body/controller addresses remain actual pointers."
+      }
+    ],
+    "wrapper": "Only fixed instruction-global domain902000..903300 is separated from raw native pointers. Other aliases retain no-shadow coverage validation, including original manifest negative."
+  },
+  "actualStaleGuardCase": {
+    "pointerFieldAddress": 9449996,
+    "role": "Actual relocated MODULE data field: preferred71320c (audio713190 +car3*40h +4), rootRva31320c +actual modulebase5f0000. It is not a heap allocation and is not canonical fixed90320c.",
+    "initialPointer": 388273568,
+    "sourceAfterPhysics": 127,
+    "nativePrefix": 127,
+    "guardMinimumValue": 257,
+    "sourceValueMeaning": "source and native publish127 sentinel; not a zero pointer",
+    "originalRowsWithFieldProof": [
+      {
+        "id": "control-car3-surface-channel",
+        "length": 12
+      },
+      {
+        "id": "control-car3-surface-source",
+        "length": 2472
+      },
+      {
+        "id": "control-car3-surface-waveform",
+        "length": 1088
+      },
+      {
+        "id": "control-car3-surface-vtable",
+        "length": 136
+      },
+      {
+        "id": "control-car3-surface-effect",
+        "length": 0
+      }
+    ],
+    "oldMetadataCopyRejected": "Invalid captured guarded pointer: proof differs from other actual captured pointer bytes for control-car3-surface-channel at0x90320c.",
+    "carryBoundValue": 127,
+    "unrelatedFixedGlobal90320cActual": 11481612,
+    "unrelatedFixedGlobalValue": 0,
+    "pointerFieldPreferredAddress": 7418380,
+    "guardRootRva": 3224076,
+    "moduleBaseAddress": 6225920
+  },
+  "sourceFootprint": {
+    "originalRows": 510,
+    "originalNonemptyRows": 385,
+    "carriedRows": 385,
+    "originalObservedLogicalBytes": 36730425,
+    "carriedLogicalBytes": 36730425,
+    "originalInputBytesUnchanged": true,
+    "rawCloneSpanLength": 17576
+  },
+  "freshReplay": {
+    "afterAi": {
+      "matched": true,
+      "uniqueBytesCompared": 5107441
+    },
+    "prefix": {
+      "matched": true,
+      "uniqueBytesCompared": 5107849
+    },
+    "physics": {
+      "matched": true,
+      "uniqueBytesCompared": 5107849
+    },
+    "stages": [
+      {
+        "stage": "attachments",
+        "matched": true,
+        "uniqueBytesCompared": 5107873,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0
+      },
+      {
+        "stage": "recovery",
+        "matched": true,
+        "uniqueBytesCompared": 5107873,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0
+      },
+      {
+        "stage": "drive",
+        "matched": true,
+        "uniqueBytesCompared": 5107873,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0
+      },
+      {
+        "stage": "auxiliary",
+        "matched": true,
+        "uniqueBytesCompared": 5107873,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0
+      },
+      {
+        "stage": "cameras",
+        "matched": true,
+        "uniqueBytesCompared": 5108106,
+        "differingBytes": 0,
+        "parentAbiBytesCompared": 28,
+        "differingParentAbiBytes": 0
+      }
+    ],
+    "sourceRttiEvents": [
+      {
+        "callOrdinal": 12,
+        "returnOrdinal": 13,
+        "entryEsp": 4323440,
+        "wrapperEntryEsp": 4323484,
+        "args": [
+          9458800,
+          0,
+          9249084,
+          9248932,
+          0
+        ],
+        "eax": 9458800,
+        "sourceNameAddress": 4323660,
+        "sourceNameHex": "3020506c61796572",
+        "family": "camera",
+        "authority": "observed-external-MSVCR120-__RTDynamicCast"
+      },
+      {
+        "callOrdinal": 15,
+        "returnOrdinal": 16,
+        "entryEsp": 4323256,
+        "wrapperEntryEsp": 4323300,
+        "args": [
+          9458800,
+          0,
+          9249084,
+          9248932,
+          0
+        ],
+        "eax": 9458800,
+        "sourceNameAddress": 4323400,
+        "sourceNameHex": "3020506c61796572",
+        "family": "weather-screen",
+        "weatherQueryIndex": 1,
+        "authority": "observed-external-MSVCR120-__RTDynamicCast"
+      },
+      {
+        "callOrdinal": 17,
+        "returnOrdinal": 18,
+        "entryEsp": 4323256,
+        "wrapperEntryEsp": 4323300,
+        "args": [
+          9458800,
+          0,
+          9249084,
+          9248932,
+          0
+        ],
+        "eax": 9458800,
+        "sourceNameAddress": 4323400,
+        "sourceNameHex": "3020506c61796572",
+        "family": "weather-screen",
+        "weatherQueryIndex": 2,
+        "authority": "observed-external-MSVCR120-__RTDynamicCast"
+      }
+    ],
+    "worldEffectsMatched": false,
+    "sourceComplete": false,
+    "completeParentTickMatched": false,
+    "stop": "Error: Game network requires platform service QueryPerformanceCounter."
+  },
+  "tests": {
+    "command": "node --test tests/native-global-address.test.mjs tests/native-source-carried-ranges.test.mjs tests/native-parent-weather-replay.test.mjs tests/native-frame-manifest.test.mjs",
+    "passed": 21,
+    "failed": 0,
+    "skipped": 0
+  },
+  "limitations": [
+    "This is one original V4 scenario; complete world-effects, parent return, clock advancement, next-tick trajectory and unobserved branches remain unproven.",
+    "QueryPerformanceCounter platform service is still unbound; genuine source execution stops there.",
+    "No source-only implementation of external CRT dynamic cast is claimed: three separately authenticated native external EAX outcomes are supplied.",
+    "No new installed-files audit was run here; unchanged four-root688-file audit is preserved separately."
+  ]
+}

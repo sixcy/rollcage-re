@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {lookupRawSpatialBucket} from './body-retirement-effects.mjs';
 import {publishAnimationMatrix} from './vehicle-auxiliary-animation.mjs';
 import {copyToNativeMemory} from './native-memory-spans.mjs';
@@ -62,14 +63,14 @@ export function restoreWeatherBodyPose(body, {memory: m}) {
 
 //496830. The backup is shared across all rows and restored by the outer caller.
 export function swapWeatherBodyPose(row, index, restore, runtime) {
-  const {memory: m, scratchBase} = runtime, count = get(m, 0x80ddf8), body = ptr(m, row + 0x10);
-  if (!(m[0x91ce90] & 2) && index < (count - 2 | 0)) return;
+  const {memory: m, scratchBase} = runtime, count = get(m, nativeGlobalAddress(m,0x80ddf8)), body = ptr(m, row + 0x10);
+  if (!(m[nativeGlobalAddress(m,0x91ce90)] & 2) && index < (count - 2 | 0)) return;
   if (restore) {restoreWeatherBodyPose(body, runtime); return;}
   block(m, 0x7136c4, body + 0x34, 8); put(m, 0x7136cc, get(m, body + 0x3c));
   const velocityZ = get(m, body + 0x70); put(m, 0x713778, velocityZ); const closest = get(m, body + 0x11c);
   block(m, 0x713770, body + 0x68, 8); const rotation = Buffer.from(m.subarray(body + 0xc4, body + 0xd4)); put(m, 0x7135b8, closest); copyToNativeMemory(m,0x713750,rotation); block(m, 0x713760, body + 0xd4, 16);
   let pose = index === (count - 1 | 0) ? 0x91ffc0 : 0x91ffc0 + Math.imul(index, 0x184);
-  if (index === (count - 2 | 0)) {buildWeatherParticipantPose(0x909300 + Math.imul(get(m, 0x5ec120), 0x30c), 0x80de00, {...runtime, scratchBase: scratchBase - 20}); pose = 0x80de00;}
+  if (index === (count - 2 | 0)) {buildWeatherParticipantPose(0x909300 + Math.imul(get(m, 0x5ec120), 0x30c), nativeGlobalAddress(m,0x80de00), {...runtime, scratchBase: scratchBase - 20}); pose = nativeGlobalAddress(m,0x80de00);}
   block(m, body + 0x34, pose, 8); put(m, body + 0x3c, get(m, pose + 8)); block(m, body + 0x68, pose + 0x34, 8); put(m, body + 0x70, get(m, pose + 0x3c));
   block(m, body + 0xc4, pose + 0x90, 16); block(m, body + 0xd4, pose + 0xa0, 16);
   const {bucket, outside} = lookupRawSpatialBucket(get(m, pose), get(m, pose + 4), get(m, pose + 8), runtime);
@@ -93,8 +94,8 @@ function updateRainVolumeSound(row, sheltered, runtime) {
 
 //4963e0. Bind a weather volume to the live participant's actual body.
 export function initializeWeatherVolume(index, runtime) {
-  const {memory: m} = runtime, row = ptr(m, 0x80dde0 + index * 4);
-  let participant = index < (get(m, 0x80ddf8) - 2 | 0) ? index : 0;
+  const {memory: m} = runtime, row = ptr(m, nativeGlobalAddress(m,0x80dde0 + index * 4));
+  let participant = index < (get(m, nativeGlobalAddress(m,0x80ddf8)) - 2 | 0) ? index : 0;
   if (!participant && m[0x6eafe0] & 1) {participant = get(m, 0x6e9f70); if (participant === -1) participant = 0;}
   put(m, row + 0x10, get(m, ptr(m, 0x909318 + Math.imul(participant, 0x30c))));
   for (let index = 0; index < 2048; index++) word(m, row + 0x1a + index * 8, 0);

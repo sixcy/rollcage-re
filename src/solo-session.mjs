@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import constants from './solo-runtime-constants.json' with {type: 'json'};
 import skill from './finish-skill-tables.json' with {type: 'json'};
 import sqrt from './sqrt-table.json' with {type: 'json'};
@@ -253,10 +254,10 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
   const respawn = createRespawnRuntime({memory, recordCount: cars.length, bodyStorage: [...cars.map(({address}) => ({address, length: 0x3e78})), {address: 0x70f130, length: 0x3e78}], scratchBase: STACK});
   const filterRuntime = {memory, scratchBase: STACK - 52};
   const filter = createVehicleCollisionFilter(filterRuntime);
-  const list = ptr(0x902bc0);
+  const list = ptr(nativeGlobalAddress(memory, 0x902bc0));
   const collisionFilters = new Map([[0x41e080, filter], ...destruction.collisionFilters, ...createRaceObjectCollisionFilters(filterRuntime)]);
   const views = createPhysicsRuntimeViews({memory, bodyAt: value => camera.bodyAt(value) ?? world.authoredBodyAt(value) ?? weapons.bodyAt(value) ?? destruction.bodyAt(value) ?? respawn.bodyAt(value), bucketAt: respawn.bucketAt,
-    bodyLists: [{address: list, capacity: 96}, ...Array.from({length: 65}, (_, i) => ({address: ptr(0x902be0 + i * 12), capacity: 33}))],
+    bodyLists: [{address: list, capacity: 96}, ...Array.from({length: 65}, (_, i) => ({address: ptr(nativeGlobalAddress(memory, 0x902be0) + i * 12), capacity: 33}))],
     candidateMapping: mapping, collisionFilters});
   const vehicleViews = createVehicleRuntimeViews({memory, bodyAt: views.bodyAt});
   const interactions = createPhysicsInteractionRuntime({memory});
@@ -329,7 +330,7 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     //Before the first physics query,11c can still be the native -1 sentinel.
     //A diagnostic must not chase that byte as a real terrain-sector index.
     const sectorIndex = memory[address + 0x11c], sector = sectorIndex < grid.scene.segments.length ? ptr(ptr(PACK) + sectorIndex * 4) : null;
-    const arenaBlock = ptr(0x6e6b40), arenaAligned = ptr(0x902eec), auxiliary = ptr(0x90b990);
+    const arenaBlock = ptr(0x6e6b40), arenaAligned = ptr(nativeGlobalAddress(memory, 0x902eec)), auxiliary = ptr(0x90b990);
     onDebugFrame(Object.freeze({stage, tick: ticks + 1, bodyAddress: address, aiDifficulty5ea4d8: ptr(0x5ea4d8),
       bodyArena: arenaBlock && arenaAligned ? Object.freeze({block: arenaBlock, aligned: arenaAligned, cursor: ptr(0x70dcf4),
         requestedBytes: (memory.readInt32LE(0x709808) + 140000) << 5, registeredBodies: ptr(0x6e6b44)}) : null,
@@ -459,10 +460,10 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
         positionQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(row.bodyAddress + 0x34 + offset)))
       }))), physicalBodyCount: views.physicalGroup.count});
       return Object.freeze({...snapshots[0], ticks, cars: snapshots, aiDifficulty, camera: cameraState,
-        weapons: Object.freeze({mode: memory[session + 0x551], pickupOption: memory[session + 0xa86], authoredPickupCount: memory[PACK + 0x36], pickupCount: ptr(0x902024), poolBodyCount: weapons.bodyStorage.length, contactVertexCount: ptr(0x7130f8),
-          ...(weaponsEnabled ? {enabled: true, ...weaponPresentation.snapshot(), effects: Object.freeze({impulsePending: ptr(0x91cd90) === 1, dampingPending: ptr(0x9153d0) === 1, terrainWaveActive: ptr(0x90cb80) !== 0, timeScaleQ16: ptr(0x81118c)})} : {})}),
+        weapons: Object.freeze({mode: memory[session + 0x551], pickupOption: memory[session + 0xa86], authoredPickupCount: memory[PACK + 0x36], pickupCount: ptr(nativeGlobalAddress(memory, 0x902024)), poolBodyCount: weapons.bodyStorage.length, contactVertexCount: ptr(0x7130f8),
+          ...(weaponsEnabled ? {enabled: true, ...weaponPresentation.snapshot(), effects: Object.freeze({impulsePending: ptr(nativeGlobalAddress(memory, 0x91cd90)) === 1, dampingPending: ptr(0x9153d0) === 1, terrainWaveActive: ptr(0x90cb80) !== 0, timeScaleQ16: ptr(nativeGlobalAddress(memory, 0x81118c))})} : {})}),
         terrain: Object.freeze({...terrainState, segments, points: Object.freeze(pointState), palette}),
-        lighting: Object.freeze({highWaterCount: ptr(0x80f20c), dirtyRangeCount: ptr(0x80f210), queuedAllocationCount: ptr(0x810920)}),
+        lighting: Object.freeze({highWaterCount: ptr(nativeGlobalAddress(memory, 0x80f20c)), dirtyRangeCount: ptr(nativeGlobalAddress(memory, 0x80f210)), queuedAllocationCount: ptr(nativeGlobalAddress(memory, 0x810920))}),
         worldObjects: Object.freeze(worldObjects),
         //Class5 also denotes an in-flight collapse. Its original authored mesh
         //remains visible until the controller removes the body at completion.

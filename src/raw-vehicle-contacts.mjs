@@ -1,13 +1,14 @@
 //488910 and its488f00/4890a0/488bf0/488d20 wheel query bridge. It consumes
 //the body's existing frame candidates; it does not append a second candidate set.
 import {multiplyQ16} from './fixed-integer.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {transformWheelEffectOffset} from './wheel-effects.mjs';
 import {queryRawTerrain} from './raw-terrain-query.mjs';
 import {queryRawPlacedModelSphere} from './raw-model-sphere-query.mjs';
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 function cacheRotation(body,{memory}){
  for(let o=0;o<20;o+=4)put(memory,0x91d360+o,get(memory,body+0xc4+o));
- const scale=memory.readFloatLE(0x5dc5f4);for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360+i*2))*scale),0x91cdc0+Math.floor(i/3)*16+(i%3)*4);
+ const scale=memory.readFloatLE(0x5dc5f4);for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360+i*2))*scale),nativeGlobalAddress(memory,0x91cdc0+Math.floor(i/3)*16+(i%3)*4));
 }
 //488820 preserves its sequential reads if the output aliases an input vector.
 export function writeRawWheelAngularProbe(first,second,output,{memory}){

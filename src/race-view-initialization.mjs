@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {buildRenderRotationMatrix} from './wheel-render-state.mjs';
 import {updateCameraAspectProjection} from './camera-projection.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p);
@@ -44,7 +45,7 @@ export function publishRaceViewRotation(matrix, {memory: m, scratchBase}) {
   const scale = m.readFloatLE(0x5dc5f4);
   for (let i = 0; i < 9; i++) {
     const value = m.readInt16LE(0x91d360 + i * 2); m.writeFloatLE(value, scratchBase - 4);
-    m.writeFloatLE(f32(value * scale), 0x91cdc0 + Math.floor(i / 3) * 16 + (i % 3) * 4);
+    m.writeFloatLE(f32(value * scale), nativeGlobalAddress(m, 0x91cdc0) + Math.floor(i / 3) * 16 + (i % 3) * 4);
   }
 }
 
@@ -53,9 +54,9 @@ export function publishRaceViewMatrix(matrix, runtime) {
   const {memory: m, scratchBase} = runtime;
   publishRaceViewRotation(matrix, {...runtime, scratchBase: scratchBase - 12});
   const x = get(m, matrix + 20); put(m, 0x91d374, x); put(m, 0x91d378, get(m, matrix + 24)); put(m, 0x91d37c, get(m, matrix + 28));
-  put(m, scratchBase - 4, x); const y = get(m, 0x91d378); m.writeFloatLE(x, 0x91cdb0);
-  put(m, scratchBase - 4, y); const z = get(m, 0x91d37c); m.writeFloatLE(y, 0x91cdb4);
-  put(m, scratchBase - 4, z); m.writeFloatLE(z, 0x91cdb8);
+  put(m, scratchBase - 4, x); const y = get(m, 0x91d378); m.writeFloatLE(x, nativeGlobalAddress(m, 0x91cdb0));
+  put(m, scratchBase - 4, y); const z = get(m, 0x91d37c); m.writeFloatLE(y, nativeGlobalAddress(m, 0x91cdb4));
+  put(m, scratchBase - 4, z); m.writeFloatLE(z, nativeGlobalAddress(m, 0x91cdb8));
 }
 
 //42ec40. Build the original identity rotation through the retained angle table,
@@ -63,7 +64,7 @@ export function publishRaceViewMatrix(matrix, runtime) {
 export function initializeRaceViewTransform(runtime) {
   const {memory: m} = runtime; put(m, 0x6fb528, 0); word(m, 0x6fb52c, 0);
   buildRenderRotationMatrix(0x6fb528, 0x91d4e0, runtime);
-  word(m, 0x91d4e0, get(m, 0x91ceb4) ? -8192 : 8192); word(m, 0x91d4e8, 8192); word(m, 0x91d4f0, 8192);
+  word(m, 0x91d4e0, get(m, nativeGlobalAddress(m, 0x91ceb4)) ? -8192 : 8192); word(m, 0x91d4e8, 8192); word(m, 0x91d4f0, 8192);
 }
 
 //42eca0. Native race viewport dimensions, initial projection, view matrices,
@@ -89,13 +90,13 @@ export function initializeRaceView(runtime) {
   put(m, 0x91d590, old === 0x91d5a0 ? 0x91de10 : 0x91d5a0);
   for (let i = 0; i < 3; i++) put(m, 0x91d560 + i * 4, (-get(m, frame + 16 + i * 4) | 0) >> 16);
   for (let i = 0; i < 5; i++) put(m, 0x91d540 + i * 4, get(m, frame + 32 + i * 4));
-  initializeRaceViewTransform({...runtime, scratchBase: frame - 4}); word(m, 0x91d4e0, get(m, 0x91ceb4) ? -8192 : 8192);
+  initializeRaceViewTransform({...runtime, scratchBase: frame - 4}); word(m, 0x91d4e0, get(m, nativeGlobalAddress(m, 0x91ceb4)) ? -8192 : 8192);
   put(m, frame - 4, 0x91d560); buildRaceViewMatrix(0x91d570, 0x91d540, 0x91d560, {...runtime, scratchBase: frame - 8});
   publishRaceViewMatrix(0x91d570, {...runtime, scratchBase: frame - 4});
   config = ptr(m, 0x5ecefc); scale = m[config + 0x41a] && get(m, 0x6e6c04) ? 2 : 1;
   const configuredWidth = m.readUInt16LE(config + 0x42c);
-  put(m, 0x91d32c, Math.trunc(configuredWidth * scale * 256 / 320)); put(m, 0x91d330, Math.trunc(configuredWidth * 256 / 320));
-  put(m, 0x91d334, Math.trunc(configuredWidth * scale * 256 / 640)); put(m, 0x91d338, Math.trunc(configuredWidth * 256 / 640));
+  put(m, nativeGlobalAddress(m, 0x91d32c), Math.trunc(configuredWidth * scale * 256 / 320)); put(m, nativeGlobalAddress(m, 0x91d330), Math.trunc(configuredWidth * 256 / 320));
+  put(m, nativeGlobalAddress(m, 0x91d334), Math.trunc(configuredWidth * scale * 256 / 640)); put(m, nativeGlobalAddress(m, 0x91d338), Math.trunc(configuredWidth * 256 / 640));
 }
 
 //42f2f0. Build the initial view before the three high-bit free-link chains.

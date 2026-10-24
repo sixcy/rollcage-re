@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 //48c120 time-scale effect, renderer UV producer and autonomous recovery policy.
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p);
 function integerFloat(value,mode){let rounded;if(mode==='nearest-even'){const floor=Math.floor(value),part=value-floor;rounded=part<0.5?floor:part>0.5?floor+1:floor%2===0?floor:floor+1;}else if(mode==='toward-zero')rounded=Math.trunc(value);else if(mode==='down')rounded=Math.floor(value);else if(mode==='up')rounded=Math.ceil(value);else throw Error('Time-effect UV conversion requires a declared x87 rounding mode.');return Number.isFinite(rounded)&&rounded>=-2147483648&&rounded<=2147483647?rounded:-2147483648;}
@@ -5,9 +6,9 @@ function integerFloat(value,mode){let rounded;if(mode==='nearest-even'){const fl
 //48c2a0. Return the live caller registers because47be20 consumes the retained
 //EDX even though this procedure's ordinary result is EAX.
 export function activateRaceTimeEffect(record,age,{memory:m}){
- const state=get(m,0x811180);let ecx=record|0,eax;
- if(state!==0&&state!==4){if(ptr(m,0x811184)!==ptr(m,record)){put(m,0x811180,4);put(m,0x811188,20);eax=2;}else eax=0;}
- else{put(m,0x811184,get(m,record));if((age|0)<10){const product=Math.imul(age,0x1333);ecx=(65536-product)|0;put(m,0x811180,2);put(m,0x81118c,ecx);put(m,0x811188,10-age);}else{put(m,0x811180,1);put(m,0x81118c,0x4002);put(m,0x811188,110-age);}eax=1;}
+ const state=get(m,nativeGlobalAddress(m, 0x811180));let ecx=record|0,eax;
+ if(state!==0&&state!==4){if(ptr(m,nativeGlobalAddress(m, 0x811184))!==ptr(m,record)){put(m,nativeGlobalAddress(m, 0x811180),4);put(m,nativeGlobalAddress(m, 0x811188),20);eax=2;}else eax=0;}
+ else{put(m,nativeGlobalAddress(m, 0x811184),get(m,record));if((age|0)<10){const product=Math.imul(age,0x1333);ecx=(65536-product)|0;put(m,nativeGlobalAddress(m, 0x811180),2);put(m,nativeGlobalAddress(m, 0x81118c),ecx);put(m,nativeGlobalAddress(m, 0x811188),10-age);}else{put(m,nativeGlobalAddress(m, 0x811180),1);put(m,nativeGlobalAddress(m, 0x81118c),0x4002);put(m,nativeGlobalAddress(m, 0x811188),110-age);}eax=1;}
  return{eax,ecx,edx:age|0};
 }
 
@@ -32,11 +33,11 @@ export function updateTimeEffectTextureCoordinates({memory:m,roundingMode='neare
 //48c120. Arithmetic for the intensity uses unsigned division after the low32
 //multiply. The selected state is read again after renderer stores.
 export function updateRaceTimeEffect(runtime){
- const {memory:m}=runtime,state=get(m,0x811180);put(m,0x6e6cac,0);
- if([1,2,4].includes(state)&&get(m,0x5ed024)!==-1){let intensity=255;if(state===2)intensity=Math.floor((Math.imul((10-get(m,0x811188))|0,255)>>>0)/10);else if(state===4)intensity=Math.floor((Math.imul(get(m,0x811188),255)>>>0)/20);put(m,0x6e6cb0,intensity);put(m,0x6e6cac,1);updateTimeEffectTextureCoordinates(runtime);}
- switch(get(m,0x811180)){
-  case 1:{const remaining=(get(m,0x811188)-1)|0;put(m,0x811188,remaining);if(remaining===25)markVehicleWeaponReleased(ptr(m,0x811184),5,runtime);if(!get(m,0x811188)){put(m,0x811180,4);put(m,0x811188,20);}break;}
-  case 2:put(m,0x81118c,get(m,0x81118c)-0x1333);put(m,0x811188,get(m,0x811188)-1);if(!get(m,0x811188)){put(m,0x811180,1);put(m,0x811188,100);}break;
-  case 4:put(m,0x81118c,get(m,0x81118c)+0x999);put(m,0x811188,get(m,0x811188)-1);if(!get(m,0x811188)){const body=ptr(m,0x811184);if((m.readInt8(body+0x68c)&~0x20)===0x45)m[body+0x68c]=255;else m[body+0x68d]=255;const live=ptr(m,0x811184);put(m,0x811180,0);put(m,0x81118c,65536);put(m,0x811188,0);recoverDriversAfterTimeEffect(live,runtime);}break;
+ const {memory:m}=runtime,state=get(m,nativeGlobalAddress(m, 0x811180));put(m,0x6e6cac,0);
+ if([1,2,4].includes(state)&&get(m,0x5ed024)!==-1){let intensity=255;if(state===2)intensity=Math.floor((Math.imul((10-get(m,nativeGlobalAddress(m, 0x811188)))|0,255)>>>0)/10);else if(state===4)intensity=Math.floor((Math.imul(get(m,nativeGlobalAddress(m, 0x811188)),255)>>>0)/20);put(m,0x6e6cb0,intensity);put(m,0x6e6cac,1);updateTimeEffectTextureCoordinates(runtime);}
+ switch(get(m,nativeGlobalAddress(m, 0x811180))){
+  case 1:{const remaining=(get(m,nativeGlobalAddress(m, 0x811188))-1)|0;put(m,nativeGlobalAddress(m, 0x811188),remaining);if(remaining===25)markVehicleWeaponReleased(ptr(m,nativeGlobalAddress(m, 0x811184)),5,runtime);if(!get(m,nativeGlobalAddress(m, 0x811188))){put(m,nativeGlobalAddress(m, 0x811180),4);put(m,nativeGlobalAddress(m, 0x811188),20);}break;}
+  case 2:put(m,nativeGlobalAddress(m, 0x81118c),get(m,nativeGlobalAddress(m, 0x81118c))-0x1333);put(m,nativeGlobalAddress(m, 0x811188),get(m,nativeGlobalAddress(m, 0x811188))-1);if(!get(m,nativeGlobalAddress(m, 0x811188))){put(m,nativeGlobalAddress(m, 0x811180),1);put(m,nativeGlobalAddress(m, 0x811188),100);}break;
+  case 4:put(m,nativeGlobalAddress(m, 0x81118c),get(m,nativeGlobalAddress(m, 0x81118c))+0x999);put(m,nativeGlobalAddress(m, 0x811188),get(m,nativeGlobalAddress(m, 0x811188))-1);if(!get(m,nativeGlobalAddress(m, 0x811188))){const body=ptr(m,nativeGlobalAddress(m, 0x811184));if((m.readInt8(body+0x68c)&~0x20)===0x45)m[body+0x68c]=255;else m[body+0x68d]=255;const live=ptr(m,nativeGlobalAddress(m, 0x811184));put(m,nativeGlobalAddress(m, 0x811180),0);put(m,nativeGlobalAddress(m, 0x81118c),65536);put(m,nativeGlobalAddress(m, 0x811188),0);recoverDriversAfterTimeEffect(live,runtime);}break;
  }
 }

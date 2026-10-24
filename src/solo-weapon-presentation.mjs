@@ -1,10 +1,11 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {buildSoloCarMesh} from './solo-car-mesh.mjs';
 
 //Read-only presentation of bodies constructed by47b580/46a420. Gameplay,
 //collection radii, respawn timers, projectile states and awards stay native.
 export function createSoloWeaponPresentation({memory: m, data, textureData, base, enabled}) {
   const ptr = p => m.readUInt32LE(p);
-  const count = ptr(0x902024), list = ptr(0x902020);
+  const count = ptr(nativeGlobalAddress(m, 0x902024)), list = ptr(nativeGlobalAddress(m, 0x902020));
   const rows = enabled ? [
     ...Array.from({length: count}, (_, index) => ({kind: 'pickup', index, address: ptr(list + index * 4)})),
     ...Array.from({length: 24}, (_, index) => ({kind: 'projectile', index, address: ptr(0x9034a0 + index * 4)}))

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {divideQ16} from './fixed-integer.mjs';
 import {packLapTime} from './lap-bookkeeping.mjs';
 import {stepReplayControl} from './replay-codec.mjs';
@@ -80,7 +81,7 @@ function finishDisconnectedSession(runtime) {
   const phase = get(m, session + 0x57c);
   if (phase === 6) {put(m, session + 0x57c, unfinished ? 8 : 7); put(m, session + 0x580, 0);}
   else if (phase < 7) {put(m, session + 0x57c, 8); put(m, session + 0x580, 0);}
-  put(m, 0x9020a0, 0);
+  put(m, nativeGlobalAddress(m, 0x9020a0), 0);
 }
 
 //46fef0 guard is installed before the recursive disconnect/peer-removal.
@@ -107,7 +108,7 @@ export function retireNetworkParticipant(index, runtime) {
     if (controller) {const state = get(m, controller + 0x1e880); if (state === 2) put(m, controller + 0x1e880, 3); else if (state === 5) put(m, controller + 0x1e880, 6);}
     stepReplayControl(ptr(m, record), runtime); stepReplayControl(ptr(m, record), runtime);
   }
-  put(m, 0x91ce90, get(m, 0x91ce90) | 2); m.writeUInt16LE((get(m, 0x91ffb4) + 1) & 65535, 0x91ffb2);
+  put(m, nativeGlobalAddress(m, 0x91ce90), get(m, nativeGlobalAddress(m, 0x91ce90)) | 2); m.writeUInt16LE((get(m, 0x91ffb4) + 1) & 65535, 0x91ffb2);
 }
 
 //470ea0 has an eight-byte packet whose unused bytes remain live stack input.

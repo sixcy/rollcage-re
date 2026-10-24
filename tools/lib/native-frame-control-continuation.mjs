@@ -11,7 +11,8 @@ import {updateRaceObjects} from '../../src/race-object-update.mjs';
 import {runRaceProgressPass} from '../../src/race-progress-pass.mjs';
 import {updateRaceHandlingScale} from '../../src/race-handling-scale.mjs';
 import {populateRawVehicleTrackBasis} from '../../src/raw-track-basis.mjs';
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
+import {nativeGlobalAddress} from '../../src/native-global-address.mjs';
 import {buildNativeFrameManifest, nativeFrameGlobalRegions} from './native-frame-manifest.mjs';
 import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
 import {createNativeFrameContext, extendNativeFrameGeometryComparison, extendNativeFrameSoundComparison} from './native-frame-replay.mjs';
@@ -134,11 +135,11 @@ export function nativeControlStructureRegions(source,{phase='all'}={}){
     const groups=ptr(pack+0x60),groupCount=memory[pack+0x46];add('route-groups',groups,groupCount*12);
     for(let index=0;index<groupCount;index++){const group=groups+index*12;add(`route-points-${index}`,ptr(group+8),memory.readUInt16LE(group)*16);}
     const resource=ptr(0x90b990),markerResource=ptr(pack+8);add('ai-event-rows',ptr(resource+0xf8),memory[resource+0xf6]*8,'mutable');add('ai-marker-rows',ptr(markerResource+0xe4),memory[markerResource+0xf5]*20);
-    const targetCount=memory.readInt32LE(0x82e904);if(targetCount>0)add('ai-authored-target-rows',ptr(resource+0xec),targetCount*20);
+    const targetCount=memory.readInt32LE(nativeGlobalAddress(memory,0x82e904));if(targetCount>0)add('ai-authored-target-rows',ptr(resource+0xec),targetCount*20);
     add('fragment-registry',ptr(0x849a5c),36*8);
   }
   if(includes('progress')){const count=memory[pack+0x44],ids=ptr(pack+0x90);add('checkpoint-ids',ids,count*4);let maximum=-1;for(let i=0;i<count*4;i++)if(memory[ids+i]!==255)maximum=Math.max(maximum,memory[ids+i]);add('checkpoints',ptr(pack+0x70),(maximum+1)*20);}
-  if(includes('deformation')){const count=memory.readInt32LE(0x80df00);if(count>0)add('deformation-rows',ptr(0x80df04),count*28,'mutable');}
+  if(includes('deformation')){const count=memory.readInt32LE(nativeGlobalAddress(memory,0x80df00));if(count>0)add('deformation-rows',ptr(nativeGlobalAddress(memory,0x80df04)),count*28,'mutable');}
   if(includes('objects')){const count=memory.readInt32LE(0x91e778);if(count>0)add('authored-body-list',ptr(0x91e77c),count*4);}
   if(includes('restoration')&&memory[ptr(0x90b990)+0xfc]){const count=memory.readInt32LE(0x90b998);if(count>0)add('coordinate-restoration',ptr(0x90b994),count*24);}
   return rows;

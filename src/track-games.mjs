@@ -4,6 +4,7 @@ import { decodeTrackScene } from './track-scene.mjs';
 import { parseStage2Placements } from './stage2-placements.mjs';
 import { buildStage2PlacedMeshes } from './stage2-placed-meshes.mjs';
 import { firebugsGame, identifyFirebugs } from './firebugs.mjs';
+import {recoverEditedRollcageIndex, originalRollcageView} from './edited-rollcage-index.mjs';
 
 // Exact index identities plus decoded sentinel resources bind auto-detection to
 // the supplied archives, including a check that the IMG belongs to that IDX.
@@ -67,7 +68,16 @@ async function digest(bytes) {
 export async function identifyGame(archive, requested = 'auto') {
   if (archive.game === 'firebugs' || requested === 'firebugs') return identifyFirebugs(archive, requested);
   const indexHash = archive.indexData ? await digest(archive.indexData) : null;
-  const known = games.find(game => fingerprints[game.id].index === indexHash);
+  let known = games.find(game => fingerprints[game.id].index === indexHash), modified=false;
+  if(!known){
+    const edited=recoverEditedRollcageIndex(archive.indexData);
+    if(edited&&await digest(edited.indexData)===edited.expectedIndexSha256){
+      const original=originalRollcageView(archive,edited.indexData),rollcage=getGame('rollcage'),sentinel=rollcage.tracks[0];
+      const geometry=await original.readResource(sentinel.index),texture=await original.readResource(sentinel.textureIndex);
+      if(await digest(geometry.data)!==fingerprints.rollcage.geometry||await digest(texture.data)!==fingerprints.rollcage.texture)throw Error('The edited IDX does not match the original IMG data retained by the editor. Select its matching IMG and IDX files.');
+      known=rollcage;modified=true;
+    }
+  }
   if (requested !== 'auto' && known && known.id !== requested) {
     throw new Error(`These files belong to ${known.label}. Choose Automatic or ${known.label}.`);
   }
@@ -81,8 +91,8 @@ export async function identifyGame(archive, requested = 'auto') {
       texture.data.toString('ascii', 0, 4) !== 'BTP ') {
     throw new Error(`Invalid GFXM/BTP data for ${game.label}. Select the matching IMG and IDX files.`);
   }
-  if (known && (await digest(geometry.data) !== fingerprints[game.id].geometry || await digest(texture.data) !== fingerprints[game.id].texture)) {
+  if (known && !modified && (await digest(geometry.data) !== fingerprints[game.id].geometry || await digest(texture.data) !== fingerprints[game.id].texture)) {
     throw new Error('The selected IMG does not match this IDX, or its track data is damaged. Select the matching files.');
   }
-  return { game, tracks, verified: Boolean(known), indexSHA256: indexHash };
+  return { game, tracks, verified: Boolean(known), modified, indexSHA256: indexHash };
 }

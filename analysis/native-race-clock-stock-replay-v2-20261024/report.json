@@ -1,0 +1,889 @@
+{
+  "schemaVersion": 1,
+  "method": "original-entry-source-warm-race-clock",
+  "authority": "original-process-with-declared-instrumentation",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-race-clock-stock-capture-v2-20261024",
+  "evidenceIds": [
+    "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+    "ev_38b8d5dfff1b32d7bb9ba4457b9681775a4c160c95e12a9b821e21a9e17e4f64",
+    "ev_73eaba83c2795b5d5ce603e02ae9bda94d7339201229832746848f56ab64526c",
+    "ev_ff29e60114cb96f219e316aff00030e0be8766dec59f42ce80cd1df1bc5b8288"
+  ],
+  "matched": false,
+  "sourceExecuted": true,
+  "sourceComplete": false,
+  "clockResultMatched": true,
+  "scaledClockMatched": true,
+  "stages": [
+    {
+      "stage": "counter-call",
+      "comparison": {
+        "matched": true,
+        "uniqueBytesCompared": 738,
+        "differingBytes": 0,
+        "firstDivergence": null,
+        "regions": [
+          {
+            "id": "race-clock-origin",
+            "address": 9266864,
+            "length": 8,
+            "comparedBytes": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-streak",
+            "address": 9266916,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-delivered",
+            "address": 9266936,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-network",
+            "address": 9285600,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-enabled",
+            "address": 9268364,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-frequency-origin",
+            "address": 9450916,
+            "length": 16,
+            "comparedBytes": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-qpc-import",
+            "address": 7725308,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-qpf-import",
+            "address": 7725332,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-scale",
+            "address": 8177376,
+            "length": 8,
+            "comparedBytes": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-conversion-tables",
+            "address": 7730848,
+            "length": 130,
+            "comparedBytes": 130,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-logical",
+            "address": 11511112,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-sample",
+            "address": 9267036,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-session-root",
+            "address": 8243996,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-session-phase",
+            "address": 10723292,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-stack",
+            "address": 15726868,
+            "length": 540,
+            "comparedBytes": 536,
+            "differingBytes": 0
+          }
+        ],
+        "excluded": [
+          {
+            "address": 15727320,
+            "length": 4,
+            "reason": "CPU CALL has published its return word after the before-CALL native snapshot."
+          }
+        ]
+      },
+      "registers": [
+        {
+          "name": "ebx",
+          "source": 0,
+          "native": 0,
+          "matched": true
+        },
+        {
+          "name": "ebp",
+          "source": 15727360,
+          "native": 15727360,
+          "matched": true
+        },
+        {
+          "name": "esi",
+          "source": 1996785152,
+          "native": 1996785152,
+          "matched": true
+        },
+        {
+          "name": "edi",
+          "source": 1996805936,
+          "native": 1996805936,
+          "matched": true
+        },
+        {
+          "name": "eax",
+          "source": 15727352,
+          "native": 15727352,
+          "matched": true
+        },
+        {
+          "name": "esp",
+          "source": 15727324,
+          "native": 15727324,
+          "matched": true
+        },
+        {
+          "name": "eip",
+          "source": 6790417,
+          "native": 6790417,
+          "matched": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "stage": "counter-return",
+      "comparison": {
+        "matched": false,
+        "uniqueBytesCompared": 742,
+        "differingBytes": 109,
+        "firstDivergence": {
+          "id": "race-clock-stack",
+          "address": 15727136,
+          "offset": 268,
+          "sourceByte": 128,
+          "nativeByte": 0
+        },
+        "regions": [
+          {
+            "id": "race-clock-origin",
+            "address": 9266864,
+            "length": 8,
+            "comparedBytes": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-streak",
+            "address": 9266916,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-delivered",
+            "address": 9266936,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-network",
+            "address": 9285600,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-enabled",
+            "address": 9268364,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-frequency-origin",
+            "address": 9450916,
+            "length": 16,
+            "comparedBytes": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-qpc-import",
+            "address": 7725308,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-qpf-import",
+            "address": 7725332,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-scale",
+            "address": 8177376,
+            "length": 8,
+            "comparedBytes": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-conversion-tables",
+            "address": 7730848,
+            "length": 130,
+            "comparedBytes": 130,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-logical",
+            "address": 11511112,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-sample",
+            "address": 9267036,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-session-root",
+            "address": 8243996,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-session-phase",
+            "address": 10723292,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-stack",
+            "address": 15726868,
+            "length": 540,
+            "comparedBytes": 540,
+            "differingBytes": 109
+          }
+        ],
+        "excluded": []
+      },
+      "registers": [
+        {
+          "name": "ebx",
+          "source": 0,
+          "native": 0,
+          "matched": true
+        },
+        {
+          "name": "ebp",
+          "source": 15727360,
+          "native": 15727360,
+          "matched": true
+        },
+        {
+          "name": "esi",
+          "source": 1996785152,
+          "native": 1996785152,
+          "matched": true
+        },
+        {
+          "name": "edi",
+          "source": 1996805936,
+          "native": 1996805936,
+          "matched": true
+        },
+        {
+          "name": "eax",
+          "source": 1,
+          "native": 1,
+          "matched": true
+        },
+        {
+          "name": "esp",
+          "source": 15727328,
+          "native": 15727328,
+          "matched": true
+        },
+        {
+          "name": "eip",
+          "source": 6790419,
+          "native": 6790419,
+          "matched": true
+        }
+      ],
+      "matched": false
+    },
+    {
+      "stage": "return",
+      "comparison": {
+        "matched": false,
+        "uniqueBytesCompared": 742,
+        "differingBytes": 105,
+        "firstDivergence": {
+          "id": "race-clock-stack",
+          "address": 15727136,
+          "offset": 268,
+          "sourceByte": 128,
+          "nativeByte": 0
+        },
+        "regions": [
+          {
+            "id": "race-clock-origin",
+            "address": 9266864,
+            "length": 8,
+            "comparedBytes": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-streak",
+            "address": 9266916,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-delivered",
+            "address": 9266936,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-network",
+            "address": 9285600,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-enabled",
+            "address": 9268364,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-frequency-origin",
+            "address": 9450916,
+            "length": 16,
+            "comparedBytes": 16,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-qpc-import",
+            "address": 7725308,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-qpf-import",
+            "address": 7725332,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-scale",
+            "address": 8177376,
+            "length": 8,
+            "comparedBytes": 8,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-conversion-tables",
+            "address": 7730848,
+            "length": 130,
+            "comparedBytes": 130,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-logical",
+            "address": 11511112,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-sample",
+            "address": 9267036,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-session-root",
+            "address": 8243996,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-session-phase",
+            "address": 10723292,
+            "length": 4,
+            "comparedBytes": 4,
+            "differingBytes": 0
+          },
+          {
+            "id": "race-clock-stack",
+            "address": 15726868,
+            "length": 540,
+            "comparedBytes": 540,
+            "differingBytes": 105
+          }
+        ],
+        "excluded": []
+      },
+      "registers": [
+        {
+          "name": "eax",
+          "source": 1,
+          "native": 1,
+          "matched": true
+        },
+        {
+          "name": "ebx",
+          "source": 0,
+          "native": 0,
+          "matched": true
+        },
+        {
+          "name": "ebp",
+          "source": 0,
+          "native": 0,
+          "matched": true
+        },
+        {
+          "name": "esi",
+          "source": 461212,
+          "native": 461212,
+          "matched": true
+        },
+        {
+          "name": "edi",
+          "source": 1996805936,
+          "native": 1996805936,
+          "matched": true
+        },
+        {
+          "name": "esp",
+          "source": 15727384,
+          "native": 15727384,
+          "matched": true
+        },
+        {
+          "name": "eip",
+          "source": 6557168,
+          "native": 6557168,
+          "matched": true
+        }
+      ],
+      "numerical": [
+        {
+          "name": "x87ControlWord",
+          "source": 127,
+          "native": 127,
+          "matched": true
+        },
+        {
+          "name": "mxcsr",
+          "source": 8101,
+          "native": 8101,
+          "matched": true
+        },
+        {
+          "name": "x87StatusWord",
+          "source": 22651,
+          "native": 22651,
+          "matched": true
+        }
+      ],
+      "scaledClock": {
+        "sourceHex": "62b9a5d510b17240",
+        "nativeHex": "62b9a5d510b17240",
+        "sourceValue": 299.06660999999997,
+        "nativeValue": 299.06660999999997,
+        "matched": true
+      },
+      "matched": false
+    }
+  ],
+  "sourceEvents": [
+    {
+      "stage": "platform-call",
+      "name": "QueryPerformanceCounter",
+      "clockEntryEsp": 15727380,
+      "entryEsp": 15727364,
+      "returnAddress": 4463792,
+      "frame": 15727328,
+      "outputAddress": 15727352,
+      "iatTarget": 1996785152,
+      "preCallEsp": 15727324,
+      "serviceEntryEsp": 15727320,
+      "serviceReturnAddress": 6790419
+    },
+    {
+      "stage": "signed-divide",
+      "entryEsp": 15727308,
+      "returnAddress": 6790464,
+      "left": "0x1a529d73",
+      "right": "0x989680"
+    },
+    {
+      "stage": "multiply",
+      "entryEsp": 15727308,
+      "returnAddress": 6790479,
+      "left": "0x989680",
+      "right": "0x2c"
+    },
+    {
+      "stage": "multiply",
+      "entryEsp": 15727308,
+      "returnAddress": 6790501,
+      "left": "0x18bf73",
+      "right": "0x3b9aca00"
+    },
+    {
+      "stage": "signed-divide",
+      "entryEsp": 15727308,
+      "returnAddress": 6790510,
+      "left": "0x5c316333ebe00",
+      "right": "0x989680"
+    },
+    {
+      "stage": "multiply",
+      "entryEsp": 15727308,
+      "returnAddress": 6790531,
+      "left": "0x2c",
+      "right": "0x3b9aca00"
+    },
+    {
+      "stage": "signed-divide",
+      "entryEsp": 15727308,
+      "returnAddress": 6790549,
+      "left": "0xa484580ec",
+      "right": "0x3e8"
+    },
+    {
+      "stage": "timer-return",
+      "entryEsp": 15727364,
+      "value": "0x2a1dc8b",
+      "low": 44162187,
+      "high": 0
+    },
+    {
+      "stage": "unsigned64-to-double",
+      "elapsed": "0x981cf7",
+      "value": 9968887
+    },
+    {
+      "stage": "scale",
+      "value": 299.06660999999997,
+      "inexact": true
+    },
+    {
+      "stage": "return",
+      "count": 1,
+      "targetClock": 299,
+      "initialized": false,
+      "registers": {
+        "eax": 1,
+        "ebx": 0,
+        "ebp": 0,
+        "esi": 461212,
+        "edi": 1996805936,
+        "esp": 15727384,
+        "eip": 6557168
+      },
+      "numericalState": {
+        "x87ControlWord": 127,
+        "mxcsr": 8101,
+        "x87StatusWord": 22651
+      }
+    }
+  ],
+  "counterEvents": [
+    {
+      "service": "QueryPerformanceCounter",
+      "outputAddress": 15727352,
+      "preimageHex": "0000000083bd577c",
+      "outputHex": "2a91ed4868100000",
+      "returnedEax": 1,
+      "authority": "actual-QPC-only"
+    }
+  ],
+  "transport": {
+    "verified": true,
+    "entryOrdinal": 4,
+    "counterCallOrdinal": 5,
+    "counterReturnOrdinal": 6,
+    "returnOrdinal": 7,
+    "ownerMainTid": 25500,
+    "moduleBaseAddress": 6225920,
+    "layout": {
+      "entryEsp": 15727380,
+      "timerEntryEsp": 15727364,
+      "timerEbp": 15727360,
+      "alignedAddress": 15727360,
+      "frame": 15727328,
+      "counterCallEsp": 15727324,
+      "counterReturnEsp": 15727328,
+      "outputAddress": 15727352,
+      "returnEsp": 15727384,
+      "stackAddress": 15726868,
+      "stackBytes": 540
+    }
+  },
+  "counterStackEffects": {
+    "privateApiStack": {
+      "differingBytes": 109,
+      "firstChanges": [
+        {
+          "address": 15727136,
+          "before": 128,
+          "after": 0
+        },
+        {
+          "address": 15727137,
+          "before": 37,
+          "after": 80
+        },
+        {
+          "address": 15727138,
+          "before": 228,
+          "after": 254
+        },
+        {
+          "address": 15727139,
+          "before": 119,
+          "after": 127
+        },
+        {
+          "address": 15727140,
+          "before": 101,
+          "after": 100
+        },
+        {
+          "address": 15727141,
+          "before": 57,
+          "after": 170
+        },
+        {
+          "address": 15727142,
+          "before": 12,
+          "after": 0
+        },
+        {
+          "address": 15727143,
+          "before": 191,
+          "after": 0
+        },
+        {
+          "address": 15727144,
+          "before": 254,
+          "after": 241
+        },
+        {
+          "address": 15727145,
+          "before": 255,
+          "after": 49
+        },
+        {
+          "address": 15727146,
+          "before": 255,
+          "after": 226
+        },
+        {
+          "address": 15727147,
+          "before": 255,
+          "after": 119
+        },
+        {
+          "address": 15727148,
+          "before": 124,
+          "after": 128
+        },
+        {
+          "address": 15727152,
+          "before": 82,
+          "after": 132
+        },
+        {
+          "address": 15727153,
+          "before": 54,
+          "after": 250
+        },
+        {
+          "address": 15727154,
+          "before": 229,
+          "after": 239
+        },
+        {
+          "address": 15727155,
+          "before": 119,
+          "after": 0
+        },
+        {
+          "address": 15727164,
+          "before": 176,
+          "after": 255
+        },
+        {
+          "address": 15727165,
+          "before": 12,
+          "after": 255
+        },
+        {
+          "address": 15727166,
+          "before": 168,
+          "after": 255
+        },
+        {
+          "address": 15727167,
+          "before": 23,
+          "after": 255
+        },
+        {
+          "address": 15727192,
+          "before": 116,
+          "after": 193
+        },
+        {
+          "address": 15727193,
+          "before": 250,
+          "after": 36
+        },
+        {
+          "address": 15727194,
+          "before": 239,
+          "after": 14
+        }
+      ]
+    },
+    "cpuCallReturn": {
+      "differingBytes": 3,
+      "firstChanges": [
+        {
+          "address": 15727320,
+          "before": 156,
+          "after": 19
+        },
+        {
+          "address": 15727321,
+          "before": 9,
+          "after": 157
+        },
+        {
+          "address": 15727322,
+          "before": 7,
+          "after": 103
+        }
+      ]
+    },
+    "counterOutput": {
+      "differingBytes": 8,
+      "firstChanges": [
+        {
+          "address": 15727352,
+          "before": 0,
+          "after": 42
+        },
+        {
+          "address": 15727353,
+          "before": 0,
+          "after": 145
+        },
+        {
+          "address": 15727354,
+          "before": 0,
+          "after": 237
+        },
+        {
+          "address": 15727355,
+          "before": 0,
+          "after": 72
+        },
+        {
+          "address": 15727356,
+          "before": 131,
+          "after": 104
+        },
+        {
+          "address": 15727357,
+          "before": 189,
+          "after": 16
+        },
+        {
+          "address": 15727358,
+          "before": 87,
+          "after": 0
+        },
+        {
+          "address": 15727359,
+          "before": 124,
+          "after": 0
+        }
+      ]
+    },
+    "other": {
+      "differingBytes": 0,
+      "firstChanges": []
+    }
+  },
+  "limits": [
+    "One original warm441c70 call; no natural cadence, second parent tick or continuous-race proof.",
+    "Original entry supplies all game/storage inputs. Counter/final game bytes remain comparison-only.",
+    "Typed QPC supplies only its actual eight-byte output and BOOL. Native private API stack residues are retained and compared, never silently copied.",
+    "Counter-call comparison omits only the four-byte CPU CALL return slot already published in source; the actual489d13 return word is checked independently.",
+    "The final raw XMM0 low64 is compared with the source MULSD result: the reached signed converter and masked status path preserve XMM0. Offline count1 alone would not validate the conversion chain.",
+    "Only source-produced known return registers and numerical fields are compared; complete private CPU/CRT ABI and unobserved scenarios remain open."
+  ],
+  "sourceCount": 1,
+  "scaledClock": {
+    "sourceHex": "62b9a5d510b17240",
+    "nativeHex": "62b9a5d510b17240",
+    "sourceValue": 299.06660999999997,
+    "nativeValue": 299.06660999999997,
+    "matched": true
+  }
+}

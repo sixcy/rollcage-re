@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {queryRawRespawnPlacement} from './raw-respawn-query.mjs';
 import {publishAnimationMatrix} from './vehicle-auxiliary-animation.mjs';
 import {transformWheelEffectOffset} from './wheel-effects.mjs';
@@ -49,7 +50,7 @@ export function buildCameraBodyPose(body, output, direction, positiveOffset, run
   if (positiveOffset) word(m, frame + 18, 10);
   for (const offset of [0, 4, 8, 12, 16]) put(m, 0x91d360 + offset, get(m, body + 0xc4 + offset));
   const scale = m.readFloatLE(0x5dc5f4);
-  for (let index = 0; index < 9; index++) {const value = Math.fround(m.readInt16LE(0x91d360 + index * 2)); m.writeFloatLE(value, frame + 56); m.writeFloatLE(Math.fround(value * scale), 0x91cdc0 + Math.floor(index / 3) * 16 + index % 3 * 4);}
+  for (let index = 0; index < 9; index++) {const value = Math.fround(m.readInt16LE(0x91d360 + index * 2)); m.writeFloatLE(value, frame + 56); m.writeFloatLE(Math.fround(value * scale), nativeGlobalAddress(m,0x91cdc0) + Math.floor(index / 3) * 16 + index % 3 * 4);}
   put(m, 0x91d3e4, get(m, frame + 16)); put(m, 0x91d3e8, get(m, frame + 20)); transformWheelEffectOffset(runtime);
   const offset = [0, 4, 8].map(o => get(m, 0x91d448 + o)); output = ptr(m, frame + 48);
   copyWords(m, body + 0x34, output, 0x36); direction = ptr(m, frame + 52);

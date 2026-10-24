@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
 import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
@@ -27,9 +28,9 @@ export function unregisterPhysicalBody(body,{memory}){
     put(memory,0x91e794,freeLast);put(memory,0x91e784,activeLast);
   }
   memory[body+0x10c]=0;
-  let array=pointer(memory,0x902bc0),end=array+memory.readUInt16LE(0x902bc4)*4,found=array;
+  let array=pointer(memory,nativeGlobalAddress(memory, 0x902bc0)),end=array+memory.readUInt16LE(nativeGlobalAddress(memory, 0x902bc4))*4,found=array;
   while(pointer(memory,found)!==(body>>>0))found+=4;
-  put(memory,found,get(memory,end-4));put(memory,end-4,0);word(memory,0x902bc4,memory.readUInt16LE(0x902bc4)-1);
+  put(memory,found,get(memory,end-4));put(memory,end-4,0);word(memory,nativeGlobalAddress(memory, 0x902bc4),memory.readUInt16LE(nativeGlobalAddress(memory, 0x902bc4))-1);
   const group=pointer(memory,body+0x130);
   if(group){
     array=pointer(memory,group);end=array+memory.readUInt16LE(group+4)*4;found=array;
@@ -46,9 +47,9 @@ export function removeBodySpatial(body,{memory}){
   if(previous===0){
     const bucket=pointer(memory,body+12)&0xfffffffe;word(memory,bucket+8,memory.readUInt16LE(body+4));
     const next=memory.readUInt16LE(body+4);
-    if(next){const address=(pointer(memory,0x902eec)-128+next*128)>>>0;if(address){word(memory,address+6,0);put(memory,body+4,0);return;}}
+    if(next){const address=(pointer(memory,nativeGlobalAddress(memory, 0x902eec))-128+next*128)>>>0;if(address){word(memory,address+6,0);put(memory,body+4,0);return;}}
   }else{
-    const next=memory.readUInt16LE(body+4),base=pointer(memory,0x902eec);
+    const next=memory.readUInt16LE(body+4),base=pointer(memory,nativeGlobalAddress(memory, 0x902eec));
     if(next){const address=(base-128+next*128)>>>0;if(address)word(memory,address+6,previous);}
     word(memory,(base-124+previous*128)>>>0,memory.readUInt16LE(body+4));
   }
@@ -57,9 +58,9 @@ export function removeBodySpatial(body,{memory}){
 
 //436410. Append a bounded36-byte position effect; source pointer remains live.
 export function appendBodyPositionEffect(position,count,{memory}){
-  const length=pointer(memory,0x810920),radius=Math.max(5,(count+3)&65535);
+  const length=pointer(memory,nativeGlobalAddress(memory, 0x810920)),radius=Math.max(5,(count+3)&65535);
   if(length>=16)return;
-  const row=0x8106e0+length*36;copyVector(memory,position,row);put(memory,row+12,position);word(memory,row+16,radius);word(memory,row+18,2);put(memory,row+20,0x26);put(memory,0x810920,length+1);
+  const row=nativeGlobalAddress(memory, 0x8106e0)+length*36;copyVector(memory,position,row);put(memory,row+12,position);word(memory,row+16,radius);word(memory,row+18,2);put(memory,row+20,0x26);put(memory,nativeGlobalAddress(memory, 0x810920),length+1);
 }
 
 //435ba0. Every effect-mask branch executes an actual numeric/state default.
@@ -83,13 +84,13 @@ export function emitBodyEffectBurst(position,velocity,count,mask,code,{memory,sc
   if(mask&0x400){if(handlers.emit436490)call(handlers,'emit436490',request({scratchBase:scratchBase-20}));else appendRawBodyFlash(position,count,{memory});}
   if(mask&0x10)particles(get(memory,0x9153e4),0x10);
   if(mask&1)particles(get(memory,0x919000),1);
-  if(mask&0x800){copyVector(memory,position,0x91cd80);put(memory,0x91cd90,1);put(memory,0x91cd8c,Math.imul(count,4)+4);}
+  if(mask&0x800){copyVector(memory,position,nativeGlobalAddress(memory,0x91cd80));put(memory,nativeGlobalAddress(memory,0x91cd90),1);put(memory,nativeGlobalAddress(memory,0x91cd8c),Math.imul(count,4)+4);}
   if(mask&0x20){if(handlers.emitDebris475a10)call(handlers,'emitDebris475a10',request({scratchBase:scratchBase-24}));else emitRawBodyDebris(position,velocity,count,{memory});}
   if(mask&0x80){if(handlers.emit436510)call(handlers,'emit436510',request({mode:1,scratchBase:scratchBase-20}));else activateRawBodyTrail(position,1,{memory});}
   if(mask&0x80000){if(handlers.emit436510)call(handlers,'emit436510',request({mode:2,scratchBase:scratchBase-20}));else activateRawBodyTrail(position,2,{memory});}
-  if((mask&0x10000)&&get(memory,0x811180)===0){
-    put(memory,0x91cd6c,get(memory,position));put(memory,0x91cd70,get(memory,position+4));const z=get(memory,position+8);
-    put(memory,0x91cd60,1);put(memory,0x91cd64,31);put(memory,0x91cd68,count);put(memory,0x91cd74,z);
+  if((mask&0x10000)&&get(memory,nativeGlobalAddress(memory, 0x811180))===0){
+    put(memory,nativeGlobalAddress(memory,0x91cd6c),get(memory,position));put(memory,nativeGlobalAddress(memory,0x91cd70),get(memory,position+4));const z=get(memory,position+8);
+    put(memory,nativeGlobalAddress(memory,0x91cd60),1);put(memory,nativeGlobalAddress(memory,0x91cd64),31);put(memory,nativeGlobalAddress(memory,0x91cd68),count);put(memory,nativeGlobalAddress(memory,0x91cd74),z);
   }
   if(mask&0x40000){if(handlers.alterTerrain437aa0)call(handlers,'alterTerrain437aa0',request({scratchBase:scratchBase-20}));else alterRawTerrainBrightness(position,count,{memory,scratchBase:scratchBase-20});}
   if(mask&0x100){if(handlers.emit437670)call(handlers,'emit437670',request({scratchBase:scratchBase-20}));else activateRawBodyPulse(position,{memory});}

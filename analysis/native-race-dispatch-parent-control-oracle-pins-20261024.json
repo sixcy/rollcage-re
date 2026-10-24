@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "frozen-isolated-parent-control-oracle-pins",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "report": {
+    "path": "analysis/native-race-dispatch-parent-control-instruction-check-20261024.json",
+    "sha256": "47a4273d61022de943c7aceaa02c86f36b0e7def6c3dcbd23d99d396985172ae"
+  },
+  "source": {
+    "path": "src/native-race-dispatch.mjs",
+    "sha256": "d5f513819c20c9aad5516546824d3eaebfcb2e54740dd7ceec6493a9f5f113e4"
+  },
+  "oracle": {
+    "path": "tools/verify-native-race-dispatch-instructions.mjs",
+    "sha256": "345504d93134a052a51e1754a17f63b4ce3c91e7006c3129a239e4a56efc4c38"
+  },
+  "tests": {
+    "path": "tests/native-race-dispatch-instructions.test.mjs",
+    "sha256": "1aac0bdbaf5c5b192c7ac5eae315e5519b89d60e7e5fb84336928ad94f25f89d"
+  },
+  "evidence": [
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/001-frame-parent.json",
+      "sha256": "5d27cca2698b3f6b2d0599e87a4c18ebc7850bea768b7c3babbda73e0620240a"
+    },
+    {
+      "path": "analysis/native-simulation/results/3650-weather-402d10-procedure_assembly.json",
+      "sha256": "88463aa21bdea7a29f094726b1af0a3d0f35f82029d49d61086c48615f37cc5d"
+    },
+    {
+      "path": "analysis/native-simulation/results/13007-race-viewports-406b80-procedure_assembly.json",
+      "sha256": "7386f20633f63f7e45d40b95600e69261458d25ae2e3cc21db1855779cf0de44"
+    }
+  ],
+  "verification": {
+    "matched": true,
+    "scenarios": 150,
+    "actualBases": [
+      4194304,
+      3276800,
+      7536640
+    ],
+    "fixtures": 450,
+    "syntheticChildCalls": 3153,
+    "parentInstructionsReached": 87,
+    "parentInstructions": 87,
+    "stackBytes": 160,
+    "knownReturnFields": 8,
+    "exactChildCallAndArgumentTrace": true,
+    "wholeFixtureProjectionCompared": true,
+    "sourceSparseSpansRejectUnobservedWrites": true,
+    "retAbi": "402d10 plainRET;406b80 RET8, sameO-32entry/name+enableargs; timer/attachments/pauseO-24;tickO-28/cdecltotal",
+    "suiteCommand": "node --test tests/native-race-dispatch-instructions.test.mjs tests/native-race-dispatch.test.mjs",
+    "testsPassed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 4372.4035
+  },
+  "explicitLimits": [
+    "No full-child equivalence, native process, clock scheduling or continuous tick claim.",
+    "Synthetic child outcomes/mutations are declared fixture inputs; no in-image answer callback is added to production defaults.",
+    "Only parent-defined/known return registers and published CALL arguments/saves are compared; volatileEDX/EFLAGS/unknown child-clobbered state remains unproved.",
+    "Opaque viewport pointers are passed between stand-ins; no fake viewport object storage or allocator result is admitted."
+  ],
+  "sourceDefaultTests": "Three separate root-owned tests execute genuine sample-only viewport/map/timer/conversion/attachment defaults or preserve missing-CRT/pause failures. They do not turn the isolated synthetic parent-control oracle into a native/full-child comparison.",
+  "nativeLaunches": 0
+}

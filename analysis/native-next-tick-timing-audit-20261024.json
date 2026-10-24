@@ -1,0 +1,633 @@
+{
+  "schemaVersion": 1,
+  "method": "read-only-retained-outer-scheduler-and-selected-original-input-audit",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-parent-final-stock-capture-v2-20261024",
+  "comparisonReport": {
+    "path": "analysis/native-parent-final-stock-fifth-replay-v2-20261024/report.json",
+    "sha256": "49a00db15e1bfc8ef1ed0802a0324f26170e481a72762a19aa841ac1f132c6f6",
+    "completeParentTickMatched": true,
+    "uniqueBytesCompared": 5107238
+  },
+  "moduleBaseAddress": 7536640,
+  "observations": [
+    {
+      "breakpointId": "native-control-before",
+      "ordinal": 4,
+      "tid": 19644,
+      "registers": {
+        "edi": "0x00000001",
+        "esi": "0x00000000",
+        "ebx": "0x00000000",
+        "edx": "0x00000000",
+        "ecx": "0x00000001",
+        "eax": "0x00000001",
+        "ebp": "0x00000000",
+        "eip": "0x00780e50",
+        "cs": "0x00000023",
+        "eflags": "0x00200202",
+        "esp": "0x0116fbe0",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x0000487b",
+        "mxcsr": "0x00001fa7"
+      },
+      "contextSha256": "b18ffc2bd5fcc130ea83cb0e02366598f4b4d175f53066483bf80b631e346a89",
+      "fields": [
+        {
+          "preferredAddress": 9479496,
+          "covered": true,
+          "address": 12821832,
+          "length": 4,
+          "bytesHex": "20010000",
+          "uint32": 288,
+          "ranges": [
+            {
+              "id": "clock",
+              "file": "snapshot-000004-range-019.bin",
+              "sha256": "e5a7014df44e8bbf3e38920ccd5ccf3d820bf6e0b9e4033da4790e41c6702c01"
+            },
+            {
+              "id": "terrain-pack-region",
+              "file": "snapshot-000004-range-076.bin",
+              "sha256": "3c03761413be1e95e90e597c231870a85d5670f780cf8c489d7593c30770cac0"
+            },
+            {
+              "id": "session-region",
+              "file": "snapshot-000004-range-084.bin",
+              "sha256": "5ef9248ecbd83763856b3066f194a32c4813c1b862013308e2a724d85479b7c3"
+            },
+            {
+              "id": "configuration-region",
+              "file": "snapshot-000004-range-085.bin",
+              "sha256": "e550df723ca6fdf644721e91a9bb1270aa3f3eda7486e4b6e0778a9b4e5900f4"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7235420,
+          "covered": true,
+          "address": 10577756,
+          "length": 4,
+          "bytesHex": "20010000",
+          "uint32": 288,
+          "ranges": [
+            {
+              "id": "control-input-clock",
+              "file": "snapshot-000004-range-175.bin",
+              "sha256": "e5a7014df44e8bbf3e38920ccd5ccf3d820bf6e0b9e4033da4790e41c6702c01"
+            },
+            {
+              "id": "late-logical-time-counter",
+              "file": "snapshot-000004-range-455.bin",
+              "sha256": "e5a7014df44e8bbf3e38920ccd5ccf3d820bf6e0b9e4033da4790e41c6702c01"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7235320,
+          "covered": false,
+          "address": 10577656,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235248,
+          "covered": false,
+          "address": 10577584,
+          "length": 8
+        },
+        {
+          "preferredAddress": 7235300,
+          "covered": false,
+          "address": 10577636,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7253984,
+          "covered": true,
+          "address": 10596320,
+          "length": 4,
+          "bytesHex": "00000000",
+          "uint32": 0,
+          "ranges": [
+            {
+              "id": "control-input-network-flags",
+              "file": "snapshot-000004-range-174.bin",
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7236428,
+          "covered": false,
+          "address": 10578764,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235268,
+          "covered": false,
+          "address": 10577604,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235272,
+          "covered": false,
+          "address": 10577608,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235276,
+          "covered": false,
+          "address": 10577612,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235260,
+          "covered": false,
+          "address": 10577596,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235160,
+          "covered": false,
+          "address": 10577496,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7236748,
+          "covered": true,
+          "address": 10579084,
+          "length": 4,
+          "bytesHex": "01000000",
+          "uint32": 1,
+          "ranges": [
+            {
+              "id": "late-weather-counter-enabled",
+              "file": "snapshot-000004-range-425.bin",
+              "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7419300,
+          "covered": true,
+          "address": 10761636,
+          "length": 8,
+          "bytesHex": "8096980000000000",
+          "ranges": [
+            {
+              "id": "late-weather-performance-origin",
+              "file": "snapshot-000004-range-426.bin",
+              "sha256": "b3b60503ef644995a82a69203c15d44ebdd877683a97586ef7aab40c913d0c60"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7419308,
+          "covered": true,
+          "address": 10761644,
+          "length": 8,
+          "bytesHex": "a1400a8657100000",
+          "ranges": [
+            {
+              "id": "late-weather-performance-origin",
+              "file": "snapshot-000004-range-426.bin",
+              "sha256": "b3b60503ef644995a82a69203c15d44ebdd877683a97586ef7aab40c913d0c60"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 6145760,
+          "covered": false,
+          "address": 9488096,
+          "length": 8
+        },
+        {
+          "preferredAddress": 7234724,
+          "covered": false,
+          "address": 10577060,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235256,
+          "covered": false,
+          "address": 10577592,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235240,
+          "covered": false,
+          "address": 10577576,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235292,
+          "covered": false,
+          "address": 10577628,
+          "length": 4
+        }
+      ]
+    },
+    {
+      "breakpointId": "native-parent-return",
+      "ordinal": 22,
+      "tid": 19644,
+      "registers": {
+        "edi": "0x00000001",
+        "esi": "0x00000000",
+        "ebx": "0x00000000",
+        "edx": "0x00c3a548",
+        "ecx": "0x00000006",
+        "eax": "0x00000001",
+        "ebp": "0x00000000",
+        "eip": "0x00780e38",
+        "cs": "0x00000023",
+        "eflags": "0x00200206",
+        "esp": "0x0116fbe4",
+        "ss": "0x0000002b",
+        "fpuControlWord": "0x0000007f",
+        "fpuStatusWord": "0x0000087b",
+        "mxcsr": "0x00001fa7"
+      },
+      "contextSha256": "ecbf06cbaaee07f1f2664cbf497eda0cffe0666f6cc29e540224ffe4502298ef",
+      "fields": [
+        {
+          "preferredAddress": 9479496,
+          "covered": true,
+          "address": 12821832,
+          "length": 4,
+          "bytesHex": "21010000",
+          "uint32": 289,
+          "ranges": [
+            {
+              "id": "clock",
+              "file": "snapshot-000022-range-019.bin",
+              "sha256": "272e46efc1023d2efc3a126dd782f2c13a1fa6b03ed7f7bb843d2855c8cb65e5"
+            },
+            {
+              "id": "terrain-pack-region",
+              "file": "snapshot-000022-range-076.bin",
+              "sha256": "755330b5aac9d28b11e4f0fc308c75f74df2b6a1e97215e3a2e71aa1a2fa3250"
+            },
+            {
+              "id": "session-region",
+              "file": "snapshot-000022-range-084.bin",
+              "sha256": "44ab10a40a4a2d7e56024bcc936071d4a1ee5a7e711d1a277d5ddb03bc6e4647"
+            },
+            {
+              "id": "configuration-region",
+              "file": "snapshot-000022-range-085.bin",
+              "sha256": "7829850f5d6cb064beb83b70edd85717337fe06ee22fdf7c3cb5b8862fded839"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7235420,
+          "covered": true,
+          "address": 10577756,
+          "length": 4,
+          "bytesHex": "21010000",
+          "uint32": 289,
+          "ranges": [
+            {
+              "id": "control-input-clock",
+              "file": "snapshot-000022-range-175.bin",
+              "sha256": "272e46efc1023d2efc3a126dd782f2c13a1fa6b03ed7f7bb843d2855c8cb65e5"
+            },
+            {
+              "id": "late-logical-time-counter",
+              "file": "snapshot-000022-range-455.bin",
+              "sha256": "272e46efc1023d2efc3a126dd782f2c13a1fa6b03ed7f7bb843d2855c8cb65e5"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7235320,
+          "covered": false,
+          "address": 10577656,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235248,
+          "covered": false,
+          "address": 10577584,
+          "length": 8
+        },
+        {
+          "preferredAddress": 7235300,
+          "covered": false,
+          "address": 10577636,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7253984,
+          "covered": true,
+          "address": 10596320,
+          "length": 4,
+          "bytesHex": "00000000",
+          "uint32": 0,
+          "ranges": [
+            {
+              "id": "control-input-network-flags",
+              "file": "snapshot-000022-range-174.bin",
+              "sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7236428,
+          "covered": false,
+          "address": 10578764,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235268,
+          "covered": false,
+          "address": 10577604,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235272,
+          "covered": false,
+          "address": 10577608,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235276,
+          "covered": false,
+          "address": 10577612,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235260,
+          "covered": false,
+          "address": 10577596,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235160,
+          "covered": false,
+          "address": 10577496,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7236748,
+          "covered": true,
+          "address": 10579084,
+          "length": 4,
+          "bytesHex": "01000000",
+          "uint32": 1,
+          "ranges": [
+            {
+              "id": "late-weather-counter-enabled",
+              "file": "snapshot-000022-range-425.bin",
+              "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7419300,
+          "covered": true,
+          "address": 10761636,
+          "length": 8,
+          "bytesHex": "8096980000000000",
+          "ranges": [
+            {
+              "id": "late-weather-performance-origin",
+              "file": "snapshot-000022-range-426.bin",
+              "sha256": "b3b60503ef644995a82a69203c15d44ebdd877683a97586ef7aab40c913d0c60"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 7419308,
+          "covered": true,
+          "address": 10761644,
+          "length": 8,
+          "bytesHex": "a1400a8657100000",
+          "ranges": [
+            {
+              "id": "late-weather-performance-origin",
+              "file": "snapshot-000022-range-426.bin",
+              "sha256": "b3b60503ef644995a82a69203c15d44ebdd877683a97586ef7aab40c913d0c60"
+            }
+          ]
+        },
+        {
+          "preferredAddress": 6145760,
+          "covered": false,
+          "address": 9488096,
+          "length": 8
+        },
+        {
+          "preferredAddress": 7234724,
+          "covered": false,
+          "address": 10577060,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235256,
+          "covered": false,
+          "address": 10577592,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235240,
+          "covered": false,
+          "address": 10577576,
+          "length": 4
+        },
+        {
+          "preferredAddress": 7235292,
+          "covered": false,
+          "address": 10577628,
+          "length": 4
+        }
+      ]
+    }
+  ],
+  "caller": {
+    "U": 18283488,
+    "O": 18283516,
+    "totalIterations": 1,
+    "iteration": 0,
+    "parentReturnEax": 1,
+    "outerReturnAddress": 7802069,
+    "saved440930Ebp": 4,
+    "saved440930Ebx": 0,
+    "stackProof": {
+      "covered": true,
+      "address": 18283488,
+      "length": 32,
+      "bytesHex": "380e78000100000030d704775811a600040000000000000000000000d50c7700",
+      "ranges": [
+        {
+          "id": "frame-stack",
+          "file": "snapshot-000004-range-073.bin",
+          "sha256": "0c57d7dc900c7d7db67c4031568c16c3db792433f0aafa89bd81044c433e4690"
+        }
+      ]
+    }
+  },
+  "evidence": [
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/001-frame-parent.json",
+      "sha256": "5d27cca2698b3f6b2d0599e87a4c18ebc7850bea768b7c3babbda73e0620240a",
+      "evidenceId": "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/010-clock-source-assembly.json",
+      "sha256": "128ce386572b76561ada35d8a5cacb11e109e9c63bb950d1854a371b1d4d1454",
+      "evidenceId": "ev_38b8d5dfff1b32d7bb9ba4457b9681775a4c160c95e12a9b821e21a9e17e4f64",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/015-main-loop-assembly.json",
+      "sha256": "93151ae2342c2779892344a5e574969b5223e5eca815a0840efca88a7bce5274",
+      "evidenceId": "ev_73eaba83c2795b5d5ce603e02ae9bda94d7339201229832746848f56ab64526c",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/021-platform-clock-assembly.json",
+      "sha256": "c9ccbabc0dff2ea61d559965641ebcad439190f0f5f4b79ccf84a07d41f3f629",
+      "evidenceId": "ev_ff29e60114cb96f219e316aff00030e0be8766dec59f42ce80cd1df1bc5b8288",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/022-frame-gate-assembly.json",
+      "sha256": "92104df3a1e911b1139e315d1dd6247f1c67dcd37309e5473537a918b7e63899",
+      "evidenceId": "ev_d6644825e3a5c17b6a107e437489b0190dc84ce464588fc6d171082c36f64829",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/024-scheduler-assembly.json",
+      "sha256": "fb69bea52ec46d8f9d6cc410ad02de62cb9c1a2b03c6adc41eca2e190926bc78",
+      "evidenceId": "ev_4008798553d3de874038940a9ae5bd41ddcbfac3ca76e1e8d51827daba3b74d8",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/027-clock-uint-to-double.json",
+      "sha256": "3a0c0bd897759a823ab17324861dd1694a9e585efded2652f5e500d525d72a70",
+      "evidenceId": "ev_0821b375e5e6e0e39b095964bbbfe613d53700c628e4c8d5d7174468b6b21773",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/028-clock-double-to-uint.json",
+      "sha256": "fa0d592eb546d214a364454f6817e3f9bfc02a1864dd46472320c114661ca331",
+      "evidenceId": "ev_dea8f9153f9c5540481625f806668d34f05024d0fd095a2098120032433d8d7c",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/029-double-conversion-body.json",
+      "sha256": "63778f241ca09311d66b2def8890d8e04ebfce70840f7a67bc127dc8ac2d715a",
+      "evidenceId": "ev_ae16480d2e16f6e81b67e3acda55e2e6e6d6e944ede36888fbe94743a7387192",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/032-render-gate-pseudo.json",
+      "sha256": "106ffc15f5608dbba353c18cb4a3ce6d096a90ff63e80c5835114e1cb25104f5",
+      "evidenceId": "ev_ed4a5ae0b0311deb2d7f51c8bf633bf91ffa3b91f49fb568d4398280d976399c",
+      "operation": "procedure_pseudo_code"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/037-crt-shared-conversion-info.json",
+      "sha256": "9a99081f59bb244ac185f85cd90371ab2726f1b1b0cfbe358447595809f04912",
+      "evidenceId": "ev_49cea1bfa36d30f7c04b8834e401905b519d9b724b8b883f2be8e9cfd0de61b9",
+      "operation": "analyze_function"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/040-render-timestamp-producer.json",
+      "sha256": "ea411b54f6d8078a0062cc3104ec42f64c97af51a918a38703fbadd4efbba975",
+      "evidenceId": "ev_f122947f3cea4b987457df735431f764a0c285681d986a9c6eebc4c7011d1b5c",
+      "operation": "procedure_assembly"
+    },
+    {
+      "path": "analysis/native-simulation/results/1047-world-particle-count-convert-assembly.json",
+      "sha256": "2ab2c1403fecab2b320a9416a1eb48383bad6df912cd54d9a6db1c6cb7147bb9",
+      "evidenceId": "ev_46c84235837b2045303a643dfb9b21e492613b7cd28996b74c32208f8ed9b021",
+      "operation": "procedure_assembly"
+    }
+  ],
+  "constants": [
+    {
+      "preferredAddress": 5699232,
+      "length": 16,
+      "bytesHex": "0000000000000000000000000000f041",
+      "authority": "SHA-verified original PE image; not a live initialized-input substitution"
+    },
+    {
+      "preferredAddress": 5699248,
+      "length": 16,
+      "bytesHex": "ffffffffffff0f000000000000001000",
+      "authority": "SHA-verified original PE image; not a live initialized-input substitution"
+    },
+    {
+      "preferredAddress": 5699280,
+      "length": 16,
+      "bytesHex": "000000000000e0c3000000000000e043",
+      "authority": "SHA-verified original PE image; not a live initialized-input substitution"
+    },
+    {
+      "preferredAddress": 5699344,
+      "length": 16,
+      "bytesHex": "330400003f04000000080000ff170000",
+      "authority": "SHA-verified original PE image; not a live initialized-input substitution"
+    },
+    {
+      "preferredAddress": 6145760,
+      "length": 8,
+      "bytesHex": "681d554d1075ff3e",
+      "authority": "SHA-verified original PE image; not a live initialized-input substitution"
+    }
+  ],
+  "selectedRawBlobsRehashed": 19,
+  "sourceAudit": {
+    "existing": [
+      "src/race-clock.mjs:advanceRaceStepCount exact integer tail441cd0..441d66 only",
+      "src/game-network-protocol.mjs:readGameMicroseconds signed64 wrapped time arithmetic; typed shared-stack publication currently weather498458 caller only",
+      "src/attachment-effects.mjs:updateRawAttachmentEffects actual44f3a0 child",
+      "src/game-graphics-settings.mjs:getGameGraphicsSettings actual405010 singleton",
+      "src/renderer-presentation.mjs:getRendererWindowApplication actual402aa0 wrapper",
+      "src/application-viewports.mjs:setApplicationViewportEnabled actual406b80 child",
+      "src/simulation-frame.mjs:stepSimulationFrame is4749e0 scope, not outer scheduler",
+      "tools/lib/native-parent-tail.mjs completed450e50 through450e38 only"
+    ],
+    "notConnected": [
+      "450d60 exact outer game update",
+      "440930 active outer branch plus caller/event pump",
+      "441c70 complete QPC+unsigned64/double+signed64 conversion path",
+      "441dd0 upstream sample/history producer",
+      "441010/441ad0 render callback interval",
+      "448880/optional441620 and reached pause477730"
+    ]
+  },
+  "constructedInterpreterProbe": {
+    "authority": "constructed retained-instruction probe, not native process execution",
+    "entry": "568c41",
+    "inputs": [
+      0,
+      1,
+      1.25,
+      -1,
+      4294967297
+    ],
+    "firstFailure": "At0x568c46: Unadmitted scalar-double move (MOVSD XMM5)",
+    "noNativeAnswersSupplied": true
+  },
+  "requiredStaticFollowup": {
+    "entry": "568bfd",
+    "bodyEndInclusive": "568c40",
+    "bytes": 68,
+    "knownBy": "ev_49cea1bfa36d30f7c04b8834e401905b519d9b724b8b883f2be8e9cfd0de61b9",
+    "reason": "Actual fractional conversion calls568bfd withEDX10 at568bd8; native numerical-status/exception effects cannot be replaced by a no-op."
+  },
+  "scope": {
+    "newRuntimeLaunch": false,
+    "sourceModified": false,
+    "sourceAfterBytesUsedAsInput": false,
+    "nextTickObserved": false,
+    "continuousClosedTrajectoryProven": false,
+    "missingOuterInputsArePhysicalCoverageGaps": true
+  }
+}

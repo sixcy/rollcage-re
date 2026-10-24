@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32,lookupSqrt,dotQ16,crossQ16,multiplyQ16,divideQ16,vectorLengthQ16,transformShortQ12} from './fixed-integer.mjs';
 import {allocateRawEffectParticle,registerRawEffectSpatial} from './body-retirement-effects.mjs';
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p),short=v=>(v<<16)>>16;
@@ -85,7 +86,7 @@ export function emitWheelRearParticle(body,position,direction,color,intensity,ef
  if((intensity|0)===-1)intensity=32;
  const opacity=Math.imul(brightnessFactor(memory),intensity)>>>8,p=allocateRawEffectParticle({memory});word(memory,p+0x96,32);word(memory,p+0xa2,0);put(memory,p,8);memory[p+0x95]=24;
  let velocity=vector(memory,body+0x68).map(value=>value>>8);
- if(get(memory,0x811180)!==0&&body!==ptr(memory,0x811184))velocity=velocity.map(value=>multiplyQ16(value,get(memory,0x81118c)));
+ if(get(memory,nativeGlobalAddress(memory,0x811180))!==0&&body!==ptr(memory,nativeGlobalAddress(memory,0x811184)))velocity=velocity.map(value=>multiplyQ16(value,get(memory,nativeGlobalAddress(memory,0x81118c))));
  const translated=vector(memory,position).map((value,i)=>(value+(velocity[i]<<8))|0);store(memory,p+0x88,translated);
  for(let i=0;i<3;i++){const product=Math.imul(velocity[i],3);word(memory,p+0x9c+i*2,((product+((product>>31)&3))>>2)+(get(memory,direction+i*4)>>9));}
  const seed=rng(get(memory,0x5ec958));put(memory,0x5ec958,seed);put(memory,p+0xb4,(seed>>>16)&3);put(memory,p+0x98,(Math.min(255,Math.imul(opacity,6)>>>0)<<24)|color);
@@ -105,9 +106,9 @@ export function emitWheelSurfaceDebris(position,velocity,kind,{memory}){
  else if(kind===19){first=shadeWheelDebrisColor(0x7f4040,{memory});second=shadeWheelDebrisColor(0xae300000,{memory});lifetime=10;}
  else if(kind===20){first=shadeWheelDebrisColor(0x102030,{memory});second=shadeWheelDebrisColor(0xae081018,{memory});for(let i=0;i<3;i++)put(memory,velocity+i*4,get(memory,velocity+i*4)>>2);lifetime=10;}
  else{variant=1;[first,second,lifetime]=({21:[0x9fff9f,0xae1f3f1f,15],22:[0x4fffff,0xae20205f,13],23:[0xff004f,0xae5f0020,13],24:[0x9f,0xae000020,21],25:[0x409f,0xae000020,43]})[kind]??[0x4f5f5f,0xae5f2020,18];}
- const freeLast=get(memory,0x902b8c);if(freeLast<0)return 0;
- const id=memory.readUInt16LE(ptr(memory,0x902b7c)+freeLast*2);put(memory,0x902b8c,freeLast-1);const active=get(memory,0x902b88);word(memory,ptr(memory,0x902b80)+active*2,id);put(memory,0x902b88,active+1);
- const p=(ptr(memory,0x902b84)+(id<<7))>>>0,values=vector(memory,position);put(memory,p+0x50,values[1]);put(memory,p+0x4c,values[0]);put(memory,p+0x54,values[2]);registerRawEffectSpatial(p,...values,{memory});word(memory,p+0x6a,1);
+ const freeLast=get(memory,nativeGlobalAddress(memory, 0x902b8c));if(freeLast<0)return 0;
+ const id=memory.readUInt16LE(ptr(memory,nativeGlobalAddress(memory, 0x902b7c))+freeLast*2);put(memory,nativeGlobalAddress(memory, 0x902b8c),freeLast-1);const active=get(memory,nativeGlobalAddress(memory, 0x902b88));word(memory,ptr(memory,nativeGlobalAddress(memory, 0x902b80))+active*2,id);put(memory,nativeGlobalAddress(memory, 0x902b88),active+1);
+ const p=(ptr(memory,nativeGlobalAddress(memory, 0x902b84))+(id<<7))>>>0,values=vector(memory,position);put(memory,p+0x50,values[1]);put(memory,p+0x4c,values[0]);put(memory,p+0x54,values[2]);registerRawEffectSpatial(p,...values,{memory});word(memory,p+0x6a,1);
  for(let i=0;i<3;i++)word(memory,p+0x64+i*2,memory.readUInt16LE(p+0x4e+i*4));for(let i=0;i<3;i++)put(memory,p+0x58+i*4,get(memory,velocity+i*4));word(memory,p+8,lifetime);put(memory,p+0x30,first);put(memory,p+0x14,second);memory[p+0x6c]=variant;return p;
 }
 
@@ -116,7 +117,7 @@ export function emitWheelSurfaceParticles(body,{memory,scratchBase}){
  if(get(memory,body+0x664)<0x20000)return 0;
  for(let i=0;i<5;i++)put(memory,0x91d360+i*4,get(memory,body+0xc4+i*4));
  const scale=memory.readFloatLE(0x5dc5f4);
- for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360+i*2))*scale),0x91cdc0+Math.floor(i/3)*16+(i%3)*4);
+ for(let i=0;i<9;i++)memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360+i*2))*scale),nativeGlobalAddress(memory,0x91cdc0+Math.floor(i/3)*16+(i%3)*4));
  const threshold=memory.readFloatLE(0x5dc97c),local=scratchBase-32,position=scratchBase-12,velocity=scratchBase-24;let seed=get(memory,0x5ec958),emitted=0;
  for(let wheelIndex=2;wheelIndex<4;wheelIndex++){
   const wheel=body+0x324+wheelIndex*200;if(!(memory[wheel]&1))continue;const descriptor=ptr(memory,body+0x198+wheelIndex*28);if(!descriptor)continue;

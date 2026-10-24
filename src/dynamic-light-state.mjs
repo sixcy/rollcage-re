@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {lookupRawSpatialBucket, expandRawTerrainRanges} from './body-retirement-effects.mjs';
 import {transformWheelEffectOffset} from './wheel-effects.mjs';
 import {stepRawScriptedMotion} from './raw-scripted-motion.mjs';
@@ -6,7 +7,7 @@ const get = (memory, address) => memory.readInt32LE(address);
 const pointer = (memory, address) => memory.readUInt32LE(address);
 const put = (memory, address, value) => memory.writeInt32LE(value | 0, address);
 const word = (memory, address, value) => memory.writeUInt16LE(value & 65535, address);
-const lightAddress = index => (0x80f520 + (index << 6)) >>> 0;
+const lightAddress = (memory,index) => nativeGlobalAddress(memory,(0x80f520 + (index << 6)) >>> 0);
 
 const allocateStorage = (size, runtime) => {
   if (typeof runtime.handlers?.allocate !== 'function') throw Error('Dynamic light construction requires library allocate service.');
@@ -32,32 +33,32 @@ export function initializeDynamicLightAttenuation(runtime) {
 export function initializeDynamicLightStorage(runtime) {
   const {memory} = runtime;
   initializeDynamicLightAttenuation(runtime);
-  for (let index = 1; index <= 70; index++) word(memory, lightAddress(index) + 0x24, 0);
+  for (let index = 1; index <= 70; index++) word(memory, lightAddress(memory,index) + 0x24, 0);
   const pack = pointer(memory, 0x90b98c), sectors = pointer(memory, pack), sectorCount = pointer(memory, pack + 16);
   let size = 0, index = 0;
   if (sectorCount) {
     do {
-      put(memory, 0x80f220 + index * 4, size);
+      put(memory, nativeGlobalAddress(memory,0x80f220 + index * 4), size);
       const segment = pointer(memory, sectors + index * 4), bytes = (((pointer(memory, segment + 12) >>> 4) << 5) + 32) | 0;
       size = (size + bytes) >>> 0; index = (index + 1) & 65535;
     } while (index < sectorCount);
   }
-  put(memory, 0x80f220 + index * 4, size);
+  put(memory, nativeGlobalAddress(memory,0x80f220 + index * 4), size);
   const base = allocateStorage(size, runtime);
   if (base) memory.fill(0, base, base + size);
   const pointers = (pointer(memory, pack + 16) + 1) >>> 0;
-  put(memory, 0x80f208, base);
+  put(memory, nativeGlobalAddress(memory,0x80f208), base);
   if (pointers) {
     index = 0;
-    do {put(memory, 0x80f220 + index * 4, get(memory, 0x80f220 + index * 4) + base); index = (index + 1) & 65535;} while (index < pointers);
+    do {put(memory, nativeGlobalAddress(memory,0x80f220 + index * 4), get(memory, nativeGlobalAddress(memory,0x80f220 + index * 4)) + base); index = (index + 1) & 65535;} while (index < pointers);
   }
   const words = size >>> 2;
   if (words) {
     index = 0; let cursor = base;
     do {put(memory, cursor, 0); cursor += 4; index = (index + 1) & 65535;} while (index < words);
   }
-  put(memory, 0x80f20c, 0); put(memory, 0x80f214, 0); put(memory, 0x80f210, 0);
-  memory.fill(0, 0x80f420, 0x80f520); put(memory, 0x810920, 0);
+  put(memory, nativeGlobalAddress(memory,0x80f20c), 0); put(memory, nativeGlobalAddress(memory,0x80f214), 0); put(memory, nativeGlobalAddress(memory,0x80f210), 0);
+  memory.fill(0, nativeGlobalAddress(memory,0x80f420), nativeGlobalAddress(memory,0x80f420)+0x100); put(memory, nativeGlobalAddress(memory,0x810920), 0);
 }
 
 //44e220 consumes authored32-byte light rows and installs slots1..N. Scripted
@@ -70,7 +71,7 @@ export function initializeAuthoredDynamicLights(runtime) {
     let body = 0, x, y, z;
     if (memory[record + 14]) {
       const spawn = memory[record + 15], points = pointer(memory, pointer(memory, 0x90b990) + 0xa8) + spawn * 8, offset = pointer(memory, 0x70dcf4);
-      body = (pointer(memory, 0x902eec) + (offset & 0xfffffffc)) >>> 0; put(memory, 0x70dcf4, offset + 384);
+      body = (pointer(memory, nativeGlobalAddress(memory, 0x902eec)) + (offset & 0xfffffffc)) >>> 0; put(memory, 0x70dcf4, offset + 384);
       memory.fill(255, body, body + 384); put(memory, body, 0xa00f); put(memory, body + 4, 0); word(memory, body + 8, 0); put(memory, body + 12, 0);
       for (const field of [0x118, 0x110, 0x148]) put(memory, body + field, 0);
       put(memory, body + 0x11c, -1); memory[body + 0x12f] = 255; memory.fill(0, body + 0x16a, body + 0x172); word(memory, body + 0x172, 0);
@@ -83,27 +84,27 @@ export function initializeAuthoredDynamicLights(runtime) {
     } else {x = memory.readInt16LE(record + 6) << 16; y = memory.readInt16LE(record + 8) << 16; z = memory.readInt16LE(record + 10) << 16;}
     let palette = 0, paletteCount = 0;
     if (paletteIndex) {const table = pointer(memory, 0x9092ac), start = memory.readUInt16LE(table + paletteIndex * 2); palette = table + start; paletteCount = ((memory.readUInt16LE(table + paletteIndex * 2 + 2) - start) & 65535) >>> 1;}
-    const light = lightAddress(index);
+    const light = lightAddress(memory,index);
     put(memory, light + 4, y); put(memory, light + 0x28, palette); word(memory, light + 0x2c, 0); put(memory, light + 0x24, 1); put(memory, light, x); put(memory, light + 8, z); word(memory, light + 0x2e, paletteCount); put(memory, light + 0x30, body);
     if (body) {put(memory, body + 0x34, x); put(memory, body + 0x38, y); put(memory, body + 0x3c, z);}
     put(memory, light + 12, color); word(memory, light + 16, memory[record + 12]); word(memory, light + 18, 2);
     insertDynamicLightRanges(index, record + 16, runtime);
     count = pointer(memory, 0x909268); index = (index + 1) >>> 0; record += 32;
   } while (index <= count);
-  put(memory, 0x80f214, count + 1); put(memory, 0x80f20c, count + 1);
+  put(memory, nativeGlobalAddress(memory,0x80f214), count + 1); put(memory, nativeGlobalAddress(memory,0x80f20c), count + 1);
 }
 
 //44d5b0 stores four authored ranges and places the index into the first empty
 //of eight cells per16-row band. A full band silently receives no new entry.
 export function insertDynamicLightRanges(index, ranges, {memory}) {
-  const destination = lightAddress(index) + 0x14;
+  const destination = lightAddress(memory,index) + 0x14;
   for (let offset = 0; offset < 16; offset += 4) put(memory, destination + offset, 0);
   for (let range = 0; range < 4; range++) {
     const packed = pointer(memory, ranges + range * 4); if (!packed) return;
     put(memory, destination + range * 4, packed);
     const first = (packed >>> 8) & 4095, last = packed >>> 20, value = (((last + 1) & 2047) << 11) | (first & 2047) | (index << 22), sector = packed & 255;
     for (let band = first >>> 4; band <= last >>> 4; band++) {
-      const start = pointer(memory, 0x80f220 + sector * 4) + band * 32;
+      const start = pointer(memory, nativeGlobalAddress(memory,0x80f220 + sector * 4)) + band * 32;
       for (let slot = 0; slot < 8; slot++) if (!get(memory, start + slot * 4)) {put(memory, start + slot * 4, value); break;}
     }
   }
@@ -112,23 +113,23 @@ export function insertDynamicLightRanges(index, ranges, {memory}) {
 //44d6a0 removes the first matching ID per band and queues dirty ranges, with
 //the original capacity64 and last-entry-only duplicate suppression.
 export function removeDynamicLightRanges(index, {memory}) {
-  const ranges = lightAddress(index) + 0x14; let dirtyCount = pointer(memory, 0x80f210);
+  const ranges = lightAddress(memory,index) + 0x14; let dirtyCount = pointer(memory, nativeGlobalAddress(memory,0x80f210));
   for (let range = 0; range < 4; range++) {
     const packed = pointer(memory, ranges + range * 4); if (!packed) return;
     const sector = packed & 255, first = (packed >>> 12) & 255, last = packed >>> 24;
     if (first > last) continue;
     for (let band = first; band <= last; band++) {
-      const start = pointer(memory, 0x80f220 + sector * 4) + band * 32;
+      const start = pointer(memory, nativeGlobalAddress(memory,0x80f220 + sector * 4)) + band * 32;
       for (let slot = 0; slot < 8; slot++) {
         const cell = start + slot * 4, value = pointer(memory, cell);
         if (value && value >>> 22 === (index >>> 0)) {
           const dirty = ((((value & 0x3fffff) | 0x800000) << 7) | (sector & 127)) | 0;
-          if (dirtyCount < 64 && (!dirtyCount || get(memory, 0x80f41c + dirtyCount * 4) !== dirty)) {put(memory, 0x80f420 + dirtyCount * 4, dirty); dirtyCount++;}
+          if (dirtyCount < 64 && (!dirtyCount || get(memory, nativeGlobalAddress(memory,0x80f41c + dirtyCount * 4)) !== dirty)) {put(memory, nativeGlobalAddress(memory,0x80f420 + dirtyCount * 4), dirty); dirtyCount++;}
           put(memory, cell, 0); break;
         }
       }
     }
-    put(memory, 0x80f210, dirtyCount);
+    put(memory, nativeGlobalAddress(memory,0x80f210), dirtyCount);
   }
 }
 
@@ -142,9 +143,9 @@ function collectLightRanges(position, mode, output, outside, {memory}) {
 //The high-water count increments by one even when a free slot lies farther on.
 export function allocateDynamicLight(position, color, mode, runtime) {
   const {memory, scratchBase} = runtime;
-  let index = pointer(memory, 0x80f214), address = lightAddress(index);
-  if (address < 0x8106e0) while (address < 0x8106e0 && memory.readInt16LE(address + 0x24)) {address += 64; index = (index + 1) >>> 0;}
-  if (address === 0x8106e0) return 0;
+  let index = pointer(memory, nativeGlobalAddress(memory,0x80f214)), address = lightAddress(memory,index);
+  if (address < nativeGlobalAddress(memory,0x8106e0)) while (address < nativeGlobalAddress(memory,0x8106e0) && memory.readInt16LE(address + 0x24)) {address += 64; index = (index + 1) >>> 0;}
+  if (address === nativeGlobalAddress(memory,0x8106e0)) return 0;
   const ranges = scratchBase - 20;
   collectLightRanges(position, (mode << 16) >> 16, ranges, scratchBase - 24, runtime);
   put(memory, address + 0x24, 1);
@@ -152,13 +153,13 @@ export function allocateDynamicLight(position, color, mode, runtime) {
   for (const offset of [0x2c, 0x30, 0x28]) put(memory, address + offset, 0);
   put(memory, address + 12, get(memory, color)); word(memory, address + 16, mode); word(memory, address + 18, 2);
   insertDynamicLightRanges(index, ranges, runtime);
-  const count = pointer(memory, 0x80f20c); if (count <= index) put(memory, 0x80f20c, count + 1);
+  const count = pointer(memory, nativeGlobalAddress(memory,0x80f20c)); if (count <= index) put(memory, nativeGlobalAddress(memory,0x80f20c), count + 1);
   return index;
 }
 
 const changedCell = (memory, light, position) => [0, 4, 8].reduce((bits, offset) => bits | (get(memory, light + offset) ^ get(memory, position + offset)), 0) & 0xff000000;
 function moveLight(index, position, ranges, outside, runtime) {
-  const {memory} = runtime, address = lightAddress(index);
+  const {memory} = runtime, address = lightAddress(memory,index);
   if (changedCell(memory, address, position)) {
     removeDynamicLightRanges(index, runtime);
     collectLightRanges(position, memory.readInt16LE(address + 16), ranges, outside, runtime);
@@ -188,7 +189,7 @@ export function updateVehicleDynamicLight(light, index, runtime) {
   } else selected.forEach((value, offset) => {memory[light + 12 + offset] = value;});
   for (let offset = 0; offset < 20; offset += 4) put(memory, 0x91d360 + offset, get(memory, body + 0xc4 + offset));
   const scale = memory.readFloatLE(0x5dc5f4);
-  for (let lane = 0; lane < 9; lane++) memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360 + lane * 2)) * scale), 0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4);
+  for (let lane = 0; lane < 9; lane++) memory.writeFloatLE(Math.fround(Math.fround(memory.readInt16LE(0x91d360 + lane * 2)) * scale), nativeGlobalAddress(memory,0x91cdc0 + Math.floor(lane / 3) * 16 + lane % 3 * 4));
   put(memory, 0x91d3e4, 0xffec0000); put(memory, 0x91d3e8, 0xff6a);
   transformWheelEffectOffset({memory});
   const position = scratchBase - 12;
@@ -203,32 +204,32 @@ export function updateDynamicLights(intermediateSubstep, runtime) {
   //44d96a. This saved cookie can survive into48e310's partly initialized
   //three-DWORD queue payload on a later call using the same entry stack.
   put(memory, scratchBase - 8, pointer(memory, 0x5e8890) ^ ((scratchBase - 0x44) >>> 0));
-  let count = pointer(memory, 0x80f20c);
+  let count = pointer(memory, nativeGlobalAddress(memory,0x80f20c));
   if (!(intermediateSubstep | 0)) {
-    const end = lightAddress(count);
-    if (end > 0x80f560) for (let address = 0x80f572; address < end; address += 64) {const age = memory.readUInt16LE(address); if (age) word(memory, address, age - 1);}
-    let dirtyCount = pointer(memory, 0x80f210), tail = 0x80f41c + dirtyCount * 4;
-    for (let cursor = tail; cursor >= 0x80f420; cursor -= 4) {
+    const end = lightAddress(memory,count);
+    if (end > nativeGlobalAddress(memory,0x80f560)) for (let address = nativeGlobalAddress(memory,0x80f572); address < end; address += 64) {const age = memory.readUInt16LE(address); if (age) word(memory, address, age - 1);}
+    let dirtyCount = pointer(memory, nativeGlobalAddress(memory,0x80f210)), tail = nativeGlobalAddress(memory,0x80f41c + dirtyCount * 4);
+    for (let cursor = tail; cursor >= nativeGlobalAddress(memory,0x80f420); cursor -= 4) {
       const value = pointer(memory, cursor), age = value >>> 29;
       if (age) put(memory, cursor, ((age - 1) << 29) | (value & 0x1fffffff));
       if (!(pointer(memory, cursor) & 0xe0000000)) {put(memory, cursor, get(memory, tail)); tail -= 4; dirtyCount = (dirtyCount - 1) >>> 0;}
     }
-    if (pointer(memory, 0x80f210)) put(memory, 0x80f210, dirtyCount);
-    const queued = pointer(memory, 0x810920);
-    for (let index = 0, item = 0x8106ec; index < queued; index++, item += 36) {
+    if (pointer(memory, nativeGlobalAddress(memory,0x80f210))) put(memory, nativeGlobalAddress(memory,0x80f210), dirtyCount);
+    const queued = pointer(memory, nativeGlobalAddress(memory,0x810920));
+    for (let index = 0, item = nativeGlobalAddress(memory,0x8106ec); index < queued; index++, item += 36) {
       const selected = allocateDynamicLight(item - 12, item, memory.readUInt16LE(item + 4), {...runtime, scratchBase: frame - 8});
       if (selected) {
-        const light = lightAddress(selected); word(memory, light + 0x24, memory.readUInt16LE(item + 6)); word(memory, light + 0x26, memory.readUInt16LE(item + 8));
+        const light = lightAddress(memory,selected); word(memory, light + 0x24, memory.readUInt16LE(item + 6)); word(memory, light + 0x26, memory.readUInt16LE(item + 8));
         const first = memory.readBigUInt64LE(item + 12); memory.writeBigUInt64LE(first, light + 0x34); put(memory, light + 0x3c, get(memory, item + 20));
       }
     }
-    if (queued) count = pointer(memory, 0x80f20c);
-    put(memory, 0x810920, 0);
+    if (queued) count = pointer(memory, nativeGlobalAddress(memory,0x80f20c));
+    put(memory, nativeGlobalAddress(memory,0x810920), 0);
   }
   let seed = get(memory, 0x5ec958);
-  const remove = index => {removeDynamicLightRanges(index, runtime); word(memory, lightAddress(index) + 0x24, 0); if (count === index + 1) {count--; put(memory, 0x80f20c, count);}};
+  const remove = index => {removeDynamicLightRanges(index, runtime); word(memory, lightAddress(memory,index) + 0x24, 0); if (count === index + 1) {count--; put(memory, nativeGlobalAddress(memory,0x80f20c), count);}};
   for (let index = 1; index < count; index++) {
-    const light = lightAddress(index), kind = memory.readInt16LE(light + 0x24);
+    const light = lightAddress(memory,index), kind = memory.readInt16LE(light + 0x24);
     if (kind === 1) {
       const palette = pointer(memory, light + 0x28);
       if (palette) {
@@ -248,17 +249,17 @@ export function updateDynamicLights(intermediateSubstep, runtime) {
       for (let lane = 0; lane < 3; lane++) memory[light + 12 + lane] = memory[body + (kind === 5 ? 0x1b4 : 0x2a3d) + lane] >>> (kind === 5 ? 3 : 1);
       moveLight(index, body + 0x34, frame + (kind === 5 ? 0x2c : 0x3c), frame + (kind === 5 ? 0x20 : 0x24), runtime);
     } else if (kind === 8) {
-      updateVehicleDynamicLight(light, index, {...runtime, scratchBase: frame - 4}); seed = get(memory, 0x5ec958); count = pointer(memory, 0x80f20c);
+      updateVehicleDynamicLight(light, index, {...runtime, scratchBase: frame - 4}); seed = get(memory, 0x5ec958); count = pointer(memory, nativeGlobalAddress(memory,0x80f20c));
     }
   }
   for (let index = 1; index < count; index++) {
-    const light = lightAddress(index); if (memory.readInt16LE(light + 0x24) !== 1) continue;
+    const light = lightAddress(memory,index); if (memory.readInt16LE(light + 0x24) !== 1) continue;
     const body = pointer(memory, light + 0x30);
     if (body) {
       if (typeof handlers.call476550 === 'function') handlers.call476550({memory, ecx: body, args: [], scratchBase: frame - 4});
       else stepRawScriptedMotion(body, {...runtime, scratchBase: frame - 4});
       for (const offset of [0, 4, 8]) put(memory, body + 0x34 + offset, get(memory, body + 0x34 + offset) + get(memory, body + 0x68 + offset));
-      moveLight(index, body + 0x34, frame + 0x3c, frame + 0x24, runtime); count = pointer(memory, 0x80f20c);
+      moveLight(index, body + 0x34, frame + 0x3c, frame + 0x24, runtime); count = pointer(memory, nativeGlobalAddress(memory,0x80f20c));
     } else {
       const queued = 0x90b688 + (index - 1) * 8;
       if (memory.readInt16LE(queued + 6) === 1) {

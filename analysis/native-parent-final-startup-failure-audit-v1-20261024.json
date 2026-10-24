@@ -1,0 +1,415 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-read-only-startup-thread-suspension-failure-audit",
+  "createdUtc": "2026-10-24T12:32:30.908Z",
+  "captureDirectory": "analysis/native-parent-final-stock-capture-v1-20261024",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "helperSha256": "944da06c6b1da49ba7242e3e11eada27f8504f9bb98d7b7e9d776a8f279e7fe5",
+  "configurationSha256": "a6ca30ec88535c564f506918e71f8e3a290a8ed6b98a34ca2e9147bbe10dd9a9",
+  "traceSha256": "06699643f6d01b784fdf4766afa821961acd2d3bfc10db8d48228a4f29b3130a",
+  "preparedSha256": "5453a0bde415c82c3e694e314ddaebea373b3750fde8ae8337642662766f8783",
+  "verifiedFailurePreserved": true,
+  "outcome": {
+    "ownedPid": 10272,
+    "ownedMainTid": 6268,
+    "hostExitCode": 1,
+    "hostExitCodeAuthority": "Root invocation result; trace records capture-error rather than complete",
+    "captureErrorElapsedMs": 162,
+    "cleanupElapsedMs": 173,
+    "snapshots": [
+      {
+        "ordinal": 1,
+        "id": "launcher-policy",
+        "tid": 6268,
+        "event": 145,
+        "elapsedMs": 157
+      },
+      {
+        "ordinal": 2,
+        "id": "graphics-policy",
+        "tid": 6268,
+        "event": 147,
+        "elapsedMs": 158
+      }
+    ],
+    "parentSnapshots": 0,
+    "finalSnapshots": 0,
+    "finalActivationMarkers": 0,
+    "typedInputGraphMarkers": 0,
+    "completeRecords": 0,
+    "currentRollcageProcessCount": 0
+  },
+  "failurePhase": {
+    "operation": "suspend-peer-thread",
+    "debugEventOrdinal": 153,
+    "mainBreakpoint": "USER32.dll!ShowWindow existing startup IAT observation hook",
+    "breakpointAddress": "0x76e7b090",
+    "argumentChange": "ShowWindow argument2 original1→SW_HIDE0; original call not emulated",
+    "stage": "After launcher and graphics startup snapshots, before before-device-creation and selected450e50 entry",
+    "currentInstructionHandling": "Normal owned-hook original-byte restoration/peer-suspend preparation; adapter aborted before continuing original instruction. No recovery/resume was attempted.",
+    "newFinalReturnOrTypedInputObservationReached": false,
+    "finalReturnSiteDeclaredButUnarmed": {
+      "type": "breakpoint-installation-deferred",
+      "id": "native-parent-return",
+      "address": "0x00ed0e38",
+      "originalBytesHex": "8b",
+      "activationBreakpointId": "native-control-before",
+      "activationSelection": "selected-owned-parent-entry",
+      "capability": "scoped-parent-final-tick-v1",
+      "codeModified": false,
+      "elapsedMs": 13
+    }
+  },
+  "threadHandle": {
+    "tid": 20336,
+    "createDebugEventOrdinal": 119,
+    "createElapsedMs": 146,
+    "sourceHandle": "0x00000000000009cc",
+    "trackingHandle": "0x00000000000009d4",
+    "sameAccess": true,
+    "distinctOwnedDuplicate": true,
+    "duplicateLifetimeCodeSha256": "7f35be541a9f5b3f15ad3cd38182562446ad5a011be0e06a92ec7e44ce2c91f3",
+    "identicalToSuccessfulV8Code": true,
+    "successfulV8Helper": "analysis/native-physics-local/parent-rtti-stock-resumed-v8-20261024/runner-v8/lib/native-physics-debugger.cs",
+    "successfulV8HelperSha256": "470f15aac2ee99dd81036e8e559107e94885bee9447a8b98c26a4f8304ff0019",
+    "actualGrantedAccessMaskObserved": false,
+    "actualHandlePidTidQueried": false,
+    "exitEventBeforeFailure": false,
+    "trackingHandleClosedBeforeFailure": false,
+    "trackingHandleReuseRecord": false,
+    "priorThreadExecution": "Actual owned exceptions at events140/141 and149/150; hook entry7704ea10 is CreateFileW, followed by native single-step at7785e250."
+  },
+  "denials": [
+    {
+      "operation": "suspend-peer-thread",
+      "elapsedMs": 161,
+      "win32Error": 5,
+      "waitResult": "0x00000102",
+      "waitWin32Error": 0,
+      "exitCodeAvailable": true,
+      "exitCode": "0x00000103",
+      "exitCodeWin32Error": 0,
+      "terminated": false,
+      "disposition": "unproven-failure",
+      "proof": "no-signaled-thread-proof"
+    },
+    {
+      "operation": "suspend-stop-diagnostic",
+      "elapsedMs": 166,
+      "win32Error": 5,
+      "waitResult": "0x00000102",
+      "waitWin32Error": 0,
+      "exitCodeAvailable": true,
+      "exitCode": "0x00000103",
+      "exitCodeWin32Error": 0,
+      "terminated": false,
+      "disposition": "unproven-failure",
+      "proof": "no-signaled-thread-proof"
+    },
+    {
+      "operation": "freeze-terminal-cleanup",
+      "elapsedMs": 173,
+      "win32Error": 5,
+      "waitResult": "0x00000102",
+      "waitWin32Error": 0,
+      "exitCodeAvailable": true,
+      "exitCode": "0x00000103",
+      "exitCodeWin32Error": 0,
+      "terminated": false,
+      "disposition": "unproven-failure",
+      "proof": "no-signaled-thread-proof"
+    }
+  ],
+  "diagnosis": {
+    "established": [
+      "SuspendThread failed with Win32error5 for the same actual tracked peer on three attempts:161,166,173ms.",
+      "Zero-time wait never reported a signaled thread; GetExitCodeThread succeeded with259. The existing adapter correctly classified termination as unproven.",
+      "Logical handle duplication/lifetime records contain no close, exit-event or recorded alias/reuse for this owned tracking copy. Query and synchronization operations succeeded; suspend capability itself was not established.",
+      "The unchanged generic suspend/termination/duplication code previously completed V8. New final endpoint and typed-input readers were not activated."
+    ],
+    "terminatingThreadRaceProved": false,
+    "insufficientSuspendAccessProved": false,
+    "possibleCauses": [
+      "An insufficient THREAD_SUSPEND_RESUME grant is compatible with the observed denial, but no granted-access mask was captured.",
+      "A transient thread lifecycle/OS suspension denial is also compatible; non-signaled wait/259 prevents a termination claim.",
+      "No root cause is established by these records; prior success does not prove a newly created peer has the same suspension permissions/state."
+    ],
+    "unsupportedConclusions": [
+      "Do not mark the peer terminated, ignore it, resume partially stepped code, unpatch while it is unquiescent, or attribute this to final-parent gameplay logic."
+    ]
+  },
+  "cleanup": {
+    "requestedThreads": 9,
+    "frozenTids": [
+      6268,
+      27892,
+      37548,
+      19164,
+      17992,
+      35944,
+      17368,
+      34736
+    ],
+    "inertTerminatedTids": [],
+    "allFrozen": false,
+    "allTrackedThreadsQuiescent": false,
+    "unpatchSkipped": true,
+    "remainingGuardsRetainedUntilProcessTermination": true,
+    "terminated": true,
+    "win32Error": 0,
+    "diagnosticContexts": 8,
+    "diagnosticErrors": 1,
+    "blobCountVerified": 23,
+    "blobBytesVerified": 8234
+  },
+  "boundedHistory": {
+    "scope": "Filename-bounded analysis trace.jsonl, *regression*.txt and *console*.log exact-string search only; no historical game/fixture reruns or blob reloads",
+    "traceFilesEnumerated": 152,
+    "queries": [
+      "suspend-peer-thread failed",
+      "suspend-new-thread failed",
+      "freeze-terminal-cleanup failed"
+    ],
+    "matchingFiles": [
+      "analysis/native-parent-final-stock-capture-v1-20261024/trace.jsonl",
+      "analysis/physics-fidelity-broad-regression-20261023-v1.txt"
+    ],
+    "priorMatch": {
+      "file": "analysis/physics-fidelity-broad-regression-20261023-v1.txt",
+      "sha256": "d86dcea2cc9769d8fa2734c64376e4b442540189d25406ba59d650c2966bed98",
+      "firstRelevantLine": 2393,
+      "excerpt": [
+        "test at tests\\native-observation-activation.test.mjs:163:1",
+        "✖ two owned native threads keep preactivation calls untrapped and background calls out of the pending snapshot budget (6538.7209ms)",
+        "  AssertionError [ERR_ASSERTION]: C:\\Users\\Cyril\\Documents\\Rollcage RE\\tools\\native-physics-capture.ps1 : Exception calling \"Run\" with \"3\" argument(s): ",
+        "  \"suspend-peer-thread failed for owned TID 6160; zero-time wait=0x00000102, wait Win32 error=0\"",
+        "      + CategoryInfo          : NotSpecified: (:) [native-physics-capture.ps1], MethodInvocationException",
+        "      + FullyQualifiedErrorId : Win32Exception,native-physics-capture.ps1",
+        "   "
+      ],
+      "scope": "Earlier two-owned-native-thread regression fixture, not this game capture",
+      "sameOperation": true,
+      "sameWaitTimeout": true,
+      "win32ErrorAndExitCodeNotRecorded": true,
+      "sameRootCauseEstablished": false
+    },
+    "limit": "No other exact-string matching retained production trace was found; this does not prove the condition never occurred."
+  },
+  "retryRecommendation": {
+    "reasonable": true,
+    "maxFreshAttemptsRecommended": 1,
+    "implementationChanged": false,
+    "conditions": [
+      "Use a fresh isolated installation/output and the exact frozen944 helper/purpose/startup guards.",
+      "Keep the failedV1 trace and all file-integrity evidence; do not reuse process/handles/output directory.",
+      "Retain fail-closed peer suspension, termination-proof and unpatch-quiescence rules.",
+      "Stop on a repeated failure; then add read-only actual handle GrantedAccess/objectPID/TID diagnostics before considering any implementation change."
+    ],
+    "meaning": "A single unchanged fresh attempt is a bounded reproducibility test for an isolated startup failure, not a proven race workaround or permission bypass; success is not guaranteed."
+  },
+  "installationReports": {
+    "reports": [
+      {
+        "file": "analysis/native-parent-final-stock-installation-after-v1-20261024.json",
+        "sha256": "67aa10a42c781d62d396fdd51bcff9e0d8cc6b4ce99d5067c96e503b79956351",
+        "filesPerSide": 171,
+        "identitiesReported": 342,
+        "allMatch": true
+      },
+      {
+        "file": "analysis/native-parent-final-installed-edits-after-v1-20261024.json",
+        "sha256": "aa26a0cadd301cb59cf15aa22e0fcdd62725a48fe20ecae8bb7ce503fb2ce8b2",
+        "filesPerSide": 173,
+        "identitiesReported": 346,
+        "allMatch": true
+      }
+    ],
+    "identitiesReported": 688,
+    "authority": "Root fullfile verification reports read and SHA-pinned; not redundantly rehashed by this audit"
+  },
+  "timeline": [
+    {
+      "traceRecordOrdinal": 292,
+      "type": "debug-event",
+      "event": 2,
+      "pid": 10272,
+      "tid": 20336,
+      "ordinal": 119,
+      "elapsedMs": 146
+    },
+    {
+      "traceRecordOrdinal": 293,
+      "type": "owned-debug-thread-handle",
+      "pid": 10272,
+      "tid": 20336,
+      "sourceHandle": "0x00000000000009cc",
+      "trackingHandle": "0x00000000000009d4",
+      "sameAccess": true,
+      "eventHandleOwnership": "system-closes-on-exit-continuation",
+      "trackingHandleOwnership": "debugger-copy",
+      "elapsedMs": 146
+    },
+    {
+      "traceRecordOrdinal": 334,
+      "type": "debug-event",
+      "event": 1,
+      "pid": 10272,
+      "tid": 20336,
+      "ordinal": 140,
+      "elapsedMs": 150
+    },
+    {
+      "traceRecordOrdinal": 336,
+      "type": "debug-event",
+      "event": 1,
+      "pid": 10272,
+      "tid": 20336,
+      "ordinal": 141,
+      "elapsedMs": 150
+    },
+    {
+      "traceRecordOrdinal": 358,
+      "type": "debug-event",
+      "event": 1,
+      "pid": 10272,
+      "tid": 20336,
+      "ordinal": 149,
+      "elapsedMs": 159
+    },
+    {
+      "traceRecordOrdinal": 360,
+      "type": "debug-event",
+      "event": 1,
+      "pid": 10272,
+      "tid": 20336,
+      "ordinal": 150,
+      "elapsedMs": 159
+    },
+    {
+      "traceRecordOrdinal": 371,
+      "type": "owned-thread-lifecycle",
+      "pid": 10272,
+      "tid": 20336,
+      "operation": "suspend-peer-thread",
+      "resume": false,
+      "win32Error": 5,
+      "waitMilliseconds": 0,
+      "waitResult": "0x00000102",
+      "waitWin32Error": 0,
+      "exitCodeAvailable": true,
+      "exitCode": "0x00000103",
+      "exitCodeWin32Error": 0,
+      "terminated": false,
+      "disposition": "unproven-failure",
+      "proof": "no-signaled-thread-proof",
+      "elapsedMs": 161
+    },
+    {
+      "traceRecordOrdinal": 372,
+      "type": "capture-error",
+      "error": "System.ComponentModel.Win32Exception (0x80004005): suspend-peer-thread failed for owned TID 20336; Win32 error=5; zero-time wait=0x00000102, wait Win32 error=0, exit code=0x00000103\r\n   at RollcageCapture.NativeDebugger.ChangeTrackedThreadSuspension(IntPtr thread, UInt32 pid, UInt32 tid, Boolean resume, String operation, Action`1 emit, UInt32& previousCount)\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+      "events": 153,
+      "snapshots": 2,
+      "pendingFrame": null,
+      "elapsedMs": 162
+    },
+    {
+      "traceRecordOrdinal": 381,
+      "type": "owned-thread-lifecycle",
+      "pid": 10272,
+      "tid": 20336,
+      "operation": "suspend-stop-diagnostic",
+      "resume": false,
+      "win32Error": 5,
+      "waitMilliseconds": 0,
+      "waitResult": "0x00000102",
+      "waitWin32Error": 0,
+      "exitCodeAvailable": true,
+      "exitCode": "0x00000103",
+      "exitCodeWin32Error": 0,
+      "terminated": false,
+      "disposition": "unproven-failure",
+      "proof": "no-signaled-thread-proof",
+      "elapsedMs": 166
+    },
+    {
+      "traceRecordOrdinal": 382,
+      "type": "thread-diagnostic-error",
+      "stage": "suspend",
+      "pid": 10272,
+      "tid": 20336,
+      "mainThread": false,
+      "win32Error": 5,
+      "error": "suspend-stop-diagnostic failed for owned TID 20336; Win32 error=5; zero-time wait=0x00000102, wait Win32 error=0, exit code=0x00000103",
+      "elapsedMs": 166
+    },
+    {
+      "traceRecordOrdinal": 400,
+      "type": "owned-thread-lifecycle",
+      "pid": 10272,
+      "tid": 20336,
+      "operation": "freeze-terminal-cleanup",
+      "resume": false,
+      "win32Error": 5,
+      "waitMilliseconds": 0,
+      "waitResult": "0x00000102",
+      "waitWin32Error": 0,
+      "exitCodeAvailable": true,
+      "exitCode": "0x00000103",
+      "exitCodeWin32Error": 0,
+      "terminated": false,
+      "disposition": "unproven-failure",
+      "proof": "no-signaled-thread-proof",
+      "elapsedMs": 173
+    },
+    {
+      "traceRecordOrdinal": 401,
+      "type": "owned-process-cleanup-freeze-error",
+      "pid": 10272,
+      "tid": 20336,
+      "mainThread": false,
+      "win32Error": 5,
+      "error": "freeze-terminal-cleanup failed for owned TID 20336; Win32 error=5; zero-time wait=0x00000102, wait Win32 error=0, exit code=0x00000103",
+      "elapsedMs": 173
+    },
+    {
+      "traceRecordOrdinal": 402,
+      "type": "owned-process-cleanup-freeze",
+      "pid": 10272,
+      "requestedThreads": 9,
+      "frozenTids": [
+        6268,
+        27892,
+        37548,
+        19164,
+        17992,
+        35944,
+        17368,
+        34736
+      ],
+      "inertTerminatedTids": [],
+      "allFrozen": false,
+      "allTrackedThreadsQuiescent": false,
+      "elapsedMs": 173
+    },
+    {
+      "traceRecordOrdinal": 403,
+      "type": "owned-process-cleanup-unpatch-skipped",
+      "pid": 10272,
+      "reason": "An owned thread could not be frozen; retain every remaining guard until process termination.",
+      "elapsedMs": 173
+    },
+    {
+      "traceRecordOrdinal": 404,
+      "type": "owned-process-cleanup",
+      "pid": 10272,
+      "terminated": true,
+      "win32Error": 0,
+      "elapsedMs": 173
+    }
+  ],
+  "limits": [
+    "This failed capture supplies no selected-parent, final-return, typed-light/listener, physics or source-fidelity evidence.",
+    "No helper/source/profile/OS/security setting changed and no game/native fixture launched by this audit."
+  ]
+}

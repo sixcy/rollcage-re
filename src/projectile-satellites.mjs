@@ -1,4 +1,5 @@
 import {abs32} from './fixed-integer.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {queryRawTerrain} from './raw-terrain-query.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
@@ -71,7 +72,7 @@ export function updateSatelliteProjectile(satellite, runtime) {
     for (let j = 0; j < 3; j++) {const body = ptr(m, master + 0x184 + j * 4); for (let k = 0; k < 4; k++) put(m, body + 0xc4 + k * 4, get(m, master + 0xc4 + k * 4)); word(m, body + 0xd4, m.readUInt16LE(master + 0xd4));}
     const index = m[satellite + 0x18f], phase = get(m, satellite + 0x188) === 2 ? (Math.imul(index, 85) + 64 + m.readInt16LE(master + 0x1a8)) & 255 : index === 1 ? 0x95 : index === 2 ? 0xef : 0x40;
     for (let j = 0; j < 5; j++) put(m, 0x91d360 + j * 4, get(m, master + 0xc4 + j * 4)); const factor = m.readFloatLE(0x5dc5f4);
-    for (let j = 0; j < 9; j++) {const value = Math.fround(m.readInt16LE(0x91d360 + j * 2)); m.writeFloatLE(value, frame + 0x14); m.writeFloatLE(Math.fround(value * factor), 0x91cdc0 + Math.floor(j / 3) * 16 + j % 3 * 4);}
+    for (let j = 0; j < 9; j++) {const value = Math.fround(m.readInt16LE(0x91d360 + j * 2)); m.writeFloatLE(value, frame + 0x14); m.writeFloatLE(Math.fround(value * factor), nativeGlobalAddress(m,0x91cdc0 + Math.floor(j / 3) * 16 + j % 3 * 4));}
     word(m, frame + 0x14, m.readUInt16LE(0x5ed0b0 + phase * 2)); word(m, frame + 0x16, m.readUInt16LE(0x5ed030 + phase * 2)); word(m, frame + 0x18, 0); put(m, 0x91d3e4, get(m, frame + 0x14)); put(m, 0x91d3e8, get(m, frame + 0x18)); transformWheelEffectOffset(runtime);
     const point = [0, 4, 8].map(offset => m.readInt16LE(0x91d448 + offset)); removeBodySpatial(satellite, runtime);
     const liveMaster = ptr(m, frame + 0x20), radius = m.readInt16LE(liveMaster + 0x1aa);

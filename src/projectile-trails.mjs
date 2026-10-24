@@ -1,4 +1,5 @@
 import {transformWheelEffectOffset} from './wheel-effects.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {allocateRawEffectParticle,registerRawEffectSpatial} from './body-retirement-effects.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
@@ -10,7 +11,7 @@ export function updateProjectileTrail(body,mode,runtime){
  const{memory:m,scratchBase}=runtime,frame=scratchBase-60;if(get(m,body+0x188)===1&&m.readInt8(body+0x18e)>2)return;
  const ring=((m.readInt16LE(body+0x18c)+m.readInt8(body+0x18e)-(mode===0?1:0))|0)%32;let destination=body+(ring+14)*32;
  for(let i=0;i<5;i++)put(m,0x91d360+i*4,get(m,body+0xc4+i*4));const factor=m.readFloatLE(0x5dc5f4);
- for(let i=0;i<9;i++){const value=Math.fround(m.readInt16LE(0x91d360+i*2));m.writeFloatLE(value,frame+0x20);m.writeFloatLE(Math.fround(value*factor),0x91cdc0+Math.floor(i/3)*16+(i%3)*4);}
+ for(let i=0;i<9;i++){const value=Math.fround(m.readInt16LE(0x91d360+i*2));m.writeFloatLE(value,frame+0x20);m.writeFloatLE(Math.fround(value*factor),nativeGlobalAddress(m,0x91cdc0+Math.floor(i/3)*16+(i%3)*4));}
  let x=m.readUInt16LE(body+0x36);put(m,frame+0x10,m.readUInt16LE(body+0x3a));put(m,frame+0x1c,m.readUInt16LE(body+0x3e));put(m,frame+0x14,0);word(m,frame+0x18,get(m,body+0x184)===0?-40:-20);
  const transform=(from,to)=>{put(m,0x91d3e4,get(m,frame+from));put(m,0x91d3e8,get(m,frame+from+4));transformWheelEffectOffset(runtime);for(let i=0;i<3;i++)word(m,frame+to+i*2,m.readUInt16LE(0x91d448+i*4));};
  transform(0x14,0x14);word(m,frame+0x2c,0);word(m,frame+0x30,0);put(m,frame+0x36,0);

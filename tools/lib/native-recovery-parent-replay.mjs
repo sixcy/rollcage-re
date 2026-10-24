@@ -3,6 +3,7 @@ import {nativePostFrameBoundaries} from './native-post-frame-replay.mjs';
 import {extendNativeFrameGeometryComparison} from './native-frame-replay.mjs';
 import {runRawPostFrameBodyStates} from '../../src/raw-respawn-state.mjs';
 import {nativeMemoryAddress} from '../../src/native-memory-spans.mjs';
+import {nativeGlobalAddress} from '../../src/native-global-address.mjs';
 import {readInstructionEvidence} from './instruction-evidence.mjs';
 import {REDUX_SHA256} from './retained-native-program.mjs';
 
@@ -32,7 +33,7 @@ function observeRecoveryStructures(bound,observations){
   const checkpointCount=m[pack+0x44],ids=ptr(pack+0x90);add(ids,checkpointCount*4,'44a2e0 actual checkpoint-ID groups.');
   let maximum=-1;for(let i=0;i<checkpointCount*4;i++)if(m[ids+i]!==255)maximum=Math.max(maximum,m[ids+i]);
   add(ptr(pack+0x70),(maximum+1)*20,'44a2e0/449d40 checkpoint backing bounded by actual captured IDs.');
-  const count=m.readUInt16LE(0x902bc4),list=ptr(0x902bc0);
+  const count=m.readUInt16LE(nativeGlobalAddress(m,0x902bc4)),list=ptr(nativeGlobalAddress(m,0x902bc0));
   for(let index=0;index<count;index++){
     const body=ptr(list+index*4);if(m.readInt32LE(body+0x128)!==32)continue;
     const type=ptr(body)&511;

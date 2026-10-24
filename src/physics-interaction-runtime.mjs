@@ -1,6 +1,7 @@
 // Live state bridge for the recovered ordinary-body effects 47b020/47b280
 // and placed-model damage 413fc0. This constructs no gameplay state and does
 // not activate weapons, suppress model callbacks, or establish a whole tick.
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {sharesNativeMemorySpan} from './native-memory-spans.mjs';
 export function createPhysicsInteractionRuntime({memory} = {}) {
   if (!Buffer.isBuffer(memory) || memory.length < 0x920800) throw Error('Physics interactions require shared native global storage.');
@@ -17,14 +18,14 @@ export function createPhysicsInteractionRuntime({memory} = {}) {
   scalar(directionScratch, 'sum91d45c', 0x91d45c);
   scalar(directionScratch, 'leadingZeros91d460', 0x91d460);
   const bodyEffectImpulse = {directionScratch};
-  Object.defineProperty(bodyEffectImpulse, 'originQ16', {enumerable: true, get: () => vector(0x91cd80)});
-  scalar(bodyEffectImpulse, 'strength', 0x91cd8c);
+  Object.defineProperty(bodyEffectImpulse, 'originQ16', {enumerable: true, get: () => vector(nativeGlobalAddress(memory, 0x91cd80))});
+  scalar(bodyEffectImpulse, 'strength', nativeGlobalAddress(memory, 0x91cd8c));
   const globals = {};
-  for (const offset of [0x60, 0x64, 0x68, 0x6c, 0x70, 0x74]) scalar(globals, `field91cd${offset.toString(16)}`, 0x91cd00 + offset);
+  for (const offset of [0x60, 0x64, 0x68, 0x6c, 0x70, 0x74]) scalar(globals, `field91cd${offset.toString(16)}`, nativeGlobalAddress(memory, 0x91cd00 + offset));
   const bodyEffectDamping = {globals};
   Object.defineProperties(bodyEffectDamping, {
     originQ16: {enumerable: true, get: () => vector(0x9153f0)},
-    timeScaleActive: {enumerable: true, get: () => get(0x811180)}
+    timeScaleActive: {enumerable: true, get: () => get(nativeGlobalAddress(memory, 0x811180))}
   });
   const count = () => {
     const value = memory.readUInt32LE(0x9207e4);
@@ -36,8 +37,8 @@ export function createPhysicsInteractionRuntime({memory} = {}) {
   Object.defineProperties(worldEffectState, {
     count: {enumerable: true, get: count},
     records: {enumerable: true, get: () => memory.subarray(0x920800, 0x920800 + count() * 16)},
-    originS16: {enumerable: true, get: () => [0x91cd82, 0x91cd86, 0x91cd8a].map(address => memory.readInt16LE(address))},
-    strength: {enumerable: true, get: () => get(0x91cd8c)}
+    originS16: {enumerable: true, get: () => [nativeGlobalAddress(memory, 0x91cd82), nativeGlobalAddress(memory, 0x91cd86), nativeGlobalAddress(memory, 0x91cd8a)].map(address => memory.readInt16LE(address))},
+    strength: {enumerable: true, get: () => get(nativeGlobalAddress(memory, 0x91cd8c))}
   });
   const bound = new WeakSet();
   function bindBody(body) {

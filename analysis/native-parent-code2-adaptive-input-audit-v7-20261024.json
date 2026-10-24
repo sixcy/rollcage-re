@@ -1,0 +1,773 @@
+{
+  "schemaVersion": 1,
+  "authority": "Independent read-only original-parent-entry input coverage audit; no source or native execution",
+  "captureDirectory": "analysis/native-parent-rtti-stock-capture-v7-20261024",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "snapshot": {
+    "ordinal": 4,
+    "breakpointId": "native-control-before",
+    "tid": 39804,
+    "observedDebugEventOrdinal": 6936,
+    "contextFile": "snapshot-000004-context.bin",
+    "contextSha256": "fd2fb4704848e7f8de8762523a81471eae6998ad10aba123e961f600f46053d1",
+    "moduleBaseAddress": 3276800,
+    "parentEntryEsp": 14088448,
+    "clock": 288
+  },
+  "captureTraceSha256": "dfc181632276e5364fe57540745d09b57a459ab6c3699b480a6b20aba1fe49c4",
+  "captureProvenanceVerified": true,
+  "originalContextAndAllCaptureBlobsHashVerified": true,
+  "evidenceIds": [
+    "ev_e7b66afda8bc1259f35bae13abb5f5ad007af72d368288d98dca50fc8ee1e855",
+    "ev_46bcabb10c7f22695d3aaf8697963cd496246d5cfed4b596a40f0b17737eb507"
+  ],
+  "bank": {
+    "headerAddress": 6366228,
+    "headerHex": "b8ad9217b8ae921730af9217",
+    "begin": 395488696,
+    "usedSlots": 64,
+    "capacitySlots": 94,
+    "code": 2,
+    "slotAddress": 395488704,
+    "ownerAddress": 144791832
+  },
+  "owner": {
+    "address": 144791832,
+    "length": 1168,
+    "sha256": "4e2b167426a18fab1d13d6ecaaec817847ae5e804f7a5a7b7bc7258fb51cc291",
+    "exactOriginalRows": [
+      {
+        "id": "control-tyre-sound2-owner",
+        "file": "snapshot-000004-range-500.bin",
+        "sha256": "4e2b167426a18fab1d13d6ecaaec817847ae5e804f7a5a7b7bc7258fb51cc291"
+      },
+      {
+        "id": "parent-sound-bank-owner-2",
+        "file": "snapshot-000004-range-507.bin",
+        "sha256": "4e2b167426a18fab1d13d6ecaaec817847ae5e804f7a5a7b7bc7258fb51cc291"
+      }
+    ],
+    "maximum488": 0,
+    "cursor48c": 0,
+    "channelVector": {
+      "begin": 395704024,
+      "end": 395704040,
+      "capacity": 395704040,
+      "used": 4,
+      "capacitySlots": 4,
+      "bytesHex": "487ee31060a19417f07ee310f0ec9517",
+      "coverage": {
+        "address": 395704024,
+        "length": 16,
+        "captured": true,
+        "coveredBytes": 16,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "skid-region",
+            "address": 390914048,
+            "length": 8302592,
+            "file": "snapshot-000004-range-090.bin",
+            "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+          }
+        ],
+        "bytesSha256": "60eb4cf6d830df9ead6e468cb0fef77c7024d9b7646224f2a78fdab000587ae6"
+      }
+    },
+    "callable": {
+      "storageAddress": 144792968,
+      "inlineBytesHex": "0df0adba0df0adba0df0adba0df0adba000000000df0adba",
+      "pointerFieldAddress": 144792988,
+      "pointerValue": 3131961357,
+      "pointerValueHex": "0xbaadf00d",
+      "dereferenced": false,
+      "reason": "Callable clone is only reached if adaptive scan exhausts all channels and count<16; first wrapper is missing so neither this branch nor callable target is established."
+    },
+    "dispatcherFields": {
+      "value464": 7,
+      "mode468": 0,
+      "position46a": 1,
+      "velocity46c": 0,
+      "sixthZero46f": 1
+    }
+  },
+  "slots": [
+    {
+      "index": 0,
+      "slotAddress": 395704024,
+      "wrapperAddress": 283344456,
+      "firstDword": {
+        "address": 283344456,
+        "length": 4,
+        "captured": false,
+        "coveredBytes": 0,
+        "missingSpans": [
+          {
+            "address": 283344456,
+            "length": 4
+          }
+        ],
+        "observingRows": []
+      },
+      "wrapper": {
+        "address": 283344456,
+        "length": 12,
+        "captured": false,
+        "coveredBytes": 0,
+        "missingSpans": [
+          {
+            "address": 283344456,
+            "length": 12
+          }
+        ],
+        "observingRows": []
+      },
+      "sourceAddress": null,
+      "sourceStatus": "Cannot read source pointer because original wrapper first DWORD is absent; no inferred pointee."
+    },
+    {
+      "index": 1,
+      "slotAddress": 395704028,
+      "wrapperAddress": 395616608,
+      "firstDword": {
+        "address": 395616608,
+        "length": 4,
+        "captured": true,
+        "coveredBytes": 4,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "skid-region",
+            "address": 390914048,
+            "length": 8302592,
+            "file": "snapshot-000004-range-090.bin",
+            "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+          }
+        ],
+        "bytesSha256": "919e0e10564004546c0b13179ba614009de84e85f3604f5da87237d3a3edb06c"
+      },
+      "wrapper": {
+        "address": 395616608,
+        "length": 12,
+        "captured": true,
+        "coveredBytes": 12,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "skid-region",
+            "address": 390914048,
+            "length": 8302592,
+            "file": "snapshot-000004-range-090.bin",
+            "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+          }
+        ],
+        "bytesSha256": "d420c04f967e4ccca43137f7db66c3b647b659e4876e6eaaf6d964c17f2b1300"
+      },
+      "wrapperBytesHex": "c0c59517b44e9f1000000000",
+      "positionPointer": 278875828,
+      "velocityPointer": 0,
+      "sourceAddress": 395691456,
+      "source": {
+        "address": 395691456,
+        "length": 2472,
+        "captured": true,
+        "coveredBytes": 2472,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "skid-region",
+            "address": 390914048,
+            "length": 8302592,
+            "file": "snapshot-000004-range-090.bin",
+            "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+          }
+        ],
+        "bytesSha256": "14a6b7daef7d36463c48b926a7df106aad1d7cea9dd2d00f7a2dfdb8879b4d1e"
+      },
+      "pending94c": 4,
+      "vtableAddress": 5193568,
+      "vtable": {
+        "address": 5193568,
+        "length": 136,
+        "captured": true,
+        "coveredBytes": 136,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "control-car0-surface-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-212.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car0-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-217.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car0-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-222.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car1-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-247.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car1-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-252.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car2-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-277.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car2-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-282.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car3-surface-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-302.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car3-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-307.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car3-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-312.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car4-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-337.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car4-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-342.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car5-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-367.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car5-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-372.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          }
+        ],
+        "bytesSha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+      },
+      "virtualTargets": [
+        {
+          "offset": 4,
+          "actualAddress": 3985776,
+          "preferredAddress": 4903280
+        },
+        {
+          "offset": 56,
+          "actualAddress": 3986816,
+          "preferredAddress": 4904320
+        },
+        {
+          "offset": 60,
+          "actualAddress": 3986800,
+          "preferredAddress": 4904304
+        },
+        {
+          "offset": 72,
+          "actualAddress": 3986688,
+          "preferredAddress": 4904192
+        },
+        {
+          "offset": 92,
+          "actualAddress": 3986464,
+          "preferredAddress": 4903968
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "slotAddress": 395704032,
+      "wrapperAddress": 283344624,
+      "firstDword": {
+        "address": 283344624,
+        "length": 4,
+        "captured": false,
+        "coveredBytes": 0,
+        "missingSpans": [
+          {
+            "address": 283344624,
+            "length": 4
+          }
+        ],
+        "observingRows": []
+      },
+      "wrapper": {
+        "address": 283344624,
+        "length": 12,
+        "captured": false,
+        "coveredBytes": 0,
+        "missingSpans": [
+          {
+            "address": 283344624,
+            "length": 12
+          }
+        ],
+        "observingRows": []
+      },
+      "sourceAddress": null,
+      "sourceStatus": "Cannot read source pointer because original wrapper first DWORD is absent; no inferred pointee."
+    },
+    {
+      "index": 3,
+      "slotAddress": 395704036,
+      "wrapperAddress": 395701488,
+      "firstDword": {
+        "address": 395701488,
+        "length": 4,
+        "captured": true,
+        "coveredBytes": 4,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "skid-region",
+            "address": 390914048,
+            "length": 8302592,
+            "file": "snapshot-000004-range-090.bin",
+            "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+          }
+        ],
+        "bytesSha256": "1646bde374839db738a601575b370882479eb74b94c24a517acc18888ae5447c"
+      },
+      "wrapper": {
+        "address": 395701488,
+        "length": 12,
+        "captured": true,
+        "coveredBytes": 12,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "skid-region",
+            "address": 390914048,
+            "length": 8302592,
+            "file": "snapshot-000004-range-090.bin",
+            "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+          }
+        ],
+        "bytesSha256": "7d27cb3e78e280377347bd2f4f4c8f0e470d27a9df405299fca0f3a55ff69fba"
+      },
+      "wrapperBytesHex": "18ed9517b4bda51000000000",
+      "positionPointer": 279297460,
+      "velocityPointer": 0,
+      "sourceAddress": 395701528,
+      "source": {
+        "address": 395701528,
+        "length": 2472,
+        "captured": true,
+        "coveredBytes": 2472,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "skid-region",
+            "address": 390914048,
+            "length": 8302592,
+            "file": "snapshot-000004-range-090.bin",
+            "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+          }
+        ],
+        "bytesSha256": "0676ad3453471791b1fe7f7859032d59ac808a70a8c0dbc97bcc6c80a1749123"
+      },
+      "pending94c": 4,
+      "vtableAddress": 5193568,
+      "vtable": {
+        "address": 5193568,
+        "length": 136,
+        "captured": true,
+        "coveredBytes": 136,
+        "missingSpans": [],
+        "observingRows": [
+          {
+            "id": "control-car0-surface-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-212.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car0-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-217.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car0-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-222.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car1-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-247.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car1-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-252.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car2-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-277.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car2-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-282.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car3-surface-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-302.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car3-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-307.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car3-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-312.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car4-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-337.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car4-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-342.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car5-road-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-367.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          },
+          {
+            "id": "control-car5-engine-vtable",
+            "address": 5193568,
+            "length": 136,
+            "file": "snapshot-000004-range-372.bin",
+            "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+          }
+        ],
+        "bytesSha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+      },
+      "virtualTargets": [
+        {
+          "offset": 4,
+          "actualAddress": 3985776,
+          "preferredAddress": 4903280
+        },
+        {
+          "offset": 56,
+          "actualAddress": 3986816,
+          "preferredAddress": 4904320
+        },
+        {
+          "offset": 60,
+          "actualAddress": 3986800,
+          "preferredAddress": 4904304
+        },
+        {
+          "offset": 72,
+          "actualAddress": 3986688,
+          "preferredAddress": 4904192
+        },
+        {
+          "offset": 92,
+          "actualAddress": 3986464,
+          "preferredAddress": 4903968
+        }
+      ]
+    }
+  ],
+  "relatedRawRowsRehashed": [
+    {
+      "id": "sound-owner-vector-roots",
+      "address": 6366228,
+      "length": 12,
+      "file": "snapshot-000004-range-043.bin",
+      "sha256": "4d0e4867295ae8bdc755827a7f861282b4e00688bfcbfaa317351502702b44e7"
+    },
+    {
+      "id": "debris-free-region",
+      "address": 144293888,
+      "length": 1654784,
+      "file": "snapshot-000004-range-088.bin",
+      "sha256": "a097f433ed99c960762cc6675422a5b0813e17b54c04176897db3b4b24f18173"
+    },
+    {
+      "id": "debris-active-region",
+      "address": 144297984,
+      "length": 1650688,
+      "file": "snapshot-000004-range-089.bin",
+      "sha256": "4cdc06e73ab7179611bcd7ace28887123d7d4d0e6092aadda2aa58bbc238d9c7"
+    },
+    {
+      "id": "control-tyre-sound2-owner",
+      "address": 144791832,
+      "length": 1168,
+      "file": "snapshot-000004-range-500.bin",
+      "sha256": "4e2b167426a18fab1d13d6ecaaec817847ae5e804f7a5a7b7bc7258fb51cc291"
+    },
+    {
+      "id": "parent-sound-bank-owner-2",
+      "address": 144791832,
+      "length": 1168,
+      "file": "snapshot-000004-range-507.bin",
+      "sha256": "4e2b167426a18fab1d13d6ecaaec817847ae5e804f7a5a7b7bc7258fb51cc291"
+    },
+    {
+      "id": "skid-region",
+      "address": 390914048,
+      "length": 8302592,
+      "file": "snapshot-000004-range-090.bin",
+      "sha256": "e0d8b13d0920793b00b5e7ec2554a96dd111bc12ec01de0d1d4a0dc7c384e4a4"
+    },
+    {
+      "id": "control-car0-surface-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-212.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car0-road-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-217.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car0-engine-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-222.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car1-road-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-247.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car1-engine-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-252.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car2-road-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-277.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car2-engine-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-282.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car3-surface-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-302.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car3-road-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-307.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car3-engine-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-312.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car4-road-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-337.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car4-engine-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-342.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car5-road-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-367.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    },
+    {
+      "id": "control-car5-engine-vtable",
+      "address": 5193568,
+      "length": 136,
+      "file": "snapshot-000004-range-372.bin",
+      "sha256": "009da0687f31d8536848352c21f3979b39ffb92790e13bf601af3534ff9e6aca"
+    }
+  ],
+  "actualFirstUnboundSourceBranch": {
+    "report": "analysis/native-parent-rtti-stock-second-replay-v7-20261024/report.json",
+    "sha256": "3c7e31412fdce1babbb770dfb1783dfe46a5da88a7d792a1aa6e29917d63cbd9",
+    "stage": "joined-control-prefix",
+    "error": "Error: Native adaptive sound-channel selection requires its complete source/allocation/vector stack services.",
+    "kind": "tyre-onset",
+    "actualCaller": 3825807,
+    "preferredCaller": 4743311,
+    "entryRegisters": {
+      "ebx": 279080576,
+      "ebp": 10,
+      "esi": 127,
+      "edi": 8947,
+      "ecx": 2,
+      "edx": 279080628,
+      "eax": 2
+    },
+    "args": [
+      0,
+      1200,
+      0,
+      7,
+      486504,
+      0,
+      0
+    ]
+  },
+  "firstMissingOriginalInput": {
+    "address": 283344456,
+    "length": 4,
+    "fullWrapperExtent": 12,
+    "slotsIndex": 0,
+    "preferredNativeRead": 4250604,
+    "instruction": "MOV ECX,dword ptr [EDI]",
+    "precedingObservedNativePointer": "40dbe8 reads the first channel pointer from observed used storage.",
+    "coverage": {
+      "address": 283344456,
+      "length": 4,
+      "captured": false,
+      "coveredBytes": 0,
+      "missingSpans": [
+        {
+          "address": 283344456,
+          "length": 4
+        }
+      ],
+      "observingRows": []
+    },
+    "nextReads": [
+      {
+        "instruction": 4250606,
+        "description": "Source vtable pointer at[ECX]; source pointer currently unknowable."
+      },
+      {
+        "instruction": 4250608,
+        "description": "Source virtual+38 target."
+      },
+      {
+        "instruction": 4250611,
+        "description": "Actual source virtual38(1) call, return required from genuine child."
+      }
+    ]
+  },
+  "commands": [
+    "Read-only loadPhysicsCapture(original V7), pairNativeControlSnapshots and verifyNativeParentRttiCaptureRecords",
+    "Read actual bank slot2; createCapturedMemory on original native-control-before rows only; coverage union/actual span checks and related raw-file SHA256",
+    "Read target-matched retained153 and9083 instruction evidence; inspect separately retained second V7 replay error without executing target"
+  ],
+  "limits": [
+    "Only original parent-entry bytes were used. No after snapshot bytes or native child return values were admitted.",
+    "Covered wrappers at indices1/3 do not establish missing wrappers0/2 or any earlier reuse result.",
+    "No playback/adaptive reuse/allocation/native combat or complete parent parity claimed.",
+    "The callable pointer is retained as an opaque observed number; no uninitialized-value interpretation or fake empty/null callable is supplied.",
+    "The first source failure is an unbound adaptive stack service. Once implemented genuinely, the initial captured input set still lacks the first wrapper DWORD."
+  ]
+}

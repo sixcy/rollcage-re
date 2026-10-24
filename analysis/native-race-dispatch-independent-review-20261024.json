@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "authority": "independent-read-only-source-and-retained-instruction-review",
+  "createdAt": "2026-10-24T15:36:16.791Z",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "reviewedModuleSha256": "d5f513819c20c9aad5516546824d3eaebfcb2e54740dd7ceec6493a9f5f113e4",
+  "productionFilesChanged": false,
+  "originalProcessLaunched": false,
+  "newReaSession": false,
+  "conclusion": {
+    "parentControlDefectIdentified": false,
+    "fullChildClosureEstablished": false,
+    "fullChainAslrEstablished": false,
+    "continuousRaceEstablished": false,
+    "summary": "Pinned450d60 parent branch order, live/latched reads, unsigned sibling continuation and raw outer-pop roles agree with retained001 within the declared semantic-child boundary. Remaining concrete failures are transitive child binding/ABI and numerical-state closure gaps, already outside the native claims in the current note."
+  },
+  "evidence": [
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/001-frame-parent.json",
+      "sha256": "5d27cca2698b3f6b2d0599e87a4c18ebc7850bea768b7c3babbda73e0620240a",
+      "evidenceId": "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/015-main-loop-assembly.json",
+      "sha256": "93151ae2342c2779892344a5e574969b5223e5eca815a0840efca88a7bce5274",
+      "evidenceId": "ev_73eaba83c2795b5d5ce603e02ae9bda94d7339201229832746848f56ab64526c",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    }
+  ],
+  "pins": [
+    {
+      "path": "src/native-race-dispatch.mjs",
+      "bytes": 9281,
+      "sha256": "d5f513819c20c9aad5516546824d3eaebfcb2e54740dd7ceec6493a9f5f113e4"
+    },
+    {
+      "path": "src/native-race-dispatch-return.mjs",
+      "bytes": 4864,
+      "sha256": "cdfccd63a1ce1e7b69e01dba9b4c7736cc790198ed0bd1b3005b8d494a8609cf"
+    },
+    {
+      "path": "src/native-race-step-clock.mjs",
+      "bytes": 6416,
+      "sha256": "ee2bcf30aabffd42ca443735bfa514e6fa0c3490cfecf6141ed01be5488325a0"
+    },
+    {
+      "path": "src/race-update.mjs",
+      "bytes": 11016,
+      "sha256": "b5f0f7b6fe3f458597014ea1838bdd499b6e617bc136e2b5a94f0bb353ff3fd7"
+    },
+    {
+      "path": "src/race-physics-stage.mjs",
+      "bytes": 2363,
+      "sha256": "5af71cd360b9a21a27228df2ad5a4f4bf8f866d6bb659f225dd735e0a2816948"
+    },
+    {
+      "path": "src/attachment-effects.mjs",
+      "bytes": 6650,
+      "sha256": "baa4e9db887ab08e28be4d1c523324921ec15040f97531ff9483edbe0a7bc2bc"
+    },
+    {
+      "path": "src/weather-viewport.mjs",
+      "bytes": 11310,
+      "sha256": "1414002cd1225a31170c643447eb7b38776c1eba48dbff146b3eb8d8d50bafbd"
+    },
+    {
+      "path": "src/application-viewports.mjs",
+      "bytes": 7567,
+      "sha256": "992d4ef4f6fab9f46aaecb0e7647d05c09069de0a63ba25aa9805b8089f96f5c"
+    },
+    {
+      "path": "tools/verify-native-race-dispatch-instructions.mjs",
+      "bytes": 16870,
+      "sha256": "345504d93134a052a51e1754a17f63b4ce3c91e7006c3129a239e4a56efc4c38"
+    },
+    {
+      "path": "tests/native-race-dispatch.test.mjs",
+      "bytes": 5850,
+      "sha256": "6559a5a73d2e725c19caa7fa21333e9393911e6e9aa0976a557bbdfdddbbda8e"
+    },
+    {
+      "path": "tests/native-race-dispatch-instructions.test.mjs",
+      "bytes": 3682,
+      "sha256": "1aac0bdbaf5c5b192c7ac5eae315e5519b89d60e7e5fb84336928ad94f25f89d"
+    },
+    {
+      "path": "tests/race-update.test.mjs",
+      "bytes": 13720,
+      "sha256": "a6f6208a080ebcfa5c784d16162555a50e6773903f6823e7e8364d01e8258d8f"
+    },
+    {
+      "path": "re-docs/native-race-dispatch.md",
+      "bytes": 5240,
+      "sha256": "368d4a5f68f0deb6bfb2554d8507ab892d0976aa23e3a7654e920c8d4ffcef15"
+    }
+  ],
+  "verifiedParentBehavior": [
+    {
+      "native": "450d6e..450d94",
+      "source": "eligibleSession/cinematic",
+      "result": "AL bit2/bit4 short circuit; unsigned session byte552 below1; signed phase57c below7; enabled EBX+1 or0."
+    },
+    {
+      "native": "450d94..450da6 and450dd9..450deb",
+      "source": "viewport/invoke",
+      "result": "The same caller argument pair survives402d10 plain RET, is reread for406b80, and its actual CALL return is republished.406b80 owns RET8. Name literal operands and code returns are module-relative; returned APP is kept as a raw pointer."
+    },
+    {
+      "native": "450da6..450dd9",
+      "source": "rear expression",
+      "result": "Flags, configuration root and session root are read again after the first viewport. The byte compares to current BL, not a fixed false substitute."
+    },
+    {
+      "native": "450df0..450e2a",
+      "source": "r.esi/r.edi and sample-only route",
+      "result": "Mode6e6b4c is loaded after the clock and stays latched in ESI across attachment processing; foreground ECX stays in EBP. Sample counter6e675c is distinct from delivery6e66f8 and logical90a548."
+    },
+    {
+      "native": "450e30..450e4d",
+      "source": "resumeNativeRaceDispatchReturn",
+      "result": "Total is a caller stack DWORD; iteration is EDX; child EAX0 stops; INC wraps unsigned32; CMP/JC is unsigned; final saved GPRs and return target are popped from live source memory."
+    },
+    {
+      "native": "440930 parent ending in CALL450d60/return440cd5",
+      "source": "dispatcher boundary",
+      "result": "Retained015 provides foreground mismatch ECX via SETNZ BL/MOV ECX,EBX. The dispatcher does not reconstruct previous input/render/event-loop producers and the review does not turn that caller evidence into an original outer-entry observation."
+    }
+  ],
+  "findings": [
+    {
+      "id": "physical-only-default-child-gap",
+      "classification": "confirmed-transitive-integration-gap",
+      "severity": "medium",
+      "paths": [
+        "src/native-race-dispatch.mjs",
+        "src/attachment-effects.mjs",
+        "src/race-update.mjs"
+      ],
+      "detail": "The parent itself resolves fixed instruction operands against moduleBaseAddress, but default44f3a0 and default450e50 still consume multiple preferred literal module addresses through their existing memory contract. A physical-only relocated input, accepted by this parent, cannot execute that default chain without additional explicit legacy mappings or migrated child operand roles. This is not a demonstrated parent control regression and current documentation already excludes full-chain ASLR.",
+      "probe": {
+        "authority": "constructed-dependency-only",
+        "moduleBaseAddress": "0x730000",
+        "dispatchEntryEsp": "0x18000",
+        "aliasCount": 0,
+        "syntheticChildren": [
+          "402d10",
+          "406b80",
+          "441c70"
+        ],
+        "defaultChild": "44f3a0",
+        "actualCountAddress": "0xa16b1c",
+        "actualCount": 0,
+        "firstError": "Uncaptured native memory at 0x6e6b1c (4 bytes).",
+        "noNativeAfterInput": true,
+        "noNativeProof": true
+      },
+      "nextValidation": "Add a relocated physical-only default-child regression when the child-role migration/binding is undertaken; preserve raw pointers and fail at unobserved input rather than broadly aliasing a colliding stack address."
+    },
+    {
+      "id": "numerical-state-after-clock-only",
+      "classification": "explicit-closure-gap",
+      "severity": "medium",
+      "paths": [
+        "src/native-race-dispatch.mjs",
+        "src/race-update.mjs",
+        "src/race-physics-stage.mjs"
+      ],
+      "detail": "Default441c70 derived CW/MXCSR and optional raw SW are decoded and carried to subsequent child runtimes; the incoming context remains unmodified. No other default child returns a modeled numerical-state report to this dispatcher. Default runRaceUpdate returns a number, and runRacePhysicsStage uses its separately constructed physics.context. Therefore result.numericalContext is the known clock state, not an authenticated full-FPU state after arbitrary complete physics children or siblings. Source currently has no claim of full numerical child closure.",
+      "nextValidation": "Before genuine multi-substep closure, define which reached children preserve/update numerical state, rebind the actual numerical inputs for any affected mapped context, and compare original numerical registers at the real joined boundaries. Do not copy native after-state or infer missing status words."
+    },
+    {
+      "id": "default-child-private-register-and-stack-gap",
+      "classification": "explicit-closure-gap",
+      "severity": "medium",
+      "paths": [
+        "src/native-race-dispatch.mjs",
+        "src/race-update.mjs"
+      ],
+      "detail": "The dispatcher intentionally tracks only required incoming ECX/nonvolatiles and proven later values. Unknown EAX/ECX/EDX are deleted after semantic child calls rather than filled. The current semantic450e50 child does not publish its complete saved-register/private stack ABI or derive every child-entry register from its internal loop; inherited runtime.entryRegisters alone cannot serve as that proof. Existing actual prefix/tail tools close a separate, explicitly bound context; they are not implicitly executed by this default.",
+      "nextValidation": "Use the independently derived actual450e50/private child frames and exact service lineages when joining the default to native outer inputs. Missing volatile registers must stay absent or fail when required."
+    },
+    {
+      "id": "conservative-knownness",
+      "classification": "review-passed-with-scope",
+      "severity": "info",
+      "detail": "Saved outer ECX and all four restored nonvolatiles are source memory reads, including address-shaped raw values. The return bridge preserves optional explicitly known registers. Ordinary sample-only/no-tick epilogues omit unknown volatileEDX; they do not claim a full CPU context. Child nonvolatile preservation is a semantic ABI assumption unless explicit returned metadata refines it."
+    },
+    {
+      "id": "production-seams-and-proof-attribution",
+      "classification": "review-passed",
+      "severity": "info",
+      "detail": "runtime.calls overrides and lower-level handler composition remain explicit test/service seams. The instruction tool declares all six child outcomes synthetic and does not label450 fixtures as native process proof. The three default tests supply CRT allocation/cast/free and QPC outcomes, run actual preferred-base viewport/map/clock/attachment algorithms, and do not use runtime.calls. Their scope ends at the sample-only path. No native after snapshots are used in the dispatcher."
+    },
+    {
+      "id": "pending-parallel-extensions",
+      "classification": "out-of-snapshot-scope",
+      "severity": "info",
+      "detail": "The pinned module still fails explicitly at477730. Optional native viewport ABI and pause-policy work was being implemented independently during this review; neither its later changes nor new source hashes are approved by this pinned report."
+    }
+  ],
+  "tests": [
+    {
+      "command": "node --test tests/native-race-dispatch.test.mjs tests/native-race-dispatch-return.test.mjs",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "node --test tests/native-race-dispatch-instructions.test.mjs tests/race-update.test.mjs",
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "constructedParentCases": 450,
+      "constructedParentImageBases": [
+        "0x400000",
+        "0x320000",
+        "0x730000"
+      ],
+      "retainedParentInstructionsReached": 87
+    }
+  ],
+  "nextActions": [
+    "Finish/review explicit pause and viewport ABI extensions separately.",
+    "Keep current constructed control and genuine default-algorithm validation separate from original-process comparisons.",
+    "Close actual original-entry child inputs, physical address roles and private ABI before claiming a whole450d60 native comparison.",
+    "Keep complete second-tick/event-loop and full numerical closure unproved until the genuine surrounding producers are executed."
+  ],
+  "limits": [
+    "Read-only review: no installed file, production module, viewer build or existing retained report was changed.",
+    "No native/REA/browser process launched.",
+    "The constructed physical-only dependency probe uses synthetic parent child outcomes solely to reach the real attachment entry; it supplies no original game answer or combat/physics proof.",
+    "The earlier FinalV2 carried return and warm clock recordings are distinct captures, not a connected next-tick observation.",
+    "No complete original outer update, native private callee ABI, full chain ASLR, FPU sticky state or continuous racing claim."
+  ]
+}

@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-constructed-native-clock-instruction-audit",
+  "createdUtc": "2026-10-24T13:32:19.339Z",
+  "verified": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "report": {
+    "path": "analysis/native-race-step-clock-abi-instruction-check-20261024.json",
+    "sha256": "28c8f2dfb188208654f5476bc9a5f92a8665147326c44f5536461555b344814a"
+  },
+  "reviewedFiles": [
+    {
+      "path": "tools/verify-native-race-step-clock-instructions.mjs",
+      "sha256": "451d88beab0a4514c93c1754d0cba75d50433c50de828a244c1a0c9f0feae744"
+    },
+    {
+      "path": "tests/native-race-step-clock-instructions.test.mjs",
+      "sha256": "4b8b993aa8dae9e43ad97bed0d4d87d09d13bbc9e5be5de80956e5190eaedf7c"
+    },
+    {
+      "path": "tools/lib/bounded-x86.mjs",
+      "sha256": "226f541978731a44a1f1e9bbfac520e75d97fc1746c7cb64e47bf91dd91ca69d"
+    },
+    {
+      "path": "src/native-race-step-clock.mjs",
+      "sha256": "348f173aebfb091bbb2aa7e3af5dd663c36845e40136d7d84d945e308ffa5f64"
+    },
+    {
+      "path": "src/native-clock-conversion.mjs",
+      "sha256": "0e800e7a396cd36c7f945d796788bd92b80bb00ef9f5c2baffc36c5b3112b155"
+    },
+    {
+      "path": "src/game-network-protocol.mjs",
+      "sha256": "afb50c7e848934812ac105611c393d06253eeb730017d03e9c9bfc8f59c5b5ef"
+    },
+    {
+      "path": "src/race-clock.mjs",
+      "sha256": "05d550d58bea3cb3f03ab4b84c04a78df77e1e238d8b3450ed13d7e9e7c0d9e4"
+    }
+  ],
+  "authority": "Constructed input fixtures plus retained original instructions; no original-process runtime comparison.",
+  "staticSignedDivision": {
+    "path": "analysis/native-simulation/results/20261024-clock-signed64-division-assembly.json",
+    "sha256": "0f6a4baa0640d4881314858df3ae05dd178765e242f5cca9cf097826e14023fb",
+    "evidenceId": "ev_5e83da9e8584442f7ba5642a6d79e59a445150641dc7bd8ec0d970d9933c61c2",
+    "instructions": 70,
+    "firstAddress": 5673856,
+    "lastAddress": 5674023,
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "rotates": [
+      {
+        "address": 5673961,
+        "operand": "ECX",
+        "count": "0x1",
+        "bytesHex": "d1d9"
+      },
+      {
+        "address": 5673965,
+        "operand": "EAX",
+        "count": "0x1",
+        "bytesHex": "d1d8"
+      }
+    ],
+    "returnBytesHex": "c21000"
+  },
+  "independentInstructionOnlyReproduction": {
+    "fixtures": 330,
+    "instructionSteps": 102484,
+    "uniqueInstructions": 331,
+    "apiCalls": 542,
+    "actualChildren": {
+      "0x441c70": 330,
+      "0x489cd0": 330,
+      "0x569380": 990,
+      "0x568f10": 990,
+      "0x568d6e": 264,
+      "0x568c41": 264,
+      "0x568bfd": 258
+    },
+    "returnedCounts": [
+      {
+        "count": 1,
+        "fixtures": 291
+      },
+      {
+        "count": 3,
+        "fixtures": 39
+      }
+    ],
+    "schedulerInstructions": 68,
+    "schedulerReached": 56,
+    "unreachedSchedulerInstructions": [
+      {
+        "address": 4463874,
+        "op": "MOV",
+        "args": [
+          "EAX",
+          "[0x006e66e4]"
+        ],
+        "addressHex": "0x441d02"
+      },
+      {
+        "address": 4463879,
+        "op": "INC",
+        "args": [
+          "EAX"
+        ],
+        "addressHex": "0x441d07"
+      },
+      {
+        "address": 4463880,
+        "op": "MOV",
+        "args": [
+          "[0x006e66e4]",
+          "EAX"
+        ],
+        "addressHex": "0x441d08"
+      },
+      {
+        "address": 4463885,
+        "op": "CMP",
+        "args": [
+          "EAX",
+          "0xa"
+        ],
+        "addressHex": "0x441d0d"
+      },
+      {
+        "address": 4463888,
+        "op": "JNC",
+        "args": [
+          "0x00441d30"
+        ],
+        "addressHex": "0x441d10"
+      },
+      {
+        "address": 4463890,
+        "op": "MOV",
+        "args": [
+          "ECX",
+          "0x1"
+        ],
+        "addressHex": "0x441d12"
+      },
+      {
+        "address": 4463895,
+        "op": "ADD",
+        "args": [
+          "EDX",
+          "ECX"
+        ],
+        "addressHex": "0x441d17"
+      },
+      {
+        "address": 4463897,
+        "op": "MOV",
+        "args": [
+          "EAX",
+          "ECX"
+        ],
+        "addressHex": "0x441d19"
+      },
+      {
+        "address": 4463899,
+        "op": "MOV",
+        "args": [
+          "dword ptr [0x006e66f8]",
+          "EDX"
+        ],
+        "addressHex": "0x441d1b"
+      },
+      {
+        "address": 4463905,
+        "op": "POP",
+        "args": [
+          "EBX"
+        ],
+        "addressHex": "0x441d21"
+      },
+      {
+        "address": 4463906,
+        "op": "ADD",
+        "args": [
+          "ESP",
+          "0x8"
+        ],
+        "addressHex": "0x441d22"
+      },
+      {
+        "address": 4463909,
+        "op": "RET",
+        "args": [],
+        "addressHex": "0x441d25"
+      }
+    ],
+    "keyBranches": [
+      {
+        "address": 4463741,
+        "hits": 66
+      },
+      {
+        "address": 4463787,
+        "hits": 264
+      },
+      {
+        "address": 4463874,
+        "hits": 0
+      },
+      {
+        "address": 4463910,
+        "hits": 39
+      },
+      {
+        "address": 4463920,
+        "hits": 39
+      },
+      {
+        "address": 4463945,
+        "hits": 225
+      },
+      {
+        "address": 5671933,
+        "hits": 258
+      },
+      {
+        "address": 5671957,
+        "hits": 0
+      },
+      {
+        "address": 5671915,
+        "hits": 0
+      }
+    ],
+    "fixtureDimensions": {
+      "current": [
+        0,
+        1,
+        100,
+        4294967294,
+        4294967295
+      ],
+      "flags": [
+        0,
+        1,
+        2,
+        4,
+        6,
+        128,
+        129,
+        131,
+        133,
+        135,
+        4294967295
+      ],
+      "streak": [
+        0,
+        1,
+        8,
+        9,
+        10,
+        2147483647,
+        4294967295
+      ],
+      "frequency": [
+        "1000000",
+        "3579545",
+        "10000000",
+        "1",
+        "4294967297",
+        "-1000000",
+        "-1"
+      ],
+      "initialized": [
+        0,
+        1,
+        4294967295
+      ],
+      "counterDelta": [
+        "1",
+        "33333",
+        "33334",
+        "100000",
+        "1000000",
+        "4294967296",
+        "-1",
+        "-33334",
+        "9223372036854775807",
+        "-9223372036854775808"
+      ],
+      "x87ControlWord": [
+        127,
+        639
+      ]
+    }
+  },
+  "reviewConclusions": [
+    "Original441c70,489cd0,uint64/double/signed64 conversions, masked numerical-status child, three long multiplies and three long divides execute as retained instructions. Only two purpose-specific synthetic Windows services are hooked.",
+    "No service computes a timer result, conversion result, integer helper result, scheduling count or native game-child outcome. Exact API sequence/name/pushed pointer/return word/entryESP/nonvolatiles/preimage/output/result are compared with source publication.",
+    "Whole10MiB equality includes the declared392B stack region and helper-owned CALL argument residue; it is stronger than scalar count equality but not a claim that every fixture byte was dynamically read or written.",
+    "Source and instruction sides consume identical independently constructed input images, raw controls and explicit service outcomes. No later native observation or initialized native output is copied into source.",
+    "Caller-supplied raw x87CW is required and preserved. Source numerical-state derivation is separately tested; this full runner does not compare SSE sticky state, private volatile registers, EFLAGS or all CPU state.",
+    "Original signed64-division retained70instruction evidence matches exact targetSHA; both newly reached RCR register/count forms and RET10 opcode bytes independently agree with the original PE."
+  ],
+  "tests": {
+    "command": "node --test tests/native-race-step-clock-instructions.test.mjs tests/native-race-step-clock.test.mjs tests/native-clock-conversion.test.mjs",
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "durationMs": 16057.002,
+    "fullOracleFixtures": 330
+  },
+  "findings": [
+    {
+      "severity": "coverage",
+      "codeRange": "441d02..441d25",
+      "description": "All12instructions of small-backlog/streak-increment arm are unreached by this330case full-chain matrix. No returned count2 appears; all39catchups take set-streak10/cap3. Source unit tests cover this arm separately, but do not substitute for full instruction-chain coverage.",
+      "recommendedTest": "Add explicit eligible flags83,current101,target103 fixtures with streak8/9 (returns1/2) and backlog3, independently driven by declared QPC/frequency values."
+    },
+    {
+      "severity": "coverage limits",
+      "description": "Fixture dimensions are modulo-correlated rather than Cartesian. Preferredbase400000, fixedC18000 alignment and CW007f/027f only in this full-chain report; relocated/PC64 source and conversion tests are separate evidence."
+    }
+  ],
+  "remainingLimits": [
+    "No native game launch/capture, real QPF/QPC values, continuous race, foreground/event/input/render producer or connected next parent tick proof.",
+    "Synthetic failed API choices leave OUT8B unchanged; this fixture policy is not a recovered guarantee of Windows failure output behavior.",
+    "Invalid/nonfinite or unmasked numerical-status except1 branches remain explicit unsupported boundaries; this full chain never reaches568c15/568beb.",
+    "Full-chain source return-eventEIP/ESP is not independently compared: interpreter terminal sentinel RET intentionally exits without architectural callerPOP; count, owned memory/callstack and incoming/restored four nonvolatiles are tested.",
+    "No production files changed in this independent audit; a future expanded report should retain this original330case report and label new branch coverage separately."
+  ]
+}

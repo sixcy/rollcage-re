@@ -4,6 +4,7 @@ import {abs32,multiplyQ16,divideQ16} from './fixed-integer.mjs';
 import {rawVectorLength} from './raw-vector-normalization.mjs';
 import {applyNativeActiveVehicleEffect,requireEffectEntryRegisters} from './native-active-vehicle-effect.mjs';
 import {assertNativeMemorySpan,nativeCodeAddress} from './native-memory-spans.mjs';
+import {nativeGlobalAddress} from './native-global-address.mjs';
 const get=(m,p)=>m.readInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p);
 const clamp=v=>Math.max(-0x1800,Math.min(0x1800,v));
 function nearest(value){const lo=Math.floor(value),f=value-lo,r=f<.5?lo:f>.5?lo+1:lo%2?lo+1:lo;return Number.isFinite(r)&&r>=-2147483648&&r<=2147483647?r:-2147483648;}
@@ -42,14 +43,14 @@ export function applyNativeBodyEffectImpulse(body,runtime){
  const{memory:m,scratchBase:B}=runtime,incoming=requireEffectEntryRegisters(runtime),F=B-52;
  assertNativeMemorySpan(m,F-200,256);
  if(!m.readUInt32LE(B))throw Error('Native body effect requires its actual caller return.');
- if(runtime.nativeStack.onEnter){const entryRegisters=Object.freeze(Object.fromEntries(['ebx','ebp','esi','edi'].map(name=>[name,incoming[name]>>>0])));runtime.nativeStack.onEnter(Object.freeze({bodyAddress:body,bodyHeaderHex:m.subarray(body,body+0x180).toString('hex'),originQ16:Object.freeze([0,4,8].map(o=>get(m,0x91cd80+o))),strength:get(m,0x91cd8c),entryEsp:B,entryRegisters,returnAddress:m.readUInt32LE(B)}));}
+ if(runtime.nativeStack.onEnter){const entryRegisters=Object.freeze(Object.fromEntries(['ebx','ebp','esi','edi'].map(name=>[name,incoming[name]>>>0])));runtime.nativeStack.onEnter(Object.freeze({bodyAddress:body,bodyHeaderHex:m.subarray(body,body+0x180).toString('hex'),originQ16:Object.freeze([0,4,8].map(o=>get(m,nativeGlobalAddress(m,0x91cd80+o)))),strength:get(m,nativeGlobalAddress(m,0x91cd8c)),entryEsp:B,entryRegisters,returnAddress:m.readUInt32LE(B)}));}
  for(const[name,offset]of[['ebx',12],['ebp',8],['esi',4],['edi',0]])put(m,F+offset,incoming[name]);
- for(let lane=0;lane<3;lane++)put(m,F+0x1c+lane*4,get(m,body+0x34+lane*4)-get(m,0x91cd80+lane*4));
+ for(let lane=0;lane<3;lane++)put(m,F+0x1c+lane*4,get(m,body+0x34+lane*4)-get(m,nativeGlobalAddress(m,0x91cd80+lane*4)));
  const reduced=[0,4,8].map(o=>get(m,F+0x1c+o)>>18),squared=reduced.reduce((sum,v)=>(sum+Math.imul(v,v))|0,0);
  if(squared>65536)return;
  const divisor=Math.max(squared,256),dir=reduced.map(v=>Math.trunc((v<<16)/divisor)|0);put(m,F+0x14,dir[1]);put(m,F+0x18,dir[2]);
  if(dir.reduce((sum,v)=>(sum+abs32(v))|0,0)<32)return;
- const strength=get(m,0x91cd8c),impulse=dir.map(v=>clamp(Math.imul(strength>>2,v))),type=get(m,body)&0x1ff,regs={ebx:impulse[0],ebp:impulse[1],esi:body,edi:impulse[2]};
+ const strength=get(m,nativeGlobalAddress(m,0x91cd8c)),impulse=dir.map(v=>clamp(Math.imul(strength>>2,v))),type=get(m,body)&0x1ff,regs={ebx:impulse[0],ebp:impulse[1],esi:body,edi:impulse[2]};
  if(type===3){
   const state=m.readUInt32LE(body+0x6bc);
   if(state!==0xffffffff&&m[state]){

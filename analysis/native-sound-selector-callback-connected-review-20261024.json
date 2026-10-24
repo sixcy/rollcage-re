@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "method": "Constructed connected original-instruction selector/position/callback comparison with original PE HIGHLOW relocation",
+  "nativeRuntime": false,
+  "command": "node --test tests/native-adaptive-sound-selection.test.mjs tests/native-sound-position.test.mjs tests/native-sound-callback.test.mjs",
+  "testsPassed": 20,
+  "testsFailed": 0,
+  "testsSkipped": 0,
+  "positionalSelectorCases": 24,
+  "fullSetterCases": 64,
+  "cloneOverlapCases": 8,
+  "tlsSequence": "selectorF+32 -> setterF-40 -> selectorF+32 -> originalSEH",
+  "callbackEvidenceReport": "analysis/native-sound-callback-instruction-review-20261024.json",
+  "callbackEvidenceReportHistoricalNote": "The earlier callback-only report pins the note before this integration addendum; source and callback tests unchanged.",
+  "files": [
+    {
+      "path": "src/native-sound-callback.mjs",
+      "sha256": "831db91101c36e33a38b9a6136309c2e93de34866149a6d9a33bd1c43f0d0dbf",
+      "bytes": 6885
+    },
+    {
+      "path": "src/native-sound-position.mjs",
+      "sha256": "80e563d518e6f24a681cf37d48b8db0015eedb8963b99040dcfcdc4e636f74a6",
+      "bytes": 5073
+    },
+    {
+      "path": "src/native-sound-selection.mjs",
+      "sha256": "ae2d122db897f368519c047f19728bcfa6a02c05e0486453bca5c4fb74945436",
+      "bytes": 5768
+    },
+    {
+      "path": "tests/native-sound-callback.test.mjs",
+      "sha256": "8bf3b49b59c41eee8d3eb11f192daa4e4ae7550f7edacf0e6e3acc0bdd662ca3",
+      "bytes": 9695
+    },
+    {
+      "path": "tests/native-sound-position.test.mjs",
+      "sha256": "6c4da106ee569afc8a4f719ba3728cdf18799e3fba4e16e06b1e4e7172f16845",
+      "bytes": 8936
+    },
+    {
+      "path": "tests/native-adaptive-sound-selection.test.mjs",
+      "sha256": "c1d12bce1bfa7e5f2c5205ff5a67f18718b05855211304bfd3fa78196cd599ea",
+      "bytes": 10519
+    },
+    {
+      "path": "re-docs/native-sound-callback.md",
+      "sha256": "824b46588c95517ba79811e91e34f9dffc392a1ac52e0201e09b69785e20b56f",
+      "bytes": 5707
+    }
+  ],
+  "limits": [
+    "No original-process positional creation/playback proof.",
+    "Unknown callback classes and unobserved heap services remain explicit.",
+    "Native V8 positive remains through world-effects; final tick/source light backing failure remains."
+  ]
+}

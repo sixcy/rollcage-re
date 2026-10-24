@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {multiplyQ16} from './fixed-integer.mjs';
 import {initializeRawBody, registerRawBodySpatial, registerRawBodyShapes} from './raw-body-construction.mjs';
 import {removeBodySpatial} from './body-retirement.mjs';
@@ -25,7 +26,7 @@ export function initializeWormholeConstructionTables(memory) {
 //Only the first384 bytes receive the native FF fill. The returned pointer is
 //a JavaScript convenience; the original entry is void and publishes80b5e0.
 export function createWormholeBody(runtime) {
-  const {memory: m, scratchBase} = runtime, frame = scratchBase - 12, old = ptr(m, 0x70dcf4), body = (ptr(m, 0x902eec) + (old & 0xfffffffc)) >>> 0;
+  const {memory: m, scratchBase} = runtime, frame = scratchBase - 12, old = ptr(m, 0x70dcf4), body = (ptr(m, nativeGlobalAddress(m, 0x902eec)) + (old & 0xfffffffc)) >>> 0;
   put(m, 0x70dcf4, old + 0x2a80); m.fill(255, body, body + 384);
   put(m, body, 0x816); put(m, body + 4, 0); word(m, body + 8, 0); put(m, body + 12, 0);
   for (const offset of [0x118, 0x110, 0x148]) put(m, body + offset, 0);
@@ -36,7 +37,7 @@ export function createWormholeBody(runtime) {
   initializeRawBody(body, 0x5ec408, {...runtime, scratchBase: frame - 4}); removeBodySpatial(body, runtime);
   put(m, body + 0x108, get(m, body + 0x108) | 1);
   for (const offset of [0x198, 0x19c, 0x1a0, 0x1a4, 0x180, 0x188, 0x190]) put(m, body + offset, 0);
-  m[body + 0x2a3c] = 0; put(m, 0x80b5e0, body);
+  m[body + 0x2a3c] = 0; put(m, nativeGlobalAddress(m,0x80b5e0), body);
   initializeWormholeEffectPool(body, {...runtime, scratchBase: frame - 4}); put(m, body + 0x2a38, 255);
   return body;
 }
@@ -52,7 +53,7 @@ export function activateWormhole(record, localMode, unused, receivedPacket, tran
   if (Number.isInteger(runtime.entryRegisters?.EDI)) put(m, frame, runtime.entryRegisters.EDI);
   if (localMode) m[packet + 0x57] = 7;
   if (!packet || m[packet + 0x57] !== 7) {put(m, frame - 4, 0x5d36d4); printGameDiagnostic(0x5d36d4, [], {...runtime, scratchBase: frame - 8, entryRegisters: {...runtime.entryRegisters, EBP: owner}}); return 0;}
-  const body = ptr(m, 0x80b5e0); if (get(m, body + 0x188)) return 0;
+  const body = ptr(m, nativeGlobalAddress(m,0x80b5e0)); if (get(m, body + 0x188)) return 0;
   put(m, body + 0x194, owner); put(m, body + 0x188, 1); put(m, body + 0x180, 0); put(m, body + 0x18c, 0x200000);
   emitNativeEffect(31, owner + 0x34, [0, 0x400, 16000, 6, 0, 0, m[owner + 0x6b4] === 1 ? 1 : 0], {dispatch40ea40: request => dispatchNativeSound(request, runtime.soundRuntime ?? runtime)});
   if (localMode) {

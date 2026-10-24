@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "authority": "retained-static-instructions-and-original-parent-entry-inputs",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "nativeWeatherRttiObserved": false,
+  "sourceWeatherPrivateAbiProved": false,
+  "processLaunched": false,
+  "sourceReport": "analysis/native-parent-rtti-stock-first-replay-v2-20261024/report.json",
+  "primaryFutureScope": "same-parent auxiliary-through-world-effects including camera and weather",
+  "forecast": {"cameraPairs": 1, "weatherPairs": 2, "totalPairs": 3, "expectedSnapshots": 19, "maximumPairs": 4, "maximumSnapshots": 21},
+  "inputGuardsV2": {"session552": 0, "weather553": 0, "state6e6cdc": 0, "flags91ce90": 2, "threshold5dca34": 250, "nameHex": "3020506c6179657200"},
+  "nativeWeatherCallers": [
+    {"parentCall": "0x451111", "weatherEntry": "0x496700", "parentReturn": "0x451116"},
+    {"screenCall": "0x49681d", "screenEntry": "0x498030", "screenReturn": "0x496822"},
+    {"queryCall": "0x49808d", "queryEntry": "0x40ab70", "queryReturn": "0x498092"},
+    {"queryCall": "0x4980f0", "queryEntry": "0x40ab70", "queryReturn": "0x4980f5"},
+    {"wrapperCall": "0x40abee", "wrapperEntry": "0x402d10", "wrapperReturn": "0x40abf3"}
+  ],
+  "offsetsFromParentU": {"sharedChildS": -20, "screenEntry": -44, "screenFrameF": -360, "queryEntryT": -376, "wrapperEntryR": -420, "externalPrePostQ": -460, "externalEntry": -464, "name": -320},
+  "contextOffsetsFromQ": {"wrapperReturn": 40, "savedEcxNamePlusOne": 44, "name": 48, "xOut": 52, "yOut": 56, "widthOut": 60, "heightOut": 64, "queryReturn": 84, "nameBytes": 140, "screenReturn": 416, "parentWeatherReturn": 440},
+  "contextBytes": 68,
+  "modeArgument": false,
+  "firstOutputsFromF": {"x": 24, "y": 28, "width": 20, "height": 32},
+  "secondOutputsFromF": {"x": 16, "y": 24, "width": 28, "height": 32},
+  "nextIndependentExternalDependency": "489cd0 called at498453: genuine performance-counter services",
+  "sourcePublicationGap": "queryWeatherViewport lacks native PUSH h/w/y/x/name/savedECX and40abee CALL word publication; future implementation must compute them from source arguments, never copy intermediate native stack",
+  "limits": [
+    "The forecast derives from V2 initial inputs and retained branches, not observed weather outcomes.",
+    "A weather-only capture cannot close the joined parent by reusing a camera outcome from another process.",
+    "Other weather extent/spawn callers have distinct depths and remain unsupported.",
+    "No existing source/helper/capture configuration was changed."
+  ]
+}

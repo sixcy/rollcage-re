@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "sourceHashes": {
+    "src/vehicle-audio.mjs": "cf9c0224ac9a1e2370cb23a54480286e8d8e87a2cb826ddf6837768bb7e2d482",
+    "tools/lib/native-control-sound-creation.mjs": "d335ba80442a542a6cb44e51c837d8f23bdc61313e2122b33fd6e85e410005c2",
+    "tests/native-control-tyre-sound-creation.test.mjs": "32fc1f0c8f63a624ff7094282a6df5f538e9e62f12569a9800f7957a8f2c4902"
+  },
+  "scope": "Genuine48608f tyre caller registers and source484bb0/40ea40 continuation",
+  "focusedTests": {
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "constructedRetainedCases": 32,
+    "moduleBases": [
+      4194304,
+      7208960
+    ],
+    "stackAlignments": [
+      0,
+      4,
+      8,
+      12
+    ],
+    "privateAbi": "all explicit640-byte shared-stack fixture span compared; no original full-private-ABI claim"
+  },
+  "smokeArgumentCorrection": {
+    "originalInstructions": [
+      "486033 SAR ECX,12h",
+      "486036 AND CL,2",
+      "486042 OR CL,1",
+      "48604c ADD CL,4",
+      "486051 SHL CL,2"
+    ],
+    "constructedSlip": 655360,
+    "nativeInterpretedArgument": 28,
+    "oldSourceExpressionArgument": 655388,
+    "oldImplementationExecutedAsPartOfThisCheck": false,
+    "priorBroadOracleExcludedArgumentIndex": 4
+  },
+  "actualReplay": {
+    "reportPath": "analysis/native-parent-rtti-stock-tyre-replay-v3-20261024/report.json",
+    "matched": false,
+    "firstError": "Error: Uncaptured native memory at 0x10d1feb8 (1168 bytes).",
+    "event": {
+      "kind": "tyre-onset",
+      "callAddress": 11690127,
+      "returnAddress": 11690132,
+      "entryEsp": 19921416,
+      "callerEntryEsp": 19921532,
+      "entryRegisters": {
+        "ebx": 279148160,
+        "ebp": 10,
+        "esi": 127,
+        "edi": 8551,
+        "ecx": 2,
+        "edx": 279148212,
+        "eax": 2
+      },
+      "args": [
+        0,
+        1200,
+        0,
+        7,
+        493160,
+        0,
+        0
+      ],
+      "layout": {
+        "entryEsp": 19921416,
+        "savedEbp": 19921412,
+        "aligned": 19921408,
+        "frame": 19921376,
+        "parameters": 19921392,
+        "dispatchEntry": 19921356
+      },
+      "completed": false,
+      "error": "Uncaptured native memory at 0x10d1feb8 (1168 bytes)."
+    }
+  },
+  "nativeProcessLaunched": false,
+  "limits": [
+    "Synthetic retained-instruction fixtures use an explicit naturally absent bank input; actual V3 bank is populated and never cleared.",
+    "Actual owner490h input at10d1feb8 is absent; no channel or playback success is claimed.",
+    "No original/native after bytes or game-child outcomes are replay inputs."
+  ]
+}

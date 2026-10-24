@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {loadGameBitmap} from './game-bitmap-images.mjs';
 import {constructGameTexture} from './game-texture-construction.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
@@ -10,7 +11,7 @@ export function constructRaceHudFont(object, cellWidth, startRow, scanHeight, un
   if (!reuse) {
     const image = library(runtime, 'allocate', [65536]) >>> 0; if (image) {m.fill(0, image, image + 65536); m.fill(0, image, image + 65536);} put(m, 0x6fbb44, image); m.fill(0, image, image + 65536);
     if (!loadGameBitmap(0x5d068c, 0x6ffa40, 0, {...runtime, scratchBase: frame - 8})) return 0;
-    const next = get(m, 0x91ce98) + 1 | 0; put(m, 0x6fbb18, next === 63 ? 64 : next); put(m, 0x6fc1b8, 0); put(m, 0x6fc198, 0); put(m, 0x6fbb48, 0);
+    const next = get(m, nativeGlobalAddress(m, 0x91ce98)) + 1 | 0; put(m, 0x6fbb18, next === 63 ? 64 : next); put(m, 0x6fc1b8, 0); put(m, 0x6fc198, 0); put(m, 0x6fbb48, 0);
     for (let i = 0, input = ptr(m, 0x6ffa50) + 1, output = 0x6ff642; i < 256; i++, input += 4, output += 4) {m[output - 2] = m[input - 1]; m[output - 1] = m[input]; m[output] = m[input + 1]; m[output + 1] = 0; if ((m[input] + m[input + 1] + m[input - 1] >> 2) < 15) put(m, output - 2, 0);}
     const pixels = m.readInt16LE(0x6ffa46) * m.readInt16LE(0x6ffa44); put(m, 0x6ff640, 0); for (let i = 0, input = ptr(m, 0x6ffa54); i < pixels; i++, input++) if (!get(m, 0x6ff640 + m[input] * 4)) m[input] = 0;
   } else rowHeight = get(m, 0x6fbb48);
@@ -63,6 +64,6 @@ export function initializeRaceHudFonts(mode, runtime) {
 //48b750. Glyph/font setup precedes the packed primitive-header writes.
 export function initializeRaceHudPrimitives(runtime) {
   initializeRaceHudFonts(1, {...runtime, scratchBase: runtime.scratchBase - 8}); const m = runtime.memory; put(m, 0x82dfa0, 0x913ea0);
-  for (let i = 0, p = 0x8111a7; i < 224; i++, p += 0x210) {m[p - 4] = 12; m[p] = 0x8e; m[p + 0x80] = 12; m[p + 0x84] = 0x8e; m[p + 0x104] = 12; m[p + 0x108] = 0x8e; m[p + 0x188] = 12; m[p + 0x18c] = 0x8e;}
+  for (let i = 0, p = nativeGlobalAddress(m, 0x8111a7); i < 224; i++, p += 0x210) {m[p - 4] = 12; m[p] = 0x8e; m[p + 0x80] = 12; m[p + 0x84] = 0x8e; m[p + 0x104] = 12; m[p + 0x108] = 0x8e; m[p + 0x188] = 12; m[p + 0x18c] = 0x8e;}
   for (let i = 0, p = 0x82dfac; i < 28; i++, p += 80) m[p] = 0; put(m, 0x6e6b38, 1);
 }

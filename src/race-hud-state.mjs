@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import tables from './race-hud-tables.json' with {type: 'json'};
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 export function initializeRaceHudTables(memory) {for (const table of tables.tables) Buffer.from(table.bytes_hex, 'hex').copy(memory, Number(table.address)); return memory;}
@@ -7,7 +8,7 @@ export function initializeRaceHudTables(memory) {for (const table of tables.tabl
 export function updateRaceHudGauge(index, {memory: m}) {
   const body = ptr(m, 0x5ecb18); let value = 0, minimum = 0, maximum = 10;
   switch (index | 0) {case 0: value = get(m, body + 0x3cfc); minimum = 0x40000; maximum = 0x120000; break; case 1: value = get(m, body + 0x3cf4); minimum = -80000; maximum = 80000; break; case 2: value = get(m, body + 0x3d00); maximum = 3; break; case 3: value = get(m, body + 0x3cf8); minimum = -3500; maximum = 5000; break;}
-  const target = Math.trunc(Math.imul(value - minimum, 255) / (maximum - minimum)) & 65535, p = ptr(m, 0x902018) + Math.imul(index, 0x298), previous = m.readUInt16LE(p + 0x294); word(m, p + 0x296, target);
+  const target = Math.trunc(Math.imul(value - minimum, 255) / (maximum - minimum)) & 65535, p = ptr(m, nativeGlobalAddress(m, 0x902018)) + Math.imul(index, 0x298), previous = m.readUInt16LE(p + 0x294); word(m, p + 0x296, target);
   if (Math.abs(previous - target) <= 16) word(m, p + 0x294, target);
   else {if (previous < target) word(m, p + 0x294, previous + 16); if (target < m.readUInt16LE(p + 0x294)) word(m, p + 0x294, m.readUInt16LE(p + 0x294) - 16);}
   return m.readUInt16LE(p + 0x294);
@@ -17,7 +18,7 @@ export function updateRaceHudGauge(index, {memory: m}) {
 //uses the first buffer's gauge WORDs, exactly as the original.
 export function setRaceHudGaugeColors(color, runtime) {
   const m = runtime.memory; if (get(m, 0x5ecb18) === -1) return;
-  let cursor = ptr(m, get(m, 0x91d518) === 0x91d520 ? 0x902018 : 0x90201c) + 5; const red = color & 255, green = color >>> 8 & 255, blue = color >>> 16 & 255;
+  let cursor = ptr(m, get(m, 0x91d518) === 0x91d520 ? nativeGlobalAddress(m, 0x902018) : nativeGlobalAddress(m, 0x90201c)) + 5; const red = color & 255, green = color >>> 8 & 255, blue = color >>> 16 & 255;
   for (let row = 0; row < 4; row++, cursor += 0x298) {
     m[cursor - 1] = red; m[cursor] = green; m[cursor + 1] = blue;
     const threshold = updateRaceHudGauge(row, {...runtime, scratchBase: runtime.scratchBase - 0x38}); let amount = green * 960;

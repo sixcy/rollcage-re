@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import constants from './camera-projection-constants.json' with {type: 'json'};
 import {readRendererViewportExtent} from './renderer-viewports.mjs';
 
@@ -17,14 +18,14 @@ export function updateCameraProjectionRatios(distance, runtime) {
   // Actual451210 numeric locals, with its native entry at frame-4.
   put(m, frame - 8, 0x6800); put(m, frame - 12, short(distance) << 8);
   const fixed = Number((BigInt(short(distance) << 8) << 8n) / 0x6800n);
-  put(m, 0x91ce94, fixed);
+  put(m, nativeGlobalAddress(m,0x91ce94), fixed);
   const width = readRendererViewportExtent(false, {...runtime, scratchBase: frame - 4});
   const height = readRendererViewportExtent(true, {...runtime, scratchBase: frame - 4});
   const largest = width >= height ? width : height, half = width >= height ? 320 : 240;
-  put(m, 0x91ce94, trunc32(f32(f32(f32(largest) / f32(half)) * f32(get(m, 0x91ce94)))));
+  put(m, nativeGlobalAddress(m,0x91ce94), trunc32(f32(f32(f32(largest) / f32(half)) * f32(get(m, nativeGlobalAddress(m,0x91ce94))))));
   const clamped = short(distance) <= 104 ? 104 : short(distance);
-  put(m, 0x91d324, Math.trunc(0x6800 / clamped));
-  const result = Math.trunc((clamped << 8) / 104) | 0; put(m, 0x91d328, result); return result;
+  put(m, nativeGlobalAddress(m,0x91d324), Math.trunc(0x6800 / clamped));
+  const result = Math.trunc((clamped << 8) / 104) | 0; put(m, nativeGlobalAddress(m,0x91d328), result); return result;
 }
 
 function mathService(operation, value, runtime) {
@@ -87,16 +88,16 @@ export function updateCameraProjection(distance, runtime) {
   const width = readRendererViewportExtent(false, {...runtime, scratchBase: frame - 4});
   const height = readRendererViewportExtent(true, {...runtime, scratchBase: frame - 4});
   const largest = width >= height ? width : height, dimension = width >= height ? 640 : 480;
-  put(m, frame + 0xc, distance); float(m, 0x91ceac, f32(distance | 0));
+  put(m, frame + 0xc, distance); float(m, nativeGlobalAddress(m,0x91ceac), f32(distance | 0));
   put(m, frame + 0xc, largest); float(m, frame + 0xc, f32(largest));
-  const scaled = f32(f32(m.readFloatLE(frame + 0xc) / f32(dimension >> 1)) * m.readFloatLE(0x91ceac));
-  put(m, frame + 0xc, largest); float(m, 0x91cda0, scaled); m.writeUInt16LE(trunc32(scaled) & 65535, 0x91d3c8);
+  const scaled = f32(f32(m.readFloatLE(frame + 0xc) / f32(dimension >> 1)) * m.readFloatLE(nativeGlobalAddress(m,0x91ceac)));
+  put(m, frame + 0xc, largest); float(m, nativeGlobalAddress(m,0x91cda0), scaled); m.writeUInt16LE(trunc32(scaled) & 65535, 0x91d3c8);
   float(m, frame + 0xc, f32(largest));
   const viewScale = f32(f32(m.readFloatLE(frame + 0xc) * m.readFloatLE(0x5dc6c8)) / f32(dimension));
-  float(m, 0x91d340, viewScale); float(m, 0x91d33c, f32(viewScale * m.readFloatLE(0x5dc888)));
+  float(m, nativeGlobalAddress(m,0x91d340), viewScale); float(m, nativeGlobalAddress(m,0x91d33c), f32(viewScale * m.readFloatLE(0x5dc888)));
   updateCameraProjectionRatios(distance, {...runtime, scratchBase: frame - 4});
   put(m, frame + 0xc, height); float(m, frame + 0x10, f32(height)); put(m, frame + 0xc, width);
-  const scale = m.readFloatLE(0x91cda0); float(m, frame - 4, scale); float(m, frame + 0xc, f32(width));
+  const scale = m.readFloatLE(nativeGlobalAddress(m,0x91cda0)); float(m, frame - 4, scale); float(m, frame + 0xc, f32(width));
   return updateCameraClipPlanes(0, 0, m.readFloatLE(frame + 0xc), m.readFloatLE(frame + 0x10), scale, {...runtime, scratchBase: frame - 8});
 }
 
@@ -110,7 +111,7 @@ export function updateCameraAspectProjection(distance, runtime) {
   const height = readRendererViewportExtent(true, {...runtime, scratchBase: frame - 4});
   const aspect = f32(m.readFloatLE(frame + 8) / f32(height)), target = m.readFloatLE(0x5dc7a0);
   if (aspect > target) adjusted = trunc32(f32(f32(target / aspect) * f32(short(distance)))) & 65535;
-  m.writeUInt16LE(adjusted & 65535, 0x91d50a); put(m, frame + 8, short(distance)); float(m, 0x91ceb0, f32(short(distance)));
+  m.writeUInt16LE(adjusted & 65535, 0x91d50a); put(m, frame + 8, short(distance)); float(m, nativeGlobalAddress(m,0x91ceb0), f32(short(distance)));
   updateCameraProjection(short(adjusted), {...runtime, scratchBase: frame - 4});
   return updateCameraProjectionRatios(adjusted, runtime);
 }

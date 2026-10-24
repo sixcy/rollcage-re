@@ -8,6 +8,10 @@ import {releaseBodyAttachments} from './body-attachment-release.mjs';
 export function queryRawPlacedModelSphere(bodyAddress,recordAddress,outputAddress,parameter,{memory,views,scratchBase,roundingMode,handlers={},...runtime}) {
  if(!Buffer.isBuffer(memory)||views?.memory!==memory||!Number.isInteger(scratchBase))throw Error('Raw model query requires shared native memory/views and entry ESP.');
  const get=p=>memory.readInt32LE(p),ptr=p=>memory.readUInt32LE(p),put=(p,x)=>memory.writeInt32LE(x|0,p),word=(p,x)=>memory.writeUInt16LE(x&65535,p),vector=p=>[0,4,8].map(o=>get(p+o)),writeVector=(p,v)=>v.forEach((x,i)=>put(p+i*4,x));
+ //423ad3..423af8: only native vehicle type3 has the extended6bc
+ //controller field. Camera/common-body clones must not read that field.
+ const vehicleFlags=get(bodyAddress);let specialType4=false;
+ if((vehicleFlags&511)===3){const controller=ptr(bodyAddress+0x6bc);specialType4=controller!==0xffffffff&&memory[controller]!==0;}
  const base=ptr(bodyAddress+0x158),count=memory.readUInt16LE(bodyAddress+0x15e),candidates=Array.from({length:count},(_,i)=>{
   const candidate=views.candidateAt(base+i*16),settings=new Proxy(candidate.settings,{get:(target,key)=>{
    const object=ptr(candidate.address+8);
@@ -48,6 +52,5 @@ export function queryRawPlacedModelSphere(bodyAddress,recordAddress,outputAddres
   const object=ptr(payload.candidate.address+8);
   return damagePlacedObject(object,bodyAddress,payload.shapeSlot,velocity,{...runtime,memory,handlers,scratchBase:scratchBase-0xa0});
  })};
- const controller=ptr(bodyAddress+0x6bc),specialType4=controller!==0xffffffff&&memory[controller]!==0;
- return queryPlacedModelSphere(candidates,query,output,{maxFractionQ16:parameter|0,vehicleFlags:get(bodyAddress),activeTag:memory.readInt8(bodyAddress+0x10c),specialType4,roundingMode,effects,nativeState});
+ return queryPlacedModelSphere(candidates,query,output,{maxFractionQ16:parameter|0,vehicleFlags,activeTag:memory.readInt8(bodyAddress+0x10c),specialType4,roundingMode,effects,nativeState});
 }

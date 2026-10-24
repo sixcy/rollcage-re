@@ -47,7 +47,7 @@ test('original parent entry carries exact attachments, ordinary recovery and dri
   const result=continueNativeParentTail(source,{snapshot:pair.before,onStage:({stage,source:live,report})=>{
     const comparison=compareNativeControlOutput(live,pair.postphysics[stage]);
     assert.equal(comparison.matched,true,JSON.stringify(comparison.firstDivergence));
-    assert.equal(comparison.uniqueBytesCompared,4947762);
+    assert.equal(comparison.uniqueBytesCompared,4947874); //Plus14 actual eight-byte light dirty/position slots.
     seen.push(stage);
     if(stage==='recovery')assert.deepEqual(report,{respawnedBodies:0,retiredBodies:0,fullRecoveryContextReached:false});
   }});

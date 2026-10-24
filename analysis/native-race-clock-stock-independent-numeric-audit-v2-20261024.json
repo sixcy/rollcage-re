@@ -1,0 +1,4307 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-entry-retained-instruction-warm-clock-numeric-audit",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "transportVerified": true,
+  "inputDirectory": "analysis/native-race-clock-stock-capture-v2-20261024",
+  "inputPins": {
+    "traceSha256": "d91b2534b2fa40d8c6b5835177dae50c4f83c1fff959a4a09afa03b30ed3001c",
+    "configurationSha256": "3caceccb52c5bdcbaa74fddcd1213c157d011d0bac2ed7abe432a1180d5b0a61",
+    "contexts": [
+      {
+        "ordinal": 1,
+        "file": "snapshot-000001-context.bin",
+        "sha256": "94e4da6ed0283e1e0e3d85e3a5e56e2a4a7686127a7a1f159ef252e8f22e87b6"
+      },
+      {
+        "ordinal": 2,
+        "file": "snapshot-000002-context.bin",
+        "sha256": "1c208f257ee938b83c477659ca9655812d882373a474ea01f1f896d0bd21b8b1"
+      },
+      {
+        "ordinal": 3,
+        "file": "snapshot-000003-context.bin",
+        "sha256": "2fc9b3f9d50138808aed163a3e39c6a343596cadf4b58c2ef7bf86277a0ecc03"
+      },
+      {
+        "ordinal": 4,
+        "file": "snapshot-000004-context.bin",
+        "sha256": "f5619502d7b87c4cfda77a7835fd815aba0ae9e1e218a695a7a9557451e94ebc"
+      },
+      {
+        "ordinal": 5,
+        "file": "snapshot-000005-context.bin",
+        "sha256": "14e3982a5b41660dea993f919c3bc88778701a016b26e5e6bbca3330f48c4eaf"
+      },
+      {
+        "ordinal": 6,
+        "file": "snapshot-000006-context.bin",
+        "sha256": "d88c8a5071b0f337958213ae4e270e2372b43ffe8153dd5717e741c2ec60f934"
+      },
+      {
+        "ordinal": 7,
+        "file": "snapshot-000007-context.bin",
+        "sha256": "b038ba289a42934e42dbef7a924d9e7c1136e9649007a52e95a25e28ee6580c7"
+      }
+    ]
+  },
+  "moduleBaseAddress": 6225920,
+  "ownerPid": 24632,
+  "ownerMainTid": 25500,
+  "layout": {
+    "entryEsp": 15727380,
+    "timerEntryEsp": 15727364,
+    "timerEbp": 15727360,
+    "alignedAddress": 15727360,
+    "frame": 15727328,
+    "counterCallEsp": 15727324,
+    "counterReturnEsp": 15727328,
+    "outputAddress": 15727352,
+    "returnEsp": 15727384,
+    "stackAddress": 15726868,
+    "stackBytes": 540
+  },
+  "originalEntryOnly": true,
+  "initialMappedBytes": 742,
+  "aliasesApplied": 0,
+  "runtimePeDefaultsCopied": 0,
+  "retainedInstructionEvidence": [
+    "ev_38b8d5dfff1b32d7bb9ba4457b9681775a4c160c95e12a9b821e21a9e17e4f64",
+    "ev_ff29e60114cb96f219e316aff00030e0be8766dec59f42ce80cd1df1bc5b8288",
+    "ev_0821b375e5e6e0e39b095964bbbfe613d53700c628e4c8d5d7174468b6b21773",
+    "ev_dea8f9153f9c5540481625f806668d34f05024d0fd095a2098120032433d8d7c",
+    "ev_ae16480d2e16f6e81b67e3acda55e2e6e6d6e944ede36888fbe94743a7387192",
+    "ev_46c84235837b2045303a643dfb9b21e492613b7cd28996b74c32208f8ed9b021",
+    "ev_bae6b5f11f816781dc21933ed4de136202db89d107763a559ca6506f68dd7373",
+    "ev_bf4ccb8a6b2725e42b4ebe9af0f167c0c4e0af568840146f982fc2cf70cdee62",
+    "ev_5e83da9e8584442f7ba5642a6d79e59a445150641dc7bd8ec0d970d9933c61c2",
+    "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87"
+  ],
+  "relocatedOperands": [
+    {
+      "instructionAddress": 4463731,
+      "operandAddress": 4463733,
+      "preferredValue": 7235320,
+      "actualValue": 9266936
+    },
+    {
+      "instructionAddress": 4463746,
+      "operandAddress": 4463747,
+      "preferredValue": 7235248,
+      "actualValue": 9266864
+    },
+    {
+      "instructionAddress": 4463756,
+      "operandAddress": 4463758,
+      "preferredValue": 7235252,
+      "actualValue": 9266868
+    },
+    {
+      "instructionAddress": 4463762,
+      "operandAddress": 4463764,
+      "preferredValue": 7235300,
+      "actualValue": 9266916
+    },
+    {
+      "instructionAddress": 4463772,
+      "operandAddress": 4463774,
+      "preferredValue": 7235320,
+      "actualValue": 9266936
+    },
+    {
+      "instructionAddress": 4463792,
+      "operandAddress": 4463794,
+      "preferredValue": 7235248,
+      "actualValue": 9266864
+    },
+    {
+      "instructionAddress": 4463800,
+      "operandAddress": 4463802,
+      "preferredValue": 7235252,
+      "actualValue": 9266868
+    },
+    {
+      "instructionAddress": 4463811,
+      "operandAddress": 4463815,
+      "preferredValue": 6145760,
+      "actualValue": 8177376
+    },
+    {
+      "instructionAddress": 4463824,
+      "operandAddress": 4463826,
+      "preferredValue": 7253984,
+      "actualValue": 9285600
+    },
+    {
+      "instructionAddress": 4463832,
+      "operandAddress": 4463834,
+      "preferredValue": 7235320,
+      "actualValue": 9266936
+    },
+    {
+      "instructionAddress": 4463874,
+      "operandAddress": 4463875,
+      "preferredValue": 7235300,
+      "actualValue": 9266916
+    },
+    {
+      "instructionAddress": 4463880,
+      "operandAddress": 4463881,
+      "preferredValue": 7235300,
+      "actualValue": 9266916
+    },
+    {
+      "instructionAddress": 4463899,
+      "operandAddress": 4463901,
+      "preferredValue": 7235320,
+      "actualValue": 9266936
+    },
+    {
+      "instructionAddress": 4463910,
+      "operandAddress": 4463912,
+      "preferredValue": 7235300,
+      "actualValue": 9266916
+    },
+    {
+      "instructionAddress": 4463934,
+      "operandAddress": 4463936,
+      "preferredValue": 7235320,
+      "actualValue": 9266936
+    },
+    {
+      "instructionAddress": 4463950,
+      "operandAddress": 4463952,
+      "preferredValue": 7235300,
+      "actualValue": 9266916
+    },
+    {
+      "instructionAddress": 4463964,
+      "operandAddress": 4463966,
+      "preferredValue": 7235320,
+      "actualValue": 9266936
+    },
+    {
+      "instructionAddress": 4525552,
+      "operandAddress": 4525554,
+      "preferredValue": 7236428,
+      "actualValue": 9268044
+    },
+    {
+      "instructionAddress": 4758745,
+      "operandAddress": 4758747,
+      "preferredValue": 7236748,
+      "actualValue": 9268364
+    },
+    {
+      "instructionAddress": 4758755,
+      "operandAddress": 4758757,
+      "preferredValue": 5693692,
+      "actualValue": 7725308
+    },
+    {
+      "instructionAddress": 4758764,
+      "operandAddress": 4758765,
+      "preferredValue": 7419300,
+      "actualValue": 9450916
+    },
+    {
+      "instructionAddress": 4758769,
+      "operandAddress": 4758771,
+      "preferredValue": 7236748,
+      "actualValue": 9268364
+    },
+    {
+      "instructionAddress": 4758779,
+      "operandAddress": 4758781,
+      "preferredValue": 5693716,
+      "actualValue": 7725332
+    },
+    {
+      "instructionAddress": 4758789,
+      "operandAddress": 4758790,
+      "preferredValue": 7419308,
+      "actualValue": 9450924
+    },
+    {
+      "instructionAddress": 4758807,
+      "operandAddress": 4758809,
+      "preferredValue": 7419308,
+      "actualValue": 9450924
+    },
+    {
+      "instructionAddress": 4758813,
+      "operandAddress": 4758815,
+      "preferredValue": 7419304,
+      "actualValue": 9450920
+    },
+    {
+      "instructionAddress": 4758823,
+      "operandAddress": 4758825,
+      "preferredValue": 7419312,
+      "actualValue": 9450928
+    },
+    {
+      "instructionAddress": 4758829,
+      "operandAddress": 4758831,
+      "preferredValue": 7419300,
+      "actualValue": 9450916
+    },
+    {
+      "instructionAddress": 5671525,
+      "operandAddress": 5671529,
+      "preferredValue": 5699288,
+      "actualValue": 7730904
+    },
+    {
+      "instructionAddress": 5671592,
+      "operandAddress": 5671596,
+      "preferredValue": 5699320,
+      "actualValue": 7730936
+    },
+    {
+      "instructionAddress": 5671626,
+      "operandAddress": 5671630,
+      "preferredValue": 5699280,
+      "actualValue": 7730896
+    },
+    {
+      "instructionAddress": 5671663,
+      "operandAddress": 5671667,
+      "preferredValue": 5699312,
+      "actualValue": 7730928
+    },
+    {
+      "instructionAddress": 5671735,
+      "operandAddress": 5671739,
+      "preferredValue": 5699248,
+      "actualValue": 7730864
+    },
+    {
+      "instructionAddress": 5671743,
+      "operandAddress": 5671747,
+      "preferredValue": 5699256,
+      "actualValue": 7730872
+    },
+    {
+      "instructionAddress": 5671751,
+      "operandAddress": 5671755,
+      "preferredValue": 5699344,
+      "actualValue": 7730960
+    },
+    {
+      "instructionAddress": 5671949,
+      "operandAddress": 5671951,
+      "preferredValue": 5699327,
+      "actualValue": 7730943
+    },
+    {
+      "instructionAddress": 5671957,
+      "operandAddress": 5671959,
+      "preferredValue": 5699360,
+      "actualValue": 7730976
+    },
+    {
+      "instructionAddress": 5672006,
+      "operandAddress": 5672010,
+      "preferredValue": 5699288,
+      "actualValue": 7730904
+    },
+    {
+      "instructionAddress": 5672036,
+      "operandAddress": 5672040,
+      "preferredValue": 5699288,
+      "actualValue": 7730904
+    },
+    {
+      "instructionAddress": 5672096,
+      "operandAddress": 5672100,
+      "preferredValue": 5699304,
+      "actualValue": 7730920
+    },
+    {
+      "instructionAddress": 5672157,
+      "operandAddress": 5672161,
+      "preferredValue": 5699312,
+      "actualValue": 7730928
+    },
+    {
+      "instructionAddress": 5672219,
+      "operandAddress": 5672223,
+      "preferredValue": 5699288,
+      "actualValue": 7730904
+    },
+    {
+      "instructionAddress": 5672279,
+      "operandAddress": 5672283,
+      "preferredValue": 5699280,
+      "actualValue": 7730896
+    },
+    {
+      "instructionAddress": 5672313,
+      "operandAddress": 5672318,
+      "preferredValue": 5699232,
+      "actualValue": 7730848
+    },
+    {
+      "instructionAddress": 5672327,
+      "operandAddress": 5672331,
+      "preferredValue": 5699352,
+      "actualValue": 7730968
+    },
+    {
+      "instructionAddress": 5672335,
+      "operandAddress": 5672339,
+      "preferredValue": 5699356,
+      "actualValue": 7730972
+    },
+    {
+      "instructionAddress": 5672343,
+      "operandAddress": 5672347,
+      "preferredValue": 5699348,
+      "actualValue": 7730964
+    }
+  ],
+  "visitedInstructions": 211,
+  "instructionVisits": 281,
+  "children": {
+    "0x679cd0": 1,
+    "0x759380": 3,
+    "0x758f10": 3,
+    "0x758d6e": 1,
+    "0x758c41": 1,
+    "0x758bfd": 1
+  },
+  "api": {
+    "calls": 1,
+    "iatTarget": 1996785152,
+    "outputAddress": 15727352,
+    "bytesAdmitted": 8,
+    "outputHex": "2a91ed4868100000",
+    "returnedBool": 1,
+    "extraGameOrPrivateBytesAdmitted": 0,
+    "volatileEcxEdxAndAllXmmMadeUnknownAfterApi": true,
+    "noUnknownVolatileReadBeforeRealOverwrite": true,
+    "independentZeroIdioms": [
+      {
+        "instructionAddress": 7705545,
+        "register": "EDX"
+      },
+      {
+        "instructionAddress": 7705545,
+        "register": "EDX"
+      }
+    ]
+  },
+  "numeric": {
+    "instructionScaledHex": "62b9a5d510b17240",
+    "nativeFinalXmm0LowHex": "62b9a5d510b17240",
+    "scaledClockMatched": true,
+    "instructionScaleValue": 299.06660999999997,
+    "instructionConvertedTargetLow": 299,
+    "instructionCount": 1,
+    "nativeCount": 1,
+    "returnedEip": 6557168
+  },
+  "registerChecks": {
+    "counterCall": [
+      {
+        "name": "eax",
+        "instruction": 15727352,
+        "native": 15727352,
+        "matched": true
+      },
+      {
+        "name": "ebx",
+        "instruction": 0,
+        "native": 0,
+        "matched": true
+      },
+      {
+        "name": "ebp",
+        "instruction": 15727360,
+        "native": 15727360,
+        "matched": true
+      },
+      {
+        "name": "esi",
+        "instruction": 1996785152,
+        "native": 1996785152,
+        "matched": true
+      },
+      {
+        "name": "edi",
+        "instruction": 1996805936,
+        "native": 1996805936,
+        "matched": true
+      },
+      {
+        "name": "esp",
+        "instruction": 15727324,
+        "native": 15727324,
+        "matched": true
+      }
+    ],
+    "counterReturn": [
+      {
+        "name": "eax",
+        "instruction": 1,
+        "native": 1,
+        "matched": true
+      },
+      {
+        "name": "ebx",
+        "instruction": 0,
+        "native": 0,
+        "matched": true
+      },
+      {
+        "name": "ebp",
+        "instruction": 15727360,
+        "native": 15727360,
+        "matched": true
+      },
+      {
+        "name": "esi",
+        "instruction": 1996785152,
+        "native": 1996785152,
+        "matched": true
+      },
+      {
+        "name": "edi",
+        "instruction": 1996805936,
+        "native": 1996805936,
+        "matched": true
+      },
+      {
+        "name": "esp",
+        "instruction": 15727328,
+        "native": 15727328,
+        "matched": true
+      }
+    ],
+    "returned": [
+      {
+        "name": "eax",
+        "instruction": 1,
+        "native": 1,
+        "matched": true
+      },
+      {
+        "name": "ebx",
+        "instruction": 0,
+        "native": 0,
+        "matched": true
+      },
+      {
+        "name": "ebp",
+        "instruction": 0,
+        "native": 0,
+        "matched": true
+      },
+      {
+        "name": "esi",
+        "instruction": 461212,
+        "native": 461212,
+        "matched": true
+      },
+      {
+        "name": "edi",
+        "instruction": 1996805936,
+        "native": 1996805936,
+        "matched": true
+      },
+      {
+        "name": "esp",
+        "instruction": 15727384,
+        "native": 15727384,
+        "matched": true
+      }
+    ]
+  },
+  "numericalContext": {
+    "observed": [
+      {
+        "ordinal": 4,
+        "cw": 127,
+        "sw": 22651,
+        "mxcsr": 8101
+      },
+      {
+        "ordinal": 5,
+        "cw": 127,
+        "sw": 22651,
+        "mxcsr": 8101
+      },
+      {
+        "ordinal": 6,
+        "cw": 127,
+        "sw": 22651,
+        "mxcsr": 8101
+      },
+      {
+        "ordinal": 7,
+        "cw": 127,
+        "sw": 22651,
+        "mxcsr": 8101
+      }
+    ],
+    "instructionControlWord": 127,
+    "controlWordMatched": true,
+    "rawNativeStatesUnchanged": true,
+    "independentX87StatusAndSseStickyModel": false
+  },
+  "strictComparisons": {
+    "counterCall": {
+      "matched": true,
+      "bytesCompared": 742,
+      "differingBytes": 0,
+      "regions": [
+        {
+          "id": "race-clock-origin",
+          "address": 9266864,
+          "length": 8,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-streak",
+          "address": 9266916,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-delivered",
+          "address": 9266936,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-network",
+          "address": 9285600,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-enabled",
+          "address": 9268364,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-frequency-origin",
+          "address": 9450916,
+          "length": 16,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-qpc-import",
+          "address": 7725308,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-qpf-import",
+          "address": 7725332,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-scale",
+          "address": 8177376,
+          "length": 8,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-conversion-tables",
+          "address": 7730848,
+          "length": 130,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-logical",
+          "address": 11511112,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-sample",
+          "address": 9267036,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-session-root",
+          "address": 8243996,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-session-phase",
+          "address": 10723292,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-stack",
+          "address": 15726868,
+          "length": 540,
+          "differingBytes": 0,
+          "differences": []
+        }
+      ]
+    },
+    "counterReturn": {
+      "matched": false,
+      "bytesCompared": 742,
+      "differingBytes": 109,
+      "regions": [
+        {
+          "id": "race-clock-origin",
+          "address": 9266864,
+          "length": 8,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-streak",
+          "address": 9266916,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-delivered",
+          "address": 9266936,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-network",
+          "address": 9285600,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-enabled",
+          "address": 9268364,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-frequency-origin",
+          "address": 9450916,
+          "length": 16,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-qpc-import",
+          "address": 7725308,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-qpf-import",
+          "address": 7725332,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-scale",
+          "address": 8177376,
+          "length": 8,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-conversion-tables",
+          "address": 7730848,
+          "length": 130,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-logical",
+          "address": 11511112,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-sample",
+          "address": 9267036,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-session-root",
+          "address": 8243996,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-session-phase",
+          "address": 10723292,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-stack",
+          "address": 15726868,
+          "length": 540,
+          "differingBytes": 109,
+          "differences": [
+            {
+              "address": 15727136,
+              "offset": 268,
+              "instruction": 128,
+              "native": 0
+            },
+            {
+              "address": 15727137,
+              "offset": 269,
+              "instruction": 37,
+              "native": 80
+            },
+            {
+              "address": 15727138,
+              "offset": 270,
+              "instruction": 228,
+              "native": 254
+            },
+            {
+              "address": 15727139,
+              "offset": 271,
+              "instruction": 119,
+              "native": 127
+            },
+            {
+              "address": 15727140,
+              "offset": 272,
+              "instruction": 101,
+              "native": 100
+            },
+            {
+              "address": 15727141,
+              "offset": 273,
+              "instruction": 57,
+              "native": 170
+            },
+            {
+              "address": 15727142,
+              "offset": 274,
+              "instruction": 12,
+              "native": 0
+            },
+            {
+              "address": 15727143,
+              "offset": 275,
+              "instruction": 191,
+              "native": 0
+            },
+            {
+              "address": 15727144,
+              "offset": 276,
+              "instruction": 254,
+              "native": 241
+            },
+            {
+              "address": 15727145,
+              "offset": 277,
+              "instruction": 255,
+              "native": 49
+            },
+            {
+              "address": 15727146,
+              "offset": 278,
+              "instruction": 255,
+              "native": 226
+            },
+            {
+              "address": 15727147,
+              "offset": 279,
+              "instruction": 255,
+              "native": 119
+            },
+            {
+              "address": 15727148,
+              "offset": 280,
+              "instruction": 124,
+              "native": 128
+            },
+            {
+              "address": 15727152,
+              "offset": 284,
+              "instruction": 82,
+              "native": 132
+            },
+            {
+              "address": 15727153,
+              "offset": 285,
+              "instruction": 54,
+              "native": 250
+            },
+            {
+              "address": 15727154,
+              "offset": 286,
+              "instruction": 229,
+              "native": 239
+            },
+            {
+              "address": 15727155,
+              "offset": 287,
+              "instruction": 119,
+              "native": 0
+            },
+            {
+              "address": 15727164,
+              "offset": 296,
+              "instruction": 176,
+              "native": 255
+            },
+            {
+              "address": 15727165,
+              "offset": 297,
+              "instruction": 12,
+              "native": 255
+            },
+            {
+              "address": 15727166,
+              "offset": 298,
+              "instruction": 168,
+              "native": 255
+            },
+            {
+              "address": 15727167,
+              "offset": 299,
+              "instruction": 23,
+              "native": 255
+            },
+            {
+              "address": 15727192,
+              "offset": 324,
+              "instruction": 116,
+              "native": 193
+            },
+            {
+              "address": 15727193,
+              "offset": 325,
+              "instruction": 250,
+              "native": 36
+            },
+            {
+              "address": 15727194,
+              "offset": 326,
+              "instruction": 239,
+              "native": 14
+            },
+            {
+              "address": 15727195,
+              "offset": 327,
+              "instruction": 0,
+              "native": 200
+            },
+            {
+              "address": 15727196,
+              "offset": 328,
+              "instruction": 31,
+              "native": 212
+            },
+            {
+              "address": 15727197,
+              "offset": 329,
+              "instruction": 238,
+              "native": 250
+            },
+            {
+              "address": 15727198,
+              "offset": 330,
+              "instruction": 167,
+              "native": 239
+            },
+            {
+              "address": 15727199,
+              "offset": 331,
+              "instruction": 102,
+              "native": 0
+            },
+            {
+              "address": 15727200,
+              "offset": 332,
+              "instruction": 32,
+              "native": 0
+            },
+            {
+              "address": 15727201,
+              "offset": 333,
+              "instruction": 0,
+              "native": 47
+            },
+            {
+              "address": 15727202,
+              "offset": 334,
+              "instruction": 0,
+              "native": 226
+            },
+            {
+              "address": 15727203,
+              "offset": 335,
+              "instruction": 0,
+              "native": 119
+            },
+            {
+              "address": 15727204,
+              "offset": 336,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727205,
+              "offset": 337,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727206,
+              "offset": 338,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727207,
+              "offset": 339,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727208,
+              "offset": 340,
+              "instruction": 0,
+              "native": 132
+            },
+            {
+              "address": 15727209,
+              "offset": 341,
+              "instruction": 0,
+              "native": 250
+            },
+            {
+              "address": 15727210,
+              "offset": 342,
+              "instruction": 0,
+              "native": 239
+            },
+            {
+              "address": 15727212,
+              "offset": 344,
+              "instruction": 176,
+              "native": 128
+            },
+            {
+              "address": 15727213,
+              "offset": 345,
+              "instruction": 12,
+              "native": 250
+            },
+            {
+              "address": 15727214,
+              "offset": 346,
+              "instruction": 168,
+              "native": 239
+            },
+            {
+              "address": 15727215,
+              "offset": 347,
+              "instruction": 23,
+              "native": 0
+            },
+            {
+              "address": 15727216,
+              "offset": 348,
+              "instruction": 0,
+              "native": 48
+            },
+            {
+              "address": 15727217,
+              "offset": 349,
+              "instruction": 0,
+              "native": 215
+            },
+            {
+              "address": 15727218,
+              "offset": 350,
+              "instruction": 0,
+              "native": 4
+            },
+            {
+              "address": 15727219,
+              "offset": 351,
+              "instruction": 0,
+              "native": 119
+            },
+            {
+              "address": 15727221,
+              "offset": 353,
+              "instruction": 0,
+              "native": 134
+            },
+            {
+              "address": 15727222,
+              "offset": 354,
+              "instruction": 10,
+              "native": 4
+            },
+            {
+              "address": 15727223,
+              "offset": 355,
+              "instruction": 1,
+              "native": 119
+            },
+            {
+              "address": 15727224,
+              "offset": 356,
+              "instruction": 231,
+              "native": 0
+            },
+            {
+              "address": 15727225,
+              "offset": 357,
+              "instruction": 88,
+              "native": 0
+            },
+            {
+              "address": 15727226,
+              "offset": 358,
+              "instruction": 95,
+              "native": 0
+            },
+            {
+              "address": 15727232,
+              "offset": 364,
+              "instruction": 218,
+              "native": 100
+            },
+            {
+              "address": 15727233,
+              "offset": 365,
+              "instruction": 238,
+              "native": 134
+            },
+            {
+              "address": 15727236,
+              "offset": 368,
+              "instruction": 0,
+              "native": 76
+            },
+            {
+              "address": 15727237,
+              "offset": 369,
+              "instruction": 0,
+              "native": 1
+            },
+            {
+              "address": 15727240,
+              "offset": 372,
+              "instruction": 45,
+              "native": 80
+            },
+            {
+              "address": 15727241,
+              "offset": 373,
+              "instruction": 36,
+              "native": 169
+            },
+            {
+              "address": 15727242,
+              "offset": 374,
+              "instruction": 14,
+              "native": 199
+            },
+            {
+              "address": 15727243,
+              "offset": 375,
+              "instruction": 200,
+              "native": 149
+            },
+            {
+              "address": 15727244,
+              "offset": 376,
+              "instruction": 112,
+              "native": 41
+            },
+            {
+              "address": 15727245,
+              "offset": 377,
+              "instruction": 84,
+              "native": 180
+            },
+            {
+              "address": 15727246,
+              "offset": 378,
+              "instruction": 144,
+              "native": 139
+            },
+            {
+              "address": 15727248,
+              "offset": 380,
+              "instruction": 69,
+              "native": 16
+            },
+            {
+              "address": 15727249,
+              "offset": 381,
+              "instruction": 2,
+              "native": 30
+            },
+            {
+              "address": 15727250,
+              "offset": 382,
+              "instruction": 118,
+              "native": 110
+            },
+            {
+              "address": 15727252,
+              "offset": 384,
+              "instruction": 0,
+              "native": 66
+            },
+            {
+              "address": 15727253,
+              "offset": 385,
+              "instruction": 0,
+              "native": 72
+            },
+            {
+              "address": 15727254,
+              "offset": 386,
+              "instruction": 0,
+              "native": 4
+            },
+            {
+              "address": 15727256,
+              "offset": 388,
+              "instruction": 136,
+              "native": 0
+            },
+            {
+              "address": 15727257,
+              "offset": 389,
+              "instruction": 250,
+              "native": 0
+            },
+            {
+              "address": 15727258,
+              "offset": 390,
+              "instruction": 239,
+              "native": 0
+            },
+            {
+              "address": 15727261,
+              "offset": 393,
+              "instruction": 251,
+              "native": 0
+            },
+            {
+              "address": 15727262,
+              "offset": 394,
+              "instruction": 239,
+              "native": 0
+            },
+            {
+              "address": 15727265,
+              "offset": 397,
+              "instruction": 251,
+              "native": 80
+            },
+            {
+              "address": 15727266,
+              "offset": 398,
+              "instruction": 239,
+              "native": 254
+            },
+            {
+              "address": 15727267,
+              "offset": 399,
+              "instruction": 0,
+              "native": 127
+            },
+            {
+              "address": 15727268,
+              "offset": 400,
+              "instruction": 128,
+              "native": 1
+            },
+            {
+              "address": 15727269,
+              "offset": 401,
+              "instruction": 37,
+              "native": 0
+            },
+            {
+              "address": 15727270,
+              "offset": 402,
+              "instruction": 228,
+              "native": 0
+            },
+            {
+              "address": 15727271,
+              "offset": 403,
+              "instruction": 119,
+              "native": 0
+            },
+            {
+              "address": 15727272,
+              "offset": 404,
+              "instruction": 181,
+              "native": 105
+            },
+            {
+              "address": 15727273,
+              "offset": 405,
+              "instruction": 59,
+              "native": 12
+            },
+            {
+              "address": 15727274,
+              "offset": 406,
+              "instruction": 12,
+              "native": 0
+            },
+            {
+              "address": 15727275,
+              "offset": 407,
+              "instruction": 191,
+              "native": 0
+            },
+            {
+              "address": 15727276,
+              "offset": 408,
+              "instruction": 254,
+              "native": 44
+            },
+            {
+              "address": 15727277,
+              "offset": 409,
+              "instruction": 255,
+              "native": 57
+            },
+            {
+              "address": 15727278,
+              "offset": 410,
+              "instruction": 255,
+              "native": 172
+            },
+            {
+              "address": 15727279,
+              "offset": 411,
+              "instruction": 255,
+              "native": 197
+            },
+            {
+              "address": 15727280,
+              "offset": 412,
+              "instruction": 196,
+              "native": 199
+            },
+            {
+              "address": 15727281,
+              "offset": 413,
+              "instruction": 250,
+              "native": 218
+            },
+            {
+              "address": 15727282,
+              "offset": 414,
+              "instruction": 239,
+              "native": 200
+            },
+            {
+              "address": 15727283,
+              "offset": 415,
+              "instruction": 0,
+              "native": 201
+            },
+            {
+              "address": 15727284,
+              "offset": 416,
+              "instruction": 250,
+              "native": 179
+            },
+            {
+              "address": 15727285,
+              "offset": 417,
+              "instruction": 236,
+              "native": 81
+            },
+            {
+              "address": 15727286,
+              "offset": 418,
+              "instruction": 167,
+              "native": 7
+            },
+            {
+              "address": 15727287,
+              "offset": 419,
+              "instruction": 102,
+              "native": 0
+            },
+            {
+              "address": 15727288,
+              "offset": 420,
+              "instruction": 0,
+              "native": 254
+            },
+            {
+              "address": 15727289,
+              "offset": 421,
+              "instruction": 0,
+              "native": 87
+            },
+            {
+              "address": 15727290,
+              "offset": 422,
+              "instruction": 10,
+              "native": 65
+            },
+            {
+              "address": 15727291,
+              "offset": 423,
+              "instruction": 1,
+              "native": 131
+            },
+            {
+              "address": 15727292,
+              "offset": 424,
+              "instruction": 0,
+              "native": 254
+            },
+            {
+              "address": 15727293,
+              "offset": 425,
+              "instruction": 0,
+              "native": 3
+            },
+            {
+              "address": 15727316,
+              "offset": 448,
+              "instruction": 48,
+              "native": 0
+            },
+            {
+              "address": 15727317,
+              "offset": 449,
+              "instruction": 215,
+              "native": 251
+            },
+            {
+              "address": 15727318,
+              "offset": 450,
+              "instruction": 4,
+              "native": 239
+            },
+            {
+              "address": 15727319,
+              "offset": 451,
+              "instruction": 119,
+              "native": 0
+            }
+          ]
+        }
+      ]
+    },
+    "returned": {
+      "matched": false,
+      "bytesCompared": 742,
+      "differingBytes": 105,
+      "regions": [
+        {
+          "id": "race-clock-origin",
+          "address": 9266864,
+          "length": 8,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-streak",
+          "address": 9266916,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-delivered",
+          "address": 9266936,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-network",
+          "address": 9285600,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-enabled",
+          "address": 9268364,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-frequency-origin",
+          "address": 9450916,
+          "length": 16,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-qpc-import",
+          "address": 7725308,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-qpf-import",
+          "address": 7725332,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-scale",
+          "address": 8177376,
+          "length": 8,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-conversion-tables",
+          "address": 7730848,
+          "length": 130,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-logical",
+          "address": 11511112,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-sample",
+          "address": 9267036,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-session-root",
+          "address": 8243996,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-session-phase",
+          "address": 10723292,
+          "length": 4,
+          "differingBytes": 0,
+          "differences": []
+        },
+        {
+          "id": "race-clock-stack",
+          "address": 15726868,
+          "length": 540,
+          "differingBytes": 105,
+          "differences": [
+            {
+              "address": 15727136,
+              "offset": 268,
+              "instruction": 128,
+              "native": 0
+            },
+            {
+              "address": 15727137,
+              "offset": 269,
+              "instruction": 37,
+              "native": 80
+            },
+            {
+              "address": 15727138,
+              "offset": 270,
+              "instruction": 228,
+              "native": 254
+            },
+            {
+              "address": 15727139,
+              "offset": 271,
+              "instruction": 119,
+              "native": 127
+            },
+            {
+              "address": 15727140,
+              "offset": 272,
+              "instruction": 101,
+              "native": 100
+            },
+            {
+              "address": 15727141,
+              "offset": 273,
+              "instruction": 57,
+              "native": 170
+            },
+            {
+              "address": 15727142,
+              "offset": 274,
+              "instruction": 12,
+              "native": 0
+            },
+            {
+              "address": 15727143,
+              "offset": 275,
+              "instruction": 191,
+              "native": 0
+            },
+            {
+              "address": 15727144,
+              "offset": 276,
+              "instruction": 254,
+              "native": 241
+            },
+            {
+              "address": 15727145,
+              "offset": 277,
+              "instruction": 255,
+              "native": 49
+            },
+            {
+              "address": 15727146,
+              "offset": 278,
+              "instruction": 255,
+              "native": 226
+            },
+            {
+              "address": 15727147,
+              "offset": 279,
+              "instruction": 255,
+              "native": 119
+            },
+            {
+              "address": 15727148,
+              "offset": 280,
+              "instruction": 124,
+              "native": 128
+            },
+            {
+              "address": 15727152,
+              "offset": 284,
+              "instruction": 82,
+              "native": 132
+            },
+            {
+              "address": 15727153,
+              "offset": 285,
+              "instruction": 54,
+              "native": 250
+            },
+            {
+              "address": 15727154,
+              "offset": 286,
+              "instruction": 229,
+              "native": 239
+            },
+            {
+              "address": 15727155,
+              "offset": 287,
+              "instruction": 119,
+              "native": 0
+            },
+            {
+              "address": 15727164,
+              "offset": 296,
+              "instruction": 176,
+              "native": 255
+            },
+            {
+              "address": 15727165,
+              "offset": 297,
+              "instruction": 12,
+              "native": 255
+            },
+            {
+              "address": 15727166,
+              "offset": 298,
+              "instruction": 168,
+              "native": 255
+            },
+            {
+              "address": 15727167,
+              "offset": 299,
+              "instruction": 23,
+              "native": 255
+            },
+            {
+              "address": 15727192,
+              "offset": 324,
+              "instruction": 116,
+              "native": 193
+            },
+            {
+              "address": 15727193,
+              "offset": 325,
+              "instruction": 250,
+              "native": 36
+            },
+            {
+              "address": 15727194,
+              "offset": 326,
+              "instruction": 239,
+              "native": 14
+            },
+            {
+              "address": 15727195,
+              "offset": 327,
+              "instruction": 0,
+              "native": 200
+            },
+            {
+              "address": 15727196,
+              "offset": 328,
+              "instruction": 31,
+              "native": 212
+            },
+            {
+              "address": 15727197,
+              "offset": 329,
+              "instruction": 238,
+              "native": 250
+            },
+            {
+              "address": 15727198,
+              "offset": 330,
+              "instruction": 167,
+              "native": 239
+            },
+            {
+              "address": 15727199,
+              "offset": 331,
+              "instruction": 102,
+              "native": 0
+            },
+            {
+              "address": 15727200,
+              "offset": 332,
+              "instruction": 32,
+              "native": 0
+            },
+            {
+              "address": 15727201,
+              "offset": 333,
+              "instruction": 0,
+              "native": 47
+            },
+            {
+              "address": 15727202,
+              "offset": 334,
+              "instruction": 0,
+              "native": 226
+            },
+            {
+              "address": 15727203,
+              "offset": 335,
+              "instruction": 0,
+              "native": 119
+            },
+            {
+              "address": 15727204,
+              "offset": 336,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727205,
+              "offset": 337,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727206,
+              "offset": 338,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727207,
+              "offset": 339,
+              "instruction": 0,
+              "native": 255
+            },
+            {
+              "address": 15727208,
+              "offset": 340,
+              "instruction": 0,
+              "native": 132
+            },
+            {
+              "address": 15727209,
+              "offset": 341,
+              "instruction": 0,
+              "native": 250
+            },
+            {
+              "address": 15727210,
+              "offset": 342,
+              "instruction": 0,
+              "native": 239
+            },
+            {
+              "address": 15727212,
+              "offset": 344,
+              "instruction": 176,
+              "native": 128
+            },
+            {
+              "address": 15727213,
+              "offset": 345,
+              "instruction": 12,
+              "native": 250
+            },
+            {
+              "address": 15727214,
+              "offset": 346,
+              "instruction": 168,
+              "native": 239
+            },
+            {
+              "address": 15727215,
+              "offset": 347,
+              "instruction": 23,
+              "native": 0
+            },
+            {
+              "address": 15727216,
+              "offset": 348,
+              "instruction": 0,
+              "native": 48
+            },
+            {
+              "address": 15727217,
+              "offset": 349,
+              "instruction": 0,
+              "native": 215
+            },
+            {
+              "address": 15727218,
+              "offset": 350,
+              "instruction": 0,
+              "native": 4
+            },
+            {
+              "address": 15727219,
+              "offset": 351,
+              "instruction": 0,
+              "native": 119
+            },
+            {
+              "address": 15727221,
+              "offset": 353,
+              "instruction": 0,
+              "native": 134
+            },
+            {
+              "address": 15727222,
+              "offset": 354,
+              "instruction": 10,
+              "native": 4
+            },
+            {
+              "address": 15727223,
+              "offset": 355,
+              "instruction": 1,
+              "native": 119
+            },
+            {
+              "address": 15727224,
+              "offset": 356,
+              "instruction": 231,
+              "native": 0
+            },
+            {
+              "address": 15727225,
+              "offset": 357,
+              "instruction": 88,
+              "native": 0
+            },
+            {
+              "address": 15727226,
+              "offset": 358,
+              "instruction": 95,
+              "native": 0
+            },
+            {
+              "address": 15727232,
+              "offset": 364,
+              "instruction": 218,
+              "native": 100
+            },
+            {
+              "address": 15727233,
+              "offset": 365,
+              "instruction": 238,
+              "native": 134
+            },
+            {
+              "address": 15727236,
+              "offset": 368,
+              "instruction": 0,
+              "native": 76
+            },
+            {
+              "address": 15727237,
+              "offset": 369,
+              "instruction": 0,
+              "native": 1
+            },
+            {
+              "address": 15727240,
+              "offset": 372,
+              "instruction": 45,
+              "native": 80
+            },
+            {
+              "address": 15727241,
+              "offset": 373,
+              "instruction": 36,
+              "native": 169
+            },
+            {
+              "address": 15727242,
+              "offset": 374,
+              "instruction": 14,
+              "native": 199
+            },
+            {
+              "address": 15727243,
+              "offset": 375,
+              "instruction": 200,
+              "native": 149
+            },
+            {
+              "address": 15727244,
+              "offset": 376,
+              "instruction": 112,
+              "native": 41
+            },
+            {
+              "address": 15727245,
+              "offset": 377,
+              "instruction": 84,
+              "native": 180
+            },
+            {
+              "address": 15727246,
+              "offset": 378,
+              "instruction": 144,
+              "native": 139
+            },
+            {
+              "address": 15727248,
+              "offset": 380,
+              "instruction": 69,
+              "native": 16
+            },
+            {
+              "address": 15727249,
+              "offset": 381,
+              "instruction": 2,
+              "native": 30
+            },
+            {
+              "address": 15727250,
+              "offset": 382,
+              "instruction": 118,
+              "native": 110
+            },
+            {
+              "address": 15727252,
+              "offset": 384,
+              "instruction": 0,
+              "native": 66
+            },
+            {
+              "address": 15727253,
+              "offset": 385,
+              "instruction": 0,
+              "native": 72
+            },
+            {
+              "address": 15727254,
+              "offset": 386,
+              "instruction": 0,
+              "native": 4
+            },
+            {
+              "address": 15727256,
+              "offset": 388,
+              "instruction": 136,
+              "native": 0
+            },
+            {
+              "address": 15727257,
+              "offset": 389,
+              "instruction": 250,
+              "native": 0
+            },
+            {
+              "address": 15727258,
+              "offset": 390,
+              "instruction": 239,
+              "native": 0
+            },
+            {
+              "address": 15727261,
+              "offset": 393,
+              "instruction": 251,
+              "native": 0
+            },
+            {
+              "address": 15727262,
+              "offset": 394,
+              "instruction": 239,
+              "native": 0
+            },
+            {
+              "address": 15727265,
+              "offset": 397,
+              "instruction": 251,
+              "native": 80
+            },
+            {
+              "address": 15727266,
+              "offset": 398,
+              "instruction": 239,
+              "native": 254
+            },
+            {
+              "address": 15727267,
+              "offset": 399,
+              "instruction": 0,
+              "native": 127
+            },
+            {
+              "address": 15727268,
+              "offset": 400,
+              "instruction": 128,
+              "native": 1
+            },
+            {
+              "address": 15727269,
+              "offset": 401,
+              "instruction": 37,
+              "native": 0
+            },
+            {
+              "address": 15727270,
+              "offset": 402,
+              "instruction": 228,
+              "native": 0
+            },
+            {
+              "address": 15727271,
+              "offset": 403,
+              "instruction": 119,
+              "native": 0
+            },
+            {
+              "address": 15727272,
+              "offset": 404,
+              "instruction": 181,
+              "native": 105
+            },
+            {
+              "address": 15727273,
+              "offset": 405,
+              "instruction": 59,
+              "native": 12
+            },
+            {
+              "address": 15727274,
+              "offset": 406,
+              "instruction": 12,
+              "native": 0
+            },
+            {
+              "address": 15727275,
+              "offset": 407,
+              "instruction": 191,
+              "native": 0
+            },
+            {
+              "address": 15727276,
+              "offset": 408,
+              "instruction": 254,
+              "native": 44
+            },
+            {
+              "address": 15727277,
+              "offset": 409,
+              "instruction": 255,
+              "native": 57
+            },
+            {
+              "address": 15727278,
+              "offset": 410,
+              "instruction": 255,
+              "native": 172
+            },
+            {
+              "address": 15727279,
+              "offset": 411,
+              "instruction": 255,
+              "native": 197
+            },
+            {
+              "address": 15727280,
+              "offset": 412,
+              "instruction": 196,
+              "native": 199
+            },
+            {
+              "address": 15727281,
+              "offset": 413,
+              "instruction": 250,
+              "native": 218
+            },
+            {
+              "address": 15727282,
+              "offset": 414,
+              "instruction": 239,
+              "native": 200
+            },
+            {
+              "address": 15727283,
+              "offset": 415,
+              "instruction": 0,
+              "native": 201
+            },
+            {
+              "address": 15727284,
+              "offset": 416,
+              "instruction": 250,
+              "native": 179
+            },
+            {
+              "address": 15727285,
+              "offset": 417,
+              "instruction": 236,
+              "native": 81
+            },
+            {
+              "address": 15727286,
+              "offset": 418,
+              "instruction": 167,
+              "native": 7
+            },
+            {
+              "address": 15727287,
+              "offset": 419,
+              "instruction": 102,
+              "native": 0
+            },
+            {
+              "address": 15727288,
+              "offset": 420,
+              "instruction": 0,
+              "native": 254
+            },
+            {
+              "address": 15727289,
+              "offset": 421,
+              "instruction": 0,
+              "native": 87
+            },
+            {
+              "address": 15727290,
+              "offset": 422,
+              "instruction": 10,
+              "native": 65
+            },
+            {
+              "address": 15727291,
+              "offset": 423,
+              "instruction": 1,
+              "native": 131
+            },
+            {
+              "address": 15727292,
+              "offset": 424,
+              "instruction": 0,
+              "native": 254
+            },
+            {
+              "address": 15727293,
+              "offset": 425,
+              "instruction": 0,
+              "native": 3
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "strictWhole540Matched": false,
+  "strictWhole540StillFalse": true,
+  "footprint": {
+    "events": 151,
+    "instructionReads": 87,
+    "instructionWrites": 55,
+    "ownWrittenBytes": 76,
+    "mismatchingFinalOwnWrittenBytes": 0,
+    "privateApiChangedBytes": 109,
+    "privateBytesOverwrittenByGenuineLaterGameStores": [
+      15727316,
+      15727317,
+      15727318,
+      15727319
+    ],
+    "remainingFinalPrivateDifferences": 105,
+    "privateReadBeforeGenuineWrite": [],
+    "apiChanges": [
+      {
+        "address": 15727136,
+        "before": 128,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727137,
+        "before": 37,
+        "after": 80,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727138,
+        "before": 228,
+        "after": 254,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727139,
+        "before": 119,
+        "after": 127,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727140,
+        "before": 101,
+        "after": 100,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727141,
+        "before": 57,
+        "after": 170,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727142,
+        "before": 12,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727143,
+        "before": 191,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727144,
+        "before": 254,
+        "after": 241,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727145,
+        "before": 255,
+        "after": 49,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727146,
+        "before": 255,
+        "after": 226,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727147,
+        "before": 255,
+        "after": 119,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727148,
+        "before": 124,
+        "after": 128,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727152,
+        "before": 82,
+        "after": 132,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727153,
+        "before": 54,
+        "after": 250,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727154,
+        "before": 229,
+        "after": 239,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727155,
+        "before": 119,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727164,
+        "before": 176,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727165,
+        "before": 12,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727166,
+        "before": 168,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727167,
+        "before": 23,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727192,
+        "before": 116,
+        "after": 193,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727193,
+        "before": 250,
+        "after": 36,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727194,
+        "before": 239,
+        "after": 14,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727195,
+        "before": 0,
+        "after": 200,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727196,
+        "before": 31,
+        "after": 212,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727197,
+        "before": 238,
+        "after": 250,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727198,
+        "before": 167,
+        "after": 239,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727199,
+        "before": 102,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727200,
+        "before": 32,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727201,
+        "before": 0,
+        "after": 47,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727202,
+        "before": 0,
+        "after": 226,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727203,
+        "before": 0,
+        "after": 119,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727204,
+        "before": 0,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727205,
+        "before": 0,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727206,
+        "before": 0,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727207,
+        "before": 0,
+        "after": 255,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727208,
+        "before": 0,
+        "after": 132,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727209,
+        "before": 0,
+        "after": 250,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727210,
+        "before": 0,
+        "after": 239,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727212,
+        "before": 176,
+        "after": 128,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727213,
+        "before": 12,
+        "after": 250,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727214,
+        "before": 168,
+        "after": 239,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727215,
+        "before": 23,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727216,
+        "before": 0,
+        "after": 48,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727217,
+        "before": 0,
+        "after": 215,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727218,
+        "before": 0,
+        "after": 4,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727219,
+        "before": 0,
+        "after": 119,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727221,
+        "before": 0,
+        "after": 134,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727222,
+        "before": 10,
+        "after": 4,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727223,
+        "before": 1,
+        "after": 119,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727224,
+        "before": 231,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727225,
+        "before": 88,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727226,
+        "before": 95,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727232,
+        "before": 218,
+        "after": 100,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727233,
+        "before": 238,
+        "after": 134,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727236,
+        "before": 0,
+        "after": 76,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727237,
+        "before": 0,
+        "after": 1,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727240,
+        "before": 45,
+        "after": 80,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727241,
+        "before": 36,
+        "after": 169,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727242,
+        "before": 14,
+        "after": 199,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727243,
+        "before": 200,
+        "after": 149,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727244,
+        "before": 112,
+        "after": 41,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727245,
+        "before": 84,
+        "after": 180,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727246,
+        "before": 144,
+        "after": 139,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727248,
+        "before": 69,
+        "after": 16,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727249,
+        "before": 2,
+        "after": 30,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727250,
+        "before": 118,
+        "after": 110,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727252,
+        "before": 0,
+        "after": 66,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727253,
+        "before": 0,
+        "after": 72,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727254,
+        "before": 0,
+        "after": 4,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727256,
+        "before": 136,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727257,
+        "before": 250,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727258,
+        "before": 239,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727261,
+        "before": 251,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727262,
+        "before": 239,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727265,
+        "before": 251,
+        "after": 80,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727266,
+        "before": 239,
+        "after": 254,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727267,
+        "before": 0,
+        "after": 127,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727268,
+        "before": 128,
+        "after": 1,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727269,
+        "before": 37,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727270,
+        "before": 228,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727271,
+        "before": 119,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727272,
+        "before": 181,
+        "after": 105,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727273,
+        "before": 59,
+        "after": 12,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727274,
+        "before": 12,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727275,
+        "before": 191,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727276,
+        "before": 254,
+        "after": 44,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727277,
+        "before": 255,
+        "after": 57,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727278,
+        "before": 255,
+        "after": 172,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727279,
+        "before": 255,
+        "after": 197,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727280,
+        "before": 196,
+        "after": 199,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727281,
+        "before": 250,
+        "after": 218,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727282,
+        "before": 239,
+        "after": 200,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727283,
+        "before": 0,
+        "after": 201,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727284,
+        "before": 250,
+        "after": 179,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727285,
+        "before": 236,
+        "after": 81,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727286,
+        "before": 167,
+        "after": 7,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727287,
+        "before": 102,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727288,
+        "before": 0,
+        "after": 254,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727289,
+        "before": 0,
+        "after": 87,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727290,
+        "before": 10,
+        "after": 65,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727291,
+        "before": 1,
+        "after": 131,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727292,
+        "before": 0,
+        "after": 254,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727293,
+        "before": 0,
+        "after": 3,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727316,
+        "before": 48,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727317,
+        "before": 215,
+        "after": 251,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727318,
+        "before": 4,
+        "after": 239,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727319,
+        "before": 119,
+        "after": 0,
+        "kind": "private-api-stack"
+      },
+      {
+        "address": 15727320,
+        "before": 156,
+        "after": 19,
+        "kind": "architectural-call-return"
+      },
+      {
+        "address": 15727321,
+        "before": 9,
+        "after": 157,
+        "kind": "architectural-call-return"
+      },
+      {
+        "address": 15727322,
+        "before": 7,
+        "after": 103,
+        "kind": "architectural-call-return"
+      },
+      {
+        "address": 15727352,
+        "before": 0,
+        "after": 42,
+        "kind": "counter-output"
+      },
+      {
+        "address": 15727353,
+        "before": 0,
+        "after": 145,
+        "kind": "counter-output"
+      },
+      {
+        "address": 15727354,
+        "before": 0,
+        "after": 237,
+        "kind": "counter-output"
+      },
+      {
+        "address": 15727355,
+        "before": 0,
+        "after": 72,
+        "kind": "counter-output"
+      },
+      {
+        "address": 15727356,
+        "before": 131,
+        "after": 104,
+        "kind": "counter-output"
+      },
+      {
+        "address": 15727357,
+        "before": 189,
+        "after": 16,
+        "kind": "counter-output"
+      },
+      {
+        "address": 15727358,
+        "before": 87,
+        "after": 0,
+        "kind": "counter-output"
+      },
+      {
+        "address": 15727359,
+        "before": 124,
+        "after": 0,
+        "kind": "counter-output"
+      }
+    ],
+    "ledgerSha256": "b76953e8070bb90ea14b29284c6c50531b35f901f9efed2044d8e59c3fff4b0b",
+    "ledger": [
+      {
+        "order": 0,
+        "kind": "read",
+        "address": 9266936,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495347,
+        "afterApi": false
+      },
+      {
+        "order": 1,
+        "kind": "write",
+        "address": 15727368,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495354,
+        "afterApi": false
+      },
+      {
+        "order": 2,
+        "kind": "write",
+        "address": 15727364,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495403,
+        "afterApi": false
+      },
+      {
+        "order": 3,
+        "kind": "write",
+        "address": 15727360,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790352,
+        "afterApi": false
+      },
+      {
+        "order": 4,
+        "kind": "read",
+        "address": 9268364,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790361,
+        "afterApi": false
+      },
+      {
+        "order": 5,
+        "kind": "write",
+        "address": 15727340,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790368,
+        "afterApi": false
+      },
+      {
+        "order": 6,
+        "kind": "write",
+        "address": 15727336,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790369,
+        "afterApi": false
+      },
+      {
+        "order": 7,
+        "kind": "write",
+        "address": 15727332,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790370,
+        "afterApi": false
+      },
+      {
+        "order": 8,
+        "kind": "read",
+        "address": 7725308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790371,
+        "afterApi": false
+      },
+      {
+        "order": 9,
+        "kind": "write",
+        "address": 15727328,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790377,
+        "afterApi": false
+      },
+      {
+        "order": 10,
+        "kind": "write",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790416,
+        "afterApi": false
+      },
+      {
+        "order": 11,
+        "kind": "write",
+        "address": 15727320,
+        "length": 4,
+        "actor": "architectural-call",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 12,
+        "kind": "write",
+        "address": 15727352,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 13,
+        "kind": "write",
+        "address": 15727353,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 14,
+        "kind": "write",
+        "address": 15727354,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 15,
+        "kind": "write",
+        "address": 15727355,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 16,
+        "kind": "write",
+        "address": 15727356,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 17,
+        "kind": "write",
+        "address": 15727357,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 18,
+        "kind": "write",
+        "address": 15727358,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 19,
+        "kind": "write",
+        "address": 15727359,
+        "length": 1,
+        "actor": "api-outcome",
+        "instructionAddress": 6790417,
+        "afterApi": false
+      },
+      {
+        "order": 20,
+        "kind": "read",
+        "address": 15727352,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790419,
+        "afterApi": true
+      },
+      {
+        "order": 21,
+        "kind": "read",
+        "address": 9450924,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790423,
+        "afterApi": true
+      },
+      {
+        "order": 22,
+        "kind": "read",
+        "address": 9450920,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790429,
+        "afterApi": true
+      },
+      {
+        "order": 23,
+        "kind": "read",
+        "address": 15727356,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790435,
+        "afterApi": true
+      },
+      {
+        "order": 24,
+        "kind": "read",
+        "address": 9450928,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790439,
+        "afterApi": true
+      },
+      {
+        "order": 25,
+        "kind": "read",
+        "address": 9450916,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790445,
+        "afterApi": true
+      },
+      {
+        "order": 26,
+        "kind": "write",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790451,
+        "afterApi": true
+      },
+      {
+        "order": 27,
+        "kind": "write",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790452,
+        "afterApi": true
+      },
+      {
+        "order": 28,
+        "kind": "write",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790453,
+        "afterApi": true
+      },
+      {
+        "order": 29,
+        "kind": "write",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790454,
+        "afterApi": true
+      },
+      {
+        "order": 30,
+        "kind": "write",
+        "address": 15727348,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790455,
+        "afterApi": true
+      },
+      {
+        "order": 31,
+        "kind": "write",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790459,
+        "afterApi": true
+      },
+      {
+        "order": 32,
+        "kind": "write",
+        "address": 15727304,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705472,
+        "afterApi": true
+      },
+      {
+        "order": 33,
+        "kind": "write",
+        "address": 15727300,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705473,
+        "afterApi": true
+      },
+      {
+        "order": 34,
+        "kind": "write",
+        "address": 15727296,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705474,
+        "afterApi": true
+      },
+      {
+        "order": 35,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705477,
+        "afterApi": true
+      },
+      {
+        "order": 36,
+        "kind": "read",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705505,
+        "afterApi": true
+      },
+      {
+        "order": 37,
+        "kind": "read",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705537,
+        "afterApi": true
+      },
+      {
+        "order": 38,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705541,
+        "afterApi": true
+      },
+      {
+        "order": 39,
+        "kind": "read",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705551,
+        "afterApi": true
+      },
+      {
+        "order": 40,
+        "kind": "read",
+        "address": 15727296,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705636,
+        "afterApi": true
+      },
+      {
+        "order": 41,
+        "kind": "read",
+        "address": 15727300,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705637,
+        "afterApi": true
+      },
+      {
+        "order": 42,
+        "kind": "read",
+        "address": 15727304,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705638,
+        "afterApi": true
+      },
+      {
+        "order": 43,
+        "kind": "read",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705639,
+        "afterApi": true
+      },
+      {
+        "order": 44,
+        "kind": "write",
+        "address": 15727352,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790466,
+        "afterApi": true
+      },
+      {
+        "order": 45,
+        "kind": "write",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790470,
+        "afterApi": true
+      },
+      {
+        "order": 46,
+        "kind": "write",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790471,
+        "afterApi": true
+      },
+      {
+        "order": 47,
+        "kind": "write",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790472,
+        "afterApi": true
+      },
+      {
+        "order": 48,
+        "kind": "write",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790473,
+        "afterApi": true
+      },
+      {
+        "order": 49,
+        "kind": "write",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790474,
+        "afterApi": true
+      },
+      {
+        "order": 50,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704336,
+        "afterApi": true
+      },
+      {
+        "order": 51,
+        "kind": "read",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704340,
+        "afterApi": true
+      },
+      {
+        "order": 52,
+        "kind": "read",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704346,
+        "afterApi": true
+      },
+      {
+        "order": 53,
+        "kind": "read",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704352,
+        "afterApi": true
+      },
+      {
+        "order": 54,
+        "kind": "read",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704358,
+        "afterApi": true
+      },
+      {
+        "order": 55,
+        "kind": "read",
+        "address": 15727348,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790479,
+        "afterApi": true
+      },
+      {
+        "order": 56,
+        "kind": "write",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790485,
+        "afterApi": true
+      },
+      {
+        "order": 57,
+        "kind": "write",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790487,
+        "afterApi": true
+      },
+      {
+        "order": 58,
+        "kind": "write",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790494,
+        "afterApi": true
+      },
+      {
+        "order": 59,
+        "kind": "write",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790495,
+        "afterApi": true
+      },
+      {
+        "order": 60,
+        "kind": "write",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790496,
+        "afterApi": true
+      },
+      {
+        "order": 61,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704336,
+        "afterApi": true
+      },
+      {
+        "order": 62,
+        "kind": "read",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704340,
+        "afterApi": true
+      },
+      {
+        "order": 63,
+        "kind": "read",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704346,
+        "afterApi": true
+      },
+      {
+        "order": 64,
+        "kind": "read",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704352,
+        "afterApi": true
+      },
+      {
+        "order": 65,
+        "kind": "read",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704358,
+        "afterApi": true
+      },
+      {
+        "order": 66,
+        "kind": "write",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790501,
+        "afterApi": true
+      },
+      {
+        "order": 67,
+        "kind": "write",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790502,
+        "afterApi": true
+      },
+      {
+        "order": 68,
+        "kind": "write",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790503,
+        "afterApi": true
+      },
+      {
+        "order": 69,
+        "kind": "write",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790504,
+        "afterApi": true
+      },
+      {
+        "order": 70,
+        "kind": "write",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790505,
+        "afterApi": true
+      },
+      {
+        "order": 71,
+        "kind": "write",
+        "address": 15727304,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705472,
+        "afterApi": true
+      },
+      {
+        "order": 72,
+        "kind": "write",
+        "address": 15727300,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705473,
+        "afterApi": true
+      },
+      {
+        "order": 73,
+        "kind": "write",
+        "address": 15727296,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705474,
+        "afterApi": true
+      },
+      {
+        "order": 74,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705477,
+        "afterApi": true
+      },
+      {
+        "order": 75,
+        "kind": "read",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705505,
+        "afterApi": true
+      },
+      {
+        "order": 76,
+        "kind": "read",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705537,
+        "afterApi": true
+      },
+      {
+        "order": 77,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705541,
+        "afterApi": true
+      },
+      {
+        "order": 78,
+        "kind": "read",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705551,
+        "afterApi": true
+      },
+      {
+        "order": 79,
+        "kind": "read",
+        "address": 15727296,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705636,
+        "afterApi": true
+      },
+      {
+        "order": 80,
+        "kind": "read",
+        "address": 15727300,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705637,
+        "afterApi": true
+      },
+      {
+        "order": 81,
+        "kind": "read",
+        "address": 15727304,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705638,
+        "afterApi": true
+      },
+      {
+        "order": 82,
+        "kind": "read",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705639,
+        "afterApi": true
+      },
+      {
+        "order": 83,
+        "kind": "write",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790510,
+        "afterApi": true
+      },
+      {
+        "order": 84,
+        "kind": "write",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790512,
+        "afterApi": true
+      },
+      {
+        "order": 85,
+        "kind": "write",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790517,
+        "afterApi": true
+      },
+      {
+        "order": 86,
+        "kind": "read",
+        "address": 15727352,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790518,
+        "afterApi": true
+      },
+      {
+        "order": 87,
+        "kind": "write",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790518,
+        "afterApi": true
+      },
+      {
+        "order": 88,
+        "kind": "write",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790526,
+        "afterApi": true
+      },
+      {
+        "order": 89,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704336,
+        "afterApi": true
+      },
+      {
+        "order": 90,
+        "kind": "read",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704340,
+        "afterApi": true
+      },
+      {
+        "order": 91,
+        "kind": "read",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704346,
+        "afterApi": true
+      },
+      {
+        "order": 92,
+        "kind": "read",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704352,
+        "afterApi": true
+      },
+      {
+        "order": 93,
+        "kind": "read",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7704358,
+        "afterApi": true
+      },
+      {
+        "order": 94,
+        "kind": "write",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790533,
+        "afterApi": true
+      },
+      {
+        "order": 95,
+        "kind": "write",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790535,
+        "afterApi": true
+      },
+      {
+        "order": 96,
+        "kind": "write",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790542,
+        "afterApi": true
+      },
+      {
+        "order": 97,
+        "kind": "write",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790543,
+        "afterApi": true
+      },
+      {
+        "order": 98,
+        "kind": "write",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790544,
+        "afterApi": true
+      },
+      {
+        "order": 99,
+        "kind": "write",
+        "address": 15727304,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705472,
+        "afterApi": true
+      },
+      {
+        "order": 100,
+        "kind": "write",
+        "address": 15727300,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705473,
+        "afterApi": true
+      },
+      {
+        "order": 101,
+        "kind": "write",
+        "address": 15727296,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705474,
+        "afterApi": true
+      },
+      {
+        "order": 102,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705477,
+        "afterApi": true
+      },
+      {
+        "order": 103,
+        "kind": "read",
+        "address": 15727324,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705505,
+        "afterApi": true
+      },
+      {
+        "order": 104,
+        "kind": "read",
+        "address": 15727320,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705537,
+        "afterApi": true
+      },
+      {
+        "order": 105,
+        "kind": "read",
+        "address": 15727316,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705541,
+        "afterApi": true
+      },
+      {
+        "order": 106,
+        "kind": "read",
+        "address": 15727312,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705551,
+        "afterApi": true
+      },
+      {
+        "order": 107,
+        "kind": "read",
+        "address": 15727296,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705636,
+        "afterApi": true
+      },
+      {
+        "order": 108,
+        "kind": "read",
+        "address": 15727300,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705637,
+        "afterApi": true
+      },
+      {
+        "order": 109,
+        "kind": "read",
+        "address": 15727304,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705638,
+        "afterApi": true
+      },
+      {
+        "order": 110,
+        "kind": "read",
+        "address": 15727308,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7705639,
+        "afterApi": true
+      },
+      {
+        "order": 111,
+        "kind": "read",
+        "address": 15727328,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790549,
+        "afterApi": true
+      },
+      {
+        "order": 112,
+        "kind": "read",
+        "address": 15727332,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790550,
+        "afterApi": true
+      },
+      {
+        "order": 113,
+        "kind": "read",
+        "address": 15727336,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790551,
+        "afterApi": true
+      },
+      {
+        "order": 114,
+        "kind": "read",
+        "address": 15727340,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790552,
+        "afterApi": true
+      },
+      {
+        "order": 115,
+        "kind": "read",
+        "address": 15727360,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790555,
+        "afterApi": true
+      },
+      {
+        "order": 116,
+        "kind": "read",
+        "address": 15727364,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6790556,
+        "afterApi": true
+      },
+      {
+        "order": 117,
+        "kind": "read",
+        "address": 9266864,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495408,
+        "afterApi": true
+      },
+      {
+        "order": 118,
+        "kind": "read",
+        "address": 9266868,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495416,
+        "afterApi": true
+      },
+      {
+        "order": 119,
+        "kind": "write",
+        "address": 15727364,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495422,
+        "afterApi": true
+      },
+      {
+        "order": 120,
+        "kind": "read",
+        "address": 7730848,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703929,
+        "afterApi": true
+      },
+      {
+        "order": 121,
+        "kind": "read",
+        "address": 7730852,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703929,
+        "afterApi": true
+      },
+      {
+        "order": 122,
+        "kind": "read",
+        "address": 7730848,
+        "length": 8,
+        "actor": "instruction",
+        "instructionAddress": 7703929,
+        "afterApi": true
+      },
+      {
+        "order": 123,
+        "kind": "read",
+        "address": 15727364,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703942,
+        "afterApi": true
+      },
+      {
+        "order": 124,
+        "kind": "read",
+        "address": 8177376,
+        "length": 8,
+        "actor": "instruction",
+        "instructionAddress": 6495427,
+        "afterApi": true
+      },
+      {
+        "order": 125,
+        "kind": "write",
+        "address": 15727364,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495435,
+        "afterApi": true
+      },
+      {
+        "order": 126,
+        "kind": "read",
+        "address": 7730904,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703622,
+        "afterApi": true
+      },
+      {
+        "order": 127,
+        "kind": "read",
+        "address": 7730908,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703622,
+        "afterApi": true
+      },
+      {
+        "order": 128,
+        "kind": "read",
+        "address": 7730904,
+        "length": 8,
+        "actor": "instruction",
+        "instructionAddress": 7703622,
+        "afterApi": true
+      },
+      {
+        "order": 129,
+        "kind": "read",
+        "address": 7730896,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703242,
+        "afterApi": true
+      },
+      {
+        "order": 130,
+        "kind": "read",
+        "address": 7730900,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703242,
+        "afterApi": true
+      },
+      {
+        "order": 131,
+        "kind": "read",
+        "address": 7730896,
+        "length": 8,
+        "actor": "instruction",
+        "instructionAddress": 7703242,
+        "afterApi": true
+      },
+      {
+        "order": 132,
+        "kind": "read",
+        "address": 7730864,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703351,
+        "afterApi": true
+      },
+      {
+        "order": 133,
+        "kind": "read",
+        "address": 7730868,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703351,
+        "afterApi": true
+      },
+      {
+        "order": 134,
+        "kind": "read",
+        "address": 7730864,
+        "length": 8,
+        "actor": "instruction",
+        "instructionAddress": 7703351,
+        "afterApi": true
+      },
+      {
+        "order": 135,
+        "kind": "read",
+        "address": 7730872,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703359,
+        "afterApi": true
+      },
+      {
+        "order": 136,
+        "kind": "read",
+        "address": 7730876,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703359,
+        "afterApi": true
+      },
+      {
+        "order": 137,
+        "kind": "read",
+        "address": 7730872,
+        "length": 8,
+        "actor": "instruction",
+        "instructionAddress": 7703359,
+        "afterApi": true
+      },
+      {
+        "order": 138,
+        "kind": "read",
+        "address": 7730960,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703367,
+        "afterApi": true
+      },
+      {
+        "order": 139,
+        "kind": "write",
+        "address": 15727360,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703512,
+        "afterApi": true
+      },
+      {
+        "order": 140,
+        "kind": "write",
+        "address": 15727328,
+        "length": 2,
+        "actor": "instruction",
+        "instructionAddress": 7703552,
+        "afterApi": true
+      },
+      {
+        "order": 141,
+        "kind": "read",
+        "address": 15727328,
+        "length": 2,
+        "actor": "instruction",
+        "instructionAddress": 7703556,
+        "afterApi": true
+      },
+      {
+        "order": 142,
+        "kind": "read",
+        "address": 7730959,
+        "length": 1,
+        "actor": "instruction",
+        "instructionAddress": 7703565,
+        "afterApi": true
+      },
+      {
+        "order": 143,
+        "kind": "read",
+        "address": 15727360,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703616,
+        "afterApi": true
+      },
+      {
+        "order": 144,
+        "kind": "read",
+        "address": 15727364,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 7703530,
+        "afterApi": true
+      },
+      {
+        "order": 145,
+        "kind": "read",
+        "address": 9285600,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495440,
+        "afterApi": true
+      },
+      {
+        "order": 146,
+        "kind": "read",
+        "address": 9266936,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495448,
+        "afterApi": true
+      },
+      {
+        "order": 147,
+        "kind": "write",
+        "address": 9266916,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495566,
+        "afterApi": true
+      },
+      {
+        "order": 148,
+        "kind": "write",
+        "address": 9266936,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495580,
+        "afterApi": true
+      },
+      {
+        "order": 149,
+        "kind": "read",
+        "address": 15727368,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495586,
+        "afterApi": true
+      },
+      {
+        "order": 150,
+        "kind": "read",
+        "address": 15727380,
+        "length": 4,
+        "actor": "instruction",
+        "instructionAddress": 6495590,
+        "afterApi": true
+      }
+    ]
+  },
+  "filePins": [
+    {
+      "path": "tools/lib/bounded-x86.mjs",
+      "sha256": "226f541978731a44a1f1e9bbfac520e75d97fc1746c7cb64e47bf91dd91ca69d"
+    },
+    {
+      "path": "tools/lib/native-race-clock-inputs.mjs",
+      "sha256": "0f26e82dac8218bede27630e1c383b61962dc28f91f41cb6a03a385c4c65e792"
+    },
+    {
+      "path": "tools/lib/native-race-clock-capture.mjs",
+      "sha256": "f647e981da54c4a9fff5619ac4f898713c2ca4652209a1b5082ac691c84a0134"
+    },
+    {
+      "path": "analysis/native-race-clock-stock-independent-numeric-v2-20261024.mjs",
+      "sha256": "c2a0e38eea71f5617d226ce132d0842a4df575c22908803b2f85ad4a11b99b59"
+    }
+  ],
+  "conclusion": "Independent original instruction replay matches clockvalue/count/counters/knownreturnABI from entry plus actualQPC8B/BOOL only. Everyremainingstrictdifference is unused survivingAPIprivate residue within this one observedgame interval; it is retained, not masked or copied. Full540-bytepostcallstate doesnotmatch.",
+  "limits": [
+    "No production clock/conversion function executed and no game-child answer hooks were supplied.",
+    "Only this closed warmcall is tested. No cadence, next parent tick, coldQPF or widerconcurrency proof.",
+    "CompleteEFLAGS/volatileprivateABI and SSE/x87sticky-status computation are outside this interpreter proof; nativeCWSW/MXCSR areobserved separately.",
+    "Private residue has no read-before-own-write in this observed441c70 tail. Future callers may consume it; no globalirrelevance or fullstateequivalence claim."
+  ],
+  "productionEdits": 0,
+  "nativeLaunches": 0,
+  "newReaSessions": 0
+}

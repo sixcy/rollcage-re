@@ -1,4 +1,10 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
+import {nativeCodeAddress} from './native-memory-spans.mjs';
 import yaw from './yaw-table.json' with {type:'json'};
+//Explicit physical module operands for the attachment allocation/spatial
+//chain. Legacy callers retain their existing global-role/alias contract.
+const fixed=(runtime,p)=>runtime.moduleBaseAddress===undefined?p:nativeCodeAddress(p,runtime);
+const global=(runtime,p)=>runtime.moduleBaseAddress===undefined?nativeGlobalAddress(runtime.memory,p):nativeCodeAddress(p,runtime);
 const get=(m,p)=>m.readInt32LE(p),ptr=(m,p)=>m.readUInt32LE(p),put=(m,p,v)=>m.writeInt32LE(v|0,p),word=(m,p,v)=>m.writeUInt16LE(v&65535,p),short=v=>(v<<16)>>16;
 const rng=seed=>Math.imul(seed,0x41a7)&0x7fffffff;
 const vector=(m,p)=>[0,4,8].map(o=>get(m,p+o));
@@ -28,8 +34,8 @@ export function findNearestRawSpatialColumn(rows,z,x,{memory}){
 }
 
 //4286e0. Packed row ranges select a column; tagged vertical entries select Y.
-export function lookupRawSpatialBucket(x,y,z,{memory}){
- const rowIndex=((z>>24)+128)&65535,xIndex=((x>>24)+128)&65535,yIndex=((y>>24)+32)&65535,rows=ptr(memory,0x909254);
+export function lookupRawSpatialBucket(x,y,z,runtime){
+ const {memory}=runtime,rowIndex=((z>>24)+128)&65535,xIndex=((x>>24)+128)&65535,yIndex=((y>>24)+32)&65535,rows=ptr(memory,fixed(runtime,0x909254));
  let ranges=rows+rowIndex*16,indices=ptr(memory,ranges+12),offset=0,selected,outside=0;
  if(indices){
   for(let remaining=6;remaining>0;remaining--,ranges+=2){
@@ -40,42 +46,44 @@ export function lookupRawSpatialBucket(x,y,z,{memory}){
   }
   if(selected===undefined&&!outside)selected=indices+offset*2;
  }else outside=1;
- if(outside)selected=findNearestRawSpatialColumn(rows,rowIndex,xIndex,{memory});
- let bucket=ptr(memory,0x909278)+memory.readUInt16LE(selected);
+ if(outside)selected=findNearestRawSpatialColumn(rows,rowIndex,xIndex,runtime);
+ let bucket=ptr(memory,fixed(runtime,0x909278))+memory.readUInt16LE(selected);
  while(get(memory,bucket+4)<0&&yIndex<=((ptr(memory,bucket+12)>>>13)&63))bucket+=12;
  return {bucket,outside};
 }
 
 //4748d0, particle-head sibling of physical474850.
-export function removeRawParticleSpatial(particle,{memory}){
+export function removeRawParticleSpatial(particle,runtime){
+ const {memory}=runtime;
  const previous=memory.readUInt16LE(particle+6);
- if(!previous){const bucket=ptr(memory,particle+12)&0xfffffffe;word(memory,bucket+10,memory.readUInt16LE(particle+4));const next=memory.readUInt16LE(particle+4);if(next){const p=(ptr(memory,0x902eec)-128+next*128)>>>0;if(p)word(memory,p+6,0);}}
- else{const next=memory.readUInt16LE(particle+4),base=ptr(memory,0x902eec);if(next){const p=(base-128+next*128)>>>0;if(p)word(memory,p+6,previous);}word(memory,(base-124+previous*128)>>>0,memory.readUInt16LE(particle+4));}
+ if(!previous){const bucket=ptr(memory,particle+12)&0xfffffffe;word(memory,bucket+10,memory.readUInt16LE(particle+4));const next=memory.readUInt16LE(particle+4);if(next){const p=(ptr(memory,global(runtime,0x902eec))-128+next*128)>>>0;if(p)word(memory,p+6,0);}}
+ else{const next=memory.readUInt16LE(particle+4),base=ptr(memory,global(runtime,0x902eec));if(next){const p=(base-128+next*128)>>>0;if(p)word(memory,p+6,previous);}word(memory,(base-124+previous*128)>>>0,memory.readUInt16LE(particle+4));}
  put(memory,particle+4,0);
 }
 
 //435df0. Free-list allocation or oldest eligible active-list reuse.
-export function allocateRawEffectParticle({memory}){
- let particle=ptr(memory,0x6e65b4),head,previous;
- if(particle){put(memory,0x6e65b4,get(memory,particle+0xac));head=ptr(memory,0x6e65c0);previous=ptr(memory,0x6e65c8);}
+export function allocateRawEffectParticle(runtime){
+ const {memory}=runtime;
+ let particle=ptr(memory,fixed(runtime,0x6e65b4)),head,previous;
+ if(particle){put(memory,fixed(runtime,0x6e65b4),get(memory,particle+0xac));head=ptr(memory,fixed(runtime,0x6e65c0));previous=ptr(memory,fixed(runtime,0x6e65c8));}
  else{
-  head=ptr(memory,0x6e65c0);particle=head;
+  head=ptr(memory,fixed(runtime,0x6e65c0));particle=head;
   while(get(memory,particle+0xb0)!==0){particle=ptr(memory,particle+0xa8);if(!particle){particle=head;break;}}
   previous=ptr(memory,particle+0xac);const next=ptr(memory,particle+0xa8);
   if(previous)put(memory,previous+0xa8,next);else head=next;
-  if(next){put(memory,next+0xac,previous);previous=ptr(memory,0x6e65c8);}
+  if(next){put(memory,next+0xac,previous);previous=ptr(memory,fixed(runtime,0x6e65c8));}
  }
- put(memory,particle+0xac,previous);put(memory,particle+0xa8,0);put(memory,0x6e65c8,particle);
- if(previous)put(memory,previous+0xa8,particle);put(memory,0x6e65c0,head||particle);
- if(memory[particle+0x94]===1)removeRawParticleSpatial(particle,{memory});
+ put(memory,particle+0xac,previous);put(memory,particle+0xa8,0);put(memory,fixed(runtime,0x6e65c8),particle);
+ if(previous)put(memory,previous+0xa8,particle);put(memory,fixed(runtime,0x6e65c0),head||particle);
+ if(memory[particle+0x94]===1)removeRawParticleSpatial(particle,runtime);
  put(memory,particle+0xb0,0);put(memory,particle+0xb4,0);return particle;
 }
 
 //474670, also inlined by435f20. Registration precedes later position jitter.
-export function registerRawEffectSpatial(particle,x,y,z,{memory}){
- const found=lookupRawSpatialBucket(x,y,z,{memory}),tagged=found.bucket+found.outside;put(memory,particle+12,tagged);
- const bucket=tagged&0xfffffffe,id=((particle-ptr(memory,0x902eec)+128)>>>7)&65535,head=memory.readUInt16LE(bucket+10);
- put(memory,particle+4,head);if(head)word(memory,ptr(memory,0x902eec)-122+head*128,id);word(memory,bucket+10,id);
+export function registerRawEffectSpatial(particle,x,y,z,runtime){
+ const {memory}=runtime,found=lookupRawSpatialBucket(x,y,z,runtime),tagged=found.bucket+found.outside;put(memory,particle+12,tagged);
+ const bucket=tagged&0xfffffffe,id=((particle-ptr(memory,global(runtime,0x902eec))+128)>>>7)&65535,head=memory.readUInt16LE(bucket+10);
+ put(memory,particle+4,head);if(head)word(memory,ptr(memory,global(runtime,0x902eec))-122+head*128,id);word(memory,bucket+10,id);
  return found;
 }
 
@@ -124,15 +132,15 @@ export function emitRawEffectParticles(position,velocity,count,color,kind,{memor
 //475a10. Debris free/active index arrays and actual packed spatial insertion.
 export function emitRawBodyDebris(position,velocity,count,{memory}){
  let remaining=(Math.imul(count,3)+12)|0;if(remaining<=0)return 0;
- const free=ptr(memory,0x902b7c);let freeLast=get(memory,0x902b8c),activeCount=get(memory,0x902b88),emitted=0;
+ const free=ptr(memory,nativeGlobalAddress(memory, 0x902b7c));let freeLast=get(memory,nativeGlobalAddress(memory, 0x902b8c)),activeCount=get(memory,nativeGlobalAddress(memory, 0x902b88)),emitted=0;
  while(remaining>0&&freeLast>=0){
-  const id=memory.readUInt16LE(free+freeLast*2);freeLast--;word(memory,ptr(memory,0x902b80)+activeCount*2,id);activeCount++;
-  const p=(ptr(memory,0x902b84)+(id<<7))>>>0;word(memory,p+0x6a,1);copy(memory,position,p+0x4c);registerRawEffectSpatial(p,...vector(memory,p+0x4c),{memory});
+  const id=memory.readUInt16LE(free+freeLast*2);freeLast--;word(memory,ptr(memory,nativeGlobalAddress(memory, 0x902b80))+activeCount*2,id);activeCount++;
+  const p=(ptr(memory,nativeGlobalAddress(memory, 0x902b84))+(id<<7))>>>0;word(memory,p+0x6a,1);copy(memory,position,p+0x4c);registerRawEffectSpatial(p,...vector(memory,p+0x4c),{memory});
   let seed=rng(get(memory,0x5ec958));word(memory,p+8,((seed>>>15)*16>>>16)+39);
   for(let i=0;i<3;i++){seed=rng(seed);put(memory,p+0x58+i*4,Math.imul((seed>>>20)-1024,2048)+((get(memory,velocity+i*4)>>2)&0xfffff800));}put(memory,0x5ec958,seed);
   for(let i=0;i<3;i++)word(memory,p+0x64+i*2,memory.readUInt16LE(p+0x4e+i*4));put(memory,p+0x30,0x2f6f6f);put(memory,p+0x14,0xae00052f);remaining--;emitted++;
  }
- put(memory,0x902b88,activeCount);put(memory,0x902b8c,freeLast);return emitted;
+ put(memory,nativeGlobalAddress(memory, 0x902b88),activeCount);put(memory,nativeGlobalAddress(memory, 0x902b8c),freeLast);return emitted;
 }
 
 //44d230. Decode up to four authored sector ranges and expand around midpoint.
@@ -187,8 +195,8 @@ export function alterRawTerrainBrightness(position,count,{memory,scratchBase}){
   const packed=ptr(memory,output+index*4);if(!packed)break;
   const segment=ptr(memory,ptr(memory,0x909240)+(packed&255)*4),width=(get(memory,segment+8)+1)|0,start=(packed>>>8)&4095;
   let end=(packed>>>20)+1;if(end>get(memory,segment+12)+1)end--;
-  const range=((start&2047)|((end&2047)<<11)),dirtyCount=ptr(memory,0x80f210),dirty=(((range|0x800000)<<7)|(packed&127))|0;
-  if(dirtyCount<64&&(dirtyCount===0||get(memory,0x80f41c+dirtyCount*4)!==dirty)){put(memory,0x80f420+dirtyCount*4,dirty);put(memory,0x80f210,dirtyCount+1);}
+  const range=((start&2047)|((end&2047)<<11)),dirtyCount=ptr(memory,nativeGlobalAddress(memory,0x80f210)),dirty=(((range|0x800000)<<7)|(packed&127))|0;
+  if(dirtyCount<64&&(dirtyCount===0||get(memory,nativeGlobalAddress(memory,0x80f41c+dirtyCount*4))!==dirty)){put(memory,nativeGlobalAddress(memory,0x80f420+dirtyCount*4),dirty);put(memory,nativeGlobalAddress(memory,0x80f210),dirtyCount+1);}
   const base=ptr(memory,segment+32),begin=(base+Math.imul(Math.imul(width,start),8))>>>0,finish=(base+Math.imul(Math.imul(width,end),8))>>>0;
   if(begin>=finish)continue;
   for(let p=begin;p<finish;p+=8){
@@ -206,8 +214,8 @@ export function alterRawTerrainBrightness(position,count,{memory,scratchBase}){
 
 //436490. Alternate36-byte position effect, with unsigned count-derived words.
 export function appendRawBodyFlash(position,count,{memory}){
- const length=ptr(memory,0x810920);if(length>=16)return;
- const row=0x8106e0+length*36;copy(memory,position,row);put(memory,row+12,position);word(memory,row+16,((count>>>2)+5));word(memory,row+18,3);put(memory,row+20,(Math.imul(count,8)+0x2d0)&65535);put(memory,0x810920,length+1);
+ const length=ptr(memory,nativeGlobalAddress(memory,0x810920));if(length>=16)return;
+ const row=nativeGlobalAddress(memory,0x8106e0+length*36);copy(memory,position,row);put(memory,row+12,position);word(memory,row+16,((count>>>2)+5));word(memory,row+18,3);put(memory,row+20,(Math.imul(count,8)+0x2d0)&65535);put(memory,nativeGlobalAddress(memory,0x810920),length+1);
 }
 
 //436510. Find one of ten inactive7724-byte trail/effect records.

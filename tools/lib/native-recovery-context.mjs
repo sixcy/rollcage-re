@@ -1,6 +1,6 @@
 //47ccc0/47d040/47d440 bindings over already captured state. No route selection,
 //obstruction answer, motion reset, pool initializer or constructor is injected.
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
 import {buildNativeFrameManifest} from './native-frame-manifest.mjs';
 import {createNativeFrameGeometry} from './native-frame-geometry.mjs';
 import {createPhysicsRuntimeViews} from '../../src/physics-runtime-views.mjs';

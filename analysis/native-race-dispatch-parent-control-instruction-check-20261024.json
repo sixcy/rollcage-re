@@ -1,0 +1,2906 @@
+{
+  "schemaVersion": 1,
+  "matched": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "authority": "constructed-parent-control-fixtures-with-synthetic-in-image-child-outcomes",
+  "method": "Only retained450d60 executes in the instruction oracle; all6childcallbacks are explicitly synthetic and isolated to this comparison. Production default children and original-process behavior are not proved.",
+  "bases": [
+    4194304,
+    3276800,
+    7536640
+  ],
+  "scenarios": 150,
+  "fixtures": 450,
+  "childCalls": 3153,
+  "parentInstructions": 87,
+  "parentInstructionsReached": 87,
+  "branchCounts": {
+    "0x450d60": 450,
+    "0x450d61": 450,
+    "0x450d66": 450,
+    "0x450d67": 450,
+    "0x450d68": 450,
+    "0x450d69": 450,
+    "0x450d6b": 450,
+    "0x450d6d": 450,
+    "0x450d6e": 450,
+    "0x450d70": 450,
+    "0x450d72": 288,
+    "0x450d74": 288,
+    "0x450d92": 309,
+    "0x450d94": 450,
+    "0x450d95": 450,
+    "0x450d9a": 450,
+    "0x450d9f": 450,
+    "0x450da1": 450,
+    "0x450da6": 450,
+    "0x450dad": 450,
+    "0x450daf": 285,
+    "0x450db4": 285,
+    "0x450db7": 285,
+    "0x450dd7": 303,
+    "0x450dd9": 450,
+    "0x450dda": 450,
+    "0x450ddf": 450,
+    "0x450de4": 450,
+    "0x450de6": 450,
+    "0x450deb": 450,
+    "0x450df0": 450,
+    "0x450df6": 450,
+    "0x450df8": 450,
+    "0x450dfa": 450,
+    "0x450dfc": 396,
+    "0x450dff": 396,
+    "0x450e2a": 393,
+    "0x450e2c": 393,
+    "0x450e2e": 393,
+    "0x450e30": 768,
+    "0x450e31": 768,
+    "0x450e33": 768,
+    "0x450e38": 768,
+    "0x450e3a": 768,
+    "0x450e3d": 768,
+    "0x450e3f": 768,
+    "0x450e41": 720,
+    "0x450e42": 720,
+    "0x450e44": 720,
+    "0x450e46": 393,
+    "0x450e47": 393,
+    "0x450e48": 393,
+    "0x450e49": 393,
+    "0x450e4b": 393,
+    "0x450e4c": 393,
+    "0x450e4d": 393,
+    "0x450db9": 231,
+    "0x450dbe": 231,
+    "0x450dc5": 231,
+    "0x450dc7": 159,
+    "0x450dce": 159,
+    "0x450dd0": 147,
+    "0x450dd5": 147,
+    "0x450d76": 207,
+    "0x450d7b": 207,
+    "0x450d82": 207,
+    "0x450d84": 150,
+    "0x450d8b": 150,
+    "0x450d8d": 141,
+    "0x450d90": 141,
+    "0x450e01": 81,
+    "0x450e06": 81,
+    "0x450e08": 81,
+    "0x450e1f": 54,
+    "0x450e21": 54,
+    "0x450e26": 54,
+    "0x450e28": 54,
+    "0x450e0a": 57,
+    "0x450e0c": 57,
+    "0x450e0e": 54,
+    "0x450e14": 57,
+    "0x450e19": 57,
+    "0x450e1a": 57,
+    "0x450e1b": 57,
+    "0x450e1c": 57,
+    "0x450e1d": 57,
+    "0x450e1e": 57
+  },
+  "inputEvidence": [
+    {
+      "base": 4194304,
+      "evidence": [
+        "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+        "ev_af9ae69ed9db78a714381999a949dba246f1bac8a65c92a3239c27f068b70358",
+        "ev_1f5b95d22335cb2c78658771707e0bfa40e3cbfcdefb239142446663ec1ce147"
+      ]
+    },
+    {
+      "base": 3276800,
+      "evidence": [
+        "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+        "ev_af9ae69ed9db78a714381999a949dba246f1bac8a65c92a3239c27f068b70358",
+        "ev_1f5b95d22335cb2c78658771707e0bfa40e3cbfcdefb239142446663ec1ce147"
+      ]
+    },
+    {
+      "base": 7536640,
+      "evidence": [
+        "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+        "ev_af9ae69ed9db78a714381999a949dba246f1bac8a65c92a3239c27f068b70358",
+        "ev_1f5b95d22335cb2c78658771707e0bfa40e3cbfcdefb239142446663ec1ce147"
+      ]
+    }
+  ],
+  "sourceModuleSha256": "d5f513819c20c9aad5516546824d3eaebfcb2e54740dd7ceec6493a9f5f113e4",
+  "declaredSyntheticScenarios": [
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0--1-0",
+      "flags": 0,
+      "participants": 0,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0--1-1",
+      "flags": 0,
+      "participants": 0,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0--1-255",
+      "flags": 0,
+      "participants": 0,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0-4-0",
+      "flags": 0,
+      "participants": 0,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0-4-1",
+      "flags": 0,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0-4-255",
+      "flags": 0,
+      "participants": 0,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0-7-0",
+      "flags": 0,
+      "participants": 0,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0-7-1",
+      "flags": 0,
+      "participants": 0,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-0-7-255",
+      "flags": 0,
+      "participants": 0,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1--1-0",
+      "flags": 0,
+      "participants": 1,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1--1-1",
+      "flags": 0,
+      "participants": 1,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1--1-255",
+      "flags": 0,
+      "participants": 1,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1-4-0",
+      "flags": 0,
+      "participants": 1,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1-4-1",
+      "flags": 0,
+      "participants": 1,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1-4-255",
+      "flags": 0,
+      "participants": 1,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1-7-0",
+      "flags": 0,
+      "participants": 1,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1-7-1",
+      "flags": 0,
+      "participants": 1,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-1-7-255",
+      "flags": 0,
+      "participants": 1,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255--1-0",
+      "flags": 0,
+      "participants": 255,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255--1-1",
+      "flags": 0,
+      "participants": 255,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255--1-255",
+      "flags": 0,
+      "participants": 255,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255-4-0",
+      "flags": 0,
+      "participants": 255,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255-4-1",
+      "flags": 0,
+      "participants": 255,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255-4-255",
+      "flags": 0,
+      "participants": 255,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255-7-0",
+      "flags": 0,
+      "participants": 255,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255-7-1",
+      "flags": 0,
+      "participants": 255,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-0-255-7-255",
+      "flags": 0,
+      "participants": 255,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0--1-0",
+      "flags": 2,
+      "participants": 0,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0--1-1",
+      "flags": 2,
+      "participants": 0,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0--1-255",
+      "flags": 2,
+      "participants": 0,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0-4-0",
+      "flags": 2,
+      "participants": 0,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0-4-1",
+      "flags": 2,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0-4-255",
+      "flags": 2,
+      "participants": 0,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0-7-0",
+      "flags": 2,
+      "participants": 0,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0-7-1",
+      "flags": 2,
+      "participants": 0,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-0-7-255",
+      "flags": 2,
+      "participants": 0,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1--1-0",
+      "flags": 2,
+      "participants": 1,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1--1-1",
+      "flags": 2,
+      "participants": 1,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1--1-255",
+      "flags": 2,
+      "participants": 1,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1-4-0",
+      "flags": 2,
+      "participants": 1,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1-4-1",
+      "flags": 2,
+      "participants": 1,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1-4-255",
+      "flags": 2,
+      "participants": 1,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1-7-0",
+      "flags": 2,
+      "participants": 1,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1-7-1",
+      "flags": 2,
+      "participants": 1,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-1-7-255",
+      "flags": 2,
+      "participants": 1,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255--1-0",
+      "flags": 2,
+      "participants": 255,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255--1-1",
+      "flags": 2,
+      "participants": 255,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255--1-255",
+      "flags": 2,
+      "participants": 255,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255-4-0",
+      "flags": 2,
+      "participants": 255,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255-4-1",
+      "flags": 2,
+      "participants": 255,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255-4-255",
+      "flags": 2,
+      "participants": 255,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255-7-0",
+      "flags": 2,
+      "participants": 255,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255-7-1",
+      "flags": 2,
+      "participants": 255,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-2-255-7-255",
+      "flags": 2,
+      "participants": 255,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0--1-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0--1-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0--1-255",
+      "flags": 4,
+      "participants": 0,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0-4-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0-4-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0-4-255",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0-7-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0-7-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-0-7-255",
+      "flags": 4,
+      "participants": 0,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1--1-0",
+      "flags": 4,
+      "participants": 1,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1--1-1",
+      "flags": 4,
+      "participants": 1,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1--1-255",
+      "flags": 4,
+      "participants": 1,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1-4-0",
+      "flags": 4,
+      "participants": 1,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1-4-1",
+      "flags": 4,
+      "participants": 1,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1-4-255",
+      "flags": 4,
+      "participants": 1,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1-7-0",
+      "flags": 4,
+      "participants": 1,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1-7-1",
+      "flags": 4,
+      "participants": 1,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-1-7-255",
+      "flags": 4,
+      "participants": 1,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255--1-0",
+      "flags": 4,
+      "participants": 255,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255--1-1",
+      "flags": 4,
+      "participants": 255,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255--1-255",
+      "flags": 4,
+      "participants": 255,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255-4-0",
+      "flags": 4,
+      "participants": 255,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255-4-1",
+      "flags": 4,
+      "participants": 255,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255-4-255",
+      "flags": 4,
+      "participants": 255,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255-7-0",
+      "flags": 4,
+      "participants": 255,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255-7-1",
+      "flags": 4,
+      "participants": 255,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-4-255-7-255",
+      "flags": 4,
+      "participants": 255,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0--1-0",
+      "flags": 6,
+      "participants": 0,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0--1-1",
+      "flags": 6,
+      "participants": 0,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0--1-255",
+      "flags": 6,
+      "participants": 0,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0-4-0",
+      "flags": 6,
+      "participants": 0,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0-4-1",
+      "flags": 6,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0-4-255",
+      "flags": 6,
+      "participants": 0,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0-7-0",
+      "flags": 6,
+      "participants": 0,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0-7-1",
+      "flags": 6,
+      "participants": 0,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-0-7-255",
+      "flags": 6,
+      "participants": 0,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1--1-0",
+      "flags": 6,
+      "participants": 1,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1--1-1",
+      "flags": 6,
+      "participants": 1,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1--1-255",
+      "flags": 6,
+      "participants": 1,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1-4-0",
+      "flags": 6,
+      "participants": 1,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1-4-1",
+      "flags": 6,
+      "participants": 1,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1-4-255",
+      "flags": 6,
+      "participants": 1,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1-7-0",
+      "flags": 6,
+      "participants": 1,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1-7-1",
+      "flags": 6,
+      "participants": 1,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-1-7-255",
+      "flags": 6,
+      "participants": 1,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255--1-0",
+      "flags": 6,
+      "participants": 255,
+      "phase": -1,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255--1-1",
+      "flags": 6,
+      "participants": 255,
+      "phase": -1,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255--1-255",
+      "flags": 6,
+      "participants": 255,
+      "phase": -1,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255-4-0",
+      "flags": 6,
+      "participants": 255,
+      "phase": 4,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255-4-1",
+      "flags": 6,
+      "participants": 255,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255-4-255",
+      "flags": 6,
+      "participants": 255,
+      "phase": 4,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255-7-0",
+      "flags": 6,
+      "participants": 255,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255-7-1",
+      "flags": 6,
+      "participants": 255,
+      "phase": 7,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "views-6-255-7-255",
+      "flags": 6,
+      "participants": 255,
+      "phase": 7,
+      "rear": 255,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        7
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-0-0-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-0-0-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 1,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-0-1-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 1,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-0-1-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 4294967295,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-0-4294967295-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 4294967295,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-0-4294967295-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-1-0-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-1-0-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 1,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-1-1-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 1,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-1-1-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 4294967295,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-1-4294967295-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 4294967295,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-1-4294967295-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 2,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-2-0-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 2,
+      "background": 0,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-2-0-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 2,
+      "background": 1,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-2-1-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 2,
+      "background": 1,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-2-1-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 2,
+      "background": 4294967295,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-2-4294967295-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 2,
+      "background": 4294967295,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-2-4294967295-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 4294967295,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-4294967295-0-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 4294967295,
+      "background": 0,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-4294967295-0-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 4294967295,
+      "background": 1,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-4294967295-1-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 4294967295,
+      "background": 1,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-4294967295-1-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 4294967295,
+      "background": 4294967295,
+      "pause": 0,
+      "sample": 17,
+      "label": "route-4294967295-4294967295-0",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 4294967295,
+      "background": 4294967295,
+      "pause": 1,
+      "sample": 17,
+      "label": "route-4294967295-4294967295-1",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        7,
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-0-false",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 0,
+      "ticks": []
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-0-true",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 0,
+      "ticks": []
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-1-false",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 1,
+      "ticks": [
+        4294967295
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-1-true",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 1,
+      "ticks": [
+        4294967295
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-2-false",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        4294967295
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-2-true",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        4294967295
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-3-false",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        1,
+        1,
+        4294967295
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-3-true",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 3,
+      "ticks": [
+        1,
+        1,
+        4294967295
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-2147483648-false",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2147483648,
+      "ticks": [
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-2147483648-true",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2147483648,
+      "ticks": [
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-4294967295-false",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 4294967295,
+      "ticks": [
+        0
+      ]
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 4294967294,
+      "label": "count-4294967295-true",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 4294967295,
+      "ticks": [
+        0
+      ]
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "reread-view-flags",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 1,
+      "ticks": [
+        1
+      ],
+      "mutateViews": "flags"
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "reread-view-session-config-roots",
+      "flags": 4,
+      "participants": 1,
+      "phase": 7,
+      "rear": 0,
+      "scheduled": 1,
+      "ticks": [
+        1
+      ],
+      "mutateViews": "roots"
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 1,
+      "sample": 17,
+      "label": "background-read-after-clock",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        1
+      ],
+      "backgroundAtClock": 1
+    },
+    {
+      "foreground": 0,
+      "background": 1,
+      "pause": 1,
+      "sample": 17,
+      "label": "background-latched-across-attachments",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        1
+      ],
+      "backgroundAtAttachments": 0
+    },
+    {
+      "foreground": 1,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "foreground-latched-across-attachments",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        1
+      ],
+      "backgroundAtAttachments": 1
+    },
+    {
+      "foreground": 0,
+      "background": 0,
+      "pause": 0,
+      "sample": 17,
+      "label": "live-parent-saved-word",
+      "flags": 4,
+      "participants": 0,
+      "phase": 4,
+      "rear": 1,
+      "scheduled": 2,
+      "ticks": [
+        1,
+        1
+      ],
+      "mutateSaved": true
+    }
+  ],
+  "stack": {
+    "bytesBefore": 128,
+    "bytesAfter": 32,
+    "knownReturnFields": 8,
+    "sourceUsesDeclaredSparseFixtureSpans": true,
+    "wholeFixtureProjectionCompared": true
+  },
+  "examples": [
+    {
+      "label": "reread-view-flags",
+      "eax": 1,
+      "iterations": 1,
+      "calls": [
+        {
+          "name": "call402d10",
+          "args": [
+            5702232,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702232,
+            1
+          ],
+          "ecx": 19136512
+        },
+        {
+          "name": "call402d10",
+          "args": [
+            5702212,
+            0
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702212,
+            0
+          ],
+          "ecx": 19136768
+        },
+        {
+          "name": "call441c70",
+          "args": []
+        },
+        {
+          "name": "call450e50",
+          "args": [
+            1
+          ],
+          "edx": 0
+        }
+      ],
+      "sample": 17,
+      "returned": {
+        "eax": 1,
+        "ebx": 305419896,
+        "ebp": 591751049,
+        "esi": 878082202,
+        "edi": 1164413355,
+        "ecx": 0,
+        "eip": 4294967295,
+        "esp": 98308
+      }
+    },
+    {
+      "label": "reread-view-session-config-roots",
+      "eax": 1,
+      "iterations": 1,
+      "calls": [
+        {
+          "name": "call402d10",
+          "args": [
+            5702232,
+            0
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702232,
+            0
+          ],
+          "ecx": 19136512
+        },
+        {
+          "name": "call402d10",
+          "args": [
+            5702212,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702212,
+            1
+          ],
+          "ecx": 19136768
+        },
+        {
+          "name": "call441c70",
+          "args": []
+        },
+        {
+          "name": "call450e50",
+          "args": [
+            1
+          ],
+          "edx": 0
+        }
+      ],
+      "sample": 17,
+      "returned": {
+        "eax": 1,
+        "ebx": 305419896,
+        "ebp": 591751049,
+        "esi": 878082202,
+        "edi": 1164413355,
+        "ecx": 0,
+        "eip": 4294967295,
+        "esp": 98312
+      }
+    },
+    {
+      "label": "background-read-after-clock",
+      "eax": 1,
+      "iterations": 0,
+      "calls": [
+        {
+          "name": "call402d10",
+          "args": [
+            5702232,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702232,
+            1
+          ],
+          "ecx": 19136512
+        },
+        {
+          "name": "call402d10",
+          "args": [
+            5702212,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702212,
+            1
+          ],
+          "ecx": 19136768
+        },
+        {
+          "name": "call441c70",
+          "args": []
+        },
+        {
+          "name": "call44f3a0",
+          "args": []
+        },
+        {
+          "name": "call477730",
+          "args": [],
+          "ecx": 0
+        }
+      ],
+      "sample": 19,
+      "returned": {
+        "eax": 1,
+        "edi": 1164413355,
+        "esi": 878082202,
+        "ebp": 591751049,
+        "ebx": 305419896,
+        "ecx": 0,
+        "esp": 98308,
+        "eip": 4294967295
+      }
+    },
+    {
+      "label": "background-latched-across-attachments",
+      "eax": 1,
+      "iterations": 0,
+      "calls": [
+        {
+          "name": "call402d10",
+          "args": [
+            5702232,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702232,
+            1
+          ],
+          "ecx": 19136512
+        },
+        {
+          "name": "call402d10",
+          "args": [
+            5702212,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702212,
+            1
+          ],
+          "ecx": 19136768
+        },
+        {
+          "name": "call441c70",
+          "args": []
+        },
+        {
+          "name": "call44f3a0",
+          "args": []
+        },
+        {
+          "name": "call477730",
+          "args": [],
+          "ecx": 0
+        }
+      ],
+      "sample": 19,
+      "returned": {
+        "eax": 1,
+        "edi": 1164413355,
+        "esi": 878082202,
+        "ebp": 591751049,
+        "ebx": 305419896,
+        "ecx": 0,
+        "esp": 98312,
+        "eip": 4294967295
+      }
+    },
+    {
+      "label": "foreground-latched-across-attachments",
+      "eax": 1,
+      "iterations": 0,
+      "calls": [
+        {
+          "name": "call402d10",
+          "args": [
+            5702232,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702232,
+            1
+          ],
+          "ecx": 19136512
+        },
+        {
+          "name": "call402d10",
+          "args": [
+            5702212,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702212,
+            1
+          ],
+          "ecx": 19136768
+        },
+        {
+          "name": "call441c70",
+          "args": []
+        },
+        {
+          "name": "call44f3a0",
+          "args": []
+        }
+      ],
+      "sample": 19,
+      "returned": {
+        "eax": 1,
+        "edi": 1164413355,
+        "esi": 878082202,
+        "ebp": 591751049,
+        "ebx": 305419896,
+        "ecx": 1,
+        "esp": 98308,
+        "eip": 4294967295
+      }
+    },
+    {
+      "label": "live-parent-saved-word",
+      "eax": 1,
+      "iterations": 2,
+      "calls": [
+        {
+          "name": "call402d10",
+          "args": [
+            5702232,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702232,
+            1
+          ],
+          "ecx": 19136512
+        },
+        {
+          "name": "call402d10",
+          "args": [
+            5702212,
+            1
+          ]
+        },
+        {
+          "name": "call406b80",
+          "args": [
+            5702212,
+            1
+          ],
+          "ecx": 19136768
+        },
+        {
+          "name": "call441c70",
+          "args": []
+        },
+        {
+          "name": "call450e50",
+          "args": [
+            2
+          ],
+          "edx": 0
+        },
+        {
+          "name": "call450e50",
+          "args": [
+            2
+          ],
+          "edx": 1
+        }
+      ],
+      "sample": 17,
+      "returned": {
+        "eax": 1,
+        "ebx": 305419896,
+        "ebp": 591751049,
+        "esi": 878082202,
+        "edi": 3405691582,
+        "ecx": 0,
+        "eip": 4294967295,
+        "esp": 98312
+      }
+    }
+  ],
+  "limits": [
+    "No full-child equivalence, native process, clock scheduling or continuous tick claim.",
+    "Synthetic child outcomes/mutations are declared fixture inputs; no in-image answer callback is added to production defaults.",
+    "Only parent-defined/known return registers and published CALL arguments/saves are compared; volatileEDX/EFLAGS/unknown child-clobbered state remains unproved.",
+    "Opaque viewport pointers are passed between stand-ins; no fake viewport object storage or allocator result is admitted."
+  ]
+}

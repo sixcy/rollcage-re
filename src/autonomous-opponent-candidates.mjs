@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32,lookupSqrt,dotQ16,multiplyQ16,divideQ16,crossQ16} from './fixed-integer.mjs';
 import {scaleContactVector} from './body-contact-friction.mjs';
 import {autonomousRouteGroup,stepRoutePoint,writeRouteDirection,isRoutePointPassed,findAutonomousRoutePoint} from './autonomous-route-geometry.mjs';
@@ -73,7 +74,7 @@ export function hasAutonomousRouteSideChange(body,{memory,scratchBase}){
     word(memory,0x7136d0+visited++*2,linkedGroup);
     const head=memory.readUInt16LE(0x6e6cc4),tail=memory.readUInt16LE(0x6e6cc0);
     if(tail===head-1||(tail===19&&head===0))return;
-    word(memory,0x80df20+tail*2,index);word(memory,0x80df60+tail*2,linkedGroup);word(memory,0x6e6cc0,tail===19?0:tail+1);
+    word(memory,nativeGlobalAddress(memory, 0x80df20)+tail*2,index);word(memory,nativeGlobalAddress(memory, 0x80df60)+tail*2,linkedGroup);word(memory,0x6e6cc0,tail===19?0:tail+1);
   };
   const links=address=>{
     let packed=memory.readUInt32LE(address+12);enqueue(packed&31,(packed>>>5)&511);
@@ -82,7 +83,7 @@ export function hasAutonomousRouteSideChange(body,{memory,scratchBase}){
   links(initialPoint);
   while(memory.readUInt16LE(0x6e6cc0)!==memory.readUInt16LE(0x6e6cc4)){
     const head=memory.readUInt16LE(0x6e6cc4);word(memory,0x6e6cc4,head===19?0:head+1);
-    const selectedGroup=memory.readUInt16LE(0x80df60+head*2),selectedIndex=memory.readUInt16LE(0x80df20+head*2);
+    const selectedGroup=memory.readUInt16LE(nativeGlobalAddress(memory, 0x80df60)+head*2),selectedIndex=memory.readUInt16LE(nativeGlobalAddress(memory, 0x80df20)+head*2);
     const side=measureAutonomousRouteSide(selectedGroup,selectedIndex,reverse,position,{memory,scratchBase:scratchBase-48});
     if(((side>>>27)&1)!==((initial>>>27)&1))return 1;
     links(point(memory,autonomousRouteGroup(selectedGroup,{memory}),selectedIndex));

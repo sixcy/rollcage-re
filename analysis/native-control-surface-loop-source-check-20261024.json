@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "method": "source486146-material-loop-caller-and-genuine484bb0-dispatch",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidence": {
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "evidenceIds": [
+      "ev_ba18dbda8825a020d0f56e7504d1377e94372004104491c290fe6f9097616702",
+      "ev_55774611163ec94ae80a1e26fed4474bf04f8c077f1fa53df8691843b5c8e3f8",
+      "ev_276e723742684068016129e93a54f6b66c48ae2564c6cbdd1d58fc0dd8998ee6"
+    ]
+  },
+  "inputs": {
+    "parentSnapshotOrdinal": 4,
+    "rawDirectory": "analysis/native-parent-rtti-stock-capture-v5-20261024",
+    "trace": {
+      "file": "analysis/native-parent-rtti-stock-capture-v5-20261024/trace.jsonl",
+      "sha256": "786f756d078445294535e80fa23ba77859f69c0d355ef6d1dcfe3a2208952a60"
+    },
+    "configuration": {
+      "file": "analysis/native-parent-rtti-stock-capture-v5-20261024/configuration.json",
+      "sha256": "3f9cfa9651456a5486a7368f865830c5467ad39afc6181df889c838f58f37aa2"
+    }
+  },
+  "sourceHashes": [
+    {
+      "file": "src/vehicle-audio.mjs",
+      "sha256": "e3859284b6425febe170da90268270c69776d6738d3e5e7ff592226b0a078430"
+    },
+    {
+      "file": "tools/lib/native-control-sound-creation.mjs",
+      "sha256": "13bf78d39272ae88e2b0f7da4f20de60f6a2f4e7ef54f486048135a0a4609f06"
+    },
+    {
+      "file": "tests/native-control-surface-loop-creation.test.mjs",
+      "sha256": "c8c6451877bca4f6d8ec3b3f03d9046ec85e394dcbc06bec10de6e6a3d1591ca"
+    }
+  ],
+  "retainedInstructionChecks": {
+    "constructedCases": 32,
+    "moduleBases": [
+      4194304,
+      9699328
+    ],
+    "stackAlignments": [
+      0,
+      4,
+      8,
+      12
+    ],
+    "rpmCases": [
+      8551,
+      70000,
+      -40000,
+      -1
+    ],
+    "repeatByteCases": [
+      0,
+      1,
+      2
+    ],
+    "oldHandleBranches": [
+      "nonnull real source virtual34 stop",
+      "unsigned small handle skips stop"
+    ],
+    "comparison": "All declared data spans including complete640Bsharedstack,body3e78,bank256,oldsource9a8,wrapper4,vtable60 and material/audio/global fields; exact incoming7registers+ESP.",
+    "gameChildren": "Original virtual34 clearGameAudioSamplePending,484bb0 and40ea40 run as source and independently interpreted retained code. Constructed empty owner slot remains an input; populated original V5 owner remains populated and missing.",
+    "matched": true
+  },
+  "checks": {
+    "command": "node --test tests/native-control-surface-loop-creation.test.mjs tests/native-control-tyre-sound-creation.test.mjs tests/native-control-sound-creation.test.mjs tests/native-control-audio.test.mjs tests/vehicle-audio.test.mjs",
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0
+  },
+  "actualReplay": {
+    "report": {
+      "file": "analysis/native-parent-rtti-stock-surface-loop-replay-v5-20261024/report.json",
+      "sha256": "f2fed6af1080af0d88251ed9560b8b6db3a59d7e79ccf5311e5e16868c2768f0"
+    },
+    "afterAi": {
+      "matched": true,
+      "uniqueBytesCompared": 5107445
+    },
+    "sourceComplete": false,
+    "matched": false,
+    "firstBoundary": "Error: Uncaptured native memory at 0x8c76148 (1168 bytes).",
+    "sourceCreation": {
+      "kind": "surface-loop-replacement",
+      "callAddress": 10248518,
+      "returnAddress": 10248523,
+      "entryEsp": 8452488,
+      "callerEntryEsp": 8452604,
+      "entryRegisters": {
+        "ebx": 278963840,
+        "ebp": 5,
+        "esi": 394067864,
+        "edi": 2608,
+        "ecx": 7,
+        "edx": 278963892,
+        "eax": 7
+      },
+      "args": [
+        0,
+        -1,
+        0,
+        9,
+        0,
+        0,
+        0
+      ],
+      "layout": {
+        "entryEsp": 8452488,
+        "savedEbp": 8452484,
+        "aligned": 8452480,
+        "frame": 8452448,
+        "parameters": 8452464,
+        "dispatchEntry": 8452428
+      },
+      "completed": false,
+      "error": "Uncaptured native memory at 0x8c76148 (1168 bytes)."
+    }
+  },
+  "missingOriginalInput": {
+    "code": 7,
+    "ownerAddress": 147284296,
+    "requiredBytes": 1168,
+    "ownerNotObservedAtParentEntry": true,
+    "notes": "The captured bankslot supplies this actual pointer. No guessed owner mode/vector/count/index or initialized memory is supplied."
+  },
+  "limits": [
+    "This component binds only486146 in addition to the already supported48608f/48627c. Other creation callers remain explicit errors.",
+    "The main source parent stops during prephysics audio. No physics/camera/weather/QPC or wholeparent completion is claimed forV5.",
+    "Constructed instruction matches are not original-process runtime matches. No original game or native fixture was launched for this task.",
+    "Native after bytes/results are comparison-only and never source inputs."
+  ],
+  "frozen": true
+}

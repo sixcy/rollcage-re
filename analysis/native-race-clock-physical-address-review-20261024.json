@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "kind": "independent-read-only-physical-clock-address-review",
+  "createdUtc": "2026-10-24T14:09:44.938Z",
+  "verified": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "filePins": [
+    {
+      "path": "src/native-race-step-clock.mjs",
+      "sha256": "ee2bcf30aabffd42ca443735bfa514e6fa0c3490cfecf6141ed01be5488325a0"
+    },
+    {
+      "path": "src/game-network-protocol.mjs",
+      "sha256": "3ff66e74a6c2639afd1dc34bd3c0292aa93f284510b0a8e026340883f38cd99d"
+    },
+    {
+      "path": "src/race-clock.mjs",
+      "sha256": "35edf1598b87b7debcfba241b95965ce343ecc79c6a1f0d5d8be1fd5ed925600"
+    },
+    {
+      "path": "tools/lib/native-race-clock-inputs.mjs",
+      "sha256": "0f26e82dac8218bede27630e1c383b61962dc28f91f41cb6a03a385c4c65e792"
+    },
+    {
+      "path": "tests/native-race-clock-physical-addresses.test.mjs",
+      "sha256": "1779adbda682b11750a50d88be4a024df2e1f82e09106d7c5e5865eacaf2e56a"
+    },
+    {
+      "path": "tests/native-race-clock-inputs.test.mjs",
+      "sha256": "369f3a73bfb6726c892962b13ddaec2abc682cac860af5b513229b1e10d6cfda"
+    }
+  ],
+  "codeReview": {
+    "fixedOperandsOnly": true,
+    "actualStackAddressesNeverRebased": true,
+    "savedRegistersNeverRebased": true,
+    "iatTargetValueNeverRebased": true,
+    "frequencyOriginOutputPointersResolvedFromExplicitActualSpans": true,
+    "legacySchedulerDefaultPreserved": true,
+    "legacyGenericTimerBodyByteIdenticalToHeadAfterRemovingSeparateOptInBranches": true,
+    "legacyGenericBodySha256": "f8fc50ff49caf8284d055768d4c007c36bd71a5d991b94e0b050f09855dd7575",
+    "weatherOptInBranchUnaffectedByPhysicalMigration": true
+  },
+  "constructedOriginalEntryTest": {
+    "authority": "constructed raw716-byte context and15 original-image input rows; not original-process evidence",
+    "moduleBaseAddress": 7536640,
+    "entryEsp": 7235584,
+    "rows": 15,
+    "semanticRegions": 15,
+    "compatibilityAliases": 13,
+    "aliasesApplied": 0,
+    "oldAliasShadowPolicyStillRejects": true,
+    "result": 2,
+    "deliveredBefore": 101,
+    "deliveredAfter": 103,
+    "streakBefore": 9,
+    "streakAfter": 10,
+    "rawPreferredSpans": [
+      {
+        "address": 7235248,
+        "beforeHex": "69696969",
+        "afterHex": "69696969"
+      },
+      {
+        "address": 7235300,
+        "beforeHex": "69696969",
+        "afterHex": "69696969"
+      },
+      {
+        "address": 7235320,
+        "beforeHex": "69696969",
+        "afterHex": "69696969"
+      }
+    ],
+    "savedEbx": 7235248,
+    "returned": {
+      "stage": "return",
+      "count": 2,
+      "targetClock": 103,
+      "initialized": false,
+      "registers": {
+        "eax": 2,
+        "ebx": 7235248,
+        "ebp": 1432778632,
+        "esi": 305419896,
+        "edi": 3735928559,
+        "esp": 7235588,
+        "eip": 7867888
+      },
+      "numericalState": {
+        "x87ControlWord": 127,
+        "mxcsr": 8096,
+        "x87StatusWord": 2171
+      }
+    },
+    "serviceCalls": [
+      {
+        "name": "QueryPerformanceCounter",
+        "output": 7235552,
+        "entryEsp": 7235520,
+        "iatTarget": 24117248
+      }
+    ],
+    "originalEntryRowsUnchanged": true,
+    "noNativeAfterInputs": true
+  },
+  "tests": {
+    "command": "node --test tests/native-race-clock-physical-addresses.test.mjs tests/native-race-clock-inputs.test.mjs tests/native-race-step-clock.test.mjs tests/native-race-clock-timer.test.mjs tests/race-clock.test.mjs tests/native-weather-counter-abi.test.mjs tests/game-network-protocol.test.mjs",
+    "passed": 37,
+    "failed": 0,
+    "skipped": 0
+  },
+  "evidence": {
+    "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+    "evidenceIds": [
+      "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87",
+      "ev_38b8d5dfff1b32d7bb9ba4457b9681775a4c160c95e12a9b821e21a9e17e4f64",
+      "ev_73eaba83c2795b5d5ce603e02ae9bda94d7339201229832746848f56ab64526c",
+      "ev_ff29e60114cb96f219e316aff00030e0be8766dec59f42ce80cd1df1bc5b8288"
+    ],
+    "policy": {
+      "entryBreakpointId": "native-race-clock-entry",
+      "counterCallBreakpointId": "native-race-clock-counter-call",
+      "counterReturnBreakpointId": "native-race-clock-counter-return",
+      "returnBreakpointId": "native-race-clock-return",
+      "minimumLogicalClock": 288,
+      "stackBytesBefore": 512,
+      "stackBytesAfter": 28,
+      "maxCounterPairs": 1,
+      "maxSnapshots": 4
+    },
+    "sites": [
+      {
+        "id": "native-race-clock-entry",
+        "preferredAddress": 4463728,
+        "address": 4463728,
+        "bytesHex": "83ec08"
+      },
+      {
+        "id": "native-race-clock-counter-call",
+        "preferredAddress": 4758801,
+        "address": 4758801,
+        "bytesHex": "ffd6"
+      },
+      {
+        "id": "native-race-clock-counter-return",
+        "preferredAddress": 4758803,
+        "address": 4758803,
+        "bytesHex": "8b442418"
+      },
+      {
+        "id": "native-race-clock-return",
+        "preferredAddress": 4525552,
+        "address": 4525552,
+        "bytesHex": "8b354c6b6e00"
+      }
+    ],
+    "relocatedReturnOperand": {
+      "preferredAddress": 4525554,
+      "preferredTarget": 7236428,
+      "type": "IMAGE_REL_BASED_HIGHLOW"
+    },
+    "sourceScope": "Warm441c70 input/ABI metadata only; no timing cadence or second tick proof."
+  },
+  "limits": [
+    "Current source clock/input bindings and physical-address roles are checked; this does not establish a new original-process timing outcome.",
+    "The existing weather contracts and legacy generic arithmetic tests pass; their full original-parent native comparison is a separate retained checkpoint.",
+    "Root owns the new full341-case source report; this review does not relabel a prior report as matching changed source."
+  ],
+  "productionEdits": 0,
+  "nativeLaunches": 0,
+  "newReaSessions": 0
+}

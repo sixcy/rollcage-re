@@ -4,6 +4,7 @@
 //The emitter is integer/SSE-zeroing only; it does not change x87/MXCSR controls.
 import {emitNativeEffect} from './effect-emitter.mjs';
 import {dispatchNativeSound} from './sound-dispatch.mjs';
+import {selectAdaptiveNativeSoundChannelOnStack} from './native-sound-selection.mjs';
 import {assertNativeMemorySpan, nativeMemorySpan, nativeCodeAddress, sharesNativeMemorySpan} from './native-memory-spans.mjs';
 
 const uint = (value, label) => {
@@ -87,8 +88,8 @@ export function dispatchNativeSoundOnStack(request, runtime) {
 
 //40db20, retained153 ev_e7b66afda8bc1259f35bae13abb5f5ad007af72d368288d98dca50fc8ee1e855.
 //The explicitly supplied TLS word models FS:[0]; the captured stack cannot
-//supply that word merely from its FS selector. Adaptive selection requires an
-//explicit continuation of the real game code on this same published frame.
+//supply that word merely from its FS selector. The default adaptive source uses
+//this same published frame; missing descendants remain reached dependencies.
 export function selectNativeSoundChannelOnStack(sound, position, velocity, runtime) {
   const {memory, scratchBase: entry, nativeTls} = runtime, incoming = registers(runtime), frame = entry - 44;
   if (!nativeTls || !Number.isInteger(nativeTls.sehWord) || nativeTls.sehWord < 0 || nativeTls.sehWord > 0xffffffff) throw Error('Native channel selection requires an explicit captured FS:[0] SEH word.');
@@ -100,9 +101,9 @@ export function selectNativeSoundChannelOnStack(sound, position, velocity, runti
   nativeTls.sehWord = frame + 32;
   const maximum = memory.readInt32LE(sound + 0x488);
   if (maximum <= 0) {
-    if (typeof runtime.selectAdaptiveSoundChannelOnStack !== 'function') throw Error('Native adaptive sound-channel selection requires its complete source/allocation/vector stack services.');
     const savedSeh = memory.readUInt32LE(frame + 32);
-    const channel = uint(runtime.selectAdaptiveSoundChannelOnStack({sound, position, velocity, entryEsp: entry, frame, incoming, maximum}, runtime), 'adaptive channel result');
+    const adaptive = runtime.selectAdaptiveSoundChannelOnStack ?? selectAdaptiveNativeSoundChannelOnStack;
+    const channel = uint(adaptive({sound, position, velocity, entryEsp: entry, frame, incoming, maximum}, runtime), 'adaptive channel result');
     if (nativeTls.sehWord !== savedSeh) throw Error('Native adaptive sound continuation did not restore its original FS:[0].');
     if (channel) assertNativeMemorySpan(memory, channel, 12);
     return channel;

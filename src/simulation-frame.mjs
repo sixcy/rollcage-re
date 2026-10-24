@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 // Concrete composition of the recovered frame stages. Runtime inputs, emission
 // callbacks and the surrounding gameplay tick remain caller-owned.
 import {runPhysicsFrame} from './physics-frame.mjs';
@@ -67,7 +68,7 @@ export function stepSimulationFrame(physicalGroup,vehicles,context) {
  const raw=context.nativePhysicsStack,sharedMath=raw?{
   cacheRotation:body=>{
    for(const offset of[0,4,8,12,16])raw.memory.writeInt32LE(raw.memory.readInt32LE(body.address+0xc4+offset),0x91d360+offset);
-   const scale=raw.memory.readFloatLE(0x5dc5f4);for(let i=0;i<9;i++)raw.memory.writeFloatLE(Math.fround(Math.fround(raw.memory.readInt16LE(0x91d360+i*2))*scale),0x91cdc0+Math.floor(i/3)*16+i%3*4);
+   const scale=raw.memory.readFloatLE(0x5dc5f4);for(let i=0;i<9;i++)raw.memory.writeFloatLE(Math.fround(Math.fround(raw.memory.readInt16LE(0x91d360+i*2))*scale),nativeGlobalAddress(raw.memory, 0x91cdc0)+Math.floor(i/3)*16+i%3*4);
   },
   shapeTransform:(record,offset)=>{raw.memory.writeInt32LE(record.readInt32LE(0),0x91d3e4);raw.memory.writeInt32LE(record.readInt32LE(4),0x91d3e8);offset.forEach((value,i)=>raw.memory.writeInt32LE(value,0x91d448+i*4));},
   fixedVectorLength:vector=>{let squares=vector.map(value=>multiplyQ16(value,value));if(squares.reduce((a,b)=>a|b,0)&0xe0000000)squares=squares.map(value=>value>>>2);const sum=squares.reduce((a,b)=>(a+b)|0,0),absolute=sum<0?-sum|0:sum;raw.memory.writeInt32LE(absolute,0x91d45c);raw.memory.writeInt32LE(Math.clz32(absolute),0x91d460);},

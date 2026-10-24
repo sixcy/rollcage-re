@@ -1,4 +1,5 @@
 //476550: live raw body/script storage, including46e4e0 release and46e600 debris.
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {abs32,multiplyQ16,divideQ16,dotQ16,crossQ16,sqrtQ16} from './fixed-integer.mjs';
 import {multiplyQ8,normalizeCollisionVector} from './sphere-collision.mjs';
 import {scriptedCurveVelocity} from './scripted-motion.mjs';
@@ -20,14 +21,14 @@ const invoke=(runtime,name,request,fallback)=>runtime.handlers?.[name]?runtime.h
 export function emitScriptedReleaseDebris(body,count,runtime){
   const {memory}=runtime,x=get(memory,body+0x34),vx=get(memory,body+0x68)>>1,vy=get(memory,body+0x6c)>>1,z=get(memory,body+0x3c),y=(get(memory,body+0x38)-0x1e0000)|0,vz=get(memory,body+0x70)>>1;
   if((count|0)<=0)return;
-  let seed=ptr(memory,0x5ec958),free=get(memory,0x902b8c);
+  let seed=ptr(memory,0x5ec958),free=get(memory,nativeGlobalAddress(memory, 0x902b8c));
   do{
     const first=nextSeed(seed);seed=nextSeed(first);put(memory,0x5ec958,seed);
     const dx=((((first>>>16)&63)-32)<<15)+vx|0,dz=((((seed>>>16)&63)-32)<<15)+vz|0;
     if(free>=0){
-      const id=memory.readUInt16LE(ptr(memory,0x902b7c)+free*2);free--;
-      const active=get(memory,0x902b88);word(memory,ptr(memory,0x902b80)+active*2,id);put(memory,0x902b88,active+1);
-      const particle=(ptr(memory,0x902b84)+(id<<7))>>>0;
+      const id=memory.readUInt16LE(ptr(memory,nativeGlobalAddress(memory, 0x902b7c))+free*2);free--;
+      const active=get(memory,nativeGlobalAddress(memory, 0x902b88));word(memory,ptr(memory,nativeGlobalAddress(memory, 0x902b80))+active*2,id);put(memory,nativeGlobalAddress(memory, 0x902b88),active+1);
+      const particle=(ptr(memory,nativeGlobalAddress(memory, 0x902b84))+(id<<7))>>>0;
       put(memory,particle+0x54,z);put(memory,particle+0x4c,x);put(memory,particle+0x50,y);
       registerRawEffectSpatial(particle,x,y,z,{memory});
       word(memory,particle+8,15);put(memory,particle+0x58,dx);word(memory,particle+0x6a,1);
@@ -36,7 +37,7 @@ export function emitScriptedReleaseDebris(body,count,runtime){
       put(memory,particle+0x30,0x9fff9f);put(memory,particle+0x14,0xae1f3f1f);memory[particle+0x6c]=1;
     }
   }while(--count!==0);
-  put(memory,0x902b8c,free);
+  put(memory,nativeGlobalAddress(memory, 0x902b8c),free);
 }
 
 //46e4e0. This releases scripted control; it does not unregister the body.

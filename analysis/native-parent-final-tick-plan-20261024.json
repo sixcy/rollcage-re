@@ -1,0 +1,573 @@
+{
+  "schemaVersion": 1,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "scope": "Read-only final-tick plan and pure source continuation from original entry; no native launches or source/helper edits",
+  "planNote": "re-docs/native-parent-final-tick-plan.md",
+  "nativeMatchedThrough": 4526368,
+  "nativeFinalMatched": false,
+  "nativeCpuRetProved": false,
+  "nextTickProducerClosed": false,
+  "originalEntry": {
+    "directory": "analysis/native-parent-rtti-stock-capture-v8-20261024",
+    "ordinal": 4,
+    "moduleBaseAddress": 15335424,
+    "tid": 40996,
+    "U": 9436240,
+    "parentReturn": 15666744,
+    "totalIterations": 1,
+    "iteration": 0,
+    "outerEntry": 9436268,
+    "outerReturn": 15600853,
+    "clock": 288,
+    "sampleCounter": 288,
+    "session": 19831392,
+    "phase": 4,
+    "phaseCounter": 60,
+    "playback": 1,
+    "playbackCountdown": 1512,
+    "raceMode": 0,
+    "networkFlags": 0
+  },
+  "sourceAttempt": {
+    "path": "analysis/native-parent-final-tick-source-attempt-20261024.json",
+    "completed": false,
+    "executedLaterChildren": [
+      4723200,
+      4779440,
+      4800832,
+      4748608,
+      4499360,
+      4280880,
+      4722320,
+      4520336,
+      4518816
+    ],
+    "firstMissing": {
+      "address": 387221304,
+      "length": 4,
+      "entry": 4512096,
+      "chain": [
+        4512096,
+        4513616,
+        4511904,
+        4511392
+      ]
+    }
+  },
+  "lightBacking": {
+    "producer": 4779824,
+    "pack": 20615744,
+    "sectorTable": 65862172,
+    "sectorCount": 18,
+    "rootGlobal": 8450568,
+    "tableGlobal": 8450592,
+    "address": 387220312,
+    "length": 2400,
+    "end": 387222712,
+    "formula": "((segment.rowCount >>> 4) << 5) + 32 per sector",
+    "allTableDifferencesChecked": true,
+    "covered": false,
+    "sectors": [
+      {
+        "index": 0,
+        "segment": 65409344,
+        "rowCount": 48,
+        "address": 387220312,
+        "bytes": 128,
+        "covered": false
+      },
+      {
+        "index": 1,
+        "segment": 65431568,
+        "rowCount": 48,
+        "address": 387220440,
+        "bytes": 128,
+        "covered": false
+      },
+      {
+        "index": 2,
+        "segment": 65469056,
+        "rowCount": 96,
+        "address": 387220568,
+        "bytes": 224,
+        "covered": false
+      },
+      {
+        "index": 3,
+        "segment": 65515264,
+        "rowCount": 40,
+        "address": 387220792,
+        "bytes": 96,
+        "covered": false
+      },
+      {
+        "index": 4,
+        "segment": 65539008,
+        "rowCount": 40,
+        "address": 387220888,
+        "bytes": 96,
+        "covered": false
+      },
+      {
+        "index": 5,
+        "segment": 65564256,
+        "rowCount": 40,
+        "address": 387220984,
+        "bytes": 96,
+        "covered": false
+      },
+      {
+        "index": 6,
+        "segment": 65589984,
+        "rowCount": 16,
+        "address": 387221080,
+        "bytes": 64,
+        "covered": false
+      },
+      {
+        "index": 7,
+        "segment": 65592832,
+        "rowCount": 16,
+        "address": 387221144,
+        "bytes": 64,
+        "covered": false
+      },
+      {
+        "index": 8,
+        "segment": 65598288,
+        "rowCount": 96,
+        "address": 387221208,
+        "bytes": 224,
+        "covered": false
+      },
+      {
+        "index": 9,
+        "segment": 65643152,
+        "rowCount": 8,
+        "address": 387221432,
+        "bytes": 32,
+        "covered": false
+      },
+      {
+        "index": 10,
+        "segment": 65643584,
+        "rowCount": 16,
+        "address": 387221464,
+        "bytes": 64,
+        "covered": false
+      },
+      {
+        "index": 11,
+        "segment": 65646064,
+        "rowCount": 152,
+        "address": 387221528,
+        "bytes": 320,
+        "covered": false
+      },
+      {
+        "index": 12,
+        "segment": 65679632,
+        "rowCount": 176,
+        "address": 387221848,
+        "bytes": 384,
+        "covered": false
+      },
+      {
+        "index": 13,
+        "segment": 65722400,
+        "rowCount": 16,
+        "address": 387222232,
+        "bytes": 64,
+        "covered": false
+      },
+      {
+        "index": 14,
+        "segment": 65730944,
+        "rowCount": 96,
+        "address": 387222296,
+        "bytes": 224,
+        "covered": false
+      },
+      {
+        "index": 15,
+        "segment": 65752240,
+        "rowCount": 16,
+        "address": 387222520,
+        "bytes": 64,
+        "covered": false
+      },
+      {
+        "index": 16,
+        "segment": 65754944,
+        "rowCount": 16,
+        "address": 387222584,
+        "bytes": 64,
+        "covered": false
+      },
+      {
+        "index": 17,
+        "segment": 65758928,
+        "rowCount": 16,
+        "address": 387222648,
+        "bytes": 64,
+        "covered": false
+      }
+    ],
+    "firstMissingCell": {
+      "lightIndex": 25,
+      "lightAddress": 19594080,
+      "kind": 8,
+      "packedRange": 61880584,
+      "sector": 8,
+      "band": 3,
+      "slot": 0,
+      "address": 387221304
+    }
+  },
+  "remainingInputPreflight": {
+    "entryOnlyNotPostLightPrediction": true,
+    "feedback": [
+      {
+        "index": 0,
+        "record": 20615936,
+        "body": 278716160,
+        "signedFlag": 0,
+        "eligible": false,
+        "deviceId": 255
+      },
+      {
+        "index": 1,
+        "record": 20616716,
+        "body": 278951552,
+        "signedFlag": 0,
+        "eligible": false,
+        "deviceId": 255
+      },
+      {
+        "index": 2,
+        "record": 20617496,
+        "body": 279172096,
+        "signedFlag": 0,
+        "eligible": false,
+        "deviceId": 255
+      },
+      {
+        "index": 3,
+        "record": 20618276,
+        "body": 279382656,
+        "signedFlag": 0,
+        "eligible": false,
+        "deviceId": 255
+      },
+      {
+        "index": 4,
+        "record": 20619056,
+        "body": 279575808,
+        "signedFlag": 0,
+        "eligible": false,
+        "deviceId": 255
+      },
+      {
+        "index": 5,
+        "record": 20619836,
+        "body": 279792640,
+        "signedFlag": 0,
+        "eligible": false,
+        "deviceId": 255
+      }
+    ],
+    "listeners": [
+      {
+        "index": 0,
+        "record": 19829904,
+        "active": 1,
+        "dynamic": true,
+        "position": {
+          "address": 19829908,
+          "length": 12,
+          "covered": true
+        },
+        "velocity": {
+          "address": 19829924,
+          "length": 12,
+          "covered": true
+        },
+        "rotation": {
+          "address": 19829940,
+          "length": 18,
+          "covered": true
+        },
+        "destination": {
+          "address": 384466768,
+          "length": 80,
+          "covered": false
+        }
+      },
+      {
+        "index": 1,
+        "record": 19829988,
+        "active": 0,
+        "dynamic": false
+      },
+      {
+        "index": 2,
+        "record": 19830072,
+        "active": 0,
+        "dynamic": false
+      },
+      {
+        "index": 3,
+        "record": 19830156,
+        "active": 0,
+        "dynamic": false
+      }
+    ],
+    "listenerVector": {
+      "begin": 286296464,
+      "end": 286296468,
+      "capacity": 286296468,
+      "usedCount": 1,
+      "storageCovered": true
+    },
+    "master": {
+      "manager": 145451920,
+      "vtable": null,
+      "target": null,
+      "managerHeaderCovered": false,
+      "manager850Covered": false
+    }
+  },
+  "finalAbi": {
+    "ordinaryChildEsp": "U-20",
+    "saved": {
+      "ebx": -4,
+      "ebp": -8,
+      "esi": -12,
+      "edi": -16
+    },
+    "masterArgument": "U-20",
+    "masterEntryEsp": "U-24",
+    "phaseReturn": 4526568,
+    "earlyRet": 4526578,
+    "successRet": 4526600,
+    "successIncrementGlobals": [
+      9479496,
+      7235420
+    ],
+    "actualAfterRetSite": 4525624,
+    "afterRetEsp": "U+4",
+    "outerEntry": "U+28"
+  },
+  "nextCapture": {
+    "primaryEndpoints": [
+      4526368,
+      4525624
+    ],
+    "optionalAlternativePreRetSites": [
+      4526600,
+      4526578
+    ],
+    "nextEntryComparison": 4525648,
+    "inputs": "Original parent entry only, including exact bounded light backing; active listener graphs; actual manager header/vtable/850; real phase/input packets; reached haptic/platform/state producers. No future bytes as input.",
+    "sameSubstepVsFreshOuter": "450d60 incrementsESI whileESI<EDI; a fresh outer also requires authentic441c70/time/input/viewport/pause/focus producers."
+  },
+  "outerGaps": {
+    "whole450d60Connected": false,
+    "whole440930Connected": false,
+    "whole441c70Connected": false,
+    "integerSchedulingTail": "src/race-clock.mjs441cd0..441d66 only",
+    "deliveredCounter": 7235320,
+    "clockInputs": [
+      7235248,
+      7235252,
+      7235300,
+      7235320,
+      7253984,
+      6145760
+    ],
+    "externalBoundaries": [
+      {
+        "caller": 4463787,
+        "callee": 4758736,
+        "return": 4463792
+      },
+      {
+        "caller": 4463806,
+        "callee": 5672302,
+        "return": 4463811
+      },
+      {
+        "caller": 4463819,
+        "callee": 5672001,
+        "return": 4463824
+      }
+    ],
+    "initialTimeCall": 4463741,
+    "noWeatherCounterReuse": true
+  },
+  "evidence": [
+    {
+      "path": "analysis/native-simulation/results/310-race-step-parent-assembly.json",
+      "sha256": "44db94478e0b1de562b024bf393dbf945caa0cd9cfc3d45fda59cbecaa0f3a20",
+      "bytes": 38370,
+      "evidenceId": "ev_d15324804cfcb1308ec6f86f28c7350a908d9cee745a7616dd8619f94cd3053f"
+    },
+    {
+      "path": "analysis/native-simulation/results/1161-race-final-stage-44d960-assembly.json",
+      "sha256": "b9472f0cb1de057afc90abf443c0ae6a5d9e0e6e227e915630694d9aaaf8336e",
+      "bytes": 63508,
+      "evidenceId": "ev_53b76099f66f500701cb6356b73ad4d0ebbb32e0036e1c9a081660863e38deec"
+    },
+    {
+      "path": "analysis/native-simulation/results/1167-dynamic-stage-remove-assembly.json",
+      "sha256": "18975c9ef5e627a61f1ab253996d37995d48a00c90ece78079827c862676b238",
+      "bytes": 18042,
+      "evidenceId": "ev_d77532d2c9f97586ceac990fc8430c8197ff45612a249b19f44cb405d72ea475"
+    },
+    {
+      "path": "analysis/native-simulation/results/1252-light-sector-construction-assembly.json",
+      "sha256": "9d34c7106c08b0d512871e5a40c206cb22dcf5ba0a889df4ccd20a743660b801",
+      "bytes": 17442,
+      "evidenceId": "ev_c2348b99dff579d91958e67b16e14753a6fed6051bb6bbed3ac280663ffc610b"
+    },
+    {
+      "path": "analysis/native-simulation/results/1163-race-final-stage-42b530-assembly.json",
+      "sha256": "d43c1932b3f2bdcb6f9bb592b616742e5161ac520154833316eb0c4c7d16056c",
+      "bytes": 33260,
+      "evidenceId": "ev_a5795233c24f7983095f835ea0756e4ecdabd800ad3e191735c043250c4df1f4"
+    },
+    {
+      "path": "analysis/native-simulation/results/901-race-clock-gate-assembly.json",
+      "sha256": "703fa7c35f02f6986879036a3df2032863f7e2a90d2fdaa4365a5d8398f1a680",
+      "bytes": 48606,
+      "evidenceId": "ev_08c8afa04f711f15e9f9b20cbb4a98574f313c16479ed128fdd7db92f689c996"
+    },
+    {
+      "path": "analysis/native-simulation/results/971-race-phase-audio-update-assembly.json",
+      "sha256": "bb9beb269393514eee7809f5b1f7925aa138203d08b26269ec2787b64b20cc9e",
+      "bytes": 32304,
+      "evidenceId": "ev_afa976841104b77fc6f92df44a20b6d4f763993151aadb44870f6e3a30734abb"
+    },
+    {
+      "path": "analysis/native-simulation/results/9190-sound-manager-level-procedure_assembly.json",
+      "sha256": "2218e0db18492b147d52e952fa79ed047931933cd3cbaf2784ac57ee0a87196d",
+      "bytes": 9088,
+      "evidenceId": "ev_65e2fa5a5026acd24a1e23b33440e6ec0155594fd7070afc8104ca645bc937f8"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/001-frame-parent.json",
+      "sha256": "5d27cca2698b3f6b2d0599e87a4c18ebc7850bea768b7c3babbda73e0620240a",
+      "bytes": 17800,
+      "evidenceId": "ev_7b9bed3c32690505a0fc371b3be2907a87296a209fb2d9165e2ccc4962b64f87"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/010-clock-source-assembly.json",
+      "sha256": "128ce386572b76561ada35d8a5cacb11e109e9c63bb950d1854a371b1d4d1454",
+      "bytes": 16354,
+      "evidenceId": "ev_38b8d5dfff1b32d7bb9ba4457b9681775a4c160c95e12a9b821e21a9e17e4f64"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/015-main-loop-assembly.json",
+      "sha256": "93151ae2342c2779892344a5e574969b5223e5eca815a0840efca88a7bce5274",
+      "bytes": 36824,
+      "evidenceId": "ev_73eaba83c2795b5d5ce603e02ae9bda94d7339201229832746848f56ab64526c"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/022-frame-gate-assembly.json",
+      "sha256": "92104df3a1e911b1139e315d1dd6247f1c67dcd37309e5473537a918b7e63899",
+      "bytes": 15907,
+      "evidenceId": "ev_d6644825e3a5c17b6a107e437489b0190dc84ce464588fc6d171082c36f64829"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/024-scheduler-assembly.json",
+      "sha256": "fb69bea52ec46d8f9d6cc410ad02de62cb9c1a2b03c6adc41eca2e190926bc78",
+      "bytes": 11316,
+      "evidenceId": "ev_4008798553d3de874038940a9ae5bd41ddcbfac3ca76e1e8d51827daba3b74d8"
+    },
+    {
+      "path": "analysis/physics-clock-elevated-20261022/results/021-platform-clock-assembly.json",
+      "sha256": "c9ccbabc0dff2ea61d559965641ebcad439190f0f5f4b79ccf84a07d41f3f629",
+      "bytes": 16542,
+      "evidenceId": "ev_ff29e60114cb96f219e316aff00030e0be8766dec59f42ce80cd1df1bc5b8288"
+    }
+  ],
+  "files": [
+    {
+      "path": "re-docs/native-parent-final-tick-plan.md",
+      "sha256": "b492ab56e05bfe61b73b18d841b7c6586f8e1fc64d098ac94c17a7f0a4b5cb08",
+      "bytes": 12039
+    },
+    {
+      "path": "analysis/native-parent-final-tick-source-attempt-20261024.mjs",
+      "sha256": "2a8696a6324bbe00044424ea04a82b37a6e2380b065c5d7a3c0a8f86cfa95f6c",
+      "bytes": 5533
+    },
+    {
+      "path": "analysis/native-parent-final-tick-source-attempt-20261024.json",
+      "sha256": "026e014433c21e3c55bad3f2860e4821278cd55fdcebf68e5ee9b5cabf18a236",
+      "bytes": 26817
+    },
+    {
+      "path": "analysis/native-parent-rtti-stock-first-replay-v8-20261024/report.json",
+      "sha256": "97e0f83acfabd678877840322614fe4d8e17022130ea1992270c268e0e48106f",
+      "bytes": 2006996
+    },
+    {
+      "path": "analysis/native-parent-rtti-stock-prepared-v8-20261024.json",
+      "sha256": "55fe744d151f6d3f2fe55f426cd9cd067ceeafb8bcb5ab4c180e3282089e3922",
+      "bytes": 1090
+    },
+    {
+      "path": "analysis/native-parent-rtti-stock-capture-v8-20261024/configuration.json",
+      "sha256": "103b8b4b05b7084e0a8ce05ab80f48d9860dbf880cc07a2a0a8ef3e3bb222639",
+      "bytes": 979125
+    },
+    {
+      "path": "analysis/native-parent-rtti-stock-capture-v8-20261024/trace.jsonl",
+      "sha256": "b8c15576ad2848a0a8451329eaa0b23b286156db4ac19c12230fe2326b75de84",
+      "bytes": 6918003
+    },
+    {
+      "path": "tools/lib/native-parent-tail.mjs",
+      "sha256": "a07b6ba3643a3af975493b79712ed94b0f16db1d4a4fb79beb0fe46375f62a63",
+      "bytes": 17376
+    },
+    {
+      "path": "tools/check-native-parent-tail.mjs",
+      "sha256": "0323b64ae3255cd99970b0499a89a52f7cf338d4a611c5255bae27ae13a9ae03",
+      "bytes": 13498
+    },
+    {
+      "path": "src/race-update.mjs",
+      "sha256": "b5f0f7b6fe3f458597014ea1838bdd499b6e617bc136e2b5a94f0bb353ff3fd7",
+      "bytes": 11016
+    },
+    {
+      "path": "src/dynamic-light-state.mjs",
+      "sha256": "85cda8626614d0deaccc9b71ae065e23aff71b919d67ded62a1e6003f94ac7e6",
+      "bytes": 19511
+    },
+    {
+      "path": "src/race-phase-state.mjs",
+      "sha256": "434e72fbee831614d0cf9f5d5c446b6fb56d0f67680eab9804a01e657ce000e3",
+      "bytes": 10086
+    },
+    {
+      "path": "src/race-phase-audio.mjs",
+      "sha256": "d8e9d087d7a22be1740f3ab1b3d50e4f42500221f518128659d36e05f89a6bab",
+      "bytes": 6321
+    },
+    {
+      "path": "src/race-clock.mjs",
+      "sha256": "05d550d58bea3cb3f03ab4b84c04a78df77e1e238d8b3450ed13d7e9e7c0d9e4",
+      "bytes": 3208
+    }
+  ],
+  "limits": [
+    "Nine later children executed in source without native final comparison.",
+    "The current source parentReturned metadata describes semantic preRET; CPU pops/RET are not performed.",
+    "Partial failure does not prove haptic/listener/master/phase execution. Preflight values are original observations only.",
+    "No zero grid, after-state seed, game-child answer or scheduling manipulation.",
+    "Background audio concurrency, other race phases and unobserved physics scenarios remain independently open."
+  ]
+}

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {enqueueFinishNotification} from './finish-messages.mjs';
 import {sendNotificationPacket} from './notification-transport.mjs';
 import {resolveNativeMemoryAddress} from './native-memory-spans.mjs';
@@ -119,5 +120,5 @@ export function updateVehicleAuxiliaryInput(record, runtime) {
     }
   }
   if (flags & 0x40000000) memory[pointer(memory, 0x5ecefc) + 0x25] ^= 1;
-  if (flags & 0x80000000) put(memory, 0x91ce90, get(memory, 0x91ce90) ^ 4);
+  if (flags & 0x80000000) put(memory, nativeGlobalAddress(memory, 0x91ce90), get(memory, nativeGlobalAddress(memory, 0x91ce90)) ^ 4);
 }

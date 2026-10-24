@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import constants from './camera-construction-constants.json' with {type: 'json'};
 import {initializeRawBody, registerRawBodyShapes} from './raw-body-construction.mjs';
 
@@ -19,7 +20,7 @@ export function constructCameraController(index, trackedBody, control, runtime) 
   put(m, 0x5eaa40, m.readInt16LE(starts + index * 8) << 16);
   put(m, 0x5eaa44, (m.readInt16LE(starts + index * 8 + 2) - 63) << 16);
   put(m, 0x5eaa48, (m.readInt16LE(starts + index * 8 + 4) + 160) << 16);
-  const body = (ptr(m, 0x902eec) + (old & 0xfffffffc)) >>> 0; put(m, control, body); m.fill(255, body, body + 384);
+  const body = (ptr(m, nativeGlobalAddress(m, 0x902eec)) + (old & 0xfffffffc)) >>> 0; put(m, control, body); m.fill(255, body, body + 384);
   put(m, body, 0x804); put(m, body + 4, 0); word(m, body + 8, 0); put(m, body + 12, 0);
   put(m, body + 0x118, 0); put(m, body + 0x11c, -1); put(m, body + 0x110, 0); m[body + 0x12f] = 255;
   put(m, body + 0x148, 0); m.fill(0, body + 0x16a, body + 0x172); word(m, body + 0x172, 0);
@@ -46,5 +47,5 @@ export function constructCameraController(index, trackedBody, control, runtime) 
     const raceMode = m[session + 0x551];
     put(m, row + 0x178, view === 0 && raceMode >= 5 && raceMode <= 8 ? m[configuration + 0x84] : -1);
   }
-  put(m, 0x91ce90, get(m, 0x91ce90) | 2);
+  put(m, nativeGlobalAddress(m,0x91ce90), get(m, nativeGlobalAddress(m,0x91ce90)) | 2);
 }

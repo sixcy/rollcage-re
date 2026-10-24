@@ -17,13 +17,13 @@ export class Renderer {
     };
     const program = this.program = gl.createProgram();
     const vertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;attribute vec2 uv;attribute vec3 normal;attribute vec3 color;uniform mat4 mvp;uniform mat4 model;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;void main(){gl_Position=mvp*model*vec4(position,1.0);vUV=uv;vNormal=mat3(model)*normal;vColor=color;}');
-    const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;uniform sampler2D image;uniform bool textured;uniform bool lit;uniform bool colored;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*(colored?vColor:vec3(1.0))*light,color.a);}');
+    const fragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;varying vec2 vUV;varying vec3 vNormal;varying vec3 vColor;uniform sampler2D image;uniform bool textured;uniform bool lit;uniform bool colored;uniform float opacity;void main(){vec4 color=textured?texture2D(image,vUV):vec4(0.35,0.75,0.85,1.0);if(color.a<0.1)discard;float light=lit?0.5+0.5*abs(dot(normalize(vNormal),normalize(vec3(0.4,0.8,0.3)))):1.0;gl_FragColor=vec4(color.rgb*(colored?vColor:vec3(1.0))*light,color.a*opacity);}');
     gl.attachShader(program, vertex); gl.attachShader(program, fragment); gl.linkProgram(program);
     gl.deleteShader(vertex); gl.deleteShader(fragment);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program));
     gl.useProgram(program);
     this.attributes = Object.fromEntries(['position', 'uv', 'normal', 'color'].map(key => [key, gl.getAttribLocation(program, key)]));
-    this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit', 'colored'].map(key => [key, gl.getUniformLocation(program, key)]));
+    this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit', 'colored', 'opacity'].map(key => [key, gl.getUniformLocation(program, key)]));
     const pathProgram = this.pathProgram = gl.createProgram();
     const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;void main(){gl_Position=mvp*vec4(position,1.0);gl_PointSize=pointSize;}');
     const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;void main(){gl_FragColor=vec4(color,1.0);}');
@@ -42,17 +42,45 @@ export class Renderer {
     this.terrainTemplates = new Map(); this.terrainGroups = new Map(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
     this.editorBuffer = null; this.editorMarkers = []; this.editorSignature = '';
+    this.editorGhostGroups=[]; this.editorGhostTextures=new Map(); this.editorGhostMatrix=null;
+    this.editorBoundsBuffer=null; this.editorBoundsSignature=''; this.editorTransforms=new Map();
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
     gl.uniform1i(this.uniforms.image, 0);
   }
   clear() {
     this.clearCar();
+    this.setEditorGhost(null); this.setEditorBounds(null); this.editorTransforms.clear();
     this.setEditorPickups([]);
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
     this.groups = []; this.pathGroups = []; this.textures.clear(); this.textureSizes.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+  }
+  setEditorGhost(scene) {
+    for(const group of this.editorGhostGroups)this.gl.deleteBuffer(group.buffer);
+    for(const texture of this.editorGhostTextures.values())this.gl.deleteTexture(texture);
+    this.editorGhostGroups=[];this.editorGhostTextures.clear();this.editorGhostMatrix=null;
+    if(scene){this.uploadRuntimeMeshes(scene,this.editorGhostGroups,this.editorGhostTextures);this.setFilters(this.smooth);}
+  }
+  setEditorBounds(bounds) {
+    const signature=JSON.stringify(bounds);if(signature===this.editorBoundsSignature)return;this.editorBoundsSignature=signature;
+    if(!bounds){if(this.editorBoundsBuffer)this.gl.deleteBuffer(this.editorBoundsBuffer);this.editorBoundsBuffer=null;return;}
+    const points=Array.from({length:8},(_,i)=>bounds.map(([min,max],axis)=>i&(1<<axis)?max:min)),values=[];
+    for(let i=0;i<8;i++)for(let axis=0;axis<3;axis++)if(!(i&(1<<axis)))values.push(...points[i],...points[i|(1<<axis)]);
+    this.editorBoundsBuffer??=this.gl.createBuffer();this.gl.bindBuffer(this.gl.ARRAY_BUFFER,this.editorBoundsBuffer);this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(values),this.gl.DYNAMIC_DRAW);
+  }
+  renderEditorModels(matrix) {
+    const gl=this.gl;
+    if(this.editorGhostMatrix){
+      gl.useProgram(this.program);gl.uniformMatrix4fv(this.uniforms.model,false,this.editorGhostMatrix);gl.uniform1i(this.uniforms.colored,false);gl.disableVertexAttribArray(this.attributes.color);gl.uniform1f(this.uniforms.opacity,0.5);
+      gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);gl.depthMask(false);
+      for(const group of this.editorGhostGroups){gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);for(const[key,size,offset]of[['position',3,0],['uv',2,12],['normal',3,20]]){gl.enableVertexAttribArray(this.attributes[key]);gl.vertexAttribPointer(this.attributes[key],size,gl.FLOAT,false,32,offset);}gl.bindTexture(gl.TEXTURE_2D,this.editorGhostTextures.get(group.page));gl.drawArrays(gl.TRIANGLES,0,group.vertices);}
+      gl.disable(gl.BLEND);gl.depthMask(true);gl.uniform1f(this.uniforms.opacity,1);gl.uniformMatrix4fv(this.uniforms.model,false,identity);
+    }
+    if(this.editorBoundsBuffer){
+      gl.useProgram(this.pathProgram);for(const attribute of Object.values(this.attributes))gl.disableVertexAttribArray(attribute);gl.enableVertexAttribArray(this.pathPosition);gl.bindBuffer(gl.ARRAY_BUFFER,this.editorBoundsBuffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);gl.uniformMatrix4fv(this.pathUniforms.mvp,false,matrix);gl.uniform3fv(this.pathUniforms.color,[0.3,1,1]);gl.drawArrays(gl.LINES,0,24);gl.disableVertexAttribArray(this.pathPosition);gl.useProgram(this.program);
+    }
   }
   setEditorPickups(points) {
     const signature = JSON.stringify(points);
@@ -170,7 +198,7 @@ export class Renderer {
   setFilters(smooth) {
     this.smooth = smooth;
     const gl = this.gl, filter = smooth ? gl.LINEAR : gl.NEAREST;
-    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values()]) {
+    for (const texture of [...this.textures.values(), ...this.carTextures.values(), ...this.worldTextures.values(), ...this.weaponTextures.values(), ...this.editorGhostTextures.values()]) {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
@@ -201,6 +229,7 @@ export class Renderer {
     const matrix = navigation.matrix(width / height);
     gl.uniformMatrix4fv(this.uniforms.mvp, false, matrix);
     gl.uniformMatrix4fv(this.uniforms.model, false, identity);
+    gl.uniform1f(this.uniforms.opacity,1);
     gl.uniform1i(this.uniforms.textured, options.textures); gl.uniform1i(this.uniforms.lit, options.lighting);
     this.updateTerrain(options.car?.terrain);
     const animated = options.car?.terrain ? new Set(this.terrainState.segments.map(row => row.index)) : new Set();
@@ -208,6 +237,7 @@ export class Renderer {
     this.terrainDraws.segments = 0; this.terrainDraws.groups = 0;
     const terrainSegments = new Set();
     for (const group of sceneGroups) {
+      if(this.editorTransforms.size)gl.uniformMatrix4fv(this.uniforms.model,false,this.editorTransforms.get(group.instance)??identity);
       if (group.kind === 'object') {
         if (!options.objects || options.car?.brokenPlacements?.includes(group.instance) || (options.car?.worldObjects && this.worldPlacements.has(group.instance))) continue;
       } else if (options.sector !== -1 && group.segment !== options.sector) continue;
@@ -224,6 +254,7 @@ export class Renderer {
       gl.bindTexture(gl.TEXTURE_2D, this.textures.get(group.page)); gl.drawArrays(gl.TRIANGLES, 0, group.vertices);
     }
     this.terrainDraws.segments = terrainSegments.size;
+    gl.uniformMatrix4fv(this.uniforms.model,false,identity);
     gl.uniform1i(this.uniforms.colored, false); gl.disableVertexAttribArray(this.attributes.color);
     // Runtime meshes replace their authored static placements. The immutable
     // snapshot supplies native visibility and pose; object toggles still apply.
@@ -283,6 +314,7 @@ export class Renderer {
     }
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     this.renderEditorPickups(matrix,ratio);
+    this.renderEditorModels(matrix);
     if (!options.paths || !this.pathGroups.length) return;
     gl.useProgram(this.pathProgram);
     for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);

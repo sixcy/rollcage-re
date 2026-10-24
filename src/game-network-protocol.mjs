@@ -1,8 +1,10 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {checksumNotificationPacket, constructNotificationAddress, isNotificationTransportReady} from './vehicle-auxiliary-input.mjs';
 import {reportGameDiagnostic} from './game-diagnostics.mjs';
 import {retireNetworkParticipant} from './network-session-retirement.mjs';
 import {launchVehicleWeapon} from './vehicle-weapon-launch.mjs';
 import tables from './game-network-protocol-tables.json' with {type: 'json'};
+import {nativeCodeAddress,resolveNativeMemoryAddress} from './native-memory-spans.mjs';
 const get = (m, p) => m.readInt32LE(p), ptr = (m, p) => m.readUInt32LE(p), put = (m, p, v) => m.writeInt32LE(v | 0, p), word = (m, p, v) => m.writeUInt16LE(v & 65535, p);
 const required = (runtime, name, request) => {if (typeof runtime.handlers?.[name] !== 'function') throw Error(`Game network requires reached game handler ${name}.`); return runtime.handlers[name](request);};
 const platform = (runtime, name, args) => {if (typeof runtime.services?.platformCall !== 'function') throw Error(`Game network requires platform service ${name}.`); return runtime.services.platformCall(name, args, runtime);};
@@ -19,12 +21,106 @@ export function copyProtocolBytes(source, output, length, {memory: m}) {
 //489cd0: actual lazy performance-counter origin and signed64 scaling. CRT
 //64-bit arithmetic is implemented with BigInt and native wrap/truncation.
 export function readGameMicroseconds(runtime) {
+  if (runtime.nativeRaceClockCall !== undefined) return readRaceClockMicroseconds(runtime);
   const {memory: m, scratchBase} = runtime, frame = ((scratchBase - 4) & ~7) - 32;
+  const call = runtime.nativeWeatherCounterCall;
+  if (call !== undefined) {
+    //498453 ->489cd0, initialized weather branch only. Keep unknown incoming
+    //EBP/ESI/EDI saves untouched; none overlaps the eight-byte counter local.
+    if (!call || Object.keys(call).sort().join(',') !== 'ebx,entryEsp,frame,outputAddress,returnAddress,screenEntryEsp'
+      || !Number.isInteger(scratchBase) || (scratchBase & 3) || call.returnAddress !== 0x498458
+      || call.entryEsp !== scratchBase || call.screenEntryEsp - 0x140 !== scratchBase
+      || call.frame !== frame || call.outputAddress !== frame + 24 || !Number.isInteger(call.ebx)
+      || ptr(m, scratchBase) !== nativeCodeAddress(0x498458, runtime) || get(m, 0x6e6c8c) !== 1) throw Error('Weather counter requires its initialized source-published caller/frame.');
+    const iatTarget = ptr(m, 0x56e0fc);
+    put(m, frame + 12, call.ebx); //489ce0 PUSH EBX.
+    put(m, frame + 8, scratchBase - 4); //489ce1 PUSH EBP after MOV EBP,ESP.
+    put(m, frame - 4, frame + 24); //489d10 PUSH EAX: actual output pointer.
+    put(m, frame - 8, nativeCodeAddress(0x489d13, runtime)); //CPU CALL ESI return.
+    runtime = {...runtime, nativeWeatherCounterCall: Object.freeze({...call, iatTarget, preCallEsp: frame - 4, serviceReturnAddress: nativeCodeAddress(0x489d13, runtime)})};
+  }
   if (!get(m, 0x6e6c8c)) {put(m, 0x6e6c8c, 1); if (platform(runtime, 'QueryPerformanceFrequency', [0x7135a4])) platform(runtime, 'QueryPerformanceCounter', [0x7135ac]);}
   platform(runtime, 'QueryPerformanceCounter', [frame + 24]);
   const delta = i64(m.readBigInt64LE(frame + 24) - m.readBigInt64LE(0x7135ac)), frequency = m.readBigInt64LE(0x7135a4), quotient = delta / frequency;
   const remainder = i64(delta - i64(frequency * quotient)), fraction = i64(remainder * 1000000000n) / frequency, whole = i64(quotient * 1000000000n);
   return i64(fraction + whole) / 1000n;
+}
+
+//441c70's actual489cd0 caller. This opt-in does not change the older logical
+//timer or the separately authenticated498458 weather-call publication.
+function readRaceClockMicroseconds(runtime) {
+  const {memory: m, scratchBase: S, nativeRaceClockCall: call} = runtime;
+  if (runtime.nativeWeatherCounterCall !== undefined || !call
+    || Object.keys(call).sort().join(',') !== 'clockEntryEsp,entryEsp,returnAddress'
+    || !Number.isInteger(S) || S < 256 || S > 0xffffffff || (S & 3)
+    || !Number.isInteger(call.clockEntryEsp) || call.clockEntryEsp < 272 || call.clockEntryEsp > 0xffffffff || (call.clockEntryEsp & 3)
+    || call.entryEsp !== S || call.clockEntryEsp - 16 !== S
+    || ![0x441c82, 0x441cb0].includes(call.returnAddress)
+    || ptr(m, S) !== nativeCodeAddress(call.returnAddress, runtime)) throw Error('Race clock requires its source-published489cd0 caller.');
+  const original = {};
+  for (const name of ['EBX', 'EBP', 'ESI', 'EDI']) {
+    const value = runtime.entryRegisters?.[name];
+    if (!Number.isInteger(value) || value < 0 || value > 0xffffffff) throw Error(`Race clock timer requires actual incoming ${name}.`);
+    original[name] = value;
+  }
+  const F = Math.floor((S - 4) / 8) * 8 - 32, low = n => Number(u64(n) & 0xffffffffn), high = n => Number(u64(n) >> 32n);
+  const fixed = p => nativeCodeAddress(p, runtime);
+  const returned = (address, value) => put(m, address, nativeCodeAddress(value, runtime));
+  const observe = event => runtime.observeNativeClock?.(Object.freeze(event));
+  put(m, S - 4, original.EBP);
+  put(m, F + 12, original.EBX); put(m, F + 8, S - 4); put(m, F + 4, original.ESI);
+  const qpcTarget = ptr(m, fixed(0x56e0fc));
+  put(m, F, original.EDI);
+  const external = (name, outputAddress, returnAddress, iatTarget) => {
+    if (!iatTarget) throw Error(`Race clock requires the observed ${name} IAT target.`);
+    put(m, F - 4, outputAddress); returned(F - 8, returnAddress);
+    const metadata = Object.freeze({...call, frame: F, outputAddress, iatTarget,
+      preCallEsp: F - 4, serviceEntryEsp: F - 8, serviceReturnAddress: nativeCodeAddress(returnAddress, runtime)});
+    observe({stage: 'platform-call', name, ...metadata});
+    const result = platform({...runtime, scratchBase: F - 8, nativeRaceClockCall: metadata,
+      entryRegisters: {EBX: original.EBX, EBP: S - 4, ESI: qpcTarget, EDI: original.EDI}}, name, [outputAddress]);
+    if (!Number.isInteger(result) || result < -0x80000000 || result > 0xffffffff) throw Error(`Race clock requires the actual ${name} EAX outcome.`);
+    return result;
+  };
+  if (!get(m, fixed(0x6e6c8c))) {
+    const frequencyAddress = resolveNativeMemoryAddress(m, fixed(0x7135a4), 8);
+    put(m, F - 4, frequencyAddress); put(m, fixed(0x6e6c8c), 1);
+    if (external('QueryPerformanceFrequency', frequencyAddress, 0x489d01, ptr(m, fixed(0x56e114)))) {
+      external('QueryPerformanceCounter', resolveNativeMemoryAddress(m, fixed(0x7135ac), 8), 0x489d0c, qpcTarget);
+    }
+  }
+  external('QueryPerformanceCounter', F + 24, 0x489d13, qpcTarget);
+  const delta = i64(m.readBigInt64LE(F + 24) - m.readBigInt64LE(fixed(0x7135ac)));
+  const frequency = m.readBigInt64LE(fixed(0x7135a4)), frequencyLow = low(frequency);
+  put(m, F + 20, low(delta));
+  //569380 preserves all three nonvolatiles, but normalizes negative operands
+  //in the actual four argument DWORDs. Retained20261024 signed64-division.
+  const divide = (left, right, returnAddress, registers) => {
+    put(m, F - 4, high(right)); put(m, F - 8, low(right)); put(m, F - 12, high(left)); put(m, F - 16, low(left)); returned(F - 20, returnAddress);
+    put(m, F - 24, registers.EDI); put(m, F - 28, registers.ESI); put(m, F - 32, registers.EBX);
+    if (left < 0n) {put(m, F - 12, high(-left)); put(m, F - 16, low(-left));}
+    if (right < 0n) {put(m, F - 4, high(-right)); put(m, F - 8, low(-right));}
+    observe({stage: 'signed-divide', entryEsp: F - 20, returnAddress: nativeCodeAddress(returnAddress, runtime), left, right});
+    if (!right) throw RangeError('Native race clock signed64 division by zero.');
+    return i64(left / right);
+  };
+  //568f10 only pushes EBX on its nonzero-high-DWORD branch. Its low64
+  //product is signedness-independent; retain the caller's actual EBX residue.
+  const multiply = (left, right, returnAddress, ebx) => {
+    put(m, F - 4, high(right)); put(m, F - 8, low(right)); put(m, F - 12, high(left)); put(m, F - 16, low(left)); returned(F - 20, returnAddress);
+    if (high(left) || high(right)) put(m, F - 24, ebx);
+    observe({stage: 'multiply', entryEsp: F - 20, returnAddress: nativeCodeAddress(returnAddress, runtime), left, right});
+    return i64(left * right);
+  };
+  const quotient = divide(delta, frequency, 0x489d40, {EBX: original.EBX, ESI: frequencyLow, EDI: high(delta)});
+  const quotientHigh = high(quotient); put(m, F + 24, low(quotient));
+  const product = multiply(frequency, quotient, 0x489d4f, quotientHigh), remainder = i64(delta - product);
+  const scaled = multiply(remainder, 1000000000n, 0x489d65, quotientHigh);
+  const fraction = divide(scaled, frequency, 0x489d6e, {EBX: quotientHigh, ESI: frequencyLow, EDI: high(remainder)});
+  const whole = multiply(quotient, 1000000000n, 0x489d83, quotientHigh), nanoseconds = i64(fraction + whole);
+  const microseconds = divide(nanoseconds, 1000n, 0x489d95, {EBX: quotientHigh, ESI: high(nanoseconds), EDI: low(nanoseconds)});
+  observe({stage: 'timer-return', entryEsp: S, value: microseconds, low: low(microseconds), high: high(microseconds)});
+  return microseconds;
 }
 
 //46ffd0/49f4b0/46fff0: live peer availability/address/relay selection.
@@ -156,7 +252,7 @@ export function replyProtocolPacket(packet, length, low, high, flags, runtime) {
 }
 //49df90: remote transport completion advances the matching active wormhole.
 export function finishRemoteWormholeTransport(participant, {memory: m}) {
-  const body = ptr(m, 0x80b5e0);
+  const body = ptr(m, nativeGlobalAddress(m, 0x80b5e0));
   if (body && ptr(m, body + 0x198) && m.readUInt16LE(ptr(m, body + 0x198) + 0x65e) === (participant >>> 0) && get(m, body + 0x188) !== 16 && get(m, body + 0x188) !== 0) {put(m, body + 0x188, 16); put(m, body + 0x180, 0);}
 }
 //470030: actual corrupt-packet response producer, with explicit imported I/O.

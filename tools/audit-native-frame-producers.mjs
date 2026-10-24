@@ -6,7 +6,7 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {loadPhysicsCapture} from './lib/physics-capture-comparison.mjs';
 import {pairNativeFrameSnapshots} from './check-native-frame-replay.mjs';
-import {createCapturedMemory} from './lib/captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './lib/native-frame-memory.mjs';
 import {buildNativeFrameManifest} from './lib/native-frame-manifest.mjs';
 import {expandNativeFramePatchRuns} from './lib/native-frame-sequence.mjs';
 import {createNativeMotionStateContinuation} from './lib/native-frame-motion-continuation.mjs';

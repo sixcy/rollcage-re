@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {runAutonomousDispatch} from './autonomous-dispatch.mjs';
 import {updateAutonomousRouteControl} from './autonomous-route-control.mjs';
 import {updateVehicleAudio} from './vehicle-audio.mjs';
@@ -138,7 +139,7 @@ export function runRaceUpdate(iteration, totalIterations, runtime) {
     //The intervening native callees preserve this register before48d7c0.
     weaponStageEdi = index + 1;
   }
-  if (memory[pointer(0x5ecefc) + 0x28] && get(pointer(0x80b5e0) + 0x188)) call('499de0', 0x80b5e0);
+  if (memory[pointer(0x5ecefc) + 0x28] && get(pointer(nativeGlobalAddress(memory, 0x80b5e0)) + 0x188)) call('499de0', nativeGlobalAddress(memory, 0x80b5e0));
   for (const id of ['49ac30', '48d7c0', '469fd0']) call(id);
   session = pointer(0x5ecb1c);
   if (get(session + 0x57c) < 4) put(0x712fbc, get(0x712fbc) + 1);

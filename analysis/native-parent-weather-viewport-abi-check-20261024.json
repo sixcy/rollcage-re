@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "authority": "constructed-source-and-retained-instruction-comparison",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "moduleBases": [
+    4194304,
+    7208960
+  ],
+  "sourceHashes": {
+    "src/weather-screen.mjs": "8d16c9b5fe6dd7b6b387d767171178bf66a3178237c66350da0c4f551f126052",
+    "src/weather-viewport.mjs": "c354341f4eb35bd1d2ed5cb9381b19272f3529b872c8bb220e91f8c82b2eb5fd",
+    "src/weather-update.mjs": "63e91951632bd71a6163ac1ba8909c50d61ebb7b4e40340388907e401bc41f8b",
+    "tests/weather-viewport-abi.test.mjs": "f9f8968b12f069b8cd87d36982c2e62397117babc7eee5e6ff818c07f12f7aa4"
+  },
+  "focusedTests": {
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test tests/weather-viewport-abi.test.mjs tests/weather-update.test.mjs tests/weather-initialization.test.mjs tests/weather-draw.test.mjs"
+  },
+  "instructionOracles": {
+    "viewport": {
+      "fixtures": 16,
+      "operations": 144,
+      "instructionSteps": 116633,
+      "matched": true
+    },
+    "screen": {
+      "fixtures": 60,
+      "queries": 199,
+      "instructionSteps": 128970,
+      "matched": true
+    },
+    "retainedReportsOverwritten": false
+  },
+  "publication": {
+    "screenCallerReturns": [
+      "0x498092",
+      "0x4980f5"
+    ],
+    "wrapperReturn": "0x40abf3",
+    "subsequentQueryReturn": "0x40abfd",
+    "screenEntryReturn": "0x496822",
+    "wrapperFromParentU": -420,
+    "externalContextFromParentU": -460,
+    "sourceMetadata": "nativeViewportQueryCall:{returnAddress}",
+    "savedEcx": "NAME+1"
+  },
+  "nativeWeatherRttiObserved": false,
+  "nativeProcessLaunched": false,
+  "limits": [
+    "Synthetic application/map/session and explicit CRT interface outcomes; no native captured weather output is used.",
+    "Only proven source-owned caller words and declared source state are compared; saved registers/SEH/fullprivateCRT ABI remain unproved.",
+    "Other weather extent/spawn caller depths remain outside this direct-screen publication scope.",
+    "First genuine runtime boundary remains authenticated weather CRT outcomes; later timer services are separate."
+  ]
+}

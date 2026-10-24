@@ -58,6 +58,7 @@ export const nativeParentLateModuleRegions=Object.freeze([
   field('late-destruction-phase',0x5ea4dc,4,'415230 native staged destruction phase'),
   field('late-destruction-index',0x6e6558,4,'415230 native staged destruction progress'),
   field('late-persistent-emitters',0x6ff140,10*20,'44f990 ten persistent20-byte records'),
+  {id:'late-attachment-alternate-mesh',preferredAddress:0x919140,length:4,comparison:'read-only',evidence:'44f887 CMOVNZ original alternate mesh DWORD, retained1065; observed original-entry bytes only'},
   field('late-attachment-effect-counts',0x6e6b1c,8,'44f3a0 live count and deduplicated count'),
   {...field('late-attachment-effect-queue-observation',0x902f00,1024,'44f3a0 declared256-pointer observation; not a native capacity claim'),observationBound:true},
   field('late-model-fragment-pool-state',0x810924,24,'48edb0 fixed64x384 pool root/cursor/random/count state'),

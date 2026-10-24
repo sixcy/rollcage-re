@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {emitBodyEffectBurst, removeBodySpatial} from './body-retirement.mjs';
 import {registerRawEffectSpatial} from './body-retirement-effects.mjs';
 import {emitNativeEffect} from './effect-emitter.mjs';
@@ -147,17 +148,17 @@ export function updateRaceObjectType32(body, runtime) {
   if (seed === undefined) seed = pointer(memory, 0x5ec958);
   const count = memory.readInt16LE(body + 0x186);
   if (count <= 0) return;
-  let free = get(memory, 0x902b8c); const frame = scratchBase - 32;
+  let free = get(memory, nativeGlobalAddress(memory, 0x902b8c)); const frame = scratchBase - 32;
   for (let remaining = count; remaining > 0; remaining--) {
     const first = nextSeed(seed); seed = nextSeed(first);
     const positionBits = first >>> 16, velocityBits = seed >>> 16, z = (((positionBits >>> 6) & 31) + 0xef1) << 17;
     put(memory, frame + 0x10, ((positionBits & 31) + 0x221) << 17);
     put(memory, frame + 0x14, ((velocityBits & 15) - 7) << 15); put(memory, frame + 0x18, (-24 - ((velocityBits >>> 6) & 15)) << 15); put(memory, frame + 0x1c, (((velocityBits >>> 10) & 15) - 7) << 15);
     if (free < 0) continue;
-    const id = memory.readUInt16LE(pointer(memory, 0x902b7c) + free * 2); free--;
-    const active = get(memory, 0x902b88); word(memory, pointer(memory, 0x902b80) + active * 2, id); put(memory, 0x902b88, active + 1);
+    const id = memory.readUInt16LE(pointer(memory, nativeGlobalAddress(memory, 0x902b7c)) + free * 2); free--;
+    const active = get(memory, nativeGlobalAddress(memory, 0x902b88)); word(memory, pointer(memory, nativeGlobalAddress(memory, 0x902b80)) + active * 2, id); put(memory, nativeGlobalAddress(memory, 0x902b88), active + 1);
     //MOVZX of the ID makes the native comparison with -1 unreachable.
-    const particle = (pointer(memory, 0x902b84) + (id << 7)) >>> 0, x = get(memory, frame + 0x10);
+    const particle = (pointer(memory, nativeGlobalAddress(memory, 0x902b84)) + (id << 7)) >>> 0, x = get(memory, frame + 0x10);
     put(memory, particle + 0x54, z); put(memory, particle + 0x4c, x); put(memory, particle + 0x50, -0x3000000);
     registerRawEffectSpatial(particle, x, -0x3000000, z, runtime);
     put(memory, particle + 0x30, 0x409f); word(memory, particle + 8, 43); put(memory, particle + 0x14, 0xae000020); word(memory, particle + 0x6a, 1);
@@ -165,7 +166,7 @@ export function updateRaceObjectType32(body, runtime) {
     for (const offset of [0, 4, 8]) put(memory, particle + 0x58 + offset, get(memory, frame + 0x14 + offset));
     memory[particle + 0x6c] = 1;
   }
-  put(memory, 0x902b8c, free); put(memory, 0x5ec958, seed);
+  put(memory, nativeGlobalAddress(memory, 0x902b8c), free); put(memory, 0x5ec958, seed);
 }
 
 //429f30: capture list/count once, but reload every object's live pointer/type.

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {initializeRawShapePools} from './world-physics-pools.mjs';
 import {initializeTerrainPointAnimation} from './terrain-point-animation.mjs';
 import {initializeTrackDeformation} from './track-deformation.mjs';
@@ -136,23 +137,23 @@ export function initializeRace(runtime) {
   put(0x6e6ba0, 0); put(0x6e6b1c, 0); put(0x6e6b20, 0);
   objectList = allocate(64); put(0x91e77c, objectList); put(0x91e778, 0); put(0x91e744, 0);
   for (let offset = 0; offset < 800; offset += 16) word(0x920806 + offset, 255);
-  put(0x9207e4, 0); put(0x82e904, 0); put(0x82e900, 0); call('428100');
+  put(0x9207e4, 0); put(nativeGlobalAddress(m, 0x82e904), 0); put(nativeGlobalAddress(m, 0x82e900), 0); call('428100');
   for (let offset = 0; offset < 0x238; offset += 8) word(0x90b686 + offset, 0);
   const rootName = number('4797a0');
   if (!number('44c2b0', rootName)) return 0;
   call('450a90'); call('44a5c0'); call('494c80');
   put(0x6fbae0, 0); put(0x6e65ac, 0x440640); call('48ef30'); call('44e220');
-  for (const p of [0x810fe0, 0x810ca0, 0x810e40, 0x810b00]) put(p, 0);
-  for (const [p, v] of [[0x811174, 0x810fe0], [0x810948, 0x810ca0], [0x810e34, 0x810e40], [0x810af4, 0x810b00]]) put(p, v);
+  for (const p of [nativeGlobalAddress(m, 0x810fe0), nativeGlobalAddress(m, 0x810ca0), nativeGlobalAddress(m, 0x810e40), nativeGlobalAddress(m, 0x810b00)]) put(p, 0);
+  for (const [p, v] of [[nativeGlobalAddress(m, 0x811174), nativeGlobalAddress(m, 0x810fe0)], [nativeGlobalAddress(m, 0x810948), nativeGlobalAddress(m, 0x810ca0)], [nativeGlobalAddress(m, 0x810e34), nativeGlobalAddress(m, 0x810e40)], [nativeGlobalAddress(m, 0x810af4), nativeGlobalAddress(m, 0x810b00)]]) put(p, v);
   put(0x7130b8, 0); put(0x6fbae8, 0); call('480760'); call('4428e0'); call('4900a0');
   if (get(0x5ed02c) !== -1) {call('499760'); call('499a90'); call('499de0');}
   call('479420');
   const networkMode = m[ptr(0x5ecb1c) + 0x58c]; if (networkMode) call('477000', networkMode);
-  put(0x9020a0, 0); put(0x9020a4, 0); put(0x9020a8, 0); call('495320'); call('47b580'); call('46a420');
+  put(nativeGlobalAddress(m, 0x9020a0), 0); put(nativeGlobalAddress(m, 0x9020a4), 0); put(nativeGlobalAddress(m, 0x9020a8), 0); call('495320'); call('47b580'); call('46a420');
   put(0x90cb80, 0); const history = allocate(0x800); put(0x90cb60, history);
   //Native REP STOSD is unconditional, including a null allocation result.
   for (let i = 0; i < 512; i++) put(history + i * 4, -1);
-  put(0x811180, 0); word(0x90d974, 0x3cf); put(0x811184, 0); put(0x811188, 0); put(0x81118c, 0x10000); put(0x6e6704, 127);
+  put(nativeGlobalAddress(m, 0x811180), 0); word(0x90d974, 0x3cf); put(nativeGlobalAddress(m, 0x811184), 0); put(nativeGlobalAddress(m, 0x811188), 0); put(nativeGlobalAddress(m, 0x81118c), 0x10000); put(0x6e6704, 127);
   const pack = ptr(0x90b98c); put(0x713184, get(ptr(pack + 0x18) + m.readInt16LE(ptr(pack + 0x58) + 14) * 4));
   call('4820f0'); for (let i = 0; i < 6; i++) call('482590', 0x8495e0 + i * 0x8c);
   for (const id of ['469ec0', '48e800', '43f130', '4758d0', '412bb0', '43f870', '4356a0', '483a00', '429d60']) call(id);
@@ -165,9 +166,9 @@ export function initializeRace(runtime) {
   const width = number('40ad40'), aspect = f32(f32(width) * m.readFloatLE(frame + 0x18)), limit = m.readFloatLE(0x5dc7a0);
   let distance = 104;
   if (aspect > limit) distance = trunc32(f32(f32(limit / aspect) * m.readFloatLE(0x5dca1c))) & 65535;
-  word(0x91d50a, distance); put(frame + 0x18, 104); m.writeFloatLE(104, 0x91ceb0);
+  word(0x91d50a, distance); put(frame + 0x18, 104); m.writeFloatLE(104, nativeGlobalAddress(m, 0x91ceb0));
   call('431dc0', (distance << 16) >> 16); call('42f820', distance);
-  for (let i = 0; i < 7; i++) m[0x810940 + i] = 0;
+  for (let i = 0; i < 7; i++) m[nativeGlobalAddress(m, 0x810940) + i] = 0;
   const capturedCount = m[ptr(0x5ecb1c) + 0x54d]; put(frame + 0x10, 0); put(frame + 0x1c, capturedCount);
   if (capturedCount) for (let index = 0, configOffset = 0, control = 0x909060; ; index++, configOffset += 0x90, control += 0x4c) {
     const record = 0x909300 + index * 0x30c;
@@ -175,7 +176,7 @@ export function initializeRace(runtime) {
     call('41dbb0', record, index);
     if (index < get(frame + 0x1c)) {
       put(record + 0x18, control); call('416180', index, ptr(record), [control]);
-      const render = 0x80b600 + Math.imul(get(0x6e6ba8), 0x690); put(frame + 0x20, render);
+      const render = nativeGlobalAddress(m, 0x80b600) + Math.imul(get(0x6e6ba8), 0x690); put(frame + 0x20, render);
       put(ptr(record) + 0x69c, render); word(render + 0x3e, 63); m[render + 3] = 12;
       for (const offset of [0x60, 0x44, 0x28, 0xc]) put(render + offset, 0x412028f6);
       for (const offset of [0x5c, 0x40, 0x24, 8]) put(render + offset, 64);
@@ -213,12 +214,12 @@ export function initializeRace(runtime) {
   for (const id of ['487410', '494060', '496290', '485250', '42a670']) call(id);
   session = ptr(0x5ecb1c);
   if (m[session + 0x58c]) {
-    const old = get(0x91ce90), bit = (~(old >>> 1)) & 1;
+    const old = get(nativeGlobalAddress(m, 0x91ce90)), bit = (~(old >>> 1)) & 1;
     if (bit || get(0x91ff80) !== 14) {
-      put(0x91ce90, old ^ ((bit * 2 ^ old) & 2));
+      put(nativeGlobalAddress(m, 0x91ce90), old ^ ((bit * 2 ^ old) & 2));
       if (!bit) for (const p of [0x849482, 0x8494d6, 0x84952a, 0x84957e]) word(p, 0);
     }
   }
-  put(0x6fbae0, 0); put(0x91ceb4, m[session + 0x58b]); call('47f8c0');
+  put(0x6fbae0, 0); put(nativeGlobalAddress(m, 0x91ceb4), m[session + 0x58b]); call('47f8c0');
   put(0x6fbb14, 0); if (m[session + 0x555]) call('497790'); return 1;
 }

@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {breakClassTwoModel} from './model-contact-effects.mjs';
 import {emitRawEffectParticles, emitRawBodyDebris, alterRawTerrainBrightness, activateRawBodyPulse} from './body-retirement-effects.mjs';
 import {appendBodyPositionEffect} from './body-retirement.mjs';
@@ -10,9 +11,9 @@ const get = (m, p) => m.readInt32LE(p), put = (m, p, value) => m.writeInt32LE(va
 //413fc0 raw bridge: the existing checked damage falloff acts on these same
 //pending class-two model rows and can make later414060 calls ready.
 export function applyPlacedModelEffectDamage({memory: m}) {
-  const effectFlag = get(m, 0x91cd90), count = m.readUInt32LE(0x9207e4);
+  const effectFlag = get(m, nativeGlobalAddress(m,0x91cd90)), count = m.readUInt32LE(0x9207e4);
   if (!effectFlag || !count) return;
-  updateWorldEffectRecords(m.subarray(0x920800, 0x920800 + count * 16), {count, effectFlag, originS16: [0x91cd82, 0x91cd86, 0x91cd8a].map(address => m.readInt16LE(address)), strength: get(m, 0x91cd8c)});
+  updateWorldEffectRecords(m.subarray(0x920800, 0x920800 + count * 16), {count, effectFlag, originS16: [0x91cd82, 0x91cd86, 0x91cd8a].map(address => m.readInt16LE(nativeGlobalAddress(m,address))), strength: get(m, nativeGlobalAddress(m,0x91cd8c))});
 }
 
 //414060. Age pending 16-byte rows, then activate at most one ready model
@@ -35,9 +36,9 @@ export function updatePlacedModelContactEffects(runtime) {
     if (scale > 0) {
       emitRawEffectParticles(position, velocity, amount, get(m, 0x9153e0), 8, runtime);
       appendBodyPositionEffect(position, amount, runtime);
-      put(m, 0x91cd88, get(m, frame + 0x10)); put(m, 0x91cd90, 1); put(m, 0x91cd80, x); put(m, 0x91cd84, y); put(m, 0x91cd8c, amount * 4 + 4);
+      put(m, nativeGlobalAddress(m,0x91cd88), get(m, frame + 0x10)); put(m, nativeGlobalAddress(m,0x91cd90), 1); put(m, nativeGlobalAddress(m,0x91cd80), x); put(m, nativeGlobalAddress(m,0x91cd84), y); put(m, nativeGlobalAddress(m,0x91cd8c), amount * 4 + 4);
       emitRawBodyDebris(position, velocity, amount, runtime);
-      if (get(m, 0x811180) === 0) {put(m, 0x91cd60, 1); put(m, 0x91cd64, 31); put(m, 0x91cd68, amount); put(m, 0x91cd6c, x); put(m, 0x91cd70, y); put(m, 0x91cd74, get(m, frame + 0x10));}
+      if (get(m, nativeGlobalAddress(m, 0x811180)) === 0) {put(m, nativeGlobalAddress(m,0x91cd60), 1); put(m, nativeGlobalAddress(m,0x91cd64), 31); put(m, nativeGlobalAddress(m,0x91cd68), amount); put(m, nativeGlobalAddress(m,0x91cd6c), x); put(m, nativeGlobalAddress(m,0x91cd70), y); put(m, nativeGlobalAddress(m,0x91cd74), get(m, frame + 0x10));}
       alterRawTerrainBrightness(position, amount, {...runtime, scratchBase: frame - 4});
       activateRawBodyPulse(position, runtime);
     } else emitRawBodyDebris(position, velocity, amount, runtime);

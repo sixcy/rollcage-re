@@ -1,6 +1,7 @@
 // Declarative coverage for one original 4749e0 call. This never launches or
 // initializes a process, relocates pointer bytes, or supplies missing storage.
-import {createCapturedMemory} from './captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './native-frame-memory.mjs';
+import {nativeGlobalAddress,nativeExplicitGlobalDomains} from '../../src/native-global-address.mjs';
 
 const preferredBase = 0x400000, addressSpace = 0x100000000, maxBytes = 64 * 1024 * 1024;
 const hex = value => `0x${value.toString(16)}`;
@@ -139,13 +140,15 @@ export function buildNativeFrameManifest(snapshot, {moduleBaseAddress, stackByte
   for (const region of frameGlobals) requireRegion(region.id, actual(region.preferredAddress), region.length, region.comparison, region.evidence, {preferredAddress: region.preferredAddress, ...(region.observationBound ? {observationBound: true} : {})});
   const attachmentCount = memory.readInt32LE(0x6e6ba0);
   if (attachmentCount < 0 || attachmentCount * 4 > attachmentWindowBytes) throw Error('Attachment count exceeds the declared observation window.');
+  //This helper receives fixed instruction-global operands, never body/list pointers.
+  const G = address => nativeExplicitGlobalDomains.some(domain=>address>=domain.start&&address<domain.end)?nativeGlobalAddress(memory,address):address;
   const ptr = address => memory.readUInt32LE(address), word = address => memory.readUInt16LE(address);
   function pointee(id, root, length, comparison, evidence) {
-    const pointer = ptr(root); if (!pointer) throw Error(`Null frame root ${id} at ${hex(root)}.`);
+    const pointer = ptr(G(root)); if (!pointer) throw Error(`Null frame root ${id} at ${hex(root)}.`);
     return requireRegion(id, pointer, length, comparison, evidence, {rootPreferredAddress: root});
   }
-  const queueCapacity = bounded(ptr(0x902ba4), 4096, 'collision event capacity');
-  if (ptr(0x902ba0) > queueCapacity || memory.readInt32LE(0x902bb4) < -1 || memory.readInt32LE(0x902bb4) >= queueCapacity) throw Error('Invalid captured collision queue cursors.');
+  const queueCapacity = bounded(ptr(G(0x902ba4)), 4096, 'collision event capacity');
+  if (ptr(G(0x902ba0)) > queueCapacity || memory.readInt32LE(G(0x902bb4)) < -1 || memory.readInt32LE(G(0x902bb4)) >= queueCapacity) throw Error('Invalid captured collision queue cursors.');
   pointee('collision-events', 0x902ba8, queueCapacity * 0x68, 'mutable', '440410; observed902ba4 capacity');
   pointee('collision-heap', 0x902bac, (queueCapacity + 1) * 4, 'mutable', '440410; one-based heap');
   pointee('collision-free', 0x902bb0, queueCapacity * 4, 'mutable', '440410 free-slot array');
@@ -156,14 +159,14 @@ export function buildNativeFrameManifest(snapshot, {moduleBaseAddress, stackByte
   if (ptr(0x91e798) > 256) throw Error('Allocated shape count exceeds256 records.');
   pointee('candidate-arena', 0x91e788, 2048 * 16, 'mutable', '428100 fixed candidate pool');
   const physicalList = pointee('physical-body-list', 0x902bc0, 0x180, 'mutable', '428100 fixed96-pointer physical list');
-  const physicalCount = word(0x902bc4);
+  const physicalCount = word(G(0x902bc4));
   if (physicalCount >= 96 || ptr(physicalList.address + physicalCount * 4) !== 0) throw Error('Physical list lacks its bounded trailing null.');
   const groupLists = pointee('candidate-group-lists', 0x902be0, 0x2108, 'mutable', '428100:64 ordinary33-pointer lists plus two-pointer refresh list');
-  const groupCount = memory.readInt32LE(0x902bcc);
+  const groupCount = memory.readInt32LE(G(0x902bcc));
   if (groupCount < 0 || groupCount > 64) throw Error('Candidate group count exceeds64 ordinary groups.');
   const bodyLists = [{address: physicalList.address, capacity: 96}];
   for (let index = 0; index < 65; index++) {
-    const header = 0x902be0 + index * 12, pointer = ptr(header), capacity = index === 64 ? 2 : 33;
+    const header = G(0x902be0) + index * 12, pointer = ptr(header), capacity = index === 64 ? 2 : 33;
     if (pointer !== groupLists.address + index * 132 || word(header + 4) > capacity) throw Error(`Invalid candidate group${index} list root/count.`);
     bodyLists.push({address: pointer, capacity});
   }
@@ -172,7 +175,7 @@ export function buildNativeFrameManifest(snapshot, {moduleBaseAddress, stackByte
   const arenaSizeInput = memory.readInt32LE(0x709808), arenaSize = ((arenaSizeInput + 140000) << 5) >>> 0;
   bounded(arenaSize, maxBodyArenaBytes, 'body arena allocation size');
   const arena = pointee('body-arena-allocation-bytes', 0x6e6b40, arenaSize, 'mutable', '474160 observed allocation-size producer');
-  const arenaBase = ptr(0x902eec), cursor = ptr(0x70dcf4);
+  const arenaBase = ptr(G(0x902eec)), cursor = ptr(0x70dcf4);
   if (arenaBase !== Math.ceil(arena.address / 128) * 128 || arenaBase + cursor > arena.address + arena.length) throw Error('Body arena alignment/used cursor exceeds its captured allocation.');
   const session = pointee('session', 0x5ecb1c, 0x590, 'mutable', 'participant/effect inputs consumed by4749e0');
   pointee('configuration', 0x5ecefc, 0x70, 'read-only', '41c080/effect configuration input');

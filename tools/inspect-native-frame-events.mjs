@@ -3,7 +3,8 @@ import {readFile, writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {loadPhysicsCapture} from './lib/physics-capture-comparison.mjs';
-import {createCapturedMemory} from './lib/captured-memory.mjs';
+import {createNativeFrameMemory as createCapturedMemory} from './lib/native-frame-memory.mjs';
+import {nativeGlobalAddress} from '../src/native-global-address.mjs';
 import {nativeFrameGlobalRegions} from './lib/native-frame-manifest.mjs';
 import {pairNativeFrameSnapshots} from './check-native-frame-replay.mjs';
 import {readInstructionEvidence} from './lib/instruction-evidence.mjs';
@@ -19,7 +20,7 @@ function memoryOf(snapshot) {
   return {...createCapturedMemory(ranges,{aliases}),moduleBaseAddress:base};
 }
 function queueOf(memory) {
-  const capacity=memory.readUInt32LE(0x902ba4),count=memory.readUInt32LE(0x902ba0),freeTop=memory.readInt32LE(0x902bb4),records=memory.readUInt32LE(0x902ba8),heap=memory.readUInt32LE(0x902bac);
+  const capacity=memory.readUInt32LE(nativeGlobalAddress(memory,0x902ba4)),count=memory.readUInt32LE(nativeGlobalAddress(memory,0x902ba0)),freeTop=memory.readInt32LE(nativeGlobalAddress(memory,0x902bb4)),records=memory.readUInt32LE(nativeGlobalAddress(memory,0x902ba8)),heap=memory.readUInt32LE(nativeGlobalAddress(memory,0x902bac));
   if(capacity>4096||count>capacity||freeTop< -1||freeTop>=capacity)throw Error('Invalid captured native event queue bounds.');
   return {capacity,count,freeTop,records,heap};
 }
@@ -37,7 +38,7 @@ function bodyOf(memory,address,{participant=false}={}) {
   return result;
 }
 export function inspectNativeFrameSnapshot(snapshot) {
-  const {memory,moduleBaseAddress}=memoryOf(snapshot),queue=queueOf(memory),session=memory.readUInt32LE(0x5ecb1c),participantCount=memory[session+0x54d],bodyCount=memory.readUInt16LE(0x902bc4),list=memory.readUInt32LE(0x902bc0);
+  const {memory,moduleBaseAddress}=memoryOf(snapshot),queue=queueOf(memory),session=memory.readUInt32LE(0x5ecb1c),participantCount=memory[session+0x54d],bodyCount=memory.readUInt16LE(nativeGlobalAddress(memory,0x902bc4)),list=memory.readUInt32LE(nativeGlobalAddress(memory,0x902bc0));
   if(participantCount>6||bodyCount>=96)throw Error('Native frame body/participant counts exceed producer bounds.');
   const participants=Array.from({length:participantCount},(_,index)=>({index,...bodyOf(memory,memory.readUInt32LE(0x909300+index*0x30c),{participant:true})}));
   const bodies=Array.from({length:bodyCount},(_,index)=>bodyOf(memory,memory.readUInt32LE(list+index*4)));

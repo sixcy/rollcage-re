@@ -1,3 +1,4 @@
+import {nativeGlobalAddress} from './native-global-address.mjs';
 import {initializePickupWorldTables, initializeWorldPickups} from './pickup-world-construction.mjs';
 import {initializePickupProbabilityTables} from './pickup-award.mjs';
 import {initializeProjectileConstructionTables, initializeProjectilePools} from './projectile-construction.mjs';
@@ -34,7 +35,7 @@ export function initializeSoloWeaponRuntime(runtime) {
   const ptr = p => nativeMemorySpan(memory, p, 4).readUInt32LE();
   const put = (p, value) => nativeMemorySpan(memory, p, 4).writeInt32LE(value | 0);
   const word = (p, value) => nativeMemorySpan(memory, p, 2).writeUInt16LE(value & 65535);
-  for (const [root, size] of [[0x90b98c, 0x60], [0x90b990, 0x120], [0x90b988, 16], [0x902eec, 0x180], [0x909254, 16], [0x909278, 12]]) {
+  for (const [root, size] of [[0x90b98c, 0x60], [0x90b990, 0x120], [0x90b988, 16], [nativeGlobalAddress(memory, 0x902eec), 0x180], [0x909254, 16], [0x909278, 12]]) {
     const address = ptr(root);
     if (!address) throw Error('Solo weapon construction requires initialized native resource, arena and spatial roots.');
     nativeMemorySpan(memory, address, size);
@@ -50,7 +51,7 @@ export function initializeSoloWeaponRuntime(runtime) {
   const context = {...runtime, allocate, handlers: {...runtime.handlers, allocate}};
   const first = ptr(0x6e6b44);
   if (first > 512) throw Error('Solo weapon construction requires a bounded native body registry.');
-  for (const p of [0x9020a0, 0x9020a4, 0x9020a8]) put(p, 0);
+  for (const p of [nativeGlobalAddress(memory, 0x9020a0), nativeGlobalAddress(memory, 0x9020a4), nativeGlobalAddress(memory, 0x9020a8)]) put(p, 0);
   initializeRaceQuadStorage(context);
   initializeWorldPickups(context);
   initializeProjectilePools(context);
@@ -64,8 +65,8 @@ export function initializeSoloWeaponRuntime(runtime) {
   const pack = ptr(0x90b98c); //47ed1e captures EDX before publishing the map.
   put(0x90cb60, history);
   for (let i = 0; i < 512; i++) put(history + i * 4, -1);
-  put(0x811180, 0); word(0x90d974, 0x3cf);
-  put(0x811184, 0); put(0x811188, 0); put(0x81118c, 0x10000); put(0x6e6704, 127);
+  put(nativeGlobalAddress(memory, 0x811180), 0); word(0x90d974, 0x3cf);
+  put(nativeGlobalAddress(memory, 0x811184), 0); put(nativeGlobalAddress(memory, 0x811188), 0); put(nativeGlobalAddress(memory, 0x81118c), 0x10000); put(0x6e6704, 127);
   const metadata = ptr(pack + 0x58), modelIndex = nativeMemorySpan(memory, metadata + 14, 2).readInt16LE();
   put(0x713184, ptr(ptr(pack + 0x18) + modelIndex * 4));
   initializeVehicleContactColorTopology(context);
@@ -74,7 +75,7 @@ export function initializeSoloWeaponRuntime(runtime) {
   //Only bodies actually registered by those constructors are admitted. The
   //following arena cursor bounds each full allocation, including expanded
   //model storage; no generic fake vehicle layout stands in for these bodies.
-  const count = ptr(0x6e6b44), arena = ptr(0x902eec), end = arena + ptr(0x70dcf4);
+  const count = ptr(0x6e6b44), arena = ptr(nativeGlobalAddress(memory, 0x902eec)), end = arena + ptr(0x70dcf4);
   if (count < first || count > 512) throw Error('Solo weapon construction overflowed the native body registry.');
   const addresses = Array.from({length: count - first}, (_, i) => ptr(0x70e200 + (first + i) * 4));
   const bodies = new Map();

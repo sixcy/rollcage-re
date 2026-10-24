@@ -30,8 +30,10 @@ The observer contract is:
 | `native-parent-rtti-clock` | actual `90a548` | 4 |
 
 Context Q..Q+19 holds the five external arguments. Context+40 is the wrapper
-return `actual(41a0c8)`; +44/+48 hold mode1 and the original formatted name
-pointer S−40. The separate camera return must be `actual(451107)`.
+return `actual(41a0c8)`; +44 holds the original formatted name pointer S−40
+and +48 holds mode1. Equivalently, wrapper R+4 is NAME and R+8 is MODE1:
+the last PUSH before CALL supplies the first stack argument. The separate
+camera return must be `actual(451107)`.
 Capture those exact pre/post sites with original thread/environment metadata
 inside the selected parent observation; bound the observation count. Unfiltered
 early-frame RTTI events must not exhaust a later selected frame's budget.
@@ -47,6 +49,17 @@ It supplies only that external EAX. It does not copy the observed object,
 viewport records, map nodes or CRT scratch into carried source memory.
 The legacy source's preferred type tokens are explicitly converted into actual
 module arguments at this boundary.
+
+The source singleton and recovered NAME/MODE stack arguments are validated
+before checking whether an authenticated CRT outcome exists. Missing evidence
+therefore cannot hide a reversed caller stack. The prior adapter and constructed
+fixtures had those two caller arguments reversed; retained4513/4543 prove the
+correction independently. Constructed positive fixtures now publish the caller
+words in actual PUSHmode, PUSHname, CALLreturn order. Preferred and relocated
+negative cases reject the swapped order in both captured context and carried
+source, including when no external records exist. The original V6 regression
+also asserts the reached source R+4 name and R+8 mode words before reporting
+the first missing external outcome.
 
 The adapter publishes only the proven five argument PUSH words and the CRT
 CALL return at Q−4. The original wrapper's saved ECX, complete SEH publication
@@ -85,7 +98,7 @@ version, resolution and behavior remain separate from this file audit.
 
 `node --test tests/native-parent-rtti.test.mjs tests/native-parent-tail.test.mjs`
 
-All 15 tests pass without skips. Preferred/relocated constructed records test
+All 16 tests pass without skips. Preferred/relocated constructed records test
 the typed adapter and reject corruption, wrong lineage and unobserved results.
 They are not original-process CRT evidence. A retained V6 regression reaches
 the proven common-tail source frame after matching earlier stages and still
@@ -159,6 +172,6 @@ process launched during the JS profile implementation.
 
 `node --test tests/native-parent-rtti-capture.test.mjs tests/native-parent-rtti.test.mjs tests/native-parent-tail-capture.test.mjs`
 
-All 18 tests pass without skips, including preserved V5/V6 original-process
+All 19 tests pass without skips, including preserved V5/V6 original-process
 replays and the strict V6 missing-CRT boundary. The new profile itself has no
 original-process runtime evidence yet.

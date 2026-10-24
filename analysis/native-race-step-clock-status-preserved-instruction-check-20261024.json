@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "matched": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "evidence": [
+    "ev_38b8d5dfff1b32d7bb9ba4457b9681775a4c160c95e12a9b821e21a9e17e4f64",
+    "ev_ff29e60114cb96f219e316aff00030e0be8766dec59f42ce80cd1df1bc5b8288",
+    "ev_0821b375e5e6e0e39b095964bbbfe613d53700c628e4c8d5d7174468b6b21773",
+    "ev_dea8f9153f9c5540481625f806668d34f05024d0fd095a2098120032433d8d7c",
+    "ev_ae16480d2e16f6e81b67e3acda55e2e6e6d6e944ede36888fbe94743a7387192",
+    "ev_46c84235837b2045303a643dfb9b21e492613b7cd28996b74c32208f8ed9b021",
+    "ev_bae6b5f11f816781dc21933ed4de136202db89d107763a559ca6506f68dd7373",
+    "ev_bf4ccb8a6b2725e42b4ebe9af0f167c0c4e0af568840146f982fc2cf70cdee62",
+    "ev_5e83da9e8584442f7ba5642a6d79e59a445150641dc7bd8ec0d970d9933c61c2"
+  ],
+  "method": "Full441c70 with genuine489cd0,568d6e,568c41/568bfd,568f10 and569380 instructions; no game/timer/conversion/integer answer hooks. Only declared synthetic Windows QPF/QPC results supplied. Exact whole fixture memory includes caller stack and helper argument mutations.",
+  "authority": "constructed-inputs-with-retained-original-instructions",
+  "fixtures": 330,
+  "totalFixtures": 341,
+  "explicitScheduling": [
+    {
+      "label": "backlog2-streak8",
+      "count": 1,
+      "targetClock": 103,
+      "streak": 9
+    },
+    {
+      "label": "backlog2-streak9",
+      "count": 2,
+      "targetClock": 103,
+      "streak": 10
+    },
+    {
+      "label": "backlog2-streak10",
+      "count": 2,
+      "targetClock": 103,
+      "streak": 11
+    },
+    {
+      "label": "backlog2-streak2147483647",
+      "count": 2,
+      "targetClock": 103,
+      "streak": 2147483648
+    },
+    {
+      "label": "backlog2-streak4294967295",
+      "count": 1,
+      "targetClock": 103,
+      "streak": 0
+    },
+    {
+      "label": "backlog3-streak8",
+      "count": 1,
+      "targetClock": 104,
+      "streak": 9
+    },
+    {
+      "label": "backlog3-streak9",
+      "count": 3,
+      "targetClock": 104,
+      "streak": 10
+    },
+    {
+      "label": "backlog1-reset",
+      "count": 1,
+      "targetClock": 102,
+      "streak": 0
+    },
+    {
+      "label": "equal-target-reset",
+      "count": 1,
+      "targetClock": 101,
+      "streak": 0
+    },
+    {
+      "label": "behind-target-reset",
+      "count": 1,
+      "targetClock": 98,
+      "streak": 0
+    },
+    {
+      "label": "zero-elapsed",
+      "count": 1,
+      "targetClock": 0,
+      "streak": 0
+    }
+  ],
+  "firstDelivery": 66,
+  "initializedCalls": 275,
+  "qpfFailures": 8,
+  "qpcFailures": 20,
+  "catchup": 43,
+  "instructionSteps": 105689,
+  "reachedInstructions": 343,
+  "actualChildren": {
+    "0x441c70": 341,
+    "0x489cd0": 341,
+    "0x569380": 1023,
+    "0x568f10": 1023,
+    "0x568d6e": 275,
+    "0x568c41": 275,
+    "0x568bfd": 268
+  },
+  "schedulerInstructions": 68,
+  "schedulerInstructionsReached": 68,
+  "comparedStack": {
+    "entryEspVariants": [
+      98304,
+      98308
+    ],
+    "length": 392,
+    "alsoComparedInWholeMemory": true,
+    "sourceReturnSubsetCompared": true
+  },
+  "excluded": [
+    "No original-process clock or continuous-race comparison",
+    "Full private CPU registers/EFLAGS, SSE sticky exception state and unsupported except1 branch",
+    "Outer450d60/440930,input/render/event-loop producers remain unconnected"
+  ]
+}

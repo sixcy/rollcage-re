@@ -1,3 +1,5 @@
+import {nativeCodeAddress} from './native-memory-spans.mjs';
+
 // Exact Redux 1.3.8.0 initialized image: VA5eb5e0/file1ea5e0 = 00000100.
 // A captured live value takes precedence after configuration/cheat producers.
 export const REDUX_INITIAL_GRAVITY_Q16 = 0x10000;
@@ -20,17 +22,21 @@ export function initializeRaceGravity({memory}) {
 
 // Integer tail441cd0..441d66. targetClock is the unsigned result of the native
 //microsecond-to-double/scaling/conversion chain; platform time is caller-owned.
-export function advanceRaceStepCount(targetClock, {memory}) {
+export function advanceRaceStepCount(targetClock, {memory, moduleBaseAddress}) {
   if (!Number.isInteger(targetClock) || targetClock < 0 || targetClock > 0xffffffff) throw Error('Expected the native unsigned target clock.');
-  const flags = memory.readUInt32LE(0x6eafe0), current = memory.readUInt32LE(0x6e66f8);
+  //These are fixed instruction operands. Native callers can use physical
+  //module addresses without putting aliases over actual captured stack bytes.
+  const fixed = p => moduleBaseAddress === undefined ? p : nativeCodeAddress(p, {moduleBaseAddress});
+  const delivered = fixed(0x6e66f8), streak = fixed(0x6e66e4);
+  const flags = memory.readUInt32LE(fixed(0x6eafe0)), current = memory.readUInt32LE(delivered);
   let count = 1;
   if ((flags & 1) && (flags & 0x80) && (flags & 6) && targetClock > current && targetClock - current > 1) {
     const backlog = targetClock - current;
-    if (backlog > 3) memory.writeInt32LE(10, 0x6e66e4);
-    else memory.writeInt32LE((memory.readInt32LE(0x6e66e4) + 1) | 0, 0x6e66e4);
-    if (memory.readUInt32LE(0x6e66e4) >= 10) count = Math.min(backlog, 3);
-  } else memory.writeInt32LE(0, 0x6e66e4);
-  memory.writeUInt32LE((current + count) >>> 0, 0x6e66f8);
+    if (backlog > 3) memory.writeInt32LE(10, streak);
+    else memory.writeInt32LE((memory.readInt32LE(streak) + 1) | 0, streak);
+    if (memory.readUInt32LE(streak) >= 10) count = Math.min(backlog, 3);
+  } else memory.writeInt32LE(0, streak);
+  memory.writeUInt32LE((current + count) >>> 0, delivered);
   return count;
 }
 
