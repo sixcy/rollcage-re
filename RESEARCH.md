@@ -14,7 +14,15 @@ SHA-256: `c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`.
 
 The goal is a source reconstruction. Recovered pseudocode and inferred names are analysis inputs, not original source. Begin with the archive loader and decompressor, then build asset readers and map the game systems. Each reconstructed component needs checks against the installed artifacts.
 
-New late-parent recordings retain independent animation/camera/weather checkpoints. One carries source AI/physics through drive at5,100,223 unique bytes; another selected HIGH/LEV3 case independently matches19-body physics at5,124,163 declared bytes plus its four-byte collision local. The latter exposed a false ECX-preservation check: the native collision loop overwrites the PUSH ECX local before POP ECX. Source now produces that local in native order. Its joined parent still stops earlier at unbound sound creation; camera/weather source parity, complete ticks and continuous races remain open. See [checkpoint evidence](re-docs/native-parent-tail.md) and [return-local correction](re-docs/native-physics-return-local.md).
+Controlled native HIGH/LEV3 V5 now verifies one car-chassis/wall scenario:
+one guarded12-byte force input produces type7-border swept and penetration
+responses, all eight collision-dispatch events and4,885,468 declared frame
+bytes match the source. Native wall-point ownership is independently proved
+from the current candidate pool and exact type-specific authored vertex rule.
+This is one controlled frame; natural walls, ceilings, inverted driving and
+continuous races remain open. See [the experiment](re-docs/native-held-chassis-force.md).
+
+New late-parent recordings retain independent animation/camera/weather checkpoints. V6 carries source AI/physics through attachments, recovery, drive and auxiliary updates at5,102,089 unique bytes per tail checkpoint, then stops at an unobserved CRT dynamic cast in camera processing. A selected HIGH/LEV3 case independently matches19-body physics at5,124,163 declared bytes plus its four-byte collision local. The latter exposed a false ECX-preservation check: the native collision loop overwrites the PUSH ECX local before POP ECX. Source now produces that local in native order. Its joined parent still stops earlier at unbound sound creation; camera/weather source parity, complete ticks and continuous races remain open. See [checkpoint evidence](re-docs/native-parent-tail.md) and [return-local correction](re-docs/native-physics-return-local.md).
 
 Racing test connects the recovered physical-camera lifecycle,494c80/494f60 terrain deformation and LEV8's44a5c0/44a7a0 point animation, including live surface flags and display vertices/palette. Point XYZ is restored before physics; late palette/material flags remain live. Car-animation lights, rear-wheel histories and final44d960 light/dirty aging also execute. The native48d7c0 stage and its startup constructors now correct reached surface-drive decay/caps while preserving disabled mode1 pickups. All36 six-Expert variants and252 track/car cases pass; actual Edge checks four animated tracks against Node/every GPU upload. The corrected default4000-tick run completes four laps/zero recoveries. These are installed-data/source comparisons, not native whole-race equivalence; active combat, original lighting/render consumers, linked-car animation display and wheel-trail display remain open. See [weapon-stage correction](re-docs/solo-weapon-runtime.md), [camera/terrain integration](re-docs/solo-terrain-runtime.md) and [point lifecycle](re-docs/solo-terrain-point-runtime.md).
 
@@ -659,3 +667,38 @@ call adapter proves actual seven-word publication/survivingECX and relocated
 caller stack, but populated-source allocation services and parent integration
 remain open. No game capture ran for these additions. Combined regression:
 2,135PASS/no failures/skips, analysis/physics-fidelity-tests-20261023-follow-selector.txt.
+
+## Pickup editor and original-game export, 24 October 2026
+
+The Track Viewer now edits pickup spawn points on Rollcage LEV1–14 and18–20:
+add, duplicate, move/drag, delete, undo/redo/reset, versioned project save/load,
+and an edited Racing test preview. LOW/HIGH share each level's draft. LEV15
+remains deferred for its absent original pickup/controller definitions;
+LEV16/17 remain excluded. The conservative editor cap is16, while retained
+native initialization actually writes24 pending queue bytes.
+
+The compiler appends a4-aligned12-byte pickup table, preserving template bytes,
+adjacent header fields and unchanged effective resources. Full game export
+preserves the original IMG prefix, appends changed uncompressed resources and
+updates only matching IDX offset/stored/decoded fields. ZIP includes both game
+archives, a source-fingerprinted project and separate-installation instructions.
+Original installed archives are never modified.
+
+Six isolated Redux1.3.8.0 native LEV1 runs pass: unchanged, zero and16 pickups in
+LOW and HIGH. Both16-pickup cases prove all exported coordinates and natural
+collection/subsequent full native respawn of added index15. The strict checker
+binds loader/header/table, owned main-thread context/callers, body registry and
+arena membership, collection store and full finalizer. Independent audit
+rehashes5,792 blobs/contexts across172 accepted snapshots. Final file audit
+checks1,368 contents across the original installation, pristine copy and six
+cases, preserving all171 original files. Initial observer/checker failures are
+retained and explained; they are not counted as passes.
+
+The source matrix separately passes68 cases across34 variants and24,480
+updates. Edge edited preview matches Node through700 frames/71 snapshots with
+natural collections, respawns and projectile activation. Final focused suite:
+67PASS, zero failures/skips. See re-docs/pickup-editor.md,
+re-docs/pickup-editor-native-validation.md and
+analysis/pickup-editor-native-acceptance-20261024.json. Native coverage is LEV1
+in both qualities; this does not establish complete physics or weapon parity.
+The broader physics reconstruction goal remains paused.

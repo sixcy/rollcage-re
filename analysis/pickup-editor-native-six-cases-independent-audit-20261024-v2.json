@@ -1,0 +1,1374 @@
+{
+  "method": "Independent read-only six CLOSED original-process captures; rehash every native range/CONTEXT blob and frozenhelper files, verify loader/header/table/offset/registry and complete placement/cycle provenance. No game/source execution.",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "previousAudit": {
+    "path": "analysis/pickup-editor-native-three-cases-independent-audit-20261024.json",
+    "sha256": "3f521060ee177a58a7c334b7a29a15b8e0919057e3249bd4eb51ba7974c6028b",
+    "preserved": true
+  },
+  "frozenHelperFiles": [
+    {
+      "name": "lib/pickup-editor-native-debugger.cs",
+      "sha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "length": 250377
+    },
+    {
+      "name": "native-pickup-editor-capture.ps1",
+      "sha256": "73cde56e93abde3101d3073dc67d2b6fd8c8d5ea0928115d907cf442510cc9b2",
+      "length": 3552
+    },
+    {
+      "name": "native-pickup-editor-capture.mjs",
+      "sha256": "b0cbf4007888d88598e40f216ee362bff9f5d88c7214aaf9462166cec63d41af",
+      "length": 1804
+    }
+  ],
+  "cases": [
+    {
+      "name": "baseline-low-v2",
+      "reportPath": "analysis/pickup-editor-native-baseline-low-v2-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\capture-v2",
+      "matched": true,
+      "sceneName": "LOW/LEV1.BLP",
+      "scenario": "load",
+      "authoredCount": 13,
+      "authoredBytes": 156,
+      "authoredSha256": "ed33a4ea22203377121953f4720e6d63bb84eed33f26a63fde7e5ad60e3111b3",
+      "headerIdentityBytes": 40,
+      "moduleBaseAddress": 9240576,
+      "dataBase": 66105376,
+      "authoredPointer": 66741856,
+      "authoredOffset": 636480,
+      "registryBefore": 208,
+      "registryAfterConstruction": 224,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 34,
+      "hashVerifiedBlobs": 1144,
+      "allAuthoredInitialPlacementsObserved": true,
+      "completedFinalizers": 13,
+      "placements": [
+        {
+          "index": 0,
+          "clock": 50,
+          "generation": 0,
+          "positionSource": [
+            2867,
+            -32,
+            2534
+          ],
+          "templateTailHex": "040826000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 9,
+          "returnOrdinal": 10,
+          "bodyAddress": 277444864,
+          "registryIndex": 208,
+          "spatialTaggedPointer": 66484172
+        },
+        {
+          "index": 1,
+          "clock": 57,
+          "generation": 0,
+          "positionSource": [
+            3139,
+            -59,
+            2077
+          ],
+          "templateTailHex": "040925000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 11,
+          "returnOrdinal": 12,
+          "bodyAddress": 277452672,
+          "registryIndex": 209,
+          "spatialTaggedPointer": 66483848
+        },
+        {
+          "index": 2,
+          "clock": 70,
+          "generation": 0,
+          "positionSource": [
+            2724,
+            -60,
+            1413
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 13,
+          "returnOrdinal": 14,
+          "bodyAddress": 277460480,
+          "registryIndex": 210,
+          "spatialTaggedPointer": 66482888
+        },
+        {
+          "index": 3,
+          "clock": 150,
+          "generation": 0,
+          "positionSource": [
+            2657,
+            34,
+            3016
+          ],
+          "templateTailHex": "040b06000a00",
+          "stateHex": "83000c",
+          "entryOrdinal": 15,
+          "returnOrdinal": 16,
+          "bodyAddress": 277468288,
+          "registryIndex": 211,
+          "spatialTaggedPointer": 66484688
+        },
+        {
+          "index": 5,
+          "clock": 218,
+          "generation": 0,
+          "positionSource": [
+            2171,
+            -17,
+            2218
+          ],
+          "templateTailHex": "030d08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 17,
+          "returnOrdinal": 18,
+          "bodyAddress": 277483904,
+          "registryIndex": 213,
+          "spatialTaggedPointer": 66483788
+        },
+        {
+          "index": 4,
+          "clock": 233,
+          "generation": 0,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "030c08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 19,
+          "returnOrdinal": 20,
+          "bodyAddress": 277476096,
+          "registryIndex": 212,
+          "spatialTaggedPointer": 66484136
+        },
+        {
+          "index": 6,
+          "clock": 317,
+          "generation": 0,
+          "positionSource": [
+            2135,
+            -40,
+            1976
+          ],
+          "templateTailHex": "030e08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 21,
+          "returnOrdinal": 22,
+          "bodyAddress": 277491712,
+          "registryIndex": 214,
+          "spatialTaggedPointer": 66483452
+        },
+        {
+          "index": 8,
+          "clock": 324,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "06103b000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 23,
+          "returnOrdinal": 24,
+          "bodyAddress": 277507328,
+          "registryIndex": 216,
+          "spatialTaggedPointer": 66475712
+        },
+        {
+          "index": 7,
+          "clock": 351,
+          "generation": 0,
+          "positionSource": [
+            2102,
+            -40,
+            1855
+          ],
+          "templateTailHex": "030f08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 25,
+          "returnOrdinal": 26,
+          "bodyAddress": 277499520,
+          "registryIndex": 215,
+          "spatialTaggedPointer": 66483452
+        },
+        {
+          "index": 9,
+          "clock": 408,
+          "generation": 0,
+          "positionSource": [
+            -3637,
+            -40,
+            -4659
+          ],
+          "templateTailHex": "061139000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 27,
+          "returnOrdinal": 28,
+          "bodyAddress": 277515136,
+          "registryIndex": 217,
+          "spatialTaggedPointer": 66475928
+        },
+        {
+          "index": 10,
+          "clock": 521,
+          "generation": 0,
+          "positionSource": [
+            -738,
+            -40,
+            -6643
+          ],
+          "templateTailHex": "051214000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 29,
+          "returnOrdinal": 30,
+          "bodyAddress": 277522944,
+          "registryIndex": 218,
+          "spatialTaggedPointer": 66474140
+        },
+        {
+          "index": 11,
+          "clock": 560,
+          "generation": 0,
+          "positionSource": [
+            -1422,
+            -40,
+            -6314
+          ],
+          "templateTailHex": "051313000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 31,
+          "returnOrdinal": 32,
+          "bodyAddress": 277530752,
+          "registryIndex": 219,
+          "spatialTaggedPointer": 66474272
+        },
+        {
+          "index": 12,
+          "clock": 608,
+          "generation": 0,
+          "positionSource": [
+            -1995,
+            -40,
+            -5985
+          ],
+          "templateTailHex": "051440000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 33,
+          "returnOrdinal": 34,
+          "bodyAddress": 277538560,
+          "registryIndex": 220,
+          "spatialTaggedPointer": 66474452
+        }
+      ],
+      "targetCycle": null,
+      "zeroCount": null,
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 156187383,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    },
+    {
+      "name": "baseline-high",
+      "reportPath": "analysis/pickup-editor-native-baseline-high-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-high\\capture",
+      "matched": true,
+      "sceneName": "HIGH/LEV1.BLP",
+      "scenario": "load",
+      "authoredCount": 13,
+      "authoredBytes": 156,
+      "authoredSha256": "ed33a4ea22203377121953f4720e6d63bb84eed33f26a63fde7e5ad60e3111b3",
+      "headerIdentityBytes": 40,
+      "moduleBaseAddress": 13500416,
+      "dataBase": 67219488,
+      "authoredPointer": 68035016,
+      "authoredOffset": 815528,
+      "registryBefore": 208,
+      "registryAfterConstruction": 224,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 34,
+      "hashVerifiedBlobs": 1144,
+      "allAuthoredInitialPlacementsObserved": true,
+      "completedFinalizers": 13,
+      "placements": [
+        {
+          "index": 1,
+          "clock": 58,
+          "generation": 0,
+          "positionSource": [
+            3139,
+            -59,
+            2077
+          ],
+          "templateTailHex": "040925000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 9,
+          "returnOrdinal": 10,
+          "bodyAddress": 277432192,
+          "registryIndex": 209,
+          "spatialTaggedPointer": 67590744
+        },
+        {
+          "index": 0,
+          "clock": 70,
+          "generation": 0,
+          "positionSource": [
+            2867,
+            -32,
+            2534
+          ],
+          "templateTailHex": "040826000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 11,
+          "returnOrdinal": 12,
+          "bodyAddress": 277424384,
+          "registryIndex": 208,
+          "spatialTaggedPointer": 67591068
+        },
+        {
+          "index": 2,
+          "clock": 70,
+          "generation": 0,
+          "positionSource": [
+            2724,
+            -60,
+            1413
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 13,
+          "returnOrdinal": 14,
+          "bodyAddress": 277440000,
+          "registryIndex": 210,
+          "spatialTaggedPointer": 67589784
+        },
+        {
+          "index": 3,
+          "clock": 182,
+          "generation": 0,
+          "positionSource": [
+            2657,
+            34,
+            3016
+          ],
+          "templateTailHex": "040b06000a00",
+          "stateHex": "83000c",
+          "entryOrdinal": 15,
+          "returnOrdinal": 16,
+          "bodyAddress": 277447808,
+          "registryIndex": 211,
+          "spatialTaggedPointer": 67591584
+        },
+        {
+          "index": 5,
+          "clock": 242,
+          "generation": 0,
+          "positionSource": [
+            2171,
+            -17,
+            2218
+          ],
+          "templateTailHex": "030d08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 17,
+          "returnOrdinal": 18,
+          "bodyAddress": 277463424,
+          "registryIndex": 213,
+          "spatialTaggedPointer": 67590684
+        },
+        {
+          "index": 4,
+          "clock": 243,
+          "generation": 0,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "030c08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 19,
+          "returnOrdinal": 20,
+          "bodyAddress": 277455616,
+          "registryIndex": 212,
+          "spatialTaggedPointer": 67591032
+        },
+        {
+          "index": 8,
+          "clock": 334,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "06103b000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 21,
+          "returnOrdinal": 22,
+          "bodyAddress": 277486848,
+          "registryIndex": 216,
+          "spatialTaggedPointer": 67582608
+        },
+        {
+          "index": 6,
+          "clock": 357,
+          "generation": 0,
+          "positionSource": [
+            2135,
+            -40,
+            1976
+          ],
+          "templateTailHex": "030e08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 23,
+          "returnOrdinal": 24,
+          "bodyAddress": 277471232,
+          "registryIndex": 214,
+          "spatialTaggedPointer": 67590348
+        },
+        {
+          "index": 7,
+          "clock": 384,
+          "generation": 0,
+          "positionSource": [
+            2102,
+            -40,
+            1855
+          ],
+          "templateTailHex": "030f08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 25,
+          "returnOrdinal": 26,
+          "bodyAddress": 277479040,
+          "registryIndex": 215,
+          "spatialTaggedPointer": 67590348
+        },
+        {
+          "index": 9,
+          "clock": 446,
+          "generation": 0,
+          "positionSource": [
+            -3637,
+            -40,
+            -4659
+          ],
+          "templateTailHex": "061139000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 27,
+          "returnOrdinal": 28,
+          "bodyAddress": 277494656,
+          "registryIndex": 217,
+          "spatialTaggedPointer": 67582824
+        },
+        {
+          "index": 10,
+          "clock": 567,
+          "generation": 0,
+          "positionSource": [
+            -738,
+            -40,
+            -6643
+          ],
+          "templateTailHex": "051214000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 29,
+          "returnOrdinal": 30,
+          "bodyAddress": 277502464,
+          "registryIndex": 218,
+          "spatialTaggedPointer": 67581036
+        },
+        {
+          "index": 11,
+          "clock": 581,
+          "generation": 0,
+          "positionSource": [
+            -1422,
+            -40,
+            -6314
+          ],
+          "templateTailHex": "051313000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 31,
+          "returnOrdinal": 32,
+          "bodyAddress": 277510272,
+          "registryIndex": 219,
+          "spatialTaggedPointer": 67581168
+        },
+        {
+          "index": 12,
+          "clock": 655,
+          "generation": 0,
+          "positionSource": [
+            -1995,
+            -40,
+            -5985
+          ],
+          "templateTailHex": "051440000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 33,
+          "returnOrdinal": 34,
+          "bodyAddress": 277518080,
+          "registryIndex": 220,
+          "spatialTaggedPointer": 67581348
+        }
+      ],
+      "targetCycle": null,
+      "zeroCount": null,
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 156187383,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    },
+    {
+      "name": "edited16-low",
+      "reportPath": "analysis/pickup-editor-native-edited16-low-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\edited16-low\\capture",
+      "matched": true,
+      "sceneName": "LOW/LEV1.BLP",
+      "scenario": "cycle",
+      "authoredCount": 16,
+      "authoredBytes": 192,
+      "authoredSha256": "8d5b53ccafd1cbb8961706612f354cf0ecdba294e5a162dbc162b39e6ea1a66f",
+      "headerIdentityBytes": 40,
+      "moduleBaseAddress": 14286848,
+      "dataBase": 69554208,
+      "authoredPointer": 70236360,
+      "authoredOffset": 682152,
+      "registryBefore": 208,
+      "registryAfterConstruction": 227,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 44,
+      "hashVerifiedBlobs": 1648,
+      "allAuthoredInitialPlacementsObserved": true,
+      "completedFinalizers": 17,
+      "placements": [
+        {
+          "index": 2,
+          "clock": 57,
+          "generation": 0,
+          "positionSource": [
+            2724,
+            -60,
+            1413
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 9,
+          "returnOrdinal": 10,
+          "bodyAddress": 277476864,
+          "registryIndex": 210,
+          "spatialTaggedPointer": 69931720
+        },
+        {
+          "index": 1,
+          "clock": 59,
+          "generation": 0,
+          "positionSource": [
+            3139,
+            -59,
+            2077
+          ],
+          "templateTailHex": "040925000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 11,
+          "returnOrdinal": 12,
+          "bodyAddress": 277469056,
+          "registryIndex": 209,
+          "spatialTaggedPointer": 69932680
+        },
+        {
+          "index": 0,
+          "clock": 66,
+          "generation": 0,
+          "positionSource": [
+            2868,
+            -31,
+            2535
+          ],
+          "templateTailHex": "040826000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 13,
+          "returnOrdinal": 14,
+          "bodyAddress": 277461248,
+          "registryIndex": 208,
+          "spatialTaggedPointer": 69933004
+        },
+        {
+          "index": 3,
+          "clock": 167,
+          "generation": 0,
+          "positionSource": [
+            2657,
+            34,
+            3016
+          ],
+          "templateTailHex": "040b06000a00",
+          "stateHex": "83000c",
+          "entryOrdinal": 15,
+          "returnOrdinal": 16,
+          "bodyAddress": 277484672,
+          "registryIndex": 211,
+          "spatialTaggedPointer": 69933520
+        },
+        {
+          "index": 5,
+          "clock": 216,
+          "generation": 0,
+          "positionSource": [
+            2171,
+            -17,
+            2218
+          ],
+          "templateTailHex": "030d08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 17,
+          "returnOrdinal": 18,
+          "bodyAddress": 277500288,
+          "registryIndex": 213,
+          "spatialTaggedPointer": 69932620
+        },
+        {
+          "index": 4,
+          "clock": 228,
+          "generation": 0,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "030c08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 19,
+          "returnOrdinal": 20,
+          "bodyAddress": 277492480,
+          "registryIndex": 212,
+          "spatialTaggedPointer": 69932968
+        },
+        {
+          "index": 6,
+          "clock": 328,
+          "generation": 0,
+          "positionSource": [
+            2135,
+            -40,
+            1976
+          ],
+          "templateTailHex": "030e08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 21,
+          "returnOrdinal": 22,
+          "bodyAddress": 277508096,
+          "registryIndex": 214,
+          "spatialTaggedPointer": 69932284
+        },
+        {
+          "index": 8,
+          "clock": 335,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "06103b000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 23,
+          "returnOrdinal": 24,
+          "bodyAddress": 277523712,
+          "registryIndex": 216,
+          "spatialTaggedPointer": 69924544
+        },
+        {
+          "index": 7,
+          "clock": 362,
+          "generation": 0,
+          "positionSource": [
+            2102,
+            -40,
+            1855
+          ],
+          "templateTailHex": "030f08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 25,
+          "returnOrdinal": 26,
+          "bodyAddress": 277515904,
+          "registryIndex": 215,
+          "spatialTaggedPointer": 69932284
+        },
+        {
+          "index": 9,
+          "clock": 427,
+          "generation": 0,
+          "positionSource": [
+            -3637,
+            -40,
+            -4659
+          ],
+          "templateTailHex": "061139000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 27,
+          "returnOrdinal": 28,
+          "bodyAddress": 277531520,
+          "registryIndex": 217,
+          "spatialTaggedPointer": 69924760
+        },
+        {
+          "index": 10,
+          "clock": 560,
+          "generation": 0,
+          "positionSource": [
+            -738,
+            -40,
+            -6643
+          ],
+          "templateTailHex": "051214000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 29,
+          "returnOrdinal": 30,
+          "bodyAddress": 277539328,
+          "registryIndex": 218,
+          "spatialTaggedPointer": 69922972
+        },
+        {
+          "index": 11,
+          "clock": 569,
+          "generation": 0,
+          "positionSource": [
+            -1422,
+            -40,
+            -6314
+          ],
+          "templateTailHex": "051313000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 31,
+          "returnOrdinal": 32,
+          "bodyAddress": 277547136,
+          "registryIndex": 219,
+          "spatialTaggedPointer": 69923104
+        },
+        {
+          "index": 12,
+          "clock": 639,
+          "generation": 0,
+          "positionSource": [
+            -1995,
+            -40,
+            -5985
+          ],
+          "templateTailHex": "051440000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 33,
+          "returnOrdinal": 34,
+          "bodyAddress": 277554944,
+          "registryIndex": 220,
+          "spatialTaggedPointer": 69923284
+        },
+        {
+          "index": 13,
+          "clock": 682,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "040826000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 35,
+          "returnOrdinal": 36,
+          "bodyAddress": 277562752,
+          "registryIndex": 221,
+          "spatialTaggedPointer": 69924544
+        },
+        {
+          "index": 14,
+          "clock": 712,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "040925000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 37,
+          "returnOrdinal": 38,
+          "bodyAddress": 277570560,
+          "registryIndex": 222,
+          "spatialTaggedPointer": 69924544
+        },
+        {
+          "index": 15,
+          "clock": 780,
+          "generation": 0,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 39,
+          "returnOrdinal": 40,
+          "bodyAddress": 277578368,
+          "registryIndex": 223,
+          "spatialTaggedPointer": 69932968
+        },
+        {
+          "index": 15,
+          "clock": 1181,
+          "generation": 1,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 43,
+          "returnOrdinal": 44,
+          "bodyAddress": 277578368,
+          "registryIndex": 223,
+          "spatialTaggedPointer": 69932968
+        }
+      ],
+      "targetCycle": {
+        "collectionClock": 1006,
+        "collectionStateHex": "820064",
+        "collectorRecord": 19568920,
+        "collectorCar": 278981760,
+        "collectionEntryOrdinal": 41,
+        "collectionAfterOrdinal": 42,
+        "respawn": {
+          "index": 15,
+          "clock": 1181,
+          "generation": 1,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 43,
+          "returnOrdinal": 44,
+          "bodyAddress": 277578368,
+          "registryIndex": 223,
+          "spatialTaggedPointer": 69932968
+        }
+      },
+      "zeroCount": null,
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 157731119,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    },
+    {
+      "name": "edited16-high",
+      "reportPath": "analysis/pickup-editor-native-edited16-high-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\edited16-high\\capture",
+      "matched": true,
+      "sceneName": "HIGH/LEV1.BLP",
+      "scenario": "cycle",
+      "authoredCount": 16,
+      "authoredBytes": 192,
+      "authoredSha256": "8d5b53ccafd1cbb8961706612f354cf0ecdba294e5a162dbc162b39e6ea1a66f",
+      "headerIdentityBytes": 40,
+      "moduleBaseAddress": 5308416,
+      "dataBase": 65110048,
+      "authoredPointer": 65971248,
+      "authoredOffset": 861200,
+      "registryBefore": 208,
+      "registryAfterConstruction": 227,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 44,
+      "hashVerifiedBlobs": 1648,
+      "allAuthoredInitialPlacementsObserved": true,
+      "completedFinalizers": 17,
+      "placements": [
+        {
+          "index": 1,
+          "clock": 53,
+          "generation": 0,
+          "positionSource": [
+            3139,
+            -59,
+            2077
+          ],
+          "templateTailHex": "040925000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 9,
+          "returnOrdinal": 10,
+          "bodyAddress": 278751104,
+          "registryIndex": 209,
+          "spatialTaggedPointer": 65481304
+        },
+        {
+          "index": 2,
+          "clock": 59,
+          "generation": 0,
+          "positionSource": [
+            2724,
+            -60,
+            1413
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 11,
+          "returnOrdinal": 12,
+          "bodyAddress": 278758912,
+          "registryIndex": 210,
+          "spatialTaggedPointer": 65480344
+        },
+        {
+          "index": 0,
+          "clock": 70,
+          "generation": 0,
+          "positionSource": [
+            2868,
+            -31,
+            2535
+          ],
+          "templateTailHex": "040826000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 13,
+          "returnOrdinal": 14,
+          "bodyAddress": 278743296,
+          "registryIndex": 208,
+          "spatialTaggedPointer": 65481628
+        },
+        {
+          "index": 3,
+          "clock": 164,
+          "generation": 0,
+          "positionSource": [
+            2657,
+            34,
+            3016
+          ],
+          "templateTailHex": "040b06000a00",
+          "stateHex": "83000c",
+          "entryOrdinal": 15,
+          "returnOrdinal": 16,
+          "bodyAddress": 278766720,
+          "registryIndex": 211,
+          "spatialTaggedPointer": 65482144
+        },
+        {
+          "index": 5,
+          "clock": 221,
+          "generation": 0,
+          "positionSource": [
+            2171,
+            -17,
+            2218
+          ],
+          "templateTailHex": "030d08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 17,
+          "returnOrdinal": 18,
+          "bodyAddress": 278782336,
+          "registryIndex": 213,
+          "spatialTaggedPointer": 65481244
+        },
+        {
+          "index": 4,
+          "clock": 236,
+          "generation": 0,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "030c08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 19,
+          "returnOrdinal": 20,
+          "bodyAddress": 278774528,
+          "registryIndex": 212,
+          "spatialTaggedPointer": 65481592
+        },
+        {
+          "index": 6,
+          "clock": 316,
+          "generation": 0,
+          "positionSource": [
+            2135,
+            -40,
+            1976
+          ],
+          "templateTailHex": "030e08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 21,
+          "returnOrdinal": 22,
+          "bodyAddress": 278790144,
+          "registryIndex": 214,
+          "spatialTaggedPointer": 65480908
+        },
+        {
+          "index": 8,
+          "clock": 341,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "06103b000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 23,
+          "returnOrdinal": 24,
+          "bodyAddress": 278805760,
+          "registryIndex": 216,
+          "spatialTaggedPointer": 65473168
+        },
+        {
+          "index": 7,
+          "clock": 354,
+          "generation": 0,
+          "positionSource": [
+            2102,
+            -40,
+            1855
+          ],
+          "templateTailHex": "030f08000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 25,
+          "returnOrdinal": 26,
+          "bodyAddress": 278797952,
+          "registryIndex": 215,
+          "spatialTaggedPointer": 65480908
+        },
+        {
+          "index": 9,
+          "clock": 416,
+          "generation": 0,
+          "positionSource": [
+            -3637,
+            -40,
+            -4659
+          ],
+          "templateTailHex": "061139000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 27,
+          "returnOrdinal": 28,
+          "bodyAddress": 278813568,
+          "registryIndex": 217,
+          "spatialTaggedPointer": 65473384
+        },
+        {
+          "index": 11,
+          "clock": 536,
+          "generation": 0,
+          "positionSource": [
+            -1422,
+            -40,
+            -6314
+          ],
+          "templateTailHex": "051313000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 29,
+          "returnOrdinal": 30,
+          "bodyAddress": 278829184,
+          "registryIndex": 219,
+          "spatialTaggedPointer": 65471728
+        },
+        {
+          "index": 10,
+          "clock": 556,
+          "generation": 0,
+          "positionSource": [
+            -738,
+            -40,
+            -6643
+          ],
+          "templateTailHex": "051214000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 31,
+          "returnOrdinal": 32,
+          "bodyAddress": 278821376,
+          "registryIndex": 218,
+          "spatialTaggedPointer": 65471596
+        },
+        {
+          "index": 12,
+          "clock": 633,
+          "generation": 0,
+          "positionSource": [
+            -1995,
+            -40,
+            -5985
+          ],
+          "templateTailHex": "051440000100",
+          "stateHex": "83000c",
+          "entryOrdinal": 33,
+          "returnOrdinal": 34,
+          "bodyAddress": 278836992,
+          "registryIndex": 220,
+          "spatialTaggedPointer": 65471908
+        },
+        {
+          "index": 13,
+          "clock": 656,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "040826000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 35,
+          "returnOrdinal": 36,
+          "bodyAddress": 278844800,
+          "registryIndex": 221,
+          "spatialTaggedPointer": 65473168
+        },
+        {
+          "index": 14,
+          "clock": 686,
+          "generation": 0,
+          "positionSource": [
+            -3517,
+            -40,
+            -4939
+          ],
+          "templateTailHex": "040925000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 37,
+          "returnOrdinal": 38,
+          "bodyAddress": 278852608,
+          "registryIndex": 222,
+          "spatialTaggedPointer": 65473168
+        },
+        {
+          "index": 15,
+          "clock": 751,
+          "generation": 0,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 39,
+          "returnOrdinal": 40,
+          "bodyAddress": 278860416,
+          "registryIndex": 223,
+          "spatialTaggedPointer": 65481592
+        },
+        {
+          "index": 15,
+          "clock": 1372,
+          "generation": 1,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 43,
+          "returnOrdinal": 44,
+          "bodyAddress": 278860416,
+          "registryIndex": 223,
+          "spatialTaggedPointer": 65481592
+        }
+      ],
+      "targetCycle": {
+        "collectionClock": 1034,
+        "collectionStateHex": "820064",
+        "collectorRecord": 10589708,
+        "collectorCar": 280310016,
+        "collectionEntryOrdinal": 41,
+        "collectionAfterOrdinal": 42,
+        "respawn": {
+          "index": 15,
+          "clock": 1372,
+          "generation": 1,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "templateTailHex": "040a24000500",
+          "stateHex": "83000c",
+          "entryOrdinal": 43,
+          "returnOrdinal": 44,
+          "bodyAddress": 278860416,
+          "registryIndex": 223,
+          "spatialTaggedPointer": 65481592
+        }
+      },
+      "zeroCount": null,
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 157731119,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    },
+    {
+      "name": "zero-low-v2",
+      "reportPath": "analysis/pickup-editor-native-zero-low-v2-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\zero-low\\capture",
+      "matched": true,
+      "sceneName": "LOW/LEV1.BLP",
+      "scenario": "load",
+      "authoredCount": 0,
+      "authoredBytes": 0,
+      "authoredSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headerIdentityBytes": 40,
+      "moduleBaseAddress": 4849664,
+      "dataBase": 58425376,
+      "authoredPointer": 59061856,
+      "authoredOffset": 636480,
+      "registryBefore": 208,
+      "registryAfterConstruction": 211,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 8,
+      "hashVerifiedBlobs": 104,
+      "allAuthoredInitialPlacementsObserved": false,
+      "completedFinalizers": 0,
+      "placements": [],
+      "targetCycle": null,
+      "zeroCount": {
+        "authoredPointer": 59061856,
+        "listPointer": 282070984,
+        "zeroLengthRangeIsMemoryGrant": false,
+        "queueEntryHex": "0000000000000000000000000000000000000000000000000000",
+        "queueReturnHex": "ffffffffffffffffffffffffffffffffffffffffffffffff0000",
+        "queueFirstTickHex": "ffffffffffffffffffffffffffffffffffffffffffffffff0000",
+        "completedFinalizers": 0,
+        "fullNativeFinalizerObserved": false
+      },
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 157730735,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    },
+    {
+      "name": "zero-high",
+      "reportPath": "analysis/pickup-editor-native-zero-high-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\zero-high\\capture",
+      "matched": true,
+      "sceneName": "HIGH/LEV1.BLP",
+      "scenario": "load",
+      "authoredCount": 0,
+      "authoredBytes": 0,
+      "authoredSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headerIdentityBytes": 40,
+      "moduleBaseAddress": 15663104,
+      "dataBase": 75354144,
+      "authoredPointer": 76169672,
+      "authoredOffset": 815528,
+      "registryBefore": 208,
+      "registryAfterConstruction": 211,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 8,
+      "hashVerifiedBlobs": 104,
+      "allAuthoredInitialPlacementsObserved": false,
+      "completedFinalizers": 0,
+      "placements": [],
+      "targetCycle": null,
+      "zeroCount": {
+        "authoredPointer": 76169672,
+        "listPointer": 291727400,
+        "zeroLengthRangeIsMemoryGrant": false,
+        "queueEntryHex": "0000000000000000000000000000000000000000000000000000",
+        "queueReturnHex": "ffffffffffffffffffffffffffffffffffffffffffffffff0000",
+        "queueFirstTickHex": "ffffffffffffffffffffffffffffffffffffffffffffffff0000",
+        "completedFinalizers": 0,
+        "fullNativeFinalizerObserved": false
+      },
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 157730735,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    }
+  ],
+  "totals": {
+    "cases": 6,
+    "snapshots": 172,
+    "hashVerifiedBlobs": 5792,
+    "completedFinalizers": 60,
+    "naturalEditedTargetCollections": 2,
+    "naturalEditedTargetFullRespawns": 2
+  },
+  "limits": [
+    "LOW/HIGH LEV1 are the only native tracks exercised; source all-track matrix remains a separate evidence class.",
+    "Zero cases prove loaded/constructed count0 and safe empty spans; they do not claim collection or full respawn.",
+    "Exact native loaded identity comprises actual loader stem,40Bheader,12Nauthoredtable and relocated pointer/offset relation, not the whole relocated resource hash.",
+    "Weighted award execution/combat/complete-game or wall-clock fidelity is not inferred from collection boundary or full pickup finalizer.",
+    "Staged171-file equality references completed strict checker reports; root separately retains before/after pristine+case filesystem audit.",
+    "Initial incomplete baselineLOW and initial zeroLOW checker failure remain preserved; this report uses corrected observer/entry-lifecycle policy only."
+  ]
+}

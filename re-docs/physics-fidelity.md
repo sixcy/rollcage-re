@@ -12,9 +12,27 @@ responses, matching5,124,163 declared bytes plus its four-byte collision
 local. This exposed and corrected a false ECX-preservation assumption;
 see [return-local evidence](native-physics-return-local.md). New late-parent
 captures supply animation/camera/weather checkpoint outputs, but source
-replay still stops at genuine missing inputs/services. V2 matches through
-drive at5,100,223 unique bytes; V3's joined prefix reaches unbound sound
-creation. Neither establishes a complete tick or continuous race parity.
+replay still stops at genuine missing inputs/services. V6 matches through
+auxiliary updates at5,102,089 unique bytes per tail checkpoint, then reaches
+the unobserved CRT dynamic-cast boundary in camera processing. V3's joined
+prefix reaches unbound sound creation. These recordings do not establish
+a complete tick or continuous race parity.
+
+The [controlled frontend input audit](native-controlled-race-settings-capture.md)
+now directly verifies native HIGH/LEV1 selection without changing constructed
+car poses, roster or RNG outputs. That run refused its later held-force
+experiment before a request or force write because duplicated heap captures
+exceeded the existing128MiB pending-byte bound. It supplies no chassis-wall
+comparison. The subsequent shared V4 recording verifies snapshot-local
+contained storage:16,545,318 retained bytes for46,934,850 duplicated bytes,
+with every range and hash preserved. Its source planner finds no wall-plane
+candidates and applies no force. The128MiB limit is unchanged; there is still
+no controlled native chassis-wall result from those two runs. The subsequent
+HIGH/LEV3 V5 recording closes one controlled case: a fresh force-only input
+produces two actual type3-car/type7-border responses (swept and penetration),
+all eight dispatcher events and4,885,468 declared frame-comparison bytes
+match. See [the held experiment](native-held-chassis-force.md). This does not
+establish natural walls, ceilings, inverted driving or long-race parity.
 
 | Area | Required evidence | Current status |
 | --- | --- | --- |
@@ -23,22 +41,23 @@ creation. Neither establishes a complete tick or continuous race parity.
 | Numerical environment | Original x87 control/status, MXCSR, entry registers and inputs | Native startup is PC53, main renderer/race entry PC24, nearest-even. V15's actual audio-worker checkpoint retains PC53 (`CW027f`, `MXCSR1fa0`), so worker replay must use its own observed context. Exact PC24 attachment arithmetic is connected; other reached operations still require context audit. |
 | Controlled vehicle replay | Native state before/after each ordered stage, exact first divergence | Ten native frames match610 source stage comparisons. Three complete three-frame windows also match independent and carried replay: launch228..230, moving288..290, and terrain-contact348..350. All six cars move in the latter windows; each moving/contact frame compares4,880,872 declared bytes. A fresh three-frame drive continuation compares4,902,122 bytes per frame and produces384 protected motion/timer/drive bytes across two transitions. Remaining native producers and caller ABI inputs are still supplied, not a closed source-only trajectory. |
 | Joined parent prefix and physics | Actual parent entry, independent AI/physics boundaries and carried source output | V4 matches the complete prephysics prefix and following physics at4,984,964 listed bytes (4,984,832 unique),720 protected controls and28 parent ABI bytes, with seven source-derived entry registers. All six cars move and24 wheel queries hit. This is one call, with no queued collision responses; the postphysics parent tail, next tick and wider native scenarios remain open. |
-| Source-carried parent through drive | Independent original checkpoints after attachments, recovery and drive without native state refresh | A new native run matches all three checkpoints at4,947,762 unique semantic bytes, continuing the same source AI/prefix/physics output. Four type2 attachment points update; ordinary recovery respawns/retires zero bodies. Pickup transition state updates; active combat remains unobserved. Wheel/camera/weather/final parent return and continuous racing remain open. |
+| Source-carried parent through auxiliary updates | Independent original checkpoints after attachments, recovery, drive and auxiliary processing without native state refresh | V6 matches all four checkpoints at5,102,089 unique semantic bytes, continuing the same source AI/prefix/physics output. Four type2 attachment points update; ordinary recovery respawns/retires zero bodies. All six wheel-render and auxiliary updates, animation lights and body debris execute. Camera processing reaches an unobserved CRT dynamic cast. Camera/weather/final parent return, active combat and continuous racing remain open. |
 | Forces and damping | Live shared-memory producers and consumers | Live recovered globals/body caches connected. Native class-two deferred effects can now publish their actual force events. Other event producers remain open. |
-| Track and car collision | Terrain, surfaces, walls, ceilings, inverted driving, pairs | Whole frames348..350 match13/9/7 source responses. Selected native cases directly match two physical-camera/border7 events and four car-chassis/car-chassis events (swept and penetration), plus each complete declared frame state. Chassis-wall/ceiling/inverted and broader car-pair profile/condition coverage remain open. |
+| Track and car collision | Terrain, surfaces, walls, ceilings, inverted driving, pairs | Whole frames348..350 match13/9/7 source responses. Selected native cases directly match two physical-camera/border7 events and four car-chassis/car-chassis events. Controlled HIGH/LEV3 V5 additionally matches actual car-chassis/border7 swept and penetration responses, its complete eight-event stream and4,885,468 declared frame bytes after one force-only input. Natural chassis walls, ceilings, inverted driving and broader profile/condition coverage remain open. |
 | Moving/destructible world | Full object construction, scripts, registry and pending effects | Ordinary and nonordinary placement construction, native scripted motion, lights/attachments, class-one/two contacts, type-four damage, destruction queue and fragment physics lifecycle connected. Moving ordinary meshes render from native poses. Render visibility attachment-effect queue production, animated UVs, deforming/fragment/particle rendering and native scenario comparisons remain open. |
 | Deforming terrain | Actual494c80 startup,494f60 gates and live geometry consumers | Connected to Racing test with actual physical camera416180/416400/4180a0 lifecycle, phase-zero construction and live collision forms/surface flags. LOW/HIGH LEV4/14/18 use native deformation gates. LEV8's44a5c0/44a7a0 point lifecycle now restores XYZ before physics while preserving late surface flags. Actual44d960 ages dirty ranges and consumes lights. Edge checks exact GPU uploads and complete Node/browser state for LOW LEV4/8/14/18. Original dirty-range lighting/GPU consumption and native camera/terrain scenario comparisons remain open. |
 | Weapons and recovery | Original producers, collision/force effects, transitions | Genuine pickup/projectile/contact startup and48d7c0 coordinator now run in Racing test, preserving mode1 pickup gating and native surface-drive decay/caps. Active combat/native weapon scenarios remain open. Controlled native47d040 query and47d440 application match4,903,324 and4,970,512 bytes. Connected V13 parent completes recovery/factory/channel/play request and matches4,990,925 declared semantic bytes plus8,292 listed audio bytes with explicit service/read inputs. It does not close V11/V12 concurrency failures, private CPU/CRT ABI, audible output or natural rejection. |
 | Coverage | Seven ordinary vehicles; 18 racing levels in LOW/HIGH; physical scenario matrix | After camera/terrain integration, all252 track/type combinations pass300 reconstructed ticks; all seven LOW/LEV1 types also match the browser bundle every tick. The six-car matrix independently passes all36 variants and its3000-tick LOWLEV1 window. Earlier destruction/600-tick coverage remains retained. Native scenario matrix and longer all-track lap coverage remain open. |
 
-The [worker leaf audit](../analysis/native-worker-gain-leaf-next-scope-audit-20261023.json)
-binds V15's recorded PC53 context to eleven target-checked retained evidence
-files. A genuine4b12d0 entry/4b1990 RET8 pair needs a new explicit two-endpoint
-owned-worker policy; the current one-snapshot lookup policy cannot prove it.
-The original source argument is overwritten with a gain float before return,
-so pairing must retain entry identity. Mixer pointees, waveform/voice contents,
-actual caller/force words and reached external service outcomes remain inputs
-to observe. This is a next-capture specification, not a native worker match.
+The [V18 worker window](native-worker-gain-window.md) now proves an owned
+4b12d0 entry/4b1990 RET8 pair, with original caller/force words, PC53 context
+and captured source identity. This window occurs after the selected parent;
+it does not establish same-parent interleaving. Entry-only source replay
+reaches the genuine EnterCriticalSection service at4a79ff and stops without
+supplying an outcome. Mixer pointees, waveform/voice contents, reached OS
+service effects and complete gain outputs remain unverified. The
+[service observer plan](native-worker-mixer-service-observer-plan.md) separates
+Windows critical-section bytes from the following game-wrapper fields.
 
 ## Experimental weapons in Racing test
 

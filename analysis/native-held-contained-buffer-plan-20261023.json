@@ -1,0 +1,1150 @@
+{
+  "schemaVersion": 1,
+  "authority": "read-only-contained-buffer-storage-proposal",
+  "sourceDirectory": "analysis/native-physics-local/startup-20261022/held-chassis-border-high-lev1-v3-20261023",
+  "productionChanged": false,
+  "nativeLaunchPerformedByThisAudit": false,
+  "actualRefusal": {
+    "preSnapshotBytes": 50129730,
+    "requiredPendingBytes": 153628742,
+    "limitBytes": 134217728,
+    "rangeCount": 97
+  },
+  "projectionOnly": {
+    "logicalRangeBytes": 50128998,
+    "actualAddressUnionBytes": 18142338,
+    "maximalContainedBackingBytes": 18142338,
+    "partiallyOverlappingExtraBackingBytes": 0,
+    "headerChargeBytes": 12,
+    "contextChargeBytes": 716,
+    "threadEnvironmentChargeBytes": 4,
+    "projectedRetainedBytesPerSnapshot": 18143070,
+    "projectedThreeSnapshotsPlusUnchanged64Events": 57668762,
+    "eventReserveBytes": 3239552,
+    "limitBytes": 134217728,
+    "headroomBytes": 76548966,
+    "physicalBytesSavedPerSnapshot": 31986660,
+    "backingCount": 58,
+    "viewCount": 39
+  },
+  "backings": [
+    {
+      "id": "debris-free-region",
+      "address": "0x16f9c000",
+      "length": 11821056
+    },
+    {
+      "id": "body-arena-region",
+      "address": "0x10983000",
+      "length": 4481024
+    },
+    {
+      "id": "configuration-region",
+      "address": "0x00b27000",
+      "length": 892928
+    },
+    {
+      "id": "geometry-region",
+      "address": "0x04461000",
+      "length": 864256
+    },
+    {
+      "id": "candidate-arena",
+      "address": "0x09063ad0",
+      "length": 32768
+    },
+    {
+      "id": "shape-records",
+      "address": "0x0905f2b8",
+      "length": 18432
+    },
+    {
+      "id": "collision-events",
+      "address": "0x091ab5b8",
+      "length": 10400
+    },
+    {
+      "id": "candidate-group-lists",
+      "address": "0x101000b8",
+      "length": 8456
+    },
+    {
+      "id": "frame-stack",
+      "address": "0x0136ed84",
+      "length": 4100
+    },
+    {
+      "id": "body-registry",
+      "address": "0x009ee200",
+      "length": 2048
+    },
+    {
+      "id": "active-sound24-owner",
+      "address": "0x10f24070",
+      "length": 1168
+    },
+    {
+      "id": "trig-table",
+      "address": "0x00855228",
+      "length": 808
+    },
+    {
+      "id": "shape-indices",
+      "address": "0x01616258",
+      "length": 768
+    },
+    {
+      "id": "yaw-table",
+      "address": "0x008cd030",
+      "length": 642
+    },
+    {
+      "id": "retirement-light-records",
+      "address": "0x00af06e0",
+      "length": 580
+    },
+    {
+      "id": "wheel-query-scratch",
+      "address": "0x009f32e0",
+      "length": 448
+    },
+    {
+      "id": "collision-heap",
+      "address": "0x09020f00",
+      "length": 404
+    },
+    {
+      "id": "collision-free",
+      "address": "0x08f9f970",
+      "length": 400
+    },
+    {
+      "id": "sqrt-table",
+      "address": "0x008cb290",
+      "length": 384
+    },
+    {
+      "id": "physical-body-list",
+      "address": "0x1126d478",
+      "length": 384
+    },
+    {
+      "id": "active-sound-bank-storage",
+      "address": "0x100f7de0",
+      "length": 376
+    },
+    {
+      "id": "settings-level-stem",
+      "address": "0x009c6660",
+      "length": 260
+    },
+    {
+      "id": "particle-roots",
+      "address": "0x009c65b4",
+      "length": 24
+    },
+    {
+      "id": "settings-track-family",
+      "address": "0x00854760",
+      "length": 20
+    },
+    {
+      "id": "settings-track-local",
+      "address": "0x0085477c",
+      "length": 20
+    },
+    {
+      "id": "time-state",
+      "address": "0x00af1180",
+      "length": 16
+    },
+    {
+      "id": "contact-thresholds",
+      "address": "0x00850580",
+      "length": 16
+    },
+    {
+      "id": "sound-owner-vector-roots",
+      "address": "0x009d2414",
+      "length": 12
+    },
+    {
+      "id": "body-arena-allocation",
+      "address": "0x009c6b40",
+      "length": 8
+    },
+    {
+      "id": "effect-rng",
+      "address": "0x008cc954",
+      "length": 8
+    },
+    {
+      "id": "particle-quality-count",
+      "address": "0x008cb500",
+      "length": 8
+    },
+    {
+      "id": "recovery-rng-difficulty",
+      "address": "0x008ca4d4",
+      "length": 8
+    },
+    {
+      "id": "sound-volume-inputs",
+      "address": "0x008ccdb0",
+      "length": 8
+    },
+    {
+      "id": "body-arena-size-input",
+      "address": "0x009e9808",
+      "length": 4
+    },
+    {
+      "id": "body-arena-cursor",
+      "address": "0x009edcf4",
+      "length": 4
+    },
+    {
+      "id": "session-root",
+      "address": "0x008ccb1c",
+      "length": 4
+    },
+    {
+      "id": "configuration-root",
+      "address": "0x008ccefc",
+      "length": 4
+    },
+    {
+      "id": "attachment-count",
+      "address": "0x009c6ba0",
+      "length": 4
+    },
+    {
+      "id": "gravity",
+      "address": "0x008cb5e0",
+      "length": 4
+    },
+    {
+      "id": "rotation-scale",
+      "address": "0x008bc5f4",
+      "length": 4
+    },
+    {
+      "id": "normalization-one",
+      "address": "0x008bc774",
+      "length": 4
+    },
+    {
+      "id": "normalization-scale",
+      "address": "0x008bca88",
+      "length": 4
+    },
+    {
+      "id": "surface-effect-threshold",
+      "address": "0x008bc97c",
+      "length": 4
+    },
+    {
+      "id": "effect-color-scale-first",
+      "address": "0x008cd2b8",
+      "length": 4
+    },
+    {
+      "id": "effect-color-scale-second",
+      "address": "0x008cd2c0",
+      "length": 4
+    },
+    {
+      "id": "active-effect-lookup-root",
+      "address": "0x009f3180",
+      "length": 4
+    },
+    {
+      "id": "sound-bank-roots",
+      "address": "0x009c6bd4",
+      "length": 4
+    },
+    {
+      "id": "sound-manager-root",
+      "address": "0x009f4b08",
+      "length": 4
+    },
+    {
+      "id": "sound-scale-first",
+      "address": "0x008bc5b8",
+      "length": 4
+    },
+    {
+      "id": "sound-scale-second",
+      "address": "0x008bc5d0",
+      "length": 4
+    },
+    {
+      "id": "sound-scale-third",
+      "address": "0x008bc5dc",
+      "length": 4
+    },
+    {
+      "id": "sound-scale-fourth",
+      "address": "0x008bc5e8",
+      "length": 4
+    },
+    {
+      "id": "sound-scale-fifth",
+      "address": "0x008bc8e0",
+      "length": 4
+    },
+    {
+      "id": "sound-scale-sixth",
+      "address": "0x008bc920",
+      "length": 4
+    },
+    {
+      "id": "retirement-terrain-flag",
+      "address": "0x008cd2b4",
+      "length": 4
+    },
+    {
+      "id": "light-registry-first",
+      "address": "0x00aef210",
+      "length": 4
+    },
+    {
+      "id": "light-registry-second",
+      "address": "0x00aef41c",
+      "length": 4
+    },
+    {
+      "id": "active-sound-cookie",
+      "address": "0x008c8890",
+      "length": 4
+    }
+  ],
+  "views": [
+    {
+      "id": "frame-pools",
+      "index": 0,
+      "address": "0x00be2b7c",
+      "length": 884,
+      "backingId": "configuration-region",
+      "dataOffset": 768892
+    },
+    {
+      "id": "shape-pools-and-planes",
+      "index": 1,
+      "address": "0x00bfe780",
+      "length": 2592,
+      "backingId": "configuration-region",
+      "dataOffset": 882560
+    },
+    {
+      "id": "body-arena-allocation",
+      "index": 2,
+      "address": "0x009c6b40",
+      "length": 8,
+      "backingId": "body-arena-allocation",
+      "dataOffset": 0
+    },
+    {
+      "id": "body-arena-size-input",
+      "index": 3,
+      "address": "0x009e9808",
+      "length": 4,
+      "backingId": "body-arena-size-input",
+      "dataOffset": 0
+    },
+    {
+      "id": "body-arena-cursor",
+      "index": 4,
+      "address": "0x009edcf4",
+      "length": 4,
+      "backingId": "body-arena-cursor",
+      "dataOffset": 0
+    },
+    {
+      "id": "participant-records",
+      "index": 5,
+      "address": "0x00be9300",
+      "length": 4680,
+      "backingId": "configuration-region",
+      "dataOffset": 795392
+    },
+    {
+      "id": "session-root",
+      "index": 6,
+      "address": "0x008ccb1c",
+      "length": 4,
+      "backingId": "session-root",
+      "dataOffset": 0
+    },
+    {
+      "id": "configuration-root",
+      "index": 7,
+      "address": "0x008ccefc",
+      "length": 4,
+      "backingId": "configuration-root",
+      "dataOffset": 0
+    },
+    {
+      "id": "pack-roots",
+      "index": 8,
+      "address": "0x00beb970",
+      "length": 36,
+      "backingId": "configuration-region",
+      "dataOffset": 805232
+    },
+    {
+      "id": "runtime-geometry-roots",
+      "index": 9,
+      "address": "0x00be9240",
+      "length": 132,
+      "backingId": "configuration-region",
+      "dataOffset": 795200
+    },
+    {
+      "id": "particle-roots",
+      "index": 10,
+      "address": "0x009c65b4",
+      "length": 24,
+      "backingId": "particle-roots",
+      "dataOffset": 0
+    },
+    {
+      "id": "skid-roots",
+      "index": 11,
+      "address": "0x00b295d0",
+      "length": 12,
+      "backingId": "configuration-region",
+      "dataOffset": 9680
+    },
+    {
+      "id": "effect-rng",
+      "index": 12,
+      "address": "0x008cc954",
+      "length": 8,
+      "backingId": "effect-rng",
+      "dataOffset": 0
+    },
+    {
+      "id": "attachment-count",
+      "index": 13,
+      "address": "0x009c6ba0",
+      "length": 4,
+      "backingId": "attachment-count",
+      "dataOffset": 0
+    },
+    {
+      "id": "attachment-queue",
+      "index": 14,
+      "address": "0x00be2040",
+      "length": 1024,
+      "backingId": "configuration-region",
+      "dataOffset": 766016
+    },
+    {
+      "id": "body-registry",
+      "index": 15,
+      "address": "0x009ee200",
+      "length": 2048,
+      "backingId": "body-registry",
+      "dataOffset": 0
+    },
+    {
+      "id": "time-state",
+      "index": 16,
+      "address": "0x00af1180",
+      "length": 16,
+      "backingId": "time-state",
+      "dataOffset": 0
+    },
+    {
+      "id": "gravity",
+      "index": 17,
+      "address": "0x008cb5e0",
+      "length": 4,
+      "backingId": "gravity",
+      "dataOffset": 0
+    },
+    {
+      "id": "clock",
+      "index": 18,
+      "address": "0x00bea548",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 800072
+    },
+    {
+      "id": "first-effect-and-matrix",
+      "index": 19,
+      "address": "0x00bfcd60",
+      "length": 144,
+      "backingId": "configuration-region",
+      "dataOffset": 875872
+    },
+    {
+      "id": "second-effect",
+      "index": 20,
+      "address": "0x00bf53cc",
+      "length": 48,
+      "backingId": "configuration-region",
+      "dataOffset": 844748
+    },
+    {
+      "id": "vector-scratch",
+      "index": 21,
+      "address": "0x00bfd360",
+      "length": 260,
+      "backingId": "configuration-region",
+      "dataOffset": 877408
+    },
+    {
+      "id": "border-scratch",
+      "index": 22,
+      "address": "0x00bf1c00",
+      "length": 40,
+      "backingId": "configuration-region",
+      "dataOffset": 830464
+    },
+    {
+      "id": "wheel-query-scratch",
+      "index": 23,
+      "address": "0x009f32e0",
+      "length": 448,
+      "backingId": "wheel-query-scratch",
+      "dataOffset": 0
+    },
+    {
+      "id": "world-record-count",
+      "index": 24,
+      "address": "0x00c007e4",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 890852
+    },
+    {
+      "id": "world-records",
+      "index": 25,
+      "address": "0x00c00800",
+      "length": 800,
+      "backingId": "configuration-region",
+      "dataOffset": 890880
+    },
+    {
+      "id": "rotation-scale",
+      "index": 26,
+      "address": "0x008bc5f4",
+      "length": 4,
+      "backingId": "rotation-scale",
+      "dataOffset": 0
+    },
+    {
+      "id": "normalization-one",
+      "index": 27,
+      "address": "0x008bc774",
+      "length": 4,
+      "backingId": "normalization-one",
+      "dataOffset": 0
+    },
+    {
+      "id": "normalization-scale",
+      "index": 28,
+      "address": "0x008bca88",
+      "length": 4,
+      "backingId": "normalization-scale",
+      "dataOffset": 0
+    },
+    {
+      "id": "sqrt-table",
+      "index": 29,
+      "address": "0x008cb290",
+      "length": 384,
+      "backingId": "sqrt-table",
+      "dataOffset": 0
+    },
+    {
+      "id": "surface-effect-threshold",
+      "index": 30,
+      "address": "0x008bc97c",
+      "length": 4,
+      "backingId": "surface-effect-threshold",
+      "dataOffset": 0
+    },
+    {
+      "id": "effect-color-scale-first",
+      "index": 31,
+      "address": "0x008cd2b8",
+      "length": 4,
+      "backingId": "effect-color-scale-first",
+      "dataOffset": 0
+    },
+    {
+      "id": "effect-color-scale-second",
+      "index": 32,
+      "address": "0x008cd2c0",
+      "length": 4,
+      "backingId": "effect-color-scale-second",
+      "dataOffset": 0
+    },
+    {
+      "id": "rear-effect-frame",
+      "index": 33,
+      "address": "0x00bf9004",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 860164
+    },
+    {
+      "id": "active-effect-lookup-root",
+      "index": 34,
+      "address": "0x009f3180",
+      "length": 4,
+      "backingId": "active-effect-lookup-root",
+      "dataOffset": 0
+    },
+    {
+      "id": "trig-table",
+      "index": 35,
+      "address": "0x00855228",
+      "length": 808,
+      "backingId": "trig-table",
+      "dataOffset": 0
+    },
+    {
+      "id": "yaw-table",
+      "index": 36,
+      "address": "0x008cd030",
+      "length": 642,
+      "backingId": "yaw-table",
+      "dataOffset": 0
+    },
+    {
+      "id": "active-vehicle-owners",
+      "index": 37,
+      "address": "0x00b295e0",
+      "length": 840,
+      "backingId": "configuration-region",
+      "dataOffset": 9696
+    },
+    {
+      "id": "particle-quality-count",
+      "index": 38,
+      "address": "0x008cb500",
+      "length": 8,
+      "backingId": "particle-quality-count",
+      "dataOffset": 0
+    },
+    {
+      "id": "particle-allocation-root",
+      "index": 39,
+      "address": "0x00bf53c4",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 844740
+    },
+    {
+      "id": "particle-allocation-end",
+      "index": 40,
+      "address": "0x00bf900c",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 860172
+    },
+    {
+      "id": "contact-thresholds",
+      "index": 41,
+      "address": "0x00850580",
+      "length": 16,
+      "backingId": "contact-thresholds",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-owner-vector-roots",
+      "index": 42,
+      "address": "0x009d2414",
+      "length": 12,
+      "backingId": "sound-owner-vector-roots",
+      "dataOffset": 0
+    },
+    {
+      "id": "recovery-rng-difficulty",
+      "index": 43,
+      "address": "0x008ca4d4",
+      "length": 8,
+      "backingId": "recovery-rng-difficulty",
+      "dataOffset": 0
+    },
+    {
+      "id": "recovery-profile-root",
+      "index": 44,
+      "address": "0x00bff6a0",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 886432
+    },
+    {
+      "id": "sound-bank-roots",
+      "index": 45,
+      "address": "0x009c6bd4",
+      "length": 4,
+      "backingId": "sound-bank-roots",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-manager-root",
+      "index": 46,
+      "address": "0x009f4b08",
+      "length": 4,
+      "backingId": "sound-manager-root",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-scale-first",
+      "index": 47,
+      "address": "0x008bc5b8",
+      "length": 4,
+      "backingId": "sound-scale-first",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-scale-second",
+      "index": 48,
+      "address": "0x008bc5d0",
+      "length": 4,
+      "backingId": "sound-scale-second",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-scale-third",
+      "index": 49,
+      "address": "0x008bc5dc",
+      "length": 4,
+      "backingId": "sound-scale-third",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-scale-fourth",
+      "index": 50,
+      "address": "0x008bc5e8",
+      "length": 4,
+      "backingId": "sound-scale-fourth",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-scale-fifth",
+      "index": 51,
+      "address": "0x008bc8e0",
+      "length": 4,
+      "backingId": "sound-scale-fifth",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-scale-sixth",
+      "index": 52,
+      "address": "0x008bc920",
+      "length": 4,
+      "backingId": "sound-scale-sixth",
+      "dataOffset": 0
+    },
+    {
+      "id": "sound-volume-inputs",
+      "index": 53,
+      "address": "0x008ccdb0",
+      "length": 8,
+      "backingId": "sound-volume-inputs",
+      "dataOffset": 0
+    },
+    {
+      "id": "retirement-terrain-flag",
+      "index": 54,
+      "address": "0x008cd2b4",
+      "length": 4,
+      "backingId": "retirement-terrain-flag",
+      "dataOffset": 0
+    },
+    {
+      "id": "retirement-particle-input",
+      "index": 55,
+      "address": "0x00bf53c0",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 844736
+    },
+    {
+      "id": "retirement-effect-input",
+      "index": 56,
+      "address": "0x00bf9008",
+      "length": 4,
+      "backingId": "configuration-region",
+      "dataOffset": 860168
+    },
+    {
+      "id": "light-registry-first",
+      "index": 57,
+      "address": "0x00aef210",
+      "length": 4,
+      "backingId": "light-registry-first",
+      "dataOffset": 0
+    },
+    {
+      "id": "light-registry-second",
+      "index": 58,
+      "address": "0x00aef41c",
+      "length": 4,
+      "backingId": "light-registry-second",
+      "dataOffset": 0
+    },
+    {
+      "id": "retirement-light-records",
+      "index": 59,
+      "address": "0x00af06e0",
+      "length": 580,
+      "backingId": "retirement-light-records",
+      "dataOffset": 0
+    },
+    {
+      "id": "shape-records",
+      "index": 60,
+      "address": "0x0905f2b8",
+      "length": 18432,
+      "backingId": "shape-records",
+      "dataOffset": 0
+    },
+    {
+      "id": "shape-indices",
+      "index": 61,
+      "address": "0x01616258",
+      "length": 768,
+      "backingId": "shape-indices",
+      "dataOffset": 0
+    },
+    {
+      "id": "candidate-arena",
+      "index": 62,
+      "address": "0x09063ad0",
+      "length": 32768,
+      "backingId": "candidate-arena",
+      "dataOffset": 0
+    },
+    {
+      "id": "physical-body-list",
+      "index": 63,
+      "address": "0x1126d478",
+      "length": 384,
+      "backingId": "physical-body-list",
+      "dataOffset": 0
+    },
+    {
+      "id": "candidate-group-lists",
+      "index": 64,
+      "address": "0x101000b8",
+      "length": 8456,
+      "backingId": "candidate-group-lists",
+      "dataOffset": 0
+    },
+    {
+      "id": "collision-events",
+      "index": 65,
+      "address": "0x091ab5b8",
+      "length": 10400,
+      "backingId": "collision-events",
+      "dataOffset": 0
+    },
+    {
+      "id": "collision-heap",
+      "index": 66,
+      "address": "0x09020f00",
+      "length": 404,
+      "backingId": "collision-heap",
+      "dataOffset": 0
+    },
+    {
+      "id": "collision-free",
+      "index": 67,
+      "address": "0x08f9f970",
+      "length": 400,
+      "backingId": "collision-free",
+      "dataOffset": 0
+    },
+    {
+      "id": "session",
+      "index": 68,
+      "address": "0x00b29a60",
+      "length": 1424,
+      "backingId": "configuration-region",
+      "dataOffset": 10848
+    },
+    {
+      "id": "configuration",
+      "index": 69,
+      "address": "0x00b279e0",
+      "length": 112,
+      "backingId": "configuration-region",
+      "dataOffset": 2528
+    },
+    {
+      "id": "terrain-pack-header",
+      "index": 70,
+      "address": "0x00be9240",
+      "length": 160,
+      "backingId": "configuration-region",
+      "dataOffset": 795200
+    },
+    {
+      "id": "body-arena-region",
+      "index": 71,
+      "address": "0x10983000",
+      "length": 4481024,
+      "backingId": "body-arena-region",
+      "dataOffset": 0
+    },
+    {
+      "id": "frame-stack",
+      "index": 72,
+      "address": "0x0136ed84",
+      "length": 4100,
+      "backingId": "frame-stack",
+      "dataOffset": 0
+    },
+    {
+      "id": "geometry-region",
+      "index": 73,
+      "address": "0x04461000",
+      "length": 864256,
+      "backingId": "geometry-region",
+      "dataOffset": 0
+    },
+    {
+      "id": "original-gfxm-region",
+      "index": 74,
+      "address": "0x04461000",
+      "length": 864256,
+      "backingId": "geometry-region",
+      "dataOffset": 0
+    },
+    {
+      "id": "terrain-pack-region",
+      "index": 75,
+      "address": "0x00be9000",
+      "length": 98304,
+      "backingId": "configuration-region",
+      "dataOffset": 794624
+    },
+    {
+      "id": "sector-table-region",
+      "index": 76,
+      "address": "0x044c2000",
+      "length": 466944,
+      "backingId": "geometry-region",
+      "dataOffset": 397312
+    },
+    {
+      "id": "spatial-rows-region",
+      "index": 77,
+      "address": "0x04528000",
+      "length": 49152,
+      "backingId": "geometry-region",
+      "dataOffset": 815104
+    },
+    {
+      "id": "spatial-nodes-region",
+      "index": 78,
+      "address": "0x044b9000",
+      "length": 503808,
+      "backingId": "geometry-region",
+      "dataOffset": 360448
+    },
+    {
+      "id": "terrain-normals-region",
+      "index": 79,
+      "address": "0x0451c000",
+      "length": 98304,
+      "backingId": "geometry-region",
+      "dataOffset": 765952
+    },
+    {
+      "id": "zone-regions-region",
+      "index": 80,
+      "address": "0x044bd000",
+      "length": 487424,
+      "backingId": "geometry-region",
+      "dataOffset": 376832
+    },
+    {
+      "id": "static-model-links-region",
+      "index": 81,
+      "address": "0x0452f000",
+      "length": 20480,
+      "backingId": "geometry-region",
+      "dataOffset": 843776
+    },
+    {
+      "id": "materials-region",
+      "index": 82,
+      "address": "0x04532000",
+      "length": 8192,
+      "backingId": "geometry-region",
+      "dataOffset": 856064
+    },
+    {
+      "id": "session-region",
+      "index": 83,
+      "address": "0x00b29000",
+      "length": 884736,
+      "backingId": "configuration-region",
+      "dataOffset": 8192
+    },
+    {
+      "id": "configuration-region",
+      "index": 84,
+      "address": "0x00b27000",
+      "length": 892928,
+      "backingId": "configuration-region",
+      "dataOffset": 0
+    },
+    {
+      "id": "particle-region",
+      "index": 85,
+      "address": "0x10a3a000",
+      "length": 3731456,
+      "backingId": "body-arena-region",
+      "dataOffset": 749568
+    },
+    {
+      "id": "debris-region",
+      "index": 86,
+      "address": "0x10a28000",
+      "length": 3805184,
+      "backingId": "body-arena-region",
+      "dataOffset": 675840
+    },
+    {
+      "id": "debris-free-region",
+      "index": 87,
+      "address": "0x16f9c000",
+      "length": 11821056,
+      "backingId": "debris-free-region",
+      "dataOffset": 0
+    },
+    {
+      "id": "debris-active-region",
+      "index": 88,
+      "address": "0x16f9d000",
+      "length": 11816960,
+      "backingId": "debris-free-region",
+      "dataOffset": 4096
+    },
+    {
+      "id": "skid-region",
+      "index": 89,
+      "address": "0x1722b000",
+      "length": 9138176,
+      "backingId": "debris-free-region",
+      "dataOffset": 2682880
+    },
+    {
+      "id": "active-sound-bank-storage",
+      "index": 90,
+      "address": "0x100f7de0",
+      "length": 376,
+      "backingId": "active-sound-bank-storage",
+      "dataOffset": 0
+    },
+    {
+      "id": "active-sound24-owner",
+      "index": 91,
+      "address": "0x10f24070",
+      "length": 1168,
+      "backingId": "active-sound24-owner",
+      "dataOffset": 0
+    },
+    {
+      "id": "active-sound-cookie",
+      "index": 92,
+      "address": "0x008c8890",
+      "length": 4,
+      "backingId": "active-sound-cookie",
+      "dataOffset": 0
+    },
+    {
+      "id": "active-effect-lookup-bytes",
+      "index": 93,
+      "address": "0x1701fb40",
+      "length": 64,
+      "backingId": "debris-free-region",
+      "dataOffset": 539456
+    },
+    {
+      "id": "settings-track-family",
+      "index": 94,
+      "address": "0x00854760",
+      "length": 20,
+      "backingId": "settings-track-family",
+      "dataOffset": 0
+    },
+    {
+      "id": "settings-track-local",
+      "index": 95,
+      "address": "0x0085477c",
+      "length": 20,
+      "backingId": "settings-track-local",
+      "dataOffset": 0
+    },
+    {
+      "id": "settings-level-stem",
+      "index": 96,
+      "address": "0x009c6660",
+      "length": 260,
+      "backingId": "settings-level-stem",
+      "dataOffset": 0
+    }
+  ],
+  "productionConsumers": [
+    {
+      "method": "ReadThreadEnvironment",
+      "use": "owns separate4B SEH array; offset0 unchanged"
+    },
+    {
+      "method": "ReadBufferedSnapshot",
+      "use": "allocate each maximal backing once; assign offsets; SHA.ComputeHash(array,offset,length)"
+    },
+    {
+      "method": "CommitBufferedGroup",
+      "use": "FileStream.Write(array,offset,rowLength)"
+    },
+    {
+      "method": "CommitWorkerGainWindow",
+      "use": "segment-aware writing even though sharing remains disabled for its policy"
+    },
+    {
+      "method": "VerifyHeldRanges",
+      "use": "segment hash; exactrow-length temporary copy only when applying expected12B force patch; never clone full parent backing for a child"
+    },
+    {
+      "method": "ValidateHeldBankSnapshot",
+      "use": "independent12B header segment; storage rowLength/viewbounds, not backing.Length"
+    },
+    {
+      "method": "ApplyHeldForceInput pre-input publication",
+      "use": "write each unchanged logical row from its segment, original filenames/lengths/hash metadata"
+    },
+    {
+      "method": "ordinary immediate snapshot FS write",
+      "use": "4B range offset0; common segment extent remains exact"
+    }
+  ],
+  "requirements": [
+    "New opt-in held profile only; old/default/worker policies retain prior allocation/read/accounting behavior.",
+    "Resolve every descriptor and validate all original region metadata first; share only full containment inside an already declared captured row within the SAME stopped event/snapshot.",
+    "A partially overlapping row gets its own complete backing; do not claim arbitrary union accounting or read gaps.",
+    "No cross-snapshot sharing, including pre/post force snapshots. Do not mutate retained backing bytes for expected output.",
+    "All row bytes, IDs, pointer/region/header metadata, SHA256 and per-row blob files remain unchanged. Output disk bytes stay logical/duplicated by design.",
+    "Charge actual distinct backing arrays plus existing header/guard/context/TLS costs BEFORE allocation; physical sharing must be implemented before the reduced reservation is used.",
+    "Report row owner/offset/length and both logical/resident footprints; loader/checker independently recompute containment from actual rows. Missing or forged sharing proof fails.",
+    "Read each backing through an actual owner descriptor; preserve failure details and actual capture bounds. No lower maxRegionBytes, guessed logical extents or comparison exclusions.",
+    "Test nested/identical/maximal-owner tie cases, partial overlaps, zero-length vector,32-bit overflow, view hashing/writing, child force patch and header offsets, mutated layout/provenance and old-profile identity."
+  ],
+  "limits": [
+    "This is a metadata-only projection of the CLOSED V3 ranges, not a new capture, force input or collision result.",
+    "Future before/after backing allocations may differ; each actual snapshot is independently resolved and reserved. No fit or contact is guaranteed.",
+    "The pending byte bound is retained capture payload accounting; transient exactrow verification copies are bounded separately, not falsely called retained sharing."
+  ]
+}

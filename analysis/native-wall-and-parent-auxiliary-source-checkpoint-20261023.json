@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "method": "verified-controlled-native-wall-and-parent-auxiliary-source-checkpoint",
+  "goalComplete": false,
+  "nativeGameRunning": false,
+  "parentAuxiliary": {
+    "capture": "parent-late-v6-batched-inputs-20261023",
+    "matchedStages": [
+      "attachments",
+      "recovery",
+      "drive",
+      "auxiliary"
+    ],
+    "uniqueBytesPerCheckpoint": 5102089,
+    "camerasMatched": false,
+    "firstMissing": "Authenticated external CRT dynamicCast result"
+  },
+  "controlledWall": {
+    "capture": "held-chassis-border-high-lev3-shared-v5-20261023",
+    "report": "analysis/physics-native-held-chassis-border-high-lev3-shared-v5-verified-20261023.json",
+    "forceOnlyBytes": 12,
+    "frameDeclaredBytes": 4885468,
+    "matchedDispatchEvents": 8,
+    "matchedCarWallResponses": [
+      "swept-contact",
+      "penetration-contact"
+    ],
+    "nativeCounterfactualCompared": false,
+    "originalAndCopiedFileHashesUnchanged": 171
+  },
+  "nativeHelperUsed": {
+    "file": "analysis/native-physics-local/startup-20261022/bounded-contained-held-runner-v4-20261023/native-physics-debugger.cs",
+    "sha256": "a77e6894a235316f0f65274b5b262370e921ea0211196bdf4804c1c98b0773e9"
+  },
+  "sourceTestEvidence": [
+    {
+      "command": "node --test --test-name-pattern=\"synthetic native wire|original controlled V5\" tests/native-held-chassis-force.test.mjs",
+      "pass": 2,
+      "fail": 0
+    },
+    {
+      "log": "analysis/native-held-contained-range-focused-final-20261023.txt",
+      "pass": 64,
+      "fail": 0,
+      "scope": "Earlier a77 helper/storage freeze; predates final border checker correction and current native-parent RTTI helper development."
+    }
+  ],
+  "limits": [
+    "Current shared C# is independently under development for future scoped parent RTTI; the original captures use the immutable helper above.",
+    "Natural walls, ceiling/inverted driving, complete parent tick, original long races and active weapon/recovery coverage remain incomplete.",
+    "Viewer progress wording updated; no physics algorithm was changed to obtain the wall match."
+  ],
+  "hashes": [
+    {
+      "file": "tools/check-native-held-chassis-force.mjs",
+      "bytes": 11574,
+      "sha256": "e56ae123899848d17a5c7c9e2fc43ef9996c1bbadf3014e93cc1d35b8f36b4aa"
+    },
+    {
+      "file": "tests/native-held-chassis-force.test.mjs",
+      "bytes": 31937,
+      "sha256": "48b39a01f21fdb62a09cc776c358bb6bed4dd4a285644ab8904ff4a72c873ac4"
+    },
+    {
+      "file": "tools/lib/native-held-force.mjs",
+      "bytes": 27727,
+      "sha256": "c1165913fb8d212bd94e8402159a471065977757dd04a2912486ed70cd74c685"
+    },
+    {
+      "file": "tools/lib/native-held-range-storage.mjs",
+      "bytes": 5924,
+      "sha256": "ffa8223b4671b11f68f3e336dc3f0bab03eca787e02e3eaa2531daaa4857ad4f"
+    },
+    {
+      "file": "tools/lib/native-controlled-race-settings.mjs",
+      "bytes": 12535,
+      "sha256": "f810a480e96b92a909490f881250764fec03da4c74080b26f7efa01f24f45668"
+    },
+    {
+      "file": "tools/prepare-native-controlled-race-held-capture.mjs",
+      "bytes": 2839,
+      "sha256": "359c4ceba107ea067b5e47c502ebf99815a24d2030d15fb4bfde5f4c71ebd54d"
+    },
+    {
+      "file": "tools/check-native-parent-tail.mjs",
+      "bytes": 10157,
+      "sha256": "33394abd6f9f25f7fd26f5e1607d332a28a390a04688b05452211781fac94233"
+    },
+    {
+      "file": "tools/lib/native-parent-tail.mjs",
+      "bytes": 16566,
+      "sha256": "5ea94799b56b7ff9f0f38ac5a602577613661216f3cc0209cb291396ba7cae86"
+    },
+    {
+      "file": "tools/lib/native-parent-rtti.mjs",
+      "bytes": 10090,
+      "sha256": "68f176fa37c41fe9d1e8b60fba4d2487ff91aca55c1bac79cf2b5bc5a206b0f4"
+    },
+    {
+      "file": "tools/lib/native-parent-rtti-capture.mjs",
+      "bytes": 6168,
+      "sha256": "76a59d4dbeab0abcc8fa15082e89f748288fc19fe6d66aa78b3704b9e6951a7d"
+    },
+    {
+      "file": "tools/prepare-native-parent-rtti-capture.mjs",
+      "bytes": 4471,
+      "sha256": "62cbee694b681387bc4e16ff056e5e77d088f72840b4b8a0f2775d4f5dcd5be8"
+    },
+    {
+      "file": "tests/native-parent-rtti.test.mjs",
+      "bytes": 7330,
+      "sha256": "95c6b401349397ca73fe73df98bfb1ab5fc6d8a527e200cfa2d78434ac78123c"
+    },
+    {
+      "file": "tests/native-parent-rtti-capture.test.mjs",
+      "bytes": 5846,
+      "sha256": "a1cd7dca1e94578426c49e0f805860d4cae6ca6aefe1128b37757d57785a2298"
+    },
+    {
+      "file": "tests/native-parent-tail-capture.test.mjs",
+      "bytes": 15780,
+      "sha256": "2e9681fa48ee5f1736e86da736baa426498575862676ca5d5c79c6036f16642a"
+    },
+    {
+      "file": "re-docs/native-held-chassis-force.md",
+      "bytes": 19425,
+      "sha256": "031c69378c9c632c4e256ba32d214a61cd3c0cc09d3b48e57938a2a2740227a6"
+    },
+    {
+      "file": "re-docs/native-held-contained-range-storage.md",
+      "bytes": 9133,
+      "sha256": "fdfbe97cd6a9cfac1d4baa3465d221bec7f411a4564276b29a66443aa1cdc079"
+    },
+    {
+      "file": "re-docs/native-parent-tail.md",
+      "bytes": 12025,
+      "sha256": "b61953d647cb8338eb5462f467f362db992a61d1f376be71a858e73382edd444"
+    },
+    {
+      "file": "re-docs/native-parent-rtti.md",
+      "bytes": 9572,
+      "sha256": "47491ffc2fc0875511726bcfab56c62b3e6845b86a393b181164349184ed1da2"
+    },
+    {
+      "file": "re-docs/physics-fidelity.md",
+      "bytes": 80707,
+      "sha256": "d8e5556763697002a3f140aafce6fd9f4379a9fc8e8a0ed60d3ac8735b508b6f"
+    },
+    {
+      "file": "RESEARCH.md",
+      "bytes": 155692,
+      "sha256": "c20ebd3623f5a7e66e22096f2fcbe6d89503f94a1a2a993c0747ae3ac41b846a"
+    },
+    {
+      "file": "tools/track-viewer/viewer.html",
+      "bytes": 13788,
+      "sha256": "4b542d4968bb69039cccd6a4e8ad96df2e53663a464df3c6bf70c8c98cd1e589"
+    },
+    {
+      "file": "docs/track-viewer.html",
+      "bytes": 1789348,
+      "sha256": "4dbaacf68a6870027f3995a97aa2831937f51c0babe38f40d2e5fb303f18b51b"
+    }
+  ]
+}

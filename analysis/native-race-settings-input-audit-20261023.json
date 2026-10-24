@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "method": "static-frontend-equivalent-early-race-settings-proposal",
+  "planningOnly": true,
+  "csharpChanged": false,
+  "captureProfilePrepared": false,
+  "runtimeChanged": false,
+  "originalProcessOrFixtureLaunched": false,
+  "trackOverride": {
+    "rootPreferredAddress": "5ecefc",
+    "rootRva": "1ecefc",
+    "fieldOffset": "0b",
+    "width": 1,
+    "validValues": "1..20 one-based level",
+    "nativeConsumer": "43e0ca..43e0d8",
+    "nativeOutputs": [
+      "session579",
+      "session0e",
+      "session0f"
+    ],
+    "directOutputWritesForbidden": true
+  },
+  "quality": {
+    "rootPreferredAddress": "5ecefc",
+    "fieldOffset": "31",
+    "width": 1,
+    "requestedValues": {
+      "LOW": 0,
+      "HIGH": 1
+    },
+    "nativeConsumer": "43b0e0 called by43ea99",
+    "contract": "Exactly1 HIGH; elseLOW. Profile only admits binary settings.",
+    "proofLimitation": "Complete formatter assembly not retained here; original pseudocode and actualHIGHstem available."
+  },
+  "proposedHook": {
+    "preferredAddress": "43e0c5",
+    "rva": "3e0c5",
+    "beforeOriginalInstruction": true,
+    "phase": "After successful native selector, before original config override read/new race asset load/body construction.",
+    "entryEspFromCurrent": "currentESP +20",
+    "callerWordOffset": 20,
+    "expectedCallerPreferred": "43dae8",
+    "savedIncomingEdxOffset": 16,
+    "expectedSavedEdx": 10,
+    "firstArgumentOffset": 24,
+    "firstArgumentValues": "0..3 captured frontend RNG choice, never written",
+    "registerGuards": {
+      "ebx": 0,
+      "ecx": "0..19 successful selected index",
+      "eax": "equalsECX before originalMOV"
+    },
+    "modeFilter": {
+      "rootRva": "1ecefc",
+      "dereferenceOffsets": [
+        "0"
+      ],
+      "offset": "0x14",
+      "length": 2,
+      "equalsBytesHex": "000a"
+    },
+    "changedBytesOnly": [
+      {
+        "rootRva": "1ecefc",
+        "dereferenceOffsets": [
+          "0"
+        ],
+        "offset": "0xb",
+        "width": 1,
+        "requested": "selected level1..20",
+        "guard": "declared observed baseline, e.g00; reject pre-existing override outside declared baseline"
+      },
+      {
+        "rootRva": "1ecefc",
+        "dereferenceOffsets": [
+          "0"
+        ],
+        "offset": "0x31",
+        "width": 1,
+        "requested": "quality0or1",
+        "guard": "declared observed baseline or explicit accepted00/01"
+      }
+    ],
+    "requiresFutureReviewedOneShotGuardPolicy": true,
+    "guardRequirements": [
+      "Owned main-thread exact caller/module-base/stack and same roots.",
+      "Validate every guard before either changed byte.",
+      "Capture explicit0b/31 values; old early snapshots omit them.",
+      "No fixed observedASLR/heap pointer literals.",
+      "No held-force startup whitelist widening."
+    ]
+  },
+  "preservedNativeProducers": {
+    "sessionBuilder": "43e280",
+    "participantCount": "native6",
+    "roster": "native43ddf0 outputs, captured not overwritten",
+    "models": "41dbb0 consumes session1c+index",
+    "spawn": "native authored selectors preserved",
+    "difficulty": "410060 sees demo58c1 and producesExpert2; do not edit5ea4d8/585/unlockbits",
+    "rng": "Native initialization/consumption/session618 time source unchanged; no stream or output seed writes",
+    "track": "Original4797a0/44c2b0 loader and body constructors remain original"
+  },
+  "unsupportedClaims": [
+    "No proved /level,/track,/low,/high CLI or INI key.",
+    "No fixed roster or identical trajectory/RNG/audio-schedule claim.",
+    "No Easy/Hard demo through an effective-difficulty override."
+  ],
+  "settingsProducerGaps": {
+    "knownDefault": "486490 memset config1854; DWORD+30=02000101 makes31=1,0b initially0",
+    "unresolvedBodies": [
+      "4862a0",
+      "486b30",
+      "486bb0"
+    ],
+    "rolesNotAssumed": true,
+    "additionalAssemblyNeeded": [
+      "43b0e0",
+      "43ebd0"
+    ],
+    "noNewProviderStarted": true
+  },
+  "matrix": {
+    "declaredRacingVariants": "LOW/HIGH?LEV1..15,18..20 =36, preserving user no-path16/17 exclusions",
+    "recordActualRosterPerRow": true,
+    "otherMatrixAxes": [
+      "native vehicle types encountered",
+      "contact/event kinds",
+      "quality-dependent geometry/storage",
+      "native difficulty/mode provenance",
+      "producer/service/concurrency coverage"
+    ],
+    "fullPhysicsMatrixClosed": false
+  },
+  "checkedInstructions": 28,
+  "evidenceIds": [
+    "ev_d79e7eba4a00f005ef491f4de6ad06436e36f22995a4931380cd4df9ae83b29a",
+    "ev_430036b751e6fd251ecaab76141b66722428058b5f311d5c3112e0e08bd2c58c",
+    "ev_f035fe9f3f805bc2b6fed7db6764eb953c9e26c192bb7682601fbd49fc9fc3c4",
+    "ev_c39a69909451efe663de2dd317d58d4a778c39999a2060dea599e1d088aa0884"
+  ],
+  "otherEvidence": [
+    {
+      "file": "analysis/native-race-entry-20261022/results/037-session-track-select.json",
+      "evidenceId": "ev_603df6d5b2e1f6f93ac382d4541a151e240aec77e4633b574e37d1429e34786e",
+      "sha256": "90d0942d93faba271c4d94331689cd5057c47a4777f4cef83ed070c2b8ce28f6",
+      "operation": "procedure_pseudo_code",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "file": "analysis/native-race-entry-20261022/results/039-session-track-setup.json",
+      "evidenceId": "ev_43dc742d430cce5dfeb364e1605ce008f5a9c5e40c9b62bed5e150a26ee0523a",
+      "sha256": "37bac023ad47b73f173a5c661af103331190b15e5e2e22dfd48214a9910c2278",
+      "operation": "procedure_pseudo_code",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "file": "analysis/native-race-entry-20261022/results/051-menu-exit-producer.json",
+      "evidenceId": "ev_2e362ab2d981b1ba986fe6c1236f4a4566eedc161a721d9cd17e9cc727ea1051",
+      "sha256": "d26ab84a3f078cc0da16636418db04b67ee2ec55481c313bfa39b091c7bcd9bc",
+      "operation": "procedure_pseudo_code",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "file": "analysis/native-race-entry-20261022/results/067-main-config-producer.json",
+      "evidenceId": "ev_3da4afbffac43efa89232e57630184ca632af225fce5c6f668849f956370f655",
+      "sha256": "9defa6ca113c46220d0c213bccbc9ac9fa03b7d2ddb6f370be0af586235ee22d",
+      "operation": "procedure_pseudo_code",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "file": "analysis/native-race-entry-20261022/results/013-game-commandline-assembly.json",
+      "evidenceId": "ev_7ca8c7306cb1978a518b686220693403158416059d3478a9e7393fd38b129954",
+      "sha256": "2764186c457b04fdb011b038cfca6f59d7cc2c675c6b4a4625e623475dcae359",
+      "operation": "procedure_assembly",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "file": "analysis/native-race-entry-20261022/results/026-game-options.json",
+      "evidenceId": "ev_f17d5c9812c7bdec3899464ca55f58d943ef69813dddf4053c1d924c5810810b",
+      "sha256": "26ef74903c909f95c0363e0b25107448c6545614d844c8365d2001eb37cccfb7",
+      "operation": "read_bytes",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "file": "analysis/native-race-entry-20261022/results/070-switch-instruction-43dae3.json",
+      "evidenceId": "ev_c01373ad21c88ca76b01c22000c8bfb630bca3fe57689e4d1b69fc8a9a50377f",
+      "sha256": "68d8ccdcc5af1d39ce5fdae3051b7a0bf5b70f58216c5655865d65c5bfa11014",
+      "operation": "inspect_native_instruction",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    },
+    {
+      "file": "analysis/native-race-entry-20261022/results/070-switch-instruction-43dae8.json",
+      "evidenceId": "ev_f9b4d09e431c5805731ba6cbb93e1747dd3db7b7e94bdf553d448a8b51739412",
+      "sha256": "759b62f548d83ada0747f0e132bdb10d773e71ef1cc1ab7abc24fe69fbd06f24",
+      "operation": "inspect_native_instruction",
+      "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+    }
+  ],
+  "closedOriginalStartup": {
+    "directory": "analysis/native-physics-local/startup-20261022/hidden-idle-capture",
+    "traceSha256": "e47cd66f7d5f2cbe6f6ef6faa315c1708e0de6ae65fb9fc2c6858b00fb18037c",
+    "verifiedBlobHashes": 28,
+    "complete": {
+      "type": "complete",
+      "reason": "snapshot-bound",
+      "events": 787,
+      "snapshots": 10,
+      "elapsedMs": 35181
+    },
+    "ownedCleanup": {
+      "type": "owned-process-cleanup",
+      "pid": 14240,
+      "terminated": true,
+      "win32Error": 0,
+      "elapsedMs": 35240
+    },
+    "snapshots": [
+      {
+        "id": "frontend-race-launch",
+        "ordinal": 5,
+        "tid": 25568,
+        "registers": {
+          "edi": "0x00000000",
+          "esi": "0x009f5470",
+          "ebx": "0x00000001",
+          "edx": "0x0000000a",
+          "ecx": "0x00000000",
+          "eax": "0x00000000",
+          "ebp": "0x00dbfcf8",
+          "eip": "0x0071dfe0",
+          "cs": "0x00000023",
+          "eflags": "0x00200246",
+          "esp": "0x00dbfccc",
+          "ss": "0x0000002b",
+          "fpuControlWord": "0x0000007f",
+          "fpuStatusWord": "0x00004020",
+          "mxcsr": "0x00001fa5"
+        },
+        "configurationObservedRange": "10..1f only; does not capture0b or31",
+        "configuration": {
+          "mode14": 2,
+          "selector15": 8,
+          "argument16": 2,
+          "playback17": 255
+        },
+        "session": {
+          "551": 0,
+          "552": 0,
+          "579": 5,
+          "585": 2,
+          "586": 10,
+          "54d": 6,
+          "58c": 0,
+          "phase": 8
+        },
+        "participantModes": [
+          0,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "family": 3,
+        "local": 1,
+        "spawnIndices": [
+          5,
+          0,
+          2,
+          3,
+          1,
+          4
+        ],
+        "roster": [
+          1,
+          6,
+          0,
+          2,
+          3,
+          4
+        ],
+        "filename": "",
+        "caller": 7461608
+      },
+      {
+        "id": "session-construction-entry",
+        "ordinal": 6,
+        "tid": 25568,
+        "registers": {
+          "edi": "0x7704d730",
+          "esi": "0x00000001",
+          "ebx": "0x7704eee0",
+          "edx": "0x008b3504",
+          "ecx": "0x00000000",
+          "eax": "0x00b279e0",
+          "ebp": "0x00000001",
+          "eip": "0x0071e280",
+          "cs": "0x00000023",
+          "eflags": "0x00200246",
+          "esp": "0x00dbfe1c",
+          "ss": "0x0000002b",
+          "fpuControlWord": "0x0000007f",
+          "fpuStatusWord": "0x00004020",
+          "mxcsr": "0x00001fa5"
+        },
+        "configurationObservedRange": "10..1f only; does not capture0b or31",
+        "configuration": {
+          "mode14": 0,
+          "selector15": 10,
+          "argument16": 0,
+          "playback17": 255
+        },
+        "session": {
+          "551": 0,
+          "552": 0,
+          "579": 2,
+          "585": 2,
+          "586": 10,
+          "54d": 6,
+          "58c": 0,
+          "phase": 8
+        },
+        "participantModes": [
+          0,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "family": 3,
+        "local": 0,
+        "spawnIndices": [
+          5,
+          0,
+          2,
+          3,
+          1,
+          4
+        ],
+        "roster": [
+          1,
+          6,
+          0,
+          2,
+          3,
+          4
+        ],
+        "filename": ""
+      },
+      {
+        "id": "race-startup-entry",
+        "ordinal": 8,
+        "tid": 25568,
+        "registers": {
+          "edi": "0x7704d730",
+          "esi": "0x00000001",
+          "ebx": "0x7704eee0",
+          "edx": "0x00000000",
+          "ecx": "0x009dbb20",
+          "eax": "0xfffffffe",
+          "ebp": "0x00000003",
+          "eip": "0x0075ea40",
+          "cs": "0x00000023",
+          "eflags": "0x00200282",
+          "esp": "0x00dbfe1c",
+          "ss": "0x0000002b",
+          "fpuControlWord": "0x0000007f",
+          "fpuStatusWord": "0x00000000",
+          "mxcsr": "0x00001fa5"
+        },
+        "configurationObservedRange": "10..1f only; does not capture0b or31",
+        "configuration": {
+          "mode14": 0,
+          "selector15": 10,
+          "argument16": 0,
+          "playback17": 255
+        },
+        "session": {
+          "551": 0,
+          "552": 0,
+          "579": 2,
+          "585": 2,
+          "586": 3,
+          "54d": 6,
+          "58c": 1,
+          "phase": 1
+        },
+        "participantModes": [
+          8,
+          8,
+          8,
+          8,
+          8,
+          8
+        ],
+        "family": 3,
+        "local": 0,
+        "spawnIndices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "roster": [
+          6,
+          5,
+          4,
+          3,
+          2,
+          0
+        ],
+        "filename": "high\\lev3"
+      }
+    ]
+  },
+  "componentNote": {
+    "file": "re-docs/native-controlled-race-settings-plan.md",
+    "sha256": "4f2634c8e962ff853ee68f50ea241dcac29b3ef0bb2e9313587a21e2ad783cc6"
+  }
+}

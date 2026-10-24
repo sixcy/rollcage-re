@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "authority": "dedicated-pickup-editor-helper-pure-checkpoint",
+  "nativeExecutionPerformed": false,
+  "physicsGoalResumed": false,
+  "ancestorSha256": "a77e6894a235316f0f65274b5b262370e921ea0211196bdf4804c1c98b0773e9",
+  "hashes": {
+    "tools/lib/pickup-editor-native-debugger.cs": "0f8895d2875430e86091b07fd9b9b9553950018ad4e3c3d2b553f9de7ea48c5b",
+    "tools/native-pickup-editor-capture.ps1": "73cde56e93abde3101d3073dc67d2b6fd8c8d5ea0928115d907cf442510cc9b2",
+    "tools/native-pickup-editor-capture.mjs": "b0cbf4007888d88598e40f216ee362bff9f5d88c7214aaf9462166cec63d41af",
+    "tests/pickup-editor-native-helper.test.mjs": "a8b1ce583aa1494b379fe932cb45611fe44d218831bba1f9922454d7ffb4f918"
+  },
+  "validation": {
+    "focusedTests": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "typedStagedConfigurations": 6,
+    "command": "node --test tests/pickup-editor-native-helper.test.mjs"
+  },
+  "command": "node tools/native-pickup-editor-capture.mjs analysis/pickup-editor-native-cases-20261024/baseline-low/capture-config.json",
+  "limits": {
+    "maxDurationMs": 90000,
+    "maxSnapshots": 80,
+    "maxEvents": 1000000,
+    "editorPickupLimit": 16,
+    "controllerPoolScope": 6,
+    "registrySlots": 512
+  },
+  "status": "frozen; original launch belongs to root only"
+}

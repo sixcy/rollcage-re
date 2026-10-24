@@ -1,0 +1,197 @@
+{
+  "method": "Independent read-only closed original-process blob/CONTEXT/provenance/loader/table/registry/placement audit; no source simulation, native launches or intermediate answers supplied.",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "frozenHelperFiles": [
+    {
+      "name": "lib/pickup-editor-native-debugger.cs",
+      "sha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "length": 250377
+    },
+    {
+      "name": "native-pickup-editor-capture.ps1",
+      "sha256": "73cde56e93abde3101d3073dc67d2b6fd8c8d5ea0928115d907cf442510cc9b2",
+      "length": 3552
+    },
+    {
+      "name": "native-pickup-editor-capture.mjs",
+      "sha256": "b0cbf4007888d88598e40f216ee362bff9f5d88c7214aaf9462166cec63d41af",
+      "length": 1804
+    }
+  ],
+  "cases": [
+    {
+      "name": "baseline-low-v2",
+      "reportPath": "analysis/pickup-editor-native-baseline-low-v2-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\capture-v2",
+      "matched": true,
+      "sceneName": "LOW/LEV1.BLP",
+      "authoredCount": 13,
+      "authoredBytes": 156,
+      "authoredSha256": "ed33a4ea22203377121953f4720e6d63bb84eed33f26a63fde7e5ad60e3111b3",
+      "dataBase": 66105376,
+      "authoredPointer": 66741856,
+      "authoredOffset": 636480,
+      "registryBefore": 208,
+      "registryAfterConstruction": 224,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 34,
+      "hashVerifiedBlobs": 1144,
+      "allAuthoredInitialPlacementsObserved": true,
+      "completedFinalizers": 13,
+      "targetCycle": null,
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 156187383,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    },
+    {
+      "name": "edited16-low",
+      "reportPath": "analysis/pickup-editor-native-edited16-low-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\edited16-low\\capture",
+      "matched": true,
+      "sceneName": "LOW/LEV1.BLP",
+      "authoredCount": 16,
+      "authoredBytes": 192,
+      "authoredSha256": "8d5b53ccafd1cbb8961706612f354cf0ecdba294e5a162dbc162b39e6ea1a66f",
+      "dataBase": 69554208,
+      "authoredPointer": 70236360,
+      "authoredOffset": 682152,
+      "registryBefore": 208,
+      "registryAfterConstruction": 227,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 44,
+      "hashVerifiedBlobs": 1648,
+      "allAuthoredInitialPlacementsObserved": true,
+      "completedFinalizers": 17,
+      "targetCycle": {
+        "collectionClock": 1006,
+        "collectionStateHex": "820064",
+        "collectionEntryOrdinal": 41,
+        "collectionAfterOrdinal": 42,
+        "collectorRecord": 19568920,
+        "collectorCar": 278981760,
+        "respawn": {
+          "index": 15,
+          "clock": 1181,
+          "bodyAddress": 277578368,
+          "registryIndex": 223,
+          "stateHex": "83000c",
+          "spatialTaggedPointer": 69932968,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "positionQ16": [
+            142999552,
+            -196608,
+            152436736
+          ],
+          "templateTailHex": "040a24000500",
+          "generation": 1,
+          "entryOrdinal": 43,
+          "returnOrdinal": 44,
+          "esp": 13630508,
+          "ownedTid": 16136
+        }
+      },
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 157731119,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    },
+    {
+      "name": "edited16-high",
+      "reportPath": "analysis/pickup-editor-native-edited16-high-check-20261024/report.json",
+      "captureDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\edited16-high\\capture",
+      "matched": true,
+      "sceneName": "HIGH/LEV1.BLP",
+      "authoredCount": 16,
+      "authoredBytes": 192,
+      "authoredSha256": "8d5b53ccafd1cbb8961706612f354cf0ecdba294e5a162dbc162b39e6ea1a66f",
+      "dataBase": 65110048,
+      "authoredPointer": 65971248,
+      "authoredOffset": 861200,
+      "registryBefore": 208,
+      "registryAfterConstruction": 227,
+      "controllers": 3,
+      "firstNativeTick": {
+        "clock": 0,
+        "phase": 1,
+        "rawHit": 1
+      },
+      "snapshots": 44,
+      "hashVerifiedBlobs": 1648,
+      "allAuthoredInitialPlacementsObserved": true,
+      "completedFinalizers": 17,
+      "targetCycle": {
+        "collectionClock": 1034,
+        "collectionStateHex": "820064",
+        "collectionEntryOrdinal": 41,
+        "collectionAfterOrdinal": 42,
+        "collectorRecord": 10589708,
+        "collectorCar": 280310016,
+        "respawn": {
+          "index": 15,
+          "clock": 1372,
+          "bodyAddress": 278860416,
+          "registryIndex": 223,
+          "stateHex": "83000c",
+          "spatialTaggedPointer": 65481592,
+          "positionSource": [
+            2182,
+            -3,
+            2326
+          ],
+          "positionQ16": [
+            142999552,
+            -196608,
+            152436736
+          ],
+          "templateTailHex": "040a24000500",
+          "generation": 1,
+          "entryOrdinal": 43,
+          "returnOrdinal": 44,
+          "esp": 12515676,
+          "ownedTid": 7148
+        }
+      },
+      "helperSourceSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+      "declaredStartupWrites": 6,
+      "declaredFrontendInputWrites": 2,
+      "currentStagedIntegrity": {
+        "files": 171,
+        "bytes": 157731119,
+        "allMatched": true
+      },
+      "cleanupTerminated": true
+    }
+  ],
+  "limits": [
+    "Only these three closed cases are audited here; baselineHIGH and zero cases are not read.",
+    "Natural target15 collection proof ends before weighted award; later full original finalizer is observed separately.",
+    "Native loaded identity is loader stem+exact40Bheader+12N table+runtimepointeroffset; no whole relocated resource hash or combat/physics timing equivalence is claimed.",
+    "Archive/current171-file integrity comes from independently completed checker reports; the raw native blob/context hashes are revalidated here.",
+    "Original90s baselineLOWv1 incomplete evidence remains unchanged."
+  ]
+}

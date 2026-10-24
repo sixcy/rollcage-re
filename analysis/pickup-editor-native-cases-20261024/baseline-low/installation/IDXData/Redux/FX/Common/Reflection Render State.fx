@@ -1,0 +1,2 @@
+SrcBlend = ONE;
+DestBlend = ONE;

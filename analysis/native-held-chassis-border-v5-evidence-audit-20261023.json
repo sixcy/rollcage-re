@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "method": "independent-closed-v5-raw-evidence-and-fresh-source-audit",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/held-chassis-border-high-lev3-shared-v5-20261023",
+  "captureSucceeded": true,
+  "verifiedControlledFrame": true,
+  "nativeCounterfactualCompared": false,
+  "fullParentClosureClaimed": false,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "traceSha256": "aaaa94319db8f40f7d032cae577333596674c2700bca9b13ada6e5add2366756",
+  "configurationSha256": "601e04ca2ce30fe41ba5988f00ea375e66c44169ca1fc709ac91acfdf9673a27",
+  "immutableHelper": {
+    "file": "analysis/native-physics-local/startup-20261022/bounded-contained-held-runner-v4-20261023/native-physics-debugger.cs",
+    "sha256": "a77e6894a235316f0f65274b5b262370e921ea0211196bdf4804c1c98b0773e9"
+  },
+  "allEmittedBinaryBlobs": {
+    "files": 971,
+    "summedFileBytes": 88167403,
+    "allHashesAndDeclaredLengthsMatch": true,
+    "byKind": {
+      "snapshot-context": {
+        "files": 15,
+        "bytes": 10740
+      },
+      "snapshot-range": {
+        "files": 836,
+        "bytes": 88106023
+      },
+      "stop-thread-context": {
+        "files": 60,
+        "bytes": 42960
+      },
+      "stop-thread-stack": {
+        "files": 60,
+        "bytes": 7680
+      }
+    },
+    "includesStopThreadDiagnostics": true,
+    "rangeOverlapNotDeduplicatedInFileByteTotal": true
+  },
+  "metadataIntegrity": {
+    "requestSha256": "ea05a4cf4591df9e0b0d0e2e59c18657acb31803653572e8b296412032fc70d0",
+    "sourcePlanSha256": "3d9efc48b1e708249d1f6544f989b344efa2e342cc03782f405532e13d9a6371",
+    "decisionMatchesFreshEncodedPlan": true,
+    "verifiedRootReport": {
+      "file": "analysis/physics-native-held-chassis-border-high-lev3-shared-v5-verified-20261023.json",
+      "sha256": "e90876214e9e87ee96582e93a2570cf116e6480bcf36e07b7782a2f1b697875a"
+    },
+    "pointOwnershipAudit": {
+      "file": "analysis/native-held-chassis-border-point-ownership-v5-20261023.json",
+      "sha256": "033df40d782aea1bfab078767fac6714e203e43282b943700564e8292c2f82e1"
+    },
+    "installationAudit": {
+      "file": "analysis/native-held-chassis-border-installation-after-high-lev3-shared-v5-20261023.json",
+      "sha256": "d1fa17beb93faede998d19b6b0df4b506bbd6733e7e6dfab58421c9be45185d7",
+      "files": 171,
+      "allMatch": true
+    }
+  },
+  "owner": {
+    "type": "owned-process",
+    "pid": 16796,
+    "tid": 35588,
+    "showWindow": false,
+    "elapsedMs": 5
+  },
+  "completion": {
+    "type": "complete",
+    "reason": "snapshot-bound",
+    "events": 2941,
+    "snapshots": 15,
+    "pendingFrameSelection": {
+      "candidateIndex": 1,
+      "frameTid": 35588,
+      "frameEntryEsp": "0x005ff784",
+      "frameReturnAddress": "0x00731017",
+      "frameMatchingHit": 121,
+      "observedEventHits": 8,
+      "qualifyingEventSnapshots": 8,
+      "nestedSnapshots": 0
+    },
+    "elapsedMs": 53185
+  },
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 16796,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 53242
+  },
+  "input": {
+    "matched": true,
+    "preInputOrdinal": 5,
+    "postInputOrdinal": 6,
+    "checkedCapturedBytesIncludingOverlap": 29251690,
+    "changedAddress": 288661364,
+    "changedLength": 12,
+    "contextUnchanged": true,
+    "allNonForceBytesUnchanged": true,
+    "oneWrite": true,
+    "sameStoppedDebugEvent": true,
+    "debugEventOrdinal": 2923,
+    "force": [
+      -106496,
+      0,
+      -237568
+    ],
+    "originalForceHex": "000000000000000000000000",
+    "normalQ16": [
+      26624,
+      0,
+      59392
+    ],
+    "signedScalarQ16": -262144,
+    "sourceTrialSelected": 12,
+    "sourceTrials": 24,
+    "freshSourcePlanMatchesSaved": true,
+    "holdElapsedMs": 2641
+  },
+  "frameComparison": {
+    "matched": true,
+    "comparisonRegions": 166,
+    "summedDeclaredBytes": 4885468,
+    "uniqueAddressIntervalBytes": 4885336,
+    "uniqueIntervals": 160,
+    "duplicatedIntervalBytes": 132,
+    "byPolicy": {
+      "mutable": {
+        "regions": 127,
+        "summedBytes": 4882974
+      },
+      "read-only": {
+        "regions": 39,
+        "summedBytes": 2494
+      }
+    },
+    "nativeReturn": 0,
+    "sourceReturn": 0,
+    "freshFullFrameComparisonMatchesRetainedReport": true
+  },
+  "dispatcherComparison": {
+    "matched": true,
+    "scope": "complete-dispatch-stream",
+    "actualRecords": 8,
+    "sourceRecords": 8,
+    "bytesPerRecord": 104,
+    "temporalRecordBytes": 832,
+    "exactEventBytesAddressesAndDeltasCompared": true,
+    "rows": [
+      {
+        "index": 0,
+        "nativeOrdinal": 7,
+        "eventAddress": 142805480,
+        "deltaQ16": 0,
+        "matched": true
+      },
+      {
+        "index": 1,
+        "nativeOrdinal": 8,
+        "eventAddress": 142805376,
+        "deltaQ16": 0,
+        "matched": true
+      },
+      {
+        "index": 2,
+        "nativeOrdinal": 9,
+        "eventAddress": 142805584,
+        "deltaQ16": 7706,
+        "matched": true
+      },
+      {
+        "index": 3,
+        "nativeOrdinal": 10,
+        "eventAddress": 142805584,
+        "deltaQ16": 13270,
+        "matched": true
+      },
+      {
+        "index": 4,
+        "nativeOrdinal": 11,
+        "eventAddress": 142805584,
+        "deltaQ16": 0,
+        "matched": true
+      },
+      {
+        "index": 5,
+        "nativeOrdinal": 12,
+        "eventAddress": 142805584,
+        "deltaQ16": 5851,
+        "matched": true
+      },
+      {
+        "index": 6,
+        "nativeOrdinal": 13,
+        "eventAddress": 142805272,
+        "deltaQ16": 40253,
+        "matched": true
+      },
+      {
+        "index": 7,
+        "nativeOrdinal": 14,
+        "eventAddress": 142805480,
+        "deltaQ16": 43492,
+        "matched": true
+      }
+    ],
+    "plannedChassisBorderEvents": [
+      {
+        "sourceEventIndex": 2,
+        "nativeOrdinal": 9,
+        "eventBytes": 104,
+        "bodyKind": 3,
+        "candidateKind": 7,
+        "response": "swept-contact",
+        "eventAddress": 142805584,
+        "cellId": 5248264,
+        "normalQ16": [
+          26624,
+          0,
+          59392
+        ],
+        "ownershipProof": "analysis/native-held-chassis-border-point-ownership-v5-20261023.json"
+      },
+      {
+        "sourceEventIndex": 4,
+        "nativeOrdinal": 11,
+        "eventBytes": 104,
+        "bodyKind": 3,
+        "candidateKind": 7,
+        "response": "penetration-contact",
+        "eventAddress": 142805584,
+        "cellId": 5248264,
+        "normalQ16": [
+          26624,
+          0,
+          59392
+        ],
+        "ownershipProof": "analysis/native-held-chassis-border-point-ownership-v5-20261023.json"
+      }
+    ],
+    "scopeNote": "Eight records are compared at eight ordered dispatch entries. Reused pool addresses are distinct temporal observations; 832 record bytes are not added to the final-frame unique address union."
+  },
+  "limits": [
+    "One controlled force experiment and its actual HIGH/LEV3 frame/event outputs only.",
+    "No native unforced counterfactual was captured; source-only forecasts do not prove native contact absence without the force.",
+    "The right-border21 ownership proof is separately retained; this audit confirms its original event association, not a new independent geometry reconstruction.",
+    "No whole parent, wall/ceiling/inverted matrix, runtime cadence, audio or whole-game closure claim."
+  ]
+}

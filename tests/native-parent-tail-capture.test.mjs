@@ -163,3 +163,25 @@ test('original V5 carries three type1 light positions through attachments, recov
   }});
   assert.deepEqual(seen,['attachments','recovery','drive']);
 });
+
+const auxiliaryRaw='analysis/native-physics-local/startup-20261022/parent-late-v6-batched-inputs-20261023';
+test('original V6 carries source state through auxiliary updates and stops before an unobserved CRT cast',{skip:!existsSync(`${auxiliaryRaw}/trace.jsonl`)},async()=>{
+  const capture=await loadPhysicsCapture(auxiliaryRaw),configuration=JSON.parse(await readFile(`${auxiliaryRaw}/configuration.json`)),pairing=pairNativeControlSnapshots(capture,configuration),pair=pairing.pairs[0],options={...pairing.options,moduleBaseAddress:pair.moduleBaseAddress};
+  const additionalRegions=[...nativeParentTailAdditionalRegions(pair.before,options),...nativeParentLateReplayRegions(pair.before,pair.moduleBaseAddress,options),...nativeControlSound19ObservedRegions(pair.before,pair.moduleBaseAddress)];
+  const source=replayNativeControlThroughPhysics(pair.before,{...options,additionalRegions,createControlAudioBindings:createNativeControlSoundCreationBindings}),seen=[];
+  assert.equal(compareNativeControlOutput(source,pair.physicsAfter).matched,true);
+  assert.deepEqual(source.controlAudioBindings.creationEvents,[]);
+  assert.throws(()=>continueNativeParentTail(source,{snapshot:pair.before,through:'cameras',onStage:({stage,source:carried,report})=>{
+    const comparison=compareNativeControlOutput(carried,pair.postphysics[stage]);
+    assert.equal(comparison.matched,true,JSON.stringify(comparison.firstDivergence));
+    assert.equal(comparison.uniqueBytesCompared,5102089);
+    if(stage==='auxiliary')assert.equal(report.participants,6);
+    seen.push(stage);
+  }}),error=>{
+    assert.match(error.message,/Viewport application requires CRT dynamicCast/);
+    assert.equal(error.nativeParentTailProgress.lastCall.entry,0x4180a0);
+    assert.equal(error.nativeParentTailProgress.parentReturned,false);
+    return true;
+  });
+  assert.deepEqual(seen,['attachments','recovery','drive','auxiliary']);
+});

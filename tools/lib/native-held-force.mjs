@@ -9,6 +9,9 @@ import {REDUX_SHA256} from '../prepare-native-physics-capture.mjs';
 import {verifyNativeEventFrameConfiguration} from '../check-native-event-frame-replay.mjs';
 import {bindCapturedNativeThreadEnvironment} from './native-frame-sound.mjs';
 import {createReduxCaptureConfig} from './redux-capture-config.mjs';
+import {validateControlledRaceSettingsConfiguration} from './native-controlled-race-settings.mjs';
+import {verifyContainedRangeStorage,verifyHeldRangeStorageDiagnostic,loadContainedRangeBlobs} from './native-held-range-storage.mjs';
+import {isDeepStrictEqual} from 'node:util';
 
 export const heldForceProtocol = 'ROLLCAGE_HELD_FORCE_V1';
 export const heldForceBounds = Object.freeze({maxHoldMs: 20000, maxAttempts: 24, maxForce: 0x1000000, maxPendingBytes: 128 * 1024 * 1024});
@@ -29,8 +32,15 @@ export function validateHeldBankVector(snapshot,base) {
   return {headerAddress:address,begin,end,capacity,storageBytes:r.length};
 }
 export function validateHeldForceConfiguration(o) {
+  if(o.controlledRaceSettings) {
+    validateControlledRaceSettingsConfiguration(o);
+    if(o.heldForceInput?.shareContainedRanges!==undefined&&typeof o.heldForceInput.shareContainedRanges!=='boolean')fail('contained sharing flag must be explicit boolean');
+    const heldForceInput={...o.heldForceInput};delete heldForceInput.shareContainedRanges;
+    const legacy={...o,heldForceInput,maxSnapshots:70,breakpoints:o.breakpoints.slice(0,-1)};delete legacy.controlledRaceSettings;
+    return validateHeldForceConfiguration(legacy);
+  }
   const p=o.heldForceInput,f=o.pendingFrameObserver;
-  if(!p||Object.keys(p).sort().join(',')!=='breakpointId,maxHoldMs'||p.breakpointId!=='native-frame-before'||p.maxHoldMs!==20000||o.maxDurationMs!==90000||o.maxSnapshots!==70||o.maxEvents!==1000000||o.captureThreadEnvironment!==true||o.observationActivation||o.ownedWorkerObservation||o.ownedWorkerGainPair||o.ownedWorkerGainWindow||!f||f.maxCandidateFrames!==1||f.maxEventSnapshots!==64||f.maxPendingBytes!==heldForceBounds.maxPendingBytes)fail('configuration policy/bounds');
+  if(!p||Object.keys(p).filter(k=>k!=='shareContainedRanges').sort().join(',')!=='breakpointId,maxHoldMs'||p.shareContainedRanges!==undefined&&p.shareContainedRanges!==false||p.breakpointId!=='native-frame-before'||p.maxHoldMs!==20000||o.maxDurationMs!==90000||o.maxSnapshots!==70||o.maxEvents!==1000000||o.captureThreadEnvironment!==true||o.observationActivation||o.ownedWorkerObservation||o.ownedWorkerGainPair||o.ownedWorkerGainWindow||!f||f.maxCandidateFrames!==1||f.maxEventSnapshots!==64||f.maxPendingBytes!==heldForceBounds.maxPendingBytes)fail('configuration policy/bounds');
   verifyNativeEventFrameConfiguration(o);
   const startup=createReduxCaptureConfig('policy-only','hidden-idle','unused-policy-output');
   if(JSON.stringify(o.breakpoints.map(b=>b.id))!==JSON.stringify([...startup.breakpoints.slice(0,3).map(b=>b.id),'native-frame-before','native-frame-after','native-dispatch-entry'])||JSON.stringify(o.breakpoints.slice(0,3))!==JSON.stringify(startup.breakpoints.slice(0,3))||JSON.stringify(o.phaseActions)!==JSON.stringify(startup.phaseActions))fail('exact startup/site/write whitelist');
@@ -104,11 +114,18 @@ export async function loadHeldForceRequest(directory) {
     const resolved = await realpath(path.join(root, file)); if (path.dirname(resolved) !== root) fail('blob escapes output');
     const bytes = await readFile(resolved); if (bytes.length !== length || sha(bytes) !== hash) fail('blob length/hash'); return bytes;
   }
+  const shared=configuration.heldForceInput.shareContainedRanges===true;
+  if(shared){const storage=verifyContainedRangeStorage(row,row.rangeStorage);if(storage.retainedSnapshotBytes>heldForceBounds.maxPendingBytes)fail('physical snapshot footprint');
+    const text=await readFile(path.join(root,'trace.jsonl'),'utf8'),complete=text.endsWith('\n')?text:text.slice(0,text.lastIndexOf('\n')+1),records=complete.trim().split(/\r?\n/).filter(Boolean).map(JSON.parse),owners=records.filter(r=>r.type==='owned-process'),observed=records.filter(r=>r.type==='snapshot'&&r.ordinal===row.ordinal);
+    if(owners.length!==1||owners[0].pid!==request.pid||owners[0].tid!==request.tid||observed.length!==1||!isDeepStrictEqual(observed[0],row))fail('actual shared request/owned snapshot differs');
+    verifyHeldRangeStorageDiagnostic(row,records,{pid:request.pid,role:'held-pre-input'});
+  }
+  const sharedRows=shared?await loadContainedRangeBlobs((row?.ranges??[]).filter(r=>r.id!=='thread-seh-head'),root):null;
   for (const r of row?.ranges ?? []) {
     if (typeof r.id !== 'string' || ranges.has(r.id)) fail('duplicate range');
     integer(r.length, r.id==='active-sound-bank-storage'&&r.rangeMode==='vector-storage'?0:1, 64 * 1024 * 1024, 'range length'); footprint += r.length+(r.rangeMode==='vector-storage'?12:0);
-    if (footprint > heldForceBounds.maxPendingBytes) fail('snapshot footprint');
-    ranges.set(r.id, {...r, bytes: await blob(r.file, r.sha256, r.length)});
+    if (!shared&&footprint > heldForceBounds.maxPendingBytes) fail('snapshot footprint');
+    ranges.set(r.id, shared&&r.id!=='thread-seh-head'?sharedRows.get(r.id):{...r, bytes: await blob(r.file, r.sha256, r.length)});
   }
   const snapshot = {...row, context: await blob(row.contextFile, row.contextSha256, 716), ranges, moduleBaseAddress: Number(request.moduleBaseAddress)};
   const {memory,base}=validateHeldForceRequest(request, snapshot);
@@ -197,15 +214,19 @@ export function validateHeldForceTransition(held, post, intervention, forecast, 
 export function validateHeldBudgetEvidence(held,configuration,budget) {
   validateHeldForceConfiguration(configuration);
   const rows=[...held.snapshot.ranges.values()].filter(r=>r.id!=='thread-seh-head'),event=configuration.breakpoints.find(b=>b.id==='native-dispatch-entry');
-  const pre=720+rows.reduce((n,r)=>n+r.length+(r.rangeMode==='vector-storage'?12:0),0),eventBytes=720+event.ranges.reduce((n,r)=>n+r.length,0),required=pre*3+eventBytes*64;
-  if(!budget||budget.type!=='held-force-budget'||budget.metadataBeforeBlobRead!==true||budget.pid!==held.request.pid||budget.tid!==held.request.tid||budget.observedDebugEventOrdinal!==held.request.observedDebugEventOrdinal||budget.preSnapshotBytes!==pre||budget.eventSnapshotBytes!==eventBytes||budget.eventReserveBytes!==eventBytes*64||budget.requiredPendingBytes!==required||budget.pendingLimitBytes!==134217728||budget.snapshotLimit!==70||budget.requiredAdditionalSnapshots!==67||budget.snapshotsBefore!==held.snapshot.ordinal-1||budget.snapshotsBefore+67>70||required>134217728||budget.sufficient!==true||budget.contextBytes!==716||budget.threadEnvironmentBytes!==4||budget.rangeFootprints?.length!==rows.length)fail('actual pre-refusal budget evidence');
+  const logical=720+rows.reduce((n,r)=>n+r.length+(r.rangeMode==='vector-storage'?12:0),0),storage=configuration.heldForceInput.shareContainedRanges?verifyContainedRangeStorage(held.snapshot,held.snapshot.rangeStorage):null;
+  const pre=storage?storage.retainedSnapshotBytes:logical,eventBytes=720+event.ranges.reduce((n,r)=>n+r.length,0),required=pre*3+eventBytes*64;
+  if(storage){verifyContainedRangeStorage(held.snapshot,budget?.rangeStorage,{actual:false});if(budget.logicalSnapshotBytes!==logical)fail('logical sharing footprint');}
+  else if(budget?.rangeStorage||held.snapshot.rangeStorage)fail('unconfigured contained range storage');
+  const snapshotLimit=configuration.controlledRaceSettings?71:70;
+  if(!budget||budget.type!=='held-force-budget'||budget.metadataBeforeBlobRead!==true||budget.pid!==held.request.pid||budget.tid!==held.request.tid||budget.observedDebugEventOrdinal!==held.request.observedDebugEventOrdinal||budget.preSnapshotBytes!==pre||budget.eventSnapshotBytes!==eventBytes||budget.eventReserveBytes!==eventBytes*64||budget.requiredPendingBytes!==required||budget.pendingLimitBytes!==134217728||budget.snapshotLimit!==snapshotLimit||budget.requiredAdditionalSnapshots!==67||budget.snapshotsBefore!==held.snapshot.ordinal-1||budget.snapshotsBefore+67>snapshotLimit||required>134217728||budget.sufficient!==true||budget.contextBytes!==716||budget.threadEnvironmentBytes!==4||budget.rangeFootprints?.length!==rows.length)fail('actual pre-refusal budget evidence');
   const seen=new Set();
   for(const p of budget.rangeFootprints) {
     const r=held.snapshot.ranges.get(p.id),header=r?.rangeMode==='vector-storage'?12:0;
     if(!r||r.id==='thread-seh-head'||seen.has(p.id)||Number(p.address)!==Number(r.address)||p.length!==r.length||p.vectorHeaderBytes!==header||p.byteFootprint!==r.length+header)fail('actual per-range budget footprint');
     seen.add(p.id);
   }
-  return {verified:true,preSnapshotBytes:pre,eventSnapshotBytes:eventBytes,requiredPendingBytes:required,limitBytes:134217728,rangeCount:rows.length};
+  return {verified:true,preSnapshotBytes:pre,eventSnapshotBytes:eventBytes,requiredPendingBytes:required,limitBytes:134217728,rangeCount:rows.length,...(storage?{logicalSnapshotBytes:logical,storageMode:'snapshot-local-contained-ranges',physicalBackingCount:storage.backingCount}: {})};
 }
 
 export async function prepareHeldForceDecision(directory) {

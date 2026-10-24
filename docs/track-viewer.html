@@ -11,6 +11,9 @@
 <style>
 .racing-actions{display:flex;flex-wrap:wrap;gap:2px}.racing-options{display:flex;flex-wrap:wrap;gap:12px;margin:9px 0}.racing-progress{margin:12px 0 4px}.physics-hud{position:fixed;right:18px;bottom:18px;width:300px;max-width:calc(100vw - 36px);padding:14px;background:#111d2af2;border:1px solid #4b6078;border-radius:10px;pointer-events:none;font-variant-numeric:tabular-nums}.physics-hud[hidden]{display:none}.physics-heading{display:flex;justify-content:space-between;align-items:baseline;gap:8px}.physics-heading strong{font-size:14px}.physics-heading small{color:#ffd48a;font-size:11px}.physics-speed{margin:6px 0;font-size:30px;font-weight:700;color:#fff;line-height:1.2}.physics-speed small{font-size:12px;font-weight:400;color:#b4c4d7}.physics-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}.physics-metrics dt{color:#b4c4d7;font-size:11px}.physics-metrics dd{margin:2px 0 0;font-size:16px;font-weight:600}.physics-wheel-grid{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 12px;padding:0;margin:10px 0}.physics-wheel-grid li{display:flex;justify-content:space-between;gap:6px;font-size:11px;color:#b4c4d7}.physics-wheel-state{color:#b4c4d7}.physics-wheel-state[data-contact=true]{color:#91e6b4}.physics-wheel-state[data-contact=false]{color:#ffd48a}.physics-wheel-state::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:currentColor;margin-right:4px}.physics-footnote{font-size:11px;margin:6px 0 0;color:#b4c4d7}@media(max-width:600px){.physics-hud{right:10px;bottom:10px;max-width:calc(100vw - 20px);padding:10px}}@media(max-height:500px){.physics-hud{padding:8px;font-size:11px}.physics-speed{font-size:22px;margin:4px 0}.physics-metrics{gap:4px;margin:6px 0}.physics-metrics dd{font-size:13px}.physics-wheel-grid{gap:4px 10px;margin:6px 0}.physics-footnote{margin:4px 0 0}}
 </style>
+<style>
+#editor-controls input[type=number]{box-sizing:border-box;background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:6px;font:inherit}#editor-controls input:disabled{opacity:.5}#pickup-editor button:disabled{cursor:default;opacity:.5}#editor-status{color:#91dce4}#editor-error:empty{display:none}
+</style>
 </head>
 <body>
 <main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
@@ -47,7 +50,24 @@
 <p id="practice-roster" class="note"></p>
 <p id="practice-readout" class="note" style="font-variant-numeric:tabular-nums"></p>
 <p id="practice-note" class="note">Available on verified Rollcage tracks, except LEV16 and LEV17.</p><p id="practice-error" class="note" role="alert" style="color:#ffb4ac"></p>
-<details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks match a recorded six-car update through AI, physics, attachment movement, recovery checks and drive feedback. Other checks cover selected car-to-car and camera-border collisions, force responses and controlled respawn placement. Continuous race parity, active combat, full respawn effects and timing remain under work. This remains a super experimental reconstruction.</p></details>
+<details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks match a recorded six-car update through AI, physics, attachment movement, recovery checks, drive feedback and wheel and animation updates. Other checks cover selected car-to-car, car-wall and camera-border collisions, force responses and controlled respawn placement. Continuous race parity, active combat, full respawn effects and timing remain under work. This remains a super experimental reconstruction.</p></details>
+</fieldset>
+<fieldset id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Pickup editor</legend>
+<label><input id="editor-enable" type="checkbox" disabled>Edit pickups</label>
+<p id="editor-note" class="note">Load verified Rollcage archives to edit pickup spawn points.</p>
+<p id="editor-count" class="note"></p>
+<div id="editor-controls" hidden>
+<div class="row"><button id="editor-add" type="button" disabled>Add pickup</button><button id="editor-duplicate" type="button" disabled>Duplicate</button><button id="editor-delete" type="button" disabled>Delete</button></div>
+<div class="row"><label for="editor-pickup">Pickup</label><select id="editor-pickup" disabled aria-label="Pickup to edit"></select></div>
+<div class="row" style="gap:8px"><label>X <input id="editor-x" type="number" step="1" style="width:85px" disabled></label><label>Height <input id="editor-y" type="number" step="1" style="width:85px" disabled></label><label>Z <input id="editor-z" type="number" step="1" style="width:85px" disabled></label></div>
+<div class="row"><button id="editor-undo" type="button" disabled>Undo</button><button id="editor-redo" type="button" disabled>Redo</button><button id="editor-reset-level" type="button" disabled>Reset level</button></div>
+<p class="note">Select or drag a marker. Add pickup, then click the terrain to place it. Adjust Height for clearance. Empty-space drag rotates the camera; right-drag pans. Esc cancels placement.</p>
+</div>
+<button id="editor-test" type="button" disabled>Test changes</button>
+<div class="row"><button id="editor-save" type="button" disabled>Save project</button><label class="note" for="editor-load">Load project<input id="editor-load" type="file" accept=".json,application/json" style="display:block;max-width:170px" disabled></label></div>
+<button id="editor-export" type="button" disabled>Export game files</button><button id="editor-cancel-export" type="button" hidden>Cancel export</button>
+<p class="note">Game export includes new IMG and IDX files for a separate game copy. Your selected files stay unchanged. Save the project to continue editing with the original archives.</p>
+<p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
 </fieldset>
 <div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option><option value="follow" id="camera-follow" disabled>Follow car 1</option></select><button id="reset" type="button">Reset view</button></div>
 <p id="help" class="note"></p><p id="speed" class="note" hidden></p>
@@ -88,12 +108,13 @@ const { createSession } = require("src/solo-session.mjs");
 const { SoloController } = require("tools/track-viewer/solo-controller.mjs");
 const { formatPracticeTime } = require("tools/track-viewer/solo-presentation.mjs");
 const { pickupLabel } = require("tools/track-viewer/pickup-label.mjs");
+const { PickupEditor } = require("tools/track-viewer/pickup-editor-ui.mjs");
 
 const element = id => document.getElementById(id);
 const setText = (id, text) => {const output = element(id); if (output.textContent !== text) output.textContent = text;};
 const setDisabled = (id, disabled) => {const output = element(id); if (output.disabled !== disabled) output.disabled = disabled;};
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
-let renderer, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false;
+let renderer, editor, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false, practiceDirty = false;
 let sourceKind = 'pc';
 let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
 const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
@@ -101,7 +122,7 @@ const errorText = error => error instanceof Error ? error.message : String(error
 const status = message => { element('status').textContent = message; };
 const fail = error => { element('error').textContent = errorText(error); status('Unable to load. Choose another track or select the archive files again.'); };
 function clearInput() { keys.clear(); drag = null; }
-function releaseMouse() { if (document.pointerLockElement === canvas) document.exitPointerLock(); clearInput(); }
+function releaseMouse() { if (document.pointerLockElement === canvas) document.exitPointerLock(); editor?.cancelDrag(); clearInput(); }
 function help() {
   const fly = navigation.mode === 'fly';
   setText('help', navigation.mode === 'follow' ? `Following car ${followedCarIndex + 1}. Choose Orbit & pan or Fly-in to explore while the cars race.` : fly
@@ -111,6 +132,7 @@ function help() {
   element('speed').hidden = !fly;
 }
 function clearScene() {
+  editor?.clearTrack(); practiceDirty = false;
   practice?.dispose(); practice = null;
   practiceInputs = null;
   renderedPractice = null;
@@ -124,29 +146,30 @@ function clearScene() {
   updatePractice();
 }
 function updatePractice() {
-  const available = Boolean(practice), running = practice?.state === 'running', usable = available && !['error', 'disposed'].includes(practice.state);
+  const editing = Boolean(editor?.editing), available = Boolean(practice), running = practice?.state === 'running', usable = available && !['error', 'disposed'].includes(practice.state);
+  const interactive = usable && !editing;
   const value = available ? practice.snapshot : null, car = focusedCar(value), physics = car?.physics;
   const carCount = value?.cars?.length ?? (value ? 1 : 0);
   const selector = element('practice-car');
   if (selector.options.length !== carCount) selector.replaceChildren(...Array.from({length: carCount}, (_, index) => new Option(`Car ${index + 1}`, String(index))));
   if (selector.value !== String(followedCarIndex)) selector.value = String(followedCarIndex);
-  setDisabled('practice-car', !usable);
-  setDisabled('practice-ai-count', !practiceInputs);
+  setDisabled('practice-car', !interactive);
+  setDisabled('practice-ai-count', !practiceInputs || editing);
   setText('practice-ai-count-value', element('practice-ai-count').value);
   setText('practice-follow-label', `Follow car ${followedCarIndex + 1}`);
   setText('camera-follow', `Follow car ${followedCarIndex + 1}`);
   const difficulty = ['Easy', 'Hard', 'Expert'][value?.aiDifficulty];
-  setDisabled('practice-start', !usable);
-  setDisabled('practice-step', !usable || !['ready', 'paused'].includes(practice.state));
-  setDisabled('practice-recover', !usable || Boolean(physics?.recoveryPending));
-  setDisabled('practice-reset', !usable && !value?.weapons?.enabled);
-  setDisabled('practice-weapons', !available);
-  setDisabled('practice-follow', !usable);
+  setDisabled('practice-start', !interactive);
+  setDisabled('practice-step', !interactive || !['ready', 'paused'].includes(practice.state));
+  setDisabled('practice-recover', !interactive || Boolean(physics?.recoveryPending));
+  setDisabled('practice-reset', editing || (!usable && !value?.weapons?.enabled));
+  setDisabled('practice-weapons', !available || editing);
+  setDisabled('practice-follow', !interactive);
   setDisabled('practice-telemetry', !usable);
-  setDisabled('camera-follow', !usable);
+  setDisabled('camera-follow', !interactive);
   setText('practice-start', running ? 'Pause' : practice?.state === 'paused' ? 'Resume' : 'Start');
   const excluded = game?.id === 'rollcage' && /\/(?:LEV16|LEV17)\.BLP$/.test(selectedTrack?.name ?? '');
-  setText('practice-note', practice?.state === 'error' ? 'Racing test stopped. Load this track again to restart.' : available ? `Continuous racing test · ${practice.state}. Step while paused, or test a recovery.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.');
+  setText('practice-note', editing ? 'Editing pickups · Test changes restarts the race with your edits.' : practice?.state === 'error' ? 'Racing test stopped. Load this track again to restart.' : available ? `Continuous racing test · ${practice.state}. Step while paused, or test a recovery.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.');
   const message = practice?.message ?? '';
   if (element('practice-error').textContent !== message) element('practice-error').textContent = message;
   setText('practice-readout', car ? `${car.speed} km/h · ${car.laps} laps completed · Lap ${formatPracticeTime(car.lapTime)} · Best ${formatPracticeTime(car.bestLap)}` : '');
@@ -159,7 +182,7 @@ function updatePractice() {
   const rank = car?.racePosition;
   const suffix = rank === 1 ? 'st' : rank === 2 ? 'nd' : rank === 3 ? 'rd' : 'th';
   setText('physics-race-position', Number.isInteger(rank) && rank >= 1 && rank <= carCount ? `${rank}${suffix} / ${carCount}` : '—');
-  element('physics-hud').hidden = !available || !element('practice-telemetry').checked;
+  element('physics-hud').hidden = editing || !available || !element('practice-telemetry').checked;
   const metric = value => Number.isFinite(value) ? Math.trunc(value).toLocaleString() : '—';
   for (const [id, amount] of [['physics-speed', car?.speed], ['physics-tick', value?.ticks], ['physics-recoveries', car?.recoveries], ['physics-collisions', physics?.collisionEvents], ['physics-terrain-hits', physics?.terrainHits], ['physics-model-hits', physics?.modelHits]]) {
     const output = element(id), text = metric(amount);
@@ -201,9 +224,11 @@ function restartPractice() {
   let failure;
   try {
     const count = Number(element('practice-ai-count').value);
-    const session = createSession(practiceInputs.geometry, practiceInputs.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
+    const geometry = editor?.geometryFor(selectedTrack,practiceInputs.geometry) ?? practiceInputs.geometry;
+    const session = createSession(geometry, practiceInputs.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
     try {renderer.setCar(session.assets);} catch (error) {session.dispose(); throw error;}
     practice = new SoloController(session);
+    practiceDirty = false;
     followedCarIndex = Math.min(followedCarIndex, count - 1);
     if (navigation.mode === 'follow') followCar(true);
   } catch (error) {
@@ -225,6 +250,8 @@ async function loadTrack() {
     const decoded = await adapter.loadTrack(source, track);
     if (token !== generation) return;
     renderer.setScene(decoded); scene = decoded; selectedTrack = track;
+    await editor?.setTrack(track,decoded);
+    if(token!==generation)return;
     updatePractice();
     for (const group of scene.paths.groups) element('path-group').append(new Option(`Group ${group.index} (${group.positions.length} ${group.positions.length === 1 ? 'point' : 'points'})`, String(group.index)));
     updatePaths();
@@ -268,7 +295,10 @@ async function downloadTrack() {
   } finally { exporting = false; element('download').disabled = !scene; }
 }
 async function openFiles() {
+  if(editor?.busy)return;
+  if(editor?.hasUnsavedChanges&&!window.confirm('Discard unsaved pickup project changes and open another archive?'))return;
   const token = ++generation;
+  await editor?.setSource(null,null,false);
   archive = null; game = null; availableTracks = []; verified = false;
   releaseMouse(); clearScene(); element('track').replaceChildren(); element('track').disabled = true;
   element('game-info').textContent = '';
@@ -297,6 +327,8 @@ async function openFiles() {
     const identified = await identifyGame(opened, requested);
     if (token !== generation) return;
     archive = opened; game = identified.game; availableTracks = identified.tracks; verified = identified.verified;
+    await editor?.setSource(archive,game,verified);
+    if(token!==generation)return;
     element('game-info').textContent = `${game.label} · ${availableTracks.length} environments${verified ? '' : ' · Unverified release; format compatibility is not established.'}`;
     for (const track of availableTracks) element('track').append(new Option(track.label, String(track.index)));
     element('track').disabled = false;
@@ -315,12 +347,14 @@ element('track').addEventListener('change', loadTrack);
 element('reload').addEventListener('click', () => archive ? loadTrack() : openFiles());
 element('download').addEventListener('click', downloadTrack);
 element('mode').addEventListener('change', () => {
+  if(editor?.editing&&element('mode').value==='follow'){element('mode').value=navigation.mode;return;}
   releaseMouse(); navigation.setMode(element('mode').value);
   element('practice-follow').checked = navigation.mode === 'follow';
   if (navigation.mode === 'follow') followCar(true);
   help();
 });
 element('practice-start').addEventListener('click', () => {
+  if(practiceDirty)restartPractice();
   if (!practice || ['error', 'disposed'].includes(practice.state)) return;
   releaseMouse();
   if (practice.state === 'running') practice.pause();
@@ -328,6 +362,7 @@ element('practice-start').addEventListener('click', () => {
   updatePractice();
 });
 element('practice-reset').addEventListener('click', () => {
+  if(practiceDirty){restartPractice();return;}
   if (!practice || practice.state === 'disposed' || practice.state === 'error' && !practice.snapshot.weapons?.enabled) return;
   practice.reset(); followCar(true); updatePractice();
 });
@@ -341,6 +376,7 @@ element('practice-ai-count').addEventListener('change', () => {
   releaseMouse(); restartPractice();
 });
 element('practice-step').addEventListener('click', () => {
+  if(practiceDirty)restartPractice();
   if (!practice || !['ready', 'paused'].includes(practice.state)) return;
   releaseMouse(); practice.stepFrame(); lastFrame = 0; followCar(true); updatePractice();
 });
@@ -368,6 +404,7 @@ element('filter').addEventListener('change', () => renderer?.setFilters(element(
 element('path-group').addEventListener('change', updatePaths);
 canvas.addEventListener('contextmenu', event => event.preventDefault());
 canvas.addEventListener('pointerdown', event => {
+  if(editor?.pointerDown(event))return;
   if (!scene || (event.button !== 0 && event.button !== 2)) return;
   canvas.focus();
   drag = { id: event.pointerId, x: event.clientX, y: event.clientY, pan: event.button === 2 || event.shiftKey };
@@ -380,6 +417,7 @@ canvas.addEventListener('pointerdown', event => {
   }
 });
 canvas.addEventListener('pointermove', event => {
+  if(editor?.pointerMove(event))return;
   if (!scene) return;
   if (document.pointerLockElement === canvas) { navigation.look(event.movementX, event.movementY); return; }
   if (!drag || drag.id !== event.pointerId) return;
@@ -388,9 +426,9 @@ canvas.addEventListener('pointermove', event => {
   else navigation.look(dx, dy);
   drag.x = event.clientX; drag.y = event.clientY;
 });
-canvas.addEventListener('pointerup', () => { drag = null; });
-canvas.addEventListener('pointercancel', clearInput);
-canvas.addEventListener('lostpointercapture', () => { drag = null; });
+canvas.addEventListener('pointerup', () => {editor?.pointerUp();drag = null;});
+canvas.addEventListener('pointercancel', () => {editor?.cancelDrag();clearInput();});
+canvas.addEventListener('lostpointercapture', () => {editor?.cancelDrag();drag = null;});
 document.addEventListener('pointerlockchange', clearInput);
 document.addEventListener('pointerlockerror', () => status('Mouse capture unavailable. Drag in the view to look around.'));
 canvas.addEventListener('wheel', event => {
@@ -421,11 +459,11 @@ canvas.addEventListener('webglcontextlost', event => {
 function frame(time) {
   if (contextLost) return;
   const seconds = lastFrame ? Math.max(0, (time - lastFrame) / 1000) : 0;
-  if (!document.hidden) practice?.advance(seconds);
+  if (!document.hidden && !editor?.editing) practice?.advance(seconds);
   renderedPractice = practice?.renderSnapshot ?? null;
   renderedAlpha = practice?.renderAlpha ?? 1;
   if (scene) {
-    if (navigation.mode === 'follow') followCar(false, seconds, renderedPractice);
+    if (navigation.mode === 'follow'&&!editor?.editing) followCar(false, seconds, renderedPractice);
     else navigation.step(keys, seconds);
   }
   lastFrame = time;
@@ -433,7 +471,7 @@ function frame(time) {
     textures: element('textures').checked, lighting: element('lighting').checked,
     objects: element('objects').checked, sector: Number(element('sector').value),
     paths: element('paths').checked, pathPoints: element('path-points').checked,
-    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: renderedPractice
+    pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.editing?null:renderedPractice
   });
   if (practice) updatePractice();
   if (navigation.mode === 'fly') setText('speed', `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`);
@@ -447,6 +485,7 @@ window.rollcageViewer = { inspect: () => ({
   paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,
   practice: practice ? {state: practice.state, ...practice.snapshot} : null, carBuffers: renderer?.carGroups.length ?? 0,
   followedCarIndex,
+  editor: editor?.inspect() ?? null,
   presentation: renderedPractice ? {ticks: renderedPractice.ticks, alpha: renderedAlpha, carIndex: followedCarIndex,
     position: [...focusedCar(renderedPractice).position], rotation: [...focusedCar(renderedPractice).rotation]} : null,
   carInstances: renderer?.carInstances.length ?? 0, renderedCars: renderer?.carDraws.cars ?? 0,
@@ -459,7 +498,18 @@ window.rollcageViewer = { inspect: () => ({
   heldKeys: keys.size, loading: element('stage').getAttribute('aria-busy') === 'true'
 }) };
 help();
-try { renderer = new Renderer(canvas); requestAnimationFrame(frame); }
+function downloadEditorFile({filename,blob}) {
+  const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;link.download=filename;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+try {
+  renderer = new Renderer(canvas);
+  editor = new PickupEditor({canvas,navigation,renderer,releaseMouse, onDownload:downloadEditorFile,
+    onModeChange(editing,{testing=false}={}){practice?.pause();if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
+    onChange(){practice?.pause();practiceDirty=true;updatePractice();},
+    onTest(){element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();}
+  });
+  requestAnimationFrame(frame);
+}
 catch (error) {
   element('error').textContent = errorText(error); status('Rendering is unavailable.');
   for (const id of ['image', 'index', 'disc', 'game', 'track', 'reload']) element(id).disabled = true;
@@ -2024,16 +2074,44 @@ class Renderer {
     this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
     this.terrainTemplates = new Map(); this.terrainGroups = new Map(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
+    this.editorBuffer = null; this.editorMarkers = []; this.editorSignature = '';
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
     gl.uniform1i(this.uniforms.image, 0);
   }
   clear() {
     this.clearCar();
+    this.setEditorPickups([]);
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
     this.groups = []; this.pathGroups = []; this.textures.clear(); this.textureSizes.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+  }
+  setEditorPickups(points) {
+    const signature = JSON.stringify(points);
+    if (signature === this.editorSignature) return;
+    this.editorSignature = signature; this.editorMarkers = [];
+    if (!points.length) {if (this.editorBuffer) this.gl.deleteBuffer(this.editorBuffer);this.editorBuffer=null;return;}
+    if (points.some(row=>!Array.isArray(row.position)||row.position.length!==3||row.position.some(n=>!Number.isFinite(n)))) throw Error('Invalid pickup editor marker.');
+    if (!this.editorBuffer) this.editorBuffer=this.gl.createBuffer();
+    const vertices=[];
+    for(const row of points){this.editorMarkers.push({offset:vertices.length/3,selected:row.selected,added:row.added});vertices.push(...row.position);}
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER,this.editorBuffer);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(vertices),this.gl.DYNAMIC_DRAW);
+  }
+  renderEditorPickups(matrix,ratio) {
+    if(!this.editorBuffer)return;
+    const gl=this.gl;gl.useProgram(this.pathProgram);
+    for(const attribute of Object.values(this.attributes))gl.disableVertexAttribArray(attribute);
+    gl.enableVertexAttribArray(this.pathPosition);gl.bindBuffer(gl.ARRAY_BUFFER,this.editorBuffer);
+    gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);gl.uniformMatrix4fv(this.pathUniforms.mvp,false,matrix);
+    gl.depthMask(false);gl.disable(gl.DEPTH_TEST);
+    try {
+      for(const marker of this.editorMarkers){
+        if(marker.selected){gl.uniform1f(this.pathUniforms.pointSize,16*ratio);gl.uniform3fv(this.pathUniforms.color,[1,1,1]);gl.drawArrays(gl.POINTS,marker.offset,1);}
+        gl.uniform1f(this.pathUniforms.pointSize,10*ratio);gl.uniform3fv(this.pathUniforms.color,marker.added?[0.3,1,1]:[1,0.78,0.25]);gl.drawArrays(gl.POINTS,marker.offset,1);
+      }
+    }finally{gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.disableVertexAttribArray(this.pathPosition);gl.useProgram(this.program);}
   }
   clearCar() {
     for (const group of [...this.carGroups, ...this.worldGroups, ...this.weaponGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
@@ -2237,6 +2315,7 @@ class Renderer {
       gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
     }
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+    this.renderEditorPickups(matrix,ratio);
     if (!options.paths || !this.pathGroups.length) return;
     gl.useProgram(this.pathProgram);
     for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);
@@ -2447,7 +2526,7 @@ async function buildTrackDownload(scene, track) {
 Object.assign(module.exports, {encodeTexturePNG,buildTrackDownload});
 },
 "tools/track-viewer/zip.mjs": function(require, module, Buffer) {
-Object.assign(module.exports, {createZIP});
+Object.assign(module.exports, {createZIP,createBlobZIP});
 // ZIP's stored method keeps the standalone viewer dependency-free. PNG files
 // are already compressed; all sizes/offsets below use the classic ZIP layout.
 const crcTable = Array.from({ length: 256 }, (_, value) => {
@@ -2490,7 +2569,51 @@ function createZIP(files) {
   return new Blob([...local, ...directory, end], { type: 'application/zip' });
 }
 
-Object.assign(module.exports, {createZIP});
+//Large archive downloads retain Blob slices; only one checksum chunk is read
+//at a time. The existing small-file export API remains synchronous.
+async function createBlobZIP(files, {signal, onProgress} = {}) {
+  if (files.length > 65535) throw Error('Too many ZIP entries.');
+  const encoder = new TextEncoder(), local = [], directory = [], names = new Set();
+  let offset = 0, directoryBytes = 0, completed = 0;
+  const blobs = files.map(file => {
+    if (!(file.data instanceof Blob) && !(file.data instanceof Uint8Array) && typeof file.data !== 'string') throw Error('ZIP file data must be a Blob, text or bytes.');
+    return {name: file.name, blob: file.data instanceof Blob ? file.data : new Blob([file.data])};
+  });
+  const total = blobs.reduce((sum, file) => sum + file.blob.size, 0);
+  for (const {name: filename, blob} of blobs) {
+    signal?.throwIfAborted();
+    if (!filename || /[/\\\0]/.test(filename) || filename === '.' || filename === '..' || names.has(filename)) throw Error('Invalid or duplicate ZIP filename.');
+    names.add(filename);
+    const name = encoder.encode(filename), size = blob.size;
+    if (name.length > 65535 || size >= 0xffffffff || offset + 30 + name.length + size >= 0xffffffff) throw Error('Archive exceeds the ZIP size limit.');
+    let crc = 0xffffffff;
+    for (let start = 0; start < size; start += 1048576) {
+      signal?.throwIfAborted();
+      const chunk = new Uint8Array(await blob.slice(start, start + 1048576).arrayBuffer());
+      for (const byte of chunk) crc = crcTable[(crc ^ byte) & 255] ^ (crc >>> 8);
+      completed += chunk.length; onProgress?.({completed, total, filename});
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+    crc = (crc ^ 0xffffffff) >>> 0;
+    const header = new Uint8Array(30 + name.length), view = new DataView(header.buffer);
+    view.setUint32(0, 0x04034b50, true); view.setUint16(4, 20, true); view.setUint16(6, 0x800, true);
+    view.setUint16(12, 0x21, true); view.setUint32(14, crc, true); view.setUint32(18, size, true); view.setUint32(22, size, true);
+    view.setUint16(26, name.length, true); header.set(name, 30);
+    const central = new Uint8Array(46 + name.length), entry = new DataView(central.buffer);
+    entry.setUint32(0, 0x02014b50, true); entry.setUint16(4, 20, true); entry.setUint16(6, 20, true); entry.setUint16(8, 0x800, true);
+    entry.setUint16(14, 0x21, true); entry.setUint32(16, crc, true); entry.setUint32(20, size, true); entry.setUint32(24, size, true);
+    entry.setUint16(28, name.length, true); entry.setUint32(42, offset, true); central.set(name, 46);
+    local.push(header, blob); directory.push(central); offset += header.length + size; directoryBytes += central.length;
+  }
+  signal?.throwIfAborted();
+  if (offset + directoryBytes + 22 >= 0xffffffff) throw Error('Archive exceeds the ZIP size limit.');
+  const end = new Uint8Array(22), view = new DataView(end.buffer);
+  view.setUint32(0, 0x06054b50, true); view.setUint16(8, files.length, true); view.setUint16(10, files.length, true);
+  view.setUint32(12, directoryBytes, true); view.setUint32(16, offset, true);
+  return new Blob([...local, ...directory, end], {type: 'application/zip'});
+}
+
+Object.assign(module.exports, {createZIP,createBlobZIP});
 },
 "src/track-manifest.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {buildTrackManifest});
@@ -2846,7 +2969,12 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     //Before the first physics query,11c can still be the native -1 sentinel.
     //A diagnostic must not chase that byte as a real terrain-sector index.
     const sectorIndex = memory[address + 0x11c], sector = sectorIndex < grid.scene.segments.length ? ptr(ptr(PACK) + sectorIndex * 4) : null;
+    const arenaBlock = ptr(0x6e6b40), arenaAligned = ptr(0x902eec), auxiliary = ptr(0x90b990);
     onDebugFrame(Object.freeze({stage, tick: ticks + 1, bodyAddress: address, aiDifficulty5ea4d8: ptr(0x5ea4d8),
+      bodyArena: arenaBlock && arenaAligned ? Object.freeze({block: arenaBlock, aligned: arenaAligned, cursor: ptr(0x70dcf4),
+        requestedBytes: (memory.readInt32LE(0x709808) + 140000) << 5, registeredBodies: ptr(0x6e6b44)}) : null,
+      pickupPendingCount: memory.readUInt16LE(0x91d4b0), pickupPendingIndices: Object.freeze(Array.from(memory.subarray(0x91d498, 0x91d4b0))),
+      pickupControllerCount: auxiliary ? memory[auxiliary + 0xf7] : null,
       nativeSqrtInputQ16: memory.readInt32LE(0x91d45c), nativeSqrtLeadingZeros: ptr(0x91d460),
       positionQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(address + 0x34 + offset))),
       linearVelocityQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(address + 0x68 + offset))),
@@ -22522,6 +22650,586 @@ function pickupLabel(code) {
 }
 
 Object.assign(module.exports, {pickupLabel});
+},
+"tools/track-viewer/pickup-editor-ui.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
+const {getGame} = require("src/track-games.mjs");
+const {parseGFXM} = require("src/gfxm.mjs");
+const {parsePickupPlacements, createPickupDraft, validatePickupDraft, compilePickupEdits, parsePickupProject, validatePickupProject, pickupSha256} = require("src/pickup-editor.mjs");
+const {cameraRay, intersectTerrain, pickPickup, sourceToDisplay, displayToSource, prepareTerrainPicking} = require("tools/track-viewer/pickup-picking.mjs");
+const {buildPickupGameDownload} = require("tools/track-viewer/editor-download.mjs");
+
+const element = id => document.getElementById(id);
+const copy = value => structuredClone(value);
+const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
+const bytesEqual = (a,b) => a.length === b.length && a.every((byte,i) => byte === b[i]);
+const supported = level => Number.isInteger(level) && level >= 1 && level <= 20 && ![15,16,17].includes(level);
+const levelOf = track => Number(/\/(?:LEV)(\d+)\.BLP$/i.exec(track?.name ?? '')?.[1]);
+const messageOf = error => error instanceof Error ? error.message : String(error);
+
+class PickupEditor {
+  constructor({canvas, navigation, renderer, releaseMouse, onModeChange, onChange, onTest, onDownload}) {
+    Object.assign(this, {canvas, navigation, renderer, releaseMouse, onModeChange, onChange, onTest, onDownload});
+    this.archive = null; this.levels = new Map(); this.levelLoads = new Map(); this.current = null; this.scene = null;
+    this.editing = false; this.adding = false; this.selected = null; this.drag = null;
+    this.revision = 0; this.savedRevision = 0; this.serial = 0; this.token = 0; this.busy = false;
+    this.bind(); this.refresh();
+  }
+  bind() {
+    const action = (id, fn) => element(id).addEventListener('click', () => this.perform(fn));
+    element('editor-enable').addEventListener('change', () => this.setEditing(element('editor-enable').checked));
+    action('editor-add', () => {this.adding = !this.adding; this.pendingDuplicate=null; this.say(this.adding ? 'Click the terrain to place a new pickup. Esc cancels placement.' : 'Placement cancelled.'); this.refresh();});
+    action('editor-duplicate', () => {
+      const row = this.selectedRow(); if (!row) return;
+      const draft = copy(this.current.draft), added = {...copy(row), id: this.nextId()};
+      draft.push(added); this.selected = added.id; this.commit(draft); this.adding = true; this.pendingDuplicate = added.id;
+      this.say('Duplicate created. Click the terrain to move it, or adjust its coordinates.'); this.refresh();
+    });
+    action('editor-delete', () => {
+      if (!this.selectedRow()) return;
+      this.adding=false;this.pendingDuplicate=null;
+      this.commit(this.current.draft.filter(row => row.id !== this.selected));
+      this.selected = this.current.draft[0]?.id ?? null; this.refresh();
+    });
+    action('editor-undo', () => this.history('undo', 'redo'));
+    action('editor-redo', () => this.history('redo', 'undo'));
+    action('editor-reset-level', () => {this.adding = false; this.pendingDuplicate = null; this.selected = null; this.commit(copy(this.current.original)); this.say('This level is restored to its original pickup definitions.');});
+    element('editor-pickup').addEventListener('change', () => {const selected = element('editor-pickup').value || null; this.cancelDrag(); this.adding = false; this.pendingDuplicate = null; this.selected = selected; this.refresh();});
+    for (const axis of ['x','y','z']) element(`editor-${axis}`).addEventListener('change', () => {
+      //Capture form values before the busy state disables/blurs the input.
+      const values=['x','y','z'].map(key=>element(`editor-${key}`).value);
+      this.perform(() => {
+      const row = this.selectedRow(); if (!row) return;
+      const position = displayToSource(values.map(Number)).map(Math.round);
+      if (values.some(value=>value.trim()==='')) throw Error('Enter all three pickup coordinates.');
+      const draft = copy(this.current.draft); draft.find(item => item.id === row.id).position = position; this.commit(draft); this.adding = false; this.pendingDuplicate = null;
+      });
+    });
+    action('editor-test', () => {this.setEditing(false, {testing:true}); this.onTest(); this.say('Testing edited pickups. Weapons are enabled; the race has restarted.');});
+    action('editor-save', async () => {
+      const project = await this.project(); this.onDownload({filename:'pickup-project.json',blob:new Blob([JSON.stringify(project,null,2)],{type:'application/json'})});
+      this.savedRevision = this.revision; this.say('Project download started. Reload it with the original archives to continue editing.'); this.refresh();
+    });
+    element('editor-load').addEventListener('change', () => this.perform(async () => {
+      const file = element('editor-load').files[0]; if (!file) return;
+      try {
+        if (file.size > 1048576) throw Error('Pickup project exceeds the 1 MB limit.');
+        const project = parsePickupProject(JSON.parse(await file.text()));
+        if (project.indexSha256 !== this.indexSha256) throw Error('This project requires its matching original Rollcage archives.');
+        const bases = await Promise.all(project.levels.map(row => this.loadLevel(row.level)));
+        validatePickupProject(project, {indexSha256:this.indexSha256,levels:bases.map(row => ({level:row.level,sourceHashes:row.sourceHashes,lowData:row.LOW.data,highData:row.HIGH.data}))});
+        //No draft changes until the whole project and every base resource pass.
+        for (const base of this.levels.values()) {base.draft = copy(base.original); base.undo = []; base.redo = [];}
+        for (const row of project.levels) this.levels.get(row.level).draft = copy(row.pickups);
+        this.revision++; this.savedRevision = this.revision; this.selected = null; this.onChange(); this.setEditing(true);
+        this.say('Project loaded. Edits apply to both LOW and HIGH versions.'); this.refresh();
+      } finally {element('editor-load').value = '';}
+    }));
+    action('editor-export', async () => {
+      this.onModeChange(true); this.releaseMouse();
+      const project = await this.project(), replacements = new Map();
+      for (const row of project.levels) {
+        const base = this.levels.get(row.level);
+        for (const quality of ['LOW','HIGH']) {
+          const data = compilePickupEdits(base[quality].data, row.pickups);
+          if (!bytesEqual(data,base[quality].data)) replacements.set(base[quality].index,data);
+        }
+      }
+      this.abort = new AbortController(); element('editor-cancel-export').hidden = false;
+      try {
+        const download = await buildPickupGameDownload(this.archive,replacements,project,{signal:this.abort.signal,onProgress:({completed,total})=>this.say(`Preparing game files… ${Math.round(completed / Math.max(1,total) * 100)}%`)});
+        this.onDownload(download); this.savedRevision = this.revision;
+        this.say('Game-files download started. Follow README.txt to use them in a separate game copy.');
+      } finally {this.abort = null; element('editor-cancel-export').hidden = true; this.refresh();}
+    });
+    element('editor-cancel-export').addEventListener('click', () => this.abort?.abort());
+    window.addEventListener('beforeunload', event => {if (this.hasUnsavedChanges) {event.preventDefault(); event.returnValue = '';}});
+    window.addEventListener('keydown', event => {
+      if (!this.editing || this.busy || /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
+      if (event.code === 'Escape') {this.adding = false; this.pendingDuplicate=null; this.cancelDrag(); this.refresh(); return;}
+      if ((event.ctrlKey || event.metaKey) && event.code === 'KeyZ') {event.preventDefault(); this.perform(()=>this.history(event.shiftKey?'redo':'undo',event.shiftKey?'undo':'redo'));}
+      else if ((event.ctrlKey || event.metaKey) && event.code === 'KeyY') {event.preventDefault(); this.perform(()=>this.history('redo','undo'));}
+      else if ((event.code === 'Delete' || event.code === 'Backspace') && document.activeElement === this.canvas) {event.preventDefault(); element('editor-delete').click();}
+    });
+  }
+  async perform(fn) {
+    if (this.busy) return;
+    this.busy = true; this.refresh(); element('editor-error').textContent = '';
+    try {await fn();}
+    catch(error) {if (error.name === 'AbortError') this.say('Export cancelled. Your edits are retained.'); else element('editor-error').textContent = messageOf(error);}
+    finally {this.busy = false; this.refresh();}
+  }
+  say(text) {element('editor-status').textContent = text;}
+  get hasUnsavedChanges() {return this.revision !== this.savedRevision;}
+  get hasEdits() {return [...this.levels.values()].some(row => !same(row.draft,row.original));}
+  nextId() {let id;do{id=`new-${++this.serial}`;}while(this.current.draft.some(row=>row.id===id));return id;}
+  selectedRow() {return this.current?.draft.find(row => row.id === this.selected) ?? null;}
+  async setSource(archive, game, verified) {
+    ++this.token; this.cancelDrag(); this.archive = verified && game?.id === 'rollcage' ? archive : null;
+    this.levels.clear(); this.levelLoads.clear(); this.current = null; this.scene = null; this.selected = null; this.editing = false; this.adding = false;
+    this.revision = this.savedRevision = 0; this.indexSha256 = null; this.renderer.setEditorPickups([]); this.refresh();
+    if (this.archive) {const source=this.archive;const digest=await pickupSha256(archive.indexData);if(this.archive===source)this.indexSha256=digest;}
+    this.refresh();
+  }
+  clearTrack() {++this.token; this.cancelDrag(); this.current=null; this.scene=null; this.selected=null; this.adding=false;this.renderer.setEditorPickups([]);this.refresh();}
+  async loadLevel(level) {
+    if (!this.archive || !supported(level)) throw Error('Pickup editing is unavailable for this track.');
+    const cached=this.levels.get(level);if(cached)return cached;
+    const pending=this.levelLoads.get(level);if(pending)return pending;
+    const promise=this.readLevel(level,this.archive);this.levelLoads.set(level,promise);
+    try{return await promise;}finally{if(this.levelLoads.get(level)===promise)this.levelLoads.delete(level);}
+  }
+  async readLevel(level,source) {
+    const pair={level};
+    for(const quality of ['LOW','HIGH']) {
+      const track=getGame('rollcage').tracks.find(row=>row.name===`${quality}/LEV${level}.BLP`);
+      const resource=await source.readResource(track.index);
+      pair[quality]={index:track.index,data:resource.data};
+    }
+    if(this.archive!==source)throw Error('The archive source changed while loading pickup definitions.');
+    const low=parsePickupPlacements(pair.LOW.data),high=parsePickupPlacements(pair.HIGH.data);
+    if (!low.count || low.count!==high.count || low.records.some((row,i)=>!bytesEqual(row.raw,high.records[i].raw))) throw Error('LOW and HIGH pickup definitions must match the original supported level.');
+    pair.original=createPickupDraft(pair.LOW.data);pair.draft=copy(pair.original);pair.undo=[];pair.redo=[];
+    pair.sourceHashes={LOW:await pickupSha256(pair.LOW.data),HIGH:await pickupSha256(pair.HIGH.data)};
+    if(this.archive!==source)throw Error('The archive source changed while checking pickup definitions.');
+    const models=parseGFXM(pair.LOW.data),metadata=pair.LOW.data.readUInt32LE(0x84),modelIndex=pair.LOW.data.readInt16LE(metadata+12);
+    const vertices=models.models[modelIndex]?.vertices??[];
+    pair.clearance=Math.max(0,...vertices.map(vertex=>vertex[1]));
+    this.levels.set(level,pair);return pair;
+  }
+  async setTrack(track,scene) {
+    const token=++this.token;this.current=null;this.scene=null;this.selected=null;this.adding=false;this.refresh();
+    if(!this.archive||!supported(levelOf(track))){this.editing=false;this.renderer.setEditorPickups([]);this.refresh();return;}
+    try {
+      const base=await this.loadLevel(levelOf(track));if(token!==this.token)return;
+      this.current=base;this.scene=scene;prepareTerrainPicking(scene);this.refresh();
+      this.say(`${base.draft.length} pickup points · edits apply to LOW + HIGH.`);
+    }catch(error){if(token===this.token){element('editor-error').textContent=messageOf(error);this.editing=false;this.refresh();}}
+  }
+  setEditing(enabled, {testing = false} = {}) {
+    this.releaseMouse();this.cancelDrag();this.editing=Boolean(enabled&&this.current);this.adding=false;this.pendingDuplicate=null;
+    if(this.editing)this.navigation.setMode('orbit');this.onModeChange(this.editing, {testing});
+    this.refresh();
+  }
+  geometryFor(track,original) {const base=this.levels.get(levelOf(track));return base?compilePickupEdits(original,base.draft):original;}
+  async project() {
+    if(!this.archive||!this.indexSha256)throw Error('Load the original verified Rollcage archives first.');
+    return {schemaVersion:1,game:'rollcage',indexSha256:this.indexSha256,levels:[...this.levels.values()].filter(row=>!same(row.draft,row.original)).sort((a,b)=>a.level-b.level).map(row=>({level:row.level,sourceHashes:{...row.sourceHashes},pickups:copy(row.draft)}))};
+  }
+  commit(draft,{before=this.current.draft}={}) {
+    const checked=validatePickupDraft(this.current.LOW.data,draft);validatePickupDraft(this.current.HIGH.data,checked);
+    if(same(before,checked))return;
+    this.current.undo.push(copy(before));if(this.current.undo.length>100)this.current.undo.shift();this.current.redo=[];this.current.draft=copy(checked);
+    this.revision++;this.onChange();this.refresh();
+  }
+  history(from,to) {
+    this.cancelDrag();
+    if(!this.current?.[from].length)return;
+    this.current[to].push(copy(this.current.draft));this.current.draft=this.current[from].pop();this.revision++;this.onChange();
+    if(!this.selectedRow())this.selected=this.current.draft[0]?.id??null;this.adding=false;this.pendingDuplicate=null;this.refresh();
+  }
+  clearance(row) {
+    if(!row)return this.current.clearance;
+    const point=sourceToDisplay(row.position),hit=intersectTerrain(this.scene,{origin:[point[0],point[1]+0.01,point[2]],direction:[0,-1,0]});
+    return hit?Math.max(0,point[1]-hit.position[1]):this.current.clearance;
+  }
+  placedPosition(hit,row) {const position=[...hit.position];position[1]+=this.clearance(row);return displayToSource(position).map(Math.round);}
+  pointerDown(event) {
+    if(!this.editing||this.busy||event.button!==0||event.shiftKey||!this.current)return false;
+    this.canvas.focus();const rect=this.canvas.getBoundingClientRect();
+    const selected=pickPickup(this.current.draft.map(row=>sourceToDisplay(row.position)),this.navigation,rect,event.clientX,event.clientY);
+    if(this.adding){
+      if(this.current.draft.length>=16&&!this.pendingDuplicate){this.say('Maximum 16 pickup points per level.');return true;}
+      const hit=intersectTerrain(this.scene,cameraRay(this.navigation,rect,event.clientX,event.clientY));if(!hit){this.say('Choose a point on the track terrain.');return true;}
+      try {
+        let template=this.selectedRow();
+        if(!template)template=this.current.original.reduce((best,row)=>{const p=sourceToDisplay(row.position),distance=p.reduce((sum,v,i)=>sum+(v-hit.position[i])**2,0);return !best||distance<best.distance?{row,distance}:best;},null).row;
+        //A just-created duplicate is placed instead of creating another one.
+        const duplicate=this.pendingDuplicate;
+        const draft=copy(this.current.draft),position=this.placedPosition(hit,template),id=duplicate??this.nextId();
+        if(duplicate)draft.find(row=>row.id===duplicate).position=position;else draft.push({id,templateIndex:template.templateIndex,position});
+        this.selected=id;this.pendingDuplicate=null;this.adding=false;this.commit(draft);this.say('Pickup placed. Adjust its coordinates or test the changes.');
+      }catch(error){element('editor-error').textContent=messageOf(error);}
+      this.refresh();return true;
+    }
+    if(selected===null)return false;
+    this.selected=this.current.draft[selected].id;
+    this.drag={id:event.pointerId,before:copy(this.current.draft),clearance:this.clearance(this.selectedRow()),moved:false};
+    this.canvas.setPointerCapture(event.pointerId);this.refresh();return true;
+  }
+  pointerMove(event) {
+    if(!this.drag||event.pointerId!==this.drag.id)return false;
+    const hit=intersectTerrain(this.scene,cameraRay(this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY));
+    if(hit){
+      try {
+        const position=displayToSource([hit.position[0],hit.position[1]+this.drag.clearance,hit.position[2]]).map(Math.round),draft=copy(this.current.draft);
+        draft.find(row=>row.id===this.selected).position=position;validatePickupDraft(this.current.LOW.data,draft);this.current.draft=draft;this.drag.moved=true;this.refresh();
+      }catch(error){element('editor-error').textContent=messageOf(error);}
+    }
+    return true;
+  }
+  pointerUp() {
+    if(!this.drag)return false;const drag=this.drag;this.drag=null;
+    if(drag.moved)this.commit(this.current.draft,{before:drag.before});return true;
+  }
+  cancelDrag() {const active=Boolean(this.drag);if(this.drag&&this.current)this.current.draft=this.drag.before;this.drag=null;if(active)this.refresh();}
+  refresh() {
+    const available=Boolean(this.current),active=available&&this.editing&&!this.busy,row=this.selectedRow();
+    element('editor-enable').disabled=!available||this.busy;element('editor-enable').checked=this.editing;
+    element('editor-controls').hidden=!this.editing;
+    for(const id of ['editor-add','editor-duplicate'])element(id).disabled=!active||(this.current?.draft.length>=16&&!(id==='editor-add'&&this.adding))||(id==='editor-duplicate'&&!row);
+    for(const id of ['editor-delete','editor-x','editor-y','editor-z'])element(id).disabled=!active||!row;
+    element('editor-undo').disabled=!active||!this.current?.undo.length;element('editor-redo').disabled=!active||!this.current?.redo.length;
+    element('editor-reset-level').disabled=!active||same(this.current?.draft,this.current?.original);
+    element('editor-test').disabled=!available||this.busy;
+    element('editor-save').disabled=!this.archive||!this.indexSha256||this.busy;
+    element('editor-load').disabled=!this.archive||!this.indexSha256||this.busy;
+    element('editor-export').disabled=!this.archive||!this.hasEdits||this.busy;
+    const selector=element('editor-pickup'),draft=this.current?.draft??[],signature=draft.map(item=>item.id).join('|');
+    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a pickup',''),...draft.map((item,i)=>new Option(`Pickup ${i+1}${item.id.startsWith('new-')?' (added)':''}`,item.id)));selector.dataset.signature=signature;}
+    selector.disabled=!active||!draft.length;selector.value=row?.id??'';
+    if(document.activeElement!==element('editor-x')&&document.activeElement!==element('editor-y')&&document.activeElement!==element('editor-z')){
+      const position=row?sourceToDisplay(row.position):['','',''];['x','y','z'].forEach((axis,i)=>{const control=element(`editor-${axis}`),value=String(position[i]);if(control.value!==value)control.value=value;});
+    }
+    element('editor-count').textContent=available?`${draft.length} / 16 pickup points · LOW + HIGH${this.hasUnsavedChanges?' · unsaved project changes':''}`:'';
+    element('editor-note').textContent=available?'Edit spawn points, then test or export. Boxes retain their original random awards and respawn behavior.':'Requires verified Rollcage archives. LEV15 has no original pickups; LEV15/16/17 are excluded.';
+    element('editor-add').textContent=this.adding?'Cancel placement':'Add pickup';
+    this.renderer.setEditorPickups(this.editing?draft.map(item=>({position:sourceToDisplay(item.position),added:item.id.startsWith('new-'),selected:item.id===this.selected})):[]);
+  }
+  inspect() {return {available:Boolean(this.current),editing:this.editing,adding:this.adding,level:this.current?.level??null,selected:this.selected,pickups:copy(this.current?.draft??[]),undo:this.current?.undo.length??0,redo:this.current?.redo.length??0,dirty:this.hasUnsavedChanges,editedLevels:[...this.levels.values()].filter(row=>!same(row.draft,row.original)).map(row=>row.level),busy:this.busy};}
+}
+
+Object.assign(module.exports, {PickupEditor});
+},
+"src/pickup-editor.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {parsePickupPlacements,createPickupDraft,validatePickupDraft,compilePickupEdits,parsePickupProject,createPickupProject,validatePickupSourcePair,validatePickupProject,pickupSha256});
+// Authored pickup table: GFXM +90h DWORD offset, +94h BYTE count,
+// 12-byte records (44c2b0 publishes this byte to runtime pack+36h).
+// The editor changes signed source XYZ only. Bytes 6..11 always come from
+// the immutable source record, including when a pickup is duplicated.
+const PICKUP_EDITOR_LIMIT = 16;
+const PICKUP_EDITOR_LEVELS = Object.freeze(Array.from({length: 20}, (_, i) => i + 1).filter(n => ![15, 16, 17].includes(n)));
+
+function bytes(data) {
+  if (!Buffer.isBuffer(data) || data.length < 0x98 || data.toString('ascii', 0, 4) !== 'GFXM') throw new Error('Invalid pickup GFXM resource.');
+}
+function object(value, keys, label) {
+  if (!value || typeof value !== 'object' || Array.isArray(value) || ![Object.prototype, null].includes(Object.getPrototypeOf(value))) throw new Error(`Invalid ${label}.`);
+  if (Object.keys(value).some(key => !keys.includes(key)) || keys.some(key => !Object.hasOwn(value, key))) throw new Error(`Unexpected or missing ${label} fields.`);
+}
+function position(value) {
+  if (!Array.isArray(value) || value.length !== 3 || Array.from(value).some(n => !Number.isInteger(n) || n < -32768 || n > 32767)) throw new RangeError('Pickup position requires three signed i16 source coordinates.');
+  return [...value];
+}
+function draftRows(pickups, templateCount) {
+  if (!Array.isArray(pickups) || pickups.length > PICKUP_EDITOR_LIMIT) throw new RangeError('Pickup draft count must be 0..16.');
+  const ids = new Set();
+  return Array.from(pickups, row => {
+    object(row, ['id', 'templateIndex', 'position'], 'pickup');
+    if (typeof row.id !== 'string' || !/^[A-Za-z0-9_-]{1,80}$/.test(row.id) || ids.has(row.id)) throw new Error('Invalid or duplicate pickup id.');
+    ids.add(row.id);
+    if (!Number.isInteger(row.templateIndex) || row.templateIndex < 0 || row.templateIndex >= templateCount) throw new RangeError('Invalid original pickup template index.');
+    return {id: row.id, templateIndex: row.templateIndex, position: position(row.position)};
+  });
+}
+
+function parsePickupPlacements(data) {
+  bytes(data);
+  const offset = data.readUInt32LE(0x90), count = data[0x94];
+  if (count && (offset < 0x98 || offset + count * 12 > data.length)) throw new RangeError('Pickup table exceeds resource bounds.');
+  return {offset, count, records: Array.from({length: count}, (_, index) => {
+    const p = offset + index * 12;
+    return {index, position: [0, 2, 4].map(n => data.readInt16LE(p + n)), raw: Buffer.from(data.subarray(p, p + 12))};
+  })};
+}
+
+function createPickupDraft(data) {
+  const source = parsePickupPlacements(data);
+  return validatePickupDraft(data, source.records.map(row => ({id: `original-${row.index}`, templateIndex: row.index, position: row.position})));
+}
+
+function validatePickupDraft(data, pickups) {
+  return draftRows(pickups, parsePickupPlacements(data).count);
+}
+
+function compilePickupEdits(data, pickups) {
+  const source = parsePickupPlacements(data), rows = draftRows(pickups, source.count);
+  const unchanged = rows.length === source.count && rows.every((row, i) =>
+    row.position.every((n, axis) => n === source.records[i].position[axis]) &&
+    source.records[row.templateIndex].raw.subarray(6).every((n, j) => n === source.records[i].raw[6 + j]));
+  if (unchanged) return Buffer.from(data);
+  const offset = Math.ceil(data.length / 4) * 4;
+  if (offset + rows.length * 12 >= 0x80000000) throw new RangeError('Edited resource exceeds native signed offset range.');
+  const output = Buffer.alloc(rows.length ? offset + rows.length * 12 : data.length);
+  output.set(data);
+  output[0x94] = rows.length;
+  if (rows.length) {
+    output.writeUInt32LE(offset, 0x90);
+    rows.forEach((row, index) => {
+      const p = offset + index * 12;
+      output.set(source.records[row.templateIndex].raw, p);
+      row.position.forEach((n, axis) => output.writeInt16LE(n, p + axis * 2));
+    });
+  }
+  return output;
+}
+
+function hashes(value) {
+  object(value, ['LOW', 'HIGH'], 'source hashes');
+  for (const hash of Object.values(value)) if (typeof hash !== 'string' || !/^[0-9a-f]{64}$/.test(hash)) throw new Error('Invalid SHA-256 hash.');
+  return {...value};
+}
+
+function parsePickupProject(value) {
+  const project = typeof value === 'string' ? JSON.parse(value) : value;
+  object(project, ['schemaVersion', 'game', 'indexSha256', 'levels'], 'pickup project');
+  if (project.schemaVersion !== 1 || project.game !== 'rollcage' || typeof project.indexSha256 !== 'string' || !/^[0-9a-f]{64}$/.test(project.indexSha256)) throw new Error('Unsupported pickup project or index hash.');
+  if (!Array.isArray(project.levels) || project.levels.length > PICKUP_EDITOR_LEVELS.length) throw new Error('Invalid project levels.');
+  const seen = new Set();
+  const levels = Array.from(project.levels, row => {
+    object(row, ['level', 'sourceHashes', 'pickups'], 'project level');
+    if (!PICKUP_EDITOR_LEVELS.includes(row.level) || seen.has(row.level)) throw new Error('Unsupported or duplicate project level.');
+    seen.add(row.level);
+    // A project cannot prove a template exists without its original resource.
+    const pickups = draftRows(row.pickups, 255);
+    return {level: row.level, sourceHashes: hashes(row.sourceHashes), pickups};
+  });
+  return {schemaVersion: 1, game: 'rollcage', indexSha256: project.indexSha256, levels};
+}
+
+function createPickupProject({indexSha256, levels}) {
+  return parsePickupProject({schemaVersion: 1, game: 'rollcage', indexSha256, levels});
+}
+
+function validatePickupSourcePair(lowData, highData) {
+  const low = parsePickupPlacements(lowData), high = parsePickupPlacements(highData);
+  if (low.count !== high.count || low.records.some((row, i) => row.position.some((n, axis) => n !== high.records[i].position[axis]))) throw new Error('LOW/HIGH original pickup tables differ in count or coordinates.');
+  return {low, high};
+}
+
+// Source hashes here are caller-computed digests of the immutable original bytes.
+// Parsing a project alone never grants permission to compile unknown templates.
+function validatePickupProject(value, sources) {
+  const project = parsePickupProject(value);
+  if (!sources || sources.indexSha256 !== project.indexSha256 || !Array.isArray(sources.levels)) throw new Error('Project archive index hash mismatch.');
+  for (const row of project.levels) {
+    const matches = sources.levels.filter(source => source.level === row.level);
+    if (matches.length !== 1) throw new Error('Project original level source is missing or ambiguous.');
+    const source = matches[0];
+    if (row.sourceHashes.LOW !== source.sourceHashes?.LOW || row.sourceHashes.HIGH !== source.sourceHashes?.HIGH) throw new Error('Project level source hash mismatch.');
+    validatePickupSourcePair(source.lowData, source.highData);
+    validatePickupDraft(source.lowData, row.pickups);
+    validatePickupDraft(source.highData, row.pickups);
+  }
+  return project;
+}
+
+async function pickupSha256(data) {
+  if (!(data instanceof Uint8Array)) throw new TypeError('SHA-256 requires bytes.');
+  const digest = await globalThis.crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest), n => n.toString(16).padStart(2, '0')).join('');
+}
+
+Object.assign(module.exports, {PICKUP_EDITOR_LIMIT,PICKUP_EDITOR_LEVELS,parsePickupPlacements,createPickupDraft,validatePickupDraft,compilePickupEdits,parsePickupProject,createPickupProject,validatePickupSourcePair,validatePickupProject,pickupSha256});
+},
+"tools/track-viewer/pickup-picking.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
+//CPU editor picking uses the exact static display mesh and view/projection.
+//It never writes game data or a running simulation. Scene identity owns the
+//cached terrain BVH; changing tracks releases it through the WeakMap.
+const terrainCache = new WeakMap();
+const vector = value => value?.length === 3 && Array.from(value).every(Number.isFinite);
+const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const normalize = value => {const length=Math.hypot(...value);return length>0?value.map(n=>n/length):null;};
+
+const sourceToDisplay = ([x,y,z]) => [x,y===0?0:-y,z===0?0:-z];
+const displayToSource = sourceToDisplay;
+
+function rectangle(rect) {
+  if(!rect||![rect.left,rect.top,rect.width,rect.height].every(Number.isFinite)||rect.width<=0||rect.height<=0)return null;
+  return rect;
+}
+function transform(matrix,x,y,z,w) {
+  return [0,1,2,3].map(row=>matrix[row]*x+matrix[4+row]*y+matrix[8+row]*z+matrix[12+row]*w);
+}
+//Gauss-Jordan on doubles, retaining the column-major WebGL convention.
+function inverse(matrix) {
+  if(matrix?.length!==16||!Array.from(matrix).every(Number.isFinite))return null;
+  const rows=Array.from({length:4},(_,r)=>[...Array.from({length:4},(_,c)=>matrix[c*4+r]),...Array.from({length:4},(_,c)=>Number(r===c))]);
+  for(let column=0;column<4;column++) {
+    let pivot=column;for(let r=column+1;r<4;r++)if(Math.abs(rows[r][column])>Math.abs(rows[pivot][column]))pivot=r;
+    if(Math.abs(rows[pivot][column])<1e-15)return null;
+    [rows[column],rows[pivot]]=[rows[pivot],rows[column]];
+    const scale=rows[column][column];for(let c=0;c<8;c++)rows[column][c]/=scale;
+    for(let r=0;r<4;r++)if(r!==column){const amount=rows[r][column];for(let c=0;c<8;c++)rows[r][c]-=rows[column][c]*amount;}
+  }
+  return Array.from({length:16},(_,i)=>rows[i%4][4+Math.floor(i/4)]);
+}
+function unproject(matrix,x,y,z) {
+  const point=transform(matrix,x,y,z,1);if(!Number.isFinite(point[3])||Math.abs(point[3])<1e-15)return null;
+  return point.slice(0,3).map(n=>n/point[3]);
+}
+
+function cameraRay(navigation,canvasRect,clientX,clientY) {
+  const rect=rectangle(canvasRect);
+  if(!rect||![clientX,clientY].every(Number.isFinite)||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
+  const matrix=inverse(navigation.matrix(rect.width/rect.height));if(!matrix)return null;
+  const x=(clientX-rect.left)/rect.width*2-1,y=1-(clientY-rect.top)/rect.height*2;
+  const near=unproject(matrix,x,y,-1),far=unproject(matrix,x,y,1);if(!near||!far)return null;
+  const direction=normalize(far.map((n,i)=>n-near[i]));if(!direction)return null;
+  //Navigation owns the camera position; this keeps hit distances in scene
+  //units from the eye, rather than from the perspective near plane.
+  const origin=navigation.position();if(!vector(origin))return null;
+  return {origin:[...origin],direction};
+}
+
+function bytesOf(value) {
+  if(typeof value==='string')return Uint8Array.from(atob(value),letter=>letter.charCodeAt(0));
+  if(value instanceof ArrayBuffer)return new Uint8Array(value);
+  if(ArrayBuffer.isView(value))return new Uint8Array(value.buffer,value.byteOffset,value.byteLength);
+  throw Error('Terrain picking requires decoded mesh bytes.');
+}
+function buildTerrain(scene) {
+  if(!scene||!Array.isArray(scene.groups))throw Error('Terrain picking requires decoded scene groups.');
+  const groups=scene.groups.filter(group=>group.kind==='terrain');
+  let count=0;for(const group of groups){if(!Number.isSafeInteger(group.vertices)||group.vertices<0||group.vertices%3)throw Error('Terrain picking requires triangle-list vertices.');count+=group.vertices/3;}
+  const positions=new Float64Array(count*9);let cursor=0;
+  for(const group of groups) {
+    const bytes=bytesOf(group.buffer),stride=group.colored?44:32;
+    if(group.vertices*stride>bytes.byteLength)throw Error('Terrain picking mesh exceeds its decoded buffer.');
+    const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+    for(let vertex=0;vertex<group.vertices;vertex++)for(let axis=0;axis<3;axis++){
+      const value=view.getFloat32(vertex*stride+axis*4,true);if(!Number.isFinite(value))throw Error('Terrain picking mesh has a nonfinite position.');positions[cursor++]=value;
+    }
+  }
+  const order=Array.from({length:count},(_,i)=>i);let nodes=0;
+  function build(start,end) {
+    nodes++;const minimum=[Infinity,Infinity,Infinity],maximum=[-Infinity,-Infinity,-Infinity];
+    for(let i=start;i<end;i++)for(let vertex=0;vertex<3;vertex++)for(let axis=0;axis<3;axis++){
+      const value=positions[order[i]*9+vertex*3+axis];minimum[axis]=Math.min(minimum[axis],value);maximum[axis]=Math.max(maximum[axis],value);
+    }
+    const node={minimum,maximum,start,end};
+    if(end-start>12){let axis=0;for(let a=1;a<3;a++)if(maximum[a]-minimum[a]>maximum[axis]-minimum[axis])axis=a;
+      const center=i=>positions[i*9+axis]+positions[i*9+3+axis]+positions[i*9+6+axis];
+      const sorted=order.slice(start,end).sort((a,b)=>center(a)-center(b)||a-b);for(let i=0;i<sorted.length;i++)order[start+i]=sorted[i];
+      const middle=(start+end)>>>1;node.left=build(start,middle);node.right=build(middle,end);
+    }
+    return node;
+  }
+  const root=count?build(0,count):null;
+  return {positions,order,root,stats:Object.freeze({triangles:count,nodes,builds:1})};
+}
+function terrain(scene) {let cached=terrainCache.get(scene);if(!cached){cached=buildTerrain(scene);terrainCache.set(scene,cached);}return cached;}
+function prepareTerrainPicking(scene) {return terrain(scene).stats;}
+
+function boxDistance(node,origin,direction,limit) {
+  let near=0,far=limit;
+  for(let axis=0;axis<3;axis++){
+    if(Math.abs(direction[axis])<1e-15){if(origin[axis]<node.minimum[axis]||origin[axis]>node.maximum[axis])return null;continue;}
+    let a=(node.minimum[axis]-origin[axis])/direction[axis],b=(node.maximum[axis]-origin[axis])/direction[axis];if(a>b)[a,b]=[b,a];
+    near=Math.max(near,a);far=Math.min(far,b);if(near>far)return null;
+  }
+  return near;
+}
+function triangleDistance(positions,index,origin,direction) {
+  const p=index*9,a=[positions[p],positions[p+1],positions[p+2]],e1=[0,1,2].map(i=>positions[p+3+i]-a[i]),e2=[0,1,2].map(i=>positions[p+6+i]-a[i]);
+  const h=cross(direction,e2),det=dot(e1,h);if(Math.abs(det)<1e-10)return null;
+  const inverseDet=1/det,s=origin.map((n,i)=>n-a[i]),u=dot(s,h)*inverseDet;if(u<-1e-9||u>1+1e-9)return null;
+  const q=cross(s,e1),v=dot(direction,q)*inverseDet;if(v<-1e-9||u+v>1+1e-9)return null;
+  const t=dot(e2,q)*inverseDet;return t>=-1e-9?Math.max(0,t):null;
+}
+function intersectTerrain(scene,ray) {
+  if(!ray||!vector(ray.origin)||!vector(ray.direction))return null;
+  const direction=normalize(Array.from(ray.direction));if(!direction)return null;
+  const cached=terrain(scene);if(!cached.root)return null;
+  let distance=Infinity;const stack=[cached.root];
+  while(stack.length){const node=stack.pop();if(boxDistance(node,ray.origin,direction,distance)===null)continue;
+    if(node.left){const a=boxDistance(node.left,ray.origin,direction,distance),b=boxDistance(node.right,ray.origin,direction,distance);
+      if(a!==null&&b!==null){if(a<b)stack.push(node.right,node.left);else stack.push(node.left,node.right);}else if(a!==null)stack.push(node.left);else if(b!==null)stack.push(node.right);
+    }else for(let i=node.start;i<node.end;i++){const hit=triangleDistance(cached.positions,cached.order[i],ray.origin,direction);if(hit!==null&&hit<distance)distance=hit;}
+  }
+  return Number.isFinite(distance)?{position:Array.from(ray.origin,(n,i)=>n+direction[i]*distance),distance}:null;
+}
+
+function pickPickup(pointsDisplay,navigation,canvasRect,clientX,clientY,{radiusPx=10}={}) {
+  const rect=rectangle(canvasRect);
+  if(!rect||![clientX,clientY,radiusPx].every(Number.isFinite)||radiusPx<0||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
+  const matrix=navigation.matrix(rect.width/rect.height);let selected=null,best=radiusPx*radiusPx,bestDepth=Infinity;
+  for(let index=0;index<pointsDisplay.length;index++){
+    const point=pointsDisplay[index];if(!vector(point))continue;
+    const clip=transform(matrix,...point,1);if(clip[3]<=0)continue;
+    const [x,y,z]=clip.slice(0,3).map(n=>n/clip[3]);if(x<-1||x>1||y<-1||y>1||z<-1||z>1)continue;
+    const px=rect.left+(x+1)*rect.width/2,py=rect.top+(1-y)*rect.height/2,d=(px-clientX)**2+(py-clientY)**2;
+    if(d<best||d===best&&z<bestDepth){selected=index;best=d;bestDepth=z;}
+  }
+  return selected;
+}
+
+Object.assign(module.exports, {sourceToDisplay,displayToSource,cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
+},
+"tools/track-viewer/editor-download.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildPickupGameDownload});
+const {buildEditedArchive} = require("src/archive-write.mjs");
+const {createBlobZIP} = require("tools/track-viewer/zip.mjs");
+
+async function buildPickupGameDownload(archive, replacements, project, options = {}) {
+  if (!(archive.image instanceof Blob)) throw Error('Game export requires the original locally selected IMG file.');
+  const plan = buildEditedArchive(archive.indexData, archive.image.size, replacements);
+  const image = new Blob(plan.parts.map(part => part instanceof Uint8Array ? part : archive.image.slice(part.offset, part.offset + part.length)));
+  if (image.size !== plan.imageBytes) throw Error('Archive assembly length differs from the validated plan.');
+  const readme = [
+    'Rollcage pickup editor — local game export', '',
+    '1. Keep your original installation and original IMG/IDX files unchanged.',
+    '2. Make a separate copy of your Rollcage Redux installation.',
+    '3. In that copy, replace BOTH IDXData/Rollcage.img and IDXData/Rollcage.idx with the files from this ZIP.',
+    '4. Enable weapons/pickups in the game. Edits apply to LOW and HIGH versions of each edited level.', '',
+    'To continue editing: open your ORIGINAL archives in the track viewer, then load pickup-project.json.',
+    'This project changes pickup spawn points only. It preserves the original random weapon awards and respawn definitions.',
+    'LEV15, LEV16 and LEV17 are excluded. Maximum 16 pickup points per level.',
+    'Tested in Rollcage Redux 1.3.8.0 on LEV1, LOW and HIGH, with unchanged, zero and 16 pickups.', '',
+    `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
+  ].join('\n');
+  const blob = await createBlobZIP([
+    {name: 'Rollcage.img', data: image}, {name: 'Rollcage.idx', data: plan.index},
+    {name: 'pickup-project.json', data: JSON.stringify(project, null, 2)}, {name: 'README.txt', data: readme}
+  ], options);
+  return {filename: 'rollcage-pickup-edits.zip', blob, imageBytes: image.size, changes: plan.changes};
+}
+
+Object.assign(module.exports, {buildPickupGameDownload});
+},
+"src/archive-write.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildEditedArchive});
+const {parseIndex} = require("src/archive-index.mjs");
+
+// Parts retain the original IMG verbatim and append uncompressed resources.
+// No host I/O: consumers assemble source ranges and byte chunks as files/Blobs.
+function buildEditedArchive(indexBytes, imageSize, replacements) {
+  if (!Number.isSafeInteger(imageSize) || imageSize < 0 || imageSize >= 0x80000000) throw new RangeError('Invalid native archive image size.');
+  const entries = parseIndex(indexBytes, imageSize);
+  if (!(replacements instanceof Map)) throw new TypeError('Archive replacements must be a Map.');
+  const index = Buffer.from(indexBytes), parts = [{offset: 0, length: imageSize}], changes = [];
+  let imageBytes = imageSize;
+  for (const [resourceIndex, data] of [...replacements].sort((a, b) => a[0] - b[0])) {
+    if (!Number.isInteger(resourceIndex) || resourceIndex < 0 || resourceIndex >= entries.length) throw new RangeError('Invalid replacement resource index.');
+    if (!(data instanceof Uint8Array) || !data.length) throw new Error('Replacement resource must contain bytes.');
+    const old = entries[resourceIndex];
+    if (old.nextIndex || entries.some(row => row.nextIndex === resourceIndex && row.nextIndex !== 0)) throw new Error('Cannot replace a linked archive entry.');
+    const offset = Math.ceil(imageBytes / 4) * 4;
+    if (offset + data.length >= 0x80000000) throw new RangeError('Edited archive exceeds native signed offset range.');
+    if (offset > imageBytes) parts.push(new Uint8Array(offset - imageBytes));
+    parts.push(Buffer.from(data));
+    index.writeUInt32LE(offset, resourceIndex * 16);
+    index.writeUInt32LE(data.length, resourceIndex * 16 + 4);
+    index.writeUInt32LE(data.length, resourceIndex * 16 + 8);
+    imageBytes = offset + data.length;
+    changes.push({resourceIndex, oldOffset: old.offset, oldStoredBytes: old.storedBytes, oldDecodedBytes: old.decodedBytes, offset, storedBytes: data.length, decodedBytes: data.length});
+  }
+  return {index, parts, imageBytes, changes};
+}
+
+Object.assign(module.exports, {buildEditedArchive});
 }
 };
 const cache = {};

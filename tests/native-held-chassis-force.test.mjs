@@ -197,18 +197,38 @@ Reject {[RollcageCapture.NativeDebugger]::HeldForceRequiredBytes([long]::MaxValu
 'Bank header/budget pure checks passed; no native process launched.'`;
   const run=spawnSync('powershell.exe',['-NoProfile','-Command',script],{encoding:'utf8',windowsHide:true,timeout:30000});assert.equal(run.status,0,run.stdout+run.stderr);
   const cs=await readFile(source,'utf8'),reader=cs.slice(cs.indexOf('static BufferedSnapshot ReadBufferedSnapshot('),cs.indexOf('static void CommitBufferedGroup('));
-  const diagnostic=reader.indexOf('footprintObserver(Record('),reserve=reader.indexOf('if(separateReserve==null)progress.Reserve'),blobs=reader.indexOf('range.data = ReadCaptureRangeBytes');
-  assert.ok(diagnostic>=0&&reserve>diagnostic&&blobs>reserve,'Resolved per-range footprints precede both byte reservation and full blob reads.');
+  const diagnostic=reader.indexOf('footprintObserver(diagnostic)'),reserve=reader.indexOf('if(separateReserve==null)progress.Reserve'),sharedReads=reader.indexOf('storage=ReadContainedRangeStorage'),blobs=reader.indexOf('range.data = ReadCaptureRangeBytes');
+  assert.ok(diagnostic>=0&&reserve>diagnostic&&sharedReads>reserve&&blobs>reserve,'Resolved per-range footprints precede byte reservation and both shared/default full blob reads.');
 });
 
 test('synthetic native wire candidates prove actual type3/border7 geometry, with wrong-body/plane/ownership rejected',()=>{
   const base=0x400000,body=0x1300000,pool=0x1400000,vertices=0x1500000,eventAddress=0x1200000,normal=[0,0,65536];
-  const b=Buffer.alloc(0x180),c=Buffer.alloc(0x8000),e=Buffer.alloc(104),root=Buffer.alloc(4);b.writeUInt32LE(3);b.writeUInt32LE(pool,0x154);b.writeUInt16LE(1,0x15c);c[0]=7;c.writeUInt32LE(256,8);c.writeUInt32LE(vertices,12);e.writeUInt32LE(1);e.writeUInt32LE(body,4);e.writeInt32LE(65536,0x40);e[0x54]=1;root.writeUInt32LE(pool);
+  const b=Buffer.alloc(0x180),c=Buffer.alloc(0x8000),e=Buffer.alloc(104),root=Buffer.alloc(4);b.writeUInt32LE(3);b.writeUInt32LE(pool,0x154);b.writeUInt16LE(1,0x15c);c[0]=7;c[5]=1;c.writeUInt32LE(256,8);c.writeUInt32LE(vertices+8,12);e.writeUInt32LE(1);e.writeUInt32LE(body,4);e.writeInt32LE(65536,0x40);e.writeInt32LE(256,0x44);e[0x54]=1;root.writeUInt32LE(pool);
   const row=(id,address,bytes)=>({id,address,length:bytes.length,bytes}),snapshot={ordinal:9,ranges:new Map([row('dispatch-event',eventAddress,e),row('dispatch-body-header',body,b),row('dispatch-candidate-arena',pool,c),row('candidate-root',base+0x51e788,root)].map(r=>[r.id,r]))};
-  const replay={manifest:{moduleBaseAddress:base},geometry:{grid:{sectors:[{rows:1,columns:1,vertexAddress:vertices,vertices:[[0,0,0],[100,0,0],[0,100,0],[100,100,0]]}]}}};
-  const event={classification:{category:'terrain-border',response:'swept-contact'},before:{field44:0,normalQ16:normal,terrainCandidates:[{address:pool,type:7,id:0,normalQ16:normal}]}},selected={bodyAddress:body,border:{cellId:0,normalQ16:normal}};
+  const replay={manifest:{moduleBaseAddress:base},geometry:{grid:{normals:[{packed:256}],sectors:[{rows:1,columns:1,vertexAddress:vertices,vertices:[[0,0,0],[100,0,0],[0,100,0],[100,100,0]],borders:[{left:{type:6,column:0,covered:true,normal:0},right:{type:7,column:1,covered:true,normal:0}}]}]}}};
+  const event={classification:{category:'terrain-border',response:'swept-contact'},before:{field44:256,normalQ16:normal,terrainCandidates:[{address:pool,type:7,id:256,normalQ16:normal}]}},selected={bodyAddress:body,border:{cellId:256,normalQ16:normal}};
   assert.equal(proveNativeChassisBorderCandidate(snapshot,event,replay,selected).candidates[0].type,7);
-  for(const mutate of [s=>s.ranges.get('dispatch-body-header').bytes.writeUInt32LE(4),s=>s.ranges.get('dispatch-candidate-arena').bytes[0]=5,s=>s.ranges.get('dispatch-candidate-arena').bytes.writeUInt32LE(vertices+1000,12)]){
+  for(const mutate of [s=>s.ranges.get('dispatch-body-header').bytes.writeUInt32LE(4),s=>s.ranges.get('dispatch-candidate-arena').bytes[0]=5,s=>s.ranges.get('dispatch-candidate-arena').bytes[1]=1,s=>s.ranges.get('dispatch-candidate-arena').bytes.writeUInt32LE(vertices+16,12),s=>s.ranges.get('dispatch-candidate-arena').bytes.writeUInt32LE(vertices+1000,12)]){
     const changed={...snapshot,ranges:new Map([...snapshot.ranges].map(([id,r])=>[id,{...r,bytes:Buffer.from(r.bytes)}]))};mutate(changed);assert.throws(()=>proveNativeChassisBorderCandidate(changed,event,replay,selected),/proof|candidate|geometry/);
   }
+  const left={...snapshot,ranges:new Map([...snapshot.ranges].map(([id,r])=>[id,{...r,bytes:Buffer.from(r.bytes)}]))};
+  const wire=left.ranges.get('dispatch-candidate-arena').bytes;wire[0]=6;wire[5]=0;wire.writeUInt32LE(vertices+16,12);left.ranges.get('dispatch-event').bytes.writeInt32LE(0,0x44);
+  const leftEvent={...event,before:{...event.before,field44:0,terrainCandidates:[{address:pool,type:6,id:0,normalQ16:normal}]}},leftSelected={...selected,border:{...selected.border,cellId:0}};
+  assert.equal(proveNativeChassisBorderCandidate(left,leftEvent,replay,leftSelected).candidates[0].vertexIndex,2);
+});
+
+const controlledWall='analysis/native-physics-local/startup-20261022/held-chassis-border-high-lev3-shared-v5-20261023';
+test('original controlled V5 matches force-only input, all eight native responses and the exact right-border vertex',{skip:!existsSync(`${controlledWall}/trace.jsonl`)},async()=>{
+  const directory=await mkdtemp(path.join(tmpdir(),'rollcage-held-wall-regression-'));
+  try{
+    const report=await checkNativeHeldChassisForce(controlledWall,path.join(directory,'report.json'));
+    assert.equal(report.matched,true,report.failure?.stack);assert.equal(report.input.matched,true);assert.equal(report.input.changedLength,12);
+    assert.equal(report.frame.matched,true);assert.equal(report.frame.comparedBytes,4885468);
+    assert.equal(report.dispatch.matched,true);assert.equal(report.dispatch.sourceProcessedEvents,8);assert.equal(report.dispatch.events.length,8);
+    assert.equal(report.chassisBorders.length,2);
+    for(const proof of report.chassisBorders){
+      const plane=proof.candidates[0];assert.equal(plane.type,7);assert.equal(plane.side,'right');assert.equal(plane.column,21);assert.equal(plane.row,80);assert.equal(plane.vertexIndex,1781);
+      assert.deepEqual(plane.normalQ16,[26624,0,59392]);assert.deepEqual(plane.planePoint,[-1149,-204,-8011]);
+    }
+  }finally{await rm(directory,{recursive:true,force:true});}
 });

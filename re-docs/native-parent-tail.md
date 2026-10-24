@@ -46,7 +46,57 @@ Reports: `analysis/native-parent-late-v2-disjoint-alias-replay-20261023/`,
 `analysis/native-parent-late-v3-correct-return-local-20261023/`, and
 `analysis/native-parent-late-v3-independent-physics-local-20261023/`.
 
+The V5 capture adds the actual sound-owner vector capacity, a NULL-guarded
+code19 owner and main-thread FS/SEH observation. Its first attachment failure
+at preferred90b6c8 was an address-binding omission: the original parent-entry
+transport already contained the complete target bytes. Admission now derives
+exact eight-byte type1 light-position/flag slots from the original or carried
+source attachment queue and handles. It installs no table and assumes no
+4096-record allocation. Existing type2-only gold scope remains unchanged.
+
+`analysis/native-parent-late-v5-type1-observed-alias-replay-20261023/report.json`
+then matches three type1 point writes plus recovery and drive, each with
+5,106,383 unique semantic bytes. The next actual missing input is the four-byte
+debris blend source5ec9b0. A source/retained-instruction audit identifies nine
+physically absent late spans totaling314 bytes; see
+[the input audit](native-parent-late-input-audit-v5.md). Observing those inputs
+does not by itself prove any later camera/weather checkpoint.
+
+Future captures also retain the producer-backed70×8-byte queued light-point
+domain at90b688, while semantic admission remains limited to reached slots.
+The optional `collisionSound19` preparer option requests genuine vector/owner
+and FS inputs and selects the scoped source creation adapter. Other unbound
+creation sites, populated channels, allocations and services still stop
+explicitly. Native checkpoint outputs remain comparison-only.
+
 ## Original-process result
+
+The subsequent `parent-late-v6-batched-inputs-20261023` recording supplies
+the nine missing late spans and independently observes the auxiliary boundary
+at4510ef. Source execution from450e50 now matches AI, prefix, physics,
+attachments, recovery, drive and auxiliary updates. Each of the four tail
+checkpoints compares5,102,089 unique semantic bytes with zero divergence.
+All six wheel-render and vehicle-auxiliary updates, animation lights and
+body debris run before this boundary. The regression in
+`tests/native-parent-tail-capture.test.mjs` reproduces these matches from
+the original entry bytes and checks the subsequent strict failure.
+
+The next reached boundary is4180a0's402d10 call: source requires the genuine
+CRT dynamic-cast outcome. This recording contains no external call/return
+pair, so camera and weather checkpoints remain unmatched; the full parent
+return and next tick are still open. The optional sound19 adapter records
+zero creation events in this particular frame. No sound19 creation success
+or active-combat result follows from this run.
+The [typed RTTI boundary](native-parent-rtti.md) now verifies the original PE
+import identity and source-derived caller depth. Its opt-in observation
+profile preserves the existing checkpoints and requires new scoped native
+helper support before launch; it is not a successful native cast recording.
+
+The retained report is
+`analysis/native-parent-late-v6-first-replay-20261023/report.json`.
+The13-snapshot capture closed after50.359 seconds including cleanup;
+`analysis/native-parent-late-installation-after-v6-20261023.json` verifies
+all171 original installed and copied files unchanged.
 
 The saved `parent-tail-v1-20261023` run contains a six-car original process at
 clock 288. The persistent report

@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "authority": "independent-original-candidate-bytes-and-retained-instruction-ownership-audit",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/held-chassis-border-high-lev3-shared-v5-20261023",
+  "selected": {
+    "index": 12,
+    "participantIndex": 0,
+    "bodyAddress": 288661248,
+    "normalQ16": [
+      26624,
+      0,
+      59392
+    ],
+    "incrementQ16": [
+      -106496,
+      0,
+      -237568
+    ]
+  },
+  "nativeCandidates": [
+    {
+      "eventIndex": 2,
+      "nativeOrdinal": 9,
+      "bodyAddress": 288661248,
+      "nativeBodyKind": 3,
+      "currentPoolAddress": 145141528,
+      "currentPoolBytes": 32768,
+      "currentBodyCandidatePointer": 145141528,
+      "currentBodyCandidateCount": 13,
+      "response": "swept-contact",
+      "deltaQ16": 7706,
+      "matches": [
+        {
+          "address": 145141688,
+          "addressHex": "0x8a6afb8",
+          "nativeCandidateHex": "1700ff1508155000e8008006e0d4f603",
+          "type": 7,
+          "cellId": 5248264,
+          "packedNormal": 109052136,
+          "normalQ16": [
+            26624,
+            0,
+            59392
+          ],
+          "byte1": 0,
+          "byte2": 255,
+          "columnsByte": 21,
+          "sectorIndex": 8,
+          "row": 80,
+          "column": 21,
+          "sector": {
+            "address": 66466640,
+            "columns": 21,
+            "rows": 96,
+            "left": 2,
+            "right": 21,
+            "vertexAddress": 66493752,
+            "vertexCount": 2134
+          },
+          "actualPointPointer": 66508000,
+          "actualPointPointerHex": "0x3f6d4e0",
+          "deltaBytes": 14248,
+          "actualVertexIndex": 1781,
+          "expectedVertexIndex": 1781,
+          "expectedPointPointer": 66508000,
+          "originalHeldEntryPointHex": "83fb34ffb5e05507",
+          "originalHeldEntryPointXYZ": [
+            -1149,
+            -204,
+            -8011
+          ],
+          "sourcePointXYZ": [
+            -1149,
+            -204,
+            -8011
+          ],
+          "checks": {
+            "nativeCurrentCandidateWithinPool": true,
+            "pointer8Aligned": true,
+            "pointerMatchesNativeProducerFormula": true,
+            "producerByte1Zero": true,
+            "typeSpecificSideColumn": true,
+            "oldCellColumnGuardWouldReject": true,
+            "pointOwned": true,
+            "sourceEventCandidateMatches": true
+          }
+        }
+      ]
+    },
+    {
+      "eventIndex": 4,
+      "nativeOrdinal": 11,
+      "bodyAddress": 288661248,
+      "nativeBodyKind": 3,
+      "currentPoolAddress": 145141528,
+      "currentPoolBytes": 32768,
+      "currentBodyCandidatePointer": 145141528,
+      "currentBodyCandidateCount": 13,
+      "response": "penetration-contact",
+      "deltaQ16": 0,
+      "matches": [
+        {
+          "address": 145141688,
+          "addressHex": "0x8a6afb8",
+          "nativeCandidateHex": "1700ff1508155000e8008006e0d4f603",
+          "type": 7,
+          "cellId": 5248264,
+          "packedNormal": 109052136,
+          "normalQ16": [
+            26624,
+            0,
+            59392
+          ],
+          "byte1": 0,
+          "byte2": 255,
+          "columnsByte": 21,
+          "sectorIndex": 8,
+          "row": 80,
+          "column": 21,
+          "sector": {
+            "address": 66466640,
+            "columns": 21,
+            "rows": 96,
+            "left": 2,
+            "right": 21,
+            "vertexAddress": 66493752,
+            "vertexCount": 2134
+          },
+          "actualPointPointer": 66508000,
+          "actualPointPointerHex": "0x3f6d4e0",
+          "deltaBytes": 14248,
+          "actualVertexIndex": 1781,
+          "expectedVertexIndex": 1781,
+          "expectedPointPointer": 66508000,
+          "originalHeldEntryPointHex": "83fb34ffb5e05507",
+          "originalHeldEntryPointXYZ": [
+            -1149,
+            -204,
+            -8011
+          ],
+          "sourcePointXYZ": [
+            -1149,
+            -204,
+            -8011
+          ],
+          "checks": {
+            "nativeCurrentCandidateWithinPool": true,
+            "pointer8Aligned": true,
+            "pointerMatchesNativeProducerFormula": true,
+            "producerByte1Zero": true,
+            "typeSpecificSideColumn": true,
+            "oldCellColumnGuardWouldReject": true,
+            "pointOwned": true,
+            "sourceEventCandidateMatches": true
+          }
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "file": "162-candidate-builder-assembly.json",
+      "evidenceId": "ev_a54431df5aa8801be704f20c0db3501d5ad0f84346edc87fc637cdd8400cdf45"
+    },
+    {
+      "file": "168-terrain-query-assembly.json",
+      "evidenceId": "ev_09d15f0892dfc9ccc560324ae116401f481304a14e0d3d78a98bac3438d46d39"
+    }
+  ],
+  "producer": {
+    "function": "428aa0",
+    "rightColumn": "sector.columns - byte[sector+27h]",
+    "leftColumn": "byte[sector+26h]",
+    "type6VertexIndex": "(row+1)*(columns+1)+left",
+    "type7VertexIndex": "row*(columns+1)+right",
+    "pointPointer": "sector.vertexAddress+vertexIndex*8",
+    "stores": {
+      "pointPointer": 4362753,
+      "byte1Zero": 4362758
+    }
+  },
+  "consumer": {
+    "function": "424ff0",
+    "type2Or6Or7Anchor": "candidate+12 pointer directly; byte1 bypassed",
+    "otherPlaneAnchor": "candidate+12 pointer + unsigned byte1*8",
+    "branchInstructions": [
+      4346579,
+      4346582,
+      4346584,
+      4346589,
+      4346592,
+      4346594,
+      4346602,
+      4346605
+    ]
+  },
+  "conclusion": "The failed guard uses a cell-column upper bound for a border vertex column. This genuine right border is column21 in a21-cell-wide sector whose vertex rows have22columns. Pointer ownership and eight-byte stride are correct; tighten proof with the exact type-specific side and producer-index formula rather than generally relaxing cell bounds.",
+  "limits": [
+    "Native dispatcher/candidate data are comparison-only; source executes from actual post-input frame entry, with no native after/intermediate refresh.",
+    "Geometry point bytes shown are already present in the immutable original held entry; no installed geometry is substituted.",
+    "This audit does not edit or replace the primary checker and claims no additional native run."
+  ]
+}

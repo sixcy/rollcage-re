@@ -1,0 +1,289 @@
+{
+  "method": "Read-only audit of CLOSED incomplete native run; no acceptance, no native replay/input refresh.",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureDirectory": "analysis/pickup-editor-native-cases-20261024/baseline-low/capture",
+  "matched": false,
+  "reason": "Capture reached fixed90s bound without observing every initial finalizer.",
+  "snapshots": 26,
+  "placedIndices": [
+    8,
+    6,
+    7,
+    9,
+    10,
+    11,
+    12,
+    4,
+    5
+  ],
+  "missingIndices": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "firstRetainedFinalizerRawHit": 7,
+  "states": [
+    {
+      "stage": "pickup-init-return",
+      "snapshotOrdinal": 7,
+      "rawHit": 1,
+      "clock": 0,
+      "phase": 1,
+      "pickups": [
+        {
+          "index": 0,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 1,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 2,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 3,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 4,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 5,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 6,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 7,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 8,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 9,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 10,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 11,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 12,
+          "state": 8519681,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "stage": "pickup-first-tick",
+      "snapshotOrdinal": 8,
+      "rawHit": 229,
+      "clock": 228,
+      "phase": 4,
+      "pickups": [
+        {
+          "index": 0,
+          "state": 8454144,
+          "positionQ16": [
+            187891712,
+            -2097152,
+            166068224
+          ]
+        },
+        {
+          "index": 1,
+          "state": 8454144,
+          "positionQ16": [
+            205717504,
+            -3866624,
+            136118272
+          ]
+        },
+        {
+          "index": 2,
+          "state": 8454144,
+          "positionQ16": [
+            178520064,
+            -3932160,
+            92602368
+          ]
+        },
+        {
+          "index": 3,
+          "state": 8454144,
+          "positionQ16": [
+            174129152,
+            2228224,
+            197656576
+          ]
+        },
+        {
+          "index": 4,
+          "state": 8585225,
+          "positionQ16": [
+            142999552,
+            -196608,
+            152436736
+          ]
+        },
+        {
+          "index": 5,
+          "state": 8585228,
+          "positionQ16": [
+            142278656,
+            -1114112,
+            145358848
+          ]
+        },
+        {
+          "index": 6,
+          "state": 8650752,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 7,
+          "state": 8650752,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 8,
+          "state": 8650752,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 9,
+          "state": 8650752,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 10,
+          "state": 8650752,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 11,
+          "state": 8650752,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "index": 12,
+          "state": 8650752,
+          "positionQ16": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ],
+  "hashVerifiedRangeBlobs": 30,
+  "conclusion": "At phase4 clock228 four initial points were already ready and two were finishing their appearance countdown; six earlier finalizer calls were filtered by the observer phase4 gate. New observer must retain original countdown updates; this run is not converted into a pass.",
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 33276,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 90045
+  }
+}

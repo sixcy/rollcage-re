@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "authority": "original-held-entry-input-and-native-host-contained-storage-proof",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/held-chassis-border-high-lev1-shared-v4-20261023",
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "captureSucceeded": false,
+  "completeNativeFrameCompared": false,
+  "nativeChassisWallContactProved": false,
+  "forceWrites": 0,
+  "allEmittedBlobs": {
+    "files": 125,
+    "bytes": 46938591,
+    "allHashesMatch": true
+  },
+  "raceSettings": {
+    "verified": true,
+    "level": 1,
+    "quality": 1,
+    "nativeTrackIndex": 0,
+    "nativeFamily": 1,
+    "nativeLocalIndex": 0,
+    "nativeStem": "high\\lev1",
+    "configurationPersistenceAssumed": false,
+    "rosterOrRngForced": false,
+    "snapshotOrdinal": 4,
+    "guardedDebugEventOrdinal": 715,
+    "configBeforeHex": "3130637000000001010101000000010001003075000a02ff01020202080203001200000001010000010001010201010a010100020000000004010801000300000101000000000000ffffffffffffffff00ff000000ff000000ff000000ff000000ff0000000000000000e0400000c84200005c42000000000000000000000100",
+    "configAfterHex": "3130637000000001010101010000010001003075000a02ff01020202080203001200000001010000010001010201010a010100020000000004010801000300000101000000000000ffffffffffffffff00ff000000ff000000ff000000ff000000ff0000000000000000e0400000c84200005c42000000000000000000000100",
+    "allOtherCapturedBytesUnchanged": true,
+    "contextUnchanged": true
+  },
+  "budget": {
+    "verified": true,
+    "preSnapshotBytes": 16545318,
+    "eventSnapshotBytes": 50618,
+    "requiredPendingBytes": 52875506,
+    "limitBytes": 134217728,
+    "rangeCount": 97,
+    "logicalSnapshotBytes": 46934850,
+    "storageMode": "snapshot-local-contained-ranges",
+    "physicalBackingCount": 58
+  },
+  "storage": {
+    "verified": true,
+    "logicalSnapshotBytes": 46934850,
+    "retainedSnapshotBytes": 16545318,
+    "backingCount": 58,
+    "viewCount": 97
+  },
+  "sourcePlan": {
+    "authority": "source-only-held-input-forecast",
+    "baselineComplete": true,
+    "attempts": 0,
+    "selected": null,
+    "elapsedMs": 224.60020000000077,
+    "originalInputBytesUnchanged": true,
+    "independentlyReplayedHere": false
+  },
+  "requestPresent": true,
+  "decisionPresent": false,
+  "errors": [
+    {
+      "error": "System.IO.InvalidDataException: Held force deadline expired; no input written and no automatic retry.\r",
+      "elapsedMs": 69959
+    }
+  ],
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 24924,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 70017
+  },
+  "traceSha256": "4284d39e092a0cc14b5eb60fe35439b4af10efe45b8e52be153e91373ca196d9",
+  "limits": [
+    "The native capture aborts without resuming the held original instruction. No native output frame, force response or wall contact is claimed.",
+    "Snapshot sharing is observed directly by the immutable host helper allocation/offset guards and all219 emitted blob hashes, not inferred only from a projected interval union.",
+    "Fresh source candidate replay is retained in the separate source audit."
+  ]
+}

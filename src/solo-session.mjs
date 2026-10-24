@@ -329,7 +329,12 @@ function createSoloRuntime(data, textureData, {onDebugFrame, onCollisionDispatch
     //Before the first physics query,11c can still be the native -1 sentinel.
     //A diagnostic must not chase that byte as a real terrain-sector index.
     const sectorIndex = memory[address + 0x11c], sector = sectorIndex < grid.scene.segments.length ? ptr(ptr(PACK) + sectorIndex * 4) : null;
+    const arenaBlock = ptr(0x6e6b40), arenaAligned = ptr(0x902eec), auxiliary = ptr(0x90b990);
     onDebugFrame(Object.freeze({stage, tick: ticks + 1, bodyAddress: address, aiDifficulty5ea4d8: ptr(0x5ea4d8),
+      bodyArena: arenaBlock && arenaAligned ? Object.freeze({block: arenaBlock, aligned: arenaAligned, cursor: ptr(0x70dcf4),
+        requestedBytes: (memory.readInt32LE(0x709808) + 140000) << 5, registeredBodies: ptr(0x6e6b44)}) : null,
+      pickupPendingCount: memory.readUInt16LE(0x91d4b0), pickupPendingIndices: Object.freeze(Array.from(memory.subarray(0x91d498, 0x91d4b0))),
+      pickupControllerCount: auxiliary ? memory[auxiliary + 0xf7] : null,
       nativeSqrtInputQ16: memory.readInt32LE(0x91d45c), nativeSqrtLeadingZeros: ptr(0x91d460),
       positionQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(address + 0x34 + offset))),
       linearVelocityQ16: Object.freeze([0,4,8].map(offset => memory.readInt32LE(address + 0x68 + offset))),

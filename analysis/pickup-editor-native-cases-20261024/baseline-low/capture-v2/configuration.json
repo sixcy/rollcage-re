@@ -1,0 +1,315 @@
+{
+  "schemaVersion": 1,
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 90000,
+  "maxEvents": 1000000,
+  "maxSnapshots": 80,
+  "showWindow": false,
+  "ranges": [],
+  "breakpoints": [
+    {
+      "id": "launcher-policy",
+      "rva": "0x42890",
+      "ranges": [
+        {
+          "id": "launcher-skip",
+          "rva": "0x2e66ec",
+          "length": 4
+        },
+        {
+          "id": "launcher-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "graphics-policy",
+      "rva": "0x35be",
+      "ranges": [
+        {
+          "id": "graphics-mode",
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28
+        }
+      ]
+    },
+    {
+      "id": "before-device-creation",
+      "rva": "0x112a30",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "presentation",
+          "baseRegister": "ecx",
+          "offset": "0x378",
+          "length": 56
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    },
+    {
+      "id": "controlled-race-settings",
+      "rva": "0x3e0c5",
+      "ranges": [
+        {
+          "id": "settings-config-root",
+          "rva": "0x1ecefc",
+          "length": 4
+        },
+        {
+          "id": "settings-session-root",
+          "rva": "0x1ecb1c",
+          "length": 4
+        },
+        {
+          "id": "settings-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 128
+        },
+        {
+          "id": "settings-session-header",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 48
+        },
+        {
+          "id": "settings-session-runtime",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 211
+        },
+        {
+          "id": "settings-caller",
+          "baseRegister": "esp",
+          "length": 28
+        },
+        {
+          "id": "settings-track-family",
+          "rva": "0x174760",
+          "length": 20
+        },
+        {
+          "id": "settings-track-local",
+          "rva": "0x17477c",
+          "length": 20
+        },
+        {
+          "id": "settings-level-stem",
+          "rva": "0x2e6660",
+          "length": 260
+        },
+        {
+          "id": "settings-menu-id",
+          "rva": "0x1ec138",
+          "length": 4
+        },
+        {
+          "id": "settings-launch-latch",
+          "rva": "0x2e6654",
+          "length": 4
+        },
+        {
+          "id": "settings-main-state",
+          "rva": "0x2e66c8",
+          "length": 8
+        },
+        {
+          "id": "settings-demo-deadline",
+          "rva": "0x2e6aac",
+          "length": 4
+        }
+      ]
+    },
+    {
+      "id": "pickup-loader-entry",
+      "rva": "0x4c2b0",
+      "ranges": []
+    },
+    {
+      "id": "pickup-init-entry",
+      "rva": "0x7b580",
+      "ranges": []
+    },
+    {
+      "id": "pickup-init-return",
+      "rva": "0x319e6",
+      "ranges": []
+    },
+    {
+      "id": "pickup-first-tick",
+      "rva": "0x7b680",
+      "ranges": []
+    },
+    {
+      "id": "pickup-collection-before",
+      "rva": "0x7b8d0",
+      "ranges": []
+    },
+    {
+      "id": "pickup-collection-after",
+      "rva": "0x7b8da",
+      "ranges": []
+    },
+    {
+      "id": "pickup-respawn-before",
+      "rva": "0x7caf0",
+      "ranges": []
+    },
+    {
+      "id": "pickup-respawn-after",
+      "rva": "0x7cc17",
+      "ranges": []
+    }
+  ],
+  "phaseActions": [
+    {
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e66ec",
+          "bytesHex": "01000000",
+          "expectedAnyBytesHex": [
+            "00000000",
+            "01000000"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xa",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xe",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x3c",
+          "bytesHex": "00",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "writes": [
+        {
+          "baseRegister": "ecx",
+          "offset": "0x398",
+          "bytesHex": "01000000",
+          "expectedBytesHex": "01000000"
+        },
+        {
+          "baseRegister": "ecx",
+          "offset": "0x3a8",
+          "bytesHex": "00000000",
+          "expectedBytesHex": "00000000"
+        }
+      ]
+    }
+  ],
+  "denyPlayerMailslot": true,
+  "hideOwnedWindows": true,
+  "foregroundWindowSource": {
+    "id": "owned-application-hwnd",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0"
+    ],
+    "offset": "4",
+    "length": 4
+  },
+  "captureThreadsOnStop": true,
+  "stopThreadStackBytes": 128,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\capture-v2",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\temp",
+  "captureThreadEnvironment": true,
+  "controlledRaceSettings": {
+    "breakpointId": "controlled-race-settings",
+    "level": 1,
+    "quality": 0,
+    "expectedTrackByte": 0,
+    "expectedQualityByte": 1
+  },
+  "pickupEditorObservation": {
+    "scenario": "load",
+    "sceneName": "LOW/LEV1.BLP",
+    "resourceSha256": "405fc2c8262a3040c444e00594ba22459232da53b19b13e1c92b5da956e70502",
+    "indexSha256": "28c30b94d5612b98cc9d68540982f40bc1ae6f05df3113cb964c6b2eccf02377",
+    "imageSha256": "7aa334fe4ce00404d29bf7ab9bde0d3d7f00da9d92ffdd5800a92792aed492de",
+    "authoredHex": "330be0ffe609040826000500430cc5ff1d08040925000500a40ac4ff8505040a24000500610a2200c80b040b06000a008608fdff1609030c080001007b08efffaa08030d080001005708d8ffb807030e080001003608d8ff3f07030f0800010043f2d8ffb5ec06103b000100cbf1d8ffcded0611390001001efdd8ff0de605121400050072fad8ff56e705131300050035f8d8ff9fe8051440000100",
+    "authoredSha256": "ed33a4ea22203377121953f4720e6d63bb84eed33f26a63fde7e5ad60e3111b3",
+    "headerIdentityHex": "4746584d0100000028130000c504000010000000360069002000db00060b39000d0e4502000e0303",
+    "level": 1,
+    "frontendLevel": 1,
+    "quality": 0,
+    "expectedCount": 13,
+    "expectedControllerCount": 3,
+    "targetIndex": 0,
+    "authoredOffset": 636480,
+    "resourceBytes": 682152
+  }
+}

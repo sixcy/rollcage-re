@@ -1,0 +1,1515 @@
+{
+  "schemaVersion": 1,
+  "authority": "read-only-original-held-v2-refusal-audit",
+  "inputDirectory": "analysis/native-physics-local/startup-20261022/held-chassis-border-v2-20261023",
+  "configurationSha256": "2f6bae9cdc98cd2bbff93bdda483c7414f31645b452f1625e2fb46429d712008",
+  "requestSha256": "3b5b5ba542293b5d7767ce9adfd624534672171744a60b5307c6f66845dfa5c3",
+  "planSha256": "af2fe808ae97076f6934a13637e9768ee926d66ba38ea80f760fe59a8fd919f4",
+  "strictPartialLoaderPassed": true,
+  "requestSnapshotExactlyMatchesActualTrace": true,
+  "rawContextAndActualThreadEnvironmentVerified": true,
+  "nativeControlledExperimentPerformed": false,
+  "nativeChassisBorderCompared": false,
+  "nativeFullFrameCompared": false,
+  "classification": "zero-source-generated-border-candidates; zero-force-trials; cleanly-declined-no-decision",
+  "budget": {
+    "verified": true,
+    "preSnapshotBytes": 43211286,
+    "eventSnapshotBytes": 50618,
+    "requiredPendingBytes": 132873410,
+    "limitBytes": 134217728,
+    "rangeCount": 94,
+    "remainingBytes": 1344318,
+    "snapshotCountBefore": 3,
+    "additionalSnapshotsReserved": 67,
+    "snapshotLimit": 70,
+    "bank": {
+      "headerAddress": 10298388,
+      "begin": 396951288,
+      "end": 396951544,
+      "capacity": 396951664,
+      "storageBytes": 376,
+      "usedBytes": 256,
+      "headerBytes": 12,
+      "maxBytes": 65536
+    },
+    "actualRangeFootprints": [
+      {
+        "id": "frame-pools",
+        "address": "0x00be2b7c",
+        "length": 884,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 884
+      },
+      {
+        "id": "shape-pools-and-planes",
+        "address": "0x00bfe780",
+        "length": 2592,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 2592
+      },
+      {
+        "id": "body-arena-allocation",
+        "address": "0x009c6b40",
+        "length": 8,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8
+      },
+      {
+        "id": "body-arena-size-input",
+        "address": "0x009e9808",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "body-arena-cursor",
+        "address": "0x009edcf4",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "participant-records",
+        "address": "0x00be9300",
+        "length": 4680,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4680
+      },
+      {
+        "id": "session-root",
+        "address": "0x008ccb1c",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "configuration-root",
+        "address": "0x008ccefc",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "pack-roots",
+        "address": "0x00beb970",
+        "length": 36,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 36
+      },
+      {
+        "id": "runtime-geometry-roots",
+        "address": "0x00be9240",
+        "length": 132,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 132
+      },
+      {
+        "id": "particle-roots",
+        "address": "0x009c65b4",
+        "length": 24,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 24
+      },
+      {
+        "id": "skid-roots",
+        "address": "0x00b295d0",
+        "length": 12,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 12
+      },
+      {
+        "id": "effect-rng",
+        "address": "0x008cc954",
+        "length": 8,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8
+      },
+      {
+        "id": "attachment-count",
+        "address": "0x009c6ba0",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "attachment-queue",
+        "address": "0x00be2040",
+        "length": 1024,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 1024
+      },
+      {
+        "id": "body-registry",
+        "address": "0x009ee200",
+        "length": 2048,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 2048
+      },
+      {
+        "id": "time-state",
+        "address": "0x00af1180",
+        "length": 16,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 16
+      },
+      {
+        "id": "gravity",
+        "address": "0x008cb5e0",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "clock",
+        "address": "0x00bea548",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "first-effect-and-matrix",
+        "address": "0x00bfcd60",
+        "length": 144,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 144
+      },
+      {
+        "id": "second-effect",
+        "address": "0x00bf53cc",
+        "length": 48,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 48
+      },
+      {
+        "id": "vector-scratch",
+        "address": "0x00bfd360",
+        "length": 260,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 260
+      },
+      {
+        "id": "border-scratch",
+        "address": "0x00bf1c00",
+        "length": 40,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 40
+      },
+      {
+        "id": "wheel-query-scratch",
+        "address": "0x009f32e0",
+        "length": 448,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 448
+      },
+      {
+        "id": "world-record-count",
+        "address": "0x00c007e4",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "world-records",
+        "address": "0x00c00800",
+        "length": 800,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 800
+      },
+      {
+        "id": "rotation-scale",
+        "address": "0x008bc5f4",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "normalization-one",
+        "address": "0x008bc774",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "normalization-scale",
+        "address": "0x008bca88",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sqrt-table",
+        "address": "0x008cb290",
+        "length": 384,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 384
+      },
+      {
+        "id": "surface-effect-threshold",
+        "address": "0x008bc97c",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "effect-color-scale-first",
+        "address": "0x008cd2b8",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "effect-color-scale-second",
+        "address": "0x008cd2c0",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "rear-effect-frame",
+        "address": "0x00bf9004",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "active-effect-lookup-root",
+        "address": "0x009f3180",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "trig-table",
+        "address": "0x00855228",
+        "length": 808,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 808
+      },
+      {
+        "id": "yaw-table",
+        "address": "0x008cd030",
+        "length": 642,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 642
+      },
+      {
+        "id": "active-vehicle-owners",
+        "address": "0x00b295e0",
+        "length": 840,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 840
+      },
+      {
+        "id": "particle-quality-count",
+        "address": "0x008cb500",
+        "length": 8,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8
+      },
+      {
+        "id": "particle-allocation-root",
+        "address": "0x00bf53c4",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "particle-allocation-end",
+        "address": "0x00bf900c",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "contact-thresholds",
+        "address": "0x00850580",
+        "length": 16,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 16
+      },
+      {
+        "id": "sound-owner-vector-roots",
+        "address": "0x009d2414",
+        "length": 12,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 12
+      },
+      {
+        "id": "recovery-rng-difficulty",
+        "address": "0x008ca4d4",
+        "length": 8,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8
+      },
+      {
+        "id": "recovery-profile-root",
+        "address": "0x00bff6a0",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-bank-roots",
+        "address": "0x009c6bd4",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-manager-root",
+        "address": "0x009f4b08",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-scale-first",
+        "address": "0x008bc5b8",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-scale-second",
+        "address": "0x008bc5d0",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-scale-third",
+        "address": "0x008bc5dc",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-scale-fourth",
+        "address": "0x008bc5e8",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-scale-fifth",
+        "address": "0x008bc8e0",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-scale-sixth",
+        "address": "0x008bc920",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "sound-volume-inputs",
+        "address": "0x008ccdb0",
+        "length": 8,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8
+      },
+      {
+        "id": "retirement-terrain-flag",
+        "address": "0x008cd2b4",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "retirement-particle-input",
+        "address": "0x00bf53c0",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "retirement-effect-input",
+        "address": "0x00bf9008",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "light-registry-first",
+        "address": "0x00aef210",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "light-registry-second",
+        "address": "0x00aef41c",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "retirement-light-records",
+        "address": "0x00af06e0",
+        "length": 580,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 580
+      },
+      {
+        "id": "shape-records",
+        "address": "0x08d24028",
+        "length": 18432,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 18432
+      },
+      {
+        "id": "shape-indices",
+        "address": "0x1151c548",
+        "length": 768,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 768
+      },
+      {
+        "id": "candidate-arena",
+        "address": "0x10347030",
+        "length": 32768,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 32768
+      },
+      {
+        "id": "physical-body-list",
+        "address": "0x11369788",
+        "length": 384,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 384
+      },
+      {
+        "id": "candidate-group-lists",
+        "address": "0x08bc96b0",
+        "length": 8456,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8456
+      },
+      {
+        "id": "collision-events",
+        "address": "0x08c86960",
+        "length": 10400,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 10400
+      },
+      {
+        "id": "collision-heap",
+        "address": "0x11296c18",
+        "length": 404,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 404
+      },
+      {
+        "id": "collision-free",
+        "address": "0x08bdf790",
+        "length": 400,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 400
+      },
+      {
+        "id": "session",
+        "address": "0x00b29a60",
+        "length": 1424,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 1424
+      },
+      {
+        "id": "configuration",
+        "address": "0x00b279e0",
+        "length": 112,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 112
+      },
+      {
+        "id": "terrain-pack-header",
+        "address": "0x00be9240",
+        "length": 160,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 160
+      },
+      {
+        "id": "body-arena-region",
+        "address": "0x10c1d000",
+        "length": 4481024,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4481024
+      },
+      {
+        "id": "frame-stack",
+        "address": "0x00d1ecb4",
+        "length": 4100,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4100
+      },
+      {
+        "id": "geometry-region",
+        "address": "0x03fe2000",
+        "length": 962560,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 962560
+      },
+      {
+        "id": "original-gfxm-region",
+        "address": "0x03fe2000",
+        "length": 962560,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 962560
+      },
+      {
+        "id": "terrain-pack-region",
+        "address": "0x00be9000",
+        "length": 98304,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 98304
+      },
+      {
+        "id": "sector-table-region",
+        "address": "0x04050000",
+        "length": 512000,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 512000
+      },
+      {
+        "id": "spatial-rows-region",
+        "address": "0x040be000",
+        "length": 61440,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 61440
+      },
+      {
+        "id": "spatial-nodes-region",
+        "address": "0x04048000",
+        "length": 544768,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 544768
+      },
+      {
+        "id": "terrain-normals-region",
+        "address": "0x040b1000",
+        "length": 114688,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 114688
+      },
+      {
+        "id": "zone-regions-region",
+        "address": "0x0404c000",
+        "length": 528384,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 528384
+      },
+      {
+        "id": "static-model-links-region",
+        "address": "0x040c8000",
+        "length": 20480,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 20480
+      },
+      {
+        "id": "materials-region",
+        "address": "0x040cb000",
+        "length": 8192,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8192
+      },
+      {
+        "id": "session-region",
+        "address": "0x00b29000",
+        "length": 884736,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 884736
+      },
+      {
+        "id": "configuration-region",
+        "address": "0x00b27000",
+        "length": 892928,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 892928
+      },
+      {
+        "id": "particle-region",
+        "address": "0x10cde000",
+        "length": 3690496,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 3690496
+      },
+      {
+        "id": "debris-region",
+        "address": "0x10cb9000",
+        "length": 3842048,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 3842048
+      },
+      {
+        "id": "debris-free-region",
+        "address": "0x17a8d000",
+        "length": 8245248,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8245248
+      },
+      {
+        "id": "debris-active-region",
+        "address": "0x17a8d000",
+        "length": 8245248,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 8245248
+      },
+      {
+        "id": "skid-region",
+        "address": "0x179d0000",
+        "length": 9019392,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 9019392
+      },
+      {
+        "id": "active-sound-bank-storage",
+        "address": "0x17a8fef8",
+        "length": 376,
+        "vectorHeaderBytes": 12,
+        "byteFootprint": 388
+      },
+      {
+        "id": "active-sound24-owner",
+        "address": "0x111d8108",
+        "length": 1168,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 1168
+      },
+      {
+        "id": "active-sound-cookie",
+        "address": "0x008c8890",
+        "length": 4,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 4
+      },
+      {
+        "id": "active-effect-lookup-bytes",
+        "address": "0x08c3cdb8",
+        "length": 64,
+        "vectorHeaderBytes": 0,
+        "byteFootprint": 64
+      }
+    ]
+  },
+  "planner": {
+    "actualRecordedElapsedMs": 184.4586999999956,
+    "actualBaselineComplete": true,
+    "actualForceTrialCount": 0,
+    "actualTrialFailures": 0,
+    "actualSelected": null,
+    "independentRecomputationMatches": true,
+    "independentLoadMs": 76.2152,
+    "independentBaselineMs": 106.12529999999998,
+    "independentRecomputedPlannerMs": 159.0865,
+    "originalInputBytesUnchanged": true,
+    "totalSourceGeneratedCandidates": 62,
+    "totalSourceGeneratedBorderCandidates": 0
+  },
+  "participants": [
+    {
+      "index": 0,
+      "bodyAddress": 282738432,
+      "type": 3,
+      "entryPositionQ16": [
+        -101661312,
+        -16834156,
+        -497937333
+      ],
+      "entryCandidateCount": 13,
+      "sourceGeneratedCandidateCount": 10,
+      "candidateTypes": {
+        "0": 10
+      },
+      "sourceGeneratedBorderCandidateCount": 0,
+      "candidates": [
+        {
+          "address": 271872048,
+          "type": 0,
+          "cellId": 5509384,
+          "normalQ16": [
+            9216,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872064,
+          "type": 0,
+          "cellId": 5574920,
+          "normalQ16": [
+            8192,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872080,
+          "type": 0,
+          "cellId": 5575176,
+          "normalQ16": [
+            15360,
+            -63488,
+            8192
+          ]
+        },
+        {
+          "address": 271872096,
+          "type": 0,
+          "cellId": 5640456,
+          "normalQ16": [
+            8192,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872112,
+          "type": 0,
+          "cellId": 5640712,
+          "normalQ16": [
+            15360,
+            -63488,
+            8192
+          ]
+        },
+        {
+          "address": 271872128,
+          "type": 0,
+          "cellId": 5640968,
+          "normalQ16": [
+            15360,
+            -63488,
+            7168
+          ]
+        },
+        {
+          "address": 271872144,
+          "type": 0,
+          "cellId": 5705992,
+          "normalQ16": [
+            7168,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872160,
+          "type": 0,
+          "cellId": 5574664,
+          "normalQ16": [
+            9216,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872176,
+          "type": 0,
+          "cellId": 5639944,
+          "normalQ16": [
+            8192,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872192,
+          "type": 0,
+          "cellId": 5640200,
+          "normalQ16": [
+            8192,
+            -65536,
+            -5120
+          ]
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "bodyAddress": 282973824,
+      "type": 3,
+      "entryPositionQ16": [
+        -102217524,
+        -20282365,
+        -455249744
+      ],
+      "entryCandidateCount": 11,
+      "sourceGeneratedCandidateCount": 10,
+      "candidateTypes": {
+        "0": 10
+      },
+      "sourceGeneratedBorderCandidateCount": 0,
+      "candidates": [
+        {
+          "address": 271872208,
+          "type": 0,
+          "cellId": 5835528,
+          "normalQ16": [
+            6144,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872224,
+          "type": 0,
+          "cellId": 5901064,
+          "normalQ16": [
+            6144,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872240,
+          "type": 0,
+          "cellId": 5901320,
+          "normalQ16": [
+            6144,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872256,
+          "type": 0,
+          "cellId": 5966600,
+          "normalQ16": [
+            5120,
+            -65536,
+            -4096
+          ]
+        },
+        {
+          "address": 271872272,
+          "type": 0,
+          "cellId": 5769736,
+          "normalQ16": [
+            7168,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872288,
+          "type": 0,
+          "cellId": 5835016,
+          "normalQ16": [
+            4096,
+            -64512,
+            -11264
+          ]
+        },
+        {
+          "address": 271872304,
+          "type": 0,
+          "cellId": 5835272,
+          "normalQ16": [
+            7168,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872320,
+          "type": 0,
+          "cellId": 5900552,
+          "normalQ16": [
+            2048,
+            -65536,
+            -11264
+          ]
+        },
+        {
+          "address": 271872336,
+          "type": 0,
+          "cellId": 5900808,
+          "normalQ16": [
+            6144,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271872352,
+          "type": 0,
+          "cellId": 5966344,
+          "normalQ16": [
+            5120,
+            -65536,
+            -4096
+          ]
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "bodyAddress": 283184384,
+      "type": 3,
+      "entryPositionQ16": [
+        -7975958,
+        3422945,
+        -534301325
+      ],
+      "entryCandidateCount": 8,
+      "sourceGeneratedCandidateCount": 10,
+      "candidateTypes": {
+        "0": 10
+      },
+      "sourceGeneratedBorderCandidateCount": 0,
+      "candidates": [
+        {
+          "address": 271872368,
+          "type": 0,
+          "cellId": 4461320,
+          "normalQ16": [
+            12288,
+            -63488,
+            14336
+          ]
+        },
+        {
+          "address": 271872384,
+          "type": 0,
+          "cellId": 4526600,
+          "normalQ16": [
+            14336,
+            -62464,
+            13312
+          ]
+        },
+        {
+          "address": 271872400,
+          "type": 0,
+          "cellId": 4526856,
+          "normalQ16": [
+            14336,
+            -62464,
+            14336
+          ]
+        },
+        {
+          "address": 271872416,
+          "type": 0,
+          "cellId": 4591624,
+          "normalQ16": [
+            15360,
+            -63488,
+            0
+          ]
+        },
+        {
+          "address": 271872432,
+          "type": 0,
+          "cellId": 4591880,
+          "normalQ16": [
+            15360,
+            -64512,
+            0
+          ]
+        },
+        {
+          "address": 271872448,
+          "type": 0,
+          "cellId": 4592136,
+          "normalQ16": [
+            15360,
+            -62464,
+            13312
+          ]
+        },
+        {
+          "address": 271872464,
+          "type": 0,
+          "cellId": 4592392,
+          "normalQ16": [
+            14336,
+            -62464,
+            13312
+          ]
+        },
+        {
+          "address": 271872480,
+          "type": 0,
+          "cellId": 4657672,
+          "normalQ16": [
+            14336,
+            -62464,
+            12288
+          ]
+        },
+        {
+          "address": 271872496,
+          "type": 0,
+          "cellId": 4657928,
+          "normalQ16": [
+            14336,
+            -62464,
+            13312
+          ]
+        },
+        {
+          "address": 271872512,
+          "type": 0,
+          "cellId": 4723208,
+          "normalQ16": [
+            15360,
+            -62464,
+            12288
+          ]
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "bodyAddress": 283377536,
+      "type": 3,
+      "entryPositionQ16": [
+        29349649,
+        12902813,
+        -517536776
+      ],
+      "entryCandidateCount": 10,
+      "sourceGeneratedCandidateCount": 9,
+      "candidateTypes": {
+        "0": 9
+      },
+      "sourceGeneratedBorderCandidateCount": 0,
+      "candidates": [
+        {
+          "address": 271872576,
+          "type": 0,
+          "cellId": 4132872,
+          "normalQ16": [
+            11264,
+            -64512,
+            3072
+          ]
+        },
+        {
+          "address": 271872592,
+          "type": 0,
+          "cellId": 4197896,
+          "normalQ16": [
+            13312,
+            -64512,
+            3072
+          ]
+        },
+        {
+          "address": 271872608,
+          "type": 0,
+          "cellId": 4198152,
+          "normalQ16": [
+            13312,
+            -64512,
+            3072
+          ]
+        },
+        {
+          "address": 271872624,
+          "type": 0,
+          "cellId": 4198408,
+          "normalQ16": [
+            12288,
+            -64512,
+            3072
+          ]
+        },
+        {
+          "address": 271872640,
+          "type": 0,
+          "cellId": 4198664,
+          "normalQ16": [
+            12288,
+            -64512,
+            3072
+          ]
+        },
+        {
+          "address": 271872656,
+          "type": 0,
+          "cellId": 4263688,
+          "normalQ16": [
+            14336,
+            -64512,
+            3072
+          ]
+        },
+        {
+          "address": 271872672,
+          "type": 0,
+          "cellId": 4263944,
+          "normalQ16": [
+            13312,
+            -64512,
+            2048
+          ]
+        },
+        {
+          "address": 271872688,
+          "type": 0,
+          "cellId": 4264200,
+          "normalQ16": [
+            13312,
+            -64512,
+            2048
+          ]
+        },
+        {
+          "address": 271872704,
+          "type": 0,
+          "cellId": 4329480,
+          "normalQ16": [
+            13312,
+            -64512,
+            2048
+          ]
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "bodyAddress": 283598080,
+      "type": 3,
+      "entryPositionQ16": [
+        -127818067,
+        -23150034,
+        -439132171
+      ],
+      "entryCandidateCount": 13,
+      "sourceGeneratedCandidateCount": 11,
+      "candidateTypes": {
+        "0": 11
+      },
+      "sourceGeneratedBorderCandidateCount": 0,
+      "candidates": [
+        {
+          "address": 271872768,
+          "type": 0,
+          "cellId": 2560,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        },
+        {
+          "address": 271872784,
+          "type": 0,
+          "cellId": 2816,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        },
+        {
+          "address": 271872800,
+          "type": 0,
+          "cellId": 68352,
+          "normalQ16": [
+            1024,
+            -65536,
+            -2048
+          ]
+        },
+        {
+          "address": 271872816,
+          "type": 0,
+          "cellId": 6097672,
+          "normalQ16": [
+            4096,
+            -65536,
+            -4096
+          ]
+        },
+        {
+          "address": 271872832,
+          "type": 0,
+          "cellId": 6162952,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        },
+        {
+          "address": 271872848,
+          "type": 0,
+          "cellId": 6163208,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        },
+        {
+          "address": 271872864,
+          "type": 0,
+          "cellId": 6228232,
+          "normalQ16": [
+            -2048,
+            -65536,
+            -8192
+          ]
+        },
+        {
+          "address": 271872880,
+          "type": 0,
+          "cellId": 6228488,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        },
+        {
+          "address": 271872896,
+          "type": 0,
+          "cellId": 6228744,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        },
+        {
+          "address": 271872912,
+          "type": 0,
+          "cellId": 6229000,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        },
+        {
+          "address": 271872928,
+          "type": 0,
+          "cellId": 6229256,
+          "normalQ16": [
+            3072,
+            -65536,
+            -3072
+          ]
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "bodyAddress": 283808640,
+      "type": 3,
+      "entryPositionQ16": [
+        -86237101,
+        -17481493,
+        -465341582
+      ],
+      "entryCandidateCount": 9,
+      "sourceGeneratedCandidateCount": 12,
+      "candidateTypes": {
+        "0": 12
+      },
+      "sourceGeneratedBorderCandidateCount": 0,
+      "candidates": [
+        {
+          "address": 271872944,
+          "type": 0,
+          "cellId": 5507592,
+          "normalQ16": [
+            10240,
+            -64512,
+            -6144
+          ]
+        },
+        {
+          "address": 271872960,
+          "type": 0,
+          "cellId": 5573128,
+          "normalQ16": [
+            9216,
+            -64512,
+            -6144
+          ]
+        },
+        {
+          "address": 271872976,
+          "type": 0,
+          "cellId": 5573384,
+          "normalQ16": [
+            9216,
+            -64512,
+            -6144
+          ]
+        },
+        {
+          "address": 271872992,
+          "type": 0,
+          "cellId": 5638664,
+          "normalQ16": [
+            9216,
+            -65536,
+            -6144
+          ]
+        },
+        {
+          "address": 271873008,
+          "type": 0,
+          "cellId": 5638920,
+          "normalQ16": [
+            9216,
+            -65536,
+            -6144
+          ]
+        },
+        {
+          "address": 271873024,
+          "type": 0,
+          "cellId": 5639176,
+          "normalQ16": [
+            8192,
+            -65536,
+            -6144
+          ]
+        },
+        {
+          "address": 271873040,
+          "type": 0,
+          "cellId": 5704200,
+          "normalQ16": [
+            8192,
+            -65536,
+            -6144
+          ]
+        },
+        {
+          "address": 271873056,
+          "type": 0,
+          "cellId": 5704456,
+          "normalQ16": [
+            8192,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271873072,
+          "type": 0,
+          "cellId": 5769736,
+          "normalQ16": [
+            7168,
+            -65536,
+            -5120
+          ]
+        },
+        {
+          "address": 271873088,
+          "type": 0,
+          "cellId": 5572872,
+          "normalQ16": [
+            8192,
+            -64512,
+            -12288
+          ]
+        },
+        {
+          "address": 271873104,
+          "type": 0,
+          "cellId": 5638408,
+          "normalQ16": [
+            5120,
+            -64512,
+            -12288
+          ]
+        },
+        {
+          "address": 271873120,
+          "type": 0,
+          "cellId": 5703944,
+          "normalQ16": [
+            3072,
+            -65536,
+            -11264
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceOnlyBaseline": {
+    "complete": true,
+    "eventCount": 2,
+    "eventCategories": [
+      {
+        "index": 0,
+        "kind": 1,
+        "category": "terrain-surface",
+        "response": "penetration-contact"
+      },
+      {
+        "index": 1,
+        "kind": 1,
+        "category": "terrain-surface",
+        "response": "penetration-contact"
+      }
+    ]
+  },
+  "actualTimeline": {
+    "observedEntryElapsedMs": 50160,
+    "budgetElapsedMs": 50166,
+    "preInputPublishedElapsedMs": 50243,
+    "requestPublishedElapsedMs": 50244,
+    "deadlineElapsedMs": 70160,
+    "cleanup": {
+      "type": "owned-process-cleanup",
+      "pid": 18776,
+      "terminated": true,
+      "win32Error": 0,
+      "elapsedMs": 70216
+    },
+    "errors": [
+      {
+        "type": "capture-error",
+        "error": "System.IO.InvalidDataException: Held force deadline expired; no input written and no automatic retry.\r\n   at RollcageCapture.NativeDebugger.ApplyHeldForceInput(Options o, PendingFrameProgress frame, ProcessInfo child, IntPtr thread, UInt32 mainBase, Breakpoint hit, UInt32 tid, Dictionary`2 regs, IntPtr context, Dictionary`2 predicate, Int32 debugOrdinal, Int32& snapshots, Stopwatch elapsed, Action`1 emit)\r\n   at RollcageCapture.NativeDebugger.Run(Options o, Byte[] configuration, Boolean quietConsole)",
+        "events": 2949,
+        "snapshots": 4,
+        "pendingFrame": {
+          "candidateIndex": 1,
+          "frameTid": 29968,
+          "frameEntryEsp": "0x00d1fcb4",
+          "frameReturnAddress": "0x00731017",
+          "frameMatchingHit": 121,
+          "observedEventHits": 0,
+          "qualifyingEventSnapshots": 0,
+          "nestedSnapshots": 0
+        },
+        "elapsedMs": 70161
+      }
+    ]
+  },
+  "absence": {
+    "decisionFiles": true,
+    "interventionRows": 0,
+    "postInputSnapshots": 0,
+    "nativeAfterSnapshots": 0,
+    "completeRows": 0
+  },
+  "limits": [
+    "The completed baseline is source-only: original held entry never resumed and no native after-frame exists.",
+    "Zero trials is not24 misses and not an unresolved dependency: all six completed source candidate lists contain no type6/7 border.",
+    "No pose/orientation/momentum/spatial changes or alternative frame retry occurred. Natural wall/ceiling/inverted and controlled chassis-border native comparison remain unproved."
+  ],
+  "actualIdentity": {
+    "pid": 18776,
+    "tid": 29968,
+    "debugEventOrdinal": 2949,
+    "logicalClock": 348,
+    "rawHit": 349,
+    "matchingHit": 121,
+    "preInputOrdinal": 4,
+    "mainBase": "0x006e0000",
+    "actualReturnAddress": "0x00731017"
+  }
+}

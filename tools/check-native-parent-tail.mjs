@@ -11,7 +11,10 @@ import {nativeFrameGlobalRegions} from './lib/native-frame-manifest.mjs';
 import {nativeControlSound19ObservedRegions} from './lib/native-control-sound-inputs.mjs';
 import {createNativeControlSoundCreationBindings,verifyNativeControlSoundCreationEvidence} from './lib/native-control-sound-creation.mjs';
 import {replayNativeControlThroughPhysics} from './lib/native-control-physics.mjs';
-import {continueNativeParentTail,verifyNativeParentTailEvidence} from './lib/native-parent-tail.mjs';
+import {continueNativeParentTail,bindNativeParentTail,executeNativeParentTail,verifyNativeParentTailEvidence} from './lib/native-parent-tail.mjs';
+import {createCapturedMemory} from './lib/captured-memory.mjs';
+import {createNativeParentRttiBindings,verifyNativeParentRttiEvidence} from './lib/native-parent-rtti.mjs';
+import {verifyNativeParentRttiCaptureConfiguration} from './lib/native-parent-rtti-capture.mjs';
 import {verifyNativeDriveContinuationEvidence} from './lib/native-frame-drive-continuation.mjs';
 import {verifyNativeControlPrefixEvidence} from './lib/native-frame-control-continuation.mjs';
 import {compareNativeControlOutput} from './check-native-frame-control-prefix.mjs';
@@ -22,12 +25,15 @@ export async function checkNativeParentTail(input,output){
   const configuration=JSON.parse(await readFile(path.join(input,'configuration.json')));
   const pairing=pairNativeControlSnapshots(capture,configuration);
   if(!pairing.postphysics)throw Error('Parent-tail comparison requires actual postphysics checkpoints.');
+  const parentRttiObservation=configuration.parentRttiObservation!==undefined;
+  if(parentRttiObservation)verifyNativeParentRttiCaptureConfiguration(configuration);
   const collisionSound19=configuration.breakpoints.find(point=>point.id==='native-control-before').ranges.some(row=>row.id==='control-sound19-owner');
   const stages=['attachments','recovery','drive',...nativeControlLateBoundaries.slice(0,pairing.lateStages).map(row=>row.stage)],through=stages.at(-1);
   const proof=await Promise.all([verifyNativeControlBoundaries(),verifyNativeControlPrefixEvidence(),verifyNativeParentTailEvidence(),verifyNativeDriveContinuationEvidence()]);
   if(collisionSound19)proof.push(await verifyNativeControlSoundCreationEvidence());
+  if(parentRttiObservation)proof.push(await verifyNativeParentRttiEvidence());
   await mkdir(output);for(const name of ['configuration.json','trace.jsonl'])await copyFile(path.join(input,name),path.join(output,name),constants.COPYFILE_EXCL);
-  const report={schemaVersion:1,method:`source-carried-parent-entry-through-${through}`,through,collisionSound19,completeParentTickMatched:false,authority:'original-process-with-declared-instrumentation',targetSha256:REDUX_SHA256,
+  const report={schemaVersion:1,method:`source-carried-parent-entry-through-${through}`,through,collisionSound19,parentRttiObservation,completeParentTickMatched:false,authority:'original-process-with-declared-instrumentation',targetSha256:REDUX_SHA256,
     captureDirectory:path.resolve(input),evidenceIds:[...new Set(proof.flatMap(row=>row.evidenceIds))],matched:true,sourceComplete:false,frames:[],completion:capture.complete,
     limits:[`Only450e50 entry through ${through} is attempted; final parent return, clock advancement and the next tick remain open.`,
       'All replay inputs come from parent entry; intermediate/exit native bytes are comparison-only.',
@@ -41,11 +47,27 @@ export async function checkNativeParentTail(input,output){
       const source=replayNativeControlThroughPhysics(pair.before,{...options,...(collisionSound19?{createControlAudioBindings:createNativeControlSoundCreationBindings}:{}),additionalRegions:[...nativeParentTailAdditionalRegions(pair.before,options),...late,...soundInputs],
         onBeforeStage:({source})=>{if(pair.checkpoints?.afterAi)frame.afterAi=compareNativeControlOutput(source,pair.checkpoints.afterAi);},
         onPrefixComplete:source=>{frame.prefix=compareNativeControlOutput(source,pair.after);}});
+      if(collisionSound19)frame.sourceSoundCreationEvents=source.controlAudioBindings.creationEvents;
       frame.physics=compareNativeControlOutput(source,pair.physicsAfter);
-      const result=continueNativeParentTail(source,{snapshot:pair.before,through,onStage:row=>{
+      let bound,rtti;
+      if(parentRttiObservation){
+        //The CRT adapter receives only authenticated external EAX outcomes.
+        //Its storage coverage is checked against ORIGINAL parent entry, not
+        //native intermediate/after rows or a newly constructed game object.
+        const initial=createCapturedMemory([...pair.before.ranges.values()]);
+        bound=bindNativeParentTail(source,{snapshot:pair.before,includeLateInputs:true});
+        rtti=createNativeParentRttiBindings({capture,pair,memory:bound.memory,initialSpan:initial.span});
+        frame.sourceRttiEvents=rtti.events;
+        frame.rttiLimits=rtti.limits;
+      }
+      const onStage=row=>{
         const expected=pair.postphysics[row.stage];if(!expected)throw Error('Undeclared source parent-tail stage.');
         frame.stages.push({stage:row.stage,nativeOrdinal:expected.ordinal,comparison:compareNativeControlOutput(row.source,expected),execution:row.report});
-      }});
+        if(row.stage==='cameras')rtti?.assertComplete();
+      };
+      const result=parentRttiObservation
+        ?executeNativeParentTail(bound,{through,onStage,crtDynamicCast:rtti.crtDynamicCast})
+        :continueNativeParentTail(source,{snapshot:pair.before,through,onStage});
       frame.execution=result.tailReport??result.report;
       frame.matched=frame.physics.matched&&frame.prefix.matched&&(!frame.afterAi||frame.afterAi.matched)&&frame.stages.length===stages.length&&frame.stages.every(row=>row.comparison.matched);
       if(!frame.matched)report.matched=false;

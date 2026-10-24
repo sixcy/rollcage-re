@@ -1,0 +1,93 @@
+{
+  "method": "initial-singleton-candidate-map-storage-audit-no-cast-result-assumed",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/parent-late-v6-batched-inputs-20261023",
+  "originalEntryOrdinal": 4,
+  "moduleBaseAddress": 7208960,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "singleton": {
+    "root": 10287928,
+    "address": 10441840,
+    "headerBytes": 132,
+    "headerCaptured": true,
+    "vtable": 8717064
+  },
+  "candidateMap": {
+    "address": 10441964,
+    "headerBytes": 8,
+    "headerCaptured": true,
+    "head": 20902600,
+    "logicalCount": 3,
+    "headCoverage": [
+      {
+        "address": 20902600,
+        "length": 1,
+        "covered": false
+      },
+      {
+        "address": 20902600,
+        "length": 14,
+        "covered": false
+      },
+      {
+        "address": 20902600,
+        "length": 100,
+        "covered": false
+      }
+    ],
+    "nonNilNodeAddresses": null,
+    "keyStorageAddresses": null
+  },
+  "nextFixedObservation": {
+    "id": "late-singleton-candidate-viewport-map-head",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0",
+      "0x7c"
+    ],
+    "dereferenceMinimumValues": [
+      1,
+      1
+    ],
+    "length": 100
+  },
+  "consumerDomains": {
+    "headAllocationBytes": 100,
+    "nodeAllocationBytes": 100,
+    "nodeLinksOffsets": [
+      0,
+      4,
+      8
+    ],
+    "colorOffset": 12,
+    "nilOffset": 13,
+    "nodeKeyOffset": 16,
+    "keyLengthOffset": 32,
+    "keyCapacityOffset": 36,
+    "heapKeyGuard": "capacity>=16; otherwise key bytes inline atnode+16",
+    "keyExternalReadExtent": "actual length plus terminatingNUL, never guessedcapacity"
+  },
+  "evidence": [
+    {
+      "file": "3650-weather-402d10-procedure_assembly.json",
+      "evidenceId": "ev_af9ae69ed9db78a714381999a949dba246f1bac8a65c92a3239c27f068b70358"
+    },
+    {
+      "file": "3705-weather-403430-procedure_assembly.json",
+      "evidenceId": "ev_84af9eabdef94f92a158ce6b7a9bf238fda076d7992f39f74cc4066f1132137e"
+    },
+    {
+      "file": "3717-weather-405dd0-procedure_assembly.json",
+      "evidenceId": "ev_bff9a8dc556bf3d40b1b8b6571b3789dd18a163fdf0a9b04f8790bcc8328980c"
+    },
+    {
+      "file": "3687-weather-4061a0-procedure_assembly.json",
+      "evidenceId": "ev_36486304908742e9ce86c2031a64c484cd71a2bdd0fc1733ccdf18c4d89d5b14"
+    }
+  ],
+  "limits": [
+    "Candidate is the original singleton +7c, not an authenticated __RTDynamicCast result.",
+    "Head links are uncaptured; no actual non-nil node/key addresses can be derived.",
+    "No intermediate/exit bytes, native object getter result or replacement node/key state is admitted.",
+    "Optional containing-region transport must be separately declared and may not establish other allocation lifetimes/capacities."
+  ]
+}

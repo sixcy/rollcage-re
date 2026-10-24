@@ -34,6 +34,7 @@ import {setSoundManagerMasterLevel} from '../../src/sound-manager-level.mjs';
 import {updateRacePhaseState} from '../../src/race-phase-state.mjs';
 import {readInstructionEvidence} from './instruction-evidence.mjs';
 import {REDUX_SHA256} from './retained-native-program.mjs';
+import {assertNativeParentRttiService} from './native-parent-rtti.mjs';
 
 export async function verifyNativeParentTailEvidence(){
   const {evidence,instructions}=await readInstructionEvidence(['310-race-step-parent-assembly.json','084-attachment-update-assembly.json','098-post-frame-body-states-assembly.json'],{directory:'analysis/native-simulation/results'});
@@ -92,11 +93,12 @@ export function formatNativeParentCameraName(memory,output,format,index){
   const bytes=Buffer.from(`${index} Player\0`,'ascii');copyToNativeMemory(memory,output,bytes);return bytes.length-1;
 }
 
-export function executeNativeParentTail(source,{onStage,through='drive'}={}){
+export function executeNativeParentTail(source,{onStage,through='drive',crtDynamicCast}={}){
   const {S,base}=contract(source);if(!['attachments','recovery','drive','auxiliary','cameras','world-effects','parent-return'].includes(through))throw Error('Unknown requested parent-tail boundary.');if(onStage!==undefined&&typeof onStage!=='function')throw Error('Parent-tail stage observer must be a function.');
+  if(crtDynamicCast!==undefined)assertNativeParentRttiService(crtDynamicCast);
   const {memory:m}=source,ptr=p=>m.readUInt32LE(p),get=p=>m.readInt32LE(p),put=(p,v)=>m.writeInt32LE(v|0,p),stages=[],calls=[],progress={scope:through,stage:'attachments',childEsp:S,parentCheckpointEsp:S+4,stages,calls,parentReturned:false};
   const runtime={memory:m,moduleBaseAddress:base,scratchBase:S,numericalContext:source.numericalContext,roundingMode:'nearest-even',x87PrecisionBits:24,views:source.views,grid:source.geometry.grid,models:source.geometry.modelContext,modelPointersFor:source.geometry.candidateMapping.modelPointersFor,soundRuntime:source.sound.soundRuntime,
-    handlers:{formatCameraName:(output,format,index)=>formatNativeParentCameraName(m,output,format,index)}};
+    handlers:{formatCameraName:(output,format,index)=>formatNativeParentCameraName(m,output,format,index),...(crtDynamicCast?{dynamicCast:crtDynamicCast}:{})}};
   const publishReturn=p=>m.writeUInt32LE(nativeCodeAddress(p,{moduleBaseAddress:base}),S);
   const observe=(stage,entry,returnAddress,report)=>{
     extendNativeFrameGeometryComparison(source.manifest,source.geometry.comparisonRegions??[]);extendNativeFrameSoundComparison(source.manifest,[...(source.sound.comparisonRegions??[]),...(source.threadEnvironment?.comparisonRegions??[])]);

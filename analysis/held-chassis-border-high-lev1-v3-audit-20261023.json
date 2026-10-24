@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "method": "independent-failed-capture-settings-input-and-native-output-marker-audit",
+  "captureDirectory": "analysis/native-physics-local/startup-20261022/held-chassis-border-high-lev1-v3-20261023",
+  "captureSucceeded": false,
+  "completionPresent": false,
+  "heldPreInputSnapshotPresent": false,
+  "heldOutputSnapshotPresent": false,
+  "nativePhysicsOrCollisionComparisonPerformed": false,
+  "heldForceWrites": 0,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "traceSha256": "d68bc9b817599a3a48b8954ccbf595fe77ded6048eec51d6fdea75a385415146",
+  "configurationSha256": "001708352da45b82dc69f7c3618585a160de8bb752b1f0172d683cf37bcb054d",
+  "immutableHelper": {
+    "file": "analysis/native-physics-local/startup-20261022/bounded-controlled-race-settings-runner-v3-20261023/native-physics-debugger.cs",
+    "sha256": "be12d33fdbe3a85fd902d26b4becc27659f79dd9530480146a94d13344ee9f89"
+  },
+  "allEmittedBlobs": {
+    "files": 120,
+    "bytes": 43421,
+    "allHashesMatch": true
+  },
+  "ownedProcess": {
+    "type": "owned-process",
+    "pid": 37136,
+    "tid": 40416,
+    "showWindow": false,
+    "elapsedMs": 5
+  },
+  "settingsInput": {
+    "verified": true,
+    "snapshotOrdinal": 4,
+    "debugEventOrdinal": 705,
+    "pid": 37136,
+    "tid": 40416,
+    "eip": "0x0071e0c5",
+    "esp": "0x0136fc48",
+    "configAddress": 11696608,
+    "sessionAddress": 11704928,
+    "frontend": {
+      "menu": 4,
+      "latch": 0,
+      "mainState": 1,
+      "varyingCounter": 1481,
+      "deadline": 32697
+    },
+    "eax": 3,
+    "ecx": 3,
+    "ebx": 0,
+    "savedEdx": 10,
+    "caller": 7461608,
+    "frontendArgument": 3,
+    "contextSha256": "2177636d1511ff69feba2e5a8165cbe0bc4be968d6c391bd64f65e73c2ce0a24",
+    "contextAndFsVerified": true,
+    "sameStoppedEventGuardThenTwoWrites": true,
+    "allGuardsBeforeWrites": true,
+    "writes": [
+      {
+        "index": 1,
+        "address": "0x00b279eb",
+        "length": 1,
+        "before": "00",
+        "after": "01"
+      },
+      {
+        "index": 2,
+        "address": "0x00b27a11",
+        "length": 1,
+        "before": "01",
+        "after": "01"
+      }
+    ],
+    "fullConfigurationTransitionVerified": true,
+    "actuallyChangedOffsets": [
+      "0xb"
+    ],
+    "rawPostContextBlobPresent": false,
+    "readbackProvenance": "Immutable helper rechecks actual context, roots and all captured spans and validates full configuration before emitting completion flags. Audit independently checks raw pre-input blobs and exact logged transition; there is no separate post-context blob."
+  },
+  "nativeOutputMarker": {
+    "verified": true,
+    "debugEventOrdinal": 2734,
+    "pid": 37136,
+    "tid": 40416,
+    "sessionAddress": "0x00b29a60",
+    "nativeTrackIndex": 0,
+    "nativeFamily": 1,
+    "nativeLocal": 0,
+    "nativeStem": "high\\lev1",
+    "actualTablesEqualInputBlobs": true,
+    "familyTableHex": "0102030100030103020002030001010000000000",
+    "localTableHex": "0000000100010202010102030203040000000000",
+    "participantCount": 6,
+    "participantModes": [
+      8,
+      8,
+      8,
+      8,
+      8,
+      8
+    ],
+    "nativeRoster": [
+      6,
+      1,
+      3,
+      0,
+      4,
+      2
+    ],
+    "phase": 4,
+    "beforeHeldRequest": true,
+    "configurationPersistenceAssumed": false,
+    "rawHeldSnapshotAvailable": false,
+    "provenance": "Actual process-read marker bytes emitted by frozen helper at same stopped owned native-frame debug event; independently checked against original input classification table blobs. No synthetic held/output snapshot constructed."
+  },
+  "budgetFailure": {
+    "verified": true,
+    "debugEventOrdinal": 2734,
+    "metadataBeforeBlobRead": true,
+    "preSnapshotBytes": 50129730,
+    "eventSnapshotBytes": 50618,
+    "eventCountReserved": 64,
+    "eventReserveBytes": 3239552,
+    "requiredPendingBytes": 153628742,
+    "pendingLimitBytes": 134217728,
+    "rangeCount": 97,
+    "footprintRecomputed": true,
+    "heldRequestCount": 0,
+    "heldForceWrites": 0,
+    "error": "System.IO.InvalidDataException: Held force lacks pre/post/after and complete dispatcher observation budgets; no input written.",
+    "errorElapsedMs": 50092
+  },
+  "cleanup": {
+    "type": "owned-process-cleanup",
+    "pid": 37136,
+    "terminated": true,
+    "win32Error": 0,
+    "elapsedMs": 50141
+  },
+  "limits": [
+    "Capture failed and has no complete record.",
+    "Settings guards/input and native correlated-output marker are verified, not complete held input/physics/contact equality.",
+    "No raw held pre-input or output snapshot exists; marker does not substitute for one.",
+    "No force input was written; the earlier declared two settings writes did occur.",
+    "Native roster and RNG/constructors remained original; settings selection does not prove deterministic trajectories.",
+    "Installed171-file target audit is separately root-owned."
+  ]
+}

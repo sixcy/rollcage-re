@@ -41,16 +41,44 @@ export class Renderer {
     this.weaponDraws = {pickups: 0, projectiles: 0, groups: 0, spawnMarkers: 0};
     this.terrainTemplates = new Map(); this.terrainGroups = new Map(); this.terrainState = null;
     this.terrainDraws = {segments: 0, groups: 0, uploads: 0};
+    this.editorBuffer = null; this.editorMarkers = []; this.editorSignature = '';
     gl.enable(gl.DEPTH_TEST); gl.disable(gl.CULL_FACE); gl.clearColor(0.047, 0.071, 0.114, 1);
     gl.uniform1i(this.uniforms.image, 0);
   }
   clear() {
     this.clearCar();
+    this.setEditorPickups([]);
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
     this.groups = []; this.pathGroups = []; this.textures.clear(); this.textureSizes.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+  }
+  setEditorPickups(points) {
+    const signature = JSON.stringify(points);
+    if (signature === this.editorSignature) return;
+    this.editorSignature = signature; this.editorMarkers = [];
+    if (!points.length) {if (this.editorBuffer) this.gl.deleteBuffer(this.editorBuffer);this.editorBuffer=null;return;}
+    if (points.some(row=>!Array.isArray(row.position)||row.position.length!==3||row.position.some(n=>!Number.isFinite(n)))) throw Error('Invalid pickup editor marker.');
+    if (!this.editorBuffer) this.editorBuffer=this.gl.createBuffer();
+    const vertices=[];
+    for(const row of points){this.editorMarkers.push({offset:vertices.length/3,selected:row.selected,added:row.added});vertices.push(...row.position);}
+    this.gl.bindBuffer(this.gl.ARRAY_BUFFER,this.editorBuffer);
+    this.gl.bufferData(this.gl.ARRAY_BUFFER,new Float32Array(vertices),this.gl.DYNAMIC_DRAW);
+  }
+  renderEditorPickups(matrix,ratio) {
+    if(!this.editorBuffer)return;
+    const gl=this.gl;gl.useProgram(this.pathProgram);
+    for(const attribute of Object.values(this.attributes))gl.disableVertexAttribArray(attribute);
+    gl.enableVertexAttribArray(this.pathPosition);gl.bindBuffer(gl.ARRAY_BUFFER,this.editorBuffer);
+    gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);gl.uniformMatrix4fv(this.pathUniforms.mvp,false,matrix);
+    gl.depthMask(false);gl.disable(gl.DEPTH_TEST);
+    try {
+      for(const marker of this.editorMarkers){
+        if(marker.selected){gl.uniform1f(this.pathUniforms.pointSize,16*ratio);gl.uniform3fv(this.pathUniforms.color,[1,1,1]);gl.drawArrays(gl.POINTS,marker.offset,1);}
+        gl.uniform1f(this.pathUniforms.pointSize,10*ratio);gl.uniform3fv(this.pathUniforms.color,marker.added?[0.3,1,1]:[1,0.78,0.25]);gl.drawArrays(gl.POINTS,marker.offset,1);
+      }
+    }finally{gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.disableVertexAttribArray(this.pathPosition);gl.useProgram(this.program);}
   }
   clearCar() {
     for (const group of [...this.carGroups, ...this.worldGroups, ...this.weaponGroups, ...this.terrainGroups.values()]) this.gl.deleteBuffer(group.buffer);
@@ -254,6 +282,7 @@ export class Renderer {
       gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
     }
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+    this.renderEditorPickups(matrix,ratio);
     if (!options.paths || !this.pathGroups.length) return;
     gl.useProgram(this.pathProgram);
     for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);

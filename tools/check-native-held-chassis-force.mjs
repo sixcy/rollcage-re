@@ -9,6 +9,8 @@ import {traceNativeFrameDispatches,compareNativeDispatchSnapshots} from './lib/n
 import {loadHeldForceRequest,planHeldForceInput,encodeHeldForceDecision,validateHeldForceConfiguration,validateHeldForceTransition,validateHeldBankVector,validateHeldBudgetEvidence} from './lib/native-held-force.mjs';
 import {unpackCollisionNormal} from '../src/collision-grid.mjs';
 import {REDUX_SHA256} from './prepare-native-physics-capture.mjs';
+import {verifyControlledRaceSettingsRecords} from './lib/native-controlled-race-settings.mjs';
+import {verifyHeldRangeStorageDiagnostic} from './lib/native-held-range-storage.mjs';
 
 const sha=b=>createHash('sha256').update(b).digest('hex');
 function comparableForecast(r) {const {elapsedMs,...rest}=r;return rest;}
@@ -28,8 +30,14 @@ export function proveNativeChassisBorderCandidate(snapshot,event,replay,selected
     if(![6,7].includes(type)||cellId!==event.before.field44||cellId!==selected.border.cellId||normalQ16.some((v,j)=>v!==event.before.normalQ16[j]||v!==selected.border.normalQ16[j]))continue;
     if(!event.before.terrainCandidates.some(row=>row.address===address&&row.type===type&&row.id===cellId&&row.normalQ16.every((v,j)=>v===normalQ16[j])))throw Error('Actual candidate does not match the source event producer.');
     const sectorIndex=c[4],row=c.readInt16LE(6),column=c.readInt8(5),sector=replay.geometry.grid.sectors[sectorIndex],vertices=c.readUInt32LE(12),offset=c[1];
-    if(!sector||row<0||row>=sector.rows||column<0||column>=sector.columns||vertices<sector.vertexAddress||(vertices-sector.vertexAddress)%8||(vertices-sector.vertexAddress)/8+offset>=sector.vertices.length)throw Error('Native border candidate geometry ownership differs.');
-    matches.push({address,type,cellId,normalQ16,candidateHex:c.toString('hex'),sector:sectorIndex,row,column,pointAddress:vertices+offset*8,planePoint:sector.vertices[(vertices-sector.vertexAddress)/8+offset].slice(0,3)});
+    //428aa0 (429101..429206) appends borders using VERTEX columns. The right
+    //border may equal sector.columns; it is outside the road-cell index domain.
+    //The two types have different row origins and always publish byte1=0.
+    const side=type===6?'left':'right',border=sector?.borders?.[row]?.[side],vertexIndex=sector?(row+(type===6?1:0))*(sector.columns+1)+column:-1;
+    const authoredNormal=Number.isInteger(border?.normal)?replay.geometry.grid.normals[border.normal]:null;
+    if(!sector||row<0||row>=sector.rows||column<0||column>sector.columns||!border||border.type!==type||border.column!==column||border.covered!==true||!Number.isInteger(border.normal)
+      ||!authoredNormal||!Number.isInteger(authoredNormal.packed)||(authoredNormal.packed>>>0)!==c.readUInt32LE(8)||offset!==0||vertexIndex<0||vertexIndex>=sector.vertices.length||vertices!==sector.vertexAddress+vertexIndex*8)throw Error('Native border candidate geometry ownership differs.');
+    matches.push({address,type,cellId,normalQ16,candidateHex:c.toString('hex'),sector:sectorIndex,row,column,side,vertexIndex,normalIndex:border.normal,pointAddress:vertices,planePoint:sector.vertices[vertexIndex].slice(0,3)});
   }
   if(!matches.length)throw Error('No actual current type6/7 candidate proves the selected plane.');
   return {nativeOrdinal:snapshot.ordinal,eventAddress:Number(eventBytes.address),bodyAddress:selected.bodyAddress,candidates:matches};
@@ -42,8 +50,14 @@ export async function checkNativeHeldChassisForce(input,output) {
     validateHeldForceConfiguration(configuration);
     const records=(await readFile(path.join(input,'trace.jsonl'),'utf8')).trim().split(/\r?\n/).map(JSON.parse),pre=capture.snapshots.filter(s=>s.breakpointId==='held-force-pre-input'),writes=records.filter(r=>r.type==='held-force-intervention'),waiting=records.filter(r=>r.type==='held-force-waiting');
     const owner=records.filter(r=>r.type==='owned-process');
+    if(configuration.controlledRaceSettings) {
+      const settings=capture.snapshots.filter(s=>s.breakpointId===configuration.controlledRaceSettings.breakpointId);
+      if(settings.length!==1||owner.length!==1)throw Error('Controlled settings lack a unique actual owned input snapshot.');
+      report.raceSettings=verifyControlledRaceSettingsRecords(configuration,records,settings[0],owner[0],held.snapshot);
+    }
     const budgets=records.filter(r=>r.type==='held-force-budget');if(budgets.length!==1)throw Error('Missing unique held capacity diagnostic.');report.budget=validateHeldBudgetEvidence(held,configuration,budgets[0]);
     if(pre.length!==1||writes.length!==1||waiting.length!==1||owner.length!==1||owner[0].pid!==held.request.pid||owner[0].tid!==held.request.tid||waiting[0].requestSha256!==held.requestSha256||waiting[0].preInputOrdinal!==pre[0].ordinal)throw Error('Held input lacks unique actual owned request/intervention evidence.');
+    if(configuration.heldForceInput.shareContainedRanges)report.preInputStorage=verifyHeldRangeStorageDiagnostic(pre[0],records,{pid:owner[0].pid,role:'held-pre-input'});
     const preIndex=records.findIndex(r=>r.type==='snapshot'&&r.ordinal===pre[0].ordinal),waitIndex=records.indexOf(waiting[0]),writeIndex=records.indexOf(writes[0]);
     const debug=records.find(r=>r.type==='debug-event'&&r.ordinal===held.request.observedDebugEventOrdinal);
     if(!debug||debug.pid!==held.request.pid||debug.tid!==held.request.tid||debug.event!==1||preIndex<0||waitIndex<=preIndex||writeIndex<=waitIndex||records.slice(waitIndex+1,writeIndex).some(r=>r.type==='debug-event')||waiting[0].allOwnedThreadsStoppedByDebugEvent!==true)throw Error('Held observation/decision escaped its actual stopped owned debug event.');
@@ -55,6 +69,11 @@ export async function checkNativeHeldChassisForce(input,output) {
     const pairs=pairNativeFrameSnapshots(capture,configuration).pairs;
     if(pairs.length!==1)throw Error('Held force requires exactly one complete native frame.');
     const pair=pairs[0];report.input=validateHeldForceTransition(held,pair.before,writes[0],forecast,sha(planBytes));
+    if(configuration.heldForceInput.shareContainedRanges){
+      if(records.filter(r=>r.type==='held-force-range-storage').length!==3)throw Error('Held storage requires exactly three independently captured parent buffers.');
+      report.postInputStorage=verifyHeldRangeStorageDiagnostic(pair.before,records,{pid:owner[0].pid,role:'before'});
+      report.outputStorage=verifyHeldRangeStorageDiagnostic(pair.after,records,{pid:owner[0].pid,role:'after'});
+    }
     validateHeldBankVector(pair.after,pair.moduleBaseAddress);
     const replay=traceNativeFrameDispatches(pair.before,pair.options),native=capture.snapshots.filter(s=>s.breakpointId==='native-dispatch-entry');
     report.frame=compareNativeFramePair(pair,replay);

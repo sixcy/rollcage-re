@@ -1,0 +1,247 @@
+{
+  "matched": true,
+  "target": {
+    "name": "Rollcage Redux.exe",
+    "version": "1.3.8.0",
+    "sha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5"
+  },
+  "helperSha256": "e7b78b3530684a4a11d5ca6f130ab0b776c7c2f2d5c928cc2b3f36da1cd5b448",
+  "cases": [
+    {
+      "id": "baseline-low",
+      "reportPath": "analysis/pickup-editor-native-baseline-low-v2-check-20261024/report.json",
+      "reportSha256": "9e92efa4097e49e74b66ce54cdd22c48cfd10423c39d619c8899f6de45124398",
+      "capture": "analysis/pickup-editor-native-cases-20261024/baseline-low/capture-v2",
+      "traceSha256": "8746f6a343db29596a48b0db13d5b82cfbac1d11204175b663a0d30a52180157",
+      "sceneName": "LOW/LEV1.BLP",
+      "count": 13,
+      "snapshots": 34,
+      "elapsedMs": 56021,
+      "cleanupElapsedMs": 56065,
+      "completedFinalizers": 13,
+      "targetLifecycle": [],
+      "pid": 12628,
+      "terminated": true
+    },
+    {
+      "id": "baseline-high",
+      "reportPath": "analysis/pickup-editor-native-baseline-high-check-20261024/report.json",
+      "reportSha256": "c6117fbbcc34dec150d605ce6dbd4f665867008f92d489d17a1b9c84f87f430b",
+      "capture": "analysis/pickup-editor-native-cases-20261024/baseline-high/capture",
+      "traceSha256": "013e111573926f51706a2f3d44eaf043786181d620ef5e00847b5a43c6f72487",
+      "sceneName": "HIGH/LEV1.BLP",
+      "count": 13,
+      "snapshots": 34,
+      "elapsedMs": 58297,
+      "cleanupElapsedMs": 58336,
+      "completedFinalizers": 13,
+      "targetLifecycle": [],
+      "pid": 38044,
+      "terminated": true
+    },
+    {
+      "id": "edited16-low",
+      "reportPath": "analysis/pickup-editor-native-edited16-low-check-20261024/report.json",
+      "reportSha256": "a91b5a0ac813df8fb57204342f86b245472884292c21d4369ce959fd18e5f043",
+      "capture": "analysis/pickup-editor-native-cases-20261024/edited16-low/capture",
+      "traceSha256": "9fef563aeff6aa20d87a12bc0235358f59cd22976ba8c68f244e0d78efe62e32",
+      "sceneName": "LOW/LEV1.BLP",
+      "count": 16,
+      "snapshots": 44,
+      "elapsedMs": 76309,
+      "cleanupElapsedMs": 76350,
+      "completedFinalizers": 17,
+      "targetLifecycle": [
+        {
+          "stage": "pickup-respawn-before",
+          "index": 15,
+          "clock": 780,
+          "snapshotOrdinal": 39
+        },
+        {
+          "stage": "pickup-respawn-after",
+          "index": 15,
+          "clock": 780,
+          "snapshotOrdinal": 40
+        },
+        {
+          "stage": "pickup-collection-before",
+          "index": 15,
+          "clock": 1006,
+          "snapshotOrdinal": 41
+        },
+        {
+          "stage": "pickup-collection-after",
+          "index": 15,
+          "clock": 1006,
+          "snapshotOrdinal": 42
+        },
+        {
+          "stage": "pickup-respawn-before",
+          "index": 15,
+          "clock": 1181,
+          "snapshotOrdinal": 43
+        },
+        {
+          "stage": "pickup-respawn-after",
+          "index": 15,
+          "clock": 1181,
+          "snapshotOrdinal": 44
+        }
+      ],
+      "pid": 11820,
+      "terminated": true
+    },
+    {
+      "id": "edited16-high",
+      "reportPath": "analysis/pickup-editor-native-edited16-high-check-20261024/report.json",
+      "reportSha256": "b575c8706f372710efa346a95812fa3bf2916dad87f365bf5a84fe66f4aaea0a",
+      "capture": "analysis/pickup-editor-native-cases-20261024/edited16-high/capture",
+      "traceSha256": "f2255f4e6afd32b0bac675e446886cc57dd5a1dfa98cc728fa96ca0cca8e0e73",
+      "sceneName": "HIGH/LEV1.BLP",
+      "count": 16,
+      "snapshots": 44,
+      "elapsedMs": 82788,
+      "cleanupElapsedMs": 82831,
+      "completedFinalizers": 17,
+      "targetLifecycle": [
+        {
+          "stage": "pickup-respawn-before",
+          "index": 15,
+          "clock": 751,
+          "snapshotOrdinal": 39
+        },
+        {
+          "stage": "pickup-respawn-after",
+          "index": 15,
+          "clock": 751,
+          "snapshotOrdinal": 40
+        },
+        {
+          "stage": "pickup-collection-before",
+          "index": 15,
+          "clock": 1034,
+          "snapshotOrdinal": 41
+        },
+        {
+          "stage": "pickup-collection-after",
+          "index": 15,
+          "clock": 1034,
+          "snapshotOrdinal": 42
+        },
+        {
+          "stage": "pickup-respawn-before",
+          "index": 15,
+          "clock": 1372,
+          "snapshotOrdinal": 43
+        },
+        {
+          "stage": "pickup-respawn-after",
+          "index": 15,
+          "clock": 1372,
+          "snapshotOrdinal": 44
+        }
+      ],
+      "pid": 20836,
+      "terminated": true
+    },
+    {
+      "id": "zero-low",
+      "reportPath": "analysis/pickup-editor-native-zero-low-v2-check-20261024/report.json",
+      "reportSha256": "c4e618df4ede19a98a440d6858f36e77db0e7e10b68683c19d612d56f576e6e5",
+      "capture": "analysis/pickup-editor-native-cases-20261024/zero-low/capture",
+      "traceSha256": "83bb2b820fa4cac5835ee6e1e502a752d7a79c66c83b0d5a2b76402ca53d2dbe",
+      "sceneName": "LOW/LEV1.BLP",
+      "count": 0,
+      "snapshots": 8,
+      "elapsedMs": 35588,
+      "cleanupElapsedMs": 35630,
+      "completedFinalizers": 0,
+      "targetLifecycle": [],
+      "pid": 39524,
+      "terminated": true
+    },
+    {
+      "id": "zero-high",
+      "reportPath": "analysis/pickup-editor-native-zero-high-check-20261024/report.json",
+      "reportSha256": "3554a2dc5adc018783758e980cd55827ee5ce20b0a76452a7ed5355cf4a2dc88",
+      "capture": "analysis/pickup-editor-native-cases-20261024/zero-high/capture",
+      "traceSha256": "6e5d48056eb1dc9ad8b21e947fbcf175bd009c5bacf5899ad95edafec862900d",
+      "sceneName": "HIGH/LEV1.BLP",
+      "count": 0,
+      "snapshots": 8,
+      "elapsedMs": 35567,
+      "cleanupElapsedMs": 35609,
+      "completedFinalizers": 0,
+      "targetLifecycle": [],
+      "pid": 10804,
+      "terminated": true
+    }
+  ],
+  "installations": [
+    {
+      "root": "C:\\Program Files (x86)\\Psygnosis\\Rollcage",
+      "files": 171,
+      "bytes": 156187383,
+      "allMatched": true
+    },
+    {
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-baseline-20261024\\installation",
+      "files": 171,
+      "bytes": 156187383,
+      "allMatched": true
+    },
+    {
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-low\\installation",
+      "files": 171,
+      "bytes": 156187383,
+      "allMatched": true
+    },
+    {
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\baseline-high\\installation",
+      "files": 171,
+      "bytes": 156187383,
+      "allMatched": true
+    },
+    {
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\edited16-low\\installation",
+      "files": 171,
+      "bytes": 157731119,
+      "allMatched": true
+    },
+    {
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\edited16-high\\installation",
+      "files": 171,
+      "bytes": 157731119,
+      "allMatched": true
+    },
+    {
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\zero-low\\installation",
+      "files": 171,
+      "bytes": 157730735,
+      "allMatched": true
+    },
+    {
+      "root": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\pickup-editor-native-cases-20261024\\zero-high\\installation",
+      "files": 171,
+      "bytes": 157730735,
+      "allMatched": true
+    }
+  ],
+  "sourceTotals": {
+    "passed": 68,
+    "failed": 0,
+    "completedTicks": 24480,
+    "collections": 92,
+    "respawns": 356
+  },
+  "sourceMatrixSha256": "e8ffaf3945df6fc4183f62b0056e3648a4fbc44f83f8c8160ea7cee2ffbb359b",
+  "scope": "LEV1 native unchanged/zero/16 exports in LOW and HIGH; source matrix covers all34 supported variants; browser check is separate reconstructed-runtime evidence.",
+  "limits": [
+    "Original-process evidence covers LEV1, not native runs of all17 supported levels.",
+    "One rejected V1 observer timeout and one rejected zero-entry checker report are retained; neither is counted as a native acceptance pass.",
+    "Only reviewed startup/frontend inputs were intervened upon; no collection, respawn, RNG, AI, position or simulation outputs were forced.",
+    "The broader physics goal remains paused."
+  ],
+  "physicsGoalResumed": false
+}

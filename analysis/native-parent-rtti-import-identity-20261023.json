@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "method": "original-file-PE32-direct-CALL-import-thunk-IAT-descriptor-name-proof",
+  "verifiedStaticImportIdentity": true,
+  "matchesExpectedMsvcr120DynamicCast": true,
+  "targetSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "executable": "C:\\Program Files (x86)\\Psygnosis\\Rollcage\\Direct3D\\Rollcage Redux.exe",
+  "fileBytes": 3120640,
+  "imageBase": 4194304,
+  "pe": {
+    "peHeaderRawOffset": 336,
+    "machine": 332,
+    "optionalHeaderMagic": 267,
+    "sectionCount": 6,
+    "sizeOfHeaders": 1024,
+    "importDirectoryRva": 1987780,
+    "importDirectoryRawOffset": 1984196,
+    "importDirectoryBytes": 380,
+    "descriptorCount": 18,
+    "totalImports": 437
+  },
+  "call": {
+    "preferredAddress": 4205958,
+    "rva": 11654,
+    "rawOffset": 8582,
+    "section": ".text",
+    "bytesHex": "e89f651600",
+    "relativeDisplacement": 1467807,
+    "targetPreferredAddress": 5673770
+  },
+  "thunk": {
+    "preferredAddress": 5673770,
+    "rva": 1479466,
+    "rawOffset": 1476394,
+    "section": ".text",
+    "bytesHex": "ff25c4e45600",
+    "operation": "JMP DWORD PTR [absolute IAT VA]",
+    "iatPreferredAddress": 5694660
+  },
+  "iat": {
+    "preferredAddress": 5694660,
+    "rva": 1500356,
+    "rawOffset": 1496772,
+    "section": ".rdata",
+    "bytesHex": "b47b1e00",
+    "descriptorSlotIndex": 173
+  },
+  "importIdentity": {
+    "dll": "MSVCR120.dll",
+    "descriptorIndex": 10,
+    "descriptorRva": 1987980,
+    "descriptorRawOffset": 1984396,
+    "descriptorBytesHex": "50581e000000000000000000f6701e0010e21600",
+    "originalFirstThunk": 1988688,
+    "timeDateStamp": 0,
+    "forwarderChain": 0,
+    "dllNameRva": 1994998,
+    "dllNameRawOffset": 1991414,
+    "firstThunk": 1499664,
+    "lookupTableSource": "OriginalFirstThunk",
+    "index": 173,
+    "lookupRva": 1989380,
+    "lookupRawOffset": 1985796,
+    "lookupBytesHex": "b47b1e00",
+    "iatRva": 1500356,
+    "iatRawOffset": 1496772,
+    "iatBytesHex": "b47b1e00",
+    "byOrdinal": false,
+    "hintNameRva": 1997748,
+    "hintRawOffset": 1994164,
+    "hint": 381,
+    "nameRva": 1997750,
+    "nameRawOffset": 1994166,
+    "name": "__RTDynamicCast"
+  },
+  "limits": [
+    "Static original PE file import metadata only; no executable or DLL was loaded or run.",
+    "The import descriptor names a DLL and symbol; this does not prove the runtime resolved module, version, address, forwarded target or actual CRT behavior.",
+    "No observed game-child result, RTTI object/subobject pointer or native return value is supplied by this audit."
+  ]
+}
