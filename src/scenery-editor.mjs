@@ -6,7 +6,7 @@ import {parseBTP} from './btp.mjs';
 import {parseSpatialIndex} from './spatial-index.mjs';
 import {parseStaticModelLinks} from './model-links.mjs';
 
-export const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1).filter(n => ![16,17].includes(n)));
+export const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1));
 // Leave half the recovered 512-body registry for vehicles, pickups and effects.
 // This is an editor bound, not a recovered maximum authored placement count.
 export const SCENERY_PLACEMENT_LIMIT = 256;

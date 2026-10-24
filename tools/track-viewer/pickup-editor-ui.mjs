@@ -8,7 +8,7 @@ const element = id => document.getElementById(id);
 const copy = value => structuredClone(value);
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
 const bytesEqual = (a,b) => a.length === b.length && a.every((byte,i) => byte === b[i]);
-const supported = level => Number.isInteger(level) && level >= 1 && level <= 20 && ![16,17].includes(level);
+const supported = level => Number.isInteger(level) && level >= 1 && level <= 20;
 const levelOf = track => Number(/\/(?:LEV)(\d+)\.BLP$/i.exec(track?.name ?? '')?.[1]);
 const messageOf = error => error instanceof Error ? error.message : String(error);
 
@@ -50,15 +50,15 @@ export class PickupEditor {
       const draft = copy(this.current.draft); draft.find(item => item.id === row.id).position = position; this.commit(draft); this.adding = false; this.pendingDuplicate = null;
       });
     });
-    action('editor-test', () => {this.setEditing(false, {testing:true}); this.onTest(); this.say('Testing edited pickups. Weapons are enabled; the race has restarted.');});
+    action('editor-test', () => {this.setEditing(false, {testing:true}); this.say('Testing edited track.'); this.onTest();});
     action('editor-save', async () => {
-      const project = await this.project(); this.onDownload({filename:project.schemaVersion===2?'track-project.json':'pickup-project.json',blob:new Blob([JSON.stringify(project,null,2)],{type:'application/json'})});
+      const project = await this.project(); this.onDownload({filename:project.schemaVersion>=2?'track-project.json':'pickup-project.json',blob:new Blob([JSON.stringify(project,null,2)],{type:'application/json'})});
       this.savedRevision = this.revision; this.say('Project download started. Reload it with the same starting archives to continue editing.'); this.refresh();
     });
     element('editor-load').addEventListener('change', () => this.perform(async () => {
       const file = element('editor-load').files[0]; if (!file) return;
       try {
-        if (file.size > 4194304) throw Error('Track project exceeds the 4 MB limit.');
+        if (file.size > 16777216) throw Error('Track project exceeds the 16 MB limit.');
         await this.restoreProject(JSON.parse(await file.text()));
       } finally {element('editor-load').value = '';}
     }));
@@ -244,7 +244,7 @@ export class PickupEditor {
       const position=row?sourceToDisplay(row.position):['','',''];['x','y','z'].forEach((axis,i)=>{const control=element(`editor-${axis}`),value=String(position[i]);if(control.value!==value)control.value=value;});
     }
     element('editor-count').textContent=available?`${draft.length} / 16 pickup points · LOW + HIGH${this.hasUnsavedChanges?' · unsaved project changes':''}`:'';
-    element('editor-note').textContent=available?'Edit spawn points, then test or export. Boxes retain their original random awards and respawn behavior.':'Requires verified Rollcage archives. LEV15 has no original pickups; LEV15/16/17 are excluded.';
+    element('editor-note').textContent=available?'Edit spawn points, then test or export. Boxes retain their original random awards and respawn behavior.':'Requires verified Rollcage archives. LEV15 has no original pickup templates or controllers and cannot add pickups yet.';
     element('editor-add').textContent=this.adding?'Cancel placement':'Add pickup';
     this.renderer.setEditorPickups(this.editing?draft.map(item=>({position:sourceToDisplay(item.position),added:item.id.startsWith('new-'),selected:item.id===this.selected})):[]);
   }

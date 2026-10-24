@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track Viewer changelog</title><style>body{background:#0c121d;color:#e6edf7;font:15px/1.6 system-ui;max-width:900px;margin:32px auto;padding:20px}a{color:#91dce4}article{border-top:1px solid #344457;padding:16px 0}.change{margin:5px 0}h2{font-size:21px}h3{font-size:16px}</style><a href="../track-viewer.html">← Track Viewer</a><h1>Track Viewer changelog</h1><article id="2026-10-25-05-native-terrain-acceptance"><h2>2026-10-25 · Native terrain checks and editor polish</h2>
+
+<h3>Available now</h3>
+<p class="change">• The updated viewer includes terrain heights and surface painting, with projects and game-file export on all 20 levels.</p>
+<p class="change">• Workspace tabs and editor actions remain accessible while scrolling; export help is collapsible.</p>
+<p class="change">• Project loading keeps the selected tool active. Surface thumbnails use original LOW textures even while editing HIGH.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Original Rollcage Redux loaded edited LEV16 and LEV17 resources in both LOW and HIGH, confirmed by native loader names and matching in-memory terrain bytes.</p>
+<p class="change">• Separate LEV1 LOW/HIGH captures recorded actual wheel contact with an edited cell. The native point lies on the exported plane and the returned normal matches.</p>
+<p class="change">• Browser checks cover all 40 variants, terrain and surface clicks, undo/redo, cancellation, project reload and independently checked game-file ZIP contents.</p>
+<p class="change">• LEV16/17 AI Racing test remains disabled. Loading acceptance does not establish usable paths or AI races there.</p>
+<p class="change">• These are selected native cases. Full-track contacts, continuous races, all grip behavior and native scenery export remain unverified.</p>
+</article>
+<article id="2026-10-25-04-surface-presets-projects"><h2>2026-10-25 · Surface painting and terrain projects</h2>
+
+<h3>Available now</h3>
+<p class="change">• The Surfaces tool offers searchable thumbnails and an eyedropper for existing static surface presets.</p>
+<p class="change">• Painting copies a full native texture/UV/category/grip preset without changing shared descriptors or inventing collision on decorative cells.</p>
+<p class="change">• Version-3 projects save sparse height and surface edits together with pickups and scenery; version-1/2 projects remain readable.</p>
+<p class="change">• Test changes starts a race from the compiled terrain on racing levels; LEV16/17 offer Preview changes.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Headless Edge checks real brush and paint clicks, undo/redo, cancellation, project round-trip and an edited race restart.</p>
+<p class="change">• Sources remain read-only. Game export produces a new archive pair for a separate installation.</p>
+<p class="change">• New textures, Blender imports, new sectors and route editing remain future work.</p>
+</article>
+<article id="2026-10-25-03-terrain-heights"><h2>2026-10-25 · Terrain height tools</h2>
+
+<h3>Available now</h3>
+<p class="change">• Track editor has Raise, Lower, Smooth, Flatten and Set height brushes.</p>
+<p class="change">• Brushes follow connected grids and matched sector seams, with a live wire preview, cancellation and undo/redo.</p>
+<p class="change">• Height edits update LOW/HIGH together and regenerate touched collision planes and spatial coverage.</p>
+<p class="change">• Animated sectors and point-animated regions are visibly locked; unsupported/capacity-breaking edits are rejected before changing the project.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• All 20 LOW/HIGH source pairs pass no-edit byte identity and representative edited-resource checks.</p>
+<p class="change">• Edited source simulations run on the 18 racing levels. LEV16/17 use static preview.</p>
+<p class="change">• Pickups, scenery, starting grids and routes retain their saved positions; substantial terrain changes may require manual adjustment.</p>
+<p class="change">• These checks are not original-game terrain-export acceptance. Native acceptance is a separate delivery.</p>
+</article>
+<article id="2026-10-25-02-workspaces-all-levels"><h2>2026-10-25 · Workspaces and all-level editing</h2>
+
+<h3>Available now</h3>
+<p class="change">• Explore, Racing test and Track editor workspaces replace the long mixed sidebar.</p>
+<p class="change">• Loading controls collapse after a source is loaded; camera controls and update history remain accessible.</p>
+<p class="change">• LEV16 and LEV17 support pickups, compatible model libraries, project saving and export.</p>
+<p class="change">• These two levels offer Preview changes; their AI Racing test remains unavailable.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Editor support is separate from AI racing support. Existing object/resource limits still apply.</p>
+<p class="change">• Source/browser validation and native export acceptance are reported separately; this change does not claim new original-process acceptance.</p>
+</article>
+<article id="2026-10-25-01-editor-baseline"><h2>2026-10-25 · Editor baseline and update history</h2>
+
+<h3>Available now</h3>
+<p class="change">• The viewer has a local What’s new panel and a complete static changelog.</p>
+<p class="change">• Current documentation separates working editor features, experimental exports and original-game verification.</p>
+<p class="change">• Editor checks have their own command; broader inherited failures remain recorded separately.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Changelog content is embedded at build time; opening the viewer requires no network requests.</p>
+<p class="change">• This delivery does not change game physics or claim additional native export validation.</p>
+</article></html>

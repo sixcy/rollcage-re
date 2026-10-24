@@ -3,7 +3,7 @@
 // The editor changes signed source XYZ only. Bytes 6..11 always come from
 // the immutable source record, including when a pickup is duplicated.
 export const PICKUP_EDITOR_LIMIT = 16;
-export const PICKUP_EDITOR_LEVELS = Object.freeze(Array.from({length: 20}, (_, i) => i + 1).filter(n => ![15, 16, 17].includes(n)));
+export const PICKUP_EDITOR_LEVELS = Object.freeze(Array.from({length: 20}, (_, i) => i + 1).filter(n => n!==15));
 
 function bytes(data) {
   if (!Buffer.isBuffer(data) || data.length < 0x98 || data.toString('ascii', 0, 4) !== 'GFXM') throw new Error('Invalid pickup GFXM resource.');

@@ -1,0 +1,370 @@
+{
+  "schemaVersion": 1,
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 90000,
+  "maxEvents": 1000000,
+  "maxSnapshots": 80,
+  "showWindow": false,
+  "ranges": [],
+  "breakpoints": [
+    {
+      "id": "launcher-policy",
+      "rva": "0x42890",
+      "ranges": [
+        {
+          "id": "launcher-skip",
+          "rva": "0x2e66ec",
+          "length": 4
+        },
+        {
+          "id": "launcher-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "graphics-policy",
+      "rva": "0x35be",
+      "ranges": [
+        {
+          "id": "graphics-mode",
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28
+        }
+      ]
+    },
+    {
+      "id": "before-device-creation",
+      "rva": "0x112a30",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "presentation",
+          "baseRegister": "ecx",
+          "offset": "0x378",
+          "length": 56
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    },
+    {
+      "id": "controlled-race-settings",
+      "rva": "0x3e0c5",
+      "ranges": [
+        {
+          "id": "settings-config-root",
+          "rva": "0x1ecefc",
+          "length": 4
+        },
+        {
+          "id": "settings-session-root",
+          "rva": "0x1ecb1c",
+          "length": 4
+        },
+        {
+          "id": "settings-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 128
+        },
+        {
+          "id": "settings-session-header",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "length": 48
+        },
+        {
+          "id": "settings-session-runtime",
+          "rva": "0x1ecb1c",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d",
+          "length": 211
+        },
+        {
+          "id": "settings-caller",
+          "baseRegister": "esp",
+          "length": 28
+        },
+        {
+          "id": "settings-track-family",
+          "rva": "0x174760",
+          "length": 20
+        },
+        {
+          "id": "settings-track-local",
+          "rva": "0x17477c",
+          "length": 20
+        },
+        {
+          "id": "settings-level-stem",
+          "rva": "0x2e6660",
+          "length": 260
+        },
+        {
+          "id": "settings-menu-id",
+          "rva": "0x1ec138",
+          "length": 4
+        },
+        {
+          "id": "settings-launch-latch",
+          "rva": "0x2e6654",
+          "length": 4
+        },
+        {
+          "id": "settings-main-state",
+          "rva": "0x2e66c8",
+          "length": 8
+        },
+        {
+          "id": "settings-demo-deadline",
+          "rva": "0x2e6aac",
+          "length": 4
+        }
+      ]
+    },
+    {
+      "id": "pickup-loader-entry",
+      "rva": "0x4c2b0",
+      "ranges": []
+    },
+    {
+      "id": "pickup-init-entry",
+      "rva": "0x7b580",
+      "ranges": []
+    },
+    {
+      "id": "pickup-init-return",
+      "rva": "0x319e6",
+      "ranges": []
+    },
+    {
+      "id": "pickup-first-tick",
+      "rva": "0x7b680",
+      "ranges": []
+    },
+    {
+      "id": "pickup-collection-before",
+      "rva": "0x7b8d0",
+      "ranges": []
+    },
+    {
+      "id": "pickup-collection-after",
+      "rva": "0x7b8da",
+      "ranges": []
+    },
+    {
+      "id": "pickup-respawn-before",
+      "rva": "0x7caf0",
+      "ranges": []
+    },
+    {
+      "id": "pickup-respawn-after",
+      "rva": "0x7cc17",
+      "ranges": []
+    },
+    {
+      "id": "pickup-terrain-contact",
+      "rva": "0x25e2b",
+      "ranges": []
+    }
+  ],
+  "phaseActions": [
+    {
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e66ec",
+          "bytesHex": "01000000",
+          "expectedAnyBytesHex": [
+            "00000000",
+            "01000000"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xa",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xe",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x3c",
+          "bytesHex": "00",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "writes": [
+        {
+          "baseRegister": "ecx",
+          "offset": "0x398",
+          "bytesHex": "01000000",
+          "expectedBytesHex": "01000000"
+        },
+        {
+          "baseRegister": "ecx",
+          "offset": "0x3a8",
+          "bytesHex": "00000000",
+          "expectedBytesHex": "00000000"
+        }
+      ]
+    }
+  ],
+  "denyPlayerMailslot": true,
+  "hideOwnedWindows": true,
+  "foregroundWindowSource": {
+    "id": "owned-application-hwnd",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0"
+    ],
+    "offset": "4",
+    "length": 4
+  },
+  "captureThreadsOnStop": true,
+  "stopThreadStackBytes": 128,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-terrain-editor-lev17-low-20261025-v1\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-terrain-editor-lev17-low-20261025-v1\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-terrain-editor-lev17-low-20261025-v1\\capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-terrain-editor-lev17-low-20261025-v1\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-terrain-editor-lev17-low-20261025-v1\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-terrain-editor-lev17-low-20261025-v1\\temp",
+  "captureThreadEnvironment": true,
+  "controlledRaceSettings": {
+    "breakpointId": "controlled-race-settings",
+    "level": 17,
+    "quality": 0,
+    "expectedTrackByte": 0,
+    "expectedQualityByte": 1
+  },
+  "pickupEditorObservation": {
+    "scenario": "load",
+    "sceneName": "LOW/LEV17.BLP",
+    "resourceSha256": "ced3dae4c247dd7343a4006a2e0e64730c76c61ec3ddf88bee0c177855e9f1be",
+    "indexSha256": "6cdac78049fde867eee0b15a7df0663a4d8fb36f87214c8feed5cb668c11ffec",
+    "imageSha256": "ec1f2898c7490195f354cdbbe48147967595721fe592bf7f0d78be7bcffb36f4",
+    "authoredHex": "b4fdc4ff5708020102000100cd03c4ffeb010202070001001a06c4ff7d04020306000100d201c4ff450a02040400010093f6c4ff63010205000001007ffac4ff0efd02060c00010050fcc4ffd502020700000100ab00c4ffc8f70208010001003a04c4ffc5fb02090a00010035ffc4ffe1fb020a0b000100",
+    "authoredSha256": "3dcfbfb503d801ba9b1f7684f69d849252f82ceed23c38ac59bb8709c86a5d71",
+    "headerIdentityHex": "4746584d000000005010000091010000020000001d00520020005800060204000a042b0000000002",
+    "level": 17,
+    "frontendLevel": 17,
+    "quality": 0,
+    "expectedCount": 10,
+    "expectedControllerCount": 2,
+    "targetIndex": 0,
+    "authoredOffset": 255116,
+    "resourceBytes": 294064
+  },
+  "terrainEditorObservation": {
+    "spans": [
+      {
+        "id": "terrain-vertex-0",
+        "offset": 28644,
+        "length": 6,
+        "expectedHex": "7f02fcff5af6"
+      },
+      {
+        "id": "terrain-vertex-1",
+        "offset": 28652,
+        "length": 6,
+        "expectedHex": "7f02fcff5af6"
+      },
+      {
+        "id": "terrain-vertex-2",
+        "offset": 28940,
+        "length": 6,
+        "expectedHex": "7f02fcffb2f6"
+      },
+      {
+        "id": "terrain-vertex-3",
+        "offset": 28948,
+        "length": 6,
+        "expectedHex": "7f02fcffb2f6"
+      },
+      {
+        "id": "terrain-packet-0",
+        "offset": 522,
+        "length": 6,
+        "expectedHex": "00001b000000"
+      },
+      {
+        "id": "terrain-normal-0",
+        "offset": 277292,
+        "length": 8,
+        "expectedHex": "00408f0f00600c07"
+      },
+      {
+        "id": "terrain-surface-0",
+        "offset": 273516,
+        "length": 16,
+        "expectedHex": "a0200580bf201200a03fbf3f0e110000"
+      }
+    ],
+    "requireContact": false,
+    "allowedCellRefs": [
+      4352
+    ]
+  }
+}

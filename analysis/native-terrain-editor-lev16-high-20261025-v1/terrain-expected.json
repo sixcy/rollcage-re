@@ -1,0 +1,92 @@
+{
+  "quality": "HIGH",
+  "level": 16,
+  "terrain": {
+    "heights": [
+      {
+        "sector": 0,
+        "vertex": 17,
+        "height": -84
+      },
+      {
+        "sector": 0,
+        "vertex": 18,
+        "height": -84
+      },
+      {
+        "sector": 0,
+        "vertex": 54,
+        "height": -84
+      },
+      {
+        "sector": 0,
+        "vertex": 55,
+        "height": -84
+      }
+    ],
+    "surfaces": [
+      {
+        "sector": 0,
+        "cell": 17,
+        "sourceSector": 0,
+        "sourceCell": 0
+      }
+    ]
+  },
+  "probe": {
+    "spans": [
+      {
+        "id": "terrain-vertex-0",
+        "offset": 18124,
+        "length": 6,
+        "expectedHex": "7605acff7c07"
+      },
+      {
+        "id": "terrain-vertex-1",
+        "offset": 18132,
+        "length": 6,
+        "expectedHex": "2705acff7c07"
+      },
+      {
+        "id": "terrain-vertex-2",
+        "offset": 18420,
+        "length": 6,
+        "expectedHex": "7605acffd407"
+      },
+      {
+        "id": "terrain-vertex-3",
+        "offset": 18428,
+        "length": 6,
+        "expectedHex": "2705acffd407"
+      },
+      {
+        "id": "terrain-packet-0",
+        "offset": 522,
+        "length": 6,
+        "expectedHex": "250000000000"
+      },
+      {
+        "id": "terrain-normal-0",
+        "offset": 405968,
+        "length": 8,
+        "expectedHex": "00000c0000000c00"
+      },
+      {
+        "id": "terrain-surface-0",
+        "offset": 401308,
+        "length": 16,
+        "expectedHex": "7f7f05007f601100607f606000000000"
+      }
+    ],
+    "requireContact": false,
+    "allowedCellRefs": [
+      4352
+    ]
+  },
+  "sourceHashes": {
+    "LOW": "098ed337363b49794c1007a5f5f5982bf721a614ba456070f437b79c51634a40",
+    "HIGH": "a3f724efa1b31b2f14aa24152775be71ef326143bb6ac3d054568f693d510fa4"
+  },
+  "resourceSha256": "44b3837f465033541c4911f46d79c412d8ced182210d5f2937933d7fefb0b6a7",
+  "scope": "Native level-specific loading/initialization only. AI race and native edited-cell contact are not claimed."
+}

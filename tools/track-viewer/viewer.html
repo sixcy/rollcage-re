@@ -14,12 +14,16 @@
 <style>
 :is(#editor-controls,#models-transform) input[type=number]{box-sizing:border-box;background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:6px;font:inherit}:is(#editor-controls,#models-transform) input:disabled{opacity:.5}#pickup-editor button:disabled{cursor:default;opacity:.5}#editor-status{color:#91dce4}#editor-error:empty{display:none}
 </style>
-</head>
+<style>
+[hidden]{display:none!important}aside{width:380px;padding:14px;max-height:calc(100dvh - 28px);top:14px;left:14px}h1{font-size:17px}.workspace-tabs{display:flex;gap:4px;margin:12px 0;position:sticky;top:-14px;z-index:2;background:#111d2a;padding:7px 0}.workspace-tabs button{flex:1;margin:0;padding:9px 4px;font-size:12px}.workspace-tabs [aria-selected=true]{background:#116875;border-color:#91dce4}.tool-heading{display:flex;gap:8px;align-items:center;margin-bottom:10px}#viewer-changelog article{border-top:1px solid #344457}#viewer-changelog h2{font-size:14px}#viewer-changelog h3{font-size:12px}#viewer-changelog .change{margin:5px 0}#scene-scope:empty{display:none}#source-files{border-bottom:1px solid #344457;padding:8px 0}#source-files>summary{font-weight:600}fieldset{min-width:0}#editor-actions{position:sticky;bottom:-14px;background:#111d2a;border-top:1px solid #4b6078;padding:8px 0 2px}body[data-workspace=editor] #physics-hud,body[data-workspace=explore] #physics-hud{display:none}input[type=number]{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:4px;padding:6px;width:82px}@media(max-width:700px){aside{top:8px;left:8px;width:calc(100vw - 16px);max-width:none;max-height:45dvh}body[data-workspace=editor] aside{max-height:52dvh}.workspace-tabs{position:sticky;top:-14px;background:#111d2a;padding:7px 0;z-index:2}#model-library{max-width:94vw}}
+.surface-card{padding:3px;margin:0;min-width:0;font-size:10px}.surface-card canvas{height:48px;width:100%}.surface-card[aria-pressed=true]{border:2px solid #91dce4;background:#116875}#surface-palette{max-height:290px;overflow:auto}
+</style></head>
 <body>
 <main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
 <aside aria-label="Track viewer controls">
 <h1>Rollcage, Stage II &amp; Firebugs track viewer</h1>
-<p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> for Rollcage or Stage II, or a <strong>Firebugs PS1 disc ZIP</strong> containing its CUE and data BIN.</p>
+<details id="viewer-changelog"><summary>What’s new</summary><div class="note">__CHANGELOG__</div><p><a href="changelog/index.html">Full changelog</a></p></details>
+<details id="source-files" open><summary>Game files</summary><p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> for Rollcage or Stage II, or a <strong>Firebugs PS1 disc ZIP</strong> containing its CUE and data BIN.</p>
 <div class="row"><label for="game">Game</label><select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option><option value="firebugs">Firebugs</option></select></div>
 <div id="pc-files">
 <p class="note">Both files are usually located in:<br><strong>Rollcage:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage\IDXData</code><br><strong>Rollcage Stage II:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage Stage II\IDXData</code></p>
@@ -30,16 +34,20 @@
 </div>
 <div id="disc-files"><label class="file" for="disc">Firebugs disc ZIP<input id="disc" type="file" accept=".zip,application/zip"></label></div>
 <p class="note">Files are read locally and stay on your computer. Select another source to switch games. Disc loading can take a moment while the data BIN is decompressed; audio tracks are skipped.</p>
+</details>
 <p id="game-info" class="note"></p>
 <p id="editor-source-note" class="note"></p>
 <div class="row"><label for="track">Track</label><select id="track" disabled aria-label="Track"></select><button id="reload" type="button">Load / retry</button></div>
 <p id="status" role="status">Select both Rollcage.img and Rollcage.idx, or a Firebugs disc ZIP.</p>
 <p id="error" role="alert"></p><p id="counts" class="note"></p>
 <p id="scene-scope" class="note"></p>
-<button id="download" type="button" disabled>Download track</button>
+<div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option><option value="follow" id="camera-follow" disabled>Follow car 1</option></select><button id="reset" type="button">Reset view</button></div>
+<p id="help" class="note"></p><p id="speed" class="note" hidden></p>
+<div class="workspace-tabs" role="tablist" aria-label="Workspace"><button id="workspace-explore" role="tab" data-workspace-button="explore" aria-controls="explore-panel">Explore</button><button id="workspace-racing" role="tab" data-workspace-button="racing" aria-controls="racing-panel">Racing test</button><button id="workspace-editor" role="tab" data-workspace-button="editor" aria-controls="pickup-editor">Track editor</button></div>
+<section id="explore-panel" data-workspace-panel="explore" role="tabpanel"><button id="download" type="button" disabled>Download track</button>
 <p class="note">Want a single model? Open the <a href="object-viewer.html">3D Object Viewer</a>.</p>
 <p class="note">Saves the static track and ordinary objects as a ZIP with OBJ, materials and PNG textures. The racing cars and path overlays stay in the viewer. Unzip it, then import scene.obj into Blender.</p>
-<fieldset style="border:1px solid #344457;border-radius:5px"><legend>Racing test</legend>
+</section><fieldset id="racing-panel" data-workspace-panel="racing" role="tabpanel" hidden style="border:1px solid #344457;border-radius:5px"><legend>Racing test</legend>
 <p id="racing-warning" class="note" style="color:#ffd48a"><strong>Super experimental.</strong> Driving, collisions and lap timing may be inaccurate.</p>
 <div class="racing-actions"><button id="practice-start" type="button" disabled>Start</button><button id="practice-step" type="button" disabled>Step frame</button><button id="practice-recover" type="button" disabled>Test recovery</button><button id="practice-reset" type="button" disabled>Reset race</button></div>
 <div class="row"><label for="practice-ai-count">AI cars</label><input id="practice-ai-count" type="range" min="1" max="6" step="1" value="3" disabled aria-describedby="practice-performance-note"><output id="practice-ai-count-value" for="practice-ai-count">3</output></div>
@@ -54,8 +62,17 @@
 <p id="practice-note" class="note">Available on verified Rollcage tracks, except LEV16 and LEV17.</p><p id="practice-error" class="note" role="alert" style="color:#ffb4ac"></p>
 <details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks now match one complete recorded six-car update, including AI, physics, attachment movement, recovery checks, drive feedback, wheel and animation updates, cameras, weather/world effects, and the final return and clock increments. This check uses recorded external clock and runtime-library results. Other checks cover selected car-to-car, car-wall and camera-border collisions, force responses and controlled respawn placement. Separate instruction checks now cover the clock calculations and step scheduling. Continuous race parity, active combat, full respawn effects and native timing validation remain under work. This remains a super experimental reconstruction.</p></details>
 </fieldset>
-<fieldset id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Track editor · experimental</legend>
-<label><input id="editor-enable" type="checkbox" disabled>Edit pickups</label>
+<fieldset data-workspace-panel="editor" role="tabpanel" hidden id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Track editor · experimental</legend>
+<div class="tool-heading"><label for="editor-tool">Tool</label><select id="editor-tool"><option value="terrain">Terrain heights</option><option value="surfaces">Surfaces</option><option value="models">Models</option><option value="pickups">Pickups</option></select></div>
+<section data-editor-tool="terrain" id="terrain-panel"><p class="note" id="terrain-count"></p>
+<div id="terrain-height-tools"><label for="terrain-operation">Brush</label><select id="terrain-operation"><option value="raise">Raise</option><option value="lower">Lower</option><option value="smooth">Smooth</option><option value="flatten">Flatten to first click</option><option value="set">Set height</option></select><label id="terrain-height-label" hidden>Target height <input id="terrain-height" type="number" value="0" step="1"></label></div>
+<div class="row"><label>Radius <input id="terrain-radius" type="number" min="1" max="4096" value="128"></label><label>Strength <input id="terrain-strength" type="number" min="1" max="128" value="8"></label></div>
+<label><input id="terrain-wireframe" type="checkbox" checked> Show brush wireframe</label>
+<div id="terrain-surface-tools" hidden><label>Search presets <input id="surface-search" type="search" placeholder="Page, category or grip"></label><label><input id="surface-eyedropper" type="checkbox"> Sample surface on next click</label><p class="note" id="surface-selected"></p><div id="surface-palette" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px"></div><div class="row"><button id="surface-prev" type="button">Previous</button><span id="surface-page" class="note"></span><button id="surface-next" type="button">Next</button></div></div>
+<p id="terrain-selection" class="note"></p><p id="terrain-status" class="note" role="status"></p>
+<div class="row"><button id="terrain-undo" type="button">Undo</button><button id="terrain-redo" type="button">Redo</button><button id="terrain-reset" type="button">Reset terrain</button></div>
+<p class="note">Left-drag brushes connected terrain. Right-drag or Shift-drag moves the camera. Release to apply; Esc cancels. Animated regions are locked. Positions use original game units. Pickups, scenery and race paths keep their saved positions and may need adjustment.</p>
+</section><section data-editor-tool="pickups"><label><input id="editor-enable" type="checkbox" disabled>Edit pickups</label>
 <p id="editor-note" class="note">Load verified Rollcage archives to edit pickup spawn points.</p>
 <p id="editor-count" class="note"></p>
 <div id="editor-controls" hidden>
@@ -65,7 +82,7 @@
 <div class="row"><button id="editor-undo" type="button" disabled>Undo</button><button id="editor-redo" type="button" disabled>Redo</button><button id="editor-reset-level" type="button" disabled>Reset level</button></div>
 <p class="note">Select or drag a marker. Add pickup, then click the terrain to place it. Adjust Height for clearance. Empty-space drag rotates the camera; right-drag pans. Esc cancels placement.</p>
 </div>
-<hr style="border:0;border-top:1px solid #344457">
+</section><section data-editor-tool="models">
 <label><input id="models-enable" type="checkbox" disabled>Edit static models</label>
 <p id="models-note" class="note">Move, rotate, add or remove plain scenery. Special and destructible objects are locked.</p>
 <div id="models-controls" hidden>
@@ -77,17 +94,15 @@
 <div class="row"><button id="models-undo" type="button" disabled>Undo</button><button id="models-redo" type="button" disabled>Redo</button><button id="models-reset" type="button" disabled>Reset models</button></div>
 <p class="note">Click a model to select it; drag to move it over terrain. Adjust Height and Yaw above. Right-drag or Shift-drag controls the camera. Esc cancels. Rotation uses native 1.40625° steps.</p>
 </div>
-<button id="editor-test" type="button" disabled>Test changes</button>
+</section><div id="editor-actions"><button id="editor-test" type="button" disabled>Test changes</button>
 <div class="row"><button id="editor-save" type="button" disabled>Save project</button><label class="note" for="editor-load">Load project<input id="editor-load" type="file" accept=".json,application/json" style="display:block;max-width:170px" disabled></label></div>
 <button id="editor-export" type="button" disabled>Export game files</button><button id="editor-cancel-export" type="button" hidden>Cancel export</button>
-<p class="note">Save project keeps pickups and scenery edits for later. Keep that project with its starting IMG/IDX pair. Export game files creates a new edited pair for a separate game copy. Scenery export is experimental and has not yet been validated in a running game. Your selected files stay unchanged.</p>
-<p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
+
+</div><details><summary>Saving and exporting</summary><p class="note">Save project keeps your edits for later. Keep that project with its starting IMG/IDX pair. Export game files creates a new edited pair for a separate game copy. Scenery export is experimental and has not yet been validated in a running game. Your selected files stay unchanged.</p></details><p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
 </fieldset>
-<div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option><option value="follow" id="camera-follow" disabled>Follow car 1</option></select><button id="reset" type="button">Reset view</button></div>
-<p id="help" class="note"></p><p id="speed" class="note" hidden></p>
-<label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
+<details><summary>View options</summary><label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
 <div class="checks"><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label><input type="checkbox" id="objects" checked>Objects</label></div>
-<fieldset style="border:1px solid #344457;border-radius:5px"><legend>Stored paths</legend>
+</details><fieldset data-workspace-panel="explore" style="border:1px solid #344457;border-radius:5px"><legend>Stored paths</legend>
 <div class="checks"><label><input type="checkbox" id="paths" disabled>Show paths</label><label><input type="checkbox" id="path-points" checked disabled>Point markers</label><label><input type="checkbox" id="path-through" checked disabled>Show through terrain</label></div>
 <label for="path-group">Group</label> <select id="path-group" disabled><option value="-1">All groups</option></select>
 <p class="note"><span id="path-color" aria-hidden="true" hidden>● </span><span id="path-counts"></span></p>

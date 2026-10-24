@@ -74,7 +74,7 @@ test('project roundtrip binds original index, both source hashes, supported leve
   assert.throws(() => validatePickupProject(project, {...sources, levels: []}), /missing/);
   const altered = structuredClone(project); altered.levels[0].sourceHashes.HIGH = hash; assert.throws(() => validatePickupProject(altered, sources), /source hash/);
   altered.levels[0].sourceHashes.HIGH = hash2; altered.levels[0].pickups[0].templateIndex = 100; assert.throws(() => validatePickupProject(altered, sources), /template/);
-  for (const level of [0, 15, 16, 17, 21]) assert.throws(() => parsePickupProject({...project, levels: [{...project.levels[0], level}]}), /Unsupported/);
+  for (const level of [0, 15, 21]) assert.throws(() => parsePickupProject({...project, levels: [{...project.levels[0], level}]}), /Unsupported/);
   assert.throws(() => parsePickupProject({...project, patch: {offset: 1}}), /fields/);
   assert.throws(() => parsePickupProject({...project, levels: [project.levels[0], project.levels[0]]}), /duplicate/);
   assert.throws(() => parsePickupProject({...project, levels: new Array(1)}), /project level/);

@@ -1,0 +1,13 @@
+# Research and development index
+
+Start with [current reconstruction status](reconstruction-status.md). Historical observations and original evidence remain indexed by [RESEARCH.md](../RESEARCH.md).
+
+| Work area | Entry points |
+| --- | --- |
+| Asset readers and other games | [Asset formats](asset-formats.md), [Stage II](stage2-formats.md), [Firebugs](firebugs-formats.md) |
+| Existing-track editor | [Terrain and surfaces](terrain-editor.md), [Scenery/compiler](scenery-editor.md), [pickups](pickup-editor.md), [native pickup acceptance](pickup-editor-native-validation.md) |
+| Viewer and exports | [Object Viewer](object-viewer.md), [Racing test](solo-practice.md), [release history](../docs/changelog/index.html) |
+| Physics and native comparisons | [Acceptance ledger](physics-fidelity.md), [complete-update checkpoint](native-parent-final-tick-checkpoint.md), [capture operation](native-physics-capture.md) |
+| Collision and terrain | [Spatial/collision data](collision-data.md), [model collision](model-collision.md), [terrain deformation](track-deformation.md) |
+
+Development commands are documented in the root README. Source and browser checks do not establish original-game compatibility. Native observation tools launch an isolated game and belong to a separate, announced workflow.

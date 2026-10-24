@@ -47,7 +47,7 @@ test('locked edits, invalid donors, coordinates, identities and sparse rows are 
   const source=sceneryFixture(),original=createSceneryDraft(source.geometry,source.texture,1);
   const changed=structuredClone(original);changed[1].position[0]++;assert.throws(()=>compileSceneryEdits(source,changed,{level:1}),/locked/);
   assert.throws(()=>compileSceneryEdits(source,original.slice(0,1),{level:1}),/locked/);
-  for(const row of [{...original[0],position:[0,0,32768]},{...original[0],yaw:NaN},{...original[0],raw:[]},{...original[0],sourceLevel:17}])assert.throws(()=>validateSceneryRows([row]));
+  for(const row of [{...original[0],position:[0,0,32768]},{...original[0],yaw:NaN},{...original[0],raw:[]},{...original[0],sourceLevel:21}])assert.throws(()=>validateSceneryRows([row]));
   assert.throws(()=>validateSceneryRows(new Array(1)));assert.throws(()=>validateSceneryRows([original[0],original[0]]),/duplicate/);
 });
 test('native nearest-cell fallback retains moved collision; old and deleted positions are clear',()=>{

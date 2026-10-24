@@ -1,0 +1,105 @@
+✔ no replacements preserves index and entire original IMG byte for byte (1.3631ms)
+✔ replacement preserves prefix/unrelated IDX metadata and emits aligned uncompressed payloads (0.958ms)
+✔ rejects linked replacements, invalid resources, malformed IDX and signed-offset overflow (0.6369ms)
+✔ archive writer supports viewer ByteBuffer and chunked original-image part (0.4638ms)
+✔ collision preview uses actual face perimeter edges, local display coordinates and face normals (3.2918ms)
+✔ reversed convex face planes are diagnosed without modifying their geometry (0.348ms)
+✔ disabled configurations retain grey geometry; zero-count and point records use center markers only (2.1935ms)
+✔ edge shapes display exactly the stored endpoints with no radius or normal volume (0.2889ms)
+✔ selected object ZIP keeps OBJ UV/material bindings, PNG RGBA alpha and exact provenance (7.8338ms)
+✔ selected archive serialization is deterministic and metadata snapshots exclude mesh/texture buffers (1.9423ms)
+✔ export rejects missing textures, unsupported geometry, unsafe page identities and lossy metadata (1.6777ms)
+✔ PNG encoding failures propagate without mutating the selection and can be retried (3.0149ms)
+✔ assembled car ZIP preserves all five baked mesh groups and neutral part/model transforms (1.9587ms)
+✔ assembled car export rejects missing wheels and mismatched part identity or transform metadata (3.0918ms)
+✔ installed rollcage selected-object ZIP matches decoded model/material/texture bytes (105.4127ms)
+ℹ rollcage: resource30, model0, placement-uv-106, 42 triangles, 2 PNGs, 32995 ZIP bytes.
+ℹ rollcage: resource30, model39, embedded-vehicle-body, 109 triangles, 1 PNGs, 34138 ZIP bytes.
+ℹ rollcage: resource30, model38, embedded-vehicle-wheel, 48 triangles, 2 PNGs, 25474 ZIP bytes.
+ℹ rollcage: resource30, model40, embedded-vehicle-linked, 9 triangles, 2 PNGs, 28489 ZIP bytes.
+✔ installed stage2 selected-object ZIP matches decoded model/material/texture bytes (37.2014ms)
+ℹ stage2: resource80, model5, ordinary-primary, 168 triangles, 2 PNGs, 36531 ZIP bytes.
+✔ installed Rollcage complete-car ZIP contains body plus four baked wheels with aggregate bounds, UVs and provenance (253.9514ms)
+ℹ Assembled type0: 164 vertices, 301 triangles, 5 meshes, 3 PNGs, 73194 ZIP bytes.
+ℹ Assembled type1: 170 vertices, 306 triangles, 5 meshes, 3 PNGs, 74158 ZIP bytes.
+ℹ Assembled type2: 166 vertices, 304 triangles, 5 meshes, 4 PNGs, 77668 ZIP bytes.
+ℹ Assembled type3: 167 vertices, 303 triangles, 5 meshes, 3 PNGs, 61363 ZIP bytes.
+ℹ Assembled type4: 176 vertices, 310 triangles, 5 meshes, 5 PNGs, 88300 ZIP bytes.
+ℹ Assembled type5: 171 vertices, 306 triangles, 5 meshes, 5 PNGs, 85144 ZIP bytes.
+ℹ Assembled type6: 170 vertices, 309 triangles, 5 meshes, 4 PNGs, 78003 ZIP bytes.
+✔ installed Firebugs selected-object ZIP matches decoded local PS1 material and RGBA texture bytes (861.5587ms)
+ℹ firebugs: resource14, model0, ordinary-primary, 70 triangles, 2 PNGs, 64009 ZIP bytes.
+✔ standalone object page matches current browser sources and links to the other local tools (109.3449ms)
+✔ the object renderer/archive/catalog/export bundle parses as standalone JavaScript (34.556ms)
+✔ capacity draft uses only authentic source templates and compiled bytes preserve adjacent header fields (2.4774ms)
+✔ read-only diagnostics reject arena/registry/queue overflow and invalid pending indices (0.3187ms)
+✔ retained target proves24 initialized queue bytes and independent byte controller count (3.3704ms)
+✔ genuine pickup source and retained instructions agree for all16 pending indices and zero count (4078.8599ms)
+✔ real controller initialization with zero authored controllers matches retained24-byte queue writes (3903.5009ms)
+✔ optional frozen diagnostics preserve installed source session results (285.0091ms)
+✔ chunked Blob ZIP matches the existing deterministic writer and independent native CRC reader (106.3113ms)
+✔ Blob export cancels between chunks and rejects unsafe names and unsupported inputs (13.99ms)
+✔ game ZIP preserves original image bytes and index metadata and packages both files plus reloadable project (57.3526ms)
+✔ concurrent project and track loads share the same editable level (1.0059ms)
+✔ a failed level load can be retried (1.0752ms)
+✔ finishing an old source load does not discard the new source load (0.1908ms)
+✔ unchanged draft returns identical original bytes and parsing copies records (1.9086ms)
+✔ move, reorder and duplicate append aligned table preserving source templates (0.4174ms)
+✔ zero pickups retains old pointer and resource extent (0.1831ms)
+✔ sixteen pickups supported and all invalid draft/template/coordinate inputs rejected (0.803ms)
+✔ malformed source bounds and headers rejected without accepting project patches (0.2298ms)
+✔ project roundtrip binds original index, both source hashes, supported levels and template bounds (1.1087ms)
+✔ LOW/HIGH pairing checks original count and coordinates while preserving per-quality metadata (0.2375ms)
+✔ SHA helper digests bytes using Web Crypto (11.7696ms)
+✔ compiler works with viewer ByteBuffer without Node Buffer APIs (0.722ms)
+✔ installed supported LOW/HIGH pairs preserve unchanged resources and all template metadata (196.2777ms)
+✔ camera rays invert the displayed projection in CSS coordinates and account for aspect (2.6926ms)
+✔ translated and rotated fly/orbit cameras use their actual eye and projection (0.517ms)
+✔ terrain intersections choose the nearest double-sided triangle and exclude all props (0.944ms)
+✔ triangle bounds include edges but reject the surrounding AABB and degenerate triangles (0.7847ms)
+✔ pickup markers take screen-space precedence, reject clipped points and use nearest depth on pixel ties (0.8816ms)
+✔ source/display conversion preserves the signed native axes and template ground clearance (0.2349ms)
+✔ terrain BVH decodes once per scene across repeated pointer queries at fifty thousand triangles (448.4474ms)
+✔ collision status counts authored enabled shapes separately for each placement configuration (3.5616ms)
+✔ zero geometry counts remain distinguishable from a disabled configuration (2.962ms)
+✔ unsupported collision and invalid active configuration slots remain unknown rather than falsely disabled (0.8676ms)
+✔ plain scenery eligibility locks destruction, groups, effects and animation (4.8263ms)
+✔ no edits preserve bytes; moving and rotating preserves model and locked placement (3.5624ms)
+✔ deletion keeps unrelated native indices using skipped-dispatch tombstones (0.9866ms)
+✔ duplicate retains model collision settings; overflowing candidate cells rejects atomically (3.0513ms)
+✔ cross-library import preserves collision/LOD closure and remaps palette/texture/material dependencies (1.8295ms)
+✔ locked edits, invalid donors, coordinates, identities and sparse rows are rejected (0.8619ms)
+✔ native nearest-cell fallback retains moved collision; old and deleted positions are clear (3.084ms)
+✔ yaw rotates the collision point, rather than only the visible model (0.9202ms)
+✔ foreign imports reject full texture slots, model bytes and material-key overflow without overwriting originals (3.1239ms)
+✔ asset preflight returns no resource bytes and leaves location-specific collision checks to committing (2.1527ms)
+✔ collision list rebuilding preserves per-cell route fallback words even when model lists are identical (1.9362ms)
+✔ empty terrain drafts preserve every source byte (1.5984ms)
+✔ height compilation updates actual collision planes, preserves source and gives both spatial height layers access (8.5044ms)
+✔ matched sector seams must agree and brush edits propagate them (3.2301ms)
+✔ surface edits reference complete presets without modifying shared descriptors or height data (0.5136ms)
+✔ animated terrain and aliased seams are locked; invalid heights and duplicate edits fail before output (2.2956ms)
+✔ raise/lower, flatten/set and smoothing are discrete, connected operations (0.5507ms)
+✔ brushes do not cross to a disconnected road at the same XZ; padding overflow is atomic (0.6753ms)
+✔ combined project compiles scenery and pickups in LOW and HIGH without losing either change (12.4627ms)
+✔ source hash, donor, schema, unknown patches and failed HIGH validation reject before application (2.075ms)
+✔ version 3 preserves sparse terrain and compiles it with both qualities while version 2 remains unchanged (6.3871ms)
+✔ concurrent library/project/track loads cannot observe a partially initialized scenery pair (8.6679ms)
+✔ browser bytes preserve unsigned/signed reads, offsets, copies and renderer base64 (0.8889ms)
+✔ browser archive slices only the requested resource and follows nearest linked copies (1.2497ms)
+✔ browser archive validates bounds, links, truncation, allocation and decoded lengths (0.8508ms)
+✔ browser GT20 path preserves overlapping copies and validates index decoded size (0.4398ms)
+✔ track catalog includes only the forty PC BLP track pairs (0.13ms)
+✔ switching navigation modes preserves eye and direction after panning and flight (0.5394ms)
+✔ navigation is frame-time based, normalizes diagonals and clamps pitch/zoom/speed (0.2667ms)
+✔ generated standalone page matches current sources and embeds no scene payload (145.6158ms)
+✔ track ZIP round-trips text, binary PNG bytes and Unicode names with standard CRCs (1.1865ms)
+✔ track ZIP refuses unsafe or duplicate paths (0.3913ms)
+ℹ tests 84
+ℹ suites 0
+ℹ pass 84
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8583.826

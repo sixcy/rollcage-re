@@ -1,3 +1,4 @@
+import {Workspaces} from './workspaces.mjs';
 import { FileArchive } from './file-archive.mjs';
 import { identifyGame } from '../../src/track-games.mjs';
 import { FirebugsArchive } from '../../src/firebugs-archive.mjs';
@@ -19,6 +20,7 @@ const setHidden = (id, hidden) => {const output = element(id); if (output.hidden
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, editor, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false, practiceDirty = false;
 let sourceKind = 'pc';
+let workspaces;
 let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
 const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
 const errorText = error => error instanceof Error ? error.message : String(error);
@@ -167,6 +169,7 @@ async function loadTrack() {
     await editor?.setTrack(track,decoded);
     if(token!==generation)return;
     refreshEditorScene();
+    if(workspaces?.value==='editor')element('editor-tool').dispatchEvent(new Event('change'));
     updatePractice();
     for (const group of scene.paths.groups) element('path-group').append(new Option(`Group ${group.index} (${group.positions.length} ${group.positions.length === 1 ? 'point' : 'points'})`, String(group.index)));
     updatePaths();
@@ -251,6 +254,7 @@ async function openFiles() {
       : 'This archive supports viewing only. Racing and editing require supported original files or a recognized editor export. To continue a saved project, select its matching starting files.';
     for (const track of availableTracks) element('track').append(new Option(track.label, String(track.index)));
     element('track').disabled = false;
+    element('source-files').open=false;
     await loadTrack();
   } catch (error) { if (token === generation) fail(error); }
 }
@@ -392,13 +396,14 @@ function frame(time) {
     paths: element('paths').checked, pathPoints: element('path-points').checked,
     pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.active?null:renderedPractice
   });
+  editor?.terrain?.render(navigation);
   if (practice) updatePractice();
   if (navigation.mode === 'fly') setText('speed', `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`);
   requestAnimationFrame(frame);
 }
 // Read-only diagnostics for browser checks; no game data is embedded in the page.
 window.rollcageViewer = { inspect: () => ({
-  game: game?.id ?? null, verified,
+  game: game?.id ?? null, verified, workspace:workspaces?.value??'explore',
   track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
   paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,
@@ -425,8 +430,21 @@ try {
   editor = new TrackEditor({canvas,navigation,renderer,releaseMouse, onDownload:downloadEditorFile,
     onModeChange(editing,{testing=false}={}){practice?.pause();if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
     onChange(){practice?.pause();practiceDirty=true;refreshEditorScene();updatePractice();},
-    onTest(){element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();}
+    onTest(){if(!practiceInputs){refreshEditorScene();editor.say('Preview updated. AI Racing test is not verified for this level.');return;}workspaces.select('racing');element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();editor.say(practice?'Testing edited track. Weapons are enabled; the race has restarted.':'Racing test could not start. See the Racing test error.');}
   });
+  const chooseTool=()=>{
+    const tool=element('editor-tool').value;
+    for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==tool&&!(tool==='surfaces'&&panel.id==='terrain-panel');
+    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else editor.perform(()=>editor.setTerrainEditing(tool));
+  };
+  workspaces=new Workspaces(value=>{
+    releaseMouse();
+    if(value==='editor'){practice?.pause();chooseTool();}
+    else {editor.setEditing(false);editor.setModelsEditing(false);}
+    help();updatePractice();
+  });
+  element('editor-tool').addEventListener('change',chooseTool);
+  for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==element('editor-tool').value;
   requestAnimationFrame(frame);
 }
 catch (error) {

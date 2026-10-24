@@ -2,7 +2,7 @@ import {buildEditedArchive} from '../../src/archive-write.mjs';
 import {createBlobZIP} from './zip.mjs';
 
 export async function buildPickupGameDownload(archive, replacements, project, options = {}) {
-  const scenery=project.schemaVersion===2;
+  const scenery=project.schemaVersion>=2;
   if (!(archive.image instanceof Blob)) throw Error('Game export requires the original locally selected IMG file.');
   const plan = buildEditedArchive(archive.indexData, archive.image.size, replacements);
   const image = new Blob(plan.parts.map(part => part instanceof Uint8Array ? part : archive.image.slice(part.offset, part.offset + part.length)));
@@ -15,10 +15,13 @@ export async function buildPickupGameDownload(archive, replacements, project, op
     '4. Enable weapons/pickups when testing pickup changes. Edits apply to LOW and HIGH.', '',
     'To continue editing, reopen the same starting archives used for this project and load track-project.json.',
     'Keep those starting files with the project. The IMG/IDX in this ZIP contain the exported edits and form a new starting point.',
-    'This export contains pickup and supported plain scenery edits together.',
+    'This export contains pickup, supported scenery and terrain edits together.',
     'Scenery collision uses preserved native shapes and rebuilt conservative spatial candidate lists.',
     'Scenery exports have parser/browser validation; original-process game compatibility is not yet established.',
-    'Special/destructible/animated objects, Blender import and LEV16/17 editing are unsupported.', '',
+    'Terrain height edits rebuild collision planes and conservative spatial coverage; surfaces copy complete native presets.',
+    'Terrain exports are experimental. Selected LEV1 LOW/HIGH wheel contacts and LEV16/17 loading are documented in the viewer changelog; this is not whole-track acceptance.',
+    'LEV16/17 editing is supported; AI Racing test is not verified on those levels.',
+    'Special/destructible/animated object editing and Blender import remain unsupported.', '',
     `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
   ].join('\n') : [
     'Rollcage pickup editor — local game export', '',
@@ -28,7 +31,7 @@ export async function buildPickupGameDownload(archive, replacements, project, op
     '4. Enable weapons/pickups in the game. Edits apply to LOW and HIGH versions of each edited level.', '',
     'To continue editing: open your ORIGINAL archives in the track viewer, then load pickup-project.json.',
     'This project changes pickup spawn points only. It preserves the original random weapon awards and respawn definitions.',
-    'LEV15, LEV16 and LEV17 are excluded. Maximum 16 pickup points per level.',
+    'LEV15 has no original pickup templates or controllers and is excluded. Maximum 16 pickup points per level.',
     'Tested in Rollcage Redux 1.3.8.0 on LEV1, LOW and HIGH, with unchanged, zero and 16 pickups.', '',
     `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
   ].join('\n');

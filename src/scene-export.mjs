@@ -17,7 +17,7 @@ export function buildSceneExport(scene, textures, placedMeshes=[]) {
       const position=displayPosition([x,y,z]);
       obj.push(`v ${position.join(' ')}`); allPositions.push(position);
     }
-    const pageGroups=new Map(); let previousPage=-1;
+    const pageGroups=new Map(),pageCells=new Map(); let previousPage=-1;
     for(const face of segment.faces) {
       const texture=textures.get(face.page);
       if(!texture) throw new Error(`Texture page ${face.page} is unavailable.`);
@@ -28,11 +28,12 @@ export function buildSceneExport(scene, textures, placedMeshes=[]) {
       obj.push(`f ${corners[0]} ${corners[1]} ${corners[2]}`);
       if(corners.length===4){obj.push(`f ${corners[1]} ${corners[3]} ${corners[2]}`);quads++;}
       uvBase+=face.uv.length;
-      if(!pageGroups.has(face.page))pageGroups.set(face.page,[]);
+      if(!pageGroups.has(face.page)){pageGroups.set(face.page,[]);pageCells.set(face.page,[]);}
       const vertices=pageGroups.get(face.page);
       const orders=corners.length===4?[[0,1,2],[1,3,2]]:[[0,1,2]];
       triangles+=orders.length;
       for(const order of orders) {
+        if(segment.kind==='terrain')pageCells.get(face.page).push(face.index);
         const p=order.map(c=>displayPosition(segment.vertices[face.indices[c]]));
         const a=p[1].map((n,i)=>n-p[0][i]),b=p[2].map((n,i)=>n-p[0][i]);
         const normal=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
@@ -43,7 +44,7 @@ export function buildSceneExport(scene, textures, placedMeshes=[]) {
     for(const [page,values] of pageGroups) {
       const array=new Float32Array(values);
       groups.push({segment:segment.kind==='terrain'?segment.index:-1,kind:segment.kind,instance:segment.kind==='object'?segment.index:null,
-        page,vertices:array.length/8,buffer:Buffer.from(array.buffer).toString('base64')});
+        page,vertices:array.length/8,buffer:Buffer.from(array.buffer).toString('base64'),...(segment.kind==='terrain'?{triangleCells:pageCells.get(page)}:{})});
     }
     vertexBase+=segment.vertices.length;
   }

@@ -1,5 +1,6 @@
 import {SCENERY_LEVELS, validateSceneryRows, compileSceneryEdits} from './scenery-editor.mjs';
 import {validatePickupDraft, compilePickupEdits} from './pickup-editor.mjs';
+import {compileTerrainEdits,emptyTerrainDraft} from './terrain-editor.mjs';
 
 const hash = value => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
 function fields(value,keys,label) {
@@ -8,7 +9,7 @@ function fields(value,keys,label) {
 export function parseTrackProject(value) {
   const project=typeof value==='string'?JSON.parse(value):value;
   fields(project,['schemaVersion','game','indexSha256','sources','levels'],'track project');
-  if(project.schemaVersion!==2 || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
+  if(![2,3].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
   if(!Array.isArray(project.sources)||project.sources.length>SCENERY_LEVELS.length||!Array.isArray(project.levels)||project.levels.length>SCENERY_LEVELS.length) throw Error('Invalid project level list.');
   const seen=new Set(), sources=project.sources.map(source=>{
     fields(source,['level','hashes'],'source');
@@ -19,23 +20,31 @@ export function parseTrackProject(value) {
   });
   seen.clear();
   const levels=project.levels.map(row=>{
-    fields(row,['level','pickups','models'],'edited level');
+    fields(row,project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
     if(!SCENERY_LEVELS.includes(row.level)||seen.has(row.level)||!sources.some(s=>s.level===row.level)) throw Error('Unsupported, duplicate or missing project source.');seen.add(row.level);
     // Template existence and locked objects are validated against original bytes
     // at compile time. Never accept raw patches or caller-supplied model bytes.
     if(!Array.isArray(row.pickups)||row.pickups.length>16)throw Error('Invalid pickup draft.');
     const models=validateSceneryRows(row.models);
     if(models.some(m=>!sources.some(s=>s.level===m.sourceLevel)))throw Error('Missing donor source hash.');
-    return {level:row.level,pickups:structuredClone(row.pickups),models};
+    let terrain;if(project.schemaVersion===3){
+      fields(row.terrain,['heights','surfaces'],'terrain');
+      if(!Array.isArray(row.terrain.heights)||!Array.isArray(row.terrain.surfaces)||row.terrain.heights.length>1000000||row.terrain.surfaces.length>1000000)throw Error('Invalid terrain edit list.');
+      for(const r of row.terrain.heights){fields(r,['sector','vertex','height'],'height');if(Object.values(r).some(n=>!Number.isInteger(n))||r.sector<0||r.vertex<0||r.height< -32768||r.height>32767)throw Error('Invalid terrain height.');}
+      for(const r of row.terrain.surfaces){fields(r,['sector','cell','sourceSector','sourceCell'],'surface');if(Object.values(r).some(n=>!Number.isInteger(n)||n<0))throw Error('Invalid surface edit.');}
+      terrain=structuredClone(row.terrain);
+    }
+    return {level:row.level,pickups:structuredClone(row.pickups),models,...(terrain?{terrain}:{})};
   });
-  return {schemaVersion:2,game:'rollcage',indexSha256:project.indexSha256,sources,levels};
+  return {schemaVersion:project.schemaVersion,game:'rollcage',indexSha256:project.indexSha256,sources,levels};
 }
 
-export function compileTrackDraft(pair,{level,pickups,models},donors) {
+export function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft()},donors) {
   const result={};
   for(const quality of ['LOW','HIGH']) {
     validatePickupDraft(pair[quality].geometry,pickups);
-    const compiled=compileSceneryEdits(pair[quality],models,{level,quality,donors});
+    const geometry=compileTerrainEdits(pair[quality].geometry,terrain);
+    const compiled=compileSceneryEdits({...pair[quality],geometry},models,{level,quality,donors});
     result[quality]={...compiled,geometry:compilePickupEdits(compiled.geometry,pickups)};
   }
   return result;

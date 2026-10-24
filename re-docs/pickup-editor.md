@@ -2,14 +2,14 @@
 
 The Track Viewer now shares project saving and export with the
 [static scenery editor](scenery-editor.md). New saves use `track-project.json`
-(version 2, including geometry/BTP donor hashes); existing version-1
+(version 3, including terrain edits and geometry/BTP donor hashes); version-2 track projects and version-1
 `pickup-project.json` files remain accepted. The version-1 description below
 documents the original pickup-only format and retained native validation.
 
 Open `docs/track-viewer.html`, select the original Rollcage IMG/IDX pair and
-load a racing track. The Pickup editor panel supports levels1–14 and18–20.
+load a track, then choose Track editor → Pickups. Pickup editing supports levels 1–14 and 16–20.
 LEV15 has no original pickup definitions or respawn controllers and remains
-deferred. LEV16/17 remain excluded. Stage II, Firebugs and unverified releases
+deferred. LEV16/17 support editing and static preview; AI racing remains disabled. Stage II, Firebugs and unverified releases
 retain their existing viewing features without pickup editing.
 
 ## Using the editor

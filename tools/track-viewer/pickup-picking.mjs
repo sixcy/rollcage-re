@@ -58,8 +58,9 @@ function buildTerrain(scene) {
   if(!scene||!Array.isArray(scene.groups))throw Error('Terrain picking requires decoded scene groups.');
   const groups=scene.groups.filter(group=>group.kind==='terrain');
   let count=0;for(const group of groups){if(!Number.isSafeInteger(group.vertices)||group.vertices<0||group.vertices%3)throw Error('Terrain picking requires triangle-list vertices.');count+=group.vertices/3;}
-  const positions=new Float64Array(count*9);let cursor=0;
+  const positions=new Float64Array(count*9),identities=[];let cursor=0;
   for(const group of groups) {
+    for(let triangle=0;triangle<group.vertices/3;triangle++)identities.push({sector:group.segment,cell:group.triangleCells?.[triangle]??null});
     const bytes=bytesOf(group.buffer),stride=group.colored?44:32;
     if(group.vertices*stride>bytes.byteLength)throw Error('Terrain picking mesh exceeds its decoded buffer.');
     const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
@@ -82,7 +83,7 @@ function buildTerrain(scene) {
     return node;
   }
   const root=count?build(0,count):null;
-  return {positions,order,root,stats:Object.freeze({triangles:count,nodes,builds:1})};
+  return {positions,order,root,identities,stats:Object.freeze({triangles:count,nodes,builds:1})};
 }
 function terrain(scene) {let cached=terrainCache.get(scene);if(!cached){cached=buildTerrain(scene);terrainCache.set(scene,cached);}return cached;}
 export function prepareTerrainPicking(scene) {return terrain(scene).stats;}
@@ -107,13 +108,13 @@ export function intersectTerrain(scene,ray) {
   if(!ray||!vector(ray.origin)||!vector(ray.direction))return null;
   const direction=normalize(Array.from(ray.direction));if(!direction)return null;
   const cached=terrain(scene);if(!cached.root)return null;
-  let distance=Infinity;const stack=[cached.root];
+  let distance=Infinity,selected=null;const stack=[cached.root];
   while(stack.length){const node=stack.pop();if(boxDistance(node,ray.origin,direction,distance)===null)continue;
     if(node.left){const a=boxDistance(node.left,ray.origin,direction,distance),b=boxDistance(node.right,ray.origin,direction,distance);
       if(a!==null&&b!==null){if(a<b)stack.push(node.right,node.left);else stack.push(node.left,node.right);}else if(a!==null)stack.push(node.left);else if(b!==null)stack.push(node.right);
-    }else for(let i=node.start;i<node.end;i++){const hit=triangleDistance(cached.positions,cached.order[i],ray.origin,direction);if(hit!==null&&hit<distance)distance=hit;}
+    }else for(let i=node.start;i<node.end;i++){const hit=triangleDistance(cached.positions,cached.order[i],ray.origin,direction);if(hit!==null&&hit<distance){distance=hit;selected=cached.identities[cached.order[i]];}}
   }
-  return Number.isFinite(distance)?{position:Array.from(ray.origin,(n,i)=>n+direction[i]*distance),distance}:null;
+  return Number.isFinite(distance)?{position:Array.from(ray.origin,(n,i)=>n+direction[i]*distance),distance,...selected}:null;
 }
 
 export function pickPickup(pointsDisplay,navigation,canvasRect,clientX,clientY,{radiusPx=10}={}) {

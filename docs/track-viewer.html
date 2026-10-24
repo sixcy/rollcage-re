@@ -14,12 +14,56 @@
 <style>
 :is(#editor-controls,#models-transform) input[type=number]{box-sizing:border-box;background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:5px;padding:6px;font:inherit}:is(#editor-controls,#models-transform) input:disabled{opacity:.5}#pickup-editor button:disabled{cursor:default;opacity:.5}#editor-status{color:#91dce4}#editor-error:empty{display:none}
 </style>
-</head>
+<style>
+[hidden]{display:none!important}aside{width:380px;padding:14px;max-height:calc(100dvh - 28px);top:14px;left:14px}h1{font-size:17px}.workspace-tabs{display:flex;gap:4px;margin:12px 0;position:sticky;top:-14px;z-index:2;background:#111d2a;padding:7px 0}.workspace-tabs button{flex:1;margin:0;padding:9px 4px;font-size:12px}.workspace-tabs [aria-selected=true]{background:#116875;border-color:#91dce4}.tool-heading{display:flex;gap:8px;align-items:center;margin-bottom:10px}#viewer-changelog article{border-top:1px solid #344457}#viewer-changelog h2{font-size:14px}#viewer-changelog h3{font-size:12px}#viewer-changelog .change{margin:5px 0}#scene-scope:empty{display:none}#source-files{border-bottom:1px solid #344457;padding:8px 0}#source-files>summary{font-weight:600}fieldset{min-width:0}#editor-actions{position:sticky;bottom:-14px;background:#111d2a;border-top:1px solid #4b6078;padding:8px 0 2px}body[data-workspace=editor] #physics-hud,body[data-workspace=explore] #physics-hud{display:none}input[type=number]{background:#26384d;color:#fff;border:1px solid #4b6078;border-radius:4px;padding:6px;width:82px}@media(max-width:700px){aside{top:8px;left:8px;width:calc(100vw - 16px);max-width:none;max-height:45dvh}body[data-workspace=editor] aside{max-height:52dvh}.workspace-tabs{position:sticky;top:-14px;background:#111d2a;padding:7px 0;z-index:2}#model-library{max-width:94vw}}
+.surface-card{padding:3px;margin:0;min-width:0;font-size:10px}.surface-card canvas{height:48px;width:100%}.surface-card[aria-pressed=true]{border:2px solid #91dce4;background:#116875}#surface-palette{max-height:290px;overflow:auto}
+</style></head>
 <body>
 <main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
 <aside aria-label="Track viewer controls">
 <h1>Rollcage, Stage II &amp; Firebugs track viewer</h1>
-<p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> for Rollcage or Stage II, or a <strong>Firebugs PS1 disc ZIP</strong> containing its CUE and data BIN.</p>
+<details id="viewer-changelog"><summary>What’s new</summary><div class="note"><article><h2>2026-10-25 · Native terrain checks and editor polish</h2>
+
+<h3>Available now</h3>
+<p class="change">• The updated viewer includes terrain heights and surface painting, with projects and game-file export on all 20 levels.</p>
+<p class="change">• Workspace tabs and editor actions remain accessible while scrolling; export help is collapsible.</p>
+<p class="change">• Project loading keeps the selected tool active. Surface thumbnails use original LOW textures even while editing HIGH.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Original Rollcage Redux loaded edited LEV16 and LEV17 resources in both LOW and HIGH, confirmed by native loader names and matching in-memory terrain bytes.</p>
+<p class="change">• Separate LEV1 LOW/HIGH captures recorded actual wheel contact with an edited cell. The native point lies on the exported plane and the returned normal matches.</p>
+<p class="change">• Browser checks cover all 40 variants, terrain and surface clicks, undo/redo, cancellation, project reload and independently checked game-file ZIP contents.</p>
+<p class="change">• LEV16/17 AI Racing test remains disabled. Loading acceptance does not establish usable paths or AI races there.</p>
+<p class="change">• These are selected native cases. Full-track contacts, continuous races, all grip behavior and native scenery export remain unverified.</p>
+</article>
+<article><h2>2026-10-25 · Surface painting and terrain projects</h2>
+
+<h3>Available now</h3>
+<p class="change">• The Surfaces tool offers searchable thumbnails and an eyedropper for existing static surface presets.</p>
+<p class="change">• Painting copies a full native texture/UV/category/grip preset without changing shared descriptors or inventing collision on decorative cells.</p>
+<p class="change">• Version-3 projects save sparse height and surface edits together with pickups and scenery; version-1/2 projects remain readable.</p>
+<p class="change">• Test changes starts a race from the compiled terrain on racing levels; LEV16/17 offer Preview changes.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Headless Edge checks real brush and paint clicks, undo/redo, cancellation, project round-trip and an edited race restart.</p>
+<p class="change">• Sources remain read-only. Game export produces a new archive pair for a separate installation.</p>
+<p class="change">• New textures, Blender imports, new sectors and route editing remain future work.</p>
+</article>
+<article><h2>2026-10-25 · Terrain height tools</h2>
+
+<h3>Available now</h3>
+<p class="change">• Track editor has Raise, Lower, Smooth, Flatten and Set height brushes.</p>
+<p class="change">• Brushes follow connected grids and matched sector seams, with a live wire preview, cancellation and undo/redo.</p>
+<p class="change">• Height edits update LOW/HIGH together and regenerate touched collision planes and spatial coverage.</p>
+<p class="change">• Animated sectors and point-animated regions are visibly locked; unsupported/capacity-breaking edits are rejected before changing the project.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• All 20 LOW/HIGH source pairs pass no-edit byte identity and representative edited-resource checks.</p>
+<p class="change">• Edited source simulations run on the 18 racing levels. LEV16/17 use static preview.</p>
+<p class="change">• Pickups, scenery, starting grids and routes retain their saved positions; substantial terrain changes may require manual adjustment.</p>
+<p class="change">• These checks are not original-game terrain-export acceptance. Native acceptance is a separate delivery.</p>
+</article></div><p><a href="changelog/index.html">Full changelog</a></p></details>
+<details id="source-files" open><summary>Game files</summary><p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> for Rollcage or Stage II, or a <strong>Firebugs PS1 disc ZIP</strong> containing its CUE and data BIN.</p>
 <div class="row"><label for="game">Game</label><select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option><option value="firebugs">Firebugs</option></select></div>
 <div id="pc-files">
 <p class="note">Both files are usually located in:<br><strong>Rollcage:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage\IDXData</code><br><strong>Rollcage Stage II:</strong><br><code style="overflow-wrap:anywhere">C:\Program Files (x86)\Psygnosis\Rollcage Stage II\IDXData</code></p>
@@ -30,16 +74,20 @@
 </div>
 <div id="disc-files"><label class="file" for="disc">Firebugs disc ZIP<input id="disc" type="file" accept=".zip,application/zip"></label></div>
 <p class="note">Files are read locally and stay on your computer. Select another source to switch games. Disc loading can take a moment while the data BIN is decompressed; audio tracks are skipped.</p>
+</details>
 <p id="game-info" class="note"></p>
 <p id="editor-source-note" class="note"></p>
 <div class="row"><label for="track">Track</label><select id="track" disabled aria-label="Track"></select><button id="reload" type="button">Load / retry</button></div>
 <p id="status" role="status">Select both Rollcage.img and Rollcage.idx, or a Firebugs disc ZIP.</p>
 <p id="error" role="alert"></p><p id="counts" class="note"></p>
 <p id="scene-scope" class="note"></p>
-<button id="download" type="button" disabled>Download track</button>
+<div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option><option value="follow" id="camera-follow" disabled>Follow car 1</option></select><button id="reset" type="button">Reset view</button></div>
+<p id="help" class="note"></p><p id="speed" class="note" hidden></p>
+<div class="workspace-tabs" role="tablist" aria-label="Workspace"><button id="workspace-explore" role="tab" data-workspace-button="explore" aria-controls="explore-panel">Explore</button><button id="workspace-racing" role="tab" data-workspace-button="racing" aria-controls="racing-panel">Racing test</button><button id="workspace-editor" role="tab" data-workspace-button="editor" aria-controls="pickup-editor">Track editor</button></div>
+<section id="explore-panel" data-workspace-panel="explore" role="tabpanel"><button id="download" type="button" disabled>Download track</button>
 <p class="note">Want a single model? Open the <a href="object-viewer.html">3D Object Viewer</a>.</p>
 <p class="note">Saves the static track and ordinary objects as a ZIP with OBJ, materials and PNG textures. The racing cars and path overlays stay in the viewer. Unzip it, then import scene.obj into Blender.</p>
-<fieldset style="border:1px solid #344457;border-radius:5px"><legend>Racing test</legend>
+</section><fieldset id="racing-panel" data-workspace-panel="racing" role="tabpanel" hidden style="border:1px solid #344457;border-radius:5px"><legend>Racing test</legend>
 <p id="racing-warning" class="note" style="color:#ffd48a"><strong>Super experimental.</strong> Driving, collisions and lap timing may be inaccurate.</p>
 <div class="racing-actions"><button id="practice-start" type="button" disabled>Start</button><button id="practice-step" type="button" disabled>Step frame</button><button id="practice-recover" type="button" disabled>Test recovery</button><button id="practice-reset" type="button" disabled>Reset race</button></div>
 <div class="row"><label for="practice-ai-count">AI cars</label><input id="practice-ai-count" type="range" min="1" max="6" step="1" value="3" disabled aria-describedby="practice-performance-note"><output id="practice-ai-count-value" for="practice-ai-count">3</output></div>
@@ -54,8 +102,17 @@
 <p id="practice-note" class="note">Available on verified Rollcage tracks, except LEV16 and LEV17.</p><p id="practice-error" class="note" role="alert" style="color:#ffb4ac"></p>
 <details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks now match one complete recorded six-car update, including AI, physics, attachment movement, recovery checks, drive feedback, wheel and animation updates, cameras, weather/world effects, and the final return and clock increments. This check uses recorded external clock and runtime-library results. Other checks cover selected car-to-car, car-wall and camera-border collisions, force responses and controlled respawn placement. Separate instruction checks now cover the clock calculations and step scheduling. Continuous race parity, active combat, full respawn effects and native timing validation remain under work. This remains a super experimental reconstruction.</p></details>
 </fieldset>
-<fieldset id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Track editor · experimental</legend>
-<label><input id="editor-enable" type="checkbox" disabled>Edit pickups</label>
+<fieldset data-workspace-panel="editor" role="tabpanel" hidden id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Track editor · experimental</legend>
+<div class="tool-heading"><label for="editor-tool">Tool</label><select id="editor-tool"><option value="terrain">Terrain heights</option><option value="surfaces">Surfaces</option><option value="models">Models</option><option value="pickups">Pickups</option></select></div>
+<section data-editor-tool="terrain" id="terrain-panel"><p class="note" id="terrain-count"></p>
+<div id="terrain-height-tools"><label for="terrain-operation">Brush</label><select id="terrain-operation"><option value="raise">Raise</option><option value="lower">Lower</option><option value="smooth">Smooth</option><option value="flatten">Flatten to first click</option><option value="set">Set height</option></select><label id="terrain-height-label" hidden>Target height <input id="terrain-height" type="number" value="0" step="1"></label></div>
+<div class="row"><label>Radius <input id="terrain-radius" type="number" min="1" max="4096" value="128"></label><label>Strength <input id="terrain-strength" type="number" min="1" max="128" value="8"></label></div>
+<label><input id="terrain-wireframe" type="checkbox" checked> Show brush wireframe</label>
+<div id="terrain-surface-tools" hidden><label>Search presets <input id="surface-search" type="search" placeholder="Page, category or grip"></label><label><input id="surface-eyedropper" type="checkbox"> Sample surface on next click</label><p class="note" id="surface-selected"></p><div id="surface-palette" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px"></div><div class="row"><button id="surface-prev" type="button">Previous</button><span id="surface-page" class="note"></span><button id="surface-next" type="button">Next</button></div></div>
+<p id="terrain-selection" class="note"></p><p id="terrain-status" class="note" role="status"></p>
+<div class="row"><button id="terrain-undo" type="button">Undo</button><button id="terrain-redo" type="button">Redo</button><button id="terrain-reset" type="button">Reset terrain</button></div>
+<p class="note">Left-drag brushes connected terrain. Right-drag or Shift-drag moves the camera. Release to apply; Esc cancels. Animated regions are locked. Positions use original game units. Pickups, scenery and race paths keep their saved positions and may need adjustment.</p>
+</section><section data-editor-tool="pickups"><label><input id="editor-enable" type="checkbox" disabled>Edit pickups</label>
 <p id="editor-note" class="note">Load verified Rollcage archives to edit pickup spawn points.</p>
 <p id="editor-count" class="note"></p>
 <div id="editor-controls" hidden>
@@ -65,7 +122,7 @@
 <div class="row"><button id="editor-undo" type="button" disabled>Undo</button><button id="editor-redo" type="button" disabled>Redo</button><button id="editor-reset-level" type="button" disabled>Reset level</button></div>
 <p class="note">Select or drag a marker. Add pickup, then click the terrain to place it. Adjust Height for clearance. Empty-space drag rotates the camera; right-drag pans. Esc cancels placement.</p>
 </div>
-<hr style="border:0;border-top:1px solid #344457">
+</section><section data-editor-tool="models">
 <label><input id="models-enable" type="checkbox" disabled>Edit static models</label>
 <p id="models-note" class="note">Move, rotate, add or remove plain scenery. Special and destructible objects are locked.</p>
 <div id="models-controls" hidden>
@@ -77,17 +134,15 @@
 <div class="row"><button id="models-undo" type="button" disabled>Undo</button><button id="models-redo" type="button" disabled>Redo</button><button id="models-reset" type="button" disabled>Reset models</button></div>
 <p class="note">Click a model to select it; drag to move it over terrain. Adjust Height and Yaw above. Right-drag or Shift-drag controls the camera. Esc cancels. Rotation uses native 1.40625° steps.</p>
 </div>
-<button id="editor-test" type="button" disabled>Test changes</button>
+</section><div id="editor-actions"><button id="editor-test" type="button" disabled>Test changes</button>
 <div class="row"><button id="editor-save" type="button" disabled>Save project</button><label class="note" for="editor-load">Load project<input id="editor-load" type="file" accept=".json,application/json" style="display:block;max-width:170px" disabled></label></div>
 <button id="editor-export" type="button" disabled>Export game files</button><button id="editor-cancel-export" type="button" hidden>Cancel export</button>
-<p class="note">Save project keeps pickups and scenery edits for later. Keep that project with its starting IMG/IDX pair. Export game files creates a new edited pair for a separate game copy. Scenery export is experimental and has not yet been validated in a running game. Your selected files stay unchanged.</p>
-<p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
+
+</div><details><summary>Saving and exporting</summary><p class="note">Save project keeps your edits for later. Keep that project with its starting IMG/IDX pair. Export game files creates a new edited pair for a separate game copy. Scenery export is experimental and has not yet been validated in a running game. Your selected files stay unchanged.</p></details><p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
 </fieldset>
-<div class="row"><label for="mode">Camera</label><select id="mode"><option value="orbit">Orbit &amp; pan</option><option value="fly">Fly-in</option><option value="follow" id="camera-follow" disabled>Follow car 1</option></select><button id="reset" type="button">Reset view</button></div>
-<p id="help" class="note"></p><p id="speed" class="note" hidden></p>
-<label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
+<details><summary>View options</summary><label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
 <div class="checks"><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label><input type="checkbox" id="objects" checked>Objects</label></div>
-<fieldset style="border:1px solid #344457;border-radius:5px"><legend>Stored paths</legend>
+</details><fieldset data-workspace-panel="explore" style="border:1px solid #344457;border-radius:5px"><legend>Stored paths</legend>
 <div class="checks"><label><input type="checkbox" id="paths" disabled>Show paths</label><label><input type="checkbox" id="path-points" checked disabled>Point markers</label><label><input type="checkbox" id="path-through" checked disabled>Show through terrain</label></div>
 <label for="path-group">Group</label> <select id="path-group" disabled><option value="-1">All groups</option></select>
 <p class="note"><span id="path-color" aria-hidden="true" hidden>● </span><span id="path-counts"></span></p>
@@ -126,6 +181,7 @@
 const modules = {
 "tools/track-viewer/app.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
+const {Workspaces} = require("tools/track-viewer/workspaces.mjs");
 const { FileArchive } = require("tools/track-viewer/file-archive.mjs");
 const { identifyGame } = require("src/track-games.mjs");
 const { FirebugsArchive } = require("src/firebugs-archive.mjs");
@@ -147,6 +203,7 @@ const setHidden = (id, hidden) => {const output = element(id); if (output.hidden
 const canvas = element('canvas'), navigation = new Navigation(), keys = new Set();
 let renderer, editor, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false, practiceDirty = false;
 let sourceKind = 'pc';
+let workspaces;
 let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
 const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
 const errorText = error => error instanceof Error ? error.message : String(error);
@@ -295,6 +352,7 @@ async function loadTrack() {
     await editor?.setTrack(track,decoded);
     if(token!==generation)return;
     refreshEditorScene();
+    if(workspaces?.value==='editor')element('editor-tool').dispatchEvent(new Event('change'));
     updatePractice();
     for (const group of scene.paths.groups) element('path-group').append(new Option(`Group ${group.index} (${group.positions.length} ${group.positions.length === 1 ? 'point' : 'points'})`, String(group.index)));
     updatePaths();
@@ -379,6 +437,7 @@ async function openFiles() {
       : 'This archive supports viewing only. Racing and editing require supported original files or a recognized editor export. To continue a saved project, select its matching starting files.';
     for (const track of availableTracks) element('track').append(new Option(track.label, String(track.index)));
     element('track').disabled = false;
+    element('source-files').open=false;
     await loadTrack();
   } catch (error) { if (token === generation) fail(error); }
 }
@@ -520,13 +579,14 @@ function frame(time) {
     paths: element('paths').checked, pathPoints: element('path-points').checked,
     pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.active?null:renderedPractice
   });
+  editor?.terrain?.render(navigation);
   if (practice) updatePractice();
   if (navigation.mode === 'fly') setText('speed', `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`);
   requestAnimationFrame(frame);
 }
 // Read-only diagnostics for browser checks; no game data is embedded in the page.
 window.rollcageViewer = { inspect: () => ({
-  game: game?.id ?? null, verified,
+  game: game?.id ?? null, verified, workspace:workspaces?.value??'explore',
   track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
   paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,
@@ -553,8 +613,21 @@ try {
   editor = new TrackEditor({canvas,navigation,renderer,releaseMouse, onDownload:downloadEditorFile,
     onModeChange(editing,{testing=false}={}){practice?.pause();if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
     onChange(){practice?.pause();practiceDirty=true;refreshEditorScene();updatePractice();},
-    onTest(){element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();}
+    onTest(){if(!practiceInputs){refreshEditorScene();editor.say('Preview updated. AI Racing test is not verified for this level.');return;}workspaces.select('racing');element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();editor.say(practice?'Testing edited track. Weapons are enabled; the race has restarted.':'Racing test could not start. See the Racing test error.');}
   });
+  const chooseTool=()=>{
+    const tool=element('editor-tool').value;
+    for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==tool&&!(tool==='surfaces'&&panel.id==='terrain-panel');
+    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else editor.perform(()=>editor.setTerrainEditing(tool));
+  };
+  workspaces=new Workspaces(value=>{
+    releaseMouse();
+    if(value==='editor'){practice?.pause();chooseTool();}
+    else {editor.setEditing(false);editor.setModelsEditing(false);}
+    help();updatePractice();
+  });
+  element('editor-tool').addEventListener('change',chooseTool);
+  for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==element('editor-tool').value;
   requestAnimationFrame(frame);
 }
 catch (error) {
@@ -563,6 +636,27 @@ catch (error) {
 }
 
 Object.assign(module.exports, {});
+},
+"tools/track-viewer/workspaces.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
+class Workspaces {
+  constructor(onChange){
+    this.value='explore';this.onChange=onChange;
+    for(const button of document.querySelectorAll('[data-workspace-button]'))button.addEventListener('click',()=>this.select(button.dataset.workspaceButton));
+    this.render();
+  }
+  select(value){
+    if(!['explore','racing','editor'].includes(value)||value===this.value)return;
+    const previous=this.value;this.value=value;this.render();this.onChange?.(value,previous);
+  }
+  render(){
+    document.body.dataset.workspace=this.value;
+    for(const panel of document.querySelectorAll('[data-workspace-panel]'))panel.hidden=panel.dataset.workspacePanel!==this.value;
+    for(const button of document.querySelectorAll('[data-workspace-button]')){const active=button.dataset.workspaceButton===this.value;button.setAttribute('aria-selected',String(active));button.tabIndex=active?0:-1;}
+  }
+}
+
+Object.assign(module.exports, {Workspaces});
 },
 "tools/track-viewer/file-archive.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
@@ -1273,7 +1367,7 @@ function buildSceneExport(scene, textures, placedMeshes=[]) {
       const position=displayPosition([x,y,z]);
       obj.push(`v ${position.join(' ')}`); allPositions.push(position);
     }
-    const pageGroups=new Map(); let previousPage=-1;
+    const pageGroups=new Map(),pageCells=new Map(); let previousPage=-1;
     for(const face of segment.faces) {
       const texture=textures.get(face.page);
       if(!texture) throw new Error(`Texture page ${face.page} is unavailable.`);
@@ -1284,11 +1378,12 @@ function buildSceneExport(scene, textures, placedMeshes=[]) {
       obj.push(`f ${corners[0]} ${corners[1]} ${corners[2]}`);
       if(corners.length===4){obj.push(`f ${corners[1]} ${corners[3]} ${corners[2]}`);quads++;}
       uvBase+=face.uv.length;
-      if(!pageGroups.has(face.page))pageGroups.set(face.page,[]);
+      if(!pageGroups.has(face.page)){pageGroups.set(face.page,[]);pageCells.set(face.page,[]);}
       const vertices=pageGroups.get(face.page);
       const orders=corners.length===4?[[0,1,2],[1,3,2]]:[[0,1,2]];
       triangles+=orders.length;
       for(const order of orders) {
+        if(segment.kind==='terrain')pageCells.get(face.page).push(face.index);
         const p=order.map(c=>displayPosition(segment.vertices[face.indices[c]]));
         const a=p[1].map((n,i)=>n-p[0][i]),b=p[2].map((n,i)=>n-p[0][i]);
         const normal=[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
@@ -1299,7 +1394,7 @@ function buildSceneExport(scene, textures, placedMeshes=[]) {
     for(const [page,values] of pageGroups) {
       const array=new Float32Array(values);
       groups.push({segment:segment.kind==='terrain'?segment.index:-1,kind:segment.kind,instance:segment.kind==='object'?segment.index:null,
-        page,vertices:array.length/8,buffer:Buffer.from(array.buffer).toString('base64')});
+        page,vertices:array.length/8,buffer:Buffer.from(array.buffer).toString('base64'),...(segment.kind==='terrain'?{triangleCells:pageCells.get(page)}:{})});
     }
     vertexBase+=segment.vertices.length;
   }
@@ -25240,6 +25335,8 @@ Object.assign(module.exports, {pickupLabel});
 },
 "tools/track-viewer/track-editor-ui.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
+const {TerrainEditorUI} = require("tools/track-viewer/terrain-editor-ui.mjs");
+const {emptyTerrainDraft} = require("src/terrain-editor.mjs");
 const {PickupEditor} = require("tools/track-viewer/pickup-editor-ui.mjs");
 const {getGame} = require("src/track-games.mjs");
 const {parseGFXM} = require("src/gfxm.mjs");
@@ -25271,10 +25368,10 @@ class TrackEditor extends PickupEditor {
   constructor(options) {
     super(options);
     this.modelsEditing=false;this.modelSelected=null;this.modelPending=null;this.modelDrag=null;this.modelSerial=0;this.libraryToken=0;
-    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.refresh();
+    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.terrainEditing=false;this.terrain=new TerrainEditorUI(this);this.refresh();
   }
-  get active(){return this.editing||this.modelsEditing;}
-  get hasEdits(){return [...this.levels.values()].some(base=>!same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal));}
+  get active(){return this.editing||this.modelsEditing||this.terrainEditing;}
+  get hasEdits(){return [...this.levels.values()].some(base=>!same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length));}
   async readLevel(level,source) {
     const base=await super.readLevel(level,source);
     // Pickup loading has finished, but the shared level must not become visible
@@ -25291,38 +25388,51 @@ class TrackEditor extends PickupEditor {
       if(!same(base.modelOriginal,high))throw Error('LOW/HIGH scenery placements differ.');
       base.highInfo=inspectScenery(base.HIGH.geometry,base.HIGH.texture);
       base.collisions={LOW:inspectSceneryCollisions(base.LOW.geometry,base.LOW.texture),HIGH:inspectSceneryCollisions(base.HIGH.geometry,base.HIGH.texture)};
-      base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];
+      base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];
       base.hashes={};for(const quality of ['LOW','HIGH'])base.hashes[quality]={geometry:base.sourceHashes[quality],texture:await pickupSha256(base[quality].texture)};
       if(this.archive!==source)throw Error('Archive changed while checking scenery.');
       this.levels.set(level,base);
       return base;
     } catch(error){if(this.levels.get(level)===base)this.levels.delete(level);throw error;}
   }
-  async setSource(...args){this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
-  clearTrack(){this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
+  async setSource(...args){this.terrain?.cancel();this.terrainEditing=false;this.terrain&&(this.terrain.paletteBase=null);this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
+  clearTrack(){this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
   async setTrack(track,scene){this.track=track;await super.setTrack(track,scene);this.refresh();}
-  setEditing(enabled,options){this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
+  setEditing(enabled,options){this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
   setModelsEditing(enabled){
+    this.terrain?.cancel();this.terrainEditing=false;
     this.releaseMouse();this.cancelModels();this.editing=false;this.adding=false;this.modelsEditing=Boolean(enabled&&this.current?.modelDraft);
-    if(this.modelsEditing){this.navigation.setMode('orbit');el('objects').checked=true;}
+    if(this.modelsEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');el('objects').checked=true;}
     this.onModeChange(this.active);this.refresh();
   }
+  setTerrainEditing(kind){
+    this.releaseMouse();this.cancelModels();this.editing=false;this.modelsEditing=false;this.adding=false;this.terrainEditing=Boolean(kind&&this.current);
+    if(this.terrainEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');this.terrain.setKind(kind);}
+    this.onModeChange(this.active);this.refresh();
+  }
+  commitTerrain(draft){
+    const base=this.current;if(same(draft,base.terrainDraft))return;
+    const compiled=this.compile(base,base.modelDraft,base.draft,draft);base.terrainUndo.push(copy(base.terrainDraft));if(base.terrainUndo.length>100)base.terrainUndo.shift();base.terrainRedo=[];base.terrainDraft=copy(draft);base.compiled=compiled;base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
+  }
+  terrainHistory(from,to){
+    this.terrain.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,next);base[to].push(copy(base.terrainDraft));base.terrainDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);this.revision++;this.onChange();this.refresh();
+  }
   sources(){return new Map([...this.levels].filter(([,base])=>base.modelDraft).map(([level,base])=>[level,{LOW:base.LOW,HIGH:base.HIGH}]));}
-  compile(base=this.current,models=base.modelDraft,pickups=base.draft){
-    const signature=JSON.stringify([models,pickups]);
+  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft()){
+    const signature=JSON.stringify([models,pickups,terrain]);
     if(base.compiledSignature===signature)return base.compiled;
-    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models},this.sources());
+    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain},this.sources());
     // Cache only committed state; rejected previews never replace it.
-    if(models===base.modelDraft&&pickups===base.draft){base.compiledSignature=signature;base.compiled=result;}
+    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft){base.compiledSignature=signature;base.compiled=result;}
     return result;
   }
   resourcesFor(track,geometry,texture){const base=this.levels.get(levelOf(track));return base?.modelDraft?this.compile(base)[qualityOf(track)]:{geometry,texture};}
   geometryFor(track,original){return this.resourcesFor(track,original,null).geometry;}
   async project(){
     if(!this.archive||!this.indexSha256)throw Error('Load original verified Rollcage archives first.');
-    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&(!same(b.draft,b.original)||!same(b.modelDraft,b.modelOriginal))).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft)}));
+    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&(!same(b.draft,b.original)||!same(b.modelDraft,b.modelOriginal)||b.terrainDraft.heights.length||b.terrainDraft.surfaces.length)).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft)}));
     const required=new Set(levels.flatMap(row=>[row.level,...row.models.map(m=>m.sourceLevel)]));
-    return parseTrackProject({schemaVersion:2,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
+    return parseTrackProject({schemaVersion:3,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
   }
   async restoreProject(value){
     let levels,compiled;
@@ -25342,13 +25452,15 @@ class TrackEditor extends PickupEditor {
     // All resources, source hashes and both quality compilers passed before any
     // visible draft is changed, including when loading an old pickup project.
     this.cancelModels();this.cancelDrag();
-    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.compiledSignature=null;}
-    for(const row of levels){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.compiled=compiled.get(row.level);base.compiledSignature=JSON.stringify([base.modelDraft,base.draft]);}
-    this.revision++;this.savedRevision=this.revision;this.modelSelected=null;this.selected=null;this.onChange();if(value.schemaVersion===1)this.setEditing(true);else this.setModelsEditing(true);this.say('Track project loaded. Pickups and scenery apply to LOW + HIGH.');
+    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.compiledSignature=null;}
+    for(const row of levels){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain??emptyTerrainDraft());base.compiled=compiled.get(row.level);base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);}
+    this.revision++;this.savedRevision=this.revision;this.modelSelected=null;this.selected=null;this.onChange();
+    const tool=el('editor-tool').value;if(tool==='models')this.setModelsEditing(true);else if(tool==='pickups')this.setEditing(true);else this.setTerrainEditing(tool);
+    this.say('Track project loaded. Edits apply to LOW + HIGH.');
   }
   async exportReplacements(){
     const replacements=new Map();
-    for(const base of this.levels.values())if(base.modelDraft&&(!same(base.modelDraft,base.modelOriginal)||!same(base.draft,base.original))){const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
+    for(const base of this.levels.values())if(base.modelDraft&&(!same(base.modelDraft,base.modelOriginal)||!same(base.draft,base.original)||base.terrainDraft.heights.length||base.terrainDraft.surfaces.length)){const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
     return replacements;
   }
   bindModels(){
@@ -25407,7 +25519,7 @@ class TrackEditor extends PickupEditor {
     if(same(draft,this.current.modelDraft))return;
     const compiled=this.compile(this.current,draft); // both variants, before history/draft mutation
     this.current.modelUndo.push(copy(this.current.modelDraft));if(this.current.modelUndo.length>100)this.current.modelUndo.shift();this.current.modelRedo=[];this.current.modelDraft=copy(draft);
-    this.current.compiled=compiled;this.current.compiledSignature=JSON.stringify([this.current.modelDraft,this.current.draft]);
+    this.current.compiled=compiled;this.current.compiledSignature=JSON.stringify([this.current.modelDraft,this.current.draft,this.current.terrainDraft]);
     this.revision++;this.modelPicks.clear();this.cancelModels();this.onChange();this.refresh();
   }
   modelHistory(from,to){
@@ -25419,7 +25531,7 @@ class TrackEditor extends PickupEditor {
     this.modelPending=null;this.modelDrag=null;this.placementMessage='';this.placementFailed=false;this.renderer?.setEditorGhost(null);this.renderer?.editorTransforms.clear();
     this.renderer?.setEditorBounds(null);
   }
-  cancelDrag(){super.cancelDrag();if(this.modelDrag){this.modelDrag=null;this.renderer.editorTransforms.clear();this.refresh();}}
+  cancelDrag(){this.terrain?.cancel();super.cancelDrag();if(this.modelDrag){this.modelDrag=null;this.renderer.editorTransforms.clear();this.refresh();}}
   async openLibrary(){
     this.cancelModels();this.releaseMouse();el('model-library-level').value=String(this.current.level);el('model-library').showModal();
     this.previewRenderer??=new Renderer(el('model-library-canvas'));this.previewNavigation??=new Navigation();
@@ -25497,6 +25609,7 @@ class TrackEditor extends PickupEditor {
     this.cancelModels();this.modelPending={sourceLevel,templateIndex,yaw,position:null,clearance:Math.max(0,-scene.bounds[1][0])};this.placementMessage='Left-click terrain to place this model. Esc cancels.';this.renderer.setEditorGhost(scene);this.say('Click terrain to place the model. Esc cancels without adding anything.');this.refresh();
   }
   pointerDown(event){
+    if(this.terrainEditing)return this.terrain.pointerDown(event);
     if(!this.modelsEditing)return super.pointerDown(event);
     if(this.busy||event.button!==0||event.shiftKey||!this.current)return false;
     const ray=cameraRay(this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY);
@@ -25523,6 +25636,7 @@ class TrackEditor extends PickupEditor {
     return true;
   }
   pointerMove(event){
+    if(this.terrainEditing)return this.terrain.pointerMove(event);
     if(!this.modelsEditing)return super.pointerMove(event);
     if(!this.modelPending&&!this.modelDrag)return false;
     const hit=intersectTerrain(this.scene,cameraRay(this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY));if(!hit)return Boolean(this.modelDrag);
@@ -25534,11 +25648,12 @@ class TrackEditor extends PickupEditor {
     this.renderer.editorTransforms.set(this.compile()[qualityOf(this.track)].indices[drag.row.id],matrix);this.renderer.setEditorBounds(this.modelBounds({...drag.row,position:drag.position}));return true;
   }
   pointerUp(){
+    if(this.terrainEditing)return this.terrain.pointerUp();
     if(!this.modelDrag)return super.pointerUp();const drag=this.modelDrag;this.modelDrag=null;this.renderer.editorTransforms.clear();
     if(drag.moved)this.perform(()=>{const draft=copy(this.current.modelDraft);draft.find(p=>p.id===drag.row.id).position=drag.position;this.commitModels(draft);});else this.refresh();return true;
   }
   refresh(){
-    super.refresh();
+    super.refresh();this.terrain?.refresh();
     hidden('model-placement-feedback',!this.modelPending);text('model-placement-title',this.placementFailed?'Cannot place model here':'Place model');text('model-placement-message',this.placementMessage||'');
     const base=this.current,available=Boolean(base?.modelDraft),active=available&&this.modelsEditing&&!this.busy,row=this.modelRow(),editable=active&&this.modelEditable(row);
     disabled('models-enable',!available||this.busy);if(el('models-enable').checked!==Boolean(this.modelsEditing))el('models-enable').checked=Boolean(this.modelsEditing);hidden('models-controls',!this.modelsEditing);
@@ -25552,13 +25667,457 @@ class TrackEditor extends PickupEditor {
     ['x','y','z','yaw'].forEach((key,i)=>{const input=el(`models-${key}`),value=String(values[i]);if(document.activeElement!==input&&input.value!==value)input.value=value;});
     text('models-reason',row?(this.modelEditable(row)?'Plain scenery · edits update its collision lookup.':this.modelReason(row)):'Select a model in the view or list.');
     if(this.modelsEditing&&!this.modelDrag)this.renderer.setEditorBounds(row?this.modelBounds(row):null);
-    disabled('editor-test',!base||this.busy);
-    text('models-note',available?`${base.modelDraft.length} placed models · ${base.modelDraft.filter(p=>this.modelEditable(p)).length} editable · LOW + HIGH`:'Requires verified Rollcage archives. LEV16/17 are excluded.');
+    disabled('editor-test',!base||this.busy);text('editor-test',[16,17].includes(base?.level)?'Preview changes':'Test changes');
+    text('models-note',available?`${base.modelDraft.length} placed models · ${base.modelDraft.filter(p=>this.modelEditable(p)).length} editable · LOW + HIGH`:'Requires verified Rollcage archives.');
   }
-  inspect(){return {...super.inspect(),active:this.active,modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),modelSelected:this.modelSelected,placingModel:Boolean(this.modelPending),modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
+  inspect(){return {...super.inspect(),active:this.active,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),modelSelected:this.modelSelected,placingModel:Boolean(this.modelPending),modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
 }
 
 Object.assign(module.exports, {TrackEditor});
+},
+"tools/track-viewer/terrain-editor-ui.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
+const {inspectTerrain,emptyTerrainDraft,terrainSurfacePresets} = require("src/terrain-editor.mjs");
+const {terrainBrushSelection,stampTerrain} = require("tools/track-viewer/terrain-brush.mjs");
+const {cameraRay,intersectTerrain} = require("tools/track-viewer/pickup-picking.mjs");
+const {CollisionOverlay} = require("tools/track-viewer/collision-overlay.mjs");
+const {getGame} = require("src/track-games.mjs");
+const el=id=>document.getElementById(id),text=(id,value)=>{if(el(id).textContent!==value)el(id).textContent=value;};
+class TerrainEditorUI {
+  constructor(editor){
+    this.editor=editor;this.kind='terrain';this.stroke=null;this.overlay=new CollisionOverlay(editor.renderer);this.page=0;this.preset=null;this.paletteBase=null;
+    el('terrain-operation').addEventListener('change',()=>this.refresh());
+    for(const id of ['terrain-undo','terrain-redo','terrain-reset'])el(id).addEventListener('click',()=>editor.perform(()=>id==='terrain-reset'?editor.commitTerrain(emptyTerrainDraft()):editor.terrainHistory(id==='terrain-undo'?'terrainUndo':'terrainRedo',id==='terrain-undo'?'terrainRedo':'terrainUndo')));
+    el('surface-search').addEventListener('input',()=>{this.page=0;this.filterPalette();});
+    el('surface-prev').addEventListener('click',()=>{this.page=Math.max(0,this.page-1);this.filterPalette();});el('surface-next').addEventListener('click',()=>{this.page++;this.filterPalette();});
+    window.addEventListener('keydown',event=>{
+      if(!editor.terrainEditing||/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement?.tagName))return;
+      if(event.code==='Escape'){this.cancel();editor.refresh();}
+      if((event.ctrlKey||event.metaKey)&&event.code==='KeyZ'){event.preventDefault();editor.perform(()=>editor.terrainHistory(event.shiftKey?'terrainRedo':'terrainUndo',event.shiftKey?'terrainUndo':'terrainRedo'));}
+    });
+  }
+  ensure(){
+    const base=this.editor.current;if(!base)return;
+    if(!base.terrainInfo){const low=inspectTerrain(base.LOW.geometry),high=inspectTerrain(base.HIGH.geometry);if(low.scene.segments.length!==high.scene.segments.length||[...low.vertices].some(([id,v])=>!high.vertices.has(id)||v.position.some((n,i)=>high.vertices.get(id).position[i]!==n)))throw Error('LOW/HIGH terrain grids differ; paired height editing is unavailable.');base.terrainInfo=low;}
+    if(!this.radiusInitialized){const s=base.terrainInfo.scene.segments[0],v=s?.vertices;el('terrain-radius').value=String(Math.max(1,Math.round(v?.length>1?Math.hypot(v[1][0]-v[0][0],v[1][2]-v[0][2]):128)));this.radiusInitialized=true;}
+    if(this.kind==='surfaces'&&this.paletteBase!==base){this.presets=terrainSurfacePresets(base.LOW.geometry,base.HIGH.geometry);this.paletteTextures=getGame('rollcage').decodeTrack(base.LOW.geometry,base.LOW.texture).textures;this.paletteBase=base;this.preset=this.presets[0]??null;this.page=0;this.filterPalette();}
+  }
+  setKind(kind){this.kind=kind;this.ensure();this.refresh();}
+  filterPalette(){
+    const query=el('surface-search').value.trim().toLowerCase(),presets=(this.presets??[]).filter(p=>p.label.toLowerCase().includes(query)),size=24;this.page=Math.min(this.page,Math.max(0,Math.ceil(presets.length/size)-1));
+    el('surface-palette').replaceChildren(...presets.slice(this.page*size,(this.page+1)*size).map(p=>{
+      const button=document.createElement('button');button.type='button';button.title=p.label;button.className='surface-card';button.setAttribute('aria-pressed',String(p===this.preset));button.dataset.preset=`${p.sector}:${p.cell}`;
+      const canvas=document.createElement('canvas');canvas.width=64;canvas.height=48;const label=document.createElement('span');label.textContent=`P${p.page} · grip ${p.gripReduction}`;button.append(canvas,label);
+      const image=this.paletteTextures?.get(p.page);if(image){const source=document.createElement('canvas');source.width=image.width;source.height=image.height;const context=source.getContext('2d');const pixels=context.createImageData(image.width,image.height);pixels.data.set(image.rgba);context.putImageData(pixels,0,0);const xs=p.uv.map(uv=>uv[0]),ys=p.uv.map(uv=>uv[1]),x=Math.min(...xs),y=Math.min(...ys),w=Math.max(1,Math.max(...xs)-x+1),h=Math.max(1,Math.max(...ys)-y+1);canvas.getContext('2d').drawImage(source,x,y,w,h,0,0,64,48);}
+      button.addEventListener('click',()=>{this.preset=p;text('surface-selected',p.label);for(const other of el('surface-palette').querySelectorAll('button'))other.setAttribute('aria-pressed',String(other===button));});return button;
+    }));
+    el('surface-prev').disabled=this.page===0;el('surface-next').disabled=(this.page+1)*size>=presets.length;text('surface-page',`${presets.length} presets · page ${this.page+1}`);text('surface-selected',this.preset?.label??'No supported surface presets.');
+  }
+  hit(event){return intersectTerrain(this.editor.scene,cameraRay(this.editor.navigation,this.editor.canvas.getBoundingClientRect(),event.clientX,event.clientY));}
+  options(hit){const radius=Number(el('terrain-radius').value),strength=Number(el('terrain-strength').value);if(!Number.isFinite(radius)||radius<=0||!Number.isFinite(strength)||strength<=0)throw Error('Enter positive brush radius and strength.');return {mode:this.kind==='surfaces'?'paint':el('terrain-operation').value,radius,strength,height:this.stroke?.height??(el('terrain-operation').value==='flatten'?hit.position[1]:Number(el('terrain-height').value)),preset:this.preset};}
+  pointerDown(event){
+    if(!this.editor.terrainEditing||this.editor.busy||event.button!==0||event.shiftKey)return false;
+    const hit=this.hit(event);if(!hit||hit.cell===null)return false;
+    try{
+      this.ensure();if(this.editor.current.terrainInfo.locked.has(hit.sector))throw Error('This animated terrain region is locked.');
+      if(this.kind==='surfaces'&&el('surface-eyedropper').checked){const s=this.editor.current.terrainInfo.scene.segments[hit.sector],ref=this.editor.current.terrainDraft.surfaces.find(r=>r.sector===hit.sector&&r.cell===hit.cell),face=ref?this.editor.current.terrainInfo.scene.segments[ref.sourceSector].faces[ref.sourceCell]:s.faces[hit.cell];this.preset=this.presets.find(p=>this.editor.current.terrainInfo.scene.segments[p.sector].faces[p.cell].textureRecord===face.textureRecord)??null;el('surface-eyedropper').checked=false;this.filterPalette();return true;}
+      const options=this.options(hit);this.stroke={draft:structuredClone(this.editor.current.terrainDraft),height:options.height,last:hit.position.slice(),sector:hit.sector};this.stamp(hit,options);this.editor.canvas.focus();this.editor.canvas.setPointerCapture(event.pointerId);
+    }catch(error){text('terrain-status',error.message);this.cancel(false);}return true;
+  }
+  stamp(hit,options){this.stroke.draft=stampTerrain(this.editor.current.terrainInfo,this.stroke.draft,hit,options);this.updateOverlay(hit,this.stroke.draft,options.radius);text('terrain-status','Release to apply the shaded terrain. Esc cancels this stroke.');}
+  pointerMove(event){
+    if(!this.editor.terrainEditing)return false;const hit=this.hit(event);if(!hit)return Boolean(this.stroke);
+    try{const options=this.options(hit);if(this.stroke){const last=this.stroke.last,delta=hit.position.map((n,i)=>n-last[i]),distance=Math.hypot(...delta),step=Math.max(1,options.radius/4);if(distance>=step){const samples=Math.min(128,Math.floor(distance/step));for(let i=1;i<=samples;i++)this.stamp({...hit,position:last.map((n,j)=>n+delta[j]*i*step/distance)},options);this.stroke.last=last.map((n,j)=>n+delta[j]*samples*step/distance);}}
+      else this.updateOverlay(hit,this.editor.current.terrainDraft,options.radius);
+    }catch(error){text('terrain-status',error.message);this.cancel(false);}return Boolean(this.stroke);
+  }
+  pointerUp(){if(!this.stroke)return false;const draft=this.stroke.draft;this.stroke=null;this.editor.perform(()=>{this.editor.commitTerrain(draft);text('terrain-status','Terrain applied to LOW + HIGH. Objects and race paths keep their saved positions.');});return true;}
+  updateOverlay(hit,draft,radius){
+    const info=this.editor.current?.terrainInfo;if(!info)return;const selected=terrainBrushSelection(info,draft,hit,radius),heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),lines=[],cells=new Set();
+    const point=(s,i)=>{const v=s.vertices[i];return [v[0],-(heights.get(`${s.index}:${i}`)??v[1]),-v[2]];};
+    for(const v of selected){const s=info.scene.segments[v.sector],row=Math.floor(v.vertex/(s.columns+1)),col=v.vertex%(s.columns+1);for(const r of [row-1,row])for(const c of [col-1,col])if(r>=0&&r<s.rows&&c>=0&&c<s.columns)cells.add(`${s.index}:${r*s.columns+c}`);}
+    for(const id of cells){const [sector,cell]=id.split(':').map(Number),s=info.scene.segments[sector],face=s.faces[cell],order=[0,1,3,2].map(i=>face.gridIndices[i]);for(let i=0;i<4;i++)lines.push(...point(s,order[i]),...point(s,order[(i+1)%4]));}
+    this.overlay.set({groups:[{active:true,lines,normals:[]}]});text('terrain-selection',`Sector ${hit.sector} · cell ${hit.cell} · ${selected.length} connected vertices${info.locked.has(hit.sector)?' · animated region locked':''}`);
+  }
+  render(navigation){this.overlay.render(navigation,{show:Boolean(this.editor.terrainEditing&&el('terrain-wireframe').checked),disabled:false,normals:false});}
+  cancel(clear=true){this.stroke=null;if(clear)this.overlay.clear();}
+  refresh(){
+    const base=this.editor.current,available=Boolean(base),active=available&&this.editor.terrainEditing&&!this.editor.busy;
+    for(const id of ['terrain-operation','terrain-radius','terrain-strength','terrain-height','terrain-wireframe','surface-search','surface-eyedropper'])el(id).disabled=!active;
+    el('terrain-undo').disabled=!active||!base?.terrainUndo?.length;el('terrain-redo').disabled=!active||!base?.terrainRedo?.length;el('terrain-reset').disabled=!active||!(base?.terrainDraft?.heights.length||base?.terrainDraft?.surfaces.length);
+    el('terrain-height-tools').hidden=this.kind==='surfaces';el('terrain-surface-tools').hidden=this.kind!=='surfaces';
+    el('terrain-height-label').hidden=el('terrain-operation').value!=='set';
+    text('terrain-count',base?`${base.terrainDraft?.heights.length??0} height edits · ${base.terrainDraft?.surfaces.length??0} surface edits · LOW + HIGH`:'Load verified Rollcage archives.');
+  }
+}
+
+Object.assign(module.exports, {TerrainEditorUI});
+},
+"src/terrain-editor.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {inspectTerrain,validateTerrainDraft,compileTerrainEdits,terrainSurfacePresets});
+const {parseScene} = require("src/scene.mjs");
+const {parseCollisionGrid} = require("src/collision-grid.mjs");
+const {buildTerrainCandidates} = require("src/terrain-candidates.mjs");
+
+const emptyTerrainDraft=()=>({heights:[],surfaces:[]});
+const key=(s,v)=>`${s}:${v}`;
+const append=(data,bytes)=>{const offset=Math.ceil(data.length/4)*4,out=Buffer.alloc(offset+bytes.length);if(out.length>128*1024*1024)throw Error('Terrain resource exceeds 128 MiB.');out.set(data);out.set(bytes,offset);return {data:out,offset};};
+const fields=(value,keys)=>value&&Object.keys(value).sort().join(',')===[...keys].sort().join(',');
+const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const subtract=(a,b)=>a.slice(0,3).map((n,i)=>n-b[i]);
+const dot=(a,b)=>a.reduce((sum,n,i)=>sum+n*b[i],0);
+
+function inspectTerrain(data) {
+  const scene=parseScene(data),vertices=new Map(),parents=new Map(),storage=new Map(),edges=new Map(),locked=new Set();
+  const root=id=>{let p=parents.get(id);if(p!==id){p=root(p);parents.set(id,p);}return p;};
+  const union=(a,b)=>{a=root(a);b=root(b);if(a!==b)parents.set(b,a);};
+  for(const s of scene.segments){
+    if(data[s.offset+6]&63)locked.add(s.index);
+    for(const [i,p]of s.vertices.entries()){
+      const id=key(s.index,i),offset=s.verticesOffset+i*8;parents.set(id,id);vertices.set(id,{sector:s.index,vertex:i,position:p.slice(0,3),offset});
+      if(storage.has(offset))union(id,storage.get(offset));else storage.set(offset,id);
+    }
+    const edge=(a,b)=>{const pa=s.vertices[a].slice(0,3).join(','),pb=s.vertices[b].slice(0,3).join(','),id=[pa,pb].sort().join(':');if(!edges.has(id))edges.set(id,[]);edges.get(id).push({sector:s.index,a:key(s.index,a),b:key(s.index,b),pa,pb});};
+    for(let col=0;col<s.columns;col++){edge(col,col+1);const start=s.rows*(s.columns+1)+col;edge(start,start+1);}
+    for(let row=0;row<s.rows;row++){const start=row*(s.columns+1);edge(start,start+s.columns+1);edge(start+s.columns,start+2*s.columns+1);}
+  }
+  // 44a5c0's authored animation cells, separate from 494c80 sector flags.
+  const count=data[0xfc],base=data.readUInt32LE(0x100);
+  if(count&&base+count*4>data.length)throw Error('Terrain animation cells exceed resource bounds.');
+  for(let i=0;i<count;i++)locked.add(data[base+i*4+2]);
+  const neighbors=new Map(scene.segments.map(s=>[s.index,new Set()]));
+  for(const list of edges.values())if(list.length===2&&list[0].sector!==list[1].sector){const [a,b]=list;union(a.a,a.pa===b.pa?b.a:b.b);union(a.b,a.pb===b.pb?b.b:b.a);neighbors.get(a.sector).add(b.sector);neighbors.get(b.sector).add(a.sector);}
+  const seams=new Map();for(const id of vertices.keys()){const r=root(id);if(!seams.has(r))seams.set(r,[]);seams.get(r).push(id);}
+  const seamFor=new Map();for(const group of seams.values())for(const id of group)seamFor.set(id,group);
+  const isLocked=id=>seamFor.get(id)?.some(ref=>locked.has(vertices.get(ref).sector));
+  return {scene,vertices,seamFor,neighbors,locked,isLocked};
+}
+
+function validateTerrainDraft(data,draft=emptyTerrainDraft(),info=inspectTerrain(data)) {
+  if(!fields(draft,['heights','surfaces'])||!Array.isArray(draft.heights)||!Array.isArray(draft.surfaces))throw Error('Invalid terrain draft.');
+  const heights=[],surfaces=[],seen=new Set(),sourceSeen=new Map();
+  for(const row of draft.heights){
+    if(!fields(row,['sector','vertex','height'])||!Number.isInteger(row.sector)||!Number.isInteger(row.vertex)||!Number.isInteger(row.height)||row.height< -32768||row.height>32767)throw Error('Terrain height requires a valid vertex and signed 16-bit value.');
+    const id=key(row.sector,row.vertex),v=info.vertices.get(id);if(!v||seen.has(id))throw Error('Missing or duplicate terrain vertex.');seen.add(id);
+    if(info.isLocked(id))throw Error('Animated terrain and its linked seams are locked.');
+    const previous=sourceSeen.get(v.offset);if(previous!==undefined&&previous!==row.height)throw Error('Shared terrain storage has conflicting heights.');sourceSeen.set(v.offset,row.height);
+    heights.push({...row});
+  }
+  const byId=new Map(heights.map(row=>[key(row.sector,row.vertex),row.height]));
+  for(const row of heights)for(const ref of info.seamFor.get(key(row.sector,row.vertex))){const original=info.vertices.get(ref).position[1];if((byId.get(ref)??original)!==row.height)throw Error('Terrain seam heights must remain linked.');}
+  seen.clear();
+  for(const row of draft.surfaces){
+    if(!fields(row,['sector','cell','sourceSector','sourceCell'])||Object.values(row).some(n=>!Number.isInteger(n)))throw Error('Invalid terrain surface reference.');
+    const cell=info.scene.segments[row.sector]?.faces[row.cell],source=info.scene.segments[row.sourceSector]?.faces[row.sourceCell],id=key(row.sector,row.cell);
+    if(!cell||!source||seen.has(id))throw Error('Missing or duplicate terrain surface cell.');seen.add(id);
+    if(info.locked.has(row.sector))throw Error('Animated terrain surfaces are locked.');
+    if(info.locked.has(row.sourceSector)||(source.pageWord&~0x7f))throw Error('Animated or packed surface preset is unsupported.');
+    surfaces.push({...row});
+  }
+  return {heights:heights.sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:surfaces.sort((a,b)=>a.sector-b.sector||a.cell-b.cell)};
+}
+
+function packedNormal(points,old) {
+  let n=cross(subtract(points[1],points[0]),subtract(points[2],points[0])),length=Math.hypot(...n);
+  if(length<1e-8)throw Error('Terrain edit creates a degenerate collision face.');
+  if(old[1]&&n[1]){if(Math.sign(n[1])!==Math.sign(old[1]))n=n.map(v=>-v);}else if(dot(n,old)<0)n=n.map(v=>-v);
+  const q=n.map(v=>Math.round(v/length*256));return (((q[0]&1023)<<20)|((q[1]&1023)<<10)|(q[2]&1023))>>>0;
+}
+
+// Offline editor compiler, not a reconstruction of the original track builder.
+// Existing XZ topology remains fixed. 4287f0's existing height chains receive
+// conservative region membership; route fallback/model-list words stay intact.
+function extendHeightCoverage(data,grid,changed) {
+  const regionMap=new Map(grid.regions.map(r=>[r.index,r])),zoneMap=new Map(grid.zones.map(z=>[z.root,z]));
+  const extra=new Map(grid.spatial.nodes.map(n=>[n.index,new Map()]));
+  const affected=region=>changed.has(region.index);
+  for(const row of grid.spatial.rows)for(let i=0;i<row.cells;i++){
+    let index=data.readUInt16LE(row.mapPointer+i*2)/12;const chain=[];
+    do{chain.push(index);}while(grid.spatial.nodes[index++].continues);
+    const regions=new Map();for(const n of chain)for(const id of zoneMap.get(grid.spatial.nodes[n].zone).regions){const r=regionMap.get(id);if(affected(r))regions.set(id,r);}
+    for(const n of chain)for(const [id,r]of regions)extra.get(n).set(id,r);
+  }
+  const bytes=[],groups=new Map(),roots=[];
+  for(const node of grid.spatial.nodes){
+    const original=zoneMap.get(node.zone).regions,ids=[...new Set([...original,...extra.get(node.index).keys()])];
+    if(ids.length>128)throw Error('Height edit exceeds the native 128-region spatial group limit.');
+    const signature=ids.join(',');let root=groups.get(signature);
+    if(root===undefined){root=bytes.length/6;if(root>16383)throw Error('Height edit exceeds the native spatial-region offset limit.');groups.set(signature,root);
+      for(const [i,id]of ids.entries()){
+        const r=regionMap.get(id),raw=Buffer.from(data.subarray(r.offset,r.offset+6));raw.writeUInt16LE((r.control&0x1ff)|(i===0?(ids.length-1)<<9:0),2);
+        const delta=changed.get(r.index)??0,padding=r.padding+delta;if(padding>255)throw Error('Height change exceeds this collision region’s padding capacity. Reduce the height difference.');raw[4]=padding;
+        bytes.push(...raw);
+      }
+    }roots.push(root);
+  }
+  const added=append(data,Buffer.from(bytes));data=added.data;data.writeUInt32LE(added.offset,0x28);
+  for(const [i,root]of roots.entries()){const node=grid.spatial.nodes[i];data.writeUInt32LE(((node.referenceWord&0xc000ffff)|(root<<16))>>>0,node.offset+4);}
+  return data;
+}
+
+function compileTerrainEdits(source,draft=emptyTerrainDraft(),{validateContacts=true}={}) {
+  if(fields(draft,['heights','surfaces'])&&Array.isArray(draft.heights)&&Array.isArray(draft.surfaces)&&!draft.heights.length&&!draft.surfaces.length)return Buffer.from(source);
+  const info=inspectTerrain(source),checked=validateTerrainDraft(source,draft,info);
+  const heights=checked.heights.filter(r=>info.vertices.get(key(r.sector,r.vertex)).position[1]!==r.height),surfaces=checked.surfaces.filter(r=>info.scene.segments[r.sector].faces[r.cell].textureRecord!==info.scene.segments[r.sourceSector].faces[r.sourceCell].textureRecord);
+  if(!heights.length&&!surfaces.length)return Buffer.from(source);
+  let data=Buffer.from(source);const changed=new Map(),changedVertices=new Set();
+  for(const row of heights){const v=info.vertices.get(key(row.sector,row.vertex));data.writeInt16LE(row.height,v.offset+2);changedVertices.add(v.offset);changed.set(row.sector,Math.max(changed.get(row.sector)??0,Math.abs(row.height-v.position[1])));}
+  for(const row of surfaces){const sector=info.scene.segments[row.sector],preset=info.scene.segments[row.sourceSector].faces[row.sourceCell];data.writeUInt32LE(preset.textureRecord,sector.packetsOffset+row.cell*8+4);}
+  if(!heights.length)return data;
+  const grid=parseCollisionGrid(source);if(!grid.available)throw Error('Terrain height editing requires collision spatial data.');
+  const edited=parseScene(data),normalWords=grid.normals.map(n=>n.packed),pairs=new Map(),touched=[];
+  const pair=(a,b)=>{const id=`${a}:${b}`;if(pairs.has(id))return pairs.get(id);const index=normalWords.length;if(index+1>65534)throw Error('Terrain edit exceeds native normal-index capacity.');normalWords.push(a,b);pairs.set(id,index);return index;};
+  for(const s of edited.segments){
+    if(!changed.has(s.index))continue;
+    const original=info.scene.segments[s.index],oldMax=Math.max(...original.vertices.map(v=>v[1])),newMax=Math.max(...s.vertices.map(v=>v[1])),margin=Math.max(0,source.readInt16LE(s.offset+0x14)-oldMax),height=newMax+margin;
+    if(height>32767)throw Error('Terrain sector recovery height exceeds signed 16-bit storage.');data.writeInt16LE(height,s.offset+0x14);
+    for(const cell of grid.sectors[s.index].cells){
+      const face=original.faces[cell.index];if(!face.gridIndices.some(v=>changedVertices.has(original.verticesOffset+v*8)))continue;
+      if(!cell.covered)continue;const [tl,tr,bl,br]=face.gridIndices,indices=face.vertexFlags&4?[[tl,tr,bl],[tr,br,bl]]:[[tl,tr,br],[tl,br,bl]],old=grid.normals[cell.rawNormalIndex];
+      const normals=indices.map((ids,i)=>(packedNormal(ids.map(v=>s.vertices[v]),grid.normals[cell.forms[Math.min(i,cell.forms.length-1)].normal].components)|(old.packed&0xc0000000))>>>0);
+      const normalIndex=pair(...normals);data.writeUInt16LE(normalIndex,s.packetsOffset+cell.index*8+2);const flagsOffset=s.verticesOffset+br*8+6;data.writeUInt16LE(data.readUInt16LE(flagsOffset)|2,flagsOffset);touched.push({sector:s.index,cell:cell.index});
+    }
+  }
+  const bytes=Buffer.alloc(normalWords.length*4);normalWords.forEach((n,i)=>bytes.writeUInt32LE(n>>>0,i*4));const added=append(data,bytes);data=added.data;data.writeUInt32LE(added.offset,0x34);data.writeUInt32LE(normalWords.length,0x38);
+  const regionChanges=new Map();for(const r of grid.regions){if(!changed.has(r.sector))continue;const s=edited.segments[r.sector],original=info.scene.segments[r.sector];let delta=0;
+    for(let row=r.row;row<=r.row+r.rows;row++)for(let col=r.column;col<=r.column+r.columns;col++){const v=row*(s.columns+1)+col;delta=Math.max(delta,Math.abs(s.vertices[v][1]-original.vertices[v][1]));}
+    if(delta)regionChanges.set(r.index,delta);
+  }
+  data=extendHeightCoverage(data,grid,regionChanges);
+  const result=parseCollisionGrid(data);
+  if(validateContacts)for(const {sector,cell}of touched){const s=result.sectors[sector],c=s.cells[cell];for(const form of c.forms){
+    const points=form.indices.map(i=>s.vertices[i]),center=[0,1,2].map(axis=>points.reduce((sum,p)=>sum+p[axis],0)/points.length),normal=result.normals[form.normal].components;
+    const body={flags:3,position:center.map((v,i)=>Math.round((v+normal[i]/8)*65536)),linearVelocity:normal.map(n=>-n*32768)},candidates=buildTerrainCandidates(result,body,{radiusQ8:64*256});
+    if(candidates.candidates.length>=64||!candidates.candidates.some(v=>v.sector===sector&&v.row===c.row&&v.column===c.column))throw Error('Edited terrain cannot be reached safely within the native collision candidate limits. Reduce the edited area or height change.');
+  }}
+  return data;
+}
+
+function terrainSurfacePresets(low,high) {
+  const a=parseScene(low),b=parseScene(high),seen=new Set(),presets=[];
+  const lowInfo=inspectTerrain(low),highInfo=inspectTerrain(high);
+  for(const s of a.segments)for(const cell of s.faces){
+    const other=b.segments[s.index]?.faces[cell.index];if(!other||lowInfo.locked.has(s.index)||highInfo.locked.has(s.index)||(cell.pageWord&~0x7f)||(other.pageWord&~0x7f))continue;
+    const raw=low.subarray(a.uvTable+cell.textureRecord*16,a.uvTable+cell.textureRecord*16+16),rawHigh=high.subarray(b.uvTable+other.textureRecord*16,b.uvTable+other.textureRecord*16+16),id=raw.toString('hex')+rawHigh.toString('hex');if(seen.has(id))continue;seen.add(id);
+    const flags=raw.readUInt32LE(12);presets.push({sector:s.index,cell:cell.index,page:cell.page,uv:cell.uv,category:flags&255,gripReduction:(flags>>>8)&31,label:`S${s.index} / cell ${cell.index} · page ${cell.page} · category ${flags&255} · grip ${(flags>>>8)&31}`});
+  }return presets;
+}
+
+Object.assign(module.exports, {emptyTerrainDraft,inspectTerrain,validateTerrainDraft,compileTerrainEdits,terrainSurfacePresets});
+},
+"tools/track-viewer/terrain-brush.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {terrainBrushSelection,stampTerrain});
+// Pure brush operations. Distances follow connected grid edges and matched
+// seams, so another road sharing XZ coordinates is never selected implicitly.
+function terrainBrushSelection(info,draft,hit,radius) {
+  const sector=info.scene.segments[hit.sector],face=sector?.faces[hit.cell];if(!face||!Number.isFinite(radius)||radius<=0)return [];
+  const heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),position=id=>{const v=info.vertices.get(id);return [v.position[0],heights.get(id)??v.position[1],v.position[2]];};
+  const point=[hit.position[0],-hit.position[1],-hit.position[2]],nearest=face.gridIndices.map(v=>`${hit.sector}:${v}`).sort((a,b)=>Math.hypot(...position(a).map((n,i)=>n-point[i]))-Math.hypot(...position(b).map((n,i)=>n-point[i])))[0];
+  const queue=[{id:nearest,distance:0}],best=new Map(),result=[];
+  while(queue.length){queue.sort((a,b)=>b.distance-a.distance);const {id,distance}=queue.pop();if(distance>radius||(best.get(id)??Infinity)<=distance)continue;best.set(id,distance);if(info.isLocked(id))continue;
+    const value=info.vertices.get(id),s=info.scene.segments[value.sector],stride=s.columns+1,row=Math.floor(value.vertex/stride),col=value.vertex%stride;
+    result.push({id,...value,position:position(id),weight:Math.max(0.05,1-distance/radius)});
+    const adjacent=[...(row?[value.vertex-stride]:[]),...(row<s.rows?[value.vertex+stride]:[]),...(col?[value.vertex-1]:[]),...(col<s.columns?[value.vertex+1]:[])].map(v=>`${value.sector}:${v}`);
+    for(const other of adjacent)queue.push({id:other,distance:distance+Math.hypot(...position(id).map((n,i)=>n-position(other)[i]))});
+    for(const seam of info.seamFor.get(id))if(seam!==id)queue.push({id:seam,distance});
+    if(result.length>20000)throw Error('Brush selection exceeds 20,000 vertices. Reduce its radius.');
+  }
+  return result;
+}
+
+function stampTerrain(info,draft,hit,{mode='raise',radius=128,strength=8,height=0,preset}={}) {
+  const selected=terrainBrushSelection(info,draft,hit,radius),heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,{...r}])),surfaces=new Map(draft.surfaces.map(r=>[`${r.sector}:${r.cell}`,{...r}]));
+  if(mode==='paint'){
+    if(!preset)throw Error('Choose a surface preset first.');
+    const cells=new Set();for(const v of selected){const s=info.scene.segments[v.sector],row=Math.floor(v.vertex/(s.columns+1)),col=v.vertex%(s.columns+1);for(const r of [row-1,row])for(const c of [col-1,col])if(r>=0&&r<s.rows&&c>=0&&c<s.columns)cells.add(`${s.index}:${r*s.columns+c}`);}
+    cells.add(`${hit.sector}:${hit.cell}`);
+    for(const id of cells){const [sector,cell]=id.split(':').map(Number);if(info.locked.has(sector))continue;const s=info.scene.segments[sector],face=s.faces[cell],center=[0,1,2].map(i=>face.gridIndices.reduce((sum,v)=>sum+s.vertices[v][i],0)/4),point=[hit.position[0],-hit.position[1],-hit.position[2]];if(id!==`${hit.sector}:${hit.cell}`&&Math.hypot(...center.map((n,i)=>n-point[i]))>radius)continue;
+      const row={sector,cell,sourceSector:preset.sector,sourceCell:preset.cell};if(face.textureRecord===info.scene.segments[preset.sector].faces[preset.cell].textureRecord)surfaces.delete(id);else surfaces.set(id,row);
+    }
+  }else{
+    const pending=new Map();
+    for(const v of selected){let y=v.position[1];const amount=Math.max(1,Math.round(strength*v.weight));
+      if(mode==='raise')y-=amount;else if(mode==='lower')y+=amount;else if(mode==='flatten'||mode==='set')y=-Math.round(height);
+      else if(mode==='smooth'){
+        const s=info.scene.segments[v.sector],stride=s.columns+1,row=Math.floor(v.vertex/stride),col=v.vertex%stride,ids=[...(row?[v.vertex-stride]:[]),...(row<s.rows?[v.vertex+stride]:[]),...(col?[v.vertex-1]:[]),...(col<s.columns?[v.vertex+1]:[])];
+        const average=ids.reduce((sum,i)=>sum+(heights.get(`${v.sector}:${i}`)?.height??s.vertices[i][1]),0)/ids.length;y=Math.round(y+(average-y)*Math.min(1,strength/32)*v.weight);
+      }
+      for(const id of info.seamFor.get(v.id))if(!pending.has(id))pending.set(id,y);
+    }
+    for(const [id,y]of pending){if(y< -32768||y>32767)throw Error('Brush exceeds the signed 16-bit terrain height limit.');const v=info.vertices.get(id);if(y===v.position[1])heights.delete(id);else heights.set(id,{sector:v.sector,vertex:v.vertex,height:y});}
+  }
+  return {heights:[...heights.values()].sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:[...surfaces.values()].sort((a,b)=>a.sector-b.sector||a.cell-b.cell)};
+}
+
+Object.assign(module.exports, {terrainBrushSelection,stampTerrain});
+},
+"tools/track-viewer/pickup-picking.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
+//CPU editor picking uses the exact static display mesh and view/projection.
+//It never writes game data or a running simulation. Scene identity owns the
+//cached terrain BVH; changing tracks releases it through the WeakMap.
+const terrainCache = new WeakMap();
+const vector = value => value?.length === 3 && Array.from(value).every(Number.isFinite);
+const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const normalize = value => {const length=Math.hypot(...value);return length>0?value.map(n=>n/length):null;};
+
+const sourceToDisplay = ([x,y,z]) => [x,y===0?0:-y,z===0?0:-z];
+const displayToSource = sourceToDisplay;
+
+function rectangle(rect) {
+  if(!rect||![rect.left,rect.top,rect.width,rect.height].every(Number.isFinite)||rect.width<=0||rect.height<=0)return null;
+  return rect;
+}
+function transform(matrix,x,y,z,w) {
+  return [0,1,2,3].map(row=>matrix[row]*x+matrix[4+row]*y+matrix[8+row]*z+matrix[12+row]*w);
+}
+//Gauss-Jordan on doubles, retaining the column-major WebGL convention.
+function inverse(matrix) {
+  if(matrix?.length!==16||!Array.from(matrix).every(Number.isFinite))return null;
+  const rows=Array.from({length:4},(_,r)=>[...Array.from({length:4},(_,c)=>matrix[c*4+r]),...Array.from({length:4},(_,c)=>Number(r===c))]);
+  for(let column=0;column<4;column++) {
+    let pivot=column;for(let r=column+1;r<4;r++)if(Math.abs(rows[r][column])>Math.abs(rows[pivot][column]))pivot=r;
+    if(Math.abs(rows[pivot][column])<1e-15)return null;
+    [rows[column],rows[pivot]]=[rows[pivot],rows[column]];
+    const scale=rows[column][column];for(let c=0;c<8;c++)rows[column][c]/=scale;
+    for(let r=0;r<4;r++)if(r!==column){const amount=rows[r][column];for(let c=0;c<8;c++)rows[r][c]-=rows[column][c]*amount;}
+  }
+  return Array.from({length:16},(_,i)=>rows[i%4][4+Math.floor(i/4)]);
+}
+function unproject(matrix,x,y,z) {
+  const point=transform(matrix,x,y,z,1);if(!Number.isFinite(point[3])||Math.abs(point[3])<1e-15)return null;
+  return point.slice(0,3).map(n=>n/point[3]);
+}
+
+function cameraRay(navigation,canvasRect,clientX,clientY) {
+  const rect=rectangle(canvasRect);
+  if(!rect||![clientX,clientY].every(Number.isFinite)||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
+  const matrix=inverse(navigation.matrix(rect.width/rect.height));if(!matrix)return null;
+  const x=(clientX-rect.left)/rect.width*2-1,y=1-(clientY-rect.top)/rect.height*2;
+  const near=unproject(matrix,x,y,-1),far=unproject(matrix,x,y,1);if(!near||!far)return null;
+  const direction=normalize(far.map((n,i)=>n-near[i]));if(!direction)return null;
+  //Navigation owns the camera position; this keeps hit distances in scene
+  //units from the eye, rather than from the perspective near plane.
+  const origin=navigation.position();if(!vector(origin))return null;
+  return {origin:[...origin],direction};
+}
+
+function bytesOf(value) {
+  if(typeof value==='string')return Uint8Array.from(atob(value),letter=>letter.charCodeAt(0));
+  if(value instanceof ArrayBuffer)return new Uint8Array(value);
+  if(ArrayBuffer.isView(value))return new Uint8Array(value.buffer,value.byteOffset,value.byteLength);
+  throw Error('Terrain picking requires decoded mesh bytes.');
+}
+function buildTerrain(scene) {
+  if(!scene||!Array.isArray(scene.groups))throw Error('Terrain picking requires decoded scene groups.');
+  const groups=scene.groups.filter(group=>group.kind==='terrain');
+  let count=0;for(const group of groups){if(!Number.isSafeInteger(group.vertices)||group.vertices<0||group.vertices%3)throw Error('Terrain picking requires triangle-list vertices.');count+=group.vertices/3;}
+  const positions=new Float64Array(count*9),identities=[];let cursor=0;
+  for(const group of groups) {
+    for(let triangle=0;triangle<group.vertices/3;triangle++)identities.push({sector:group.segment,cell:group.triangleCells?.[triangle]??null});
+    const bytes=bytesOf(group.buffer),stride=group.colored?44:32;
+    if(group.vertices*stride>bytes.byteLength)throw Error('Terrain picking mesh exceeds its decoded buffer.');
+    const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+    for(let vertex=0;vertex<group.vertices;vertex++)for(let axis=0;axis<3;axis++){
+      const value=view.getFloat32(vertex*stride+axis*4,true);if(!Number.isFinite(value))throw Error('Terrain picking mesh has a nonfinite position.');positions[cursor++]=value;
+    }
+  }
+  const order=Array.from({length:count},(_,i)=>i);let nodes=0;
+  function build(start,end) {
+    nodes++;const minimum=[Infinity,Infinity,Infinity],maximum=[-Infinity,-Infinity,-Infinity];
+    for(let i=start;i<end;i++)for(let vertex=0;vertex<3;vertex++)for(let axis=0;axis<3;axis++){
+      const value=positions[order[i]*9+vertex*3+axis];minimum[axis]=Math.min(minimum[axis],value);maximum[axis]=Math.max(maximum[axis],value);
+    }
+    const node={minimum,maximum,start,end};
+    if(end-start>12){let axis=0;for(let a=1;a<3;a++)if(maximum[a]-minimum[a]>maximum[axis]-minimum[axis])axis=a;
+      const center=i=>positions[i*9+axis]+positions[i*9+3+axis]+positions[i*9+6+axis];
+      const sorted=order.slice(start,end).sort((a,b)=>center(a)-center(b)||a-b);for(let i=0;i<sorted.length;i++)order[start+i]=sorted[i];
+      const middle=(start+end)>>>1;node.left=build(start,middle);node.right=build(middle,end);
+    }
+    return node;
+  }
+  const root=count?build(0,count):null;
+  return {positions,order,root,identities,stats:Object.freeze({triangles:count,nodes,builds:1})};
+}
+function terrain(scene) {let cached=terrainCache.get(scene);if(!cached){cached=buildTerrain(scene);terrainCache.set(scene,cached);}return cached;}
+function prepareTerrainPicking(scene) {return terrain(scene).stats;}
+
+function boxDistance(node,origin,direction,limit) {
+  let near=0,far=limit;
+  for(let axis=0;axis<3;axis++){
+    if(Math.abs(direction[axis])<1e-15){if(origin[axis]<node.minimum[axis]||origin[axis]>node.maximum[axis])return null;continue;}
+    let a=(node.minimum[axis]-origin[axis])/direction[axis],b=(node.maximum[axis]-origin[axis])/direction[axis];if(a>b)[a,b]=[b,a];
+    near=Math.max(near,a);far=Math.min(far,b);if(near>far)return null;
+  }
+  return near;
+}
+function triangleDistance(positions,index,origin,direction) {
+  const p=index*9,a=[positions[p],positions[p+1],positions[p+2]],e1=[0,1,2].map(i=>positions[p+3+i]-a[i]),e2=[0,1,2].map(i=>positions[p+6+i]-a[i]);
+  const h=cross(direction,e2),det=dot(e1,h);if(Math.abs(det)<1e-10)return null;
+  const inverseDet=1/det,s=origin.map((n,i)=>n-a[i]),u=dot(s,h)*inverseDet;if(u<-1e-9||u>1+1e-9)return null;
+  const q=cross(s,e1),v=dot(direction,q)*inverseDet;if(v<-1e-9||u+v>1+1e-9)return null;
+  const t=dot(e2,q)*inverseDet;return t>=-1e-9?Math.max(0,t):null;
+}
+function intersectTerrain(scene,ray) {
+  if(!ray||!vector(ray.origin)||!vector(ray.direction))return null;
+  const direction=normalize(Array.from(ray.direction));if(!direction)return null;
+  const cached=terrain(scene);if(!cached.root)return null;
+  let distance=Infinity,selected=null;const stack=[cached.root];
+  while(stack.length){const node=stack.pop();if(boxDistance(node,ray.origin,direction,distance)===null)continue;
+    if(node.left){const a=boxDistance(node.left,ray.origin,direction,distance),b=boxDistance(node.right,ray.origin,direction,distance);
+      if(a!==null&&b!==null){if(a<b)stack.push(node.right,node.left);else stack.push(node.left,node.right);}else if(a!==null)stack.push(node.left);else if(b!==null)stack.push(node.right);
+    }else for(let i=node.start;i<node.end;i++){const hit=triangleDistance(cached.positions,cached.order[i],ray.origin,direction);if(hit!==null&&hit<distance){distance=hit;selected=cached.identities[cached.order[i]];}}
+  }
+  return Number.isFinite(distance)?{position:Array.from(ray.origin,(n,i)=>n+direction[i]*distance),distance,...selected}:null;
+}
+
+function pickPickup(pointsDisplay,navigation,canvasRect,clientX,clientY,{radiusPx=10}={}) {
+  const rect=rectangle(canvasRect);
+  if(!rect||![clientX,clientY,radiusPx].every(Number.isFinite)||radiusPx<0||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
+  const matrix=navigation.matrix(rect.width/rect.height);let selected=null,best=radiusPx*radiusPx,bestDepth=Infinity;
+  for(let index=0;index<pointsDisplay.length;index++){
+    const point=pointsDisplay[index];if(!vector(point))continue;
+    const clip=transform(matrix,...point,1);if(clip[3]<=0)continue;
+    const [x,y,z]=clip.slice(0,3).map(n=>n/clip[3]);if(x<-1||x>1||y<-1||y>1||z<-1||z>1)continue;
+    const px=rect.left+(x+1)*rect.width/2,py=rect.top+(1-y)*rect.height/2,d=(px-clientX)**2+(py-clientY)**2;
+    if(d<best||d===best&&z<bestDepth){selected=index;best=d;bestDepth=z;}
+  }
+  return selected;
+}
+
+Object.assign(module.exports, {sourceToDisplay,displayToSource,cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
+},
+"tools/track-viewer/collision-overlay.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
+// A preview-only wire overlay, sharing the renderer's line shader and camera.
+// No collision geometry/settings enter the simulation from this component.
+class CollisionOverlay {
+  constructor(renderer){this.renderer=renderer;this.groups=[];this.draws=0;}
+  clear(){for(const group of this.groups)this.renderer.gl.deleteBuffer(group.buffer);this.groups=[];this.draws=0;}
+  set(preview){
+    this.clear();const gl=this.renderer.gl;
+    for(const group of preview.groups)for(const key of ['lines','normals'])if(group[key].length){
+      const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(group[key]),gl.STATIC_DRAW);
+      this.groups.push({buffer,count:group[key].length/3,active:group.active,normals:key==='normals'});
+    }
+  }
+  render(navigation,{show,disabled,normals}){
+    this.draws=0;if(!show||!this.groups.length)return;
+    const r=this.renderer,gl=r.gl;gl.useProgram(r.pathProgram);
+    for(const attribute of Object.values(r.attributes))gl.disableVertexAttribArray(attribute);
+    gl.enableVertexAttribArray(r.pathPosition);gl.uniformMatrix4fv(r.pathUniforms.mvp,false,navigation.matrix(r.canvas.width/r.canvas.height));
+    gl.depthMask(false);gl.disable(gl.DEPTH_TEST);
+    try{for(const group of this.groups){
+      if((!group.active&&!disabled)||(group.normals&&!normals))continue;
+      gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);gl.vertexAttribPointer(r.pathPosition,3,gl.FLOAT,false,12,0);
+      gl.uniform3fv(r.pathUniforms.color,!group.active?[0.55,0.58,0.64]:group.normals?[1,0.72,0.25]:[0.15,1,1]);
+      gl.drawArrays(gl.LINES,0,group.count);this.draws+=group.count/2;
+    }}finally{gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.disableVertexAttribArray(r.pathPosition);gl.useProgram(r.program);}
+  }
+}
+
+Object.assign(module.exports, {CollisionOverlay});
 },
 "tools/track-viewer/pickup-editor-ui.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
@@ -25572,7 +26131,7 @@ const element = id => document.getElementById(id);
 const copy = value => structuredClone(value);
 const same = (a,b) => JSON.stringify(a) === JSON.stringify(b);
 const bytesEqual = (a,b) => a.length === b.length && a.every((byte,i) => byte === b[i]);
-const supported = level => Number.isInteger(level) && level >= 1 && level <= 20 && ![16,17].includes(level);
+const supported = level => Number.isInteger(level) && level >= 1 && level <= 20;
 const levelOf = track => Number(/\/(?:LEV)(\d+)\.BLP$/i.exec(track?.name ?? '')?.[1]);
 const messageOf = error => error instanceof Error ? error.message : String(error);
 
@@ -25614,15 +26173,15 @@ class PickupEditor {
       const draft = copy(this.current.draft); draft.find(item => item.id === row.id).position = position; this.commit(draft); this.adding = false; this.pendingDuplicate = null;
       });
     });
-    action('editor-test', () => {this.setEditing(false, {testing:true}); this.onTest(); this.say('Testing edited pickups. Weapons are enabled; the race has restarted.');});
+    action('editor-test', () => {this.setEditing(false, {testing:true}); this.say('Testing edited track.'); this.onTest();});
     action('editor-save', async () => {
-      const project = await this.project(); this.onDownload({filename:project.schemaVersion===2?'track-project.json':'pickup-project.json',blob:new Blob([JSON.stringify(project,null,2)],{type:'application/json'})});
+      const project = await this.project(); this.onDownload({filename:project.schemaVersion>=2?'track-project.json':'pickup-project.json',blob:new Blob([JSON.stringify(project,null,2)],{type:'application/json'})});
       this.savedRevision = this.revision; this.say('Project download started. Reload it with the same starting archives to continue editing.'); this.refresh();
     });
     element('editor-load').addEventListener('change', () => this.perform(async () => {
       const file = element('editor-load').files[0]; if (!file) return;
       try {
-        if (file.size > 4194304) throw Error('Track project exceeds the 4 MB limit.');
+        if (file.size > 16777216) throw Error('Track project exceeds the 16 MB limit.');
         await this.restoreProject(JSON.parse(await file.text()));
       } finally {element('editor-load').value = '';}
     }));
@@ -25808,7 +26367,7 @@ class PickupEditor {
       const position=row?sourceToDisplay(row.position):['','',''];['x','y','z'].forEach((axis,i)=>{const control=element(`editor-${axis}`),value=String(position[i]);if(control.value!==value)control.value=value;});
     }
     element('editor-count').textContent=available?`${draft.length} / 16 pickup points · LOW + HIGH${this.hasUnsavedChanges?' · unsaved project changes':''}`:'';
-    element('editor-note').textContent=available?'Edit spawn points, then test or export. Boxes retain their original random awards and respawn behavior.':'Requires verified Rollcage archives. LEV15 has no original pickups; LEV15/16/17 are excluded.';
+    element('editor-note').textContent=available?'Edit spawn points, then test or export. Boxes retain their original random awards and respawn behavior.':'Requires verified Rollcage archives. LEV15 has no original pickup templates or controllers and cannot add pickups yet.';
     element('editor-add').textContent=this.adding?'Cancel placement':'Add pickup';
     this.renderer.setEditorPickups(this.editing?draft.map(item=>({position:sourceToDisplay(item.position),added:item.id.startsWith('new-'),selected:item.id===this.selected})):[]);
   }
@@ -25824,7 +26383,7 @@ Object.assign(module.exports, {parsePickupPlacements,createPickupDraft,validateP
 // The editor changes signed source XYZ only. Bytes 6..11 always come from
 // the immutable source record, including when a pickup is duplicated.
 const PICKUP_EDITOR_LIMIT = 16;
-const PICKUP_EDITOR_LEVELS = Object.freeze(Array.from({length: 20}, (_, i) => i + 1).filter(n => ![15, 16, 17].includes(n)));
+const PICKUP_EDITOR_LEVELS = Object.freeze(Array.from({length: 20}, (_, i) => i + 1).filter(n => n!==15));
 
 function bytes(data) {
   if (!Buffer.isBuffer(data) || data.length < 0x98 || data.toString('ascii', 0, 4) !== 'GFXM') throw new Error('Invalid pickup GFXM resource.');
@@ -25948,149 +26507,13 @@ async function pickupSha256(data) {
 
 Object.assign(module.exports, {PICKUP_EDITOR_LIMIT,PICKUP_EDITOR_LEVELS,parsePickupPlacements,createPickupDraft,validatePickupDraft,compilePickupEdits,parsePickupProject,createPickupProject,validatePickupSourcePair,validatePickupProject,pickupSha256});
 },
-"tools/track-viewer/pickup-picking.mjs": function(require, module, Buffer) {
-Object.assign(module.exports, {cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
-//CPU editor picking uses the exact static display mesh and view/projection.
-//It never writes game data or a running simulation. Scene identity owns the
-//cached terrain BVH; changing tracks releases it through the WeakMap.
-const terrainCache = new WeakMap();
-const vector = value => value?.length === 3 && Array.from(value).every(Number.isFinite);
-const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
-const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
-const normalize = value => {const length=Math.hypot(...value);return length>0?value.map(n=>n/length):null;};
-
-const sourceToDisplay = ([x,y,z]) => [x,y===0?0:-y,z===0?0:-z];
-const displayToSource = sourceToDisplay;
-
-function rectangle(rect) {
-  if(!rect||![rect.left,rect.top,rect.width,rect.height].every(Number.isFinite)||rect.width<=0||rect.height<=0)return null;
-  return rect;
-}
-function transform(matrix,x,y,z,w) {
-  return [0,1,2,3].map(row=>matrix[row]*x+matrix[4+row]*y+matrix[8+row]*z+matrix[12+row]*w);
-}
-//Gauss-Jordan on doubles, retaining the column-major WebGL convention.
-function inverse(matrix) {
-  if(matrix?.length!==16||!Array.from(matrix).every(Number.isFinite))return null;
-  const rows=Array.from({length:4},(_,r)=>[...Array.from({length:4},(_,c)=>matrix[c*4+r]),...Array.from({length:4},(_,c)=>Number(r===c))]);
-  for(let column=0;column<4;column++) {
-    let pivot=column;for(let r=column+1;r<4;r++)if(Math.abs(rows[r][column])>Math.abs(rows[pivot][column]))pivot=r;
-    if(Math.abs(rows[pivot][column])<1e-15)return null;
-    [rows[column],rows[pivot]]=[rows[pivot],rows[column]];
-    const scale=rows[column][column];for(let c=0;c<8;c++)rows[column][c]/=scale;
-    for(let r=0;r<4;r++)if(r!==column){const amount=rows[r][column];for(let c=0;c<8;c++)rows[r][c]-=rows[column][c]*amount;}
-  }
-  return Array.from({length:16},(_,i)=>rows[i%4][4+Math.floor(i/4)]);
-}
-function unproject(matrix,x,y,z) {
-  const point=transform(matrix,x,y,z,1);if(!Number.isFinite(point[3])||Math.abs(point[3])<1e-15)return null;
-  return point.slice(0,3).map(n=>n/point[3]);
-}
-
-function cameraRay(navigation,canvasRect,clientX,clientY) {
-  const rect=rectangle(canvasRect);
-  if(!rect||![clientX,clientY].every(Number.isFinite)||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
-  const matrix=inverse(navigation.matrix(rect.width/rect.height));if(!matrix)return null;
-  const x=(clientX-rect.left)/rect.width*2-1,y=1-(clientY-rect.top)/rect.height*2;
-  const near=unproject(matrix,x,y,-1),far=unproject(matrix,x,y,1);if(!near||!far)return null;
-  const direction=normalize(far.map((n,i)=>n-near[i]));if(!direction)return null;
-  //Navigation owns the camera position; this keeps hit distances in scene
-  //units from the eye, rather than from the perspective near plane.
-  const origin=navigation.position();if(!vector(origin))return null;
-  return {origin:[...origin],direction};
-}
-
-function bytesOf(value) {
-  if(typeof value==='string')return Uint8Array.from(atob(value),letter=>letter.charCodeAt(0));
-  if(value instanceof ArrayBuffer)return new Uint8Array(value);
-  if(ArrayBuffer.isView(value))return new Uint8Array(value.buffer,value.byteOffset,value.byteLength);
-  throw Error('Terrain picking requires decoded mesh bytes.');
-}
-function buildTerrain(scene) {
-  if(!scene||!Array.isArray(scene.groups))throw Error('Terrain picking requires decoded scene groups.');
-  const groups=scene.groups.filter(group=>group.kind==='terrain');
-  let count=0;for(const group of groups){if(!Number.isSafeInteger(group.vertices)||group.vertices<0||group.vertices%3)throw Error('Terrain picking requires triangle-list vertices.');count+=group.vertices/3;}
-  const positions=new Float64Array(count*9);let cursor=0;
-  for(const group of groups) {
-    const bytes=bytesOf(group.buffer),stride=group.colored?44:32;
-    if(group.vertices*stride>bytes.byteLength)throw Error('Terrain picking mesh exceeds its decoded buffer.');
-    const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
-    for(let vertex=0;vertex<group.vertices;vertex++)for(let axis=0;axis<3;axis++){
-      const value=view.getFloat32(vertex*stride+axis*4,true);if(!Number.isFinite(value))throw Error('Terrain picking mesh has a nonfinite position.');positions[cursor++]=value;
-    }
-  }
-  const order=Array.from({length:count},(_,i)=>i);let nodes=0;
-  function build(start,end) {
-    nodes++;const minimum=[Infinity,Infinity,Infinity],maximum=[-Infinity,-Infinity,-Infinity];
-    for(let i=start;i<end;i++)for(let vertex=0;vertex<3;vertex++)for(let axis=0;axis<3;axis++){
-      const value=positions[order[i]*9+vertex*3+axis];minimum[axis]=Math.min(minimum[axis],value);maximum[axis]=Math.max(maximum[axis],value);
-    }
-    const node={minimum,maximum,start,end};
-    if(end-start>12){let axis=0;for(let a=1;a<3;a++)if(maximum[a]-minimum[a]>maximum[axis]-minimum[axis])axis=a;
-      const center=i=>positions[i*9+axis]+positions[i*9+3+axis]+positions[i*9+6+axis];
-      const sorted=order.slice(start,end).sort((a,b)=>center(a)-center(b)||a-b);for(let i=0;i<sorted.length;i++)order[start+i]=sorted[i];
-      const middle=(start+end)>>>1;node.left=build(start,middle);node.right=build(middle,end);
-    }
-    return node;
-  }
-  const root=count?build(0,count):null;
-  return {positions,order,root,stats:Object.freeze({triangles:count,nodes,builds:1})};
-}
-function terrain(scene) {let cached=terrainCache.get(scene);if(!cached){cached=buildTerrain(scene);terrainCache.set(scene,cached);}return cached;}
-function prepareTerrainPicking(scene) {return terrain(scene).stats;}
-
-function boxDistance(node,origin,direction,limit) {
-  let near=0,far=limit;
-  for(let axis=0;axis<3;axis++){
-    if(Math.abs(direction[axis])<1e-15){if(origin[axis]<node.minimum[axis]||origin[axis]>node.maximum[axis])return null;continue;}
-    let a=(node.minimum[axis]-origin[axis])/direction[axis],b=(node.maximum[axis]-origin[axis])/direction[axis];if(a>b)[a,b]=[b,a];
-    near=Math.max(near,a);far=Math.min(far,b);if(near>far)return null;
-  }
-  return near;
-}
-function triangleDistance(positions,index,origin,direction) {
-  const p=index*9,a=[positions[p],positions[p+1],positions[p+2]],e1=[0,1,2].map(i=>positions[p+3+i]-a[i]),e2=[0,1,2].map(i=>positions[p+6+i]-a[i]);
-  const h=cross(direction,e2),det=dot(e1,h);if(Math.abs(det)<1e-10)return null;
-  const inverseDet=1/det,s=origin.map((n,i)=>n-a[i]),u=dot(s,h)*inverseDet;if(u<-1e-9||u>1+1e-9)return null;
-  const q=cross(s,e1),v=dot(direction,q)*inverseDet;if(v<-1e-9||u+v>1+1e-9)return null;
-  const t=dot(e2,q)*inverseDet;return t>=-1e-9?Math.max(0,t):null;
-}
-function intersectTerrain(scene,ray) {
-  if(!ray||!vector(ray.origin)||!vector(ray.direction))return null;
-  const direction=normalize(Array.from(ray.direction));if(!direction)return null;
-  const cached=terrain(scene);if(!cached.root)return null;
-  let distance=Infinity;const stack=[cached.root];
-  while(stack.length){const node=stack.pop();if(boxDistance(node,ray.origin,direction,distance)===null)continue;
-    if(node.left){const a=boxDistance(node.left,ray.origin,direction,distance),b=boxDistance(node.right,ray.origin,direction,distance);
-      if(a!==null&&b!==null){if(a<b)stack.push(node.right,node.left);else stack.push(node.left,node.right);}else if(a!==null)stack.push(node.left);else if(b!==null)stack.push(node.right);
-    }else for(let i=node.start;i<node.end;i++){const hit=triangleDistance(cached.positions,cached.order[i],ray.origin,direction);if(hit!==null&&hit<distance)distance=hit;}
-  }
-  return Number.isFinite(distance)?{position:Array.from(ray.origin,(n,i)=>n+direction[i]*distance),distance}:null;
-}
-
-function pickPickup(pointsDisplay,navigation,canvasRect,clientX,clientY,{radiusPx=10}={}) {
-  const rect=rectangle(canvasRect);
-  if(!rect||![clientX,clientY,radiusPx].every(Number.isFinite)||radiusPx<0||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
-  const matrix=navigation.matrix(rect.width/rect.height);let selected=null,best=radiusPx*radiusPx,bestDepth=Infinity;
-  for(let index=0;index<pointsDisplay.length;index++){
-    const point=pointsDisplay[index];if(!vector(point))continue;
-    const clip=transform(matrix,...point,1);if(clip[3]<=0)continue;
-    const [x,y,z]=clip.slice(0,3).map(n=>n/clip[3]);if(x<-1||x>1||y<-1||y>1||z<-1||z>1)continue;
-    const px=rect.left+(x+1)*rect.width/2,py=rect.top+(1-y)*rect.height/2,d=(px-clientX)**2+(py-clientY)**2;
-    if(d<best||d===best&&z<bestDepth){selected=index;best=d;bestDepth=z;}
-  }
-  return selected;
-}
-
-Object.assign(module.exports, {sourceToDisplay,displayToSource,cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
-},
 "tools/track-viewer/editor-download.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {buildPickupGameDownload});
 const {buildEditedArchive} = require("src/archive-write.mjs");
 const {createBlobZIP} = require("tools/track-viewer/zip.mjs");
 
 async function buildPickupGameDownload(archive, replacements, project, options = {}) {
-  const scenery=project.schemaVersion===2;
+  const scenery=project.schemaVersion>=2;
   if (!(archive.image instanceof Blob)) throw Error('Game export requires the original locally selected IMG file.');
   const plan = buildEditedArchive(archive.indexData, archive.image.size, replacements);
   const image = new Blob(plan.parts.map(part => part instanceof Uint8Array ? part : archive.image.slice(part.offset, part.offset + part.length)));
@@ -26103,10 +26526,13 @@ async function buildPickupGameDownload(archive, replacements, project, options =
     '4. Enable weapons/pickups when testing pickup changes. Edits apply to LOW and HIGH.', '',
     'To continue editing, reopen the same starting archives used for this project and load track-project.json.',
     'Keep those starting files with the project. The IMG/IDX in this ZIP contain the exported edits and form a new starting point.',
-    'This export contains pickup and supported plain scenery edits together.',
+    'This export contains pickup, supported scenery and terrain edits together.',
     'Scenery collision uses preserved native shapes and rebuilt conservative spatial candidate lists.',
     'Scenery exports have parser/browser validation; original-process game compatibility is not yet established.',
-    'Special/destructible/animated objects, Blender import and LEV16/17 editing are unsupported.', '',
+    'Terrain height edits rebuild collision planes and conservative spatial coverage; surfaces copy complete native presets.',
+    'Terrain exports are experimental. Selected LEV1 LOW/HIGH wheel contacts and LEV16/17 loading are documented in the viewer changelog; this is not whole-track acceptance.',
+    'LEV16/17 editing is supported; AI Racing test is not verified on those levels.',
+    'Special/destructible/animated object editing and Blender import remain unsupported.', '',
     `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
   ].join('\n') : [
     'Rollcage pickup editor — local game export', '',
@@ -26116,7 +26542,7 @@ async function buildPickupGameDownload(archive, replacements, project, options =
     '4. Enable weapons/pickups in the game. Edits apply to LOW and HIGH versions of each edited level.', '',
     'To continue editing: open your ORIGINAL archives in the track viewer, then load pickup-project.json.',
     'This project changes pickup spawn points only. It preserves the original random weapon awards and respawn definitions.',
-    'LEV15, LEV16 and LEV17 are excluded. Maximum 16 pickup points per level.',
+    'LEV15 has no original pickup templates or controllers and is excluded. Maximum 16 pickup points per level.',
     'Tested in Rollcage Redux 1.3.8.0 on LEV1, LOW and HIGH, with unchanged, zero and 16 pickups.', '',
     `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
   ].join('\n');
@@ -26171,7 +26597,7 @@ const {parseBTP} = require("src/btp.mjs");
 const {parseSpatialIndex} = require("src/spatial-index.mjs");
 const {parseStaticModelLinks} = require("src/model-links.mjs");
 
-const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1).filter(n => ![16,17].includes(n)));
+const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1));
 // Leave half the recovered 512-body registry for vehicles, pickups and effects.
 // This is an editor bound, not a recovered maximum authored placement count.
 const SCENERY_PLACEMENT_LIMIT = 256;
@@ -26548,41 +26974,11 @@ function collisionDescription(summary) {
 
 Object.assign(module.exports, {collisionLabel,collisionDescription});
 },
-"tools/track-viewer/collision-overlay.mjs": function(require, module, Buffer) {
-Object.assign(module.exports, {});
-// A preview-only wire overlay, sharing the renderer's line shader and camera.
-// No collision geometry/settings enter the simulation from this component.
-class CollisionOverlay {
-  constructor(renderer){this.renderer=renderer;this.groups=[];this.draws=0;}
-  clear(){for(const group of this.groups)this.renderer.gl.deleteBuffer(group.buffer);this.groups=[];this.draws=0;}
-  set(preview){
-    this.clear();const gl=this.renderer.gl;
-    for(const group of preview.groups)for(const key of ['lines','normals'])if(group[key].length){
-      const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(group[key]),gl.STATIC_DRAW);
-      this.groups.push({buffer,count:group[key].length/3,active:group.active,normals:key==='normals'});
-    }
-  }
-  render(navigation,{show,disabled,normals}){
-    this.draws=0;if(!show||!this.groups.length)return;
-    const r=this.renderer,gl=r.gl;gl.useProgram(r.pathProgram);
-    for(const attribute of Object.values(r.attributes))gl.disableVertexAttribArray(attribute);
-    gl.enableVertexAttribArray(r.pathPosition);gl.uniformMatrix4fv(r.pathUniforms.mvp,false,navigation.matrix(r.canvas.width/r.canvas.height));
-    gl.depthMask(false);gl.disable(gl.DEPTH_TEST);
-    try{for(const group of this.groups){
-      if((!group.active&&!disabled)||(group.normals&&!normals))continue;
-      gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);gl.vertexAttribPointer(r.pathPosition,3,gl.FLOAT,false,12,0);
-      gl.uniform3fv(r.pathUniforms.color,!group.active?[0.55,0.58,0.64]:group.normals?[1,0.72,0.25]:[0.15,1,1]);
-      gl.drawArrays(gl.LINES,0,group.count);this.draws+=group.count/2;
-    }}finally{gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.disableVertexAttribArray(r.pathPosition);gl.useProgram(r.program);}
-  }
-}
-
-Object.assign(module.exports, {CollisionOverlay});
-},
 "src/track-editor-project.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {parseTrackProject,compileTrackDraft,validateTrackProject});
 const {SCENERY_LEVELS, validateSceneryRows, compileSceneryEdits} = require("src/scenery-editor.mjs");
 const {validatePickupDraft, compilePickupEdits} = require("src/pickup-editor.mjs");
+const {compileTerrainEdits,emptyTerrainDraft} = require("src/terrain-editor.mjs");
 
 const hash = value => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
 function fields(value,keys,label) {
@@ -26591,7 +26987,7 @@ function fields(value,keys,label) {
 function parseTrackProject(value) {
   const project=typeof value==='string'?JSON.parse(value):value;
   fields(project,['schemaVersion','game','indexSha256','sources','levels'],'track project');
-  if(project.schemaVersion!==2 || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
+  if(![2,3].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
   if(!Array.isArray(project.sources)||project.sources.length>SCENERY_LEVELS.length||!Array.isArray(project.levels)||project.levels.length>SCENERY_LEVELS.length) throw Error('Invalid project level list.');
   const seen=new Set(), sources=project.sources.map(source=>{
     fields(source,['level','hashes'],'source');
@@ -26602,23 +26998,31 @@ function parseTrackProject(value) {
   });
   seen.clear();
   const levels=project.levels.map(row=>{
-    fields(row,['level','pickups','models'],'edited level');
+    fields(row,project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
     if(!SCENERY_LEVELS.includes(row.level)||seen.has(row.level)||!sources.some(s=>s.level===row.level)) throw Error('Unsupported, duplicate or missing project source.');seen.add(row.level);
     // Template existence and locked objects are validated against original bytes
     // at compile time. Never accept raw patches or caller-supplied model bytes.
     if(!Array.isArray(row.pickups)||row.pickups.length>16)throw Error('Invalid pickup draft.');
     const models=validateSceneryRows(row.models);
     if(models.some(m=>!sources.some(s=>s.level===m.sourceLevel)))throw Error('Missing donor source hash.');
-    return {level:row.level,pickups:structuredClone(row.pickups),models};
+    let terrain;if(project.schemaVersion===3){
+      fields(row.terrain,['heights','surfaces'],'terrain');
+      if(!Array.isArray(row.terrain.heights)||!Array.isArray(row.terrain.surfaces)||row.terrain.heights.length>1000000||row.terrain.surfaces.length>1000000)throw Error('Invalid terrain edit list.');
+      for(const r of row.terrain.heights){fields(r,['sector','vertex','height'],'height');if(Object.values(r).some(n=>!Number.isInteger(n))||r.sector<0||r.vertex<0||r.height< -32768||r.height>32767)throw Error('Invalid terrain height.');}
+      for(const r of row.terrain.surfaces){fields(r,['sector','cell','sourceSector','sourceCell'],'surface');if(Object.values(r).some(n=>!Number.isInteger(n)||n<0))throw Error('Invalid surface edit.');}
+      terrain=structuredClone(row.terrain);
+    }
+    return {level:row.level,pickups:structuredClone(row.pickups),models,...(terrain?{terrain}:{})};
   });
-  return {schemaVersion:2,game:'rollcage',indexSha256:project.indexSha256,sources,levels};
+  return {schemaVersion:project.schemaVersion,game:'rollcage',indexSha256:project.indexSha256,sources,levels};
 }
 
-function compileTrackDraft(pair,{level,pickups,models},donors) {
+function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft()},donors) {
   const result={};
   for(const quality of ['LOW','HIGH']) {
     validatePickupDraft(pair[quality].geometry,pickups);
-    const compiled=compileSceneryEdits(pair[quality],models,{level,quality,donors});
+    const geometry=compileTerrainEdits(pair[quality].geometry,terrain);
+    const compiled=compileSceneryEdits({...pair[quality],geometry},models,{level,quality,donors});
     result[quality]={...compiled,geometry:compilePickupEdits(compiled.geometry,pickups)};
   }
   return result;

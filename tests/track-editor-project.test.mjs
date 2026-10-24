@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {sceneryFixture} from './lib/scenery-fixture.mjs';
 import {createSceneryDraft} from '../src/scenery-editor.mjs';
 import {compileTrackDraft,parseTrackProject,validateTrackProject} from '../src/track-editor-project.mjs';
+import {terrainFixture} from './lib/terrain-fixture.mjs';
 const h='a'.repeat(64),hashes={LOW:{geometry:h,texture:h},HIGH:{geometry:h,texture:h}};
 function fixture(){const source=sceneryFixture();source.geometry.writeUInt32LE(0x1480,0x90);source.geometry[0x94]=1;const models=createSceneryDraft(source.geometry,source.texture,1);models[0].yaw=1024;const row={level:1,pickups:[{id:'pickup',templateIndex:0,position:[1,2,3]}],models};return {source,row,project:{schemaVersion:2,game:'rollcage',indexSha256:h,sources:[{level:1,hashes}],levels:[row]}};}
 test('combined project compiles scenery and pickups in LOW and HIGH without losing either change',()=>{
@@ -17,4 +18,12 @@ test('source hash, donor, schema, unknown patches and failed HIGH validation rej
   assert.throws(()=>validateTrackProject(project,{indexSha256:h,sources,hashes:new Map()}),/source.*hash/);
   assert.throws(()=>parseTrackProject({...project,patch:[]}));const bad=structuredClone(project);bad.levels[0].models[0].sourceLevel=2;assert.throws(()=>parseTrackProject(bad),/donor/);
   const high={geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture)};high.texture[0x500+31]=1;assert.throws(()=>compileTrackDraft({LOW:source,HIGH:high},row,sources),/locked/);
+});
+
+test('version 3 preserves sparse terrain and compiles it with both qualities while version 2 remains unchanged',()=>{
+ const geometry=terrainFixture(),texture=Buffer.alloc(0x40);texture.write('BTP ');const pair={LOW:{geometry,texture},HIGH:{geometry:Buffer.from(geometry),texture:Buffer.from(texture)}};
+ const terrain={heights:[{sector:0,vertex:4,height:-8}],surfaces:[]},row={level:16,pickups:[],models:[],terrain},project={schemaVersion:3,game:'rollcage',indexSha256:h,sources:[{level:16,hashes}],levels:[row]};
+ assert.deepEqual(parseTrackProject(project),project);const result=validateTrackProject(project,{indexSha256:h,sources:new Map([[16,pair]]),hashes:new Map([[16,hashes]])});for(const q of ['LOW','HIGH'])assert.equal(result.compiled.get(16)[q].geometry.readInt16LE(0x1240+4*8+2),-8);
+ const original=Buffer.from(pair.LOW.geometry);pair.HIGH.geometry[0x1166]=1;assert.throws(()=>compileTrackDraft(pair,row),/Animated/);assert.deepEqual(pair.LOW.geometry,original);
+ const invalid=structuredClone(project);invalid.levels[0].terrain.heights[0].patch=[];assert.throws(()=>parseTrackProject(invalid),/fields/);
 });

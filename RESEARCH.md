@@ -1,5 +1,7 @@
 # Rollcage Redux reconstruction
 
+Current capabilities and acceptance limits: [status](re-docs/reconstruction-status.md), [research index](re-docs/README.md), [viewer deliveries](docs/changelog/index.html). This document retains historical checkpoints; newer reports can supersede earlier unfinished-work statements.
+
 The separate [3D Object Viewer](docs/object-viewer.html) browses and downloads
 textured models from Rollcage, Stage II and Firebugs. It uses the same local
 archive inputs as the Track Viewer and exports selected model-local OBJ/MTL/PNG

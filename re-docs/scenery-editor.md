@@ -36,10 +36,11 @@ alone does not establish ordinary static behavior: many such objects carry
 grouped destruction or attachment metadata. Vehicle imports and Blender models
 are outside this feature.
 
-Verified Rollcage levels 1–15 and 18–20 can be editing targets and libraries.
+All 20 verified Rollcage levels can be editing targets and libraries.
 Some contain no compatible original scenery, but can receive compatible imports.
-The corpus check found editable original models in 13 of these 18 levels.
-LEV16/17 remain excluded. Stage II, Firebugs and unknown releases remain viewers.
+The historical pre-LEV16/17 corpus check found editable originals in 13 of its
+18 levels. LEV16/17 now support editing and static preview; AI racing remains
+disabled. Stage II, Firebugs and unknown releases remain viewers.
 
 Every committed operation compiles and validates LOW and HIGH before changing
 the draft. Cross-library support is conditional on native capacities. In

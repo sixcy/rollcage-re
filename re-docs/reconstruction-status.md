@@ -1,25 +1,23 @@
-# Reconstruction status
+# Current reconstruction and editor status
 
-The current target is Rollcage Redux.exe1.3.8.0, SHA-256`c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5`. The project contains JavaScript reference implementations and retained binary evidence. It cannot yet rebuild or run the original game.
+Updated 2026-10-25. Target: Rollcage Redux 1.3.8.0. This repository contains JavaScript reference implementations, asset tools and retained evidence. A standalone game rebuild remains unfinished. Historical percentage estimates had no measured denominator and are not current completion figures.
 
-The rough planning estimate given on2026-10-21 is **15–25% of relevant game modules**, centered around20%. This is a low-confidence judgment about subsystem coverage. There is no complete function-to-module inventory or measured denominator; counting every executable function would also count runtime/library code. Passing fixtures measure the fidelity of tested components, not the fraction of the game reconstructed.
-
-| Subsystem | Reference implementation state | Main remaining work |
+| Area | Available | Evidence and remaining work |
 | --- | --- | --- |
-| Archive and names | All344 resources validated; GT20 and filename lookup recovered | Less common loading/error paths and runtime ownership |
-| Textures |84 BTP files,2096 active PC pages decoded | HIGH pack image decoder and original upload/render behavior |
-| Models and tracks |84 GFXM files,3460 primary models,1496 sectors; textured scene export/viewer | Runtime model preparation, remaining LOD/effect structures and animation |
-| Placement/materials |7692 placement records,5172 ordinary instances and material mapping | Special objects and dynamic construction |
-| Collision geometry | Terrain regions, spatial index, model lists, rays and sphere point/edge/face queries | Object-driven geometry changes and remaining allocation/lifecycle |
-| Vehicle/body physics | Fixed-point math, pose/inertia, suspension, drive/traction, assists, contact friction and response | Runtime tuning/control producers and complete interaction with effects/gameplay |
-| Frame orchestration | Ordinary/scripted preparation, shared candidates, grouping, event generation/refresh and final movement connected | Full surrounding game tick and original side-effect producers |
-| Effects near physics | World-record pass, radial impulse/damping and rejected-contact completion recovered | Active-state target implementation, emissions/audio and effect producers |
-| Scripted objects | Motion VM, curves, timers and spatial teleports | Release/filter/effect integration and real bytecode selection |
-| Attachments | Queue generation and tagged-handle consumer traced | Numeric consumer integration, target registration and model-point producer |
-| Race/gameplay | Track/progression context fields exposed as declared inputs | Race flow, AI, weapons, pickups, lap/checkpoint rules and scoring |
-| Rendering/UI/audio | Asset previews export recovered data through a separate viewer | Original drawing, cameras, menus/HUD, sound and music systems |
-| Platform/persistence | Target and packaging identified | Input, saves/settings, networking and platform runtime |
+| Assets | Rollcage LOW/HIGH, Stage II and Firebugs scenes; textured export and assembled Rollcage cars | Installed-data/browser checks; special contexts and original rendering remain partial |
+| Racing test | 1–6 Expert cars, default 3; recovered AI/physics, weapons, pickups and recovery | Super experimental. LEV16/17 racing is unavailable. Continuous native-race equivalence is unproved |
+| Physics | One recorded complete six-car update matches 5,107,238 distinct declared bytes and checked return/counter state | One case, not coverage of all scenarios or continuous races |
+| Pickups | Add/move/delete, projects and game-file export | Six selected LEV1 native acceptance cases; other levels have separate coverage limits |
+| Static scenery | Move/yaw/duplicate/delete and compatible imports; collision preview | Active collision records do not prove solid obstacles; native export acceptance remains separate |
+| Terrain editing | Height brushes, full surface presets, undo/redo, v3 projects and export on all 20 levels | Forty variants pass representative source checks; selected LEV1 native wheel contacts match exported planes; LEV16/17 native loading is checked separately |
+| Audio/rendering/platform | Many recovered components | Complete operational integration remains unfinished |
 
-The connected level probe exercises consecutive synthetic vehicle frames on all80 level packs. Inputs, allocation order, floating conversion mode and callback boundaries are declared in each report. Retained-instruction checks compare reconstructed routines with a bounded interpreter; they do not execute the original executable or capture real game trajectories.
+## Development baseline
 
-Current detailed findings and verification checkpoints are maintained in[RESEARCH.md](../RESEARCH.md),[simulation-frame.md](simulation-frame.md) and[unattended-progress.md](unattended-progress.md). The earlier estimate of70–85% for core asset formats and65–80% for core physics uses the same judgment-based scope; neither includes a complete loader, renderer or race simulation.
+The retained broad run in analysis/scenery-editor-suite-20261024-v1.log recorded 2,787 passes and 52 failures out of 2,839 tests. The read-only classification in analysis/editor-inherited-failures-20261025-v1.json finds 34 vector-instruction admission failures, four native-global admission failures, five audio/recovery comparisons, seven capture/replay regressions and two generated-page checks. This is a classification of that historical run, not a rerun or a claim that every failure persists.
+
+The focused editor group passed all 84 tests in analysis/editor-delivery-final-20261025-v2/report.json. The separate native observer-policy regression passed without launching the game. Source checks, real browser clicks, project reloads and ZIP resource comparisons are retained in analysis/terrain-editor-matrix-20261025-v1.json, analysis/terrain-editor-browser-20261025-v3/report.json and analysis/editor-workspaces-browser-20261025-v3/report.json. Native terrain acceptance and its limits are linked from [terrain editor notes](terrain-editor.md). Generated pages are checked against current sources. These focused results do not establish a green whole-repository suite.
+
+Run `node tools/check-editor.mjs NEW_DIRECTORY` for focused checks and `node tools/audit-test-baseline.mjs NEW_REPORT.json` for retained failure classification. Broad sweeps must preserve historical output paths using isolated workspaces where needed.
+
+[Research index](README.md) · [Delivery history](../docs/changelog/index.html) · [Physics ledger](physics-fidelity.md) · [Native update checkpoint](native-parent-final-tick-checkpoint.md)

@@ -1,3 +1,5 @@
+import {TerrainEditorUI} from './terrain-editor-ui.mjs';
+import {emptyTerrainDraft} from '../../src/terrain-editor.mjs';
 import {PickupEditor} from './pickup-editor-ui.mjs';
 import {getGame} from '../../src/track-games.mjs';
 import {parseGFXM} from '../../src/gfxm.mjs';
@@ -29,10 +31,10 @@ export class TrackEditor extends PickupEditor {
   constructor(options) {
     super(options);
     this.modelsEditing=false;this.modelSelected=null;this.modelPending=null;this.modelDrag=null;this.modelSerial=0;this.libraryToken=0;
-    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.refresh();
+    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.terrainEditing=false;this.terrain=new TerrainEditorUI(this);this.refresh();
   }
-  get active(){return this.editing||this.modelsEditing;}
-  get hasEdits(){return [...this.levels.values()].some(base=>!same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal));}
+  get active(){return this.editing||this.modelsEditing||this.terrainEditing;}
+  get hasEdits(){return [...this.levels.values()].some(base=>!same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length));}
   async readLevel(level,source) {
     const base=await super.readLevel(level,source);
     // Pickup loading has finished, but the shared level must not become visible
@@ -49,38 +51,51 @@ export class TrackEditor extends PickupEditor {
       if(!same(base.modelOriginal,high))throw Error('LOW/HIGH scenery placements differ.');
       base.highInfo=inspectScenery(base.HIGH.geometry,base.HIGH.texture);
       base.collisions={LOW:inspectSceneryCollisions(base.LOW.geometry,base.LOW.texture),HIGH:inspectSceneryCollisions(base.HIGH.geometry,base.HIGH.texture)};
-      base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];
+      base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];
       base.hashes={};for(const quality of ['LOW','HIGH'])base.hashes[quality]={geometry:base.sourceHashes[quality],texture:await pickupSha256(base[quality].texture)};
       if(this.archive!==source)throw Error('Archive changed while checking scenery.');
       this.levels.set(level,base);
       return base;
     } catch(error){if(this.levels.get(level)===base)this.levels.delete(level);throw error;}
   }
-  async setSource(...args){this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
-  clearTrack(){this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
+  async setSource(...args){this.terrain?.cancel();this.terrainEditing=false;this.terrain&&(this.terrain.paletteBase=null);this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
+  clearTrack(){this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
   async setTrack(track,scene){this.track=track;await super.setTrack(track,scene);this.refresh();}
-  setEditing(enabled,options){this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
+  setEditing(enabled,options){this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
   setModelsEditing(enabled){
+    this.terrain?.cancel();this.terrainEditing=false;
     this.releaseMouse();this.cancelModels();this.editing=false;this.adding=false;this.modelsEditing=Boolean(enabled&&this.current?.modelDraft);
-    if(this.modelsEditing){this.navigation.setMode('orbit');el('objects').checked=true;}
+    if(this.modelsEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');el('objects').checked=true;}
     this.onModeChange(this.active);this.refresh();
   }
+  setTerrainEditing(kind){
+    this.releaseMouse();this.cancelModels();this.editing=false;this.modelsEditing=false;this.adding=false;this.terrainEditing=Boolean(kind&&this.current);
+    if(this.terrainEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');this.terrain.setKind(kind);}
+    this.onModeChange(this.active);this.refresh();
+  }
+  commitTerrain(draft){
+    const base=this.current;if(same(draft,base.terrainDraft))return;
+    const compiled=this.compile(base,base.modelDraft,base.draft,draft);base.terrainUndo.push(copy(base.terrainDraft));if(base.terrainUndo.length>100)base.terrainUndo.shift();base.terrainRedo=[];base.terrainDraft=copy(draft);base.compiled=compiled;base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
+  }
+  terrainHistory(from,to){
+    this.terrain.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,next);base[to].push(copy(base.terrainDraft));base.terrainDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);this.revision++;this.onChange();this.refresh();
+  }
   sources(){return new Map([...this.levels].filter(([,base])=>base.modelDraft).map(([level,base])=>[level,{LOW:base.LOW,HIGH:base.HIGH}]));}
-  compile(base=this.current,models=base.modelDraft,pickups=base.draft){
-    const signature=JSON.stringify([models,pickups]);
+  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft()){
+    const signature=JSON.stringify([models,pickups,terrain]);
     if(base.compiledSignature===signature)return base.compiled;
-    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models},this.sources());
+    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain},this.sources());
     // Cache only committed state; rejected previews never replace it.
-    if(models===base.modelDraft&&pickups===base.draft){base.compiledSignature=signature;base.compiled=result;}
+    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft){base.compiledSignature=signature;base.compiled=result;}
     return result;
   }
   resourcesFor(track,geometry,texture){const base=this.levels.get(levelOf(track));return base?.modelDraft?this.compile(base)[qualityOf(track)]:{geometry,texture};}
   geometryFor(track,original){return this.resourcesFor(track,original,null).geometry;}
   async project(){
     if(!this.archive||!this.indexSha256)throw Error('Load original verified Rollcage archives first.');
-    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&(!same(b.draft,b.original)||!same(b.modelDraft,b.modelOriginal))).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft)}));
+    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&(!same(b.draft,b.original)||!same(b.modelDraft,b.modelOriginal)||b.terrainDraft.heights.length||b.terrainDraft.surfaces.length)).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft)}));
     const required=new Set(levels.flatMap(row=>[row.level,...row.models.map(m=>m.sourceLevel)]));
-    return parseTrackProject({schemaVersion:2,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
+    return parseTrackProject({schemaVersion:3,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
   }
   async restoreProject(value){
     let levels,compiled;
@@ -100,13 +115,15 @@ export class TrackEditor extends PickupEditor {
     // All resources, source hashes and both quality compilers passed before any
     // visible draft is changed, including when loading an old pickup project.
     this.cancelModels();this.cancelDrag();
-    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.compiledSignature=null;}
-    for(const row of levels){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.compiled=compiled.get(row.level);base.compiledSignature=JSON.stringify([base.modelDraft,base.draft]);}
-    this.revision++;this.savedRevision=this.revision;this.modelSelected=null;this.selected=null;this.onChange();if(value.schemaVersion===1)this.setEditing(true);else this.setModelsEditing(true);this.say('Track project loaded. Pickups and scenery apply to LOW + HIGH.');
+    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.compiledSignature=null;}
+    for(const row of levels){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain??emptyTerrainDraft());base.compiled=compiled.get(row.level);base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);}
+    this.revision++;this.savedRevision=this.revision;this.modelSelected=null;this.selected=null;this.onChange();
+    const tool=el('editor-tool').value;if(tool==='models')this.setModelsEditing(true);else if(tool==='pickups')this.setEditing(true);else this.setTerrainEditing(tool);
+    this.say('Track project loaded. Edits apply to LOW + HIGH.');
   }
   async exportReplacements(){
     const replacements=new Map();
-    for(const base of this.levels.values())if(base.modelDraft&&(!same(base.modelDraft,base.modelOriginal)||!same(base.draft,base.original))){const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
+    for(const base of this.levels.values())if(base.modelDraft&&(!same(base.modelDraft,base.modelOriginal)||!same(base.draft,base.original)||base.terrainDraft.heights.length||base.terrainDraft.surfaces.length)){const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
     return replacements;
   }
   bindModels(){
@@ -165,7 +182,7 @@ export class TrackEditor extends PickupEditor {
     if(same(draft,this.current.modelDraft))return;
     const compiled=this.compile(this.current,draft); // both variants, before history/draft mutation
     this.current.modelUndo.push(copy(this.current.modelDraft));if(this.current.modelUndo.length>100)this.current.modelUndo.shift();this.current.modelRedo=[];this.current.modelDraft=copy(draft);
-    this.current.compiled=compiled;this.current.compiledSignature=JSON.stringify([this.current.modelDraft,this.current.draft]);
+    this.current.compiled=compiled;this.current.compiledSignature=JSON.stringify([this.current.modelDraft,this.current.draft,this.current.terrainDraft]);
     this.revision++;this.modelPicks.clear();this.cancelModels();this.onChange();this.refresh();
   }
   modelHistory(from,to){
@@ -177,7 +194,7 @@ export class TrackEditor extends PickupEditor {
     this.modelPending=null;this.modelDrag=null;this.placementMessage='';this.placementFailed=false;this.renderer?.setEditorGhost(null);this.renderer?.editorTransforms.clear();
     this.renderer?.setEditorBounds(null);
   }
-  cancelDrag(){super.cancelDrag();if(this.modelDrag){this.modelDrag=null;this.renderer.editorTransforms.clear();this.refresh();}}
+  cancelDrag(){this.terrain?.cancel();super.cancelDrag();if(this.modelDrag){this.modelDrag=null;this.renderer.editorTransforms.clear();this.refresh();}}
   async openLibrary(){
     this.cancelModels();this.releaseMouse();el('model-library-level').value=String(this.current.level);el('model-library').showModal();
     this.previewRenderer??=new Renderer(el('model-library-canvas'));this.previewNavigation??=new Navigation();
@@ -255,6 +272,7 @@ export class TrackEditor extends PickupEditor {
     this.cancelModels();this.modelPending={sourceLevel,templateIndex,yaw,position:null,clearance:Math.max(0,-scene.bounds[1][0])};this.placementMessage='Left-click terrain to place this model. Esc cancels.';this.renderer.setEditorGhost(scene);this.say('Click terrain to place the model. Esc cancels without adding anything.');this.refresh();
   }
   pointerDown(event){
+    if(this.terrainEditing)return this.terrain.pointerDown(event);
     if(!this.modelsEditing)return super.pointerDown(event);
     if(this.busy||event.button!==0||event.shiftKey||!this.current)return false;
     const ray=cameraRay(this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY);
@@ -281,6 +299,7 @@ export class TrackEditor extends PickupEditor {
     return true;
   }
   pointerMove(event){
+    if(this.terrainEditing)return this.terrain.pointerMove(event);
     if(!this.modelsEditing)return super.pointerMove(event);
     if(!this.modelPending&&!this.modelDrag)return false;
     const hit=intersectTerrain(this.scene,cameraRay(this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY));if(!hit)return Boolean(this.modelDrag);
@@ -292,11 +311,12 @@ export class TrackEditor extends PickupEditor {
     this.renderer.editorTransforms.set(this.compile()[qualityOf(this.track)].indices[drag.row.id],matrix);this.renderer.setEditorBounds(this.modelBounds({...drag.row,position:drag.position}));return true;
   }
   pointerUp(){
+    if(this.terrainEditing)return this.terrain.pointerUp();
     if(!this.modelDrag)return super.pointerUp();const drag=this.modelDrag;this.modelDrag=null;this.renderer.editorTransforms.clear();
     if(drag.moved)this.perform(()=>{const draft=copy(this.current.modelDraft);draft.find(p=>p.id===drag.row.id).position=drag.position;this.commitModels(draft);});else this.refresh();return true;
   }
   refresh(){
-    super.refresh();
+    super.refresh();this.terrain?.refresh();
     hidden('model-placement-feedback',!this.modelPending);text('model-placement-title',this.placementFailed?'Cannot place model here':'Place model');text('model-placement-message',this.placementMessage||'');
     const base=this.current,available=Boolean(base?.modelDraft),active=available&&this.modelsEditing&&!this.busy,row=this.modelRow(),editable=active&&this.modelEditable(row);
     disabled('models-enable',!available||this.busy);if(el('models-enable').checked!==Boolean(this.modelsEditing))el('models-enable').checked=Boolean(this.modelsEditing);hidden('models-controls',!this.modelsEditing);
@@ -310,8 +330,8 @@ export class TrackEditor extends PickupEditor {
     ['x','y','z','yaw'].forEach((key,i)=>{const input=el(`models-${key}`),value=String(values[i]);if(document.activeElement!==input&&input.value!==value)input.value=value;});
     text('models-reason',row?(this.modelEditable(row)?'Plain scenery · edits update its collision lookup.':this.modelReason(row)):'Select a model in the view or list.');
     if(this.modelsEditing&&!this.modelDrag)this.renderer.setEditorBounds(row?this.modelBounds(row):null);
-    disabled('editor-test',!base||this.busy);
-    text('models-note',available?`${base.modelDraft.length} placed models · ${base.modelDraft.filter(p=>this.modelEditable(p)).length} editable · LOW + HIGH`:'Requires verified Rollcage archives. LEV16/17 are excluded.');
+    disabled('editor-test',!base||this.busy);text('editor-test',[16,17].includes(base?.level)?'Preview changes':'Test changes');
+    text('models-note',available?`${base.modelDraft.length} placed models · ${base.modelDraft.filter(p=>this.modelEditable(p)).length} editable · LOW + HIGH`:'Requires verified Rollcage archives.');
   }
-  inspect(){return {...super.inspect(),active:this.active,modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),modelSelected:this.modelSelected,placingModel:Boolean(this.modelPending),modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
+  inspect(){return {...super.inspect(),active:this.active,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),modelSelected:this.modelSelected,placingModel:Boolean(this.modelPending),modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
 }

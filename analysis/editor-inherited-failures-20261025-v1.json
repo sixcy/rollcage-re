@@ -1,0 +1,330 @@
+{
+  "input": "analysis/scenery-editor-suite-20261024-v1.log",
+  "scope": "Classification of retained 2026-10-24 failures, not a rerun or evidence that every failure persists. Generated pages and focused editor results are checked separately.",
+  "summary": [
+    "ℹ tests 2839",
+    "ℹ pass 2787",
+    "ℹ fail 52"
+  ],
+  "counts": {
+    "audio/recovery source-or-oracle regression": 5,
+    "instruction-interpreter vector admission": 34,
+    "native global/alias admission": 4,
+    "native capture/replay regression": 7,
+    "generated page freshness": 2
+  },
+  "failures": [
+    {
+      "file": "tests/audio-manager-update.test.mjs",
+      "test": "✖ real manager locks/events/time and mixer hierarchy match original full-memory/private instructions (8215.611ms)",
+      "error": "AssertionError [ERR_ASSERTION]: fixture 1 byte0x1efa0 source c667663f486b4a000c000000464545003534340013121200 native c2f5683f486b4a000c000000464545003534340013121200",
+      "category": "audio/recovery source-or-oracle regression"
+    },
+    {
+      "file": "tests/audio-manager-update.test.mjs",
+      "test": "✖ populated steady nonspatial manager sources execute real arbitration/sort/parameter descendants (9015.1091ms)",
+      "error": "AssertionError [ERR_ASSERTION]: fixture 1 ordered external ABI",
+      "category": "audio/recovery source-or-oracle regression"
+    },
+    {
+      "file": "tests/audio-manager-update.test.mjs",
+      "test": "✖ duplicate retired pointers are erased in original order through real source destruction (7997.6591ms)",
+      "error": "AssertionError [ERR_ASSERTION]: fixture 1 byte0x1efa0 source c667663f486b4a000c000000464545003534340013121200 native c2f5683f486b4a000c000000464545003534340013121200",
+      "category": "audio/recovery source-or-oracle regression"
+    },
+    {
+      "file": "tests/audio-manager-update.test.mjs",
+      "test": "✖ relocated original instructions match actual sparse manager/mixer and empty-consumer memory (9643.9666ms)",
+      "error": "AssertionError [ERR_ASSERTION]: fixture 1 byte0x1efa0 source c667663f486b78000c000000464545003534340013121200 native c2f5683f486b78000c000000464545003534340013121200",
+      "category": "audio/recovery source-or-oracle regression"
+    },
+    {
+      "file": "tests/body-retirement.test.mjs",
+      "test": "✖ ordinary-address435ba0 burst and actual emitter/null-bank children retain the instruction baseline (27.0224ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-body-effect-impulse.test.mjs",
+      "test": "✖ 47b020 active producer and482730 preserve all actual memory including saved/local stack (620.8804ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /test-parent-preRET/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-body-effect-impulse.test.mjs",
+      "test": "✖ actual emission preserves original owner while later direction/lookup/code/body-pointer reads remain live (21.8553ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /test-parent-preRET/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-body-effect-impulse.test.mjs",
+      "test": "✖ actual4749e0 active producer and following initial terrain queries match mapped state and reached stack inputs (8862.8964ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-body-effect-impulse.test.mjs",
+      "test": "✖ disjoint sparse-ASLR producer retains real pointers across ordinary/fallback/active/emission branches (546.7621ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /test-parent-preRET/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-control-sound-creation.test.mjs",
+      "test": "✖ collision sound19 caller registers and all shared emitter bytes match real relocated caller/emitter/dispatcher instructions (9481.1865ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /observed-after-emitter/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-control-surface-loop-creation.test.mjs",
+      "test": "✖ surface replacement authentic caller/stop/emitter/dispatcher bytes match retained code under PE ASLR (9176.7024ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Constructed surface return/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-control-surface-loop-start.test.mjs",
+      "test": "✖ initial surface-loop caller/emitter/dispatcher matches retained code for signed counters, smoke and ASLR (9296.9047ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Constructed initial-loop return/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-control-tyre-sound-creation.test.mjs",
+      "test": "✖ tyre onset caller/emitter/dispatcher shared state matches retained code with real PE relocation (8996.1724ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Constructed tyre return observation/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-effect-emitter.test.mjs",
+      "test": "✖ actual emitter and naturally-null dispatcher match every shared-stack byte through native preRET (14.093ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /At 0x484c70: test-preRET-boundary/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-effect-emitter.test.mjs",
+      "test": "✖ populated owner with actual null round-robin slot matches full native SEH/cookie/argument stack (6.6893ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /At 0x484c70: test-preRET-boundary/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-global-physics-consumers.test.mjs",
+      "test": "✖ physics views distinguish module group headers from actual clone pointers with902xxx bits (5.8128ms)",
+      "error": "Error: Unobserved native global operand0x91cd90.",
+      "category": "native global/alias admission"
+    },
+    {
+      "file": "tests/native-global-physics-consumers.test.mjs",
+      "test": "✖ event and attachment consumers translate fixed slots while preserving their raw pointer values (2.0727ms)",
+      "error": "Error: Unobserved native global operand0x91cd90.",
+      "category": "native global/alias admission"
+    },
+    {
+      "file": "tests/native-global-physics-consumers.test.mjs",
+      "test": "✖ raw body spatial algorithms resolve the fixed arena root and retain actual overlapping body addresses (1.8346ms)",
+      "error": "Error: Unobserved native global operand0x91cd90.",
+      "category": "native global/alias admission"
+    },
+    {
+      "file": "tests/native-global-tail-consumers.test.mjs",
+      "test": "✖ physics time globals preserve an exempt body pointer whose bits overlap a relocated fixed operand (2.1457ms)",
+      "error": "Error: Unobserved native global operand0x91cd90.",
+      "category": "native global/alias admission"
+    },
+    {
+      "file": "tests/native-observation-activation.test.mjs",
+      "test": "✖ host activation rejects missing guards, filters, unknown sites and inconsistent thread scopes without launching (5645.5432ms)",
+      "error": "AssertionError [ERR_ASSERTION]: scope-missing",
+      "category": "native capture/replay regression"
+    },
+    {
+      "file": "tests/native-parent-camera-replay.test.mjs",
+      "test": "✖ original V2 camera update carries source physics, clone query and authenticated CRT through exact viewport output; weather remains unproved (10213.1222ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /source call lacks its recovered common-tail frame\\/type tokens/. Input:",
+      "category": "native capture/replay regression"
+    },
+    {
+      "file": "tests/native-parent-tail-capture.test.mjs",
+      "test": "✖ actual late capture admits disjoint entry-only aliases and carries all three earlier stages with the new observed inputs (8928.4102ms)",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+      "category": "native capture/replay regression"
+    },
+    {
+      "file": "tests/native-parent-tail-capture.test.mjs",
+      "test": "✖ original V5 carries three type1 light positions through attachments, recovery and drive from original parent entry (6942.068ms)",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+      "category": "native capture/replay regression"
+    },
+    {
+      "file": "tests/native-parent-tail-capture.test.mjs",
+      "test": "✖ original V6 carries source state through auxiliary updates and stops before an unobserved CRT cast (7520.5125ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Viewport application requires CRT dynamicCast/. Input:",
+      "category": "native capture/replay regression"
+    },
+    {
+      "file": "tests/native-parent-weather-replay.test.mjs",
+      "test": "✖ original V4 carries overlapping ASLR globals and source-mutated channel pointers through cameras, then consumes both weather casts before missing QPC (9988.0443ms)",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+      "category": "native capture/replay regression"
+    },
+    {
+      "file": "tests/native-physics-return-local.test.mjs",
+      "test": "✖ original collision frame derives the POP ECX local from real responses and detects corruption (6509.7263ms)",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+      "category": "native capture/replay regression"
+    },
+    {
+      "file": "tests/native-recovery-audio-call.test.mjs",
+      "test": "✖ retained parent/emitter/absent-bank dispatcher match shared stack through emitter preRET (7.761ms)",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /At 0x484c70: recovery-emitter-preRET/. Input:",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-audio-prefix.test.mjs",
+      "test": "✖ connected parent derives both ordinary and vehicle caller registers and all seven words from real game producers (6873.9642ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-context.test.mjs",
+      "test": "✖ captured parent recovery binding performs actual nearest/query/apply/progression/ring graph against retained instructions (136.4994ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-leaf-capture.test.mjs",
+      "test": "✖ pointed exit descriptors resolve the original parent inputs after native argument slots are overwritten (6465.6306ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-leaf-replay.test.mjs",
+      "test": "✖ query and apply leaf replays match actual interpreted parent-produced calls at both return sites (143.3691ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-leaf-replay.test.mjs",
+      "test": "✖ apply leaf reaches actual checkpoint progression and compares its real backing/controller spans (113.3553ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-leaf-replay.test.mjs",
+      "test": "✖ leaf comparison checks nonvolatile/ESP/queryEAX and includes query output even in ABI storage (100.8083ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-leaf-replay.test.mjs",
+      "test": "✖ leaf input admission rejects missing arguments/caller/numerical state rather than replacing answers (143.5993ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-recovery-leaf-replay.test.mjs",
+      "test": "✖ standalone leaf capture pairing preserves actual arguments/both exits and rejects ambiguous branch skips (109.9494ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/native-vehicle-active-effect-stack.test.mjs",
+      "test": "✖ 41e080 supplies actual active-child registers/code/return and preserves reached482730 shared stack (7492.2854ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/object-viewer.test.mjs",
+      "test": "✖ standalone object page matches current browser sources and links to the other local tools (55.7023ms)",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+      "category": "generated page freshness"
+    },
+    {
+      "file": "tests/pickup-world-state.test.mjs",
+      "test": "✖ actual populated collection, respawn and particle native closure (6193.6015ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/pickup-world-state.test.mjs",
+      "test": "✖ actual constructors feed scripted timers, respawning, collection and reuse (6322.6412ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/pickup-world-state.test.mjs",
+      "test": "✖ collected-award network payload consumes the real surviving PUSH6 stack word (6140.845ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/placed-model-effect-update.test.mjs",
+      "test": "✖ full pending-effect graph, populated sound services and persistent damage chains match retained instructions (6124.8043ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/projectile-trails.test.mjs",
+      "test": "✖ actual signed ring, transform, spatial, event and sound native instructions (6003.2498ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/race-object-update.test.mjs",
+      "test": "✖ object dispatcher and actual effect/spatial descendants match retained instructions (6249.6128ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/race-phase-state.test.mjs",
+      "test": "✖ complete phase caller and actual numeric/audio/input/launch children agree with x86 (173.2221ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/sound-manager-polling.test.mjs",
+      "test": "✖ complete polling startup matches native writes across allocation and thread failure (6793.7088ms)",
+      "error": "Error: fixture3 entry4a5d50 diff8fbc JS0400000040420f0087d61200c75d4a0087d6120000000000 native151212000400000000001000c75d4a0087d6120000000000",
+      "category": "audio/recovery source-or-oracle regression"
+    },
+    {
+      "file": "tests/terrain-wave.test.mjs",
+      "test": "✖ actual full terrain-wave lifecycle with palette, dirty queue, scores and particles (5637.9314ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/track-viewer.test.mjs",
+      "test": "✖ generated standalone page matches current sources and embeds no scene payload (165.2625ms)",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:",
+      "category": "generated page freshness"
+    },
+    {
+      "file": "tests/vehicle-audio-connected.test.mjs",
+      "test": "✖ complete vehicle audio chain agrees with retained instructions across persistent populated fixtures (22.1751ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/vehicle-contact-colors.test.mjs",
+      "test": "✖ actual constructor and persistent hit-to-wave instruction chain (8326.5989ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/wormhole-construction.test.mjs",
+      "test": "✖ constructor and bounded activation paths match retained game instructions (6211.2304ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/wormhole-state.test.mjs",
+      "test": "✖ persistent outer frames reach actual transfer and notification through native entryESP (6188.5761ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    },
+    {
+      "file": "tests/wormhole-targeting.test.mjs",
+      "test": "✖ targeting game graph matches retained instructions without game handlers (6012.844ms)",
+      "error": "Error: At 0x484bce: Unadmitted aligned vector move.",
+      "category": "instruction-interpreter vector admission"
+    }
+  ]
+}

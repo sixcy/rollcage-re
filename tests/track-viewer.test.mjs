@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises';
 import { ByteBuffer } from '../tools/track-viewer/byte-buffer.mjs';
 import { Navigation } from '../tools/track-viewer/navigation.mjs';
 import { buildViewerBundle } from '../tools/lib/track-viewer-bundle.mjs';
+import {buildTrackViewerPage,buildChangelog} from '../tools/lib/viewer-page.mjs';
 import { createZIP } from '../tools/track-viewer/zip.mjs';
 import { readTrackZIP } from '../tools/lib/check-track-download.mjs';
 
@@ -98,9 +99,8 @@ test('navigation is frame-time based, normalizes diagonals and clamps pitch/zoom
 });
 
 test('generated standalone page matches current sources and embeds no scene payload', async () => {
-  const template = await readFile(new URL('../tools/track-viewer/viewer.html', import.meta.url), 'utf8');
-  const bundle = (await buildViewerBundle()).replace(/<\/script/gi, '<\\/script');
-  assert.equal(await readFile(new URL('../docs/track-viewer.html', import.meta.url), 'utf8'), template.replace('__VIEWER_BUNDLE__', () => bundle));
+  assert.equal(await readFile(new URL('../docs/track-viewer.html', import.meta.url), 'utf8'), await buildTrackViewerPage());
+  assert.equal(await readFile(new URL('../docs/changelog/index.html', import.meta.url),'utf8'),(await buildChangelog()).history);
 });
 
 test('track ZIP round-trips text, binary PNG bytes and Unicode names with standard CRCs', async () => {
