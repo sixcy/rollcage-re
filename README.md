@@ -1,4 +1,9 @@
-# Rollcage source reconstruction
+# Rollcage reverse engineer effort
+
+## Links
+
+- The track editor can be found here: https://sixcy.github.io/rollcage-re/track-viewer.htmlviewer.html
+- There is also a 3D model viewer: https://sixcy.github.io/rollcage-re/object-viewer.html
 
 ## Foreword (this section is written by me, a human)
 
@@ -12,10 +17,12 @@ But I know one thing for sure: a completely reverse-engineered Rollcage is now r
 
 So I've set up REA, installed Ghidra, installed Codex, set it up to use GPT-6.1-Sol, and up we go..
 
-The only prompt I gave it was:
+The first prompt I gave it was:
 > This project contains a shortcut to Rollcage directory, containing Rollcage video game. I want you to use REA to decompile Rollcage into C source files. The goal is to be able to make modifications to the sources and recompile them to get a modified version of Rollcage.
 
 And the agent has been figuring things out and generating reverse-engineering details ever since..
+
+Note from the future: I am now moving more into the track editor and less into the source reconstruction.
 
 ### What this repository is
 
@@ -28,7 +35,6 @@ This repository **is not** Rollcage source code or a recreation of it.
 So, what will you actually find in there?
 - A bunch of .md files describing what the AI found
 - A lot of JavaScript excerpts that specify the game algorithms ; unit tests to validate them
-- A few demos in .html like [the Track Viewer](docs/track-viewer.html), with publishable pages in `docs/`
 
 What can we make of it? For now, nothing much. But, after a while, when Mr AI will have done his diligent work, this could be the basis to build tools to modify the game data or even the game itself.
 
