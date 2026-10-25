@@ -5,6 +5,11 @@ import {compileRaceLayoutEdits,emptyRaceLayoutDraft} from './race-layout-editor.
 import {compileRaceRouteTopology} from './race-route-topology.mjs';
 import {compileCheckpointTopology} from './checkpoint-topology.mjs';
 import {speedPadPatterns} from './speed-pad-patterns.mjs';
+import {validateProtectedTrackDraft,validateProtectedCompiledTerrain} from './editor-protection.mjs';
+import {compileSplineRoads} from './terrain-construction.mjs';
+import {validateSplineRoad} from './spline-road.mjs';
+import {inspectRaceLayout,raceLayoutMoveConstraint} from './race-layout-editor.mjs';
+import {refreshReversalReport} from './track-reversal.mjs';
 
 const hash = value => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
 function fields(value,keys,label) {
@@ -13,7 +18,7 @@ function fields(value,keys,label) {
 export function parseTrackProject(value) {
   const project=typeof value==='string'?JSON.parse(value):value;
   fields(project,['schemaVersion','game','indexSha256','sources','levels'],'track project');
-  if(![2,3,4,5].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
+  if(![2,3,4,5,6].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
   if(!Array.isArray(project.sources)||project.sources.length>SCENERY_LEVELS.length||!Array.isArray(project.levels)||project.levels.length>SCENERY_LEVELS.length) throw Error('Invalid project level list.');
   const seen=new Set(), sources=project.sources.map(source=>{
     fields(source,['level','hashes'],'source');
@@ -24,7 +29,7 @@ export function parseTrackProject(value) {
   });
   seen.clear();
   const levels=project.levels.map(row=>{
-    fields(row,project.schemaVersion===5?['level','pickups','models','terrain','layout','routeTopology','checkpointTopology','assemblies']:project.schemaVersion===4?['level','pickups','models','terrain','layout']:project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
+    fields(row,project.schemaVersion===6?['level','pickups','models','terrain','layout','routeTopology','checkpointTopology','assemblies','roads','reversal']:project.schemaVersion===5?['level','pickups','models','terrain','layout','routeTopology','checkpointTopology','assemblies']:project.schemaVersion===4?['level','pickups','models','terrain','layout']:project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
     if(!SCENERY_LEVELS.includes(row.level)||seen.has(row.level)||!sources.some(s=>s.level===row.level)) throw Error('Unsupported, duplicate or missing project source.');seen.add(row.level);
     // Template existence and locked objects are validated against original bytes
     // at compile time. Never accept raw patches or caller-supplied model bytes.
@@ -32,11 +37,11 @@ export function parseTrackProject(value) {
     const models=validateSceneryRows(row.models);
     if(models.some(m=>!sources.some(s=>s.level===m.sourceLevel)))throw Error('Missing donor source hash.');
     let terrain;if(project.schemaVersion>=3){
-      fields(row.terrain,project.schemaVersion===5&&row.terrain.patterns!==undefined?['heights','surfaces','patterns']:['heights','surfaces'],'terrain');
+      fields(row.terrain,project.schemaVersion>=5&&row.terrain.patterns!==undefined?['heights','surfaces','patterns']:['heights','surfaces'],'terrain');
       if(!Array.isArray(row.terrain.heights)||!Array.isArray(row.terrain.surfaces)||row.terrain.heights.length>1000000||row.terrain.surfaces.length>1000000)throw Error('Invalid terrain edit list.');
       for(const r of row.terrain.heights){fields(r,['sector','vertex','height'],'height');if(Object.values(r).some(n=>!Number.isInteger(n))||r.sector<0||r.vertex<0||r.height< -32768||r.height>32767)throw Error('Invalid terrain height.');}
       for(const r of row.terrain.surfaces){fields(r,['sector','cell','sourceSector','sourceCell'],'surface');if(Object.values(r).some(n=>!Number.isInteger(n)||n<0))throw Error('Invalid surface edit.');}
-      if(row.terrain.patterns!==undefined){if(!Array.isArray(row.terrain.patterns)||row.terrain.patterns.length>100000)throw Error('Invalid arrow pattern list.');for(const r of row.terrain.patterns){fields(r,['sector','cell','sourceSector','sourceCell','rotation'],'arrow pattern');if(Object.values(r).some(n=>!Number.isInteger(n)||n<0)||r.rotation>3)throw Error('Invalid arrow pattern reference.');}}
+      if(row.terrain.patterns!==undefined){if(!Array.isArray(row.terrain.patterns)||row.terrain.patterns.length>100000)throw Error('Invalid arrow pattern list.');for(const r of row.terrain.patterns){fields(r,project.schemaVersion>=6&&r.kind!==undefined?['sector','cell','sourceSector','sourceCell','rotation','kind']:['sector','cell','sourceSector','sourceCell','rotation'],'arrow pattern');if(Object.entries(r).some(([key,n])=>key!=='kind'&&(!Number.isInteger(n)||n<0))||r.rotation>3||r.kind!==undefined&&r.kind!=='arrow4')throw Error('Invalid arrow pattern reference.');}}
       terrain=structuredClone(row.terrain);
     }
     let layout;if(project.schemaVersion>=4){
@@ -54,29 +59,44 @@ export function parseTrackProject(value) {
       }
       layout=structuredClone(row.layout);
     }
-    let topology={};if(project.schemaVersion===5){
+    let topology={};if(project.schemaVersion>=5){
       if(!row.routeTopology||!row.checkpointTopology||!Array.isArray(row.assemblies)||row.assemblies.length>255)throw Error('Invalid topology or assembly draft.');
       if(row.layout.routes.length||row.layout.checkpoints.length)throw Error('Version 5 uses stable route/checkpoint topology, not duplicate sparse edits.');
       const ids=new Set(models.map(m=>m.id));for(const a of row.assemblies){fields(a,['id','sourceLevel','templateIndex','position','yaw'],'assembly');if(ids.has(a.id)||typeof a.id!=='string'||!a.id||a.sourceLevel!==row.level||!Number.isInteger(a.templateIndex)||a.templateIndex<0||!Array.isArray(a.position)||a.position.length!==3||a.position.some(n=>!Number.isInteger(n)||n< -32768||n>32767)||!Number.isInteger(a.yaw)||a.yaw<0||a.yaw>4095)throw Error('Invalid assembly command.');ids.add(a.id);}
       topology=structuredClone({routeTopology:row.routeTopology,checkpointTopology:row.checkpointTopology,assemblies:row.assemblies});
+    }
+    if(project.schemaVersion===6){
+      if(!Array.isArray(row.roads)||row.roads.length>128)throw Error('Invalid spline-road list.');
+      const roadIds=new Set();for(const road of row.roads){validateSplineRoad(road);if(roadIds.has(road.id))throw Error('Duplicate spline-road identity.');roadIds.add(road.id);}
+      if(row.reversal!==null){fields(row.reversal,row.reversal.originalDraft===undefined?['version','items','unresolvedConnections','applied']:['version','items','unresolvedConnections','applied','originalDraft'],'reversal report');if(row.reversal.version!==1||!Array.isArray(row.reversal.items)||!Array.isArray(row.reversal.unresolvedConnections)||!Array.isArray(row.reversal.applied)||row.reversal.items.length>100000||row.reversal.unresolvedConnections.length>100000)throw Error('Invalid reversal report.');for(const item of row.reversal.items)if(!item||!['warning','blocker','info'].includes(item.severity)||typeof item.id!=='string'||typeof item.message!=='string'||typeof item.code!=='string')throw Error('Invalid reversal report item.');if(row.reversal.originalDraft&&(row.reversal.originalDraft.level!==row.level||row.reversal.originalDraft.reversal!==null))throw Error('Invalid original reversal draft.');}
+      topology={...topology,roads:structuredClone(row.roads),reversal:structuredClone(row.reversal)};
+      if(topology.reversal?.originalDraft){const validated=parseTrackProject({schemaVersion:6,game:'rollcage',indexSha256:project.indexSha256,sources,levels:[topology.reversal.originalDraft]});topology.reversal.originalDraft=validated.levels[0];}
     }
     return {level:row.level,pickups:structuredClone(row.pickups),models,...(terrain?{terrain}:{}),...(layout?{layout}:{}),...topology};
   });
   return {schemaVersion:project.schemaVersion,game:'rollcage',indexSha256:project.indexSha256,sources,levels};
 }
 
-export function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft(),layout=emptyRaceLayoutDraft(),routeTopology,checkpointTopology,assemblies=[]},donors,{requireConnected=true}={}) {
+export function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft(),layout=emptyRaceLayoutDraft(),routeTopology,checkpointTopology,assemblies=[],roads=[],reversal=null},donors,{requireConnected=true}={}) {
   const result={};
   const patterns=terrain.patterns?.length?speedPadPatterns(pair.LOW.originalGeometry??pair.LOW.geometry,pair.HIGH.originalGeometry??pair.HIGH.geometry):undefined;
   for(const quality of ['LOW','HIGH']) {
+    const qualityDonors=new Map([...(donors??new Map())].map(([id,pair])=>[id,pair[quality]]));
+    validateProtectedTrackDraft(pair[quality],{level,pickups,models,terrain,layout,routeTopology,checkpointTopology,assemblies,roads},qualityDonors);
     validatePickupDraft(pair[quality].geometry,pickups);
-    const geometry=compileTerrainEdits(pair[quality].geometry,terrain,{originalGeometry:pair[quality].originalGeometry??pair[quality].geometry,patterns});
-    const compiled=compileSceneryEdits({...pair[quality],geometry},models,{level,quality,donors,assemblies});
-    let data=compileRaceLayoutEdits(compilePickupEdits(compiled.geometry,pickups),layout);
-    if(routeTopology)data=compileRaceRouteTopology(data,routeTopology,{requireConnected}).data;
+    const heightGeometry=compileTerrainEdits(pair[quality].geometry,{heights:terrain.heights,surfaces:[]});
+    const constructed=compileSplineRoads(heightGeometry,roads,{texture:pair[quality].texture});
+    const geometry=compileTerrainEdits(constructed.data,{heights:[],surfaces:terrain.surfaces,...(terrain.patterns?{patterns:terrain.patterns}:{})},{originalGeometry:pair[quality].originalGeometry??pair[quality].geometry,patterns});
+    const compiled=compileSceneryEdits({...pair[quality],geometry,texture:constructed.texture??pair[quality].texture},models,{level,quality,donors,assemblies});
+    let layoutForCompile=layout;
+    if(reversal&&!requireConnected&&layout.starts.length){const info=inspectRaceLayout(compiled.geometry);layoutForCompile={...layout,starts:layout.starts.filter(row=>{const original=info.starts.find(s=>s.index===row.index);return original&&raceLayoutMoveConstraint(info,original.position,row.position).allowed;})};}
+    let data=compileRaceLayoutEdits(compilePickupEdits(compiled.geometry,pickups),layoutForCompile);
+    if(routeTopology)data=compileRaceRouteTopology(data,routeTopology,{requireConnected,generatedRoads:constructed.generated}).data;
     if(checkpointTopology)data=compileCheckpointTopology(data,checkpointTopology,{level}).data;
-    result[quality]={...compiled,geometry:data};
+    validateProtectedCompiledTerrain(pair[quality].geometry,data,level);
+    result[quality]={...compiled,geometry:data,roads:constructed.generated};
   }
+  if(reversal){const report=refreshReversalReport(pair,{level,pickups,models,terrain,layout,routeTopology,checkpointTopology,assemblies,roads},reversal,{geometry:result.LOW.geometry,highGeometry:result.HIGH.geometry});if(requireConnected&&(report.unresolvedConnections.length||report.items.some(i=>i.severity==='blocker')))throw Error(`Reversed draft is not ready: ${report.items.filter(i=>i.severity==='blocker').map(i=>i.message).join(' ')}`);result.reversalReport=report;}
   return result;
 }
 
@@ -96,6 +116,7 @@ export function validateTrackProject(value,{indexSha256,sources,hashes,requireCo
       row.models=[...row.models.filter(isOriginal).sort((a,b)=>a.templateIndex-b.templateIndex),...row.models.filter(p=>!isOriginal(p))];
     }
     compiled.set(row.level,compileTrackDraft(pair,row,sources,{requireConnected}));
+    if(row.reversal?.originalDraft)compileTrackDraft(pair,row.reversal.originalDraft,sources,{requireConnected:false});
   }
   return {project,compiled};
 }

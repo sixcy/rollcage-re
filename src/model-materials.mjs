@@ -1,5 +1,6 @@
 // FUN_0046c7c0 / FUN_0046d0e0: per-instance face UVs. Animation is sampled
 // at the serialized frame; stepping the original animation clock is separate.
+import {decodeTexturePageWord} from './texture-page-word.mjs';
 const permutations=[[0,1,2,3],[1,3,0,2],[3,2,1,0],[2,0,3,1],
  [2,3,0,1],[3,1,2,0],[1,0,3,2],[0,2,1,3]];
 
@@ -12,7 +13,7 @@ export function readDefaultModelMaterials(data, model) {
   if (first < 0 || end > data.length || end - first !== model.faceCount * 40) throw Error('Default model packets exceed resource bounds or face count.');
   return model.faces.map((face, index) => {
     const packet = first + index * 40, pageWord = data.readUInt16LE(packet + 22);
-    return {page: pageWord & 63, pageWord,
+    return {page: decodeTexturePageWord(pageWord), pageWord,
       uv: [12,20,28,36].slice(0, face.triangle ? 3 : 4).map(offset => [data[packet + offset], data[packet + offset + 1]]),
       indices: [face.indices[0]-1, face.indices[2]-1, face.indices[1]-1, ...(face.triangle ? [] : [face.indices[3]-1])]};
   });
@@ -43,7 +44,7 @@ export function readModelMaterials(data,model,uvStart) {
   const corners=[[data[uvOffset],data[uvOffset+1]],[data[uvOffset+4],data[uvOffset+5]],
    [data[uvOffset+8],data[uvOffset+9]],[data[uvOffset+10],data[uvOffset+11]]];
   const order=permutations[permutation]??permutations[0],pageWord=data.readUInt16LE(uvOffset+6);
-  return {index,key,descriptor,uvOffset,animationWord,animation,pageWord,page:pageWord&63,
+  return {index,key,descriptor,uvOffset,animationWord,animation,pageWord,page:decodeTexturePageWord(pageWord),
    uv:order.map(i=>corners[i]),indices:[face.indices[0]-1,face.indices[2]-1,face.indices[1]-1,...(face.triangle?[]:[face.indices[3]-1])]};
  });
 }

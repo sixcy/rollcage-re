@@ -2,6 +2,7 @@ import {parseRespawnRoutes} from './respawn-routes.mjs';
 import {parseSpatialIndex} from './spatial-index.mjs';
 import {inspectRaceLayoutFallback, rebuildRaceLayoutFallback} from './race-layout-spatial.mjs';
 import {inspectRaceLayout, raceLayoutMoveConstraint} from './race-layout-editor.mjs';
+import {assignGeneratedRoadFallback} from './generated-route-fallback.mjs';
 
 // 47fc90 has 5-bit group/9-bit point links, but 421260 writes the point
 // to candidate row byte +2. 4210b0 and the planner subsequently read that byte.
@@ -57,23 +58,28 @@ function references(topology) {
   return {groups, points};
 }
 
-export function validateRaceRouteTopology(data, topology, {requireConnected = true, sourceBlockerCountersMayDiffer = false} = {}) {
+export function validateRaceRouteTopology(data, topology, {requireConnected = true, sourceBlockerCountersMayDiffer = false,terrainInfo} = {}) {
   const errors = [], warnings = [], error = message => errors.push(message);
   let source;
   try {source = createRaceRouteTopology(data);} catch (e) {return {valid: false, errors: [e.message], warnings};}
-  if (!fields(topology, ['version', 'nextId', 'groups']) || topology.version !== 1 || !Array.isArray(topology.groups) || !integer(topology.nextId, 1, Number.MAX_SAFE_INTEGER)) return {valid: false, errors: ['Invalid route topology draft.'], warnings};
+  if (!fields(topology, topology?.version===2?['version','nextId','groups','deletedPoints','reversed']:['version', 'nextId', 'groups']) || ![1,2].includes(topology.version) || !Array.isArray(topology.groups) || !integer(topology.nextId, 1, Number.MAX_SAFE_INTEGER)) return {valid: false, errors: ['Invalid route topology draft.'], warnings};
   if (topology.groups.length < source.groups.length || topology.groups.length > 32) error('Route topology requires the authored groups and at most 31 usable groups; group 0 is reserved.');
+  const deletions=topology.version===2?topology.deletedPoints:[],isReversed=topology.version===2&&topology.reversed;
+  if(!Array.isArray(deletions)||deletions.length>8192||topology.version===2&&typeof topology.reversed!=='boolean')return {valid:false,errors:['Invalid deleted route references or reversal state.'],warnings};
+  const deletedIds=new Set();for(const row of deletions){if(!fields(row,['id','replacementPointId'])||!identity(row.id)||!identity(row.replacementPointId)||deletedIds.has(row.id))error('Deleted route identities require unique bounded replacements.');deletedIds.add(row.id);}
   const ids = new Set(), pointIds = new Set(), sourceGroups = new Set();
   for (const [index, group] of topology.groups.entries()) {
-    if (!fields(group, ['id', 'sourceGroup', 'index', 'header', 'points'], ['cloneOfGroupId']) || !identity(group.id) || ids.has(group.id)) {error('Route group fields/identities must be known, bounded and unique.'); continue;}
+    if (!fields(group, ['id', 'sourceGroup', 'index', 'header', 'points'], ['cloneOfGroupId','roadId','retired']) || !identity(group.id) || ids.has(group.id)) {error('Route group fields/identities must be known, bounded and unique.'); continue;}
     ids.add(group.id);
     if (!Array.isArray(group.header) || group.header.length !== 12 || group.header.some(n => !integer(n, 0, 255))) {error(`Route group ${group.id} requires its 12-byte native header.`); continue;}
-    if (!Array.isArray(group.points) || group.points.length > 256 || index !== 0 && !group.points?.length && group.sourceGroup === null) {error(`Route group ${group.id} must contain 1 to 256 points (candidate indices are bytes); authored empty groups are preserved.`); continue;}
+    if(group.roadId!==undefined&&(!identity(group.roadId)||topology.version!==2||group.sourceGroup!==null))error('Generated road identity requires a version2 added group.');
+    if(group.retired!==undefined&&(group.retired!==true||!group.roadId||group.sourceGroup!==null||group.points?.length))error('Only empty generated road groups can be retired.');
+    if (!Array.isArray(group.points) || group.points.length > 256 || index !== 0 && !group.points?.length && group.sourceGroup === null&&!group.retired) {error(`Route group ${group.id} must contain 1 to 256 points (candidate indices are bytes); authored empty groups are preserved.`); continue;}
     if (group.sourceGroup !== null) {
       if (!integer(group.sourceGroup, 0, source.groups.length - 1) || sourceGroups.has(group.sourceGroup)) {error('Authored route group identities cannot be deleted or duplicated.'); continue;}
       if (group.sourceGroup !== index) error('Authored route groups must retain their native order; scenery blocker references use these IDs.');
       sourceGroups.add(group.sourceGroup);
-      if (source.groups[group.sourceGroup] && (group.id !== source.groups[group.sourceGroup].id || !equal(group.header, source.groups[group.sourceGroup].header.map((n, i) => sourceBlockerCountersMayDiffer && i === 3 ? group.header[3] : n)))) error('Authored route header metadata and stable identity must be preserved.');
+      if (source.groups[group.sourceGroup] && (group.id !== source.groups[group.sourceGroup].id || !equal(group.header, source.groups[group.sourceGroup].header.map((n, i) => sourceBlockerCountersMayDiffer && i === 3 ? group.header[3] : i===2&&isReversed&&index!==0&&source.groups[group.sourceGroup].points.length?(n?0:1):n)))) error('Authored route header metadata and stable identity must be preserved.');
       if (group.cloneOfGroupId !== undefined) error('Authored groups cannot claim clone provenance.');
     }
     if (group.index !== index) error('Route group index must match its stable serialized order.');
@@ -93,31 +99,32 @@ export function validateRaceRouteTopology(data, topology, {requireConnected = tr
       if (!Array.isArray(point.emptyLinkPoints) || point.emptyLinkPoints.length !== 2 || point.emptyLinkPoints.some(n => !integer(n, 0, 511))) error(`Route point ${point.id} has invalid unused link bits.`);
       if (!Array.isArray(point.links) || point.links.length !== 2) error(`Route point ${point.id} requires two outgoing link slots.`);
     }
-    if (group.sourceGroup !== null && source.groups[group.sourceGroup] && sourcePoints.size !== source.groups[group.sourceGroup].points.length) error('Authored route points cannot be deleted.');
+    if(group.sourceGroup!==null&&source.groups[group.sourceGroup]){const missing=source.groups[group.sourceGroup].points.filter(p=>!sourcePoints.has(p.sourcePoint));if(missing.some(p=>!deletedIds.has(p.id)))error('Authored route points can only be removed through explicit deletion records.');if(missing.length&&group.points.length<2)error('At least two route points must remain in an edited usable group.');}
   }
   if (sourceGroups.size !== source.groups.length) error('Authored route groups cannot be deleted.');
   if (!topology.groups[0] || !equal(topology.groups[0], source.groups[0])) error('Route group 0 is reserved and must remain unchanged.');
   if (errors.length) return {valid: false, errors, warnings};
-  const {groups, points} = references(topology), edges = new Map(topology.groups.map(g => [g.id, new Set()]));
+  const {groups, points} = references(topology), immutablePoints=references(source).points, edges = new Map(topology.groups.map(g => [g.id, new Set()]));
+  for(const row of deletions){if(points.has(row.id))error('A deleted route identity cannot remain live.');let id=row.replacementPointId;const seen=new Set([row.id]);while(!points.has(id)&&!seen.has(id)){seen.add(id);id=deletions.find(r=>r.id===id)?.replacementPointId;}if(!points.has(id)||seen.has(id)||points.get(id).index===0)error('Deleted route replacement must resolve to a usable surviving point without cycles.');}
   for (const group of topology.groups.filter(g => g.sourceGroup === null)) {
     const template = groups.get(group.cloneOfGroupId)?.group;
-    if (!template || !template.points.length || template.header[3] || !equal(group.header, template.header.map((n, i) => i === 5 ? group.index : n))) error('Cloned route groups must preserve an unblocked template header and clone provenance.');
+    if (!template || !template.points.length&&!template.retired || template.header[3] || !equal(group.header, template.header.map((n, i) => i === 5 ? group.index : group.roadId&&i===2?Number(isReversed):group.roadId&&i===4?0:n))) error('Cloned route groups must preserve an unblocked template header and clone provenance.');
     let ancestor = group; const seen = new Set();
     while (ancestor?.sourceGroup === null && !seen.has(ancestor.id)) {seen.add(ancestor.id); ancestor = groups.get(ancestor.cloneOfGroupId)?.group;}
     if (!ancestor || ancestor.sourceGroup === null) error('Route clone provenance must lead to an authored group without cycles.');
     else if (source.groups[ancestor.sourceGroup].header[3]) error('A source route group controlled by scenery blockers cannot be cloned without duplicating its blocker ownership.');
   }
   for (const group of topology.groups) for (const point of group.points.filter(p => p.sourcePoint === null)) {
-    const anchor = points.get(point.anchorPointId)?.row;
+    const anchor = (points.get(point.anchorPointId)??immutablePoints.get(point.anchorPointId))?.row;
     if (!anchor || point.flags !== anchor.flags || point.linkFlags !== anchor.linkFlags || !equal(point.emptyLinkPoints, anchor.emptyLinkPoints) && !equal(point.emptyLinkPoints, [0, 0])) error('Added route points must preserve their anchor control metadata.');
   }
-  let movementInfo;
+  let movementInfo=terrainInfo;
   const originalPosition = row => {
     const seen = new Set();
     while (row && !seen.has(row.row.id)) {
       seen.add(row.row.id);
       if (row.group.sourceGroup !== null && row.row.sourcePoint !== null) return source.groups[row.group.sourceGroup].points[row.row.sourcePoint].position;
-      row = points.get(row.row.anchorPointId);
+      row = points.get(row.row.anchorPointId)??immutablePoints.get(row.row.anchorPointId);
     }
     return null;
   };
@@ -149,7 +156,7 @@ export function validateRaceRouteTopology(data, topology, {requireConnected = tr
     while (queue.length) {const id = queue.pop(); if (seen.has(id)) continue; seen.add(id); if (predicate(id)) return true; queue.push(...edges.get(id));}
     return false;
   };
-  for (const group of topology.groups.filter(g => g.sourceGroup === null)) {
+  for (const group of topology.groups.filter(g => g.sourceGroup === null&&!g.retired)) {
     const incoming = originals.some(id => reaches(id, other => other === group.id));
     const outgoing = reaches(group.id, id => originals.includes(id));
     if (!incoming || !outgoing) (requireConnected ? errors : warnings).push(`New route group ${group.id} needs an entry from and an exit to the authored network before Test/export.`);
@@ -158,7 +165,7 @@ export function validateRaceRouteTopology(data, topology, {requireConnected = tr
 }
 
 function fresh(topology, prefix) {
-  const ids = new Set(topology.groups.flatMap(g => [g.id, ...g.points.map(p => p.id)]));
+  const ids = new Set([...topology.groups.flatMap(g => [g.id, ...g.points.map(p => p.id)]),...(topology.deletedPoints??[]).map(p=>p.id)]);
   let id; do {id = `${prefix}${topology.nextId++}`;} while (ids.has(id)); return id;
 }
 
@@ -169,6 +176,7 @@ export function cloneRaceRouteGroup(input, groupId) {
   if (group.header[3]) fail('This group is controlled by scenery blockers. Cloning its blocker ownership is not yet supported.');
   if (topology.groups.length >= 32) fail('All 31 usable native route groups are occupied.');
   const clone = copy(group), pointIds = new Map(); clone.id = fresh(topology, 'new-group-'); clone.sourceGroup = null; clone.index = topology.groups.length; clone.cloneOfGroupId = group.id;
+  delete clone.roadId;delete clone.retired;
   for (const point of clone.points) {const oldId = point.id; point.id = fresh(topology, 'new-point-'); pointIds.set(oldId, point.id); point.sourcePoint = null; point.anchorPointId = oldId;}
   for (const point of clone.points) point.links = point.links.map(link => link?.groupId === groupId ? {groupId: clone.id, pointId: pointIds.get(link.pointId)} : link);
   // 47fc20/410bd0 and 47f5c0 consume this identity through progression +54.
@@ -204,6 +212,54 @@ export function connectRaceRoutePoints(input, fromPointId, slot, toPointId, {rep
   return topology;
 }
 
+export function upgradeRaceRouteTopology(input) {
+  const topology=copy(input);
+  if(topology.version===1){topology.version=2;topology.deletedPoints=[];topology.reversed=false;}
+  return topology;
+}
+
+function deletionDraft(input,pointId,{replacementPointId,transfers=[]}={}) {
+  const topology=upgradeRaceRouteTopology(input),refs=references(topology),selected=refs.points.get(pointId);
+  if(!selected||!selected.index)fail('Choose a usable route point to remove.');
+  const {group,point:index,row}=selected;
+  if(group.points.length<=2)fail('At least two route points must remain in an edited usable group.');
+  const step=group.header[2]?-1:1,neighbor=direction=>{let n=index+direction;if(group.header[4])n=(n+group.points.length)%group.points.length;return group.points[n];};
+  const next=neighbor(step)??neighbor(-step),prior=neighbor(-step)??next;
+  replacementPointId??=next.id;
+  const replacement=refs.points.get(replacementPointId);
+  if(!replacement||!replacement.index||replacementPointId===pointId)fail('Choose a surviving usable replacement route point.');
+  const incoming=[],outgoingTransfers=[],conflicts=[];
+  for(const g of topology.groups)for(const p of g.points)if(p.id!==pointId)for(const [slot,link]of p.links.entries())if(link?.pointId===pointId){incoming.push({pointId:p.id,slot,previousPointId:pointId,replacementPointId});p.links[slot]={groupId:replacement.group.id,pointId:replacementPointId};}
+  const overrides=new Map();for(const transfer of transfers){if(!fields(transfer,['sourceSlot','ownerPointId','slot'])||!integer(transfer.sourceSlot,0,1)||overrides.has(transfer.sourceSlot))fail('Invalid outgoing route transfer.');overrides.set(transfer.sourceSlot,transfer);}
+  const processedTargets=new Set();for(const [sourceSlot,link]of row.links.entries()){
+    if(!link)continue;const target=link.pointId===pointId?{groupId:replacement.group.id,pointId:replacementPointId}:copy(link),override=overrides.get(sourceSlot);
+    const signature=`${target.groupId}:${target.pointId}`;if(processedTargets.has(signature))continue;processedTargets.add(signature);
+    if(override?.ownerPointId===null){outgoingTransfers.push({sourceSlot,targetPointId:target.pointId,ownerPointId:null,slot:null,dropped:true});continue;}
+    const owner=refs.points.get(override?.ownerPointId??prior.id);
+    if(!owner||owner.row.id===pointId||!owner.index)fail('Outgoing branches require a surviving usable owner.');
+    if(owner.row.links.some(existing=>equal(existing,target))){outgoingTransfers.push({sourceSlot,targetPointId:target.pointId,ownerPointId:owner.row.id,slot:owner.row.links.findIndex(existing=>equal(existing,target)),alreadyPresent:true});continue;}
+    const slot=override?override.slot:owner.row.links[sourceSlot]===null?sourceSlot:owner.row.links.findIndex(link=>link===null);
+    if(!integer(slot,0,1)||owner.row.links[slot]!==null){conflicts.push({sourceSlot,targetPointId:target.pointId,ownerPointId:owner.row.id,reason:'Both outgoing slots are occupied. Choose an empty slot on another point, or explicitly remove this branch.'});continue;}
+    owner.row.links[slot]=target;outgoingTransfers.push({sourceSlot,targetPointId:target.pointId,ownerPointId:owner.row.id,slot});
+  }
+  // Added points retain immutable authored templates even if a visible anchor
+  // is deleted. They are not moved to a geometrically unrelated replacement.
+  const sourceAnchor=id=>{const seen=new Set();while(!/^g\d+:p\d+$/.test(id)&&!seen.has(id)){seen.add(id);id=refs.points.get(id)?.row.anchorPointId;}if(!/^g\d+:p\d+$/.test(id??''))fail('Deleted point has no immutable authored anchor.');return id;};
+  for(const g of topology.groups)for(const p of g.points)if(p.anchorPointId===pointId)p.anchorPointId=sourceAnchor(pointId);
+  group.points.splice(index,1);topology.deletedPoints.push({id:pointId,replacementPointId});
+  return {topology,pointId,groupId:group.id,replacementPointId,predecessorPointId:prior.id,incoming,outgoingTransfers,conflicts};
+}
+
+export function previewRaceRoutePointDeletion(topology,pointId,options={}) {
+  const {topology:draft,...preview}=deletionDraft(topology,pointId,options);return preview;
+}
+
+export function removeRaceRoutePoint(topology,pointId,options={}) {
+  const {topology:draft,...preview}=deletionDraft(topology,pointId,options);
+  if(preview.conflicts.length)fail('Resolve every outgoing branch conflict before removing this route point.');
+  return {topology:draft,selectedPointId:preview.replacementPointId,preview};
+}
+
 function encode(topology, original) {
   const {points} = references(topology);
   return topology.groups.map((group, index) => {
@@ -224,7 +280,7 @@ function encode(topology, original) {
   });
 }
 
-export function compileRaceRouteTopology(source, topology, {requireConnected = true} = {}) {
+export function compileRaceRouteTopology(source, topology, {requireConnected = true,generatedRoads=[]} = {}) {
   const validation = validateRaceRouteTopology(source, topology, {requireConnected, sourceBlockerCountersMayDiffer: true});
   if (!validation.valid) fail(validation.errors.join(' '));
   const original = parseRespawnRoutes(source), encoded = encode(topology, original), {points} = references(topology), remap = {groups: {}, points: {}, ids: {}};
@@ -235,11 +291,12 @@ export function compileRaceRouteTopology(source, topology, {requireConnected = t
       if (group.sourceGroup !== null && row.sourcePoint !== null) remap.points[`${group.sourceGroup}:${row.sourcePoint}`] = {group: index, point};
     }
   }
+  if(topology.version===2)for(const deletion of topology.deletedPoints){let id=deletion.replacementPointId;const seen=new Set();while(!remap.ids[id]&&!seen.has(id)){seen.add(id);id=topology.deletedPoints.find(r=>r.id===id)?.replacementPointId;}const match=/^g(\d+):p(\d+)$/.exec(deletion.id);if(match&&remap.ids[id])remap.points[`${Number(match[1])}:${Number(match[2])}`]={...remap.ids[id]};}
   const unchanged = original.groups.length === encoded.length && original.groups.every((group, index) => {
     const header = Buffer.from(encoded[index].header); header.writeUInt32LE(group.pointRelativeOffset, 8);
     return group.bytes.equals(header) && group.points.length === encoded[index].records.length && group.points.every((p, i) => p.bytes.equals(encoded[index].records[i]));
   });
-  if (unchanged) return {data: Buffer.from(source), remap, changed: false, warnings: validation.warnings};
+  if (unchanged) {const assigned=assignGeneratedRoadFallback(source,topology,generatedRoads);return {data:assigned.data,remap,changed:assigned.changedNodes.length>0,warnings:validation.warnings,generatedFallbackNodes:assigned.changedNodes};}
   const table = align(source.length), pointBase = align(table + encoded.length * 12), size = encoded.reduce((n, g) => n + g.records.length * 16, pointBase);
   if (size > 128 * 1024 * 1024) fail('Route topology resource exceeds 128 MiB.');
   let out = Buffer.alloc(size); out.set(source); out[0x79] = encoded.length; out.writeUInt32LE(table, 0x8c); out.writeUInt32LE(pointBase, 0x98);
@@ -276,5 +333,39 @@ export function compileRaceRouteTopology(source, topology, {requireConnected = t
   }
   spatial = parseSpatialIndex(out); fallback = inspectRaceLayoutFallback(out, spatial, baselineGroups);
   const result = rebuildRaceLayoutFallback(out, out, {groups: baselineGroups, routes: baselineRoutes, spatial, fallback});
-  return {data: result.data, remap, changed: true, warnings: validation.warnings, changedFallbackNodes: result.changedNodes};
+  const assigned=assignGeneratedRoadFallback(result.data,topology,generatedRoads);
+  return {data: assigned.data, remap, changed: true, warnings: validation.warnings, changedFallbackNodes: result.changedNodes,generatedFallbackNodes:assigned.changedNodes};
+}
+
+export function upsertSplineRoadRoute(data,input,{roadId,centerline,templateGroupId,entryPointId=null,exitPointId=null,entrySlot=0,replaceEntry=false}={}) {
+ if(!identity(roadId)||!Array.isArray(centerline))fail('Generated road routes require an identity and centreline.');
+ const positions=centerline.filter((p,i)=>!i||!equal(p,centerline[i-1])).map(p=>{if(!Array.isArray(p)||p.length!==3||p.some(n=>!integer(n,-32768,32767)))fail('Road route coordinates require signed16 XYZ.');return [...p];});
+ if(positions.length>2&&equal(positions[0],positions.at(-1)))positions.pop();
+ if(positions.length<2||positions.length>256)fail('An editable road route needs2–256 distinct centreline points. Reduce road samples or split the road.');
+ const topology=upgradeRaceRouteTopology(input),template=topology.groups.find(g=>g.id===templateGroupId);
+ if(!template||!template.index||template.sourceGroup===null||template.header[3]||!template.points.length)fail('Choose a usable unblocked original reference route group.');
+ let group=topology.groups.find(g=>g.roadId===roadId);const previous=group?.points??[];
+ if(!group){if(topology.groups.length>=32)fail('All31 usable route groups are occupied.');const id=`${roadId}-route`;if(topology.groups.some(g=>g.id===id))fail('Road route identity conflicts with another group.');group={...copy(template),id,index:topology.groups.length,sourceGroup:null,cloneOfGroupId:template.id,roadId,points:[]};topology.groups.push(group);}
+ const reference=template.points[0],anchor=reference.sourcePoint!==null?reference.id:reference.anchorPointId;group.header=copy(template.header);group.header[2]=Number(topology.reversed);group.header[4]=0;group.header[5]=group.index;group.cloneOfGroupId=template.id;delete group.retired;
+ group.points=positions.map((position,i)=>({...copy(reference),id:previous[i]?.id??fresh(topology,`${roadId}-point-`),sourcePoint:null,anchorPointId:anchor,position,links:[null,null],emptyLinkPoints:[0,0]}));
+ // Preserve user-created branches on samples that survive a reshape.
+ for(let i=0;i<Math.min(previous.length,group.points.length);i++)group.points[i].links=copy(previous[i].links);
+ const removed=new Map(previous.slice(group.points.length).map((p,i)=>[p.id,group.points[Math.min(group.points.length-1,Math.round((group.points.length-1)*(i+group.points.length)/(previous.length-1)))].id]));
+ for(const [id,replacementPointId]of removed)topology.deletedPoints.push({id,replacementPointId});
+ for(const g of topology.groups)for(const p of g.points)if(removed.has(p.anchorPointId))p.anchorPointId=previous.find(row=>row.id===p.anchorPointId).anchorPointId;
+ for(const g of topology.groups)for(const p of g.points)for(const [slot,link]of p.links.entries())if(removed.has(link?.pointId))p.links[slot]={groupId:group.id,pointId:removed.get(link.pointId)};
+ const firstPointId=group.points[0].id,lastPointId=group.points.at(-1).id;
+ if(entryPointId){const from=pointMapForRoad(topology).get(entryPointId);if(!from||!integer(entrySlot,0,1))fail('Choose a valid incoming source point and slot.');const target={groupId:group.id,pointId:firstPointId};if(from.links[entrySlot]&&!equal(from.links[entrySlot],target)&&!replaceEntry)fail('Incoming source slot is occupied; explicitly allow replacement or choose an empty slot.');from.links[entrySlot]=target;}
+ if(exitPointId){const destination=references(topology).points.get(exitPointId);if(!destination||!destination.index||destination.group.id===group.id)fail('Choose an outgoing target outside the generated road.');group.points.at(-1).links[0]={groupId:destination.group.id,pointId:exitPointId};}
+ return {topology,groupId:group.id,firstPointId,lastPointId};
+}
+const pointMapForRoad=topology=>new Map(topology.groups.flatMap(g=>g.points.map(p=>[p.id,p])));
+
+export function removeSplineRoadRoute(input,roadId,{replacementPointId}={}) {
+ const topology=upgradeRaceRouteTopology(input),group=topology.groups.find(g=>g.roadId===roadId&&!g.retired);if(!group)return {topology,groupId:null};
+ const referencesNow=references(topology),replacement=referencesNow.points.get(replacementPointId);if(!replacement||!replacement.index||replacement.group.id===group.id)fail('Deleting a road route requires a surviving replacement point outside that road.');
+ const removed=new Set(group.points.map(p=>p.id));for(const p of group.points)topology.deletedPoints.push({id:p.id,replacementPointId});
+ const anchors=new Map(group.points.map(p=>[p.id,p.anchorPointId]));for(const g of topology.groups)for(const p of g.points)if(anchors.has(p.anchorPointId))p.anchorPointId=anchors.get(p.anchorPointId);
+ for(const g of topology.groups)if(g!==group)for(const p of g.points)for(const [slot,link]of p.links.entries())if(removed.has(link?.pointId))p.links[slot]={groupId:replacement.group.id,pointId:replacementPointId};
+ group.points=[];group.retired=true;return {topology,groupId:group.id};
 }

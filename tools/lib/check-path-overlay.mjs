@@ -84,16 +84,23 @@ export async function checkPathRendering(page) {
     const pixel = (x,y) => { const data = new Uint8Array(4); gl.readPixels(x,y,1,1,gl.RGBA,gl.UNSIGNED_BYTE,data); return [...data]; };
     try {
       renderer.setScene(scene); draw({});
-      const terrain = pixel(64,32), markerBase = pixel(32,96);
-      draw({paths:true}); const occluded = pixel(64,32), marker = pixel(32,96);
+      const terrain = pixel(64,32), markerBase = pixel(37,96);
+      draw({paths:true}); const occluded = pixel(64,32), marker = pixel(37,96);
       draw({pathThrough:true}); const visible = pixel(64,32), noClosingEdge = pixel(64,64);
       const restored = gl.isEnabled(gl.DEPTH_TEST) && gl.getParameter(gl.DEPTH_WRITEMASK);
-      draw({pathGroup:3,pathPoints:false}); const markerOff = pixel(32,96);
-      draw({pathPoints:true}); const markerOn = pixel(32,96), singlePointDraws = {...renderer.pathDraws};
+      draw({pathGroup:3,pathPoints:false}); const markerOff = pixel(37,96),centerOff=pixel(32,96),cornerOff=pixel(38,102);
+      draw({pathPoints:true}); const markerOn = pixel(37,96),centerOn=pixel(32,96),cornerOn=pixel(38,102),singlePointDraws = {...renderer.pathDraws};
       draw({paths:false}); const terrainAfter = pixel(64,32);
       renderer.setScene(scene); const deletedOnReplace = deleted;
       renderer.clear();
-      return {terrain,markerBase,occluded,marker,visible,noClosingEdge,restored,markerOff,markerOn,singlePointDraws,terrainAfter,deletedOnReplace,deletedTotal:deleted,error:gl.getError()};
+      const deletedTotal=deleted;
+      // Both directions share a physical segment: the previous offset dash
+      // phases filled the midpoint gap and made this connection look solid.
+      const a=[-.75,0,-.5],b=[.75,0,-.5];
+      renderer.setScene({...scene,paths:{groups:[{index:1,positions:[a]},{index:2,positions:[b]}],graph:{nodes:[{id:'a',group:1,position:a,incoming:['b'],outgoing:['b']},{id:'b',group:2,position:b,incoming:['a'],outgoing:['a']}],edges:[{from:'a',to:'b',kind:'branch',branchSlots:[0]},{from:'b',to:'a',kind:'branch',branchSlots:[0]}],pendingEdges:[]}}});
+      draw({paths:false,pathPoints:false,pathGroup:-1});const gapBase=pixel(64,64),dashBase=pixel(40,64);
+      draw({paths:true,pathThrough:true});const dashGap=pixel(64,64),dashInk=pixel(40,64);renderer.clear();
+      return {terrain,markerBase,occluded,marker,visible,noClosingEdge,restored,markerOff,markerOn,centerOff,centerOn,cornerOff,cornerOn,singlePointDraws,terrainAfter,deletedOnReplace,deletedTotal,gapBase,dashBase,dashGap,dashInk,dashDeletedTotal:deleted,error:gl.getError()};
     } finally { renderer.clear(); gl.getExtension('WEBGL_lose_context')?.loseContext(); canvas.remove(); }
   }, bundle);
   assert.deepEqual(result.occluded, result.terrain);
@@ -102,11 +109,16 @@ export async function checkPathRendering(page) {
   assert.notDeepEqual(result.marker, result.markerBase);
   assert.deepEqual(result.markerOff, result.markerBase);
   assert.deepEqual(result.markerOn, result.marker);
+  assert.deepEqual(result.centerOn,result.centerOff,'Small point circles have a hollow centre');
+  assert.deepEqual(result.cornerOn,result.cornerOff,'Small point circles discard square corners');
+  assert.deepEqual(result.dashGap,result.gapBase,'Reciprocal branch arrows preserve their visible midpoint gap');
+  assert.notDeepEqual(result.dashInk,result.dashBase,'Reciprocal branch arrows still draw their dashes');
   assert.deepEqual(result.terrainAfter, result.terrain);
   assert.equal(result.restored, true);
   assert.equal(result.singlePointDraws.segments, 0);
   assert.equal(result.singlePointDraws.points, 1);
   assert.equal(result.deletedOnReplace, 3); assert.equal(result.deletedTotal, 6);
+  assert.equal(result.dashDeletedTotal,10);
   assert.equal(result.error, 0);
   return result;
 }

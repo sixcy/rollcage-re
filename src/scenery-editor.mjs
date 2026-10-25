@@ -8,6 +8,7 @@ import {parseStaticModelLinks} from './model-links.mjs';
 import {sceneryLinkedIndices,sceneryAttachmentTargets,validateSceneryTransforms,transformSceneryAttachments} from './scenery-transforms.mjs';
 import {inspectScriptedScenery,scriptedSceneryPreview,compileScriptedSceneryTransforms} from './scripted-scenery-editor.mjs';
 import {inspectSceneryAssemblies,validateSceneryAssemblies,compileSceneryAssemblies} from './scenery-assemblies.mjs';
+import {encodeTexturePageWord,isSupportedStaticTextureWord,trackTextureCapacity} from './texture-page-word.mjs';
 export {applySceneryTransform} from './scenery-transforms.mjs';
 export {instantiateSceneryAssembly,validateSceneryAssemblies} from './scenery-assemblies.mjs';
 
@@ -54,7 +55,7 @@ export function inspectScenery(data,texture) {
         if (materials.some(face => face.animation)) animated=true;
         // 44c2b0 also ORs bit 6 into texture packet words. Retain that
         // native marker; other packed effects need separate reconstruction.
-        if(materials.some(face=>face.pageWord&~0x7f))packed=true;
+        if(materials.some(face=>!isSupportedStaticTextureWord(face.pageWord)))packed=true;
       }
     } catch (error) {reason = error.message;}
     if(reason)importReason=reason;
@@ -109,19 +110,30 @@ function table(data,start,end,label) {
 }
 
 function importTextures(destination,source,pages) {
-  let output=Buffer.from(destination), btp=parseBTP(output); const from=parseBTP(source), mapping=new Map();
+  let output=Buffer.from(destination), btp=parseBTP(output); const from=parseBTP(source), mapping=new Map(),allocations=[];
+  const problem=(message,code)=>{const error=Error(message);error.code=code;error.requiredTexturePages=[...pages].sort((a,b)=>a-b);error.textureAllocations=allocations.map(a=>({...a}));return error;};
   const pixels = (b,t) => b.data.subarray(t.pixelOffset,t.pixelOffset+t.width*t.height);
   const palette = (b,t) => b.data.subarray(t.paletteOffset,t.paletteOffset+1024);
   for (const page of [...pages].sort((a,b)=>a-b)) {
     const t=from.textures[page]; if (!t || t.empty || page===63) throw Error('Donor texture uses an unavailable or reserved page.');
-    const match=btp.textures.find(d => d.index<63 && !d.empty && d.width===t.width && d.height===t.height && d.unknown6===t.unknown6 && d.transparentBlack===t.transparentBlack && equal(pixels(btp,d),pixels(from,t)) && equal(palette(btp,d),palette(from,t)));
-    if (match) {mapping.set(page,match.index); continue;}
-    // Native page words have six base-page bits. Never wrap a HIGH page, reuse
-    // reserved ID63, or overwrite an active destination texture to force a fit.
-    let target=btp.textures.find(d => d.index<63 && d.empty && d.transparentBlack===t.transparentBlack)?.index;
-    if (target===undefined && btp.textureCount<63 && !t.transparentBlack && !(btp.textureCount>=btp.transparentStart && btp.textureCount<btp.transparentStart+btp.transparentCount)) target=btp.textureCount;
-    if (target===undefined) throw Error('No compatible native texture slot in this track/quality. Choose another model or library.');
+    const match=btp.textures.find(d => d.index!==63 && !d.empty && d.width===t.width && d.height===t.height && d.unknown6===t.unknown6 && d.transparentBlack===t.transparentBlack && equal(pixels(btp,d),pixels(from,t)) && equal(palette(btp,d),palette(from,t)));
+    if (match) {mapping.set(page,match.index);allocations.push({sourcePage:page,targetPage:match.index,action:'reuse',transparentBlack:t.transparentBlack});continue;}
+    // Texture IDs above63 use native bits8..10. Preserve the complete original
+    // descriptor prefix and every active texture; ID63 remains a runtime sentinel.
+    let target=btp.textures.find(d => d.index!==63 && d.empty && d.transparentBlack===t.transparentBlack)?.index;
+    let transparentStart=btp.transparentStart,transparentCount=btp.transparentCount,action=target===undefined?'append':'fill-empty';
+    if(target===undefined){
+      target=btp.textureCount===63?64:btp.textureCount;
+      if(t.transparentBlack){
+        const end=transparentStart+transparentCount;
+        if(!transparentCount){transparentStart=target;transparentCount=1;}
+        else if(end===btp.textureCount&&target<=end+1)transparentCount=target-transparentStart+1;
+        else throw problem(`No compatible native texture slot: transparent donor page ${page} needs the track’s contiguous transparency range, which cannot be extended without renumbering active textures.`,'transparent-range');
+        if(transparentStart>255||transparentCount>255)throw problem('No compatible native texture slot: transparency range exceeds native byte fields.','transparent-range');
+      }else if(target>=transparentStart&&target<transparentStart+transparentCount)throw problem('No compatible native texture slot: the append position belongs to the reserved transparency range.','transparent-range');
+    }
     const count=Math.max(btp.textureCount,target+1), descriptors=Buffer.alloc(count*12);
+    const budget=trackTextureCapacity(count);if(!budget.valid)throw problem(`No compatible native texture slot: ${count} authored entries plus ${budget.runtimeReserve} original-startup textures exceed the native ${budget.nativeSlots}-entry map.`,'texture-capacity');
     descriptors.set(output.subarray(btp.textureTable,btp.textureTable+btp.textureCount*12));
     let added=append(output,palette(from,t)); output=added.data; const palOffset=added.offset;
     const palettes=join(output.subarray(btp.paletteBase,btp.paletteBase+btp.paletteCount*1024),output.subarray(palOffset,palOffset+1024));
@@ -129,9 +141,10 @@ function importTextures(destination,source,pages) {
     added=append(output,pixels(from,t)); output=added.data;
     const p=target*12; descriptors.writeUInt16LE(t.width,p); descriptors.writeUInt16LE(t.height,p+2); descriptors.writeUInt16LE(btp.paletteCount,p+4); descriptors.writeUInt16LE(t.unknown6,p+6); descriptors.writeUInt32LE(added.offset-btp.imageBase,p+8);
     added=append(output,descriptors); output=added.data; output.writeUInt32LE(added.offset,0x38); output.writeUInt16LE(count,0x34);
-    mapping.set(page,target); btp=parseBTP(output);
+    output[0x32]=transparentStart;output[0x33]=transparentCount;
+    mapping.set(page,target);allocations.push({sourcePage:page,targetPage:target,action,transparentBlack:t.transparentBlack});btp=parseBTP(output);
   }
-  return {texture:output,mapping};
+  return {texture:output,mapping,allocations,budget:trackTextureCapacity(btp.textureCount)};
 }
 
 // A safe broad phase may contain extra candidates: native shape/plane tests
@@ -192,6 +205,13 @@ export function validateSceneryImport(source,rows,options) {
   compileScenery(source,rows,options,false);
 }
 
+// Asset-only report for the library: no compiled resource bytes escape this API.
+export function inspectSceneryImport(source,rows,options) {
+  const initialTextureCount=parseBTP(source.texture).textureCount;
+  try{const compiled=compileScenery(source,rows,options,false),finalTextureCount=parseBTP(compiled.texture).textureCount;return {compatible:true,initialTextureCount,finalTextureCount,textureAllocations:compiled.textureAllocations??[],capacity:trackTextureCapacity(finalTextureCount),reason:'',code:null};}
+  catch(error){return {compatible:false,initialTextureCount,finalTextureCount:initialTextureCount,textureAllocations:error.textureAllocations??[],requiredTexturePages:error.requiredTexturePages??[],capacity:trackTextureCapacity(initialTextureCount),reason:error.message,code:error.code??'unsupported-dependency'};}
+}
+
 function compileScenery(source,rows,{level,quality='LOW',donors=new Map(),assemblies=[]}={},withSpatial) {
   const draft=validateSceneryRows(rows), assemblyDraft=validateSceneryAssemblies(assemblies), original=createSceneryDraft(source.geometry,source.texture,level);
   if (same(draft,original)&&!assemblyDraft.length) return {geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture),indices:Object.fromEntries(original.map(p=>[p.id,p.templateIndex])),assemblies:[]};
@@ -204,9 +224,21 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map(),assemb
     if (edited && (edited.sourceLevel!==level || edited.templateIndex!==p.templateIndex)) throw Error('Original placement identity cannot change.');
   }
   if (draft.some(p=>p.id.startsWith('original-') && !original.some(o=>o.id===p.id))) throw Error('Unknown original placement identity.');
-  let data=Buffer.from(source.geometry), texture=Buffer.from(source.texture);
+  let data=Buffer.from(source.geometry), texture=Buffer.from(source.texture);const textureAllocations=[];
   const gfxm=parseGFXM(data), placements=parsePlacements(texture,gfxm.models), records=placements.records.map(p=>Buffer.from(p.raw));
-  let uv=table(data,0xcc,0xd8,'UV index table'), materials=table(data,0xd8,0xac,'material table'), configurations=table(data,0x88,0x8c,'collision configuration table'), geometry=table(data,0x1c,0x84,'placement geometry table');
+  let uv=table(data,0xcc,0xd8,'UV index table'), configurations=table(data,0x88,0x8c,'collision configuration table'), geometry=table(data,0x1c,0x84,'placement geometry table');
+  // 46d0e0 addresses 12-byte descriptors through the UV key >> 2.
+  // The next authored table (0xac) is independently relocated by terrain and
+  // spatial rebuilds, so its new address cannot delimit this material table.
+  // The UV table itself is padded to four bytes; its last halfword may contain
+  // arbitrary padding. Only ordinary instances consume these indexed UVs;
+  // script-owned models use their embedded packets instead.
+  let usedUVBytes=0;for(const p of placements.records)if(p.type===0)for(const [slot,part]of modelParts(data,gfxm.models[p.modelIndex]).entries())if(part.faceCount)usedUVBytes=Math.max(usedUVBytes,(p.uvStarts[slot]+part.faceCount)*2);
+  range(uv,0,usedUVBytes,'used UV indices');
+  let materialBytes=0;for(let p=0;p<usedUVBytes;p+=2)materialBytes=Math.max(materialBytes,(uv.readUInt16LE(p)>>>2)+12);
+  const materialBase=data.readUInt32LE(0xd8),authoredExtent=data.readUInt32LE(0xac)-materialBase;
+  if(authoredExtent>=materialBytes&&authoredExtent<=16384)materialBytes=authoredExtent;
+  range(data,materialBase,materialBytes,'material table');let materials=Buffer.from(data.subarray(materialBase,materialBase+materialBytes));
   const modelOffsets=gfxm.models.map(m=>m?.offset??0), imported=new Map(), changed=new Set(), deleted=new Set(), indices=Object.create(null);
   const importedModels=new Map(), importedGeometry=new Map(), materialOffsets=new Map();
   for(let p=0;p+2<=uv.length;p+=2){const offset=uv.readUInt16LE(p)>>>2;if(offset+12<=materials.length){const key=materials.subarray(offset,offset+12).toString('hex');if(!materialOffsets.has(key))materialOffsets.set(key,offset);}}
@@ -228,7 +260,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map(),assemb
         const model=donorModels.models[placement.modelIndex], parts=modelParts(donor.geometry,model);
         const faces=parts.map((part,i)=>readModelMaterials(donor.geometry,part,placement.uvStarts[i]));
         const pages=new Set(faces.flat().map(f=>f.page));
-        const textures=importTextures(texture,donor.texture,pages); texture=textures.texture;
+        const textures=importTextures(texture,donor.texture,pages); texture=textures.texture;textureAllocations.push(...textures.allocations.map(a=>({...a,sourceLevel:row.sourceLevel,modelIndex:model.index})));
         // Copy an isolated donor resource, preserving every model-relative
         // collision/LOD offset and unknown byte. Only the selected model is
         // exposed in the destination model table; unrelated donor data is inert.
@@ -244,7 +276,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map(),assemb
           const keys=Buffer.alloc(faces[slot].length*2);
           faces[slot].forEach((face,i)=>{
             const descriptor=Buffer.from(donor.geometry.subarray(face.descriptor,face.descriptor+12));
-            descriptor.writeUInt16LE((face.pageWord&~63)|textures.mapping.get(face.page),6);
+            descriptor.writeUInt16LE(encodeTexturePageWord(textures.mapping.get(face.page),face.pageWord),6);
             const key=descriptor.toString('hex');let offset=materialOffsets.get(key);
             if(offset===undefined){const padding=(4-materials.length%4)%4;if(padding)materials=join(materials,Buffer.alloc(padding));offset=materials.length;materialOffsets.set(key,offset);materials=join(materials,descriptor);}
             keys.writeUInt16LE(checkedWord(offset*4+(face.key&3),'Material key'),i*2);
@@ -284,7 +316,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map(),assemb
   if(withSpatial&&(changed.size||deleted.size))data=rebuildSceneryLinks(data,texture,changed,deleted);
   const parsed=parsePlacements(texture,parseGFXM(data).models);
   if(withSpatial)parseStaticModelLinks(data,parseSpatialIndex(data),parsed);
-  return {geometry:data,texture,indices,assemblies:assembled.assemblies};
+  return {geometry:data,texture,indices,assemblies:assembled.assemblies,textureAllocations};
 }
 
 function rebuildSceneryLinks(data,texture,changed,deleted) {

@@ -1,6 +1,6 @@
 // Pure brush operations. Distances follow connected grid edges and matched
 // seams, so another road sharing XZ coordinates is never selected implicitly.
-import {speedPadFootprint} from '../../src/speed-pad-patterns.mjs';
+import {speedPadFootprint,speedPadPatternShape} from '../../src/speed-pad-patterns.mjs';
 export function terrainBrushSelection(info,draft,hit,radius) {
   const sector=info.scene.segments[hit.sector],face=sector?.faces[hit.cell];if(!face||!Number.isFinite(radius)||radius<=0)return [];
   const heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),position=id=>{const v=info.vertices.get(id);return [v.position[0],heights.get(id)??v.position[1],v.position[2]];};
@@ -39,6 +39,6 @@ export function stampTerrain(info,draft,hit,{mode='raise',radius=128,strength=8,
     }
     for(const [id,y]of pending){if(y< -32768||y>32767)throw Error('Brush exceeds the signed 16-bit terrain height limit.');const v=info.vertices.get(id);if(y===v.position[1])heights.delete(id);else heights.set(id,{sector:v.sector,vertex:v.vertex,height:y});}
   }
-  const patterns=draft.patterns?.filter(p=>!speedPadFootprint(info.scene,p,{cells:[{x:0,y:0,cell:p.sourceCell},{x:1,y:0,cell:p.sourceCell+1}]}).some(c=>painted.has(`${p.sector}:${c.cell}`)));
+  const patterns=draft.patterns?.filter(p=>!speedPadFootprint(info.scene,p,speedPadPatternShape(p)).some(c=>painted.has(`${p.sector}:${c.cell}`)));
   return {heights:[...heights.values()].sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:[...surfaces.values()].sort((a,b)=>a.sector-b.sector||a.cell-b.cell),...(patterns?{patterns}:{} )};
 }

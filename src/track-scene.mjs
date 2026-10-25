@@ -20,7 +20,7 @@ export function decodeTrackScene(data, textureData, readers = {}) {
   }
   const output = buildSceneExport(terrain, textures, meshes);
   if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid track bounds.');
-  return { ...output, paths: decodeTrackPaths(data), segments: terrain.segments.length, instances: meshes.length, textures,
+  return { ...output, paths: decodeTrackPaths(data,false,{connectivity:readers.pathConnectivity??true}), segments: terrain.segments.length, instances: meshes.length, textures,
     placementTypes: placements.records.reduce((types, record) => {
       types[record.type] = (types[record.type] ?? 0) + 1;
       return types;

@@ -48,7 +48,8 @@ Open [Track Viewer](docs/track-viewer.html) or [3D Object Viewer](docs/object-vi
 
 - Explore/export all 40 Rollcage LOW/HIGH environments, 66 Stage II environments and 33 Firebugs disc environments.
 - Racing test runs one to six Expert AI cars, default three, with weapons/pickups, selected-car follow and race telemetry. It is super experimental; LEV16/17 racing remains unavailable.
-- Edit terrain heights/surfaces, pickups, existing route points/checkpoint planes/starting slots, and scenery/effects across all 20 Rollcage levels. Original special/scripted objects support coherent transforms; compatible plain models also support add/import/duplicate/delete. Save combined version-4 projects and export archives for a separate game copy. Native checks cover selected terrain/model contacts, scenery construction and LEV16/17 loading.
+- Edit terrain, pickups, route groups/points, checkpoints, starting slots and scenery/effects across all 20 Rollcage levels, with protected LEV12/13 sectors and stages locked. Draw new spline roads with optional AI routes, place complete four-cell arrows, and create reversed drafts with actionable repair reports. Compatible static models support lossless cross-library texture imports; original special/scripted objects retain operation-specific limits.
+- Save combined version-6 projects, read earlier versions and export archives for a separate game copy. Selected native checks cover new-road contacts, broader texture addressing and reversed checkpoint progression as well as earlier scenery/terrain acceptance. See the [v6 evidence and limits](re-docs/editor-v6-validation-matrix.md).
 - Inspect/export textured models and seven assembled Rollcage cars. Stage II and Firebugs expose ordinary scenery.
 
 [Current status](re-docs/reconstruction-status.md) · [Research index](re-docs/README.md) · [Viewer changelog](docs/changelog/index.html) · [Historical evidence](RESEARCH.md)

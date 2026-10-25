@@ -21,7 +21,8 @@ export async function buildPickupGameDownload(archive, replacements, project, op
     'Terrain height edits rebuild collision planes and conservative spatial coverage; surfaces copy complete native presets.',
     'Terrain exports are experimental. Selected LEV1 LOW/HIGH wheel contacts and LEV16/17 loading are documented in the viewer changelog; this is not whole-track acceptance. Existing route relocation uses an editor-built fallback map, and checkpoint planes update their sector references.',
     'LEV16/17 editing is supported; AI Racing test is not verified on those levels.',
-    'Existing special, scripted and particle objects support preserved-behavior transforms; rotation/copy/removal depend on the object. Blender import and new topology remain unsupported.', '',
+    'Existing special, scripted and particle objects support preserved-behavior transforms; rotation/copy/removal depend on the object. Blender import remains unsupported.',
+    ...(project.schemaVersion>=6?['Spline roads compile new terrain/collision/spatial data; they remain experimental. Reversed drafts include a compatibility report. Gameplay warnings do not certify driveability. LEV12/13 protected regions and stages remain locked.']:[]), '',
     `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
   ].join('\n') : [
     'Rollcage pickup editor — local game export', '',
@@ -37,7 +38,8 @@ export async function buildPickupGameDownload(archive, replacements, project, op
   ].join('\n');
   const blob = await createBlobZIP([
     {name: 'Rollcage.img', data: image}, {name: 'Rollcage.idx', data: plan.index},
-    {name: scenery?'track-project.json':'pickup-project.json', data: JSON.stringify(project, null, 2)}, {name: 'README.txt', data: readme}
+    {name: scenery?'track-project.json':'pickup-project.json', data: JSON.stringify(project, null, 2)}, {name: 'README.txt', data: readme},
+    ...(project.levels??[]).filter(row=>row.reversal).map(row=>({name:`LEV${row.level}-reversal-report.json`,data:JSON.stringify({version:row.reversal.version,items:row.reversal.items,unresolvedConnections:row.reversal.unresolvedConnections,applied:row.reversal.applied},null,2)}))
   ], options);
   return {filename: scenery?'rollcage-track-edits.zip':'rollcage-pickup-edits.zip', blob, imageBytes: image.size, changes: plan.changes};
 }

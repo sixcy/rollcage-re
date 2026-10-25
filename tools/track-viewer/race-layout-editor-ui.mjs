@@ -1,7 +1,7 @@
 import {inspectRaceLayout,raceLayoutCheckpointConstraint} from '../../src/race-layout-editor.mjs';
 import {cameraRay,intersectTerrain,pickPickup,sourceToDisplay,displayToSource} from './pickup-picking.mjs';
 import {CollisionOverlay} from './collision-overlay.mjs';
-import {cloneRaceRouteGroup,insertRaceRoutePoint,connectRaceRoutePoints,validateRaceRouteTopology} from '../../src/race-route-topology.mjs';
+import {cloneRaceRouteGroup,insertRaceRoutePoint,connectRaceRoutePoints,validateRaceRouteTopology,previewRaceRoutePointDeletion,removeRaceRoutePoint} from '../../src/race-route-topology.mjs';
 import {insertCheckpointAfter,removeCheckpoint,setFinishCheckpoint,setCheckpointTimingMarker} from '../../src/checkpoint-topology.mjs';
 
 const el=id=>document.getElementById(`layout-${id}`);
@@ -44,6 +44,11 @@ export class RaceLayoutEditorUI {
       const result=cloneRaceRouteGroup(base.routeTopology,groupId);editor.commitTopology({routes:result.topology});el('group').value=result.groupId;this.selected=Object.values(result.pointIds)[0]??null;this.refresh();text('status','Group cloned. Connect an entry and exit before Test changes or export.');});
     for(const side of ['before','after'])action(`insert-${side}`,()=>{const row=this.row();if(!row)return;const result=insertRaceRoutePoint(editor.current.routeTopology,row.groupId,row.routePointId,{side});editor.commitTopology({routes:result.topology});this.selected=result.pointId;this.refresh();text('status','Route point inserted; move it to shape the route.');});
     action('connect',()=>{const row=this.row();if(!row)return;editor.commitTopology({routes:connectRaceRoutePoints(editor.current.routeTopology,row.routePointId,Number(el('link-slot').value),el('link-target').value,{replace:el('replace-link').checked})});text('status','Explicit route connection saved.');});
+    action('remove-point',()=>this.openPointDeletion());
+    el('delete-replacement').addEventListener('change',()=>this.refreshPointDeletion(true));
+    el('delete-cancel').addEventListener('click',()=>el('delete-dialog').close());
+    el('delete-dialog').addEventListener('close',()=>{this.deletion=null;});
+    action('delete-apply',()=>{if(!this.deletion)return;const options=this.pointDeletionOptions(),result=removeRaceRoutePoint(editor.current.routeTopology,this.deletion.pointId,options);editor.commitTopology({routes:result.topology});this.selected=result.selectedPointId;el('delete-dialog').close();this.refresh();text('status','Point removed. Native links and recovery references were rebuilt in LOW + HIGH.');});
     action('checkpoint-add',()=>{const base=editor.current,row=this.row();if(!row)return;const next=insertCheckpointAfter(base.LOW.geometry,base.checkpointTopology,row.checkpointId,{level:base.level});const order=next.checkpoints.findIndex(cp=>cp.id===row.checkpointId);editor.commitTopology({checkpoints:next});this.selected=next.checkpoints[order+1].planes[0].id;this.refresh();text('status','Checkpoint copied after selection with timing feedback disabled. Move the copied plane to its desired position.');});
     action('checkpoint-remove',()=>{const row=this.row();if(row){editor.commitTopology({checkpoints:removeCheckpoint(editor.current.checkpointTopology,row.checkpointId)});this.selected=null;this.refresh();}});
     action('checkpoint-finish',()=>{const row=this.row();if(row)editor.commitTopology({checkpoints:setFinishCheckpoint(editor.current.checkpointTopology,row.checkpointId)});});
@@ -85,8 +90,21 @@ export class RaceLayoutEditorUI {
     return rows.filter(row=>this.kind!=='routes'||el('group').value===''||row.group===Number(el('group').value));
   }
   row(){return this.rows().find(row=>identity(this.kind,row)===this.selected)??null;}
+  protectionReason(row){return !row?'':this.kind==='routes'?this.editor.routePointProtectionReason?.(row)??'':this.kind==='checkpoints'?this.editor.checkpointProtectionReason?.(row)??'':'';}
+  openPointDeletion(){
+    const row=this.row();if(!row||this.kind!=='routes')return;const topology=this.editor.current.routeTopology,preview=previewRaceRoutePointDeletion(topology,row.routePointId);
+    this.deletion={pointId:row.routePointId};el('delete-replacement').replaceChildren(...topology.groups.flatMap((g,index)=>index?g.points.filter(p=>p.id!==row.routePointId).map((p,i)=>new Option(`Group ${index} / ${p.id}`,p.id)):[]));el('delete-replacement').value=preview.replacementPointId;
+    this.refreshPointDeletion(true);el('delete-dialog').showModal();
+  }
+  pointDeletionOptions(){return {replacementPointId:el('delete-replacement').value,transfers:[...el('delete-transfers').querySelectorAll('[data-source-slot]')].map(field=>({sourceSlot:Number(field.dataset.sourceSlot),ownerPointId:field.querySelector('[data-owner]').value||null,slot:Number(field.querySelector('[data-slot]').value)}))};}
+  refreshPointDeletion(reset=false){
+    if(!this.deletion)return;const topology=this.editor.current.routeTopology,point=topology.groups.flatMap(g=>g.points).find(p=>p.id===this.deletion.pointId),replacementPointId=el('delete-replacement').value,automatic=previewRaceRoutePointDeletion(topology,point.id,{replacementPointId});
+    if(reset){const seen=new Set(),fields=[];for(const [sourceSlot,link]of point.links.entries()){if(!link)continue;const target=link.pointId===point.id?replacementPointId:link.pointId;if(seen.has(target))continue;seen.add(target);const transfer=automatic.outgoingTransfers.find(t=>t.sourceSlot===sourceSlot),conflict=automatic.conflicts.find(t=>t.sourceSlot===sourceSlot),field=document.createElement('label');field.dataset.sourceSlot=String(sourceSlot);field.textContent=`Outgoing branch ${sourceSlot+1} → ${target}: `;const owner=document.createElement('select');owner.dataset.owner='';owner.replaceChildren(new Option('Remove this outgoing branch',''),...topology.groups.flatMap((g,index)=>index?g.points.filter(p=>p.id!==point.id).map(p=>new Option(`Group ${index} / ${p.id}`,p.id)):[]));owner.value=transfer?.ownerPointId??conflict?.ownerPointId??automatic.predecessorPointId;const slot=document.createElement('select');slot.dataset.slot='';slot.replaceChildren(new Option('Slot 1','0'),new Option('Slot 2','1'));slot.value=String(transfer?.slot??0);owner.addEventListener('change',()=>{const p=topology.groups.flatMap(g=>g.points).find(p=>p.id===owner.value),empty=p?.links.findIndex(v=>v===null);if(empty>=0)slot.value=String(empty);this.refreshPointDeletion();});slot.addEventListener('change',()=>this.refreshPointDeletion());field.append(owner,slot);fields.push(field);}el('delete-transfers').replaceChildren(...fields);}
+    const preview=previewRaceRoutePointDeletion(topology,point.id,this.pointDeletionOptions());text('delete-summary',`Remove ${point.id}. ${preview.incoming.length} incoming branch connection(s) will lead to ${preview.replacementPointId}. The ordinary route closes its gap automatically.`);text('delete-incoming',preview.incoming.map(p=>`${p.pointId}, slot ${p.slot+1} → ${p.replacementPointId}`).join('\n')||'No incoming branch connections.');text('delete-conflicts',preview.conflicts.map(c=>c.reason).join('\n'));el('delete-apply').disabled=preview.conflicts.length>0;
+  }
   commitRow(row){
     const e=this.editor;
+    const reason=this.protectionReason(row);if(reason)throw Error(reason);
     if(this.kind==='routes'&&e.current.routeTopology){const draft=copy(e.current.routeTopology),point=draft.groups.flatMap(g=>g.points).find(p=>p.id===row.routePointId);Object.assign(point,{position:[...row.position],minSpeed:row.minSpeed,targetSpeed:row.targetSpeed});e.commitTopology({routes:draft});}
     else if(this.kind==='checkpoints'&&e.current.checkpointTopology){const draft=copy(e.current.checkpointTopology);for(const cp of draft.checkpoints)for(const plane of cp.planes)if(plane?.id===row.id)Object.assign(plane,{position:[...row.position],direction:[...row.direction]});e.commitTopology({checkpoints:draft});}
     else e.commitLayout(this.patch(row));
@@ -105,6 +123,7 @@ export class RaceLayoutEditorUI {
     const e=this.editor;if(!e.layoutEditing||e.busy||event.button!==0||event.shiftKey)return false;
     const rows=this.rows(),index=pickPickup(rows.map(row=>sourceToDisplay(row.markerPosition??row.position)),e.navigation,e.canvas.getBoundingClientRect(),event.clientX,event.clientY,{radiusPx:13});
     if(index===null)return false;const row=rows[index];this.selected=identity(this.kind,row);
+    if(this.protectionReason(row)){e.canvas.focus();this.refresh();return true;}
     this.drag={row:copy(row),x:event.clientX,y:event.clientY,position:null};e.canvas.focus();e.canvas.setPointerCapture(event.pointerId);this.refresh();return true;
   }
   pointerMove(event){
@@ -144,26 +163,27 @@ export class RaceLayoutEditorUI {
     const rows=this.rows(),selector=el('selection'),signature=JSON.stringify([base?.level,this.kind,rows.map(r=>[identity(this.kind,r),r.group,r.point,r.order,r.timingMarker])]);
     if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a marker',''),...rows.map(row=>new Option(this.kind==='routes'?`Group ${row.group} / point ${row.point}`:this.kind==='checkpoints'?`${row.order===0?'Finish':'Checkpoint '+row.order}${row.lane?' · alternative '+row.lane:''}${row.timingMarker?' · timing marker':''}`:`Starting slot ${row.index+1}`,identity(this.kind,row))));selector.dataset.signature=signature;}
     if(this.selected&&!rows.some(r=>identity(this.kind,r)===this.selected))this.selected=null;if(selector.value!==(this.selected??''))selector.value=this.selected??'';
-    const row=this.row(),p=row?sourceToDisplay(row.position):['','',''],d=row?.direction?sourceToDisplay(row.direction):['','',''];
-    for(const [id,value]of [...['x','y','z'].map((id,i)=>[id,p[i]]),...['dx','dy','dz'].map((id,i)=>[id,d[i]]),['min-speed',row?.minSpeed??''],['target-speed',row?.targetSpeed??'']]){const input=el(id);input.disabled=!active||!row;if(document.activeElement!==input&&input.value!==String(value))input.value=String(value);}
-    for(const [id,value]of [['minimum-readable',row?.minSpeed===undefined?'':row.minSpeed*2],['target-readable',row?.targetSpeed===undefined?'':Math.min(row.targetSpeed,254)*2]]){const input=el(id);input.disabled=!active||!row||id==='target-readable'&&row.targetSpeed===255;if(document.activeElement!==input&&input.value!==String(value))input.value=String(value);}
-    el('full-throttle').checked=row?.targetSpeed===255;el('full-throttle').disabled=!active||!row;
+    const row=this.row(),protection=this.protectionReason(row),locked=Boolean(protection),p=row?sourceToDisplay(row.position):['','',''],d=row?.direction?sourceToDisplay(row.direction):['','',''];
+    for(const [id,value]of [...['x','y','z'].map((id,i)=>[id,p[i]]),...['dx','dy','dz'].map((id,i)=>[id,d[i]]),['min-speed',row?.minSpeed??''],['target-speed',row?.targetSpeed??'']]){const input=el(id);input.disabled=!active||!row||locked;if(document.activeElement!==input&&input.value!==String(value))input.value=String(value);}
+    for(const [id,value]of [['minimum-readable',row?.minSpeed===undefined?'':row.minSpeed*2],['target-readable',row?.targetSpeed===undefined?'':Math.min(row.targetSpeed,254)*2]]){const input=el(id);input.disabled=!active||!row||locked||id==='target-readable'&&row.targetSpeed===255;if(document.activeElement!==input&&input.value!==String(value))input.value=String(value);}
+    el('full-throttle').checked=row?.targetSpeed===255;el('full-throttle').disabled=!active||!row||locked;
     const allRoutes=base?.routeTopology?.groups.flatMap((group,index)=>index?group.points.map((point,i)=>({id:point.id,label:`Group ${index} / point ${i}`})):[])??[],linkSignature=JSON.stringify(allRoutes);
     if(el('link-target').dataset.signature!==linkSignature){const previous=el('link-target').value;el('link-target').replaceChildren(new Option('Choose destination',''),...allRoutes.map(r=>new Option(r.label,r.id)));if(allRoutes.some(r=>r.id===previous))el('link-target').value=previous;el('link-target').dataset.signature=linkSignature;}
     const topologyLocked=[12,13].includes(base?.level),isRoute=this.kind==='routes',isCheckpoint=this.kind==='checkpoints';
-    for(const id of ['insert-before','insert-after','connect','link-slot','link-target','replace-link'])el(id).disabled=!active||!row||!isRoute;
-    el('clone-group').disabled=!active||!isRoute||!row&&!el('group').value;
-    for(const id of ['checkpoint-add','checkpoint-finish'])el(id).disabled=!active||!row||!isCheckpoint||topologyLocked;
+    for(const id of ['insert-before','insert-after','connect','link-slot','link-target','replace-link'])el(id).disabled=!active||!row||!isRoute||locked;
+    el('remove-point').disabled=!active||!row||!isRoute||locked||(base?.routeTopology?.groups.find(g=>g.id===row?.groupId)?.points.length??0)<=2;
+    el('clone-group').disabled=!active||!isRoute||locked||!row&&!el('group').value;
+    for(const id of ['checkpoint-add','checkpoint-finish'])el(id).disabled=!active||!row||!isCheckpoint||topologyLocked||locked;
     el('checkpoint-remove').disabled=!active||!row||!isCheckpoint||topologyLocked||(base?.checkpointTopology?.checkpoints.length??0)<=2;
-    el('checkpoint-timing').disabled=!active||!row||!isCheckpoint;el('checkpoint-timing').checked=Boolean(row?.timingMarker);
+    el('checkpoint-timing').disabled=!active||!row||!isCheckpoint||locked;el('checkpoint-timing').checked=Boolean(row?.timingMarker);
     let warning='';
     if(isRoute&&base?.routeTopology){
       if(this.validatedRoutes!==base.routeTopology||this.validatedGeometry!==base.LOW.geometry){this.routeValidation=validateRaceRouteTopology(base.LOW.geometry,base.routeTopology,{requireConnected:false});this.validatedRoutes=base.routeTopology;this.validatedGeometry=base.LOW.geometry;}
       warning=[...this.routeValidation.errors,...this.routeValidation.warnings].join(' ');
     }
     if(isCheckpoint&&topologyLocked)warning=`LEV${base.level}: adding/removing checkpoints and changing the finish are locked because native terrain direction uses hardcoded checkpoint stages. Plane movement and timing feedback remain editable.`;
-    text('topology-warning',warning);
-    for(const id of ['selection','group','show'])el(id).disabled=!active;el('focus').disabled=!active||!row;el('apply').disabled=!active||!row;
+    text('topology-warning',[protection,warning].filter(Boolean).join(' '));
+    for(const id of ['selection','group','show'])el(id).disabled=!active;el('focus').disabled=!active||!row;el('apply').disabled=!active||!row||locked;
     el('undo').disabled=!active||!base?.layoutUndo?.length;el('redo').disabled=!active||!base?.layoutRedo?.length;el('reset').disabled=!active||!base||!(Object.values(base.layoutDraft).some(rows=>rows.length)||JSON.stringify(base.routeTopology)!==JSON.stringify(base.routeOriginal)||JSON.stringify(base.checkpointTopology)!==JSON.stringify(base.checkpointOriginal));
     text('count',`${rows.length} ${this.kind==='routes'?'stored route points':this.kind==='checkpoints'?'checkpoint markers':'starting slots'} · LOW + HIGH`);
     text('details',row?isRoute?`Native minimum speed threshold ${row.minSpeed*2}; target ${row.targetSpeed===255?'full throttle':row.targetSpeed*2}. These are native speed thresholds, not verified km/h. Outgoing links: ${row.links.map((link,i)=>`${i+1}: ${link?allRoutes.find(r=>r.id===link.pointId)?.label??link.pointId:'empty'}`).join('; ')}. Stored control flags are preserved.`:isCheckpoint?`Sector ${row.sector} · logical order ${row.order} · progress ${row.progress}. Timing feedback is independent of finish/lap counting. New order uses equal progress intervals.`:`Starting direction follows the finish checkpoint: [${base?.checkpointTopology?.checkpoints[0]?.planes[0]?.direction.join(', ')??''}] native units; no per-slot yaw is stored.`:'Select a marker in the view or list. Coordinates and terrain coverage are validated before applying.');

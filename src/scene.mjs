@@ -1,5 +1,7 @@
 // Primary SEGM grids. Native anchors: scene results 027, 034 and 042.
-export function parseScene(data) {
+import {decodeTexturePageWord} from './texture-page-word.mjs';
+export function parseScene(data,{texturePageMode='rollcage'}={}) {
+  if(!['rollcage','legacy'].includes(texturePageMode))throw Error('Unsupported scene texture-page mode.');
   if (!Buffer.isBuffer(data) || data.length < 0x120 || data.toString('ascii',0,4)!=='GFXM') throw new Error('Invalid GFXM scene header.');
   function range(offset,bytes,label) {
     if (!Number.isSafeInteger(offset)||!Number.isSafeInteger(bytes)||offset<0||bytes<0||offset+bytes>data.length) throw new Error(`Scene ${label} exceeds resource bounds.`);
@@ -29,7 +31,7 @@ export function parseScene(data) {
       // FUN_00489e40 maps TL/TR/BL/BR directly when bit 2 is set,
       // otherwise it rotates the packet corners to TR/BR/TL/BL.
       const indices=vertexFlags&4?gridIndices:[gridIndices[1],gridIndices[3],gridIndices[0],gridIndices[2]];
-      return {index:i,template:data.readUInt16LE(p),textureRecord,pageWord,page:pageWord&0x3f,
+      return {index:i,template:data.readUInt16LE(p),textureRecord,pageWord,page:texturePageMode==='legacy'?pageWord&0x3f:decodeTexturePageWord(pageWord),
         clutWord:data.readUInt16LE(uvOffset+2), uv:[[data[uvOffset],data[uvOffset+1]],[data[uvOffset+4],data[uvOffset+5]],
           [data[uvOffset+8],data[uvOffset+9]],[data[uvOffset+10],data[uvOffset+11]]],
         indices,gridIndices,

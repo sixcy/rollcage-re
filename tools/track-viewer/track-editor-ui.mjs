@@ -1,16 +1,23 @@
 import {RaceLayoutEditorUI} from './race-layout-editor-ui.mjs';
+import {SplineRoadEditorUI} from './spline-road-editor-ui.mjs';
+import {ReversalEditorUI} from './reversal-editor-ui.mjs';
+import {generateSplineRoad} from '../../src/spline-road.mjs';
+import {compileSplineRoads} from '../../src/terrain-construction.mjs';
+import {editorProtectionRules,inspectEditorProtection,protectedPositionReason,protectedBoundsReason} from '../../src/editor-protection.mjs';
 import {emptyRaceLayoutDraft} from '../../src/race-layout-editor.mjs';
-import {createRaceRouteTopology,validateRaceRouteTopology} from '../../src/race-route-topology.mjs';
+import {createRaceRouteTopology,validateRaceRouteTopology,upsertSplineRoadRoute,removeSplineRoadRoute} from '../../src/race-route-topology.mjs';
 import {createCheckpointTopologyDraft} from '../../src/checkpoint-topology.mjs';
 import {recoverEditedRollcageIndex,originalRollcageView} from '../../src/edited-rollcage-index.mjs';
 import {TerrainEditorUI} from './terrain-editor-ui.mjs';
-import {emptyTerrainDraft} from '../../src/terrain-editor.mjs';
+import {emptyTerrainDraft,compileTerrainEdits} from '../../src/terrain-editor.mjs';
+import {parseScene} from '../../src/scene.mjs';
+import {speedPadFootprint,speedPadPatternShape} from '../../src/speed-pad-patterns.mjs';
 import {PickupEditor} from './pickup-editor-ui.mjs';
 import {getGame} from '../../src/track-games.mjs';
 import {parseGFXM} from '../../src/gfxm.mjs';
 import {parsePlacements} from '../../src/placements.mjs';
 import {placementMatrix, transformPlacedVertex} from '../../src/fixed-math.mjs';
-import {SCENERY_LEVELS, inspectScenery, createSceneryDraft, validateSceneryImport, applySceneryTransform,instantiateSceneryAssembly} from '../../src/scenery-editor.mjs';
+import {SCENERY_LEVELS, inspectScenery, createSceneryDraft, inspectSceneryImport, applySceneryTransform,instantiateSceneryAssembly} from '../../src/scenery-editor.mjs';
 import {buildSceneryAssemblyPreview} from '../../src/scenery-assembly-preview.mjs';
 import {inspectSceneryCollisions} from '../../src/scenery-collision-info.mjs';
 import {collisionLabel,collisionDescription} from './collision-label.mjs';
@@ -20,7 +27,7 @@ import {CollisionOverlay} from './collision-overlay.mjs';
 import {compileTrackDraft, parseTrackProject, validateTrackProject} from '../../src/track-editor-project.mjs';
 import {pickupSha256, parsePickupProject, validatePickupProject} from '../../src/pickup-editor.mjs';
 import {decodeObjectCollection} from '../../src/object-catalog.mjs';
-import {cameraRay, intersectTerrain, sourceToDisplay, displayToSource, prepareTerrainPicking} from './pickup-picking.mjs';
+import {cameraRay, intersectTerrain, pickPickup, sourceToDisplay, displayToSource, prepareTerrainPicking} from './pickup-picking.mjs';
 import {Renderer} from './renderer.mjs';
 import {Navigation} from './navigation.mjs';
 import {carDisplayMatrix} from './solo-presentation.mjs';
@@ -39,10 +46,42 @@ export class TrackEditor extends PickupEditor {
   constructor(options) {
     super(options);
     this.modelsEditing=false;this.modelSelected=null;this.modelPending=null;this.modelDrag=null;this.modelSerial=0;this.libraryToken=0;
-    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.terrainEditing=false;this.terrain=new TerrainEditorUI(this);this.layoutEditing=false;this.layout=new RaceLayoutEditorUI(this);this.modelOverlay=new CollisionOverlay(this.renderer);this.refresh();
+    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.terrainEditing=false;this.terrain=new TerrainEditorUI(this);this.layoutEditing=false;this.layout=new RaceLayoutEditorUI(this);this.roadEditing=false;this.variantEditing=false;this.roadsTool=new SplineRoadEditorUI(this);this.reversalTool=new ReversalEditorUI(this);this.modelOverlay=new CollisionOverlay(this.renderer);this.protectionOverlay=new CollisionOverlay(this.renderer);this.refresh();
   }
-  get active(){return this.editing||this.modelsEditing||this.terrainEditing||this.layoutEditing;}
-  changed(base){return !same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.assemblies?.length||base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length||base.terrainDraft?.patterns?.length||Object.values(base.layoutDraft??{}).some(rows=>rows.length))||!same(base.routeTopology,base.routeOriginal)||!same(base.checkpointTopology,base.checkpointOriginal);}
+  get active(){return this.editing||this.modelsEditing||this.terrainEditing||this.layoutEditing||this.roadEditing||this.variantEditing;}
+  stopRoadTools(){this.roadsTool?.cancel();this.roadEditing=false;this.variantEditing=false;}
+  setRoadEditing(){this.layout.cancel();this.terrain.cancel();this.cancelModels();this.releaseMouse();this.editing=false;this.modelsEditing=false;this.terrainEditing=false;this.layoutEditing=false;this.variantEditing=false;this.roadEditing=Boolean(this.current);if(this.navigation.mode==='follow')this.navigation.setMode('orbit');this.roadsTool.ensure();this.onModeChange(this.active);this.refresh();}
+  setVariantEditing(){this.stopRoadTools();this.layout.cancel();this.terrain.cancel();this.cancelModels();this.releaseMouse();this.editing=false;this.modelsEditing=false;this.terrainEditing=false;this.layoutEditing=false;this.variantEditing=Boolean(this.current);this.onModeChange(this.active);this.refresh();}
+  routePointProtectionReason(row){return row&&this.current?protectedPositionReason(this.current.LOW.geometry,this.current.level,row.position):'';}
+  checkpointProtectionReason(row){const rule=editorProtectionRules(this.current?.level);return row&&(rule.stages.includes(row.order)||rule.sectors.includes(row.sector))?`${rule.reason} Checkpoint stage ${row.order} is read-only.`:'';}
+  modelProtectionReason(row){if(!row||!this.current||!editorProtectionRules(this.current.level).sectors.length)return '';const key=JSON.stringify([this.current.level,row]);this.protectedModelChecks??=new Map();if(!this.protectedModelChecks.has(key))this.protectedModelChecks.set(key,protectedBoundsReason(this.current.LOW.geometry,this.current.level,this.modelBounds(row).map(([lo,hi],axis)=>axis?[-hi,-lo]:[lo,hi])));return this.protectedModelChecks.get(key);}
+  changed(base){return !same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.roads?.length||base.reversal||base.assemblies?.length||base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length||base.terrainDraft?.patterns?.length||Object.values(base.layoutDraft??{}).some(rows=>rows.length))||!same(base.routeTopology,base.routeOriginal)||!same(base.checkpointTopology,base.checkpointOriginal);}
+  levelDraft(base=this.current){return {level:base.level,pickups:copy(base.draft),models:copy(base.modelDraft),terrain:copy(base.terrainDraft),layout:copy(base.layoutDraft),routeTopology:copy(base.routeTopology),checkpointTopology:copy(base.checkpointTopology),assemblies:copy(base.assemblies??[]),roads:copy(base.roads??[]),reversal:copy(base.reversal??null)};}
+  commitVariant(row){
+    const base=this.current,compiled=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},row,this.sources(),{requireConnected:false});this.cancelDrag();this.cancelModels();
+    Object.assign(base,{draft:copy(row.pickups),modelDraft:copy(row.models),terrainDraft:copy(row.terrain),layoutDraft:copy(row.layout),routeTopology:copy(row.routeTopology),checkpointTopology:copy(row.checkpointTopology),assemblies:copy(row.assemblies??[]),roads:copy(row.roads??[]),reversal:copy(row.reversal??null)});
+    for(const name of ['undo','redo','modelUndo','modelRedo','terrainUndo','terrainRedo','layoutUndo','layoutRedo','roadUndo','roadRedo'])base[name]=[];base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
+  }
+  roadSnapshot(){return {roads:copy(this.current.roads),terrain:copy(this.current.terrainDraft),routes:copy(this.current.routeTopology)};}
+  roadSourceGeometry(base=this.current){const signature=JSON.stringify(base.terrainDraft.heights);if(base.roadSourceSignature!==signature){base.roadSourceGeometry=compileTerrainEdits(base.LOW.geometry,{heights:base.terrainDraft.heights,surfaces:[]});base.roadSourceSignature=signature;}return base.roadSourceGeometry;}
+  commitRoadState({roads,terrain=this.current.terrainDraft,routes=this.current.routeTopology},{history=true}={}){
+    const base=this.current,compiled=this.compile(base,base.modelDraft,base.draft,terrain,base.layoutDraft,{roads,routes});if(history){base.roadUndo.push(this.roadSnapshot());if(base.roadUndo.length>100)base.roadUndo.shift();base.roadRedo=[];}base.roads=copy(roads);base.terrainDraft=copy(terrain);base.routeTopology=copy(routes);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
+  }
+  remapRoadPaint(roads){
+    const base=this.current,current=this.compile(base).LOW,old=current.roads??[],constructed=compileSplineRoads(this.roadSourceGeometry(base),roads,{texture:base.LOW.texture}),next=constructed.generated,oldScene=parseScene(current.geometry),newScene=parseScene(constructed.data),oldMap=new Map(old.flatMap(road=>road.sectors.map((sector,part)=>[sector,{id:road.roadId,part}]))),newMap=new Map(next.map(r=>[r.roadId,r])),terrain=copy(base.terrainDraft);
+    const remap=row=>{const out={...row};for(const [key,cellKey]of [['sector','cell'],['sourceSector','sourceCell']])if(oldMap.has(row[key])){const ref=oldMap.get(row[key]),sector=newMap.get(ref.id)?.sectors[ref.part];if(sector===undefined)return null;out[key]=sector;if(row[cellKey]!==undefined){const prior=oldScene.segments[row[key]],next=newScene.segments[sector],r=Math.floor(row[cellKey]/prior.columns),c=row[cellKey]%prior.columns;if(r>=next.rows||c>=next.columns)return null;out[cellKey]=r*next.columns+c;}}if(out.rotation!==undefined){try{speedPadFootprint(newScene,out,speedPadPatternShape(out));}catch{return null;}}return out;};for(const key of ['heights','surfaces','patterns'])if(terrain[key])terrain[key]=terrain[key].map(remap).filter(Boolean);return terrain;
+  }
+  commitRoadDefinition(road,{generateRoute=true,entryPointId=null,exitPointId=null,replaceEntry=false}={}){
+    const base=this.current,roads=base.roads.filter(r=>r.id!==road.id);const index=base.roads.findIndex(r=>r.id===road.id);if(index<0)roads.push(road);else roads.splice(index,0,road);let routes=base.routeTopology;
+    if(generateRoute&&road.routeTemplateGroup)routes=upsertSplineRoadRoute(base.LOW.geometry,routes,{roadId:road.id,centerline:generateSplineRoad(this.roadSourceGeometry(base),road).centerline,templateGroupId:road.routeTemplateGroup,entryPointId,exitPointId,replaceEntry}).topology;
+    this.commitRoadState({roads,terrain:this.remapRoadPaint(roads),routes});this.say('Road and optional AI route applied to LOW + HIGH. Check endpoint links and tune copied speeds before racing.');
+  }
+  deleteRoadDefinition(id,{replacementPointId}={}){
+    const base=this.current,group=base.routeTopology.groups.find(g=>g.roadId===id&&!g.retired);let routes=base.routeTopology;
+    if(group){const outside=link=>link&&!group.points.some(p=>p.id===link.pointId);replacementPointId??=group.points.flatMap(p=>p.links).find(outside)?.pointId??base.routeTopology.groups.find(g=>g.sourceGroup!==null&&g.index&&g.points.length)?.points[0].id;routes=removeSplineRoadRoute(routes,id,{replacementPointId}).topology;}
+    const roads=base.roads.filter(r=>r.id!==id);this.commitRoadState({roads,terrain:this.remapRoadPaint(roads),routes});this.say('Road and its generated route removed. Retired route IDs are preserved. Pickups and scenery keep their positions; inspect them before testing.');
+  }
+  roadHistory(from,to){const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),current=this.roadSnapshot();this.commitRoadState(next,{history:false});base[from].pop();base[to].push(current);this.refresh();}
   get hasEdits(){return [...this.levels.values()].some(base=>base.modelDraft&&this.changed(base));}
   async readLevel(level,source) {
     const base=await super.readLevel(level,source);
@@ -63,30 +102,33 @@ export class TrackEditor extends PickupEditor {
       base.highInfo=inspectScenery(base.HIGH.geometry,base.HIGH.texture);
       base.collisions={LOW:inspectSceneryCollisions(base.LOW.geometry,base.LOW.texture),HIGH:inspectSceneryCollisions(base.HIGH.geometry,base.HIGH.texture)};
       base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.layoutDraft=emptyRaceLayoutDraft();base.layoutUndo=[];base.layoutRedo=[];
-      base.routeOriginal=createRaceRouteTopology(base.LOW.geometry);base.routeTopology=copy(base.routeOriginal);base.checkpointOriginal=base.LOW.geometry[0x95]?createCheckpointTopologyDraft(base.LOW.geometry):{checkpoints:[]};base.checkpointTopology=copy(base.checkpointOriginal);base.assemblies=[];
+      base.routeOriginal=createRaceRouteTopology(base.LOW.geometry);base.routeTopology=copy(base.routeOriginal);base.checkpointOriginal=base.LOW.geometry[0x95]?createCheckpointTopologyDraft(base.LOW.geometry):{checkpoints:[]};base.checkpointTopology=copy(base.checkpointOriginal);base.assemblies=[];base.roads=[];base.reversal=null;base.roadUndo=[];base.roadRedo=[];
       base.hashes={};for(const quality of ['LOW','HIGH'])base.hashes[quality]={geometry:base.sourceHashes[quality],texture:await pickupSha256(base[quality].texture)};
       if(this.archive!==source)throw Error('Archive changed while checking scenery.');
       this.levels.set(level,base);
       return base;
     } catch(error){if(this.levels.get(level)===base)this.levels.delete(level);throw error;}
   }
-  async setSource(...args){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.terrain&&(this.terrain.paletteBase=null);this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
-  clearTrack(){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
+  async setSource(...args){this.stopRoadTools();this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.terrain&&(this.terrain.paletteBase=null);this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
+  clearTrack(){this.stopRoadTools();this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
   async setTrack(track,scene){this.track=track;await super.setTrack(track,scene);this.refresh();}
-  validateRaceReady(base=this.current){if(base?.routeTopology){const result=validateRaceRouteTopology(base.LOW.geometry,base.routeTopology,{requireConnected:true});if(!result.valid)throw Error(result.errors.join(' '));}}
-  setEditing(enabled,options){if(options?.testing)this.validateRaceReady();this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
+  validateRaceReady(base=this.current){if(!base?.modelDraft)return;const signature=this.signature(base);if(base.raceReadySignature!==signature){compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},this.levelDraft(base),this.sources(),{requireConnected:true});base.raceReadySignature=signature;}}
+  setEditing(enabled,options){this.stopRoadTools();if(options?.testing)this.validateRaceReady();this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
   setModelsEditing(enabled){
+    this.stopRoadTools();
     this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;
     this.releaseMouse();this.cancelModels();this.editing=false;this.adding=false;this.modelsEditing=Boolean(enabled&&this.current?.modelDraft);
     if(this.modelsEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');el('objects').checked=true;}
     this.onModeChange(this.active);this.refresh();
   }
   setTerrainEditing(kind){
+    this.stopRoadTools();
     this.layout?.cancel();this.layoutEditing=false;this.releaseMouse();this.cancelModels();this.editing=false;this.modelsEditing=false;this.adding=false;this.terrainEditing=Boolean(kind&&this.current);
     if(this.terrainEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');this.terrain.setKind(kind);}
     this.onModeChange(this.active);this.refresh();
   }
   setLayoutEditing(kind){
+    this.stopRoadTools();
     this.releaseMouse();this.cancelModels();this.terrain.cancel();this.terrainEditing=false;this.editing=false;this.modelsEditing=false;this.adding=false;this.layoutEditing=Boolean(kind&&this.current);
     if(this.layoutEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');this.layout.setKind(kind);}
     this.onModeChange(this.active);this.refresh();
@@ -104,7 +146,7 @@ export class TrackEditor extends PickupEditor {
   layoutHistory(from,to){
     this.layout.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,base.terrainDraft,next.layout,{routes:next.routes,checkpoints:next.checkpoints});base[to].push(this.layoutSnapshot());base[from].pop();base.layoutDraft=copy(next.layout);base.routeTopology=copy(next.routes);base.checkpointTopology=copy(next.checkpoints);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
   }
-  signature(base){return JSON.stringify([base.modelDraft,base.draft,base.terrainDraft,base.layoutDraft,base.routeTopology,base.checkpointTopology,base.assemblies]);}
+  signature(base){return JSON.stringify([base.modelDraft,base.draft,base.terrainDraft,base.layoutDraft,base.routeTopology,base.checkpointTopology,base.assemblies,base.roads,base.reversal]);}
   commitTerrain(draft){
     const base=this.current;if(same(draft,base.terrainDraft))return;
     const compiled=this.compile(base,base.modelDraft,base.draft,draft);base.terrainUndo.push(copy(base.terrainDraft));if(base.terrainUndo.length>100)base.terrainUndo.shift();base.terrainRedo=[];base.terrainDraft=copy(draft);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
@@ -113,12 +155,12 @@ export class TrackEditor extends PickupEditor {
     this.terrain.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,next);base[to].push(copy(base.terrainDraft));base.terrainDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
   }
   sources(){return new Map([...this.levels].filter(([,base])=>base.modelDraft).map(([level,base])=>[level,{LOW:base.LOW,HIGH:base.HIGH}]));}
-  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft(),layout=base.layoutDraft??emptyRaceLayoutDraft(),{routes=base.routeTopology,checkpoints=base.checkpointTopology,assemblies=base.assemblies}={}){
-    const signature=JSON.stringify([models,pickups,terrain,layout,routes,checkpoints,assemblies]);
+  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft(),layout=base.layoutDraft??emptyRaceLayoutDraft(),{routes=base.routeTopology,checkpoints=base.checkpointTopology,assemblies=base.assemblies,roads=base.roads??[],reversal=base.reversal??null}={}){
+    const signature=JSON.stringify([models,pickups,terrain,layout,routes,checkpoints,assemblies,roads,reversal]);
     if(base.compiledSignature===signature)return base.compiled;
-    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain,layout,routeTopology:routes,checkpointTopology:checkpoints,assemblies},this.sources(),{requireConnected:false});
+    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain,layout,routeTopology:routes,checkpointTopology:checkpoints,assemblies,roads,reversal},this.sources(),{requireConnected:false});
     // Cache only committed state; rejected previews never replace it.
-    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft&&layout===base.layoutDraft&&routes===base.routeTopology&&checkpoints===base.checkpointTopology&&assemblies===base.assemblies){base.compiledSignature=signature;base.compiled=result;}
+    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft&&layout===base.layoutDraft&&routes===base.routeTopology&&checkpoints===base.checkpointTopology&&assemblies===base.assemblies&&roads===base.roads&&reversal===base.reversal){base.compiledSignature=signature;base.compiled=result;}
     return result;
   }
   resourcesFor(track,geometry,texture){const base=this.levels.get(levelOf(track));return base?.modelDraft?this.compile(base)[qualityOf(track)]:{geometry,texture};}
@@ -126,9 +168,9 @@ export class TrackEditor extends PickupEditor {
   geometryFor(track,original){return this.resourcesFor(track,original,null).geometry;}
   async project(){
     if(!this.archive||!this.indexSha256)throw Error('Load original verified Rollcage archives first.');
-    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&this.changed(b)).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft),layout:copy(b.layoutDraft),routeTopology:copy(b.routeTopology),checkpointTopology:copy(b.checkpointTopology),assemblies:copy(b.assemblies)}));
-    const required=new Set(levels.flatMap(row=>[row.level,...row.models.map(m=>m.sourceLevel)]));
-    return parseTrackProject({schemaVersion:5,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
+    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&this.changed(b)).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft),layout:copy(b.layoutDraft),routeTopology:copy(b.routeTopology),checkpointTopology:copy(b.checkpointTopology),assemblies:copy(b.assemblies),roads:copy(b.roads??[]),reversal:copy(this.compile(b).reversalReport??b.reversal??null)}));
+    const required=new Set(levels.flatMap(row=>[row.level,...row.models.map(m=>m.sourceLevel),...(row.reversal?.originalDraft?.models??[]).map(m=>m.sourceLevel)]));
+    return parseTrackProject({schemaVersion:6,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
   }
   async restoreProject(value){
     let levels;
@@ -152,15 +194,15 @@ export class TrackEditor extends PickupEditor {
       const base=this.levels.get(row.level),routes=copy(row.routeTopology??createRaceRouteTopology(base.LOW.geometry)),checkpoints=copy(row.checkpointTopology??createCheckpointTopologyDraft(base.LOW.geometry));
       if(!row.routeTopology)for(const edit of row.layout?.routes??[]){const point=routes.groups.find(g=>g.sourceGroup===edit.group)?.points.find(p=>p.sourcePoint===edit.point);if(!point)throw Error('Legacy route references a missing authored point.');Object.assign(point,{position:[...edit.position],minSpeed:edit.minSpeed,targetSpeed:edit.targetSpeed});}
       if(!row.checkpointTopology)for(const edit of row.layout?.checkpoints??[]){let found=false;for(const cp of checkpoints.checkpoints)for(const plane of cp.planes)if(plane?.sourceId===edit.id){found=true;Object.assign(plane,{position:[...edit.position],direction:[...edit.direction]});}if(!found)throw Error('Legacy checkpoint references a missing authored plane.');}
-      const state={...row,terrain:copy(row.terrain??emptyTerrainDraft()),layout:{routes:[],checkpoints:[],starts:copy(row.layout?.starts??[])},routeTopology:routes,checkpointTopology:checkpoints,assemblies:copy(row.assemblies??[])};
+      const state={...row,terrain:copy(row.terrain??emptyTerrainDraft()),layout:{routes:[],checkpoints:[],starts:copy(row.layout?.starts??[])},routeTopology:routes,checkpointTopology:checkpoints,assemblies:copy(row.assemblies??[]),roads:copy(row.roads??[]),reversal:copy(row.reversal??null)};
       const finalCompiled=compileTrackDraft(this.sources().get(row.level),state,this.sources(),{requireConnected:false});return {state,compiled:finalCompiled};
     });
     // All resources, hashes, migrations and both quality compilers passed.
     this.cancelModels();this.cancelDrag();
     for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.layoutDraft=emptyRaceLayoutDraft();base.routeTopology=copy(base.routeOriginal);base.checkpointTopology=copy(base.checkpointOriginal);base.assemblies=[];base.layoutUndo=[];base.layoutRedo=[];base.compiledSignature=null;}
-    for(const {state:row,compiled:result} of staged){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain);base.routeTopology=copy(row.routeTopology);base.checkpointTopology=copy(row.checkpointTopology);base.assemblies=copy(row.assemblies);base.layoutDraft=copy(row.layout);base.compiled=result;base.compiledSignature=this.signature(base);}
+    for(const {state:row,compiled:result} of staged){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain);base.routeTopology=copy(row.routeTopology);base.checkpointTopology=copy(row.checkpointTopology);base.assemblies=copy(row.assemblies);base.roads=copy(row.roads);base.reversal=copy(row.reversal);base.layoutDraft=copy(row.layout);base.compiled=result;base.compiledSignature=this.signature(base);}
     this.revision++;this.savedRevision=this.revision;this.modelSelected=null;this.selected=null;this.onChange();
-    const tool=el('editor-tool').value;if(tool==='models')this.setModelsEditing(true);else if(tool==='pickups')this.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))this.setLayoutEditing(tool);else this.setTerrainEditing(tool);
+    const tool=el('editor-tool').value;if(tool==='models')this.setModelsEditing(true);else if(tool==='pickups')this.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))this.setLayoutEditing(tool);else if(tool==='roads')this.setRoadEditing();else if(tool==='reverse')this.setVariantEditing();else this.setTerrainEditing(tool);
     this.say('Track project loaded. Edits apply to LOW + HIGH.');
   }
   async exportReplacements(){
@@ -209,10 +251,12 @@ export class TrackEditor extends PickupEditor {
   assemblyMembers(command){const key=JSON.stringify([this.current?.level,command]);this.assemblyMembersCache??=new Map();if(!this.assemblyMembersCache.has(key)){if(this.assemblyMembersCache.size>64)this.assemblyMembersCache.clear();const base=this.levels.get(command.sourceLevel);this.assemblyMembersCache.set(key,instantiateSceneryAssembly(base.LOW,command.templateIndex,{...command,level:base.level}).members);}return this.assemblyMembersCache.get(key);}
   modelCapability(row,capability='editable'){
     if(!row)return false;const base=this.levels.get(row.sourceLevel),assembly=Boolean(this.modelAssembly(row));
+    if(['editable','yawEditable','removable'].includes(capability)&&this.modelProtectionReason(row))return false;
     return Boolean(base&&[base.modelInfo,base.highInfo].every(info=>{const p=info.find(p=>p.index===row.templateIndex);if(capability==='duplicable')return p?.duplicable||p?.assemblyDuplicable;if(assembly&&capability==='removable')return false;if(assembly&&capability==='editable')return p?.assemblyDuplicable;if(assembly&&capability==='yawEditable')return p?.assemblyYawEditable;return p?.[capability];}));
   }
   modelEditable(row){return this.modelCapability(row);}
   modelReason(row,capability='editable'){
+    if(['editable','yawEditable','removable'].includes(capability)){const reason=this.modelProtectionReason(row);if(reason)return reason;}
     const base=this.levels.get(row?.sourceLevel);if(!base)return 'Original model library is unavailable.';
     for(const [quality,info]of[['LOW',base.modelInfo],['HIGH',base.highInfo]]){const p=info?.find(p=>p.index===row.templateIndex);if(!p?.[capability])return `${quality}: ${p?.reason||p?.importReason||'Unsupported model operation.'}`;}
     return '';
@@ -280,25 +324,26 @@ export class TrackEditor extends PickupEditor {
     const index=this.templateFor(entry)?.index??entry.placementIndices[0],low=this.libraryBase?.collisions?.LOW.get(index),high=this.libraryBase?.collisions?.HIGH.get(index);
     return {low,high,label:collisionLabel(low,high)};
   }
-  checkImport(sourceLevel,templateIndex){
-    if(!this.current)return 'Load a destination track first.';
+  checkImport(sourceLevel,templateIndex,{details=false}={}){
+    if(!this.current){const result={reason:'Load a destination track first.',qualities:{}};return details?result:result.reason;}
     const key=`${this.current.level}:${this.revision}:${sourceLevel}:${templateIndex}`;
-    if(this.importChecks.has(key))return this.importChecks.get(key);
+    if(this.importChecks.has(key)){const result=this.importChecks.get(key);return details?result:result.reason;}
     const base=this.levels.get(sourceLevel),template=base?.modelInfo.find(p=>p.index===templateIndex);
-    let reason='';
+    const result={reason:'',qualities:{}};
     try{
       if(!template?.importable||!base.highInfo.find(p=>p.index===templateIndex)?.importable)throw Error(this.modelReason({sourceLevel,templateIndex},'importable'));
       let serial=0,id;do{id=`import-check-${serial++}`;}while(this.current.modelDraft.some(p=>p.id===id));
       const rows=[...this.current.modelDraft,{id,sourceLevel,templateIndex,position:[...template.position],yaw:template.yaw}];
-      for(const quality of ['LOW','HIGH'])try{validateSceneryImport(this.current[quality],rows,{level:this.current.level,quality,donors:this.sources()});}catch(error){throw Error(`${quality}: ${error.message}`);}
-    }catch(error){reason=error.message;}
-    this.importChecks.set(key,reason);return reason;
+      for(const quality of ['LOW','HIGH'])result.qualities[quality]=inspectSceneryImport(this.current[quality],rows,{level:this.current.level,quality,donors:this.sources(),assemblies:this.current.assemblies??[]});
+      result.reason=Object.entries(result.qualities).filter(([,report])=>!report.compatible).map(([quality,report])=>`${quality}: ${report.reason}`).join('\n');
+    }catch(error){result.reason=error.message;}
+    this.importChecks.set(key,result);return details?result:result.reason;
   }
   libraryCompatibility(entry){
     if(entry.status!=='supported')return {reason:entry.reason||'Unsupported textured preview.'};
     const template=this.templateFor(entry);
     if(!template)return {reason:this.modelReason({sourceLevel:this.libraryBase.level,templateIndex:entry.placementIndices[0]},'importable')};
-    const reason=this.checkImport(this.libraryBase.level,template.index);return reason?{reason}:{template,reason:''};
+    const report=this.checkImport(this.libraryBase.level,template.index,{details:true});return report.reason?{reason:report.reason,report}:{template,reason:'',report};
   }
   libraryChoice(){const entry=this.libraryCollection?.entries.find(e=>e.id===el('model-library-entry').value);return entry?{entry,...this.libraryCompatibility(entry),scene:this.libraryScene}:null;}
   previewLibrary(){
@@ -314,7 +359,11 @@ export class TrackEditor extends PickupEditor {
       this.previewOverlay.set(preview);
       if(preview.bounds){const bounds=this.libraryScene?.bounds;this.previewNavigation.reset(bounds?bounds.map(([min,max],i)=>[Math.min(min,preview.bounds[i][0]),Math.max(max,preview.bounds[i][1])]):preview.bounds);}
       const reason=chosen.template?'Compatible with this track in LOW + HIGH. Click Place, then left-click terrain. Collision cell limits are checked at the chosen location.':chosen.reason;
-      text('model-library-note',chosen.entry.reason||reason);disabled('model-library-place',!chosen.template||!this.libraryScene);
+      const diagnostics=Object.entries(chosen.report?.qualities??{}).map(([quality,report])=>{
+        const allocate=report.textureAllocations.filter(t=>t.action!=='reuse').map(t=>t.targetPage),reuse=[...new Set(report.textureAllocations.filter(t=>t.action==='reuse').map(t=>t.targetPage))];
+        return `${quality}: ${report.compatible?`${report.finalTextureCount} texture slots after placement`:`Import blocked [${report.code}]`} · allocate ${allocate.length}${allocate.length?` (${allocate.join(', ')})`:''} · reuse ${reuse.length}${reuse.length?` (${reuse.join(', ')})`:''} · ${Math.max(0,report.capacity.remaining)} slots remain after reserving game startup textures.`;
+      }).join('\n');
+      if(el('model-library-note').style.whiteSpace!=='pre-line')el('model-library-note').style.whiteSpace='pre-line';text('model-library-note',[chosen.entry.reason,reason,diagnostics].filter(Boolean).join('\n'));disabled('model-library-place',!chosen.template||!this.libraryScene);
     }catch(error){text('model-library-note',error.message);}
   }
   async beginPlacement(sourceLevel,templateIndex,yaw,scene,{assembly=false}={}){
@@ -325,9 +374,13 @@ export class TrackEditor extends PickupEditor {
     this.cancelModels();this.modelPending={sourceLevel,templateIndex,yaw,ghostYaw:scene.worldOrientation?0:yaw,assembly,memberCount:assembly?scene.instances:1,position:null,clearance:Math.max(0,-scene.bounds[1][0])};this.placementMessage=assembly?`Left-click terrain to place the complete ${scene.instances}-part assembly. Its destruction and effects are independent. Esc cancels.`:'Left-click terrain to place this model. Esc cancels.';this.renderer.setEditorGhost(scene);this.say(assembly?'Click terrain to place the complete assembly. Esc cancels without adding anything.':'Click terrain to place the model. Esc cancels without adding anything.');this.refresh();
   }
   pointerDown(event){
+    if(this.roadEditing)return this.roadsTool.pointerDown(event);
     if(this.layoutEditing)return this.layout.pointerDown(event);
     if(this.terrainEditing)return this.terrain.pointerDown(event);
-    if(!this.modelsEditing)return super.pointerDown(event);
+    if(!this.modelsEditing){
+      if(this.editing&&!this.adding&&event.button===0){const index=pickPickup(this.current.draft.map(p=>sourceToDisplay(p.position)),this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY);if(index!==null){const row=this.current.draft[index],reason=this.routePointProtectionReason(row);if(reason){this.selected=row.id;this.refresh();this.say(reason);return true;}}}
+      return super.pointerDown(event);
+    }
     if(this.busy||event.button!==0||event.shiftKey||!this.current)return false;
     const ray=cameraRay(this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY);
     if(this.modelPending){
@@ -354,6 +407,7 @@ export class TrackEditor extends PickupEditor {
     return true;
   }
   pointerMove(event){
+    if(this.roadEditing)return this.roadsTool.pointerMove(event);
     if(this.layoutEditing)return this.layout.pointerMove(event);
     if(this.terrainEditing)return this.terrain.pointerMove(event);
     if(!this.modelsEditing)return super.pointerMove(event);
@@ -369,13 +423,14 @@ export class TrackEditor extends PickupEditor {
     for(const row of preview){const original=originals.find(r=>r.id===row.id);if(row.position.some((n,i)=>n!==original.position[i]))this.renderer.editorTransforms.set(indices[row.id],matrix);}this.renderer.setEditorBounds(this.modelBounds({...drag.row,position:drag.position}));return true;
   }
   pointerUp(){
+    if(this.roadEditing)return this.roadsTool.pointerUp();
     if(this.layoutEditing)return this.layout.pointerUp();
     if(this.terrainEditing)return this.terrain.pointerUp();
     if(!this.modelDrag)return super.pointerUp();const drag=this.modelDrag;this.modelDrag=null;this.renderer.editorTransforms.clear();
     if(drag.moved)this.perform(()=>this.transformModel(drag.row,{position:drag.position,yaw:drag.row.yaw}));else this.refresh();return true;
   }
   refresh(){
-    super.refresh();this.terrain?.refresh();this.layout?.refresh();
+    super.refresh();this.terrain?.refresh();this.layout?.refresh();this.roadsTool?.refresh();this.reversalTool?.refresh();
     hidden('model-placement-feedback',!this.modelPending);text('model-placement-title',this.placementFailed?'Cannot place model here':'Place model');text('model-placement-message',this.placementMessage||'');
     const base=this.current,available=Boolean(base?.modelDraft),active=available&&this.modelsEditing&&!this.busy,row=this.modelRow(),editable=active&&this.modelEditable(row);
     disabled('models-enable',!available||this.busy);if(el('models-enable').checked!==Boolean(this.modelsEditing))el('models-enable').checked=Boolean(this.modelsEditing);hidden('models-controls',!this.modelsEditing);
@@ -393,6 +448,16 @@ export class TrackEditor extends PickupEditor {
     disabled('editor-test',!base||this.busy);text('editor-test',[16,17].includes(base?.level)?'Preview changes':'Test changes');
     text('models-note',available?`${base.modelDraft.length} original/imported models${base.assemblies?.length?` + ${base.assemblies.length} cloned assemblies`:''} · LOW + HIGH`:'Requires verified Rollcage archives.');
     this.refreshModelOverlay?.();
+    this.refreshProtection?.();
+  }
+  refreshProtection(){
+    const base=this.current,rule=editorProtectionRules(base?.level),note=el('editor-protection');if(note){hidden('editor-protection',!rule.sectors.length);text('editor-protection',rule.reason?`${rule.reason} Amber outlines are read-only. Protected stages: ${rule.stages.join(', ')} (native, zero-based).`:'');}
+    if(this.editing){const reason=this.routePointProtectionReason(this.selectedRow());if(reason){for(const id of ['editor-delete','editor-x','editor-y','editor-z'])disabled(id,true);text('editor-note',reason);}}
+    if(!this.protectionOverlay)return;const signature=`${base?.level}:${Boolean(this.active)}`;if(signature===this.protectionSignature)return;this.protectionSignature=signature;
+    if(!base||!this.active||!rule.sectors.length){this.protectionOverlay.clear();return;}
+    const info=inspectEditorProtection(base.LOW.geometry,base.level),lines=[];
+    for(const {segment:s}of info.regions)for(const f of s.faces){const ids=[0,1,3,2].map(i=>f.gridIndices[i]);for(let i=0;i<4;i++)lines.push(...sourceToDisplay(s.vertices[ids[i]].slice(0,3)),...sourceToDisplay(s.vertices[ids[(i+1)%4]].slice(0,3)));}
+    this.protectionOverlay.set({groups:[{active:true,lines:[],normals:lines}]});
   }
   refreshModelOverlay(){
     if(!this.modelOverlay)return;const row=this.modelRow(),info=row?this.levels.get(row.sourceLevel)?.modelInfo.find(p=>p.index===row.templateIndex):null,signature=JSON.stringify([this.current?.level,this.modelsEditing,row,info?.script?.path]);
@@ -404,6 +469,6 @@ export class TrackEditor extends PickupEditor {
     }
     this.modelOverlay.set({groups:[{active:true,lines,normals}]});
   }
-  renderEditorOverlay(navigation){this.modelOverlay?.render(navigation,{show:Boolean(this.modelsEditing),disabled:false,normals:true});}
-  inspect(){return {...super.inspect(),active:this.active,layoutEditing:Boolean(this.layoutEditing),layoutKind:this.layout?.kind,layout:copy(this.current?.layoutDraft??emptyRaceLayoutDraft()),layoutRows:copy(this.layout?.rows()??[]),layoutSelected:this.layout?.selected??null,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),assemblies:copy(this.current?.assemblies??[]),assemblyMembers:(this.current?.assemblies??[]).flatMap(command=>copy(this.assemblyMembers(command))),modelSelected:this.modelSelected,modelPreviewTransforms:this.renderer.editorTransforms.size,modelCapabilities:copy(this.modelRow()?this.levels.get(this.modelRow().sourceLevel)?.modelInfo.find(p=>p.index===this.modelRow().templateIndex):null),placingModel:Boolean(this.modelPending),placingAssembly:Boolean(this.modelPending?.assembly),ghostMembers:this.modelPending?.memberCount??0,modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
+  renderEditorOverlay(navigation){this.roadsTool?.render(navigation);this.reversalTool?.render(navigation);this.modelOverlay?.render(navigation,{show:Boolean(this.modelsEditing),disabled:false,normals:true});this.protectionOverlay?.render(navigation,{show:this.active,disabled:false,normals:true});}
+  inspect(){return {...super.inspect(),active:this.active,roadEditing:Boolean(this.roadEditing),roads:copy(this.current?.roads??[]),roadPreview:this.roadsTool?.generated?{bounds:copy(this.roadsTool.generated.bounds),points:copy(this.roadsTool.working.points)}:null,reversal:copy(this.current?.compiled?.reversalReport??this.current?.reversal??null),variantEditing:Boolean(this.variantEditing),reversalPreview:this.reversalTool?.inspect()??null,layoutEditing:Boolean(this.layoutEditing),layoutKind:this.layout?.kind,layout:copy(this.current?.layoutDraft??emptyRaceLayoutDraft()),layoutRows:copy(this.layout?.rows()??[]),layoutSelected:this.layout?.selected??null,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),assemblies:copy(this.current?.assemblies??[]),assemblyMembers:(this.current?.assemblies??[]).flatMap(command=>copy(this.assemblyMembers(command))),modelSelected:this.modelSelected,modelPreviewTransforms:this.renderer.editorTransforms.size,modelCapabilities:copy(this.modelRow()?this.levels.get(this.modelRow().sourceLevel)?.modelInfo.find(p=>p.index===this.modelRow().templateIndex):null),placingModel:Boolean(this.modelPending),placingAssembly:Boolean(this.modelPending?.assembly),ghostMembers:this.modelPending?.memberCount??0,modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
 }

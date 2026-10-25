@@ -14,7 +14,7 @@ const animatedSectors=(data,scene)=>{
 
 // The acceleration surface is category 1 (48d680), not a fixed atlas page.
 // Recognize original two-cell mirrored arrows; never manufacture an atlas crop.
-export function speedPadPatterns(low,high) {
+export function speedPadTilePairs(low,high) {
   const a=parseScene(low),b=parseScene(high),patterns=[],seen=new Set(),lockedLow=animatedSectors(low,a),lockedHigh=animatedSectors(high,b);
   for(const s of a.segments)for(const face of s.faces){
     const col=face.index%s.columns,row=Math.floor(face.index/s.columns);
@@ -31,6 +31,38 @@ export function speedPadPatterns(low,high) {
   return patterns;
 }
 
+// v6 pairs the two different mirrored strips into one complete 2x2 glyph.
+// Retain the old pair recognizer for lossless v5 command interpretation.
+export function speedPadPatterns(low,high){
+  const a=parseScene(low),b=parseScene(high),lockedA=animatedSectors(low,a),lockedB=animatedSectors(high,b),patterns=[],seen=new Set();
+  const mirrored=(left,right)=>left.page===right.page&&physicalUV(left).every((uv,i)=>uv.every((n,j)=>n===physicalUV(right)[i^1][j]));
+  for(const s of a.segments)for(const face of s.faces){
+    const col=face.index%s.columns,row=Math.floor(face.index/s.columns);if(col+1>=s.columns||row+1>=s.rows||lockedA.has(s.index)||lockedB.has(s.index))continue;
+    const ids=[face.index,face.index+1,face.index+s.columns,face.index+s.columns+1],cells=ids.map(i=>s.faces[i]),other=b.segments[s.index];
+    if(!other||cells.some(c=>material(low,a,c)!==1||(c.pageWord&~0x77f))||ids.some(i=>!other.faces[i]||material(high,b,other.faces[i])!==1||(other.faces[i].pageWord&~0x77f)))continue;
+    if(!mirrored(cells[0],cells[1])||!mirrored(cells[2],cells[3])||cells.some(c=>c.page!==face.page)||JSON.stringify(physicalUV(cells[0]))===JSON.stringify(physicalUV(cells[2])))continue;
+    const signature=ids.map(i=>low.subarray(a.uvTable+s.faces[i].textureRecord*16,a.uvTable+s.faces[i].textureRecord*16+16).toString('hex')+high.subarray(b.uvTable+other.faces[i].textureRecord*16,b.uvTable+other.faces[i].textureRecord*16+16).toString('hex')).join(':');if(seen.has(signature))continue;seen.add(signature);
+    patterns.push({kind:'arrow4',sector:s.index,cell:face.index,width:2,height:2,cells:ids.map((cell,i)=>({x:i%2,y:Math.floor(i/2),cell})),page:face.page,uv:face.uv,label:`Complete arrow ${patterns.length+1} · 4 cells · P${face.page} · acceleration`,row,col});
+  }return patterns;
+}
+
+export const speedPadPatternShape=placement=>({cells:Array.from({length:placement.kind==='arrow4'?4:2},(_,i)=>({x:i%2,y:Math.floor(i/2),cell:0}))});
+
+export function reverseSpeedPadArtwork(geometry,highGeometry,terrain,{originalLow=geometry,originalHigh=highGeometry}={}){
+  const draft=structuredClone(terrain),scene=parseScene(geometry),original=parseScene(originalLow),templates=speedPadPatterns(originalLow,originalHigh),occupied=new Set(),patterns=(draft.patterns??[]).map(p=>({...p,rotation:(p.rotation+2)%4})),items=[];
+  const raw=(data,scene,face)=>data.subarray(scene.uvTable+face.textureRecord*16,scene.uvTable+face.textureRecord*16+16).toString('hex');
+  for(const p of draft.patterns??[])for(const cell of speedPadFootprint(scene,p,speedPadPatternShape(p)))occupied.add(`${p.sector}:${cell.cell}`);
+  const signatures=new Map(templates.map(p=>[p.cells.map(c=>raw(originalLow,original,original.segments[p.sector].faces[c.cell])).join(':'),p]));
+  for(const s of original.segments)for(const f of s.faces){const col=f.index%s.columns,row=Math.floor(f.index/s.columns);if(col+1>=s.columns||row+1>=s.rows)continue;const ids=[f.index,f.index+1,f.index+s.columns,f.index+s.columns+1];
+    if(ids.some(i=>occupied.has(`${s.index}:${i}`)))continue;const key=ids.map(i=>raw(originalLow,original,s.faces[i])).join(':'),template=signatures.get(key);if(!template)continue;
+    if(ids.some(i=>!scene.segments[s.index]?.faces[i]||raw(geometry,scene,scene.segments[s.index].faces[i])!==raw(originalLow,original,s.faces[i])))continue;
+    patterns.push({kind:'arrow4',sector:s.index,cell:f.index,sourceSector:template.sector,sourceCell:template.cell,rotation:2});for(const i of ids)occupied.add(`${s.index}:${i}`);
+  }
+  let unknown=0;for(const s of scene.segments)for(const f of s.faces)if(material(geometry,scene,f)===1&&!occupied.has(`${s.index}:${f.index}`))unknown++;
+  if(unknown)items.push({severity:'warning',code:'unrecognized-arrow-artwork',message:`${unknown} acceleration-material cell(s) are outside recognized complete arrows. Their artwork needs manual review; acceleration is unchanged.`,target:{kind:'surfaces'}});
+  if(patterns.length)draft.patterns=patterns;return {terrain:draft,items};
+}
+
 export function speedPadFootprint(scene,placement,pattern) {
   const s=scene.segments[placement.sector];
   if(!s||!Number.isInteger(placement.cell)||placement.cell<0||placement.cell>=s.faces.length||!Number.isInteger(placement.rotation)||placement.rotation<0||placement.rotation>3)throw Error('Invalid speed-pad placement.');
@@ -45,8 +77,8 @@ export function compileSpeedPadPatterns(source,placements=[],{originalGeometry=s
   if(!placements.length)return Buffer.from(source);
   const scene=parseScene(source),original=parseScene(originalGeometry),writes=new Map(),grid=parseCollisionGrid(source);
   for(const placement of placements){
-    if(!placement||Object.keys(placement).sort().join(',')!=='cell,rotation,sector,sourceCell,sourceSector'||Object.values(placement).some(n=>!Number.isInteger(n)||n<0))throw Error('Invalid speed-pad pattern reference.');
-    const pattern=patterns.find(p=>p.sector===placement.sourceSector&&p.cell===placement.sourceCell);
+    if(!placement||Object.keys(placement).sort().join(',')!==(placement.kind===undefined?'cell,rotation,sector,sourceCell,sourceSector':'cell,kind,rotation,sector,sourceCell,sourceSector')||Object.entries(placement).some(([key,n])=>key!=='kind'&&(!Number.isInteger(n)||n<0))||placement.kind!==undefined&&placement.kind!=='arrow4')throw Error('Invalid speed-pad pattern reference.');
+    const candidates=placement.kind==='arrow4'?patterns:speedPadTilePairs(originalGeometry,originalGeometry),pattern=candidates.find(p=>p.sector===placement.sourceSector&&p.cell===placement.sourceCell);
     if(!pattern)throw Error('This original arrow pattern is unavailable.');
     if(locked.has(placement.sector)||locked.has(pattern.sector))throw Error('Animated terrain cannot receive arrow patterns.');
     for(const row of speedPadFootprint(scene,placement,pattern)){

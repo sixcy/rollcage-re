@@ -5,7 +5,8 @@ import {parseRespawnRoutes} from '../src/respawn-routes.mjs';
 import {parseSpatialIndex} from '../src/spatial-index.mjs';
 import {inspectRaceLayoutFallback} from '../src/race-layout-spatial.mjs';
 import {RACE_ROUTE_LIMITS, createRaceRouteTopology, hydrateRaceRouteTopology, validateRaceRouteTopology,
-  cloneRaceRouteGroup, insertRaceRoutePoint, connectRaceRoutePoints, compileRaceRouteTopology} from '../src/race-route-topology.mjs';
+  cloneRaceRouteGroup, insertRaceRoutePoint, connectRaceRoutePoints, compileRaceRouteTopology,
+  upgradeRaceRouteTopology,previewRaceRoutePointDeletion,removeRaceRoutePoint} from '../src/race-route-topology.mjs';
 
 const fixture = () => {
   const data = raceLayoutFixture();
@@ -14,6 +15,43 @@ const fixture = () => {
   for (let i = 0; i < 3; i++) data.writeUInt32LE((0xa0000000 | 1 | 1 << 5 | (i === 0 ? (1 | 2 << 5) << 14 : 7 << 19)) >>> 0, 0x190c + i * 16);
   return data;
 };
+
+test('v2 upgrades preserve all native bytes and deletion remaps original links and fallback identities',()=>{
+ const data=fixture(),original=createRaceRouteTopology(data),v2=upgradeRaceRouteTopology(original);assert.equal(v2.version,2);assert.deepEqual(compileRaceRouteTopology(data,v2).data,data);
+ const preview=previewRaceRoutePointDeletion(original,'g1:p1');assert.equal(preview.replacementPointId,'g1:p2');assert.equal(preview.predecessorPointId,'g1:p0');assert.equal(preview.incoming.length,2);
+ const removed=removeRaceRoutePoint(original,'g1:p1'),result=compileRaceRouteTopology(data,removed.topology),parsed=parseRespawnRoutes(result.data);assert.equal(parsed.groups[1].count,2);assert.deepEqual(result.remap.points['1:1'],{group:1,point:1});assert.deepEqual(result.remap.points['1:2'],{group:1,point:1});assert.equal(parsed.groups[1].points[0].bytes.readUInt32LE(12)>>>5&511,1);assert.equal(original.groups[1].points.length,3);
+ assert.throws(()=>removeRaceRoutePoint(removed.topology,'g1:p0'),/two route points/);
+});
+
+test('deleting an aliased native fallback target rebuilds its full model-word sequences',()=>{
+ const data=fixture(),spatial=parseSpatialIndex(data);data.writeUInt16LE(2,0x96);data.writeUInt32LE(65537,0x1c00);data.writeUInt32LE(0x1234,0x1c04);for(const node of spatial.nodes)data.writeUInt32LE((node.boundsWord|1<<19)>>>0,node.offset);
+ const result=compileRaceRouteTopology(data,removeRaceRoutePoint(createRaceRouteTopology(data),'g1:p1').topology),routes=parseRespawnRoutes(result.data),fallback=inspectRaceLayoutFallback(result.data,parseSpatialIndex(result.data),routes.groups);assert.ok(fallback.nodes.every(row=>routes.groups[row.group].points[row.point]&&row.models[0]===0x1234));assert.deepEqual(result.remap.points['1:1'],{group:1,point:1});
+});
+
+test('deletion follows native reverse/cyclic travel and endpoint fallback',()=>{
+ const data=fixture(),topology=createRaceRouteTopology(data);topology.groups[1].header[2]=1;topology.groups[1].header[4]=0;
+ assert.equal(previewRaceRoutePointDeletion(topology,'g1:p1').replacementPointId,'g1:p0');assert.equal(previewRaceRoutePointDeletion(topology,'g1:p0').replacementPointId,'g1:p1');
+ topology.groups[1].header[4]=1;assert.equal(previewRaceRoutePointDeletion(topology,'g1:p0').replacementPointId,'g1:p2');
+});
+
+test('deletion preserves immutable anchors across original and added point removal',()=>{
+ const data=fixture(),inserted=insertRaceRoutePoint(createRaceRouteTopology(data),'g1','g1:p1'),removed=removeRaceRoutePoint(inserted.topology,'g1:p1');assert.equal(validateRaceRouteTopology(data,removed.topology).valid,true);assert.equal(removed.topology.groups[1].points.find(p=>p.id===inserted.pointId).anchorPointId,'g1:p1');
+ const extra=insertRaceRoutePoint(inserted.topology,'g1',inserted.pointId),removedAdded=removeRaceRoutePoint(extra.topology,inserted.pointId);assert.equal(removedAdded.topology.groups[1].points.find(p=>p.id===extra.pointId).anchorPointId,'g1:p1');assert.equal(validateRaceRouteTopology(data,removedAdded.topology).valid,true);
+});
+
+test('outgoing deletion conflicts require explicit transfer or explicit branch removal',()=>{
+ const topology=createRaceRouteTopology(fixture()),[a,b,c]=topology.groups[1].points;a.links=[{groupId:'g1',pointId:a.id},{groupId:'g1',pointId:c.id}];b.links=[{groupId:'g1',pointId:b.id},{groupId:'g1',pointId:a.id}];
+ // Duplicate outgoing targets are already retained by the predecessor.
+ assert.equal(previewRaceRoutePointDeletion(topology,b.id).conflicts.length,0);
+ const added=insertRaceRoutePoint(topology,'g1',a.id),point=added.topology.groups[1].points.find(p=>p.id===added.pointId);point.links=[{groupId:'g1',pointId:point.id},{groupId:'g1',pointId:b.id}];
+ assert.equal(previewRaceRoutePointDeletion(added.topology,point.id).conflicts.length,1);assert.throws(()=>removeRaceRoutePoint(added.topology,point.id),/Resolve every/);
+ const removed=removeRaceRoutePoint(added.topology,point.id,{transfers:[{sourceSlot:0,ownerPointId:c.id,slot:1}]});assert.equal(removed.preview.conflicts.length,0);assert.ok(removed.topology.groups[1].points.find(p=>p.id===c.id).links.some(link=>link?.pointId===b.id));
+});
+
+test('deleted route records reject missing replacements, cycles and live tombstones',()=>{
+ const data=fixture(),removed=removeRaceRoutePoint(createRaceRouteTopology(data),'g1:p1').topology;
+ for(const mutate of [t=>t.deletedPoints[0].replacementPointId='missing',t=>t.deletedPoints[0].replacementPointId='g1:p1',t=>t.deletedPoints.push({id:'g1:p0',replacementPointId:'g1:p2'})]){const bad=structuredClone(removed);mutate(bad);assert.equal(validateRaceRouteTopology(data,bad).valid,false);}
+});
 
 test('full topology and empty legacy hydration preserve no-edit bytes and high/unused link bits', () => {
   const data = fixture(), topology = createRaceRouteTopology(data), result = compileRaceRouteTopology(data, topology);

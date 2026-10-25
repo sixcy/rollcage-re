@@ -1,6 +1,7 @@
 import { pathColor } from './path-color.mjs';
 import { carDisplayMatrix } from './solo-presentation.mjs';
 import { buildRacingTerrainGroups } from './racing-terrain.mjs';
+import {buildPathTopologyOverlay,pathNodeMarker} from './path-topology-overlay.mjs';
 
 const identity = new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
 
@@ -25,13 +26,14 @@ export class Renderer {
     this.attributes = Object.fromEntries(['position', 'uv', 'normal', 'color'].map(key => [key, gl.getAttribLocation(program, key)]));
     this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit', 'colored', 'opacity'].map(key => [key, gl.getUniformLocation(program, key)]));
     const pathProgram = this.pathProgram = gl.createProgram();
-    const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;void main(){gl_Position=mvp*vec4(position,1.0);gl_PointSize=pointSize;}');
-    const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;void main(){gl_FragColor=vec4(color,1.0);}');
+    const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;uniform vec2 screenOffset;void main(){gl_Position=mvp*vec4(position,1.0);gl_Position.xy+=screenOffset*gl_Position.w;gl_PointSize=pointSize;}');
+    const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;uniform float pointRing;void main(){if(pointRing>0.5){float r=length(gl_PointCoord-vec2(0.5));if(r>0.5||r<0.28)discard;}gl_FragColor=vec4(color,1.0);}');
     gl.attachShader(pathProgram, pathVertex); gl.attachShader(pathProgram, pathFragment); gl.linkProgram(pathProgram);
     gl.deleteShader(pathVertex); gl.deleteShader(pathFragment);
     if (!gl.getProgramParameter(pathProgram, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(pathProgram));
     this.pathPosition = gl.getAttribLocation(pathProgram, 'position');
-    this.pathUniforms = Object.fromEntries(['mvp', 'color', 'pointSize'].map(key => [key, gl.getUniformLocation(pathProgram, key)]));
+    this.pathUniforms = Object.fromEntries(['mvp', 'color', 'pointSize','screenOffset','pointRing'].map(key => [key, gl.getUniformLocation(pathProgram, key)]));
+    this.pathTopology=[];this.pathSelection=null;
     this.groups = []; this.pathGroups = []; this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     this.textures = new Map(); this.textureSizes = new Map(); this.smooth = false;
     this.carGroups = []; this.carTextures = new Map(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
@@ -53,9 +55,20 @@ export class Renderer {
     this.setEditorPickups([]);
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
+    for (const group of this.pathTopology) this.gl.deleteBuffer(group.buffer);this.pathTopology=[];this.setPathSelection(null);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
     this.groups = []; this.pathGroups = []; this.textures.clear(); this.textureSizes.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+  }
+  drawPathLines(count,color,{width=1,outline=false}={}){
+    const gl=this.gl,ratio=Math.min(globalThis.devicePixelRatio||1,2),offset=(x,y)=>gl.uniform2f(this.pathUniforms.screenOffset,x*2*ratio/this.canvas.width,y*2*ratio/this.canvas.height);
+    if(outline){gl.uniform3fv(this.pathUniforms.color,[.015,.025,.035]);for(const [x,y]of [[-1.5,0],[1.5,0],[0,-1.5],[0,1.5]]){offset(x,y);gl.drawArrays(gl.LINES,0,count);}}
+    gl.uniform3fv(this.pathUniforms.color,color);
+    for(const [x,y]of (width>1?[[-.5,0],[.5,0],[0,0]]:[[0,0]])){offset(x,y);gl.drawArrays(gl.LINES,0,count);}offset(0,0);
+  }
+  setPathSelection(node){
+    if(this.pathSelection)this.gl.deleteBuffer(this.pathSelection.buffer);this.pathSelection=null;if(!node)return;
+    const gl=this.gl,lines=pathNodeMarker(node.position,'ring',46),buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(lines),gl.STATIC_DRAW);this.pathSelection={buffer,count:lines.length/3,group:node.group};
   }
   setEditorGhost(scene) {
     for(const group of this.editorGhostGroups)this.gl.deleteBuffer(group.buffer);
@@ -183,6 +196,7 @@ export class Renderer {
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(group.positions.flat()), gl.STATIC_DRAW);
       }
+      for(const batch of buildPathTopologyOverlay(scene.paths?.graph)){const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(batch.lines),gl.STATIC_DRAW);this.pathTopology.push({...batch,lines:undefined,count:batch.lines.length/3,buffer});}
       for (const [page, image] of scene.textures) {
         this.textureSizes.set(page, {width: image.width, height: image.height});
         const texture = gl.createTexture(); this.textures.set(page, texture);
@@ -312,7 +326,7 @@ export class Renderer {
       this.weaponDraws.spawnMarkers = this.weaponMarkerCount;
       gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
     }
-    this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+    this.pathDraws = { groups: 0, segments: 0, points: 0, through: false,arrows:0,branches:0,merges:0,splits:0,pending:0,pendingMarkers:0 };
     this.renderEditorPickups(matrix,ratio);
     this.renderEditorModels(matrix);
     if (!options.paths || !this.pathGroups.length) return;
@@ -320,7 +334,7 @@ export class Renderer {
     for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);
     gl.enableVertexAttribArray(this.pathPosition);
     gl.uniformMatrix4fv(this.pathUniforms.mvp, false, matrix);
-    gl.uniform1f(this.pathUniforms.pointSize, 5 * ratio);
+    gl.uniform1f(this.pathUniforms.pointSize, 14 * ratio);
     // Overlays never alter the terrain depth buffer or the terrain's positions.
     gl.depthMask(false);
     if (options.pathThrough) gl.disable(gl.DEPTH_TEST);
@@ -332,12 +346,27 @@ export class Renderer {
         gl.vertexAttribPointer(this.pathPosition, 3, gl.FLOAT, false, 12, 0);
         gl.uniform3fv(this.pathUniforms.color, group.color);
         if (group.count > 1) gl.drawArrays(gl.LINE_STRIP, 0, group.count);
-        if (options.pathPoints) gl.drawArrays(gl.POINTS, 0, group.count);
         this.pathDraws.groups++;
         this.pathDraws.segments += Math.max(0, group.count - 1);
-        if (options.pathPoints) this.pathDraws.points += group.count;
       }
+      for(const batch of this.pathTopology){
+        if(options.pathGroup!==-1&&!batch.groups.includes(options.pathGroup))continue;
+        if(['merges','splits','pendingMarkers'].includes(batch.kind)&&!options.pathShapes)continue;
+        gl.bindBuffer(gl.ARRAY_BUFFER,batch.buffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);
+        const color=batch.color??this.pathGroups.find(g=>g.index===batch.groups[0])?.color??[1,1,1];
+        this.drawPathLines(batch.count,color,{width:2,outline:true});
+        if(batch.kind==='directions')this.pathDraws.arrows+=batch.features;else this.pathDraws[batch.kind]+=batch.features;
+      }
+      // Draw small node circles last so outlined connection strokes cannot
+      // cover the markers at their endpoints.
+      if(options.pathPoints){
+        gl.uniform1f(this.pathUniforms.pointRing,1);
+        for(const group of this.pathGroups){if(options.pathGroup!==-1&&group.index!==options.pathGroup)continue;gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);gl.uniform3fv(this.pathUniforms.color,group.color);gl.drawArrays(gl.POINTS,0,group.count);this.pathDraws.points+=group.count;}
+        gl.uniform1f(this.pathUniforms.pointRing,0);
+      }
+      if(this.pathSelection&&(options.pathGroup===-1||this.pathSelection.group===options.pathGroup)){gl.bindBuffer(gl.ARRAY_BUFFER,this.pathSelection.buffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);this.drawPathLines(this.pathSelection.count,[1,1,1],{width:2,outline:true});}
     } finally {
+      gl.uniform1f(this.pathUniforms.pointRing,0);
       gl.depthMask(true); gl.enable(gl.DEPTH_TEST);
       gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
     }

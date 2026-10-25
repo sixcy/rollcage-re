@@ -43,6 +43,16 @@ test('cross-library import preserves collision/LOD closure and remaps palette/te
   assert.equal(readPlacementCollision(c.geometry,p,collision).class,7);const btp=parseBTP(c.texture);assert.equal(btp.textureCount,2);assert.deepEqual(decodeBTPTexture(btp,1).rgba,decodeBTPTexture(parseBTP(donor.texture),0).rgba);
   assert.deepEqual(decodeBTPTexture(btp,0).rgba,decodeBTPTexture(parseBTP(source.texture),0).rgba);assert.ok(links(c).nodes[0].placementIndices.includes(2));
 });
+
+test('foreign imports ignore relocated spatial-table gaps and unused UV alignment padding',()=>{
+  const source=sceneryFixture(),donor=sceneryFixture({color:200}),geometry=Buffer.alloc(0x7000);geometry.set(source.geometry);
+  geometry.set(geometry.subarray(0x1434,0x1440),0x6800);geometry.writeUInt32LE(0x6800,0xac);
+  geometry.writeUInt16LE(0xfffc,0x140e);source.geometry=geometry;
+  const before={geometry:Buffer.from(geometry),texture:Buffer.from(source.texture)},draft=createSceneryDraft(geometry,source.texture,1);
+  draft.push({id:'foreign',sourceLevel:2,templateIndex:0,position:[50,0,30],yaw:0});
+  const compiled=compileSceneryEdits(source,draft,{level:1,donors:new Map([[2,{LOW:donor,HIGH:donor}]])});
+  assert.equal(placements(compiled).count,3);assert.ok(links(compiled).nodes[0].placementIndices.includes(2));assert.deepEqual(source,before);
+});
 test('locked edits, invalid donors, coordinates, identities and sparse rows are rejected',()=>{
   const source=sceneryFixture();source.texture[0x500+56+31]=99;const original=createSceneryDraft(source.geometry,source.texture,1);
   const changed=structuredClone(original);changed[1].position[0]++;assert.throws(()=>compileSceneryEdits(source,changed,{level:1}),/locked/);
@@ -68,8 +78,8 @@ test('foreign imports reject full texture slots, model bytes and material-key ov
   const donor=sceneryFixture({color:200});
   for(const kind of ['textures','models','materials']){
     const source=sceneryFixture();
-    if(kind==='textures'){const texture=Buffer.alloc(0xc00);texture.set(source.texture);texture.writeUInt32LE(0x700,0x38);texture.writeUInt16LE(63,0x34);for(let i=0;i<63;i++){texture.writeUInt16LE(4,0x700+i*12);texture.writeUInt16LE(4,0x702+i*12);}source.texture=texture;}
-    else {const geometry=Buffer.alloc(kind==='models'?0x1c00:0x5500);geometry.set(source.geometry);source.geometry=geometry;if(kind==='models'){geometry.writeUInt32LE(0x1600,0x18);geometry.writeUInt32LE(0x1140,0x1600);geometry.writeUInt16LE(256,0x2c);}else{geometry.set(geometry.subarray(0x1434,0x1440),0x5410);geometry.writeUInt32LE(0x5410,0xac);}}
+    if(kind==='textures'){const texture=Buffer.alloc(0x2000);texture.set(source.texture);texture.writeUInt32LE(0x700,0x38);texture.writeUInt16LE(484,0x34);for(let i=0;i<484;i++){texture.writeUInt16LE(4,0x700+i*12);texture.writeUInt16LE(4,0x702+i*12);}source.texture=texture;}
+    else {const geometry=Buffer.alloc(kind==='models'?0x1c00:0x5500);geometry.set(source.geometry);source.geometry=geometry;if(kind==='models'){geometry.writeUInt32LE(0x1600,0x18);geometry.writeUInt32LE(0x1140,0x1600);geometry.writeUInt16LE(256,0x2c);}else{geometry.set(geometry.subarray(0x1434,0x1440),0x5410);geometry.writeUInt32LE(0x5410,0xac);geometry.set(geometry.subarray(0x1410,0x141c),0x540c);geometry.writeUInt16LE(0xfff0,0x1400);}}
     const before={geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture)},draft=createSceneryDraft(source.geometry,source.texture,1);draft.push({id:'foreign',sourceLevel:2,templateIndex:0,position:[50,0,30],yaw:0});
     assert.throws(()=>compileSceneryEdits(source,draft,{level:1,donors:new Map([[2,{LOW:donor,HIGH:donor}]])}),kind==='textures'?/texture slot/:kind==='models'?/native byte/:/Material key/);
     assert.throws(()=>validateSceneryImport(source,draft,{level:1,donors:new Map([[2,{LOW:donor,HIGH:donor}]])}),kind==='textures'?/texture slot/:kind==='models'?/native byte/:/Material key/);

@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "checks": [
+    "Textured model19 preview is placeable with per-quality native IDs and headroom; opt-in filter retains it",
+    "Actual terrain click commits LEV3/template42 into HIGH/LEV1 with both qualities compiled",
+    "Twenty idle editor frames have no DOM mutations and Camera remains usable",
+    "Project saves/reloads donor-pinned import and atomically rejects a changed donor fingerprint",
+    "Downloaded ZIP has unchanged original IMG prefix, exactly four resource updates, independently compiled LOW/HIGH bytes and unchanged original decoded textures",
+    "Test changes starts the compiled scene with the default three cars"
+  ],
+  "qualities": [
+    {
+      "quality": "LOW",
+      "textureCount": 45
+    },
+    {
+      "quality": "HIGH",
+      "textureCount": 74
+    }
+  ],
+  "mutations": 0,
+  "errors": [],
+  "libraryNote": "Compatible with this track in LOW + HIGH. Click Place, then left-click terrain. Collision cell limits are checked at the chosen location.\nLOW: 45 texture slots after placement · allocate 1 (44) · reuse 0 · 438 slots remain after reserving game startup textures.\nHIGH: 74 texture slots after placement · allocate 2 (72, 73) · reuse 0 · 410 slots remain after reserving game startup textures.",
+  "scope": "Headless Edge source viewer with pristine original archive input; no original game process launched."
+}

@@ -466,6 +466,7 @@ const { parseStage2Placements } = require("src/stage2-placements.mjs");
 const { buildStage2PlacedMeshes } = require("src/stage2-placed-meshes.mjs");
 const { firebugsGame, identifyFirebugs } = require("src/firebugs.mjs");
 const {recoverEditedRollcageIndex, originalRollcageView} = require("src/edited-rollcage-index.mjs");
+const {parseScene} = require("src/scene.mjs");
 
 // Exact index identities plus decoded sentinel resources bind auto-detection to
 // the supplied archives, including a check that the IMG belongs to that IDX.
@@ -510,7 +511,7 @@ const games = Object.freeze([
     .filter(({ name }) => /^(LOW|HIGH)\/LEV\d+\.BLP$/.test(name)),
   decodeTrackScene, findResourceIndex, [1]),
   createGame('stage2', 'Rollcage Stage II', stage2Map.tracks,
-    (data, texture) => decodeTrackScene(data, texture, { parsePlacements: parseStage2Placements, buildPlacedMeshes: buildStage2PlacedMeshes }),
+    (data, texture) => decodeTrackScene(data, texture, { pathConnectivity:false,parseScene:data=>parseScene(data,{texturePageMode:'legacy'}),parsePlacements: parseStage2Placements, buildPlacedMeshes: buildStage2PlacedMeshes }),
     name => stage2Lookup.get(normalizeResourceName(name)) ?? -1, [4, 12])
 ]);
 
@@ -610,7 +611,7 @@ function decodeTrackScene(data, textureData, readers = {}) {
   }
   const output = buildSceneExport(terrain, textures, meshes);
   if (!output.bounds.flat().every(Number.isFinite)) throw new Error('Invalid track bounds.');
-  return { ...output, paths: decodeTrackPaths(data), segments: terrain.segments.length, instances: meshes.length, textures,
+  return { ...output, paths: decodeTrackPaths(data,false,{connectivity:readers.pathConnectivity??true}), segments: terrain.segments.length, instances: meshes.length, textures,
     placementTypes: placements.records.reduce((types, record) => {
       types[record.type] = (types[record.type] ?? 0) + 1;
       return types;
@@ -622,7 +623,9 @@ Object.assign(module.exports, {decodeTrackScene});
 "src/scene.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {parseScene});
 // Primary SEGM grids. Native anchors: scene results 027, 034 and 042.
-function parseScene(data) {
+const {decodeTexturePageWord} = require("src/texture-page-word.mjs");
+function parseScene(data,{texturePageMode='rollcage'}={}) {
+  if(!['rollcage','legacy'].includes(texturePageMode))throw Error('Unsupported scene texture-page mode.');
   if (!Buffer.isBuffer(data) || data.length < 0x120 || data.toString('ascii',0,4)!=='GFXM') throw new Error('Invalid GFXM scene header.');
   function range(offset,bytes,label) {
     if (!Number.isSafeInteger(offset)||!Number.isSafeInteger(bytes)||offset<0||bytes<0||offset+bytes>data.length) throw new Error(`Scene ${label} exceeds resource bounds.`);
@@ -652,7 +655,7 @@ function parseScene(data) {
       // FUN_00489e40 maps TL/TR/BL/BR directly when bit 2 is set,
       // otherwise it rotates the packet corners to TR/BR/TL/BL.
       const indices=vertexFlags&4?gridIndices:[gridIndices[1],gridIndices[3],gridIndices[0],gridIndices[2]];
-      return {index:i,template:data.readUInt16LE(p),textureRecord,pageWord,page:pageWord&0x3f,
+      return {index:i,template:data.readUInt16LE(p),textureRecord,pageWord,page:texturePageMode==='legacy'?pageWord&0x3f:decodeTexturePageWord(pageWord),
         clutWord:data.readUInt16LE(uvOffset+2), uv:[[data[uvOffset],data[uvOffset+1]],[data[uvOffset+4],data[uvOffset+5]],
           [data[uvOffset+8],data[uvOffset+9]],[data[uvOffset+10],data[uvOffset+11]]],
         indices,gridIndices,
@@ -666,6 +669,37 @@ function parseScene(data) {
 }
 
 Object.assign(module.exports, {parseScene});
+},
+"src/texture-page-word.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {decodeTexturePageWord,encodeTexturePageWord,isSupportedStaticTextureWord,trackTextureCapacity});
+// Native producers 40f310/4130c0/44fbc0 encode the six low texture-ID bits
+// at0..5 and the next three at8..10. Bits6/7 and11..15 are packet flags.
+// 407ee0/408270 initialize/free the512-entry logical texture map at6e1620.
+const TEXTURE_PAGE_INDEX_MASK=0x073f;
+const TEXTURE_PAGE_FLAGS_MASK=0xf8c0;
+const NATIVE_TEXTURE_PAGE_COUNT=512;
+const word=value=>{if(!Number.isInteger(value)||value<0||value>65535)throw Error('Texture page word requires an unsigned16-bit value.');return value;};
+function decodeTexturePageWord(value) {value=word(value);return (value&63)|((value>>>2)&448);}
+function encodeTexturePageWord(index,previousWord=0) {
+  if(!Number.isInteger(index)||index<0||index>=NATIVE_TEXTURE_PAGE_COUNT)throw Error('Texture page index exceeds the native512-entry map.');
+  return (word(previousWord)&TEXTURE_PAGE_FLAGS_MASK)|(index&63)|((index&448)<<2);
+}
+function isSupportedStaticTextureWord(value) {return Number.isInteger(value)&&value>=0&&value<=65535&&(value&TEXTURE_PAGE_FLAGS_MASK&~0x40)===0;}
+
+// Original installed startup, not an invented renderer bound: <=2 backdrop
+// clouds(4130c0), one rain/snow texture(401b70/401be0), fixed112-glyph HUD
+// passes with46x50/16x100 cells(439150/44fbc0; <=11 shelf-packed pages),
+// Timewarp+procedural target+12 Icesheet256-square tiles(4900a0/409bd0).
+// Original Icesheet.jpg is1024x640; enlarged external bitmap replacements
+// are outside this original-installed asset contract.
+const TRACK_RUNTIME_TEXTURE_RESERVE=Object.freeze({clouds:2,weather:1,hudFonts:11,timewarp:1,procedural:1,iceTiles:12,total:28});
+function trackTextureCapacity(textureCount) {
+  if(!Number.isInteger(textureCount)||textureCount<0)throw Error('Invalid authored texture count.');
+  const reserved63Skip=textureCount<=63?1:0,required=textureCount+TRACK_RUNTIME_TEXTURE_RESERVE.total+reserved63Skip;
+  return {nativeSlots:NATIVE_TEXTURE_PAGE_COUNT,authoredCount:textureCount,runtimeReserve:TRACK_RUNTIME_TEXTURE_RESERVE.total,reserved63Skip,remaining:NATIVE_TEXTURE_PAGE_COUNT-required,valid:required<=NATIVE_TEXTURE_PAGE_COUNT};
+}
+
+Object.assign(module.exports, {TEXTURE_PAGE_INDEX_MASK,TEXTURE_PAGE_FLAGS_MASK,NATIVE_TEXTURE_PAGE_COUNT,decodeTexturePageWord,encodeTexturePageWord,isSupportedStaticTextureWord,TRACK_RUNTIME_TEXTURE_RESERVE,trackTextureCapacity});
 },
 "src/gfxm.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {parseGFXM,modelToOBJ});
@@ -814,6 +848,7 @@ Object.assign(module.exports, {buildPlacedMeshes});
 Object.assign(module.exports, {readDefaultModelMaterials,readModelMaterials});
 // FUN_0046c7c0 / FUN_0046d0e0: per-instance face UVs. Animation is sampled
 // at the serialized frame; stepping the original animation clock is separate.
+const {decodeTexturePageWord} = require("src/texture-page-word.mjs");
 const permutations=[[0,1,2,3],[1,3,0,2],[3,2,1,0],[2,0,3,1],
  [2,3,0,1],[3,1,2,0],[1,0,3,2],[0,2,1,3]];
 
@@ -826,7 +861,7 @@ function readDefaultModelMaterials(data, model) {
   if (first < 0 || end > data.length || end - first !== model.faceCount * 40) throw Error('Default model packets exceed resource bounds or face count.');
   return model.faces.map((face, index) => {
     const packet = first + index * 40, pageWord = data.readUInt16LE(packet + 22);
-    return {page: pageWord & 63, pageWord,
+    return {page: decodeTexturePageWord(pageWord), pageWord,
       uv: [12,20,28,36].slice(0, face.triangle ? 3 : 4).map(offset => [data[packet + offset], data[packet + offset + 1]]),
       indices: [face.indices[0]-1, face.indices[2]-1, face.indices[1]-1, ...(face.triangle ? [] : [face.indices[3]-1])]};
   });
@@ -857,7 +892,7 @@ function readModelMaterials(data,model,uvStart) {
   const corners=[[data[uvOffset],data[uvOffset+1]],[data[uvOffset+4],data[uvOffset+5]],
    [data[uvOffset+8],data[uvOffset+9]],[data[uvOffset+10],data[uvOffset+11]]];
   const order=permutations[permutation]??permutations[0],pageWord=data.readUInt16LE(uvOffset+6);
-  return {index,key,descriptor,uvOffset,animationWord,animation,pageWord,page:pageWord&63,
+  return {index,key,descriptor,uvOffset,animationWord,animation,pageWord,page:decodeTexturePageWord(pageWord),
    uv:order.map(i=>corners[i]),indices:[face.indices[0]-1,face.indices[2]-1,face.indices[1]-1,...(face.triangle?[]:[face.indices[3]-1])]};
  });
 }
@@ -983,11 +1018,13 @@ Object.assign(module.exports, {displayPosition,buildSceneExport});
 Object.assign(module.exports, {decodeTrackPaths});
 const { parseRespawnRoutes } = require("src/respawn-routes.mjs");
 const { displayPosition } = require("src/scene-export.mjs");
+const {buildTrackPathConnectivity} = require("src/track-path-connectivity.mjs");
 
 // Shared authored table: PC 44c2b0 / Stage II 42f250 / Firebugs 80061328.
-// Adjacency is a display convention, not recovered AI connectivity. Firebugs'
-// 16-byte XYZ point interpretation remains provisional; see the feasibility note.
-function decodeTrackPaths(data, experimental = false) {
+// Plain adjacency remains the shared display convention. Recovered branch and
+// direction semantics are opt-in for Rollcage only. Firebugs' 16-byte XYZ point
+// interpretation remains provisional; see the feasibility note.
+function decodeTrackPaths(data, experimental = false, {connectivity=false}={}) {
   const note = 'Segments follow stored point order; AI route choice is not established.';
   const caveat = experimental ? ' Experimental: point interpretation is provisional.' : '';
   try {
@@ -996,8 +1033,10 @@ function decodeTrackPaths(data, experimental = false) {
       index: group.index, offset: group.offset,
       positions: group.points.map(point => displayPosition(point.position))
     }));
+    const graph=connectivity&&!experimental?buildTrackPathConnectivity(routes):null;
     return { status: groups.length ? 'available' : 'empty', experimental, groups,
-      message: (groups.length ? note : 'No stored path points.') + caveat };
+      ...(graph?{graph}:{}),
+      message: (groups.length ? (graph?'Arrows show stored travel directions and branch connections; runtime AI choices depend on race conditions.':note) : 'No stored path points.') + caveat + (graph?.invalidLinks.length?` ${graph.invalidLinks.length} invalid stored branch target(s) are omitted.`:'') };
   } catch (error) {
     return { status: 'unavailable', experimental, groups: [],
       message: `Path data unavailable: ${error.message ?? String(error)}${caveat}` };
@@ -1053,6 +1092,44 @@ function parseRespawnRoutes(data) {
 }
 
 Object.assign(module.exports, {parseRespawnRoutes});
+},
+"src/track-path-connectivity.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildTrackPathConnectivity,withPendingPathConnections});
+const {displayPosition} = require("src/scene-export.mjs");
+
+// Rollcage 491390: group+2 chooses direction, group+4 wraps cyclic groups.
+// 47fc90 follows two 14-bit branch fields in point+12. This is a stored graph,
+// not a prediction of choices under runtime speed/blocker/weapon conditions.
+function buildTrackPathConnectivity(routes){
+  const nodes=routes.groups.flatMap(group=>group.index?group.points.map((point,index)=>({id:`g${group.index}:p${index}`,group:group.index,index,position:displayPosition(point.position),incoming:[],outgoing:[],incomingBranches:[],branchSlotsUsed:0,pending:0})):[]),byId=new Map(nodes.map(n=>[n.id,n])),edges=[],byEdge=new Map(),invalidLinks=[];
+  const add=(from,to,kind,slot)=>{
+    if(!byId.has(to)){invalidLinks.push({from,to,slot});return;}
+    const key=`${from}>${to}`;let edge=byEdge.get(key);
+    if(!edge){edge={from,to,kind,branchSlots:[]};edges.push(edge);byEdge.set(key,edge);byId.get(from).outgoing.push(to);byId.get(to).incoming.push(from);}
+    if(slot!==undefined){if(!edge.branchSlots.length)byId.get(to).incomingBranches.push(from);edge.branchSlots.push(slot);}
+  };
+  for(const group of routes.groups){if(!group.index)continue;
+    for(const [index,point]of group.points.entries()){
+      const id=`g${group.index}:p${index}`,step=group.reverseByte2?-1:1;let next=index+step;
+      if(next<0||next>=group.count)next=group.bytes[4]?(next+group.count)%group.count:-1;
+      if(next>=0&&next!==index)add(id,`g${group.index}:p${next}`,'route');
+      const word=point.bytes.readUInt32LE(12);
+      for(let slot=0;slot<2;slot++){const bits=word>>>slot*14,targetGroup=bits&31,targetPoint=bits>>>5&511;if(targetGroup){byId.get(id).branchSlotsUsed++;add(id,`g${targetGroup}:p${targetPoint}`,'branch',slot);}}
+    }
+  }
+  return {kind:'rollcage',nodes,edges,pendingEdges:[],invalidLinks};
+}
+
+// Pending editor conflicts are drawn separately: they are not native links in
+// the compiled resource. Stable project IDs are mapped to current native IDs.
+function withPendingPathConnections(graph,topology,connections=[]){
+  if(!graph||!topology)return graph;
+  const ids=new Map(topology.groups.flatMap((g,index)=>g.points.map((p,i)=>[p.id,`g${index}:p${i}`]))),nodes=graph.nodes.map(n=>({...n,pending:0})),byId=new Map(nodes.map(n=>[n.id,n])),pendingEdges=[];
+  for(const c of connections){const from=ids.get(c.fromPointId),to=ids.get(c.toPointId);if(byId.has(from)&&byId.has(to)){pendingEdges.push({id:c.id,from,to});byId.get(from).pending++;}}
+  return {...graph,nodes,pendingEdges};
+}
+
+Object.assign(module.exports, {buildTrackPathConnectivity,withPendingPathConnections});
 },
 "src/stage2-placements.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {parseStage2Placements});
@@ -1804,6 +1881,7 @@ Object.assign(module.exports, {});
 const { pathColor } = require("tools/track-viewer/path-color.mjs");
 const { carDisplayMatrix } = require("tools/track-viewer/solo-presentation.mjs");
 const { buildRacingTerrainGroups } = require("tools/track-viewer/racing-terrain.mjs");
+const {buildPathTopologyOverlay,pathNodeMarker} = require("tools/track-viewer/path-topology-overlay.mjs");
 
 const identity = new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1]);
 
@@ -1828,13 +1906,14 @@ class Renderer {
     this.attributes = Object.fromEntries(['position', 'uv', 'normal', 'color'].map(key => [key, gl.getAttribLocation(program, key)]));
     this.uniforms = Object.fromEntries(['mvp', 'model', 'image', 'textured', 'lit', 'colored', 'opacity'].map(key => [key, gl.getUniformLocation(program, key)]));
     const pathProgram = this.pathProgram = gl.createProgram();
-    const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;void main(){gl_Position=mvp*vec4(position,1.0);gl_PointSize=pointSize;}');
-    const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;void main(){gl_FragColor=vec4(color,1.0);}');
+    const pathVertex = shader(gl.VERTEX_SHADER, 'attribute vec3 position;uniform mat4 mvp;uniform float pointSize;uniform vec2 screenOffset;void main(){gl_Position=mvp*vec4(position,1.0);gl_Position.xy+=screenOffset*gl_Position.w;gl_PointSize=pointSize;}');
+    const pathFragment = shader(gl.FRAGMENT_SHADER, 'precision mediump float;uniform vec3 color;uniform float pointRing;void main(){if(pointRing>0.5){float r=length(gl_PointCoord-vec2(0.5));if(r>0.5||r<0.28)discard;}gl_FragColor=vec4(color,1.0);}');
     gl.attachShader(pathProgram, pathVertex); gl.attachShader(pathProgram, pathFragment); gl.linkProgram(pathProgram);
     gl.deleteShader(pathVertex); gl.deleteShader(pathFragment);
     if (!gl.getProgramParameter(pathProgram, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(pathProgram));
     this.pathPosition = gl.getAttribLocation(pathProgram, 'position');
-    this.pathUniforms = Object.fromEntries(['mvp', 'color', 'pointSize'].map(key => [key, gl.getUniformLocation(pathProgram, key)]));
+    this.pathUniforms = Object.fromEntries(['mvp', 'color', 'pointSize','screenOffset','pointRing'].map(key => [key, gl.getUniformLocation(pathProgram, key)]));
+    this.pathTopology=[];this.pathSelection=null;
     this.groups = []; this.pathGroups = []; this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
     this.textures = new Map(); this.textureSizes = new Map(); this.smooth = false;
     this.carGroups = []; this.carTextures = new Map(); this.carInstances = []; this.carDraws = {cars: 0, groups: 0};
@@ -1856,9 +1935,20 @@ class Renderer {
     this.setEditorPickups([]);
     for (const group of this.groups) this.gl.deleteBuffer(group.buffer);
     for (const group of this.pathGroups) this.gl.deleteBuffer(group.buffer);
+    for (const group of this.pathTopology) this.gl.deleteBuffer(group.buffer);this.pathTopology=[];this.setPathSelection(null);
     for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
     this.groups = []; this.pathGroups = []; this.textures.clear(); this.textureSizes.clear();
     this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+  }
+  drawPathLines(count,color,{width=1,outline=false}={}){
+    const gl=this.gl,ratio=Math.min(globalThis.devicePixelRatio||1,2),offset=(x,y)=>gl.uniform2f(this.pathUniforms.screenOffset,x*2*ratio/this.canvas.width,y*2*ratio/this.canvas.height);
+    if(outline){gl.uniform3fv(this.pathUniforms.color,[.015,.025,.035]);for(const [x,y]of [[-1.5,0],[1.5,0],[0,-1.5],[0,1.5]]){offset(x,y);gl.drawArrays(gl.LINES,0,count);}}
+    gl.uniform3fv(this.pathUniforms.color,color);
+    for(const [x,y]of (width>1?[[-.5,0],[.5,0],[0,0]]:[[0,0]])){offset(x,y);gl.drawArrays(gl.LINES,0,count);}offset(0,0);
+  }
+  setPathSelection(node){
+    if(this.pathSelection)this.gl.deleteBuffer(this.pathSelection.buffer);this.pathSelection=null;if(!node)return;
+    const gl=this.gl,lines=pathNodeMarker(node.position,'ring',46),buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(lines),gl.STATIC_DRAW);this.pathSelection={buffer,count:lines.length/3,group:node.group};
   }
   setEditorGhost(scene) {
     for(const group of this.editorGhostGroups)this.gl.deleteBuffer(group.buffer);
@@ -1986,6 +2076,7 @@ class Renderer {
         gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(group.positions.flat()), gl.STATIC_DRAW);
       }
+      for(const batch of buildPathTopologyOverlay(scene.paths?.graph)){const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(batch.lines),gl.STATIC_DRAW);this.pathTopology.push({...batch,lines:undefined,count:batch.lines.length/3,buffer});}
       for (const [page, image] of scene.textures) {
         this.textureSizes.set(page, {width: image.width, height: image.height});
         const texture = gl.createTexture(); this.textures.set(page, texture);
@@ -2115,7 +2206,7 @@ class Renderer {
       this.weaponDraws.spawnMarkers = this.weaponMarkerCount;
       gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
     }
-    this.pathDraws = { groups: 0, segments: 0, points: 0, through: false };
+    this.pathDraws = { groups: 0, segments: 0, points: 0, through: false,arrows:0,branches:0,merges:0,splits:0,pending:0,pendingMarkers:0 };
     this.renderEditorPickups(matrix,ratio);
     this.renderEditorModels(matrix);
     if (!options.paths || !this.pathGroups.length) return;
@@ -2123,7 +2214,7 @@ class Renderer {
     for (const attribute of Object.values(this.attributes)) gl.disableVertexAttribArray(attribute);
     gl.enableVertexAttribArray(this.pathPosition);
     gl.uniformMatrix4fv(this.pathUniforms.mvp, false, matrix);
-    gl.uniform1f(this.pathUniforms.pointSize, 5 * ratio);
+    gl.uniform1f(this.pathUniforms.pointSize, 14 * ratio);
     // Overlays never alter the terrain depth buffer or the terrain's positions.
     gl.depthMask(false);
     if (options.pathThrough) gl.disable(gl.DEPTH_TEST);
@@ -2135,12 +2226,27 @@ class Renderer {
         gl.vertexAttribPointer(this.pathPosition, 3, gl.FLOAT, false, 12, 0);
         gl.uniform3fv(this.pathUniforms.color, group.color);
         if (group.count > 1) gl.drawArrays(gl.LINE_STRIP, 0, group.count);
-        if (options.pathPoints) gl.drawArrays(gl.POINTS, 0, group.count);
         this.pathDraws.groups++;
         this.pathDraws.segments += Math.max(0, group.count - 1);
-        if (options.pathPoints) this.pathDraws.points += group.count;
       }
+      for(const batch of this.pathTopology){
+        if(options.pathGroup!==-1&&!batch.groups.includes(options.pathGroup))continue;
+        if(['merges','splits','pendingMarkers'].includes(batch.kind)&&!options.pathShapes)continue;
+        gl.bindBuffer(gl.ARRAY_BUFFER,batch.buffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);
+        const color=batch.color??this.pathGroups.find(g=>g.index===batch.groups[0])?.color??[1,1,1];
+        this.drawPathLines(batch.count,color,{width:2,outline:true});
+        if(batch.kind==='directions')this.pathDraws.arrows+=batch.features;else this.pathDraws[batch.kind]+=batch.features;
+      }
+      // Draw small node circles last so outlined connection strokes cannot
+      // cover the markers at their endpoints.
+      if(options.pathPoints){
+        gl.uniform1f(this.pathUniforms.pointRing,1);
+        for(const group of this.pathGroups){if(options.pathGroup!==-1&&group.index!==options.pathGroup)continue;gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);gl.uniform3fv(this.pathUniforms.color,group.color);gl.drawArrays(gl.POINTS,0,group.count);this.pathDraws.points+=group.count;}
+        gl.uniform1f(this.pathUniforms.pointRing,0);
+      }
+      if(this.pathSelection&&(options.pathGroup===-1||this.pathSelection.group===options.pathGroup)){gl.bindBuffer(gl.ARRAY_BUFFER,this.pathSelection.buffer);gl.vertexAttribPointer(this.pathPosition,3,gl.FLOAT,false,12,0);this.drawPathLines(this.pathSelection.count,[1,1,1],{width:2,outline:true});}
     } finally {
+      gl.uniform1f(this.pathUniforms.pointRing,0);
       gl.depthMask(true); gl.enable(gl.DEPTH_TEST);
       gl.disableVertexAttribArray(this.pathPosition); gl.useProgram(this.program);
     }
@@ -2279,6 +2385,62 @@ function buildRacingTerrainGroups(template, segment, palette, textures) {
 }
 
 Object.assign(module.exports, {buildRacingTerrainGroups});
+},
+"tools/track-viewer/path-topology-overlay.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildPathTopologyOverlay,pathNodeMarker});
+const {appendDashedPathLine} = require("tools/track-viewer/path-line-pattern.mjs");
+const palettes={branches:[.25,1,1],merges:[1,.76,.24],splits:[1,.4,.85],pending:[1,.52,.25],pendingMarkers:[1,.52,.25],selected:[1,1,1]};
+
+// Static display buffers, constructed once per scene. Line width uses screen
+// offsets in the shared shader rather than unsupported WebGL wide lines.
+function buildPathTopologyOverlay(graph){
+  if(!graph)return [];
+  const nodes=new Map(graph.nodes.map(n=>[n.id,n])),batches=new Map();
+  const batch=(kind,groups)=>{groups=[...new Set(groups)].sort((a,b)=>a-b);const key=`${kind}:${groups}`;if(!batches.has(key))batches.set(key,{kind,groups,color:palettes[kind],lines:[],features:0});return batches.get(key);};
+  const edges=graph.edges.flatMap(e=>e.kind==='route'&&e.branchSlots.length?[e,{...e,kind:'branch'}]:[e]);
+  for(const edge of [...edges,...graph.pendingEdges.map(e=>({...e,kind:'pending'}))]){
+    const from=nodes.get(edge.from),to=nodes.get(edge.to);if(!from||!to)continue;
+    const kind=edge.kind==='route'?'directions':edge.kind==='pending'?'pending':'branches',out=batch(kind,kind==='directions'?[from.group]:[from.group,to.group]);
+    const a=from.position,b=to.position,delta=b.map((n,i)=>n-a[i]),length=Math.hypot(...delta);if(length<.001)continue;
+    let dash=null;if(kind==='directions')out.lines.push(...a,...b);
+    else dash=appendDashedPathLine(out.lines,a,b);
+    // A midpoint head reads well on long segments and does not merge into
+    // overlapping endpoint markers. Short/coincident links keep their identity
+    // in node counts even if no geometric arrow can be drawn.
+    const heads=kind==='directions'?Math.max(1,Math.min(8,Math.floor(length/180))):1;
+    const d=delta.map(n=>n/length),side=Math.hypot(d[0],d[2])>.001?[-d[2],0,d[0]]:[1,0,0],sideLength=Math.hypot(...side),size=Math.min(28,length*.28,dash?dash.dashLength*.9:Infinity);
+    // Keep a branch head inside an inked dash, so even an edge-on view cannot
+    // flatten the head across a gap and make two-way connections look solid.
+    for(let h=0;h<heads;h++){const tip=a.map((n,i)=>n+delta[i]*(dash?dash.headFraction:(h+0.6)/heads));for(const sign of [-1,1])out.lines.push(...tip,...tip.map((n,i)=>n-d[i]*size+side[i]/sideLength*size*.55*sign));out.features++;}
+  }
+  for(const node of graph.nodes){
+    if(node.incoming.length>1){const out=batch('merges',[node.group]);out.lines.push(...pathNodeMarker(node.position,'ring',34));out.features++;}
+    if(node.outgoing.length>1){const out=batch('splits',[node.group]);out.lines.push(...pathNodeMarker(node.position,'diamond',22));out.features++;}
+    if(node.pending){const out=batch('pendingMarkers',[node.group]);out.lines.push(...pathNodeMarker(node.position,'diamond',40));out.features++;}
+  }
+  return [...batches.values()].filter(b=>b.lines.length);
+}
+
+function pathNodeMarker(position,shape='ring',radius=36){
+  const lines=[],steps=shape==='diamond'?4:24;
+  for(let i=0;i<steps;i++){const a=i*2*Math.PI/steps,b=(i+1)*2*Math.PI/steps;lines.push(position[0]+Math.cos(a)*radius,position[1],position[2]+Math.sin(a)*radius,position[0]+Math.cos(b)*radius,position[1],position[2]+Math.sin(b)*radius);}
+  lines.push(position[0],position[1]-radius/2,position[2],position[0],position[1]+radius,position[2]);return lines;
+}
+
+Object.assign(module.exports, {buildPathTopologyOverlay,pathNodeMarker});
+},
+"tools/track-viewer/path-line-pattern.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {appendDashedPathLine});
+// Centre short dashes within each period. Reversing the same segment then
+// draws the same physical intervals, so two-way links cannot fill the gaps.
+function appendDashedPathLine(output,a,b){
+  const delta=b.map((n,i)=>n-a[i]),length=Math.hypot(...delta);if(length<.001)return;
+  const count=Math.max(2,Math.min(80,Math.round(length/60)));
+  for(let i=0;i<count;i++)output.push(...a.map((n,j)=>n+delta[j]*(i+.35)/count),...a.map((n,j)=>n+delta[j]*(i+.65)/count));
+  return {headFraction:(Math.floor(count/2)+.65)/count,dashLength:length*.3/count};
+}
+
+Object.assign(module.exports, {appendDashedPathLine});
 },
 "src/object-catalog.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {listObjectResources,loadObjectCollection,decodeObjectCollection});

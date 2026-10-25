@@ -23,7 +23,7 @@ function harness(){
 }
 async function withDocument(run){const prior=globalThis.document;globalThis.document={getElementById:()=>({value:'routes'})};try{return await run();}finally{if(prior===undefined)delete globalThis.document;else globalThis.document=prior;}}
 
-test('actual editor migrates no-edit v1–v4 projects to complete v5 snapshots without changing either resource',()=>withDocument(async()=>{
+test('actual editor migrates no-edit v1–v4 projects to complete v6 snapshots without changing either resource',()=>withDocument(async()=>{
   for(const version of [1,2,3,4]){
     const {editor,base,pair,project}=harness(),saved=project(version),input=structuredClone(saved);
     await TrackEditor.prototype.restoreProject.call(editor,saved);
@@ -31,7 +31,7 @@ test('actual editor migrates no-edit v1–v4 projects to complete v5 snapshots w
     assert.deepEqual(base.routeTopology,base.routeOriginal);assert.deepEqual(base.checkpointTopology,base.checkpointOriginal);
     const compiled=editor.compile();for(const q of ['LOW','HIGH']){assert.deepEqual(compiled[q].geometry,pair[q].geometry);assert.deepEqual(compiled[q].texture,pair[q].texture);}
     assert.equal(editor.changed(base),false);assert.deepEqual(base.layoutDraft,emptyRaceLayoutDraft());
-    const exported=await TrackEditor.prototype.project.call(editor);assert.equal(exported.schemaVersion,5);assert.deepEqual(exported.levels,[]);
+    const exported=await TrackEditor.prototype.project.call(editor);assert.equal(exported.schemaVersion,6);assert.deepEqual(exported.levels,[]);
   }
 }));
 
@@ -56,7 +56,7 @@ test('v4 sparse route/checkpoint/start edits hydrate onto stable identities and 
   assert.deepEqual(base.layoutDraft,{routes:[],checkpoints:[],starts:saved.levels[0].layout.starts});
   assert.equal(base.routeTopology.groups[1].points[0].minSpeed,7);assert.equal(base.checkpointTopology.checkpoints[1].planes[0].position[0],193);
   for(const q of ['LOW','HIGH']){const a=inspectRaceLayout(editor.compile()[q].geometry),b=inspectRaceLayout(expected[q].geometry);assert.deepEqual(a.routes.map(({position,minSpeed,targetSpeed,flags,links})=>({position,minSpeed,targetSpeed,flags,links})),b.routes.map(({position,minSpeed,targetSpeed,flags,links})=>({position,minSpeed,targetSpeed,flags,links})));assert.deepEqual(a.checkpoints.map(({position,direction,sector})=>({position,direction,sector})),b.checkpoints.map(({position,direction,sector})=>({position,direction,sector})));assert.deepEqual(a.starts.map(r=>r.position),b.starts.map(r=>r.position));}
-  const v5=await TrackEditor.prototype.project.call(editor);assert.equal(v5.schemaVersion,5);assert.deepEqual(v5.levels[0].layout.routes,[]);assert.deepEqual(v5.levels[0].layout.checkpoints,[]);
+  const v5=await TrackEditor.prototype.project.call(editor);assert.equal(v5.schemaVersion,6);assert.deepEqual(v5.levels[0].layout.routes,[]);assert.deepEqual(v5.levels[0].layout.checkpoints,[]);
   await TrackEditor.prototype.restoreProject.call(editor,v5);assert.equal(base.routeTopology.groups[1].points[0].minSpeed,7);
 }));
 

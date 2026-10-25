@@ -1,4 +1,80 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track Viewer changelog</title><style>body{background:#0c121d;color:#e6edf7;font:15px/1.6 system-ui;max-width:900px;margin:32px auto;padding:20px}a{color:#91dce4}article{border-top:1px solid #344457;padding:16px 0}.change{margin:5px 0}h2{font-size:21px}h3{font-size:16px}</style><a href="../track-viewer.html">← Track Viewer</a><h1>Track Viewer changelog</h1><article id="2026-10-25-10-topology-and-assemblies"><h2>Routes, checkpoints, assemblies and complete arrows</h2>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track Viewer changelog</title><style>body{background:#0c121d;color:#e6edf7;font:15px/1.6 system-ui;max-width:900px;margin:32px auto;padding:20px}a{color:#91dce4}article{border-top:1px solid #344457;padding:16px 0}.change{margin:5px 0}h2{font-size:21px}h3{font-size:16px}</style><a href="../track-viewer.html">← Track Viewer</a><h1>Track Viewer changelog</h1><article id="2026-10-25-19-choose-any-competing-branch"><h2>2026-10-25 · Choose any competing reversal branch</h2>
+
+<p class="change">• Focus junction now frames all competing branch connections together, labelled A/B/C (and more when needed). Every branch can be selected, including either branch currently occupying a native slot. Nothing is preselected.</p>
+<p class="change">• Select a radio choice or click its label in the 3D view. The selected branch becomes amber; the other candidates stay cyan.</p>
+<p class="change">• Remove selected branch deletes that connection. Preview nearby free slot proposes a different owner; Move selected branch applies it after inspection.</p>
+<p class="change">• Removing or moving a branch already in a native slot gives the freed slot to a waiting branch. The other competing connections are retained automatically, and remaining overflow still blocks racing/export.</p>
+<p class="change">• Existing version-6 projects remain readable. Project save/load preserves the repaired connections, report and original draft snapshot.</p>
+</article>
+<article id="2026-10-25-18-clearer-dashes-larger-points"><h2>2026-10-25 · Clearer connection gaps and larger path points</h2>
+
+<p class="change">• Two-way branch connections now align their dash patterns, so opposite arrows no longer paint over each other's gaps. Short centred dashes occupy30% of each period, with70% left clear. Explore and Reverse track share the same pattern.</p>
+<p class="change">• Branch arrowheads sit within filled dashes so they also preserve the gaps when viewed edge-on.</p>
+<p class="change">• Path-point circles increase from7 to14 pixels across, doubling their radius. Point markers and merge/split shapes retain their separate toggles.</p>
+<p class="change">• GPU checks verify a visible dash and an empty gap with both connection directions drawn, plus the larger hollow circle's rim and transparent centre/corners.</p>
+</article>
+<article id="2026-10-25-17-dashed-branches-point-circles"><h2>2026-10-25 · Dashed connections and small path-point circles</h2>
+
+<p class="change">• Cyan branch connections are dashed with arrowheads, so they remain distinct from solid route lines even when their colours are similar. Kept branch connections in Reverse track use the same dashed style.</p>
+<p class="change">• Point markers now draw small hollow circles in each group's colour. Their seven-pixel size stays constant as you zoom, and the Point markers toggle still controls them independently of arrows and optional merge/split shapes.</p>
+<p class="change">• Amber unresolved connections remain dashed, and the legends explain the line styles.</p>
+</article>
+<article id="2026-10-25-16-optional-junction-shapes"><h2>2026-10-25 · Optional merge/split shapes</h2>
+
+<p class="change">• Explore → Show paths keeps its direction arrows and cyan branch connections, with merge circles and split diamonds hidden by default.</p>
+<p class="change">• Turn on Merge/split shapes to display those node decorations. Pending-connection diamonds follow the same toggle; dashed amber pending arrows stay visible with paths.</p>
+<p class="change">• Junction selection, connection counts and the single selected-point highlight remain available with the shapes off. The legend follows the toggle.</p>
+</article>
+<article id="2026-10-25-15-path-junction-arrows"><h2>2026-10-25 · Explore AI merges, splits and directions</h2>
+
+<p class="change">• Explore → Show paths now draws Rollcage travel direction arrows and cyan stored branch connections. Gold rings identify merges (several paths in); pink diamonds identify splits (several paths out). A point can be both. Lines that merely cross do not imply a connection.</p>
+<p class="change">• Inspect a merge or split lists actual graph points and their incoming/outgoing counts. Focus selected marker frames the junction and its neighbours with a white selection ring.</p>
+<p class="change">• The selected-point explanation separates normal travel through a group from the two stored branch slots, and flags merges whose incoming branch connections exceed that limit when reversed.</p>
+<p class="change">• Reversed drafts also show pending, unapplied connections as dashed amber arrows in Explore. Their counts stay separate from compiled native links and disappear when resolved or restored.</p>
+<p class="change">• Nearby routes in Reverse track are now brighter, thicker, outlined and directional, so they stand out against road textures.</p>
+
+<p>Direction and branch decoding is enabled for Rollcage. Stage II and Firebugs keep their prior stored-point display; no unverified branch semantics are applied to them. All40 Rollcage resources pass raw-byte graph/direction checks and paired LOW/HIGH consistency. Browser validation covers HIGH/LEV1 controls, marker focus, reverse pending connections, GPU depth/visibility and resource cleanup. No game capture is needed for this viewer update.</p>
+</article>
+<article id="2026-10-25-14-reversal-junction-focus"><h2>2026-10-25 · Visible reversed-junction repairs</h2>
+
+<p class="change">• Focus junction now shows labelled junction/destination markers, the pending branch as an amber dashed arrow, retained branches in cyan, and nearby route lines in grey. Markers remain visible through the scenery.</p>
+<p class="change">• Focusing a blocker selects its exact pending connection and opens a repair card explaining the two-slot limit and the branch that needs a decision. The card stays above the report list.</p>
+<p class="change">• Preview nearby free slot proposes an available point/slot without editing the track. Inspect the proposed path, then explicitly Retain branch or Remove this extra branch. Occupied slots are labelled and cannot overwrite an existing branch.</p>
+<p class="change">• Edit junction in Route points opens the matching point for manual inspection. Diagnostic markers disappear when leaving Reverse track or restoring the original draft.</p>
+
+<p>This is an editor usability fix. Suggestions are starting points for manual review; they do not certify reverse-route driving. No native capture is needed for these display-only diagnostics.</p>
+</article>
+<article id="2026-10-25-13-reversed-drafts"><h2>2026-10-25 · Reversed track drafts and repair reports</h2>
+
+<p class="change">• Track editor → Reverse track creates a separate reversed draft while retaining the complete original draft for restoration.</p>
+<p class="change">• Automatic edits preserve the physical finish, reverse checkpoint progression and direction, reverse AI travel and branches, reflect the starting grid with terrain support checks, and rotate recognized arrow artwork.</p>
+<p class="change">• Reports list gameplay warnings, structural blockers and pending connections with focus/repair controls. Branch overflow requires an explicit retained connection or removal. Saved projects and exported ZIPs include the report; Restore original draft returns to the pre-reversal edits.</p>
+<p class="change">• Test changes and export require structural/native validity. Gameplay warnings allow experimental exports and identify copied speed settings, jumps, grid clearance, unrecognized arrows and special scenery for manual review.</p>
+<p class="change">• LEV12/13 reversal is analysis-only because of protected executable behavior. Other tracks can still need manual repairs; this button does not certify every track as raceable backwards.</p>
+
+<p>All 20 track pairs are analyzed; 12 have structurally clean automatic reversals under the current checks. Real browser acceptance includes report download, restore, pending-branch repair, save/load, export and racing. Original-game reversed LEV2 LOW/HIGH each recorded 12 natural checkpoint transitions, a finish/lap counter increment and timing feedback. These bounded runs do not establish a complete backwards lap. No natural recovery occurred, so reverse-track recovery remains an explicit evidence gap. All captured game processes are closed and original installation hashes are unchanged.</p>
+</article>
+<article id="2026-10-25-12-spline-roads"><h2>2026-10-25 · Draw new spline roads</h2>
+
+<p class="change">• Track editor → New roads draws a centreline on terrain or a chosen working height. Select control points to change position, width and banking, then inspect the shaded preview before Apply road.</p>
+<p class="change">• Roads can form standalone strips, ramps and banked bridges. Start/end snaps match an entire existing boundary and its column count. Open edges remain open; loops, inversion, tunnels and junctions are outside this delivery.</p>
+<p class="change">• Optional AI routes copy a reference group's speed settings and require explicit entry/exit links. The generated points remain editable with the Route points tool.</p>
+<p class="change">• Applied roads support selection, reshaping, deletion, undo/redo, surface painting, version-6 projects and LOW/HIGH archive export. Paint follows its road across sector/cell reindexing; deleting a road removes its dependent paint and retires its generated route IDs.</p>
+<p class="change">• Exports contain new native sectors, collision planes, spatial/recovery lookup, visibility and render initializer data. Native capacities and unsupported geometry reject before changing the draft. LEV16/17 remain editable, with AI racing disabled.</p>
+
+<p>All 40 resources pass source construction checks and combined editor checks. Browser acceptance covers actual drawing, painting, generated routes, history, project reload, ZIP contents and three-car Test changes. Final original-game LEV1 LOW/HIGH captures each hit a newly created sector: wheel point and normal match the exported plane exactly. Seam traversal, every road shape and complete AI races remain unverified.</p>
+</article>
+<article id="2026-10-25-11-arrows-deletion-imports"><h2>2026-10-25 · Four-cell arrows, route deletion and broader model imports</h2>
+
+<p class="change">• Complete speed-pad arrows now place a 2×2 four-cell pattern with textured preview, rotation and one undo. Existing two-cell project placements retain their saved shape.</p>
+<p class="change">• Route points can be removed with a dependency preview, replacement selection and explicit outgoing-branch conflict resolution. Native links and fallback references are rebuilt together; original identities survive save/load and undo.</p>
+<p class="change">• Static cross-library models can import missing textures losslessly using the full native texture address. Show only placeable models checks both LOW and HIGH. Native texture, transparency, UV, model and collision limits still apply; foreign destructible and scripted imports remain unsupported.</p>
+<p class="change">• LEV12 sectors 2/3/4/5/7/8/10/16 and stages 4/11, and LEV13 sectors 0/4/5/24 and stages 6–13 are read-only where the executable hardcodes behavior. Sector/stage numbers are zero-based. The compiler enforces these protections as well as the controls.</p>
+<p class="change">• Version-6 projects preserve deletion tombstones and the new commands. Earlier project versions remain readable.</p>
+
+<p>Source matrices cover all 40 LOW/HIGH resources. Real browser checks cover placement, deletion conflicts, history, projects, exports and Camera stability. Original-game LOW/HIGH import checks confirm material words, texture uploads and live lookup entries, including logical texture IDs above 63. This establishes selected native compatibility, not complete rendering or race equivalence.</p>
+</article>
+<article id="2026-10-25-10-topology-and-assemblies"><h2>Routes, checkpoints, assemblies and complete arrows</h2>
 
 <p class="change">• Route points: clone an existing group, insert before/after a point and explicitly connect either outgoing slot. Cloned groups show their missing entry/exit connections; unfinished drafts can be saved, while Test changes and game export require valid connections.</p>
 <p class="change">• Route speeds: readable native thresholds, a separate Full throttle target and advanced raw bytes. Minimum is an AI candidate threshold; target controls throttle/braking and is not a hard speed cap.</p>

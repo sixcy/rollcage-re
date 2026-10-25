@@ -12,6 +12,7 @@ import { SoloController } from './solo-controller.mjs';
 import { formatPracticeTime } from './solo-presentation.mjs';
 import { pickupLabel } from './pickup-label.mjs';
 import { TrackEditor } from './track-editor-ui.mjs';
+import {withPendingPathConnections} from '../../src/track-path-connectivity.mjs';
 
 const element = id => document.getElementById(id);
 const setText = (id, text) => {const output = element(id); if (output.textContent !== text) output.textContent = text;};
@@ -114,7 +115,9 @@ function followCar(reset = false, seconds = 0, presentation = practice?.renderSn
 function updatePaths() {
   const paths = scene?.paths, available = paths?.status === 'available';
   for (const id of ['paths', 'path-points', 'path-through', 'path-group']) element(id).disabled = !available;
-  element('path-note').textContent = practice && available ? 'Segments show consecutive authored points. The AI cars select their routes independently.' : paths?.message ?? 'Load a track to inspect stored paths.';
+  element('path-note').textContent = paths?.message ?? 'Load a track to inspect stored paths.';
+  const groupSignature=JSON.stringify((paths?.groups??[]).map(g=>[g.index,g.positions.length]));
+  if(element('path-group').dataset.signature!==groupSignature){const prior=element('path-group').value;element('path-group').replaceChildren(new Option('All groups','-1'),...(paths?.groups??[]).map(g=>new Option(`Group ${g.index} (${g.positions.length} points)`,String(g.index))));element('path-group').value=(paths?.groups??[]).some(g=>String(g.index)===prior)?prior:'-1';element('path-group').dataset.signature=groupSignature;}
   const index = Number(element('path-group').value);
   const groups = (paths?.groups ?? []).filter(group => index === -1 || group.index === index);
   const points = groups.reduce((sum, group) => sum + group.positions.length, 0);
@@ -125,16 +128,33 @@ function updatePaths() {
     : '';
   element('path-color').hidden = index === -1 || !available;
   if (index !== -1 && available) element('path-color').style.color = pathColor(index);
+  const graph=paths?.graph,nodes=graph?.nodes??[],junctions=nodes.filter(n=>(index===-1||n.group===index)&&(n.incoming.length>1||n.outgoing.length>1||n.pending)),selector=element('path-junction'),signature=JSON.stringify(junctions.map(n=>[n.id,n.incoming.length,n.outgoing.length,n.pending]));
+  setHidden('path-topology',!graph);setHidden('path-legend',!graph||!element('paths').checked);
+  setHidden('path-pending-key',!graph?.pendingEdges.length);
+  setHidden('path-shapes-label',!graph);setDisabled('path-shapes',!graph||!available);setHidden('path-shape-key',!element('path-shapes').checked);
+  if(selector.dataset.signature!==signature){const prior=selector.value;selector.replaceChildren(new Option('Choose a merge or split',''),...junctions.map(n=>new Option(`${n.pending?'Unresolved split':n.incoming.length>1&&n.outgoing.length>1?'Merge + split':n.incoming.length>1?'Merge':'Split'} · Group ${n.group} / point ${n.index+1} · ${n.incoming.length} in / ${n.outgoing.length} out${n.pending?` + ${n.pending} pending`:''}`,n.id)));if(junctions.some(n=>n.id===prior))selector.value=prior;selector.dataset.signature=signature;}
+  selector.disabled=!graph||!junctions.length;
+  const node=nodes.find(n=>n.id===selector.value);setDisabled('path-focus',!node);renderer?.setPathSelection(element('paths').checked?node:null);
+  setText('path-node-details',node?`Group ${node.group}, point ${node.index+1}: ${node.incoming.length} ways in; ${node.outgoing.length} ways out.\n${node.incomingBranches.length} incoming branch connection(s). ${node.branchSlotsUsed} of 2 outgoing branch slots used.\nNormal travel along the group is separate from those two branch slots.${node.incomingBranches.length>2?`\nIf reversed, these ${node.incomingBranches.length} incoming branch connections would need more than the two available outgoing branch slots.`:''}${node.pending?`\n${node.pending} extra reversed branch(es) still need repair; dashed amber arrows show those unapplied connections.`:''}`:'Choose a marker above to inspect its incoming and outgoing connections.');
+  if(graph&&available)element('path-counts').textContent+=` · ${junctions.filter(n=>n.incoming.length>1).length} merges · ${junctions.filter(n=>n.outgoing.length>1).length} splits`;
+}
+function focusPathJunction(){
+  const graph=scene?.paths?.graph,node=graph?.nodes.find(n=>n.id===element('path-junction').value);if(!node)return;
+  element('paths').checked=true;updatePaths();
+  const connected=new Set([node.id,...node.incoming,...node.outgoing,...graph.pendingEdges.filter(e=>e.from===node.id||e.to===node.id).flatMap(e=>[e.from,e.to])]),positions=graph.nodes.filter(n=>connected.has(n.id)).map(n=>n.position);
+  navigation.reset([0,1,2].map(axis=>[Math.min(...positions.map(p=>p[axis]))-100,Math.max(...positions.map(p=>p[axis]))+100]));help();
 }
 function refreshEditorScene() {
   if (!editor?.current?.modelDraft || !selectedTrack || game?.id !== 'rollcage') return;
   const base = editor.current, quality = selectedTrack.name.startsWith('HIGH/') ? 'HIGH' : 'LOW';
   const resources = editor.resourcesFor(selectedTrack,base[quality].geometry,base[quality].texture);
   const decoded = editor.decodeScene(resources.geometry,resources.texture);
+  if(decoded.paths?.graph)decoded.paths.graph=withPendingPathConnections(decoded.paths.graph,base.routeTopology,(base.compiled?.reversalReport??base.reversal)?.unresolvedConnections??[]);
   decoded.editorScripted=Boolean(editor.modelsEditing);renderer.setScene(decoded); scene = decoded; editor.scene = decoded;
   if(practice&&!practiceDirty)renderer.setCar(practice.session.assets);
   editor.modelPicks.clear(); editor.refresh();
   setText('counts', `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`);
+  updatePaths();
 }
 function restartPractice() {
   if (!practiceInputs) return;
@@ -174,7 +194,6 @@ async function loadTrack() {
     refreshEditorScene();
     if(workspaces?.value==='editor')element('editor-tool').dispatchEvent(new Event('change'));
     updatePractice();
-    for (const group of scene.paths.groups) element('path-group').append(new Option(`Group ${group.index} (${group.positions.length} ${group.positions.length === 1 ? 'point' : 'points'})`, String(group.index)));
     updatePaths();
     element('download').disabled = exporting;
     navigation.reset(scene.bounds); help();
@@ -328,6 +347,10 @@ element('reset').addEventListener('click', () => {
 });
 element('filter').addEventListener('change', () => renderer?.setFilters(element('filter').checked));
 element('path-group').addEventListener('change', updatePaths);
+element('paths').addEventListener('change',updatePaths);
+element('path-shapes').addEventListener('change',updatePaths);
+element('path-junction').addEventListener('change',updatePaths);
+element('path-focus').addEventListener('click',focusPathJunction);
 canvas.addEventListener('contextmenu', event => event.preventDefault());
 canvas.addEventListener('pointerdown', event => {
   if(editor?.pointerDown(event))return;
@@ -396,7 +419,7 @@ function frame(time) {
   renderer.render(navigation, {
     textures: element('textures').checked, lighting: element('lighting').checked,
     objects: element('objects').checked, sector: Number(element('sector').value),
-    paths: element('paths').checked, pathPoints: element('path-points').checked,
+    paths: element('paths').checked, pathPoints: element('path-points').checked,pathShapes:element('path-shapes').checked,
     pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.active?null:renderedPractice
   });
   editor?.terrain?.render(navigation);editor?.layout?.render(navigation);editor?.renderEditorOverlay(navigation);
@@ -409,7 +432,7 @@ window.rollcageViewer = { inspect: () => ({
   game: game?.id ?? null, verified, workspace:workspaces?.value??'explore',
   track: selectedTrack?.name ?? null, segments: scene?.segments ?? 0, instances: scene?.instances ?? 0,
   triangles: scene?.triangles ?? 0, textures: scene?.textures.size ?? 0, groups: renderer?.groups.length ?? 0,
-  paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,
+  paths: scene?.paths ?? null, pathBuffers: renderer?.pathGroups.length ?? 0, pathDraws: renderer?.pathDraws ?? null,pathJunction:element('path-junction').value||null,
   practice: practice ? {state: practice.state, ...practice.snapshot} : null, carBuffers: renderer?.carGroups.length ?? 0,
   followedCarIndex,
   editor: editor?.inspect() ?? null,
@@ -438,7 +461,7 @@ try {
   const chooseTool=()=>{
     const tool=element('editor-tool').value;
     for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==tool&&!(tool==='surfaces'&&panel.id==='terrain-panel')&&!(['routes','checkpoints','starts'].includes(tool)&&panel.id==='layout-panel');
-    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))editor.perform(()=>editor.setLayoutEditing(tool));else editor.perform(()=>editor.setTerrainEditing(tool));
+    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))editor.perform(()=>editor.setLayoutEditing(tool));else if(tool==='roads')editor.perform(()=>editor.setRoadEditing());else if(tool==='reverse')editor.perform(()=>editor.setVariantEditing());else editor.perform(()=>editor.setTerrainEditing(tool));
   };
   workspaces=new Workspaces(value=>{
     releaseMouse();

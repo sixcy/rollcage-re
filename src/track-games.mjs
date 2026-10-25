@@ -5,6 +5,7 @@ import { parseStage2Placements } from './stage2-placements.mjs';
 import { buildStage2PlacedMeshes } from './stage2-placed-meshes.mjs';
 import { firebugsGame, identifyFirebugs } from './firebugs.mjs';
 import {recoverEditedRollcageIndex, originalRollcageView} from './edited-rollcage-index.mjs';
+import {parseScene} from './scene.mjs';
 
 // Exact index identities plus decoded sentinel resources bind auto-detection to
 // the supplied archives, including a check that the IMG belongs to that IDX.
@@ -49,7 +50,7 @@ export const games = Object.freeze([
     .filter(({ name }) => /^(LOW|HIGH)\/LEV\d+\.BLP$/.test(name)),
   decodeTrackScene, findResourceIndex, [1]),
   createGame('stage2', 'Rollcage Stage II', stage2Map.tracks,
-    (data, texture) => decodeTrackScene(data, texture, { parsePlacements: parseStage2Placements, buildPlacedMeshes: buildStage2PlacedMeshes }),
+    (data, texture) => decodeTrackScene(data, texture, { pathConnectivity:false,parseScene:data=>parseScene(data,{texturePageMode:'legacy'}),parsePlacements: parseStage2Placements, buildPlacedMeshes: buildStage2PlacedMeshes }),
     name => stage2Lookup.get(normalizeResourceName(name)) ?? -1, [4, 12])
 ]);
 

@@ -1,0 +1,901 @@
+{
+  "passed": true,
+  "scope": "All20 track pairs, route/table transformations and explicit draft diagnostics. Clean source candidates run90 reconstructed ticks perquality. Native racing/playability is not claimed.",
+  "rows": [
+    {
+      "level": 1,
+      "protected": false,
+      "blockers": [
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-1",
+            "pointId": "g1:p28"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-2",
+            "pointId": "g4:p1"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-3",
+            "pointId": "g4:p3"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-4",
+            "pointId": "g5:p1"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-5",
+            "pointId": "g6:p2"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-6",
+            "pointId": "g6:p5"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-7",
+            "pointId": "g6:p5"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-8",
+            "pointId": "g6:p9"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-9",
+            "pointId": "g6:p11"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-10",
+            "pointId": "g6:p11"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-11",
+            "pointId": "g6:p12"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-12",
+            "pointId": "g7:p1"
+          }
+        }
+      ],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 12,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": null,
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 3,
+      "protected": false,
+      "blockers": [
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 4
+          }
+        }
+      ],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": false,
+          "race": null,
+          "error": "Destination is too far from covered terrain in its native height layer. Keep the marker near an existing road surface."
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": false,
+          "race": null,
+          "error": "Destination is too far from covered terrain in its native height layer. Keep the marker near an existing road surface."
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "protected": false,
+      "blockers": [
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-1",
+            "pointId": "g13:p3"
+          }
+        }
+      ],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 1,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": null,
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 6,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 7,
+      "protected": false,
+      "blockers": [
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-1",
+            "pointId": "g1:p53"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-2",
+            "pointId": "g1:p69"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-3",
+            "pointId": "g5:p5"
+          }
+        },
+        {
+          "code": "route-branch-capacity",
+          "target": {
+            "kind": "route-connection",
+            "id": "reversed-branch-4",
+            "pointId": "g5:p5"
+          }
+        }
+      ],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 4,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": null,
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 8,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 9,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 10,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 11,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 12,
+      "protected": true,
+      "blockers": [
+        {
+          "code": "protected-track",
+          "target": {
+            "kind": "track"
+          }
+        }
+      ],
+      "warnings": [],
+      "pendingConnections": 0,
+      "cases": []
+    },
+    {
+      "level": 13,
+      "protected": true,
+      "blockers": [
+        {
+          "code": "protected-track",
+          "target": {
+            "kind": "track"
+          }
+        }
+      ],
+      "warnings": [],
+      "pendingConnections": 0,
+      "cases": []
+    },
+    {
+      "level": 14,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 15,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 16,
+      "protected": false,
+      "blockers": [
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 0
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 1
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 2
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 3
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 4
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 5
+          }
+        }
+      ],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "unverified-racing",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": false,
+          "race": null,
+          "error": "Destination has no populated native spatial cell. Place the marker over existing supported terrain."
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": false,
+          "race": null,
+          "error": "Destination has no populated native spatial cell. Place the marker over existing supported terrain."
+        }
+      ]
+    },
+    {
+      "level": 17,
+      "protected": false,
+      "blockers": [
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 0
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 1
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 2
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 3
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 4
+          }
+        },
+        {
+          "code": "grid-slot-unsupported",
+          "target": {
+            "kind": "start",
+            "id": 5
+          }
+        }
+      ],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "unverified-racing",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": false,
+          "race": null,
+          "error": "Destination has no populated native spatial cell. Place the marker over existing supported terrain."
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": false,
+          "race": null,
+          "error": "Destination has no populated native spatial cell. Place the marker over existing supported terrain."
+        }
+      ]
+    },
+    {
+      "level": 18,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 19,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    },
+    {
+      "level": 20,
+      "protected": false,
+      "blockers": [],
+      "warnings": [
+        "native-arrow-review",
+        "reverse-speeds",
+        "jump-and-drop-review",
+        "grid-clearance-review",
+        "scripted-scenery"
+      ],
+      "pendingConnections": 0,
+      "cases": [
+        {
+          "quality": "LOW",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        },
+        {
+          "quality": "HIGH",
+          "routeCompiled": true,
+          "pairedSourcesUnchanged": true,
+          "compiled": true,
+          "race": {
+            "ticks": 90,
+            "cars": 3
+          },
+          "error": null
+        }
+      ]
+    }
+  ]
+}

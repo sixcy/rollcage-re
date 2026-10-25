@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "authority": "original-process-with-declared-instrumentation",
+  "quality": "HIGH",
+  "level": 1,
+  "sourceModel": "LEV3/model19",
+  "importedPlacement": 124,
+  "authoredTextureCount": 74,
+  "materialWords": [
+    329,
+    265,
+    264
+  ],
+  "cases": [
+    {
+      "snapshot": 6,
+      "breakpoint": "pickup-scenery-world",
+      "pages": [
+        {
+          "id": 72,
+          "width": 256,
+          "height": 32,
+          "rendererHandle": 27
+        },
+        {
+          "id": 73,
+          "width": 256,
+          "height": 177,
+          "rendererHandle": 28
+        }
+      ]
+    },
+    {
+      "snapshot": 9,
+      "breakpoint": "pickup-first-tick",
+      "pages": [
+        {
+          "id": 72,
+          "width": 256,
+          "height": 32,
+          "rendererHandle": 27
+        },
+        {
+          "id": 73,
+          "width": 256,
+          "height": 177,
+          "rendererHandle": 28
+        }
+      ]
+    }
+  ],
+  "sourceFilesVerified": 171,
+  "initializationReport": "analysis/native-static-import-high-acceptance-20261025-v6-initialization.json",
+  "completion": {
+    "type": "complete",
+    "reason": "pickup-editor-validation-bound",
+    "events": 2970,
+    "snapshots": 35,
+    "pickupEditorObservation": {
+      "scenario": "load",
+      "sceneName": "HIGH/LEV1.BLP",
+      "targetIndex": 0,
+      "placements": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "collections": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "completedTargetGeneration": 0,
+      "actualRegistryBefore": 209,
+      "fullNativeFinalizerObserved": true,
+      "completedFinalizers": 13,
+      "nativeOutputsWritten": false,
+      "physicsGoalResumed": false
+    },
+    "elapsedMs": 57664
+  },
+  "scope": "Original static import construction, complete live BTP texture count, imported material descriptors, actual logical texture-map upload IDs and initialized texel-center lookup tables. Does not claim pixel-perfect native GPU rendering or a complete race."
+}
