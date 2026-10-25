@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "arguments": [],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "maxDurationMs": 15000,
+  "maxEvents": 100000,
+  "maxSnapshots": 1,
+  "showWindow": false,
+  "hideOwnedWindows": true,
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "denyPlayerMailslot": true,
+  "ranges": [
+    {
+      "id": "gravity",
+      "rva": "0x1eb5e0",
+      "length": 4
+    },
+    {
+      "id": "clock",
+      "rva": "0x50a548",
+      "length": 4
+    }
+  ],
+  "breakpoints": [
+    {
+      "id": "post-crt-winmain",
+      "rva": "0x4d70",
+      "stopAfterHits": 1,
+      "ranges": [
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 128
+        }
+      ]
+    }
+  ],
+  "phaseActions": [],
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v2\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v2\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v2\\post-crt-capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v2\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v2\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v2\\temp"
+}

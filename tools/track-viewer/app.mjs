@@ -21,7 +21,7 @@ const canvas = element('canvas'), navigation = new Navigation(), keys = new Set(
 let renderer, editor, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false, practiceDirty = false;
 let sourceKind = 'pc';
 let workspaces;
-let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
+let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0, practiceFailure = '';
 const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
@@ -38,6 +38,7 @@ function help() {
 }
 function clearScene() {
   editor?.clearTrack(); practiceDirty = false;
+  practiceFailure = '';
   practice?.dispose(); practice = null;
   practiceInputs = null;
   renderedPractice = null;
@@ -75,7 +76,7 @@ function updatePractice() {
   setText('practice-start', running ? 'Pause' : practice?.state === 'paused' ? 'Resume' : 'Start');
   const excluded = game?.id === 'rollcage' && /\/(?:LEV16|LEV17)\.BLP$/.test(selectedTrack?.name ?? '');
   setText('practice-note', editing ? 'Editing track · Test changes restarts the race with your edits.' : practice?.state === 'error' ? 'Racing test stopped. Load this track again to restart.' : available ? `Continuous racing test · ${practice.state}. Step while paused, or test a recovery.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.');
-  const message = practice?.message ?? '';
+  const message = practice?.message ?? practiceFailure;
   if (element('practice-error').textContent !== message) element('practice-error').textContent = message;
   setText('practice-readout', car ? `${car.speed} km/h · ${car.laps} laps completed · Lap ${formatPracticeTime(car.lapTime)} · Best ${formatPracticeTime(car.bestLap)}` : '');
   setText('practice-roster', value ? `${carCount} AI ${carCount === 1 ? 'car' : 'cars'}${difficulty ? ` · ${difficulty}` : ''} · Car ${followedCarIndex + 1} telemetry, follow and recovery.` : '');
@@ -140,6 +141,7 @@ function restartPractice() {
   practice?.dispose(); practice = null; renderedPractice = null; renderedAlpha = 1; lastFrame = 0;
   let failure;
   try {
+    editor?.validateRaceReady();
     const count = Number(element('practice-ai-count').value);
     const resources = editor?.resourcesFor(selectedTrack,practiceInputs.geometry,practiceInputs.texture) ?? practiceInputs;
     const session = createSession(resources.geometry, resources.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
@@ -152,8 +154,8 @@ function restartPractice() {
     renderer.clearCar();
     failure = `Racing test unavailable: ${errorText(error)}`;
   }
+  practiceFailure = failure ?? '';
   updatePractice(); updatePaths(); help();
-  if (failure) element('practice-error').textContent = failure;
 }
 async function loadTrack() {
   const token = ++generation, source = archive, adapter = game, track = availableTracks.find(track => track.index === Number(element('track').value));

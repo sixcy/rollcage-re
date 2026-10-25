@@ -3,10 +3,12 @@ import {terrainBrushSelection,stampTerrain} from './terrain-brush.mjs';
 import {cameraRay,intersectTerrain} from './pickup-picking.mjs';
 import {CollisionOverlay} from './collision-overlay.mjs';
 import {getGame} from '../../src/track-games.mjs';
+import {speedPadPatterns,speedPadFootprint} from '../../src/speed-pad-patterns.mjs';
 const el=id=>document.getElementById(id),text=(id,value)=>{if(el(id).textContent!==value)el(id).textContent=value;};
 export class TerrainEditorUI {
   constructor(editor){
     this.editor=editor;this.kind='terrain';this.stroke=null;this.overlay=new CollisionOverlay(editor.renderer);this.page=0;this.preset=null;this.paletteBase=null;
+    for(const id of ['surface-mode','surface-rotation'])el(id).addEventListener('change',()=>{this.page=0;this.preset=(this.patternMode?this.patterns:this.presets)?.[0]??null;this.cancel();this.filterPalette();this.refresh();});
     el('terrain-operation').addEventListener('change',()=>this.refresh());
     for(const id of ['terrain-undo','terrain-redo','terrain-reset'])el(id).addEventListener('click',()=>editor.perform(()=>id==='terrain-reset'?editor.commitTerrain(emptyTerrainDraft()):editor.terrainHistory(id==='terrain-undo'?'terrainUndo':'terrainRedo',id==='terrain-undo'?'terrainRedo':'terrainUndo')));
     el('surface-search').addEventListener('input',()=>{this.page=0;this.filterPalette();});
@@ -21,19 +23,22 @@ export class TerrainEditorUI {
     const base=this.editor.current;if(!base)return;
     if(!base.terrainInfo){const low=inspectTerrain(base.LOW.geometry),high=inspectTerrain(base.HIGH.geometry);if(low.scene.segments.length!==high.scene.segments.length||[...low.vertices].some(([id,v])=>!high.vertices.has(id)||v.position.some((n,i)=>high.vertices.get(id).position[i]!==n)))throw Error('LOW/HIGH terrain grids differ; paired height editing is unavailable.');base.terrainInfo=low;}
     if(!this.radiusInitialized){const s=base.terrainInfo.scene.segments[0],v=s?.vertices;el('terrain-radius').value=String(Math.max(1,Math.round(v?.length>1?Math.hypot(v[1][0]-v[0][0],v[1][2]-v[0][2]):128)));this.radiusInitialized=true;}
-    if(this.kind==='surfaces'&&this.paletteBase!==base){this.presets=terrainSurfacePresets(base.LOW.geometry,base.HIGH.geometry);this.paletteTextures=getGame('rollcage').decodeTrack(base.LOW.geometry,base.LOW.texture).textures;this.paletteBase=base;this.preset=this.presets[0]??null;this.page=0;this.filterPalette();}
+    if(this.kind==='surfaces'&&this.paletteBase!==base){this.presets=terrainSurfacePresets(base.LOW.geometry,base.HIGH.geometry);this.patterns=speedPadPatterns(base.LOW.originalGeometry??base.LOW.geometry,base.HIGH.originalGeometry??base.HIGH.geometry);this.paletteTextures=getGame('rollcage').decodeTrack(base.LOW.geometry,base.LOW.texture).textures;this.paletteBase=base;this.preset=this.presets[0]??null;this.page=0;this.filterPalette();}
   }
   setKind(kind){this.kind=kind;this.ensure();this.refresh();}
   filterPalette(){
-    const query=el('surface-search').value.trim().toLowerCase(),presets=(this.presets??[]).filter(p=>p.label.toLowerCase().includes(query)),size=24;this.page=Math.min(this.page,Math.max(0,Math.ceil(presets.length/size)-1));
+    const query=el('surface-search').value.trim().toLowerCase(),presets=(this.patternMode?this.patterns??[]:this.presets??[]).filter(p=>p.label.toLowerCase().includes(query)),size=24;this.page=Math.min(this.page,Math.max(0,Math.ceil(presets.length/size)-1));
     el('surface-palette').replaceChildren(...presets.slice(this.page*size,(this.page+1)*size).map(p=>{
       const button=document.createElement('button');button.type='button';button.title=p.label;button.className='surface-card';button.setAttribute('aria-pressed',String(p===this.preset));button.dataset.preset=`${p.sector}:${p.cell}`;
-      const canvas=document.createElement('canvas');canvas.width=64;canvas.height=48;const label=document.createElement('span');label.textContent=`P${p.page} · grip ${p.gripReduction}`;button.append(canvas,label);
-      const image=this.paletteTextures?.get(p.page);if(image){const source=document.createElement('canvas');source.width=image.width;source.height=image.height;const context=source.getContext('2d');const pixels=context.createImageData(image.width,image.height);pixels.data.set(image.rgba);context.putImageData(pixels,0,0);const xs=p.uv.map(uv=>uv[0]),ys=p.uv.map(uv=>uv[1]),x=Math.min(...xs),y=Math.min(...ys),w=Math.max(1,Math.max(...xs)-x+1),h=Math.max(1,Math.max(...ys)-y+1);canvas.getContext('2d').drawImage(source,x,y,w,h,0,0,64,48);}
+      const canvas=document.createElement('canvas');canvas.width=64;canvas.height=48;const label=document.createElement('span');label.textContent=this.patternMode?p.label:`P${p.page} · grip ${p.gripReduction}`;button.append(canvas,label);
+      const image=this.paletteTextures?.get(p.page);if(image){const source=document.createElement('canvas');source.width=image.width;source.height=image.height;const context=source.getContext('2d');const pixels=context.createImageData(image.width,image.height);pixels.data.set(image.rgba);context.putImageData(pixels,0,0);const xs=p.uv.map(uv=>uv[0]),ys=p.uv.map(uv=>uv[1]),x=Math.min(...xs),y=Math.min(...ys),w=Math.max(1,Math.max(...xs)-x+1),h=Math.max(1,Math.max(...ys)-y+1);const ctx=canvas.getContext('2d');if(this.patternMode){ctx.drawImage(source,x,y,w,h,0,0,32,48);ctx.save();ctx.translate(64,0);ctx.scale(-1,1);ctx.drawImage(source,x,y,w,h,0,0,32,48);ctx.restore();}else ctx.drawImage(source,x,y,w,h,0,0,64,48);}
       button.addEventListener('click',()=>{this.preset=p;text('surface-selected',p.label);for(const other of el('surface-palette').querySelectorAll('button'))other.setAttribute('aria-pressed',String(other===button));});return button;
     }));
     el('surface-prev').disabled=this.page===0;el('surface-next').disabled=(this.page+1)*size>=presets.length;text('surface-page',`${presets.length} presets · page ${this.page+1}`);text('surface-selected',this.preset?.label??'No supported surface presets.');
   }
+  get patternMode(){return this.kind==='surfaces'&&el('surface-mode').value==='patterns';}
+  pattern(){return this.patterns?.find(p=>p===this.preset)??this.patterns?.[0];}
+  patternPlacement(hit){const p=this.pattern();if(!p)throw Error('No supported original arrow patterns on this track.');return {sector:hit.sector,cell:hit.cell,sourceSector:p.sector,sourceCell:p.cell,rotation:Number(el('surface-rotation').value)};}
   hit(event){return intersectTerrain(this.editor.scene,cameraRay(this.editor.navigation,this.editor.canvas.getBoundingClientRect(),event.clientX,event.clientY));}
   options(hit){const radius=Number(el('terrain-radius').value),strength=Number(el('terrain-strength').value);if(!Number.isFinite(radius)||radius<=0||!Number.isFinite(strength)||strength<=0)throw Error('Enter positive brush radius and strength.');return {mode:this.kind==='surfaces'?'paint':el('terrain-operation').value,radius,strength,height:this.stroke?.height??(el('terrain-operation').value==='flatten'?hit.position[1]:Number(el('terrain-height').value)),preset:this.preset};}
   pointerDown(event){
@@ -41,6 +46,7 @@ export class TerrainEditorUI {
     const hit=this.hit(event);if(!hit||hit.cell===null)return false;
     try{
       this.ensure();if(this.editor.current.terrainInfo.locked.has(hit.sector))throw Error('This animated terrain region is locked.');
+      if(this.patternMode){const placement=this.patternPlacement(hit),draft=structuredClone(this.editor.current.terrainDraft),footprint=speedPadFootprint(this.editor.current.terrainInfo.scene,placement,this.pattern()),keys=new Set(footprint.map(p=>p.cell));draft.patterns=(draft.patterns??[]).filter(p=>p.sector!==placement.sector||!speedPadFootprint(this.editor.current.terrainInfo.scene,p,this.patterns.find(t=>t.sector===p.sourceSector&&t.cell===p.sourceCell)).some(c=>keys.has(c.cell)));draft.patterns.push(placement);this.editor.perform(()=>{this.editor.commitTerrain(draft);text('terrain-status','Complete arrow applied to LOW + HIGH. One undo removes this placement.');});return true;}
       if(this.kind==='surfaces'&&el('surface-eyedropper').checked){const s=this.editor.current.terrainInfo.scene.segments[hit.sector],ref=this.editor.current.terrainDraft.surfaces.find(r=>r.sector===hit.sector&&r.cell===hit.cell),face=ref?this.editor.current.terrainInfo.scene.segments[ref.sourceSector].faces[ref.sourceCell]:s.faces[hit.cell];this.preset=this.presets.find(p=>this.editor.current.terrainInfo.scene.segments[p.sector].faces[p.cell].textureRecord===face.textureRecord)??null;el('surface-eyedropper').checked=false;this.filterPalette();return true;}
       const options=this.options(hit);this.stroke={draft:structuredClone(this.editor.current.terrainDraft),height:options.height,last:hit.position.slice(),sector:hit.sector};this.stamp(hit,options);this.editor.canvas.focus();this.editor.canvas.setPointerCapture(event.pointerId);
     }catch(error){text('terrain-status',error.message);this.cancel(false);}return true;
@@ -48,11 +54,15 @@ export class TerrainEditorUI {
   stamp(hit,options){this.stroke.draft=stampTerrain(this.editor.current.terrainInfo,this.stroke.draft,hit,options);this.updateOverlay(hit,this.stroke.draft,options.radius);text('terrain-status','Release to apply the shaded terrain. Esc cancels this stroke.');}
   pointerMove(event){
     if(!this.editor.terrainEditing)return false;const hit=this.hit(event);if(!hit)return Boolean(this.stroke);
-    try{const options=this.options(hit);if(this.stroke){const last=this.stroke.last,delta=hit.position.map((n,i)=>n-last[i]),distance=Math.hypot(...delta),step=Math.max(1,options.radius/4);if(distance>=step){const samples=Math.min(128,Math.floor(distance/step));for(let i=1;i<=samples;i++)this.stamp({...hit,position:last.map((n,j)=>n+delta[j]*i*step/distance)},options);this.stroke.last=last.map((n,j)=>n+delta[j]*samples*step/distance);}}
+    try{if(this.patternMode){this.updatePatternOverlay(hit);return false;}const options=this.options(hit);if(this.stroke){const last=this.stroke.last,delta=hit.position.map((n,i)=>n-last[i]),distance=Math.hypot(...delta),step=Math.max(1,options.radius/4);if(distance>=step){const samples=Math.min(128,Math.floor(distance/step));for(let i=1;i<=samples;i++)this.stamp({...hit,position:last.map((n,j)=>n+delta[j]*i*step/distance)},options);this.stroke.last=last.map((n,j)=>n+delta[j]*samples*step/distance);}}
       else this.updateOverlay(hit,this.editor.current.terrainDraft,options.radius);
     }catch(error){text('terrain-status',error.message);this.cancel(false);}return Boolean(this.stroke);
   }
   pointerUp(){if(!this.stroke)return false;const draft=this.stroke.draft;this.stroke=null;this.editor.perform(()=>{this.editor.commitTerrain(draft);text('terrain-status','Terrain applied to LOW + HIGH. Objects and race paths keep their saved positions.');});return true;}
+  updatePatternOverlay(hit){
+    const info=this.editor.current?.terrainInfo;if(!info)return;const placement=this.patternPlacement(hit),cells=speedPadFootprint(info.scene,placement,this.pattern()),s=info.scene.segments[hit.sector],heights=new Map(this.editor.current.terrainDraft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),lines=[];
+    const point=i=>{const v=s.vertices[i];return [v[0],-(heights.get(`${s.index}:${i}`)??v[1])-1,-v[2]];};for(const c of cells){const ids=[0,1,3,2].map(i=>s.faces[c.cell].gridIndices[i]);for(let i=0;i<4;i++)lines.push(...point(ids[i]),...point(ids[(i+1)%4]));}this.overlay.set({groups:[{active:true,lines,normals:[]}]});text('terrain-selection',`${cells.length}-cell arrow · ${placement.rotation*90}° · click to place whole pattern`);
+  }
   updateOverlay(hit,draft,radius){
     const info=this.editor.current?.terrainInfo;if(!info)return;const selected=terrainBrushSelection(info,draft,hit,radius),heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),lines=[],cells=new Set();
     const point=(s,i)=>{const v=s.vertices[i];return [v[0],-(heights.get(`${s.index}:${i}`)??v[1]),-v[2]];};
@@ -64,10 +74,11 @@ export class TerrainEditorUI {
   cancel(clear=true){this.stroke=null;if(clear)this.overlay.clear();}
   refresh(){
     const base=this.editor.current,available=Boolean(base),active=available&&this.editor.terrainEditing&&!this.editor.busy;
-    for(const id of ['terrain-operation','terrain-radius','terrain-strength','terrain-height','terrain-wireframe','surface-search','surface-eyedropper'])el(id).disabled=!active;
-    el('terrain-undo').disabled=!active||!base?.terrainUndo?.length;el('terrain-redo').disabled=!active||!base?.terrainRedo?.length;el('terrain-reset').disabled=!active||!(base?.terrainDraft?.heights.length||base?.terrainDraft?.surfaces.length);
+    for(const id of ['terrain-operation','terrain-radius','terrain-strength','terrain-height','terrain-wireframe','surface-search','surface-eyedropper','surface-mode','surface-rotation'])el(id).disabled=!active;
+    el('terrain-undo').disabled=!active||!base?.terrainUndo?.length;el('terrain-redo').disabled=!active||!base?.terrainRedo?.length;el('terrain-reset').disabled=!active||!(base?.terrainDraft?.heights.length||base?.terrainDraft?.surfaces.length||base?.terrainDraft?.patterns?.length);
+    el('surface-rotation-label').hidden=!this.patternMode;el('surface-eyedropper').disabled=!active||this.patternMode;
     el('terrain-height-tools').hidden=this.kind==='surfaces';el('terrain-surface-tools').hidden=this.kind!=='surfaces';
     el('terrain-height-label').hidden=el('terrain-operation').value!=='set';
-    text('terrain-count',base?`${base.terrainDraft?.heights.length??0} height edits · ${base.terrainDraft?.surfaces.length??0} surface edits · LOW + HIGH`:'Load verified Rollcage archives.');
+    text('terrain-count',base?`${base.terrainDraft?.heights.length??0} height edits · ${base.terrainDraft?.surfaces.length??0} surface edits · ${base.terrainDraft?.patterns?.length??0} arrows · LOW + HIGH`:'Load verified Rollcage archives.');
   }
 }

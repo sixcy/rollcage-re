@@ -1,0 +1,149 @@
+{
+  "passed": true,
+  "authority": "original-process-with-declared-instrumentation",
+  "quality": "LOW",
+  "level": 1,
+  "profile": "editor-lifecycle",
+  "proof": {
+    "transitions": [
+      {
+        "beforeOrdinal": 958,
+        "afterOrdinal": 960,
+        "current": 0,
+        "previous": 14,
+        "next": 14,
+        "currentProjection": -124742,
+        "previousProjection": -124742,
+        "timingFlag": false,
+        "lapBefore": 0,
+        "lapAfter": 0,
+        "lapIncremented": false
+      },
+      {
+        "beforeOrdinal": 20160,
+        "afterOrdinal": 20162,
+        "current": 14,
+        "previous": 13,
+        "next": 0,
+        "currentProjection": 988,
+        "previousProjection": 346117,
+        "timingFlag": false,
+        "lapBefore": 0,
+        "lapAfter": 0,
+        "lapIncremented": false
+      },
+      {
+        "beforeOrdinal": 20237,
+        "afterOrdinal": 20239,
+        "current": 0,
+        "previous": 14,
+        "next": 1,
+        "currentProjection": 6180,
+        "previousProjection": 6180,
+        "timingFlag": false,
+        "lapBefore": 0,
+        "lapAfter": 1,
+        "lapIncremented": true
+      }
+    ],
+    "pads": [
+      {
+        "ordinal": 1371,
+        "body": "0x1041c700",
+        "materialOffset": 686728,
+        "driveBefore": 393216,
+        "driveAfter": 405504,
+        "gain": 12288
+      }
+    ],
+    "timing": [],
+    "damage": [
+      {
+        "ordinal": 20625,
+        "originalsUnchanged": true,
+        "changedType4": 2,
+        "allOwnedAttachmentsReleased": false,
+        "attachmentOwners": 1
+      }
+    ],
+    "release": [
+      {
+        "ordinal": 21012,
+        "originalsUnchanged": true,
+        "changedType4": 2,
+        "allOwnedAttachmentsReleased": true,
+        "attachmentOwners": 1
+      }
+    ],
+    "timingEnabled": false,
+    "lapObserved": true,
+    "independentDamageObserved": true,
+    "allAttachmentOwnersReleased": true
+  },
+  "initializationReport": "analysis/native-editor-lifecycle-low-off-acceptance-20261025-v3c-initialization.json",
+  "sourceFilesVerified": 171,
+  "cleanupObserved": true,
+  "completion": {
+    "type": "complete",
+    "reason": "pickup-editor-validation-bound",
+    "events": 47483,
+    "snapshots": 43,
+    "editorLifecycleObservation": {
+      "enabled": true,
+      "lapObserved": true,
+      "timingObserved": false,
+      "addedPadContactObserved": true,
+      "selectedDestructionObserved": true,
+      "nativeOutputsWritten": false
+    },
+    "pickupEditorObservation": {
+      "scenario": "load",
+      "sceneName": "LOW/LEV1.BLP",
+      "targetIndex": 0,
+      "placements": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0
+      ],
+      "collections": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "completedTargetGeneration": 0,
+      "actualRegistryBefore": 210,
+      "fullNativeFinalizerObserved": true,
+      "completedFinalizers": 13,
+      "nativeOutputsWritten": false,
+      "physicsGoalResumed": false
+    },
+    "elapsedMs": 57130
+  },
+  "scope": "Natural original checkpoint/lap progression, timing-flag behavior, native added-arrow drive increment, independent clone damage and later release of all selected attachment owners. Later natural original damage is reported separately and is not treated as storage aliasing."
+}

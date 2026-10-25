@@ -22,7 +22,18 @@
 <main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
 <aside aria-label="Track viewer controls">
 <h1>Rollcage, Stage II &amp; Firebugs track viewer</h1>
-<details id="viewer-changelog"><summary>What’s new</summary><div class="note"><article><h2>2026-10-25 · Existing-track editor delivery complete</h2>
+<details id="viewer-changelog"><summary>What’s new</summary><div class="note"><article><h2>Routes, checkpoints, assemblies and complete arrows</h2>
+
+<p class="change">• Route points: clone an existing group, insert before/after a point and explicitly connect either outgoing slot. Cloned groups show their missing entry/exit connections; unfinished drafts can be saved, while Test changes and game export require valid connections.</p>
+<p class="change">• Route speeds: readable native thresholds, a separate Full throttle target and advanced raw bytes. Minimum is an AI candidate threshold; target controls throttle/braking and is not a hard speed cap.</p>
+<p class="change">• Checkpoints: add/remove logical checkpoints, choose finish and toggle timing feedback independently. Finish rotation changes starting-grid heading; the slot positions remain. At least two checkpoints are required. LEV12/13 keep topology locked because native code hardcodes checkpoint stages; their plane transforms and timing flags remain editable.</p>
+<p class="change">• Scenery: supported same-track destructible assemblies can be duplicated as a complete linked group, including LEV1 original-31 / original-32. Placement previews all parts and one undo removes the copy. Unsupported scripted dependencies remain locked.</p>
+<p class="change">• Surfaces: choose Single tiles / brush or Complete speed-pad arrows. Original mirrored arrow patterns support 90° rotations and one atomic placement, with UV corners corrected for the destination terrain. Tracks without a recognized original arrow have no pattern palette.</p>
+<p class="change">• Version 5 projects retain stable route/checkpoint identities, assembly commands and arrow references. Earlier project versions remain readable. Changes compile to LOW and HIGH together.</p>
+
+<p>Validation covers all 40 track resources and browser editing/save/load/export workflows. Original-game LEV1 LOW/HIGH checks confirm rebuilt data and separate assembly construction; LOW runtime checks confirm finish/lap advancement with timing markers off/on, added-arrow acceleration, independent clone damage and attachment cleanup. This is selected compatibility evidence; Racing test and track editing remain experimental.</p>
+</article>
+<article><h2>2026-10-25 · Existing-track editor delivery complete</h2>
 
 <h3>Available now</h3>
 <p class="change">• All 20 Rollcage levels have combined terrain, surface, pickup, existing race-layout and scenery/effect authoring workflows.</p>
@@ -50,19 +61,6 @@
 <p class="change">• Native LOW/HIGH checks passed move/yaw/add/delete construction and exact relocated static links. Separate actual car queries hit an added solid model, matching independent geometry replay.</p>
 <p class="change">• Browser checks cover special-object history, linked parts, scripted paths, particle focus, shared lights, old projects and zero idle menu mutations.</p>
 <p class="change">• These are selected original-game cases, not full destruction, animation or continuous-race equivalence. Terrain validation remains documented in earlier entries.</p>
-</article>
-<article><h2>2026-10-25 · Wider route relocation and checkpoint planes</h2>
-
-<h3>Available now</h3>
-<p class="change">• Existing route points can move between supported terrain cells. The editor rebuilds route fallback references while preserving each original route group and collision-model lists.</p>
-<p class="change">• Checkpoints are edited as planes. Wire markers show their intersections with the road, and sector references follow supported intersections.</p>
-<p class="change">• Starting slots can move over supported terrain; their facing follows the authored checkpoint direction.</p>
-<p class="change">• Apply coordinates commits X, Height and Z together, avoiding invalid intermediate diagonal moves.</p>
-
-<h3>Validation and limits</h3>
-<p class="change">• All forty variants pass wider relocation checks, including 854 original checkpoint-plane checks and 30 sector reassignment cases.</p>
-<p class="change">• Separate combined checks cover terrain, surfaces, scenery, pickups and race layout together. The 36 racing variants run 90 reconstructed three-car Expert/weapon ticks.</p>
-<p class="change">• The fallback rebuild is an offline editor policy. Native point counts, graph links, checkpoint order and lap flags remain unchanged.</p>
 </article></div><p><a href="changelog/index.html">Full changelog</a></p></details>
 <details id="source-files" open><summary>Game files</summary><p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> for Rollcage or Stage II, or a <strong>Firebugs PS1 disc ZIP</strong> containing its CUE and data BIN.</p>
 <div class="row"><label for="game">Game</label><select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option><option value="firebugs">Firebugs</option></select></div>
@@ -111,16 +109,19 @@
 <label style="display:block" for="layout-selection">Marker</label><select id="layout-selection" aria-label="Race layout marker"></select>
 <div class="row"><label>X <input id="layout-x" type="number" step="1"></label><label>Height <input id="layout-y" type="number" step="1"></label><label>Z <input id="layout-z" type="number" step="1"></label></div>
 <button id="layout-apply" type="button">Apply coordinates</button>
-<div id="layout-speeds" class="row"><label>Min speed byte <input id="layout-min-speed" type="number" min="0" max="255" step="1"></label><label>Target speed byte <input id="layout-target-speed" type="number" min="0" max="255" step="1"></label></div>
+<div id="layout-speeds"><div class="row"><label>Minimum speed threshold <input id="layout-minimum-readable" type="number" min="0" max="510" step="2"></label><label>Target speed <input id="layout-target-readable" type="number" min="0" max="508" step="2"></label></div><label><input id="layout-full-throttle" type="checkbox"> Full throttle</label><p class="note">Native speed thresholds (raw byte × 2), not verified km/h. The minimum threshold screens route candidates. Full throttle uses the native target-byte 255 special case.</p><details><summary>Advanced · raw speed bytes</summary><div class="row"><label>Min byte <input id="layout-min-speed" type="number" min="0" max="255" step="1"></label><label>Target byte <input id="layout-target-speed" type="number" min="0" max="255" step="1"></label></div></details></div>
+<div id="layout-route-actions"><div class="row"><button id="layout-clone-group" type="button">Clone group</button><button id="layout-insert-before" type="button">Insert point before</button><button id="layout-insert-after" type="button">Insert point after</button></div><details><summary>Connect route branches</summary><p class="note">Select a source point above, then choose its outgoing slot and destination. A cloned group needs a reachable entry and exit before Test changes or export.</p><label>Outgoing slot <select id="layout-link-slot"><option value="0">1</option><option value="1">2</option></select></label><label>Destination <select id="layout-link-target"></select></label><label><input id="layout-replace-link" type="checkbox"> Replace occupied slot</label><button id="layout-connect" type="button">Connect selected point</button></details></div>
 <div id="layout-direction"><p class="note">Checkpoint direction · native Q14 units</p><div class="row"><label>X <input id="layout-dx" type="number" step="1"></label><label>Y <input id="layout-dy" type="number" step="1"></label><label>Z <input id="layout-dz" type="number" step="1"></label></div></div>
+<div id="layout-checkpoint-actions"><div class="row"><button id="layout-checkpoint-add" type="button">Add checkpoint after</button><button id="layout-checkpoint-remove" type="button">Remove checkpoint</button><button id="layout-checkpoint-finish" type="button">Set finish</button></div><label><input id="layout-checkpoint-timing" type="checkbox"> Timing feedback marker</label><p class="note">Finish is logical checkpoint 0 and counts laps independently of this timing flag. Setting finish rotates the existing cycle and also changes starting-grid heading; starting positions stay in place. At least two checkpoints must remain.</p></div>
+<p id="layout-topology-warning" class="note" role="status" style="color:#ffd48a"></p>
 <p id="layout-details" class="note"></p><label><input id="layout-show" type="checkbox" checked> Show markers and stored segments</label>
 <div class="row"><button id="layout-focus" type="button">Focus marker</button><button id="layout-undo" type="button">Undo</button><button id="layout-redo" type="button">Redo</button><button id="layout-reset" type="button">Reset race layout</button></div>
-<p id="layout-status" class="note" role="status"></p><p class="note">Select a marker, then drag to change X/Z while keeping its height, or enter all coordinates and choose Apply coordinates. Right/Shift drag moves the camera; Esc cancels. Moves require supported existing terrain and a populated native height layer. Route relocation rebuilds the route fallback map; checkpoints update their sector. Stored graph links, checkpoint order and lap markers are preserved. Segments connect stored points for display.</p>
+<p id="layout-status" class="note" role="status"></p><p class="note">Select a marker, then drag to change X/Z while keeping its height, or enter coordinates and choose Apply coordinates. Right/Shift drag moves the camera; Esc cancels. Moves require existing covered terrain. New route points begin between neighbours. New checkpoints copy the selected plane settings with timing feedback off; move the copy before racing. Route changes rebuild native lookup data. Checkpoint topology changes rebuild count, IDs, order and progress. Segments show stored route traversal.</p>
 </section><section data-editor-tool="terrain" id="terrain-panel"><p class="note" id="terrain-count"></p>
 <div id="terrain-height-tools"><label for="terrain-operation">Brush</label><select id="terrain-operation"><option value="raise">Raise</option><option value="lower">Lower</option><option value="smooth">Smooth</option><option value="flatten">Flatten to first click</option><option value="set">Set height</option></select><label id="terrain-height-label" hidden>Target height <input id="terrain-height" type="number" value="0" step="1"></label></div>
 <div class="row"><label>Radius <input id="terrain-radius" type="number" min="1" max="4096" value="128"></label><label>Strength <input id="terrain-strength" type="number" min="1" max="128" value="8"></label></div>
 <label><input id="terrain-wireframe" type="checkbox" checked> Show brush wireframe</label>
-<div id="terrain-surface-tools" hidden><label>Search presets <input id="surface-search" type="search" placeholder="Page, category or grip"></label><label><input id="surface-eyedropper" type="checkbox"> Sample surface on next click</label><p class="note" id="surface-selected"></p><div id="surface-palette" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px"></div><div class="row"><button id="surface-prev" type="button">Previous</button><span id="surface-page" class="note"></span><button id="surface-next" type="button">Next</button></div></div>
+<div id="terrain-surface-tools" hidden><label>Placement <select id="surface-mode"><option value="cells">Single tiles / brush</option><option value="patterns">Complete speed-pad arrows</option></select></label><label id="surface-rotation-label" hidden>Arrow rotation <select id="surface-rotation"><option value="0">0°</option><option value="1">90°</option><option value="2">180°</option><option value="3">270°</option></select></label><p class="note">Complete arrows copy original mirrored tiles and acceleration material. The whole footprint must fit in one supported sector.</p><label>Search presets <input id="surface-search" type="search" placeholder="Page, category or grip"></label><label><input id="surface-eyedropper" type="checkbox"> Sample surface on next click</label><p class="note" id="surface-selected"></p><div id="surface-palette" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px"></div><div class="row"><button id="surface-prev" type="button">Previous</button><span id="surface-page" class="note"></span><button id="surface-next" type="button">Next</button></div></div>
 <p id="terrain-selection" class="note"></p><p id="terrain-status" class="note" role="status"></p>
 <div class="row"><button id="terrain-undo" type="button">Undo</button><button id="terrain-redo" type="button">Redo</button><button id="terrain-reset" type="button">Reset terrain</button></div>
 <p class="note">Left-drag brushes connected terrain. Right-drag or Shift-drag moves the camera. Release to apply; Esc cancels. Animated regions are locked. Positions use original game units. Pickups, scenery and race paths keep their saved positions and may need adjustment.</p>
@@ -216,7 +217,7 @@ const canvas = element('canvas'), navigation = new Navigation(), keys = new Set(
 let renderer, editor, archive, game, scene, selectedTrack, availableTracks = [], verified = false, generation = 0, drag = null, lastFrame = 0, contextLost = false, exporting = false, practiceDirty = false;
 let sourceKind = 'pc';
 let workspaces;
-let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0;
+let practice = null, practiceInputs = null, renderedPractice = null, renderedAlpha = 1, followedCarIndex = 0, practiceFailure = '';
 const focusedCar = value => value?.cars?.[followedCarIndex] ?? value;
 const errorText = error => error instanceof Error ? error.message : String(error);
 const status = message => { element('status').textContent = message; };
@@ -233,6 +234,7 @@ function help() {
 }
 function clearScene() {
   editor?.clearTrack(); practiceDirty = false;
+  practiceFailure = '';
   practice?.dispose(); practice = null;
   practiceInputs = null;
   renderedPractice = null;
@@ -270,7 +272,7 @@ function updatePractice() {
   setText('practice-start', running ? 'Pause' : practice?.state === 'paused' ? 'Resume' : 'Start');
   const excluded = game?.id === 'rollcage' && /\/(?:LEV16|LEV17)\.BLP$/.test(selectedTrack?.name ?? '');
   setText('practice-note', editing ? 'Editing track · Test changes restarts the race with your edits.' : practice?.state === 'error' ? 'Racing test stopped. Load this track again to restart.' : available ? `Continuous racing test · ${practice.state}. Step while paused, or test a recovery.` : excluded ? 'Racing test is disabled on LEV16 and LEV17.' : 'Available on verified Rollcage tracks, except LEV16 and LEV17.');
-  const message = practice?.message ?? '';
+  const message = practice?.message ?? practiceFailure;
   if (element('practice-error').textContent !== message) element('practice-error').textContent = message;
   setText('practice-readout', car ? `${car.speed} km/h · ${car.laps} laps completed · Lap ${formatPracticeTime(car.lapTime)} · Best ${formatPracticeTime(car.bestLap)}` : '');
   setText('practice-roster', value ? `${carCount} AI ${carCount === 1 ? 'car' : 'cars'}${difficulty ? ` · ${difficulty}` : ''} · Car ${followedCarIndex + 1} telemetry, follow and recovery.` : '');
@@ -335,6 +337,7 @@ function restartPractice() {
   practice?.dispose(); practice = null; renderedPractice = null; renderedAlpha = 1; lastFrame = 0;
   let failure;
   try {
+    editor?.validateRaceReady();
     const count = Number(element('practice-ai-count').value);
     const resources = editor?.resourcesFor(selectedTrack,practiceInputs.geometry,practiceInputs.texture) ?? practiceInputs;
     const session = createSession(resources.geometry, resources.texture, {vehicleTypes: Array.from({length: count}, (_, index) => index), aiDifficulty: 2, weaponsEnabled: element('practice-weapons').checked});
@@ -347,8 +350,8 @@ function restartPractice() {
     renderer.clearCar();
     failure = `Racing test unavailable: ${errorText(error)}`;
   }
+  practiceFailure = failure ?? '';
   updatePractice(); updatePaths(); help();
-  if (failure) element('practice-error').textContent = failure;
 }
 async function loadTrack() {
   const token = ++generation, source = archive, adapter = game, track = availableTracks.find(track => track.index === Number(element('track').value));
@@ -716,6 +719,7 @@ Object.assign(module.exports, {});
 // Buffer operations required by the readers and recovered solo runtime.
 class ByteBuffer extends Uint8Array {
   static isBuffer(value) { return value instanceof ByteBuffer; }
+  equals(other) { return other instanceof Uint8Array && this.length===other.length && this.every((value,index)=>value===other[index]); }
   static alloc(length, fill = 0) {
     if (!Number.isInteger(length) || length < 0) throw new RangeError('Invalid buffer length.');
     return new ByteBuffer(length).fill(fill);
@@ -25350,6 +25354,9 @@ Object.assign(module.exports, {pickupLabel});
 Object.assign(module.exports, {});
 const {RaceLayoutEditorUI} = require("tools/track-viewer/race-layout-editor-ui.mjs");
 const {emptyRaceLayoutDraft} = require("src/race-layout-editor.mjs");
+const {createRaceRouteTopology,validateRaceRouteTopology} = require("src/race-route-topology.mjs");
+const {createCheckpointTopologyDraft} = require("src/checkpoint-topology.mjs");
+const {recoverEditedRollcageIndex,originalRollcageView} = require("src/edited-rollcage-index.mjs");
 const {TerrainEditorUI} = require("tools/track-viewer/terrain-editor-ui.mjs");
 const {emptyTerrainDraft} = require("src/terrain-editor.mjs");
 const {PickupEditor} = require("tools/track-viewer/pickup-editor-ui.mjs");
@@ -25357,7 +25364,8 @@ const {getGame} = require("src/track-games.mjs");
 const {parseGFXM} = require("src/gfxm.mjs");
 const {parsePlacements} = require("src/placements.mjs");
 const {placementMatrix, transformPlacedVertex} = require("src/fixed-math.mjs");
-const {SCENERY_LEVELS, inspectScenery, createSceneryDraft, validateSceneryImport, applySceneryTransform} = require("src/scenery-editor.mjs");
+const {SCENERY_LEVELS, inspectScenery, createSceneryDraft, validateSceneryImport, applySceneryTransform,instantiateSceneryAssembly} = require("src/scenery-editor.mjs");
+const {buildSceneryAssemblyPreview} = require("src/scenery-assembly-preview.mjs");
 const {inspectSceneryCollisions} = require("src/scenery-collision-info.mjs");
 const {collisionLabel,collisionDescription} = require("tools/track-viewer/collision-label.mjs");
 const {parseModelCollision,readPlacementCollision} = require("src/model-collision.mjs");
@@ -25388,7 +25396,8 @@ class TrackEditor extends PickupEditor {
     this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.terrainEditing=false;this.terrain=new TerrainEditorUI(this);this.layoutEditing=false;this.layout=new RaceLayoutEditorUI(this);this.modelOverlay=new CollisionOverlay(this.renderer);this.refresh();
   }
   get active(){return this.editing||this.modelsEditing||this.terrainEditing||this.layoutEditing;}
-  get hasEdits(){return [...this.levels.values()].some(base=>!same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length||Object.values(base.layoutDraft??{}).some(rows=>rows.length)));}
+  changed(base){return !same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.assemblies?.length||base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length||base.terrainDraft?.patterns?.length||Object.values(base.layoutDraft??{}).some(rows=>rows.length))||!same(base.routeTopology,base.routeOriginal)||!same(base.checkpointTopology,base.checkpointOriginal);}
+  get hasEdits(){return [...this.levels.values()].some(base=>base.modelDraft&&this.changed(base));}
   async readLevel(level,source) {
     const base=await super.readLevel(level,source);
     // Pickup loading has finished, but the shared level must not become visible
@@ -25398,6 +25407,8 @@ class TrackEditor extends PickupEditor {
       for(const quality of ['LOW','HIGH']) {
         const track=getGame('rollcage').tracks.find(t=>t.name===`${quality}/LEV${level}.BLP`), resource=await source.readResource(track.textureIndex);
         Object.assign(base[quality],{geometry:base[quality].data,texture:resource.data,textureIndex:track.textureIndex});
+        const recovered=source.indexData&&recoverEditedRollcageIndex(source.indexData);
+        base[quality].originalGeometry=recovered?(await originalRollcageView(source,recovered.indexData).readResource(track.index)).data:base[quality].geometry;
       }
       if(this.archive!==source)throw Error('Archive changed while loading scenery.');
       base.modelInfo=inspectScenery(base.LOW.geometry,base.LOW.texture);base.modelOriginal=createSceneryDraft(base.LOW.geometry,base.LOW.texture,level);
@@ -25406,6 +25417,7 @@ class TrackEditor extends PickupEditor {
       base.highInfo=inspectScenery(base.HIGH.geometry,base.HIGH.texture);
       base.collisions={LOW:inspectSceneryCollisions(base.LOW.geometry,base.LOW.texture),HIGH:inspectSceneryCollisions(base.HIGH.geometry,base.HIGH.texture)};
       base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.layoutDraft=emptyRaceLayoutDraft();base.layoutUndo=[];base.layoutRedo=[];
+      base.routeOriginal=createRaceRouteTopology(base.LOW.geometry);base.routeTopology=copy(base.routeOriginal);base.checkpointOriginal=base.LOW.geometry[0x95]?createCheckpointTopologyDraft(base.LOW.geometry):{checkpoints:[]};base.checkpointTopology=copy(base.checkpointOriginal);base.assemblies=[];
       base.hashes={};for(const quality of ['LOW','HIGH'])base.hashes[quality]={geometry:base.sourceHashes[quality],texture:await pickupSha256(base[quality].texture)};
       if(this.archive!==source)throw Error('Archive changed while checking scenery.');
       this.levels.set(level,base);
@@ -25415,7 +25427,8 @@ class TrackEditor extends PickupEditor {
   async setSource(...args){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.terrain&&(this.terrain.paletteBase=null);this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
   clearTrack(){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
   async setTrack(track,scene){this.track=track;await super.setTrack(track,scene);this.refresh();}
-  setEditing(enabled,options){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
+  validateRaceReady(base=this.current){if(base?.routeTopology){const result=validateRaceRouteTopology(base.LOW.geometry,base.routeTopology,{requireConnected:true});if(!result.valid)throw Error(result.errors.join(' '));}}
+  setEditing(enabled,options){if(options?.testing)this.validateRaceReady();this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
   setModelsEditing(enabled){
     this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;
     this.releaseMouse();this.cancelModels();this.editing=false;this.adding=false;this.modelsEditing=Boolean(enabled&&this.current?.modelDraft);
@@ -25434,12 +25447,18 @@ class TrackEditor extends PickupEditor {
   }
   commitLayout(draft){
     const base=this.current;if(same(draft,base.layoutDraft))return;
-    const compiled=this.compile(base,base.modelDraft,base.draft,base.terrainDraft,draft);base.layoutUndo.push(copy(base.layoutDraft));if(base.layoutUndo.length>100)base.layoutUndo.shift();base.layoutRedo=[];base.layoutDraft=copy(draft);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
+    this.commitTopology({layout:draft});
   }
+  layoutSnapshot(base=this.current){return {layout:copy(base.layoutDraft),routes:copy(base.routeTopology),checkpoints:copy(base.checkpointTopology)};}
+  commitTopology({layout=this.current.layoutDraft,routes=this.current.routeTopology,checkpoints=this.current.checkpointTopology}={}){
+    const base=this.current,next={layout,routes,checkpoints};if(same(next,this.layoutSnapshot()))return;
+    const compiled=this.compile(base,base.modelDraft,base.draft,base.terrainDraft,layout,{routes,checkpoints});base.layoutUndo.push(this.layoutSnapshot());if(base.layoutUndo.length>100)base.layoutUndo.shift();base.layoutRedo=[];base.layoutDraft=copy(layout);base.routeTopology=copy(routes);base.checkpointTopology=copy(checkpoints);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
+  }
+  resetLayout(){this.commitTopology({layout:emptyRaceLayoutDraft(),routes:this.current.routeOriginal,checkpoints:this.current.checkpointOriginal});}
   layoutHistory(from,to){
-    this.layout.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,base.terrainDraft,next);base[to].push(copy(base.layoutDraft));base.layoutDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
+    this.layout.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,base.terrainDraft,next.layout,{routes:next.routes,checkpoints:next.checkpoints});base[to].push(this.layoutSnapshot());base[from].pop();base.layoutDraft=copy(next.layout);base.routeTopology=copy(next.routes);base.checkpointTopology=copy(next.checkpoints);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
   }
-  signature(base){return JSON.stringify([base.modelDraft,base.draft,base.terrainDraft,base.layoutDraft]);}
+  signature(base){return JSON.stringify([base.modelDraft,base.draft,base.terrainDraft,base.layoutDraft,base.routeTopology,base.checkpointTopology,base.assemblies]);}
   commitTerrain(draft){
     const base=this.current;if(same(draft,base.terrainDraft))return;
     const compiled=this.compile(base,base.modelDraft,base.draft,draft);base.terrainUndo.push(copy(base.terrainDraft));if(base.terrainUndo.length>100)base.terrainUndo.shift();base.terrainRedo=[];base.terrainDraft=copy(draft);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
@@ -25448,12 +25467,12 @@ class TrackEditor extends PickupEditor {
     this.terrain.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,next);base[to].push(copy(base.terrainDraft));base.terrainDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
   }
   sources(){return new Map([...this.levels].filter(([,base])=>base.modelDraft).map(([level,base])=>[level,{LOW:base.LOW,HIGH:base.HIGH}]));}
-  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft(),layout=base.layoutDraft??emptyRaceLayoutDraft()){
-    const signature=JSON.stringify([models,pickups,terrain,layout]);
+  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft(),layout=base.layoutDraft??emptyRaceLayoutDraft(),{routes=base.routeTopology,checkpoints=base.checkpointTopology,assemblies=base.assemblies}={}){
+    const signature=JSON.stringify([models,pickups,terrain,layout,routes,checkpoints,assemblies]);
     if(base.compiledSignature===signature)return base.compiled;
-    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain,layout},this.sources());
+    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain,layout,routeTopology:routes,checkpointTopology:checkpoints,assemblies},this.sources(),{requireConnected:false});
     // Cache only committed state; rejected previews never replace it.
-    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft&&layout===base.layoutDraft){base.compiledSignature=signature;base.compiled=result;}
+    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft&&layout===base.layoutDraft&&routes===base.routeTopology&&checkpoints===base.checkpointTopology&&assemblies===base.assemblies){base.compiledSignature=signature;base.compiled=result;}
     return result;
   }
   resourcesFor(track,geometry,texture){const base=this.levels.get(levelOf(track));return base?.modelDraft?this.compile(base)[qualityOf(track)]:{geometry,texture};}
@@ -25461,37 +25480,46 @@ class TrackEditor extends PickupEditor {
   geometryFor(track,original){return this.resourcesFor(track,original,null).geometry;}
   async project(){
     if(!this.archive||!this.indexSha256)throw Error('Load original verified Rollcage archives first.');
-    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&(!same(b.draft,b.original)||!same(b.modelDraft,b.modelOriginal)||b.terrainDraft.heights.length||b.terrainDraft.surfaces.length||Object.values(b.layoutDraft).some(rows=>rows.length))).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft),layout:copy(b.layoutDraft)}));
+    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&this.changed(b)).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft),layout:copy(b.layoutDraft),routeTopology:copy(b.routeTopology),checkpointTopology:copy(b.checkpointTopology),assemblies:copy(b.assemblies)}));
     const required=new Set(levels.flatMap(row=>[row.level,...row.models.map(m=>m.sourceLevel)]));
-    return parseTrackProject({schemaVersion:4,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
+    return parseTrackProject({schemaVersion:5,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
   }
   async restoreProject(value){
-    let levels,compiled;
+    let levels;
     if(value?.schemaVersion===1){
       const legacy=parsePickupProject(value);
       if(legacy.indexSha256!==this.indexSha256)throw Error('This project was saved with a different IMG/IDX pair. Select the same starting files used to create it, then load the project again.');
       const bases=await Promise.all(legacy.levels.map(row=>this.loadLevel(row.level)));
       validatePickupProject(legacy,{indexSha256:this.indexSha256,levels:bases.map(b=>({level:b.level,sourceHashes:b.sourceHashes,lowData:b.LOW.geometry,highData:b.HIGH.geometry}))});
       levels=legacy.levels.map(row=>({...row,models:copy(this.levels.get(row.level).modelOriginal)}));
-      compiled=new Map(levels.map(row=>[row.level,compileTrackDraft(this.sources().get(row.level),row,this.sources())]));
     }else{
       const project=parseTrackProject(value);
       if(project.indexSha256!==this.indexSha256)throw Error('This project was saved with a different IMG/IDX pair. Select the same starting files used to create it, then load the project again.');
       await Promise.all(project.sources.map(row=>this.loadLevel(row.level)));
-      const validated=validateTrackProject(project,{indexSha256:this.indexSha256,sources:this.sources(),hashes:new Map([...this.levels].map(([n,b])=>[n,b.hashes]))});compiled=validated.compiled;levels=validated.project.levels;
+      const validated=validateTrackProject(project,{indexSha256:this.indexSha256,sources:this.sources(),hashes:new Map([...this.levels].map(([n,b])=>[n,b.hashes]))});levels=validated.project.levels;
     }
-    // All resources, source hashes and both quality compilers passed before any
-    // visible draft is changed, including when loading an old pickup project.
+    // Hydrate legacy stable identities without revalidating moved points against
+    // unedited terrain. The final paired compiler below validates them against
+    // this project's terrain/scenery. Stage every level before touching visible
+    // drafts so migration/second-quality failures cannot erase existing edits.
+    const staged=levels.map(row=>{
+      const base=this.levels.get(row.level),routes=copy(row.routeTopology??createRaceRouteTopology(base.LOW.geometry)),checkpoints=copy(row.checkpointTopology??createCheckpointTopologyDraft(base.LOW.geometry));
+      if(!row.routeTopology)for(const edit of row.layout?.routes??[]){const point=routes.groups.find(g=>g.sourceGroup===edit.group)?.points.find(p=>p.sourcePoint===edit.point);if(!point)throw Error('Legacy route references a missing authored point.');Object.assign(point,{position:[...edit.position],minSpeed:edit.minSpeed,targetSpeed:edit.targetSpeed});}
+      if(!row.checkpointTopology)for(const edit of row.layout?.checkpoints??[]){let found=false;for(const cp of checkpoints.checkpoints)for(const plane of cp.planes)if(plane?.sourceId===edit.id){found=true;Object.assign(plane,{position:[...edit.position],direction:[...edit.direction]});}if(!found)throw Error('Legacy checkpoint references a missing authored plane.');}
+      const state={...row,terrain:copy(row.terrain??emptyTerrainDraft()),layout:{routes:[],checkpoints:[],starts:copy(row.layout?.starts??[])},routeTopology:routes,checkpointTopology:checkpoints,assemblies:copy(row.assemblies??[])};
+      const finalCompiled=compileTrackDraft(this.sources().get(row.level),state,this.sources(),{requireConnected:false});return {state,compiled:finalCompiled};
+    });
+    // All resources, hashes, migrations and both quality compilers passed.
     this.cancelModels();this.cancelDrag();
-    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.layoutDraft=emptyRaceLayoutDraft();base.layoutUndo=[];base.layoutRedo=[];base.compiledSignature=null;}
-    for(const row of levels){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain??emptyTerrainDraft());base.layoutDraft=copy(row.layout??emptyRaceLayoutDraft());base.compiled=compiled.get(row.level);base.compiledSignature=this.signature(base);}
+    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.layoutDraft=emptyRaceLayoutDraft();base.routeTopology=copy(base.routeOriginal);base.checkpointTopology=copy(base.checkpointOriginal);base.assemblies=[];base.layoutUndo=[];base.layoutRedo=[];base.compiledSignature=null;}
+    for(const {state:row,compiled:result} of staged){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain);base.routeTopology=copy(row.routeTopology);base.checkpointTopology=copy(row.checkpointTopology);base.assemblies=copy(row.assemblies);base.layoutDraft=copy(row.layout);base.compiled=result;base.compiledSignature=this.signature(base);}
     this.revision++;this.savedRevision=this.revision;this.modelSelected=null;this.selected=null;this.onChange();
     const tool=el('editor-tool').value;if(tool==='models')this.setModelsEditing(true);else if(tool==='pickups')this.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))this.setLayoutEditing(tool);else this.setTerrainEditing(tool);
     this.say('Track project loaded. Edits apply to LOW + HIGH.');
   }
   async exportReplacements(){
     const replacements=new Map();
-    for(const base of this.levels.values())if(base.modelDraft&&(!same(base.modelDraft,base.modelOriginal)||!same(base.draft,base.original)||base.terrainDraft.heights.length||base.terrainDraft.surfaces.length||Object.values(base.layoutDraft).some(rows=>rows.length))){const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
+    for(const base of this.levels.values())if(base.modelDraft&&this.changed(base)){this.validateRaceReady(base);const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
     return replacements;
   }
   bindModels(){
@@ -25499,10 +25527,10 @@ class TrackEditor extends PickupEditor {
     el('models-enable').addEventListener('change',()=>this.setModelsEditing(el('models-enable').checked));
     action('models-add',()=>this.openLibrary());
     action('models-delete',()=>{if(this.modelCapability(this.modelRow(),'removable'))this.commitModels(this.current.modelDraft.filter(row=>row.id!==this.modelSelected));});
-    action('models-duplicate',async()=>{const row=this.modelRow();if(row&&this.modelCapability(row,'duplicable'))await this.beginPlacement(row.sourceLevel,row.templateIndex,row.yaw);});
+    action('models-duplicate',async()=>{const row=this.modelRow();if(row&&this.modelCapability(row,'duplicable'))await this.beginPlacement(row.sourceLevel,row.templateIndex,row.yaw,undefined,{assembly:this.modelCapability(row,'assemblyDuplicable')});});
     action('models-undo',()=>this.modelHistory('modelUndo','modelRedo'));
     action('models-redo',()=>this.modelHistory('modelRedo','modelUndo'));
-    action('models-reset',()=>this.commitModels(copy(this.current.modelOriginal)));
+    action('models-reset',()=>this.commitModels(copy(this.current.modelOriginal),[]));
     action('models-cancel',()=>this.cancelModels());
     action('models-focus',()=>{const row=this.modelRow();if(row){this.navigation.reset(this.modelBounds(row));this.onModeChange(this.active);}});
     el('models-selection').addEventListener('change',()=>{this.cancelModels();this.modelSelected=el('models-selection').value||null;this.refresh();});
@@ -25510,7 +25538,7 @@ class TrackEditor extends PickupEditor {
       const values=['x','y','z','yaw'].map(k=>el(`models-${k}`).value);
       this.perform(()=>{const row=this.modelRow();if(!row||!this.modelEditable(row))return;if(values.some(v=>v.trim()===''||!Number.isFinite(Number(v))))throw Error('Enter finite position and yaw values.');
         const position=displayToSource(values.slice(0,3).map(Number)).map(Math.round),yaw=axis==='yaw'?((Math.round(Number(values[3])/360*256)%256+256)%256)*16:row.yaw;
-        this.commitModels(applySceneryTransform(this.current.modelDraft,{id:row.id,position,yaw},this.levels.get(row.sourceLevel).modelInfo));
+        this.transformModel(row,{position,yaw});
       });
     });
     el('model-library-level').replaceChildren(...SCENERY_LEVELS.map(n=>new Option(`Rollcage / LEV${n}`,String(n))));
@@ -25529,8 +25557,14 @@ class TrackEditor extends PickupEditor {
       else if(['Delete','Backspace'].includes(event.code)&&document.activeElement===this.canvas){event.preventDefault();el('models-delete').click();}
     });
   }
-  modelRow(){return this.current?.modelDraft?.find(row=>row.id===this.modelSelected)??null;}
-  modelCapability(row,capability='editable'){if(!row)return false;const base=this.levels.get(row.sourceLevel);return Boolean(base?.modelInfo.find(p=>p.index===row.templateIndex)?.[capability]&&base.highInfo.find(p=>p.index===row.templateIndex)?.[capability]);}
+  modelRows(){return [...(this.current?.modelDraft??[]),...(this.current?.assemblies??[])];}
+  modelRow(){return this.modelRows().find(row=>row.id===this.modelSelected)??null;}
+  modelAssembly(row){return row?this.current?.assemblies?.find(command=>command.id===row.id)??null:null;}
+  assemblyMembers(command){const key=JSON.stringify([this.current?.level,command]);this.assemblyMembersCache??=new Map();if(!this.assemblyMembersCache.has(key)){if(this.assemblyMembersCache.size>64)this.assemblyMembersCache.clear();const base=this.levels.get(command.sourceLevel);this.assemblyMembersCache.set(key,instantiateSceneryAssembly(base.LOW,command.templateIndex,{...command,level:base.level}).members);}return this.assemblyMembersCache.get(key);}
+  modelCapability(row,capability='editable'){
+    if(!row)return false;const base=this.levels.get(row.sourceLevel),assembly=Boolean(this.modelAssembly(row));
+    return Boolean(base&&[base.modelInfo,base.highInfo].every(info=>{const p=info.find(p=>p.index===row.templateIndex);if(capability==='duplicable')return p?.duplicable||p?.assemblyDuplicable;if(assembly&&capability==='removable')return false;if(assembly&&capability==='editable')return p?.assemblyDuplicable;if(assembly&&capability==='yawEditable')return p?.assemblyYawEditable;return p?.[capability];}));
+  }
   modelEditable(row){return this.modelCapability(row);}
   modelReason(row,capability='editable'){
     const base=this.levels.get(row?.sourceLevel);if(!base)return 'Original model library is unavailable.';
@@ -25538,6 +25572,7 @@ class TrackEditor extends PickupEditor {
     return '';
   }
   modelBounds(row){
+    const assembly=this.modelAssembly(row);if(assembly){const bounds=this.assemblyMembers({...assembly,position:row.position,yaw:row.yaw}).map(member=>this.modelBounds(member));return [0,1,2].map(axis=>[Math.min(...bounds.map(b=>b[axis][0])),Math.max(...bounds.map(b=>b[axis][1]))]);}
     const base=this.levels.get(row.sourceLevel),info=base.modelInfo.find(p=>p.index===row.templateIndex),modelIndex=info.modelIndex;
     const position=info.preview?.position?info.preview.position.map((n,i)=>n+row.position[i]-info.position[i]):row.position;
     if(modelIndex===null||modelIndex===undefined)return sourceToDisplay(position).map(n=>[n-24,n+24]);
@@ -25548,16 +25583,18 @@ class TrackEditor extends PickupEditor {
     if(!points.length)return sourceToDisplay(row.position).map(n=>[n-1,n+1]);
     return [0,1,2].map(axis=>[Math.min(...points.map(p=>p[axis])),Math.max(...points.map(p=>p[axis]))]);
   }
-  commitModels(draft){
-    if(same(draft,this.current.modelDraft))return;
-    const compiled=this.compile(this.current,draft); // both variants, before history/draft mutation
-    this.current.modelUndo.push(copy(this.current.modelDraft));if(this.current.modelUndo.length>100)this.current.modelUndo.shift();this.current.modelRedo=[];this.current.modelDraft=copy(draft);
+  transformModel(row,{position,yaw}){const assembly=this.modelAssembly(row);if(assembly)this.commitModels(this.current.modelDraft,this.current.assemblies.map(command=>command.id===row.id?{...command,position,yaw}:command));else this.commitModels(applySceneryTransform(this.current.modelDraft,{id:row.id,position,yaw},this.levels.get(row.sourceLevel).modelInfo));}
+  modelSnapshot(){return {models:copy(this.current.modelDraft),assemblies:copy(this.current.assemblies??[])};}
+  commitModels(draft,assemblies=this.current.assemblies??[]){
+    if(same(draft,this.current.modelDraft)&&same(assemblies,this.current.assemblies??[]))return;
+    const compiled=this.compile(this.current,draft,this.current.draft,this.current.terrainDraft,this.current.layoutDraft,{assemblies}); // paired validation before history/draft mutation
+    this.current.modelUndo.push(this.modelSnapshot());if(this.current.modelUndo.length>100)this.current.modelUndo.shift();this.current.modelRedo=[];this.current.modelDraft=copy(draft);this.current.assemblies=copy(assemblies);
     this.current.compiled=compiled;this.current.compiledSignature=this.signature(this.current);
     this.revision++;this.modelPicks.clear();this.cancelModels();this.onChange();this.refresh();
   }
   modelHistory(from,to){
     this.cancelModels();const base=this.current;if(!base?.[from].length)return;
-    const next=base[from].at(-1),compiled=this.compile(base,next);base[to].push(copy(base.modelDraft));base.modelDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=this.signature(base);
+    const stored=base[from].at(-1),next=Array.isArray(stored)?{models:stored,assemblies:[]}:stored,compiled=this.compile(base,next.models,base.draft,base.terrainDraft,base.layoutDraft,{assemblies:next.assemblies});base[to].push(this.modelSnapshot());base[from].pop();base.modelDraft=copy(next.models);base.assemblies=copy(next.assemblies);base.compiled=compiled;base.compiledSignature=this.signature(base);
     this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
   }
   cancelModels(){
@@ -25634,12 +25671,12 @@ class TrackEditor extends PickupEditor {
       text('model-library-note',chosen.entry.reason||reason);disabled('model-library-place',!chosen.template||!this.libraryScene);
     }catch(error){text('model-library-note',error.message);}
   }
-  async beginPlacement(sourceLevel,templateIndex,yaw,scene){
+  async beginPlacement(sourceLevel,templateIndex,yaw,scene,{assembly=false}={}){
     const base=await this.loadLevel(sourceLevel),template=base.modelInfo.find(p=>p.index===templateIndex);
-    if(!template?.importable||!base.highInfo.find(p=>p.index===templateIndex)?.importable)throw Error(template?.reason||template?.importReason||'Unsupported model template.');
-    const incompatibility=this.checkImport(sourceLevel,templateIndex);if(incompatibility)throw Error(incompatibility);
-    if(!scene){const collection=decodeObjectCollection(base.LOW.geometry,base.LOW.texture,{game:'rollcage'}),entry=collection.entries.find(e=>e.kind==='scenery'&&e.placementIndices.includes(templateIndex));scene=collection.load(entry);}
-    this.cancelModels();this.modelPending={sourceLevel,templateIndex,yaw,position:null,clearance:Math.max(0,-scene.bounds[1][0])};this.placementMessage='Left-click terrain to place this model. Esc cancels.';this.renderer.setEditorGhost(scene);this.say('Click terrain to place the model. Esc cancels without adding anything.');this.refresh();
+    if(assembly){if(sourceLevel!==this.current.level||![base.modelInfo,base.highInfo].every(info=>info.find(p=>p.index===templateIndex)?.assemblyDuplicable))throw Error(template?.assemblyReason||'Unsupported same-track assembly.');scene=buildSceneryAssemblyPreview(base.LOW,templateIndex);}
+    else{if(!template?.importable||!base.highInfo.find(p=>p.index===templateIndex)?.importable)throw Error(template?.reason||template?.importReason||'Unsupported model template.');const incompatibility=this.checkImport(sourceLevel,templateIndex);if(incompatibility)throw Error(incompatibility);
+      if(!scene){const collection=decodeObjectCollection(base.LOW.geometry,base.LOW.texture,{game:'rollcage'}),entry=collection.entries.find(e=>e.kind==='scenery'&&e.placementIndices.includes(templateIndex));scene=collection.load(entry);}}
+    this.cancelModels();this.modelPending={sourceLevel,templateIndex,yaw,ghostYaw:scene.worldOrientation?0:yaw,assembly,memberCount:assembly?scene.instances:1,position:null,clearance:Math.max(0,-scene.bounds[1][0])};this.placementMessage=assembly?`Left-click terrain to place the complete ${scene.instances}-part assembly. Its destruction and effects are independent. Esc cancels.`:'Left-click terrain to place this model. Esc cancels.';this.renderer.setEditorGhost(scene);this.say(assembly?'Click terrain to place the complete assembly. Esc cancels without adding anything.':'Click terrain to place the model. Esc cancels without adding anything.');this.refresh();
   }
   pointerDown(event){
     if(this.layoutEditing)return this.layout.pointerDown(event);
@@ -25650,15 +25687,16 @@ class TrackEditor extends PickupEditor {
     if(this.modelPending){
       const hit=intersectTerrain(this.scene,ray);if(!hit){this.placementMessage='No terrain at this point. Move the preview over the track and left-click again.';this.placementFailed=true;this.refresh();return true;}
       const pending=this.modelPending,position=displayToSource([hit.position[0],hit.position[1]+pending.clearance,hit.position[2]]).map(Math.round);
-      let id;do{id=`model-${++this.modelSerial}`;}while(this.current.modelDraft.some(p=>p.id===id));
-      this.perform(()=>{try{this.commitModels([...this.current.modelDraft,{id,sourceLevel:pending.sourceLevel,templateIndex:pending.templateIndex,position,yaw:pending.yaw}]);this.modelSelected=id;this.refresh();this.say('Model placed. Adjust position/yaw, or test the changes.');}catch(error){this.placementMessage=`${error.message} Move the preview elsewhere and left-click again, or press Esc to cancel.`;this.placementFailed=true;throw error;}});return true;
+      let id;do{id=`${pending.assembly?'assembly':'model'}-${++this.modelSerial}`;}while(this.modelRows().some(p=>p.id===id));
+      this.perform(()=>{try{const row={id,sourceLevel:pending.sourceLevel,templateIndex:pending.templateIndex,position,yaw:pending.yaw};if(pending.assembly)this.commitModels(this.current.modelDraft,[...this.current.assemblies,row]);else this.commitModels([...this.current.modelDraft,row]);this.modelSelected=id;this.refresh();this.say(pending.assembly?'Complete assembly placed with independent destruction and effects. Adjust position/yaw, or test the changes.':'Model placed. Adjust position/yaw, or test the changes.');}catch(error){this.placementMessage=`${error.message} Move the preview elsewhere and left-click again, or press Esc to cancel.`;this.placementFailed=true;throw error;}});return true;
     }
     if(!el('objects').checked)return false;
     const terrainHit=intersectTerrain(this.scene,ray);
     let nearest=null;
-    for(const row of this.current.modelDraft){
-      const index=this.compile()[qualityOf(this.track)].indices[row.id];
-      let mesh=this.modelPicks.get(index);if(!mesh){mesh={groups:this.scene.groups.filter(g=>g.kind==='object'&&g.instance===index).map(g=>({...g,kind:'terrain'}))};this.modelPicks.set(index,mesh);}
+    const compiled=this.compile()[qualityOf(this.track)];
+    for(const row of this.modelRows()){
+      const indices=this.modelAssembly(row)?this.assemblyMembers(row).map(member=>compiled.indices[member.id]):[compiled.indices[row.id]],key=indices.join(',');
+      let mesh=this.modelPicks.get(key);if(!mesh){mesh={groups:this.scene.groups.filter(g=>g.kind==='object'&&indices.includes(g.instance)).map(g=>({...g,kind:'terrain'}))};this.modelPicks.set(key,mesh);}
       const hit=intersectTerrain(mesh,ray);if(hit&&(!terrainHit||hit.distance<=terrainHit.distance+0.0001)&&(!nearest||hit.distance<nearest.hit.distance))nearest={row,hit};
     }
     if(!nearest)return false;
@@ -25675,20 +25713,20 @@ class TrackEditor extends PickupEditor {
     if(!this.modelsEditing)return super.pointerMove(event);
     if(!this.modelPending&&!this.modelDrag)return false;
     const hit=intersectTerrain(this.scene,cameraRay(this.navigation,this.canvas.getBoundingClientRect(),event.clientX,event.clientY));if(!hit)return Boolean(this.modelDrag);
-    if(this.modelPending){const p=this.modelPending;p.position=displayToSource([hit.position[0],hit.position[1]+p.clearance,hit.position[2]]).map(Math.round);this.renderer.editorGhostMatrix=carDisplayMatrix({position:p.position,rotation:placementMatrix([0,p.yaw,0]).map(n=>n/4096)});return false;}
+    if(this.modelPending){const p=this.modelPending;p.position=displayToSource([hit.position[0],hit.position[1]+p.clearance,hit.position[2]]).map(Math.round);this.renderer.editorGhostMatrix=carDisplayMatrix({position:p.position,rotation:placementMatrix([0,p.ghostYaw,0]).map(n=>n/4096)});return false;}
     const drag=this.modelDrag;if(drag.id!==event.pointerId)return false;
     if(Math.hypot(event.clientX-drag.x,event.clientY-drag.y)<3&&!drag.moved)return true;
     drag.moved=true;drag.position=displayToSource(hit.position.map((n,i)=>n+drag.offset[i])).map(Math.round);
     const delta=sourceToDisplay(drag.position.map((n,i)=>n-drag.row.position[i])),matrix=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,...delta,1]);
-    const preview=applySceneryTransform(this.current.modelDraft,{id:drag.row.id,position:drag.position,yaw:drag.row.yaw},this.levels.get(drag.row.sourceLevel).modelInfo),indices=this.compile()[qualityOf(this.track)].indices;
+    const assembly=this.modelAssembly(drag.row),preview=assembly?this.assemblyMembers({...assembly,position:drag.position}):applySceneryTransform(this.current.modelDraft,{id:drag.row.id,position:drag.position,yaw:drag.row.yaw},this.levels.get(drag.row.sourceLevel).modelInfo),originals=assembly?this.assemblyMembers(assembly):this.current.modelDraft,indices=this.compile()[qualityOf(this.track)].indices;
     this.renderer.editorTransforms.clear();
-    for(const row of preview){const original=this.current.modelDraft.find(r=>r.id===row.id);if(row.position.some((n,i)=>n!==original.position[i]))this.renderer.editorTransforms.set(indices[row.id],matrix);}this.renderer.setEditorBounds(this.modelBounds({...drag.row,position:drag.position}));return true;
+    for(const row of preview){const original=originals.find(r=>r.id===row.id);if(row.position.some((n,i)=>n!==original.position[i]))this.renderer.editorTransforms.set(indices[row.id],matrix);}this.renderer.setEditorBounds(this.modelBounds({...drag.row,position:drag.position}));return true;
   }
   pointerUp(){
     if(this.layoutEditing)return this.layout.pointerUp();
     if(this.terrainEditing)return this.terrain.pointerUp();
     if(!this.modelDrag)return super.pointerUp();const drag=this.modelDrag;this.modelDrag=null;this.renderer.editorTransforms.clear();
-    if(drag.moved)this.perform(()=>this.commitModels(applySceneryTransform(this.current.modelDraft,{id:drag.row.id,position:drag.position,yaw:drag.row.yaw},this.levels.get(drag.row.sourceLevel).modelInfo)));else this.refresh();return true;
+    if(drag.moved)this.perform(()=>this.transformModel(drag.row,{position:drag.position,yaw:drag.row.yaw}));else this.refresh();return true;
   }
   refresh(){
     super.refresh();this.terrain?.refresh();this.layout?.refresh();
@@ -25697,17 +25735,17 @@ class TrackEditor extends PickupEditor {
     disabled('models-enable',!available||this.busy);if(el('models-enable').checked!==Boolean(this.modelsEditing))el('models-enable').checked=Boolean(this.modelsEditing);hidden('models-controls',!this.modelsEditing);
     for(const id of ['models-x','models-y','models-z'])disabled(id,!editable);disabled('models-yaw',!editable||!this.modelCapability(row,'yawEditable'));disabled('models-delete',!active||!this.modelCapability(row,'removable'));disabled('models-duplicate',!active||!this.modelCapability(row,'duplicable'));
     disabled('models-focus',!active||!row);disabled('models-add',!active);disabled('models-selection',!active);
-    disabled('models-undo',!active||!base?.modelUndo.length);disabled('models-redo',!active||!base?.modelRedo.length);disabled('models-reset',!active||same(base?.modelDraft,base?.modelOriginal));hidden('models-cancel',!this.modelPending);
-    const selector=el('models-selection'),signature=JSON.stringify(base?.modelDraft?.map(p=>[p.id,p.sourceLevel,p.templateIndex])??[]);
-    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a model',''),...(base?.modelDraft??[]).map(p=>new Option(`${p.id} · LEV${p.sourceLevel} / ${(()=>{const info=this.levels.get(p.sourceLevel)?.modelInfo.find(i=>i.index===p.templateIndex);return info?.modelIndex===null?info.kind==='particle'?'particle emitter':'effect':`model ${info?.modelIndex}`;})()}${this.modelEditable(p)?this.modelCapability(p,'duplicable')?'':' · transform only':' · locked'}`,p.id)));selector.dataset.signature=signature;}
+    disabled('models-undo',!active||!base?.modelUndo.length);disabled('models-redo',!active||!base?.modelRedo.length);disabled('models-reset',!active||(same(base?.modelDraft,base?.modelOriginal)&&!base?.assemblies?.length));hidden('models-cancel',!this.modelPending);
+    const selector=el('models-selection'),modelRows=this.modelRows(),signature=JSON.stringify(modelRows.map(p=>[p.id,p.sourceLevel,p.templateIndex]));
+    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a model',''),...modelRows.map(p=>new Option(`${p.id} · LEV${p.sourceLevel} / ${(()=>{const info=this.levels.get(p.sourceLevel)?.modelInfo.find(i=>i.index===p.templateIndex);return this.modelAssembly(p)?`${this.assemblyMembers(p).length}-part assembly`:info?.modelIndex===null?info.kind==='particle'?'particle emitter':'effect':`model ${info?.modelIndex}`;})()}${this.modelEditable(p)?this.modelCapability(p,'duplicable')?'':' · transform only':' · locked'}`,p.id)));selector.dataset.signature=signature;}
     if(selector.value!==(row?.id??''))selector.value=row?.id??'';
     const values=row?[...sourceToDisplay(row.position),Number((((row.yaw%4096+4096)%4096)/4096*360).toFixed(6))]:['','','',''];
     ['x','y','z','yaw'].forEach((key,i)=>{const input=el(`models-${key}`),value=String(values[i]);if(document.activeElement!==input&&input.value!==value)input.value=value;});
     const capabilities=row?this.levels.get(row.sourceLevel)?.modelInfo.find(p=>p.index===row.templateIndex):null;
-    text('models-reason',row?(this.modelEditable(row)?`${capabilities?.special?'Original special object · behavior preserved.':'Plain scenery.'} ${capabilities?.linkedIndices?.length>1?`${capabilities.linkedIndices.length} linked parts ${this.modelCapability(row,'yawEditable')?'move/rotate':'move'} together. `:''}${!this.modelCapability(row,'duplicable')?'Duplicate/remove unavailable for this object. ':''}${capabilities?.kind==='animated'?'The complete script path moves; its control polygon is shown.':capabilities?.modelIndex===null?'Emitter position is retained.':'Collision lookup follows edits.'}${capabilities?.operationNotice?' '+capabilities.operationNotice:''}`:this.modelReason(row)):'Select a model in the view or list.');
+    text('models-reason',row?(this.modelAssembly(row)?`Cloned assembly · ${this.assemblyMembers(row).length} parts move${this.modelCapability(row,'yawEditable')?'/rotate':''} together. Destruction, collision states and attached effects are independent. Undo the addition to remove it.`:this.modelEditable(row)?`${capabilities?.special?'Original special object · behavior preserved.':'Plain scenery.'} ${capabilities?.linkedIndices?.length>1?`${capabilities.linkedIndices.length} linked parts ${this.modelCapability(row,'yawEditable')?'move/rotate':'move'} together. `:''}${this.modelCapability(row,'assemblyDuplicable')?'Duplicate copies the complete assembly with independent destruction and effects. Original removal is unavailable. ':!this.modelCapability(row,'duplicable')?'Duplicate/remove unavailable for this object. ':''}${capabilities?.kind==='animated'?'The complete script path moves; its control polygon is shown.':capabilities?.modelIndex===null?'Emitter position is retained.':'Collision lookup follows edits.'}${capabilities?.operationNotice?' '+capabilities.operationNotice:''}`:this.modelReason(row)):'Select a model in the view or list.');
     if(this.modelsEditing&&!this.modelDrag)this.renderer.setEditorBounds(row?this.modelBounds(row):null);
     disabled('editor-test',!base||this.busy);text('editor-test',[16,17].includes(base?.level)?'Preview changes':'Test changes');
-    text('models-note',available?`${base.modelDraft.length} placed models · ${base.modelDraft.filter(p=>this.modelEditable(p)).length} editable · LOW + HIGH`:'Requires verified Rollcage archives.');
+    text('models-note',available?`${base.modelDraft.length} original/imported models${base.assemblies?.length?` + ${base.assemblies.length} cloned assemblies`:''} · LOW + HIGH`:'Requires verified Rollcage archives.');
     this.refreshModelOverlay?.();
   }
   refreshModelOverlay(){
@@ -25721,20 +25759,22 @@ class TrackEditor extends PickupEditor {
     this.modelOverlay.set({groups:[{active:true,lines,normals}]});
   }
   renderEditorOverlay(navigation){this.modelOverlay?.render(navigation,{show:Boolean(this.modelsEditing),disabled:false,normals:true});}
-  inspect(){return {...super.inspect(),active:this.active,layoutEditing:Boolean(this.layoutEditing),layoutKind:this.layout?.kind,layout:copy(this.current?.layoutDraft??emptyRaceLayoutDraft()),layoutRows:copy(this.layout?.rows()??[]),layoutSelected:this.layout?.selected??null,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),modelSelected:this.modelSelected,modelPreviewTransforms:this.renderer.editorTransforms.size,modelCapabilities:copy(this.modelRow()?this.levels.get(this.modelRow().sourceLevel)?.modelInfo.find(p=>p.index===this.modelRow().templateIndex):null),placingModel:Boolean(this.modelPending),modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
+  inspect(){return {...super.inspect(),active:this.active,layoutEditing:Boolean(this.layoutEditing),layoutKind:this.layout?.kind,layout:copy(this.current?.layoutDraft??emptyRaceLayoutDraft()),layoutRows:copy(this.layout?.rows()??[]),layoutSelected:this.layout?.selected??null,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),assemblies:copy(this.current?.assemblies??[]),assemblyMembers:(this.current?.assemblies??[]).flatMap(command=>copy(this.assemblyMembers(command))),modelSelected:this.modelSelected,modelPreviewTransforms:this.renderer.editorTransforms.size,modelCapabilities:copy(this.modelRow()?this.levels.get(this.modelRow().sourceLevel)?.modelInfo.find(p=>p.index===this.modelRow().templateIndex):null),placingModel:Boolean(this.modelPending),placingAssembly:Boolean(this.modelPending?.assembly),ghostMembers:this.modelPending?.memberCount??0,modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
 }
 
 Object.assign(module.exports, {TrackEditor});
 },
 "tools/track-viewer/race-layout-editor-ui.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
-const {inspectRaceLayout,emptyRaceLayoutDraft,raceLayoutCheckpointConstraint} = require("src/race-layout-editor.mjs");
+const {inspectRaceLayout,raceLayoutCheckpointConstraint} = require("src/race-layout-editor.mjs");
 const {cameraRay,intersectTerrain,pickPickup,sourceToDisplay,displayToSource} = require("tools/track-viewer/pickup-picking.mjs");
 const {CollisionOverlay} = require("tools/track-viewer/collision-overlay.mjs");
+const {cloneRaceRouteGroup,insertRaceRoutePoint,connectRaceRoutePoints,validateRaceRouteTopology} = require("src/race-route-topology.mjs");
+const {insertCheckpointAfter,removeCheckpoint,setFinishCheckpoint,setCheckpointTimingMarker} = require("src/checkpoint-topology.mjs");
 
 const el=id=>document.getElementById(`layout-${id}`);
 const text=(id,value)=>{if(el(id).textContent!==value)el(id).textContent=value;};
-const identity=(kind,row)=>kind==='routes'?`${row.group}:${row.point}`:String(kind==='checkpoints'?row.id:row.index);
+const identity=(kind,row)=>kind==='routes'?row.routePointId:String(kind==='checkpoints'?row.id:row.index);
 const copy=value=>structuredClone(value);
 
 // Authoring controls only: overlays never enter the simulation. Every commit
@@ -25755,14 +25795,30 @@ class RaceLayoutEditorUI {
         const next={...row,position:displayToSource(position.map(Number)).map(Math.round)};
         if(this.kind==='checkpoints')next.direction=displayToSource(direction.map(Number)).map(Math.round);
         if(this.kind==='routes'){next.minSpeed=Number(speeds[0]);next.targetSpeed=Number(speeds[1]);}
-        editor.commitLayout(this.patch(next));
+        this.commitRow(next);
         text('status','Race layout updated in LOW + HIGH.');
       });
     };
     for(const axis of ['dx','dy','dz','min-speed','target-speed'])el(axis).addEventListener('change',applyFields);
+    for(const name of ['minimum-readable','target-readable','full-throttle'])el(name).addEventListener('change',()=>{
+      const minimum=Number(el('minimum-readable').value),target=Number(el('target-readable').value),fullThrottle=el('full-throttle').checked;
+      editor.perform(()=>{
+      const row=this.row();if(!row||this.kind!=='routes')return;
+      if(!Number.isInteger(minimum)||minimum<0||minimum>510||minimum%2||!Number.isInteger(target)||target<0||target>508||target%2)throw Error('Native speed thresholds require even integer values; minimum 0–510 and target 0–508.');
+      this.commitRow({...row,minSpeed:minimum/2,targetSpeed:fullThrottle?255:target/2});
+    });});
+    const action=(id,fn)=>el(id).addEventListener('click',()=>editor.perform(fn));
+    action('clone-group',()=>{const base=editor.current,row=this.row(),groupId=row?.groupId??el('group').value;
+      const result=cloneRaceRouteGroup(base.routeTopology,groupId);editor.commitTopology({routes:result.topology});el('group').value=result.groupId;this.selected=Object.values(result.pointIds)[0]??null;this.refresh();text('status','Group cloned. Connect an entry and exit before Test changes or export.');});
+    for(const side of ['before','after'])action(`insert-${side}`,()=>{const row=this.row();if(!row)return;const result=insertRaceRoutePoint(editor.current.routeTopology,row.groupId,row.routePointId,{side});editor.commitTopology({routes:result.topology});this.selected=result.pointId;this.refresh();text('status','Route point inserted; move it to shape the route.');});
+    action('connect',()=>{const row=this.row();if(!row)return;editor.commitTopology({routes:connectRaceRoutePoints(editor.current.routeTopology,row.routePointId,Number(el('link-slot').value),el('link-target').value,{replace:el('replace-link').checked})});text('status','Explicit route connection saved.');});
+    action('checkpoint-add',()=>{const base=editor.current,row=this.row();if(!row)return;const next=insertCheckpointAfter(base.LOW.geometry,base.checkpointTopology,row.checkpointId,{level:base.level});const order=next.checkpoints.findIndex(cp=>cp.id===row.checkpointId);editor.commitTopology({checkpoints:next});this.selected=next.checkpoints[order+1].planes[0].id;this.refresh();text('status','Checkpoint copied after selection with timing feedback disabled. Move the copied plane to its desired position.');});
+    action('checkpoint-remove',()=>{const row=this.row();if(row){editor.commitTopology({checkpoints:removeCheckpoint(editor.current.checkpointTopology,row.checkpointId)});this.selected=null;this.refresh();}});
+    action('checkpoint-finish',()=>{const row=this.row();if(row)editor.commitTopology({checkpoints:setFinishCheckpoint(editor.current.checkpointTopology,row.checkpointId)});});
+    el('checkpoint-timing').addEventListener('change',()=>{const enabled=el('checkpoint-timing').checked;editor.perform(()=>{const row=this.row();if(row)editor.commitTopology({checkpoints:setCheckpointTimingMarker(editor.current.checkpointTopology,row.checkpointId,enabled)});});});
     el('apply').addEventListener('click',applyFields);
     for(const axis of ['x','y','z'])el(axis).addEventListener('keydown',event=>{if(event.code==='Enter'){event.preventDefault();applyFields();}});
-    for(const name of ['undo','redo','reset'])el(name).addEventListener('click',()=>editor.perform(()=>name==='reset'?editor.commitLayout(emptyRaceLayoutDraft()):editor.layoutHistory(name==='undo'?'layoutUndo':'layoutRedo',name==='undo'?'layoutRedo':'layoutUndo')));
+    for(const name of ['undo','redo','reset'])el(name).addEventListener('click',()=>editor.perform(()=>name==='reset'?editor.resetLayout():editor.layoutHistory(name==='undo'?'layoutUndo':'layoutRedo',name==='undo'?'layoutRedo':'layoutUndo')));
     window.addEventListener('keydown',event=>{
       if(!editor.layoutEditing||editor.busy||/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement?.tagName))return;
       if(event.code==='Escape'){this.cancel();this.refresh();}
@@ -25773,6 +25829,20 @@ class RaceLayoutEditorUI {
   setKind(kind){this.cancel();this.kind=kind;this.selected=null;this.ensure();this.refresh();}
   rows(){
     const base=this.editor.current;if(!base?.layoutInfo)return [];
+    if(this.kind==='routes'&&base.routeTopology){return base.routeTopology.groups.flatMap((group,index)=>index?group.points.map((row,point)=>({...row,routePointId:row.id,groupId:group.id,group:index,point,cyclic:Boolean(group.header[4])})):[]).filter(row=>!el('group').value||row.groupId===el('group').value);}
+    if(this.kind==='checkpoints'&&base.checkpointTopology){
+      const geometry=this.editor.compile().LOW.geometry;
+      if(this.compiledGeometry!==geometry){this.compiledInfo=inspectRaceLayout(geometry);this.compiledGeometry=geometry;}
+      let nativeId=0;const sourceNativeIds=new Map();for(const cp of base.checkpointTopology.checkpoints)for(const plane of cp.planes)if(plane&&!sourceNativeIds.has(plane.id))sourceNativeIds.set(plane.id,nativeId++);
+      const topologyChanged=JSON.stringify(base.checkpointTopology.checkpoints.map(cp=>[cp.id,cp.planes.map(p=>p&&[p.id,p.sourceId])]))!==JSON.stringify(base.checkpointOriginal.checkpoints.map(cp=>[cp.id,cp.planes.map(p=>p&&[p.id,p.sourceId])]));
+      return base.checkpointTopology.checkpoints.flatMap((cp,order)=>cp.planes.flatMap((plane,lane)=>{
+        if(!plane||cp.planes.findIndex(p=>p?.id===plane.id)!==lane)return [];
+        const id=topologyChanged?sourceNativeIds.get(plane.id):plane.sourceId,current=this.compiledInfo.checkpoints.find(p=>p.id===id);
+        if(!current)return [];
+        const constraint=raceLayoutCheckpointConstraint(this.compiledInfo,current,current);
+        return [{...plane,checkpointId:cp.id,lane,order,sector:current.sector,progress:current.progress,markerPosition:constraint.intersectionPoint??plane.position,planeSegments:constraint.intersectionSegments}];
+      }));
+    }
     const patches=new Map((base.layoutDraft?.[this.kind]??[]).map(row=>[identity(this.kind,row),row]));
     let rows=base.layoutInfo[this.kind].map(row=>({...row,...patches.get(identity(this.kind,row))}));
     if(this.kind==='checkpoints'){
@@ -25783,6 +25853,12 @@ class RaceLayoutEditorUI {
     return rows.filter(row=>this.kind!=='routes'||el('group').value===''||row.group===Number(el('group').value));
   }
   row(){return this.rows().find(row=>identity(this.kind,row)===this.selected)??null;}
+  commitRow(row){
+    const e=this.editor;
+    if(this.kind==='routes'&&e.current.routeTopology){const draft=copy(e.current.routeTopology),point=draft.groups.flatMap(g=>g.points).find(p=>p.id===row.routePointId);Object.assign(point,{position:[...row.position],minSpeed:row.minSpeed,targetSpeed:row.targetSpeed});e.commitTopology({routes:draft});}
+    else if(this.kind==='checkpoints'&&e.current.checkpointTopology){const draft=copy(e.current.checkpointTopology);for(const cp of draft.checkpoints)for(const plane of cp.planes)if(plane?.id===row.id)Object.assign(plane,{position:[...row.position],direction:[...row.direction]});e.commitTopology({checkpoints:draft});}
+    else e.commitLayout(this.patch(row));
+  }
   patch(row){
     const draft=copy(this.editor.current.layoutDraft),id=identity(this.kind,row);
     const original=this.editor.current.layoutInfo[this.kind].find(r=>identity(this.kind,r)===id);
@@ -25809,10 +25885,10 @@ class RaceLayoutEditorUI {
       text('status','Release to validate this move. Height is preserved; adjust Height explicitly. Esc cancels.');
     }return true;
   }
-  pointerUp(){if(!this.drag)return false;const drag=this.drag;this.drag=null;if(drag.position)this.editor.perform(()=>{try{this.editor.commitLayout(this.patch({...drag.row,position:drag.position}));text('status','Move applied to LOW + HIGH.');}catch(error){text('status','Move rejected. The committed layout is unchanged.');throw error;}});this.refreshOverlay(true);return true;}
+  pointerUp(){if(!this.drag)return false;const drag=this.drag;this.drag=null;if(drag.position)this.editor.perform(()=>{try{this.commitRow({...drag.row,position:drag.position});text('status','Move applied to LOW + HIGH.');}catch(error){text('status','Move rejected. The committed layout is unchanged.');throw error;}});this.refreshOverlay(true);return true;}
   cancel(){const dragging=Boolean(this.drag);this.drag=null;this.overlaySignature=null;if(dragging){text('status','Move cancelled. The committed layout is unchanged.');this.refreshOverlay(true);}}
   refreshOverlay(force=false){
-    const e=this.editor,rows=this.rows(),selected=this.selected,signature=JSON.stringify([e.current?.level,this.kind,e.current?.layoutDraft,selected,this.drag?.position,el('show').checked]);
+    const e=this.editor,rows=this.rows(),selected=this.selected,signature=JSON.stringify([e.current?.level,this.kind,e.current?.layoutDraft,e.current?.routeTopology,e.current?.checkpointTopology,selected,this.drag?.position,el('show').checked]);
     if(!force&&signature===this.overlaySignature)return;this.overlaySignature=signature;const lines=[],normals=[],marks=[],radius=Math.max(4,Math.min(30,e.navigation.radius*0.005));
     let previous;
     for(const row of rows){
@@ -25829,18 +25905,36 @@ class RaceLayoutEditorUI {
   render(navigation){this.overlay.render(navigation,{show:Boolean(this.editor.layoutEditing&&el('show').checked),disabled:false,normals:true});}
   refresh(){
     const e=this.editor,base=e.current,active=Boolean(base&&e.layoutEditing&&!e.busy);if(e.layoutEditing)this.ensure();
-    const groups=base?.layoutInfo?.groups??[],groupSignature=JSON.stringify([base?.level,groups.map(g=>[g.index,g.count])]);
-    if(el('group').dataset.signature!==groupSignature){el('group').replaceChildren(new Option('All stored groups',''),...groups.filter(g=>g.count).map(g=>new Option(`Group ${g.index} · ${g.count} points`,String(g.index))));el('group').dataset.signature=groupSignature;}
+    const groups=base?.routeTopology?.groups.map((g,index)=>({id:g.id,index,count:g.points.length}))??[],groupSignature=JSON.stringify([base?.level,groups]);
+    if(el('group').dataset.signature!==groupSignature){const prior=el('group').value;el('group').replaceChildren(new Option('All route groups',''),...groups.filter(g=>g.index&&g.count).map(g=>new Option(`Group ${g.index} · ${g.count} points`,g.id)));el('group').value=groups.some(g=>g.id===prior)?prior:'';el('group').dataset.signature=groupSignature;}
     el('group-label').hidden=this.kind!=='routes';el('speeds').hidden=this.kind!=='routes';el('direction').hidden=this.kind!=='checkpoints';
-    const rows=this.rows(),selector=el('selection'),signature=JSON.stringify([base?.level,this.kind,rows.map(r=>identity(this.kind,r))]);
-    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a marker',''),...rows.map(row=>new Option(this.kind==='routes'?`Group ${row.group} / point ${row.point}`:this.kind==='checkpoints'?`Checkpoint ${row.id}${row.lapMarker?' · lap marker':''}`:`Starting slot ${row.index+1}`,identity(this.kind,row))));selector.dataset.signature=signature;}
+    el('route-actions').hidden=this.kind!=='routes';el('checkpoint-actions').hidden=this.kind!=='checkpoints';
+    const rows=this.rows(),selector=el('selection'),signature=JSON.stringify([base?.level,this.kind,rows.map(r=>[identity(this.kind,r),r.group,r.point,r.order,r.timingMarker])]);
+    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a marker',''),...rows.map(row=>new Option(this.kind==='routes'?`Group ${row.group} / point ${row.point}`:this.kind==='checkpoints'?`${row.order===0?'Finish':'Checkpoint '+row.order}${row.lane?' · alternative '+row.lane:''}${row.timingMarker?' · timing marker':''}`:`Starting slot ${row.index+1}`,identity(this.kind,row))));selector.dataset.signature=signature;}
     if(this.selected&&!rows.some(r=>identity(this.kind,r)===this.selected))this.selected=null;if(selector.value!==(this.selected??''))selector.value=this.selected??'';
     const row=this.row(),p=row?sourceToDisplay(row.position):['','',''],d=row?.direction?sourceToDisplay(row.direction):['','',''];
     for(const [id,value]of [...['x','y','z'].map((id,i)=>[id,p[i]]),...['dx','dy','dz'].map((id,i)=>[id,d[i]]),['min-speed',row?.minSpeed??''],['target-speed',row?.targetSpeed??'']]){const input=el(id);input.disabled=!active||!row;if(document.activeElement!==input&&input.value!==String(value))input.value=String(value);}
+    for(const [id,value]of [['minimum-readable',row?.minSpeed===undefined?'':row.minSpeed*2],['target-readable',row?.targetSpeed===undefined?'':Math.min(row.targetSpeed,254)*2]]){const input=el(id);input.disabled=!active||!row||id==='target-readable'&&row.targetSpeed===255;if(document.activeElement!==input&&input.value!==String(value))input.value=String(value);}
+    el('full-throttle').checked=row?.targetSpeed===255;el('full-throttle').disabled=!active||!row;
+    const allRoutes=base?.routeTopology?.groups.flatMap((group,index)=>index?group.points.map((point,i)=>({id:point.id,label:`Group ${index} / point ${i}`})):[])??[],linkSignature=JSON.stringify(allRoutes);
+    if(el('link-target').dataset.signature!==linkSignature){const previous=el('link-target').value;el('link-target').replaceChildren(new Option('Choose destination',''),...allRoutes.map(r=>new Option(r.label,r.id)));if(allRoutes.some(r=>r.id===previous))el('link-target').value=previous;el('link-target').dataset.signature=linkSignature;}
+    const topologyLocked=[12,13].includes(base?.level),isRoute=this.kind==='routes',isCheckpoint=this.kind==='checkpoints';
+    for(const id of ['insert-before','insert-after','connect','link-slot','link-target','replace-link'])el(id).disabled=!active||!row||!isRoute;
+    el('clone-group').disabled=!active||!isRoute||!row&&!el('group').value;
+    for(const id of ['checkpoint-add','checkpoint-finish'])el(id).disabled=!active||!row||!isCheckpoint||topologyLocked;
+    el('checkpoint-remove').disabled=!active||!row||!isCheckpoint||topologyLocked||(base?.checkpointTopology?.checkpoints.length??0)<=2;
+    el('checkpoint-timing').disabled=!active||!row||!isCheckpoint;el('checkpoint-timing').checked=Boolean(row?.timingMarker);
+    let warning='';
+    if(isRoute&&base?.routeTopology){
+      if(this.validatedRoutes!==base.routeTopology||this.validatedGeometry!==base.LOW.geometry){this.routeValidation=validateRaceRouteTopology(base.LOW.geometry,base.routeTopology,{requireConnected:false});this.validatedRoutes=base.routeTopology;this.validatedGeometry=base.LOW.geometry;}
+      warning=[...this.routeValidation.errors,...this.routeValidation.warnings].join(' ');
+    }
+    if(isCheckpoint&&topologyLocked)warning=`LEV${base.level}: adding/removing checkpoints and changing the finish are locked because native terrain direction uses hardcoded checkpoint stages. Plane movement and timing feedback remain editable.`;
+    text('topology-warning',warning);
     for(const id of ['selection','group','show'])el(id).disabled=!active;el('focus').disabled=!active||!row;el('apply').disabled=!active||!row;
-    el('undo').disabled=!active||!base?.layoutUndo?.length;el('redo').disabled=!active||!base?.layoutRedo?.length;el('reset').disabled=!active||!base||!Object.values(base.layoutDraft).some(rows=>rows.length);
+    el('undo').disabled=!active||!base?.layoutUndo?.length;el('redo').disabled=!active||!base?.layoutRedo?.length;el('reset').disabled=!active||!base||!(Object.values(base.layoutDraft).some(rows=>rows.length)||JSON.stringify(base.routeTopology)!==JSON.stringify(base.routeOriginal)||JSON.stringify(base.checkpointTopology)!==JSON.stringify(base.checkpointOriginal));
     text('count',`${rows.length} ${this.kind==='routes'?'stored route points':this.kind==='checkpoints'?'checkpoint markers':'starting slots'} · LOW + HIGH`);
-    text('details',row?this.kind==='routes'?`Stored flags and links are preserved. Speed bytes ${row.minSpeed}/${row.targetSpeed} are doubled by the native AI.`:this.kind==='checkpoints'?`Sector ${row.sector} · order ${row.order} · progress ${row.progress}. Sector follows supported terrain; order and lap fields are preserved.`:'Facing follows the original checkpoint direction; no per-slot yaw is stored.':'Select a marker in the view or list. Existing records only.');
+    text('details',row?isRoute?`Native minimum speed threshold ${row.minSpeed*2}; target ${row.targetSpeed===255?'full throttle':row.targetSpeed*2}. These are native speed thresholds, not verified km/h. Outgoing links: ${row.links.map((link,i)=>`${i+1}: ${link?allRoutes.find(r=>r.id===link.pointId)?.label??link.pointId:'empty'}`).join('; ')}. Stored control flags are preserved.`:isCheckpoint?`Sector ${row.sector} · logical order ${row.order} · progress ${row.progress}. Timing feedback is independent of finish/lap counting. New order uses equal progress intervals.`:`Starting direction follows the finish checkpoint: [${base?.checkpointTopology?.checkpoints[0]?.planes[0]?.direction.join(', ')??''}] native units; no per-slot yaw is stored.`:'Select a marker in the view or list. Coordinates and terrain coverage are validated before applying.');
     this.refreshOverlay();
   }
 }
@@ -26394,6 +26488,426 @@ class CollisionOverlay {
 
 Object.assign(module.exports, {CollisionOverlay});
 },
+"src/race-route-topology.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {createRaceRouteTopology,hydrateRaceRouteTopology,validateRaceRouteTopology,cloneRaceRouteGroup,insertRaceRoutePoint,connectRaceRoutePoints,compileRaceRouteTopology});
+const {parseRespawnRoutes} = require("src/respawn-routes.mjs");
+const {parseSpatialIndex} = require("src/spatial-index.mjs");
+const {inspectRaceLayoutFallback, rebuildRaceLayoutFallback} = require("src/race-layout-spatial.mjs");
+const {inspectRaceLayout, raceLayoutMoveConstraint} = require("src/race-layout-editor.mjs");
+
+// 47fc90 has 5-bit group/9-bit point links, but 421260 writes the point
+// to candidate row byte +2. 4210b0 and the planner subsequently read that byte.
+// 256 is therefore the safe editor bound, rather than the link field's 512.
+const RACE_ROUTE_LIMITS = Object.freeze({groups: 32, usableGroups: 31, pointsPerGroup: 256});
+const copy = value => JSON.parse(JSON.stringify(value));
+const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const integer = (n, lo, hi) => Number.isInteger(n) && n >= lo && n <= hi;
+const identity = value => typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}$/.test(value);
+const fields = (value, required, optional = []) => value && typeof value === 'object' && !Array.isArray(value) && required.every(key => Object.hasOwn(value, key)) && Object.keys(value).every(key => required.includes(key) || optional.includes(key));
+const fail = message => {throw Error(message);};
+const align = n => Math.ceil(n / 4) * 4;
+const sourcePointId = (group, point) => `g${group}:p${point}`;
+const packedLinks = word => [[word & 31, word >>> 5 & 511], [word >>> 14 & 31, word >>> 19 & 511]];
+
+function createRaceRouteTopology(data) {
+  const routes = parseRespawnRoutes(data);
+  return {version: 1, nextId: 1, groups: routes.groups.map(group => ({
+    id: `g${group.index}`, sourceGroup: group.index, index: group.index, header: [...group.bytes],
+    points: group.points.map((point, index) => {
+      const word = point.bytes.readUInt32LE(12);
+      return {id: sourcePointId(group.index, index), sourcePoint: index,
+        position: [...point.position], minSpeed: point.bytes[6], targetSpeed: point.bytes[7],
+        flags: point.bytes.readUInt32LE(8), linkFlags: (word & 0xf0000000) >>> 0,
+        // An unused group's point bits are retained, even when its group is 0.
+        emptyLinkPoints: packedLinks(word).map(([g, p]) => g ? 0 : p),
+        links: packedLinks(word).map(([g, p]) => g ? {groupId: `g${g}`, pointId: sourcePointId(g, p)} : null)};
+    })
+  }))};
+}
+
+// A full topology is optional in legacy projects. Sparse route edits can be
+// hydrated onto the stable authored identities before any index insertion.
+function hydrateRaceRouteTopology(data, draft = null, sparseRoutes = []) {
+  const topology = draft == null ? createRaceRouteTopology(data) : copy(draft);
+  for (const edit of sparseRoutes) {
+    const group = topology.groups.find(g => g.sourceGroup === edit.group);
+    const point = group?.points.find(p => p.sourcePoint === edit.point);
+    if (!point) fail('Sparse route edit references a missing source point.');
+    for (const key of ['position', 'minSpeed', 'targetSpeed']) if (edit[key] !== undefined) point[key] = copy(edit[key]);
+  }
+  const validation = validateRaceRouteTopology(data, topology, {requireConnected: false});
+  if (!validation.valid) fail(validation.errors.join(' '));
+  return topology;
+}
+
+function references(topology) {
+  const groups = new Map(), points = new Map();
+  for (const [index, group] of topology.groups.entries()) {
+    groups.set(group.id, {group, index});
+    for (const [point, row] of group.points.entries()) points.set(row.id, {group, index, point, row});
+  }
+  return {groups, points};
+}
+
+function validateRaceRouteTopology(data, topology, {requireConnected = true, sourceBlockerCountersMayDiffer = false} = {}) {
+  const errors = [], warnings = [], error = message => errors.push(message);
+  let source;
+  try {source = createRaceRouteTopology(data);} catch (e) {return {valid: false, errors: [e.message], warnings};}
+  if (!fields(topology, ['version', 'nextId', 'groups']) || topology.version !== 1 || !Array.isArray(topology.groups) || !integer(topology.nextId, 1, Number.MAX_SAFE_INTEGER)) return {valid: false, errors: ['Invalid route topology draft.'], warnings};
+  if (topology.groups.length < source.groups.length || topology.groups.length > 32) error('Route topology requires the authored groups and at most 31 usable groups; group 0 is reserved.');
+  const ids = new Set(), pointIds = new Set(), sourceGroups = new Set();
+  for (const [index, group] of topology.groups.entries()) {
+    if (!fields(group, ['id', 'sourceGroup', 'index', 'header', 'points'], ['cloneOfGroupId']) || !identity(group.id) || ids.has(group.id)) {error('Route group fields/identities must be known, bounded and unique.'); continue;}
+    ids.add(group.id);
+    if (!Array.isArray(group.header) || group.header.length !== 12 || group.header.some(n => !integer(n, 0, 255))) {error(`Route group ${group.id} requires its 12-byte native header.`); continue;}
+    if (!Array.isArray(group.points) || group.points.length > 256 || index !== 0 && !group.points?.length && group.sourceGroup === null) {error(`Route group ${group.id} must contain 1 to 256 points (candidate indices are bytes); authored empty groups are preserved.`); continue;}
+    if (group.sourceGroup !== null) {
+      if (!integer(group.sourceGroup, 0, source.groups.length - 1) || sourceGroups.has(group.sourceGroup)) {error('Authored route group identities cannot be deleted or duplicated.'); continue;}
+      if (group.sourceGroup !== index) error('Authored route groups must retain their native order; scenery blocker references use these IDs.');
+      sourceGroups.add(group.sourceGroup);
+      if (source.groups[group.sourceGroup] && (group.id !== source.groups[group.sourceGroup].id || !equal(group.header, source.groups[group.sourceGroup].header.map((n, i) => sourceBlockerCountersMayDiffer && i === 3 ? group.header[3] : n)))) error('Authored route header metadata and stable identity must be preserved.');
+      if (group.cloneOfGroupId !== undefined) error('Authored groups cannot claim clone provenance.');
+    }
+    if (group.index !== index) error('Route group index must match its stable serialized order.');
+    const sourcePoints = new Set();
+    for (const point of group.points) {
+      if (!fields(point, ['id', 'sourcePoint', 'position', 'minSpeed', 'targetSpeed', 'flags', 'linkFlags', 'emptyLinkPoints', 'links'], ['anchorPointId']) || !identity(point.id) || pointIds.has(point.id)) {error('Route point fields/identities must be known, bounded and globally unique.'); continue;}
+      pointIds.add(point.id);
+      if (point.sourcePoint !== null) {
+        if (group.sourceGroup === null || !integer(point.sourcePoint, 0, (source.groups[group.sourceGroup]?.points.length ?? 0) - 1) || sourcePoints.has(point.sourcePoint)) error('Authored route point identities cannot be deleted or duplicated.');
+        sourcePoints.add(point.sourcePoint);
+        const authored = source.groups[group.sourceGroup]?.points[point.sourcePoint];
+        if (authored && (point.id !== authored.id || point.flags !== authored.flags || point.linkFlags !== authored.linkFlags || !equal(point.emptyLinkPoints, authored.emptyLinkPoints))) error('Authored route point identities and opaque control metadata must be preserved.');
+      }
+      if (point.sourcePoint === null && !identity(point.anchorPointId)) error('Added route points require a bounded anchor identity.');
+      if (!Array.isArray(point.position) || point.position.length !== 3 || point.position.some(n => !integer(n, -32768, 32767))) error(`Route point ${point.id} requires signed 16-bit XYZ.`);
+      if (!integer(point.minSpeed, 0, 255) || !integer(point.targetSpeed, 0, 255) || !integer(point.flags, 0, 0xffffffff) || !integer(point.linkFlags, 0, 0xffffffff) || (point.linkFlags >>> 0 & 0x0fffffff)) error(`Route point ${point.id} has invalid native speed/flag values.`);
+      if (!Array.isArray(point.emptyLinkPoints) || point.emptyLinkPoints.length !== 2 || point.emptyLinkPoints.some(n => !integer(n, 0, 511))) error(`Route point ${point.id} has invalid unused link bits.`);
+      if (!Array.isArray(point.links) || point.links.length !== 2) error(`Route point ${point.id} requires two outgoing link slots.`);
+    }
+    if (group.sourceGroup !== null && source.groups[group.sourceGroup] && sourcePoints.size !== source.groups[group.sourceGroup].points.length) error('Authored route points cannot be deleted.');
+  }
+  if (sourceGroups.size !== source.groups.length) error('Authored route groups cannot be deleted.');
+  if (!topology.groups[0] || !equal(topology.groups[0], source.groups[0])) error('Route group 0 is reserved and must remain unchanged.');
+  if (errors.length) return {valid: false, errors, warnings};
+  const {groups, points} = references(topology), edges = new Map(topology.groups.map(g => [g.id, new Set()]));
+  for (const group of topology.groups.filter(g => g.sourceGroup === null)) {
+    const template = groups.get(group.cloneOfGroupId)?.group;
+    if (!template || !template.points.length || template.header[3] || !equal(group.header, template.header.map((n, i) => i === 5 ? group.index : n))) error('Cloned route groups must preserve an unblocked template header and clone provenance.');
+    let ancestor = group; const seen = new Set();
+    while (ancestor?.sourceGroup === null && !seen.has(ancestor.id)) {seen.add(ancestor.id); ancestor = groups.get(ancestor.cloneOfGroupId)?.group;}
+    if (!ancestor || ancestor.sourceGroup === null) error('Route clone provenance must lead to an authored group without cycles.');
+    else if (source.groups[ancestor.sourceGroup].header[3]) error('A source route group controlled by scenery blockers cannot be cloned without duplicating its blocker ownership.');
+  }
+  for (const group of topology.groups) for (const point of group.points.filter(p => p.sourcePoint === null)) {
+    const anchor = points.get(point.anchorPointId)?.row;
+    if (!anchor || point.flags !== anchor.flags || point.linkFlags !== anchor.linkFlags || !equal(point.emptyLinkPoints, anchor.emptyLinkPoints) && !equal(point.emptyLinkPoints, [0, 0])) error('Added route points must preserve their anchor control metadata.');
+  }
+  let movementInfo;
+  const originalPosition = row => {
+    const seen = new Set();
+    while (row && !seen.has(row.row.id)) {
+      seen.add(row.row.id);
+      if (row.group.sourceGroup !== null && row.row.sourcePoint !== null) return source.groups[row.group.sourceGroup].points[row.row.sourcePoint].position;
+      row = points.get(row.row.anchorPointId);
+    }
+    return null;
+  };
+  for (const group of topology.groups) for (const [index, point] of group.points.entries()) {
+    const prior = originalPosition(points.get(point.id));
+    if (!prior) error(`New route point ${point.id} must retain its authored/inserted anchor identity.`);
+    else if (!equal(prior, point.position)) {
+      try {
+        movementInfo ??= inspectRaceLayout(data);
+        const constraint = raceLayoutMoveConstraint(movementInfo, prior, point.position);
+        if (!constraint.allowed) error(`Route point ${point.id}: ${constraint.reason}`);
+      } catch (e) {error(e.message);}
+    }
+    const next = group.points[index + 1] ?? (group.header[4] && group.points.length > 1 ? group.points[0] : null);
+    if (next && equal(point.position, next.position)) {
+      const before = originalPosition(points.get(next.id));
+      if (!prior || !before || !equal(prior, before)) error('Route edit creates coincident adjacent points with no usable direction.');
+    }
+  }
+  for (const group of topology.groups) for (const point of group.points) for (const link of point.links) {
+    if (link === null) continue;
+    const target = points.get(link?.pointId);
+    if (!fields(link, ['groupId', 'pointId']) || !identity(link.groupId) || !identity(link.pointId) || !target || target.group.id !== link.groupId || target.index === 0 || !groups.has(link.groupId)) error(`Route point ${point.id} links to a missing/reserved route point.`);
+    else edges.get(group.id).add(link.groupId);
+  }
+  const originals = topology.groups.filter(g => g.sourceGroup !== null && g.sourceGroup !== 0).map(g => g.id);
+  const reaches = (start, predicate) => {
+    const seen = new Set(), queue = [start];
+    while (queue.length) {const id = queue.pop(); if (seen.has(id)) continue; seen.add(id); if (predicate(id)) return true; queue.push(...edges.get(id));}
+    return false;
+  };
+  for (const group of topology.groups.filter(g => g.sourceGroup === null)) {
+    const incoming = originals.some(id => reaches(id, other => other === group.id));
+    const outgoing = reaches(group.id, id => originals.includes(id));
+    if (!incoming || !outgoing) (requireConnected ? errors : warnings).push(`New route group ${group.id} needs an entry from and an exit to the authored network before Test/export.`);
+  }
+  return {valid: !errors.length, errors, warnings};
+}
+
+function fresh(topology, prefix) {
+  const ids = new Set(topology.groups.flatMap(g => [g.id, ...g.points.map(p => p.id)]));
+  let id; do {id = `${prefix}${topology.nextId++}`;} while (ids.has(id)); return id;
+}
+
+function cloneRaceRouteGroup(input, groupId) {
+  const topology = copy(input), group = topology.groups.find(g => g.id === groupId);
+  if (!group || group === topology.groups[0]) fail('Choose an existing usable route group to clone.');
+  if (!group.points.length) fail('Authored empty route groups cannot be cloned; choose a group containing points.');
+  if (group.header[3]) fail('This group is controlled by scenery blockers. Cloning its blocker ownership is not yet supported.');
+  if (topology.groups.length >= 32) fail('All 31 usable native route groups are occupied.');
+  const clone = copy(group), pointIds = new Map(); clone.id = fresh(topology, 'new-group-'); clone.sourceGroup = null; clone.index = topology.groups.length; clone.cloneOfGroupId = group.id;
+  for (const point of clone.points) {const oldId = point.id; point.id = fresh(topology, 'new-point-'); pointIds.set(oldId, point.id); point.sourcePoint = null; point.anchorPointId = oldId;}
+  for (const point of clone.points) point.links = point.links.map(link => link?.groupId === groupId ? {groupId: clone.id, pointId: pointIds.get(link.pointId)} : link);
+  // 47fc20/410bd0 and 47f5c0 consume this identity through progression +54.
+  clone.header[5] = clone.index;
+  topology.groups.push(clone);
+  return {topology, groupId: clone.id, pointIds: Object.fromEntries(pointIds)};
+}
+
+function insertRaceRoutePoint(input, groupId, pointId, {side = 'after', position} = {}) {
+  const topology = copy(input), group = topology.groups.find(g => g.id === groupId), index = group?.points.findIndex(p => p.id === pointId);
+  if (!group || group === topology.groups[0] || index < 0) fail('Choose an existing usable route point to extend.');
+  if (group.points.length >= 256) fail('A route group is limited to 256 points because native candidate indices are bytes.');
+  if (!['before', 'after'].includes(side)) fail('Route insertion side must be before or after.');
+  const point = copy(group.points[index]); point.id = fresh(topology, 'new-point-'); point.sourcePoint = null;
+  point.anchorPointId = pointId;
+  point.position = position ? [...position] : point.position.map((n, axis) => {
+    const neighbor = group.points[index + (side === 'after' ? 1 : -1)] ?? (group.header[4] ? group.points[side === 'after' ? 0 : group.points.length - 1] : null);
+    return neighbor ? Math.round((n + neighbor.position[axis]) / 2) : n;
+  });
+  // Insertion adds sequential traversal, rather than duplicating a branch.
+  point.links = [null, null]; point.emptyLinkPoints = [0, 0];
+  if (group.points.some(p => equal(p.position, point.position))) fail('Choose a distinct position for the inserted route point.');
+  group.points.splice(index + (side === 'after' ? 1 : 0), 0, point);
+  return {topology, pointId: point.id};
+}
+
+function connectRaceRoutePoints(input, fromPointId, slot, toPointId, {replace = false} = {}) {
+  const topology = copy(input), {points} = references(topology), from = points.get(fromPointId), to = points.get(toPointId);
+  if (!integer(slot, 0, 1) || !from || !to || !from.index || !to.index) fail('Route connection requires usable source/target points and slot 0 or 1.');
+  const link = {groupId: to.group.id, pointId: to.row.id}, occupied = from.row.links[slot];
+  if (occupied && !equal(occupied, link) && !replace) fail('Outgoing route link slot is occupied. Choose an empty slot or explicitly replace it.');
+  from.row.links[slot] = link;
+  return topology;
+}
+
+function encode(topology, original) {
+  const {points} = references(topology);
+  return topology.groups.map((group, index) => {
+    const header = Buffer.from(group.header); header.writeUInt16LE(group.points.length); if (index && group.points.length) header[5] = index;
+    // Earlier scenery compilation can increment/descrement this live blocker
+    // counter. A topology project stores the baseline header, not that result.
+    if (group.sourceGroup !== null) header[3] = original.groups[group.sourceGroup].bytes[3];
+    const records = group.points.map(point => {
+      const bytes = Buffer.alloc(16); point.position.forEach((n, axis) => bytes.writeInt16LE(n, axis * 2)); bytes[6] = point.minSpeed; bytes[7] = point.targetSpeed; bytes.writeUInt32LE(point.flags, 8);
+      let word = point.linkFlags >>> 0;
+      for (const [slot, link] of point.links.entries()) {
+        const target = link && points.get(link.pointId), bits = target ? target.index | target.point << 5 : point.emptyLinkPoints[slot] << 5;
+        word = (word | bits << (slot * 14)) >>> 0;
+      }
+      bytes.writeUInt32LE(word, 12); return bytes;
+    });
+    return {header, records};
+  });
+}
+
+function compileRaceRouteTopology(source, topology, {requireConnected = true} = {}) {
+  const validation = validateRaceRouteTopology(source, topology, {requireConnected, sourceBlockerCountersMayDiffer: true});
+  if (!validation.valid) fail(validation.errors.join(' '));
+  const original = parseRespawnRoutes(source), encoded = encode(topology, original), {points} = references(topology), remap = {groups: {}, points: {}, ids: {}};
+  for (const [index, group] of topology.groups.entries()) {
+    if (group.sourceGroup !== null) remap.groups[group.sourceGroup] = index;
+    for (const [point, row] of group.points.entries()) {
+      remap.ids[row.id] = {group: index, point};
+      if (group.sourceGroup !== null && row.sourcePoint !== null) remap.points[`${group.sourceGroup}:${row.sourcePoint}`] = {group: index, point};
+    }
+  }
+  const unchanged = original.groups.length === encoded.length && original.groups.every((group, index) => {
+    const header = Buffer.from(encoded[index].header); header.writeUInt32LE(group.pointRelativeOffset, 8);
+    return group.bytes.equals(header) && group.points.length === encoded[index].records.length && group.points.every((p, i) => p.bytes.equals(encoded[index].records[i]));
+  });
+  if (unchanged) return {data: Buffer.from(source), remap, changed: false, warnings: validation.warnings};
+  const table = align(source.length), pointBase = align(table + encoded.length * 12), size = encoded.reduce((n, g) => n + g.records.length * 16, pointBase);
+  if (size > 128 * 1024 * 1024) fail('Route topology resource exceeds 128 MiB.');
+  let out = Buffer.alloc(size); out.set(source); out[0x79] = encoded.length; out.writeUInt32LE(table, 0x8c); out.writeUInt32LE(pointBase, 0x98);
+  let cursor = pointBase;
+  const baselineGroups = [], baselineRoutes = [];
+  for (const [index, group] of topology.groups.entries()) {
+    const raw = encoded[index]; raw.header.writeUInt32LE(cursor - pointBase, 8); out.set(raw.header, table + index * 12);
+    const baseline = {index, count: group.points.length, points: []}; baselineGroups.push(baseline);
+    for (const [point, row] of group.points.entries()) {
+      out.set(raw.records[point], cursor);
+      const originalPoint = group.sourceGroup !== null && row.sourcePoint !== null ? original.groups[group.sourceGroup].points[row.sourcePoint] : null;
+      const anchor = points.get(row.anchorPointId)?.row;
+      const position = originalPoint?.position ?? anchor?.position ?? row.position;
+      const entry = {group: index, point, offset: cursor, position: [...position]}; baseline.points.push(entry); baselineRoutes.push(entry); cursor += 16;
+    }
+  }
+  // Rebuild complete fallback+model sequences, since starts may alias another
+  // sequence's model word. Rewriting a first word in place could corrupt it.
+  let spatial = parseSpatialIndex(source), fallback = inspectRaceLayoutFallback(source, spatial, original.groups);
+  const changedFallback = fallback.nodes.some(row => {const ref = remap.points[`${row.group}:${row.point}`]; return ref.group !== row.group || ref.point !== row.point;});
+  if (changedFallback) {
+    const words = [], starts = [], sequences = new Map();
+    for (const row of fallback.nodes) {
+      const ref = remap.points[`${row.group}:${row.point}`], values = [(ref.group * 65536 + ref.point) >>> 0, ...row.models], key = values.join(',');
+      let start = sequences.get(key); if (start === undefined) {start = words.length; sequences.set(key, start); words.push(...values);}
+      if (start > 1023 || words.length > 65535) fail('Route remapping exceeds native shared fallback/model-link capacity.'); starts.push(start);
+    }
+    const offset = align(out.length);
+    if (offset + words.length * 4 > 128 * 1024 * 1024) fail('Route fallback resource exceeds 128 MiB.');
+    const expanded = Buffer.alloc(offset + words.length * 4); expanded.set(out); words.forEach((word, index) => expanded.writeUInt32LE(word, offset + index * 4));
+    expanded.writeUInt32LE(offset, 0xac); expanded.writeUInt16LE(words.length, 0x96);
+    for (const [index, start] of starts.entries()) expanded.writeUInt32LE(((spatial.nodes[index].boundsWord & 0x3fffff) | start << 22) >>> 0, spatial.nodes[index].offset);
+    out = expanded;
+  }
+  spatial = parseSpatialIndex(out); fallback = inspectRaceLayoutFallback(out, spatial, baselineGroups);
+  const result = rebuildRaceLayoutFallback(out, out, {groups: baselineGroups, routes: baselineRoutes, spatial, fallback});
+  return {data: result.data, remap, changed: true, warnings: validation.warnings, changedFallbackNodes: result.changedNodes};
+}
+
+Object.assign(module.exports, {RACE_ROUTE_LIMITS,createRaceRouteTopology,hydrateRaceRouteTopology,validateRaceRouteTopology,cloneRaceRouteGroup,insertRaceRoutePoint,connectRaceRoutePoints,compileRaceRouteTopology});
+},
+"src/checkpoint-topology.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {createCheckpointTopologyDraft,validateCheckpointTopologyDraft,insertCheckpointAfter,removeCheckpoint,setFinishCheckpoint,setCheckpointTimingMarker,compileCheckpointTopology});
+const {inspectRaceLayout, raceLayoutCheckpointConstraint} = require("src/race-layout-editor.mjs");
+const {parseCheckpointProgression} = require("src/respawn-progress.mjs");
+
+// 44c2b0 publishes header95/a0/bc; 449d40 consumes lane0 and order, while
+// 44a2e0 searches all four lanes. 417210/449cd0 also consume plane directions.
+// IDs in this draft are editor identities, never serialized native addresses.
+const clone = value => structuredClone(value);
+const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value)
+  && Object.keys(value).sort().join(',') === [...keys].sort().join(',');
+const identity = value => typeof value === 'string' && /^[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}$/.test(value);
+const vector = value => Array.isArray(value) && value.length === 3 && value.every(n => Number.isInteger(n) && n >= -32768 && n <= 32767);
+const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+const shape = value => value.checkpoints.map(row => ({id: row.id, planes: row.planes.map(plane => plane && {id: plane.id, sourceId: plane.sourceId})}));
+
+function createCheckpointTopologyDraft(data, legacySparseEdits = []) {
+  const info = inspectRaceLayout(data), byId = new Map(info.checkpoints.map(row => [row.id, row]));
+  const edits = new Map();
+  for (const row of legacySparseEdits) {
+    if (!exact(row, ['id', 'position', 'direction']) || !byId.has(row.id) || edits.has(row.id)) throw Error('Invalid legacy checkpoint edit.');
+    edits.set(row.id, row);
+  }
+  const checkpoints = Array.from({length: info.checkpointCount}, (_, order) => ({id: `checkpoint-${order}`,
+    planes: info.checkpointIds.slice(order * 4, order * 4 + 4).map(id => {
+      if (id === 255) return null;
+      const source = byId.get(id), row = edits.get(id) ?? source;
+      return {id: `plane-${id}`, sourceId: id, position: [...row.position], direction: [...row.direction], timingMarker: source.lapMarker};
+    })}));
+  const draft = {checkpoints};
+  if (legacySparseEdits.length) validateCheckpointTopologyDraft(data, draft, {info});
+  return draft;
+}
+
+function validateCheckpointTopologyDraft(data, draft, {info = inspectRaceLayout(data), level} = {}) {
+  if (!exact(draft, ['checkpoints']) || !Array.isArray(draft.checkpoints) || draft.checkpoints.length < 2 || draft.checkpoints.length > 255) throw Error('Checkpoint topology requires 2–255 logical checkpoints.');
+  const source = new Map(info.checkpoints.map(row => [row.id, row])), logicalIds = new Set(), planeIds = new Map();
+  const checked = clone(draft), constraints = new Map(), originalOwner = new Map();
+  for (let order = 0; order < info.checkpointCount; order++) for (const id of info.checkpointIds.slice(order * 4, order * 4 + 4)) if (id !== 255) originalOwner.set(`plane-${id}`, `checkpoint-${order}`);
+  for (const checkpoint of checked.checkpoints) {
+    if (!exact(checkpoint, ['id', 'planes']) || !identity(checkpoint.id) || logicalIds.has(checkpoint.id)
+      || !Array.isArray(checkpoint.planes) || checkpoint.planes.length !== 4 || checkpoint.planes[0] === null) throw Error('Checkpoints require a unique editor ID and four plane lanes with a primary plane.');
+    logicalIds.add(checkpoint.id);
+    for (const plane of checkpoint.planes) {
+      if (plane === null) continue;
+      if (!exact(plane, ['id', 'sourceId', 'position', 'direction', 'timingMarker']) || !identity(plane.id)
+        || !Number.isInteger(plane.sourceId) || !source.has(plane.sourceId) || !vector(plane.position) || !vector(plane.direction)
+        || plane.direction.every(n => n === 0) || typeof plane.timingMarker !== 'boolean') throw Error('Checkpoint planes require a valid source template, editor ID, signed 16-bit vectors and timing marker.');
+      const prior = planeIds.get(plane.id);
+      if (prior && (prior.checkpoint !== checkpoint.id || !same(prior.plane, plane))) throw Error('A checkpoint plane cannot belong to different logical checkpoints or disagree across alternative lanes.');
+      if (!prior) {
+        const original = source.get(plane.sourceId), constraint = raceLayoutCheckpointConstraint(info, original, plane);
+        // New planes cannot inherit the untouched-original exception for planes
+        // outside covered terrain: they must actually cross the covered road.
+        const isOriginal = plane.id === `plane-${plane.sourceId}` && originalOwner.get(plane.id) === checkpoint.id;
+        if (!constraint.allowed || (!isOriginal && !constraint.intersectionPoint)) throw Error(constraint.reason ?? 'New checkpoint plane must intersect covered terrain.');
+        constraints.set(plane.id, constraint); planeIds.set(plane.id, {checkpoint: checkpoint.id, plane});
+      }
+    }
+  }
+  if (planeIds.size > 255) throw Error('At most 255 native checkpoint planes are supported; native ID 255 is reserved.');
+  if ([12, 13].includes(level) && !same(shape(checked), shape(createCheckpointTopologyDraft(data)))) throw Error(`LEV${level} checkpoint topology is locked: native 44a1c0 hardcodes checkpoint stages for terrain direction. Moving planes and toggling timing markers remain supported.`);
+  return {draft: checked, info, constraints};
+}
+
+function insertCheckpointAfter(data, draft, selectedId, {id, level} = {}) {
+  const next = clone(draft), index = next.checkpoints.findIndex(row => row.id === selectedId);
+  if (index < 0) throw Error('Selected checkpoint is missing.');
+  const ids = new Set(next.checkpoints.map(row => row.id));
+  if (id === undefined) {let n = 1; do {id = `added-checkpoint-${n++}`;} while (ids.has(id));}
+  if (!identity(id) || ids.has(id)) throw Error('New checkpoint requires a unique editor ID.');
+  const copied = clone(next.checkpoints[index]), planeIds = new Map(); copied.id = id;
+  copied.planes = copied.planes.map((plane, lane) => {
+    if (!plane) return null;
+    if (planeIds.has(plane.id)) return clone(planeIds.get(plane.id));
+    const row = {...plane, id: `${id}-plane-${lane}`, timingMarker: false}; planeIds.set(plane.id, row); return row;
+  });
+  next.checkpoints.splice(index + 1, 0, copied);
+  return validateCheckpointTopologyDraft(data, next, {level}).draft;
+}
+
+function removeCheckpoint(draft, id) {
+  const next = clone(draft), index = next.checkpoints.findIndex(row => row.id === id);
+  if (index < 0) throw Error('Selected checkpoint is missing.');
+  if (next.checkpoints.length <= 2) throw Error('At least two logical checkpoints must remain.');
+  // Removing slot0 naturally chooses the next remaining checkpoint as finish.
+  next.checkpoints.splice(index, 1); return next;
+}
+
+function setFinishCheckpoint(draft, id) {
+  const next = clone(draft), index = next.checkpoints.findIndex(row => row.id === id);
+  if (index < 0) throw Error('Selected checkpoint is missing.');
+  next.checkpoints = [...next.checkpoints.slice(index), ...next.checkpoints.slice(0, index)]; return next;
+}
+
+function setCheckpointTimingMarker(draft, id, enabled) {
+  if (typeof enabled !== 'boolean') throw Error('Timing marker requires a boolean.');
+  const next = clone(draft), row = next.checkpoints.find(row => row.id === id);
+  if (!row) throw Error('Selected checkpoint is missing.');
+  for (const plane of row.planes) if (plane) plane.timingMarker = enabled;
+  return next;
+}
+
+function compileCheckpointTopology(data, draft = createCheckpointTopologyDraft(data), {level} = {}) {
+  const {draft: checked, info, constraints} = validateCheckpointTopologyDraft(data, draft, {level}), baseline = createCheckpointTopologyDraft(data);
+  const topologyChanged = !same(shape(checked), shape(baseline)), changed = !same(checked, baseline);
+  const startingGridDirection = [...checked.checkpoints[0].planes[0].direction];
+  if (!changed) return {data: Buffer.from(data), draft: checked, info, changed: false, topologyChanged: false, startingGridDirection};
+  const parsed = parseCheckpointProgression(data), planes = new Map(), nativeIds = new Map(), bySource = new Map(info.checkpoints.map(row => [row.id, row]));
+  for (const checkpoint of checked.checkpoints) for (const plane of checkpoint.planes) if (plane && !planes.has(plane.id)) {nativeIds.set(plane.id, topologyChanged ? planes.size : plane.sourceId); planes.set(plane.id, plane);}
+  const ids = Buffer.alloc(checked.checkpoints.length * 4, 255), records = topologyChanged ? Buffer.alloc(planes.size * 20) : Buffer.from(data.subarray(parsed.checkpointsOffset, parsed.checkpointsOffset + (Math.max(...nativeIds.values()) + 1) * 20));
+  checked.checkpoints.forEach((checkpoint, order) => checkpoint.planes.forEach((plane, lane) => {
+    if (!plane) return;
+    const nativeId = nativeIds.get(plane.id), offset = nativeId * 20, original = bySource.get(plane.sourceId);
+    ids[order * 4 + lane] = nativeId;
+    data.copy(records, offset, original.offset, original.offset + 20);
+    if (topologyChanged) {records[offset + 1] = order; records.writeUInt16LE(Math.floor(order * 65536 / checked.checkpoints.length), offset + 2);}
+    const originalIdentity = baseline.checkpoints.find(row => row.id === checkpoint.id)?.planes.some(row => row?.id === plane.id && row.sourceId === plane.sourceId);
+    if (!originalIdentity || !same(plane.position, original.position) || !same(plane.direction, original.direction)) records[offset] = constraints.get(plane.id).supportSector;
+    plane.position.forEach((n, axis) => records.writeInt16LE(n, offset + 4 + axis * 2));
+    plane.direction.forEach((n, axis) => records.writeInt16LE(n, offset + 12 + axis * 2));
+    records[offset + 18] = (records[offset + 18] & 0xfe) | Number(plane.timingMarker);
+  }));
+  let output;
+  if (topologyChanged) {
+    const recordsOffset = (data.length + 3) & ~3, idsOffset = recordsOffset + records.length;
+    output = Buffer.alloc(idsOffset + ids.length); data.copy(output); records.copy(output, recordsOffset); ids.copy(output, idsOffset);
+    output[0x95] = checked.checkpoints.length; output.writeUInt32LE(recordsOffset, 0xa0); output.writeUInt32LE(idsOffset, 0xbc);
+  } else {output = Buffer.from(data); records.copy(output, parsed.checkpointsOffset);}
+  return {data: output, draft: checked, info: inspectRaceLayout(output), changed, topologyChanged, startingGridDirection,
+    nativeIds: Object.fromEntries(nativeIds), progressPolicy: topologyChanged ? 'equal-logical-intervals' : 'preserved-authored'};
+}
+
+Object.assign(module.exports, {createCheckpointTopologyDraft,validateCheckpointTopologyDraft,insertCheckpointAfter,removeCheckpoint,setFinishCheckpoint,setCheckpointTimingMarker,compileCheckpointTopology});
+},
 "tools/track-viewer/terrain-editor-ui.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
 const {inspectTerrain,emptyTerrainDraft,terrainSurfacePresets} = require("src/terrain-editor.mjs");
@@ -26401,10 +26915,12 @@ const {terrainBrushSelection,stampTerrain} = require("tools/track-viewer/terrain
 const {cameraRay,intersectTerrain} = require("tools/track-viewer/pickup-picking.mjs");
 const {CollisionOverlay} = require("tools/track-viewer/collision-overlay.mjs");
 const {getGame} = require("src/track-games.mjs");
+const {speedPadPatterns,speedPadFootprint} = require("src/speed-pad-patterns.mjs");
 const el=id=>document.getElementById(id),text=(id,value)=>{if(el(id).textContent!==value)el(id).textContent=value;};
 class TerrainEditorUI {
   constructor(editor){
     this.editor=editor;this.kind='terrain';this.stroke=null;this.overlay=new CollisionOverlay(editor.renderer);this.page=0;this.preset=null;this.paletteBase=null;
+    for(const id of ['surface-mode','surface-rotation'])el(id).addEventListener('change',()=>{this.page=0;this.preset=(this.patternMode?this.patterns:this.presets)?.[0]??null;this.cancel();this.filterPalette();this.refresh();});
     el('terrain-operation').addEventListener('change',()=>this.refresh());
     for(const id of ['terrain-undo','terrain-redo','terrain-reset'])el(id).addEventListener('click',()=>editor.perform(()=>id==='terrain-reset'?editor.commitTerrain(emptyTerrainDraft()):editor.terrainHistory(id==='terrain-undo'?'terrainUndo':'terrainRedo',id==='terrain-undo'?'terrainRedo':'terrainUndo')));
     el('surface-search').addEventListener('input',()=>{this.page=0;this.filterPalette();});
@@ -26419,19 +26935,22 @@ class TerrainEditorUI {
     const base=this.editor.current;if(!base)return;
     if(!base.terrainInfo){const low=inspectTerrain(base.LOW.geometry),high=inspectTerrain(base.HIGH.geometry);if(low.scene.segments.length!==high.scene.segments.length||[...low.vertices].some(([id,v])=>!high.vertices.has(id)||v.position.some((n,i)=>high.vertices.get(id).position[i]!==n)))throw Error('LOW/HIGH terrain grids differ; paired height editing is unavailable.');base.terrainInfo=low;}
     if(!this.radiusInitialized){const s=base.terrainInfo.scene.segments[0],v=s?.vertices;el('terrain-radius').value=String(Math.max(1,Math.round(v?.length>1?Math.hypot(v[1][0]-v[0][0],v[1][2]-v[0][2]):128)));this.radiusInitialized=true;}
-    if(this.kind==='surfaces'&&this.paletteBase!==base){this.presets=terrainSurfacePresets(base.LOW.geometry,base.HIGH.geometry);this.paletteTextures=getGame('rollcage').decodeTrack(base.LOW.geometry,base.LOW.texture).textures;this.paletteBase=base;this.preset=this.presets[0]??null;this.page=0;this.filterPalette();}
+    if(this.kind==='surfaces'&&this.paletteBase!==base){this.presets=terrainSurfacePresets(base.LOW.geometry,base.HIGH.geometry);this.patterns=speedPadPatterns(base.LOW.originalGeometry??base.LOW.geometry,base.HIGH.originalGeometry??base.HIGH.geometry);this.paletteTextures=getGame('rollcage').decodeTrack(base.LOW.geometry,base.LOW.texture).textures;this.paletteBase=base;this.preset=this.presets[0]??null;this.page=0;this.filterPalette();}
   }
   setKind(kind){this.kind=kind;this.ensure();this.refresh();}
   filterPalette(){
-    const query=el('surface-search').value.trim().toLowerCase(),presets=(this.presets??[]).filter(p=>p.label.toLowerCase().includes(query)),size=24;this.page=Math.min(this.page,Math.max(0,Math.ceil(presets.length/size)-1));
+    const query=el('surface-search').value.trim().toLowerCase(),presets=(this.patternMode?this.patterns??[]:this.presets??[]).filter(p=>p.label.toLowerCase().includes(query)),size=24;this.page=Math.min(this.page,Math.max(0,Math.ceil(presets.length/size)-1));
     el('surface-palette').replaceChildren(...presets.slice(this.page*size,(this.page+1)*size).map(p=>{
       const button=document.createElement('button');button.type='button';button.title=p.label;button.className='surface-card';button.setAttribute('aria-pressed',String(p===this.preset));button.dataset.preset=`${p.sector}:${p.cell}`;
-      const canvas=document.createElement('canvas');canvas.width=64;canvas.height=48;const label=document.createElement('span');label.textContent=`P${p.page} · grip ${p.gripReduction}`;button.append(canvas,label);
-      const image=this.paletteTextures?.get(p.page);if(image){const source=document.createElement('canvas');source.width=image.width;source.height=image.height;const context=source.getContext('2d');const pixels=context.createImageData(image.width,image.height);pixels.data.set(image.rgba);context.putImageData(pixels,0,0);const xs=p.uv.map(uv=>uv[0]),ys=p.uv.map(uv=>uv[1]),x=Math.min(...xs),y=Math.min(...ys),w=Math.max(1,Math.max(...xs)-x+1),h=Math.max(1,Math.max(...ys)-y+1);canvas.getContext('2d').drawImage(source,x,y,w,h,0,0,64,48);}
+      const canvas=document.createElement('canvas');canvas.width=64;canvas.height=48;const label=document.createElement('span');label.textContent=this.patternMode?p.label:`P${p.page} · grip ${p.gripReduction}`;button.append(canvas,label);
+      const image=this.paletteTextures?.get(p.page);if(image){const source=document.createElement('canvas');source.width=image.width;source.height=image.height;const context=source.getContext('2d');const pixels=context.createImageData(image.width,image.height);pixels.data.set(image.rgba);context.putImageData(pixels,0,0);const xs=p.uv.map(uv=>uv[0]),ys=p.uv.map(uv=>uv[1]),x=Math.min(...xs),y=Math.min(...ys),w=Math.max(1,Math.max(...xs)-x+1),h=Math.max(1,Math.max(...ys)-y+1);const ctx=canvas.getContext('2d');if(this.patternMode){ctx.drawImage(source,x,y,w,h,0,0,32,48);ctx.save();ctx.translate(64,0);ctx.scale(-1,1);ctx.drawImage(source,x,y,w,h,0,0,32,48);ctx.restore();}else ctx.drawImage(source,x,y,w,h,0,0,64,48);}
       button.addEventListener('click',()=>{this.preset=p;text('surface-selected',p.label);for(const other of el('surface-palette').querySelectorAll('button'))other.setAttribute('aria-pressed',String(other===button));});return button;
     }));
     el('surface-prev').disabled=this.page===0;el('surface-next').disabled=(this.page+1)*size>=presets.length;text('surface-page',`${presets.length} presets · page ${this.page+1}`);text('surface-selected',this.preset?.label??'No supported surface presets.');
   }
+  get patternMode(){return this.kind==='surfaces'&&el('surface-mode').value==='patterns';}
+  pattern(){return this.patterns?.find(p=>p===this.preset)??this.patterns?.[0];}
+  patternPlacement(hit){const p=this.pattern();if(!p)throw Error('No supported original arrow patterns on this track.');return {sector:hit.sector,cell:hit.cell,sourceSector:p.sector,sourceCell:p.cell,rotation:Number(el('surface-rotation').value)};}
   hit(event){return intersectTerrain(this.editor.scene,cameraRay(this.editor.navigation,this.editor.canvas.getBoundingClientRect(),event.clientX,event.clientY));}
   options(hit){const radius=Number(el('terrain-radius').value),strength=Number(el('terrain-strength').value);if(!Number.isFinite(radius)||radius<=0||!Number.isFinite(strength)||strength<=0)throw Error('Enter positive brush radius and strength.');return {mode:this.kind==='surfaces'?'paint':el('terrain-operation').value,radius,strength,height:this.stroke?.height??(el('terrain-operation').value==='flatten'?hit.position[1]:Number(el('terrain-height').value)),preset:this.preset};}
   pointerDown(event){
@@ -26439,6 +26958,7 @@ class TerrainEditorUI {
     const hit=this.hit(event);if(!hit||hit.cell===null)return false;
     try{
       this.ensure();if(this.editor.current.terrainInfo.locked.has(hit.sector))throw Error('This animated terrain region is locked.');
+      if(this.patternMode){const placement=this.patternPlacement(hit),draft=structuredClone(this.editor.current.terrainDraft),footprint=speedPadFootprint(this.editor.current.terrainInfo.scene,placement,this.pattern()),keys=new Set(footprint.map(p=>p.cell));draft.patterns=(draft.patterns??[]).filter(p=>p.sector!==placement.sector||!speedPadFootprint(this.editor.current.terrainInfo.scene,p,this.patterns.find(t=>t.sector===p.sourceSector&&t.cell===p.sourceCell)).some(c=>keys.has(c.cell)));draft.patterns.push(placement);this.editor.perform(()=>{this.editor.commitTerrain(draft);text('terrain-status','Complete arrow applied to LOW + HIGH. One undo removes this placement.');});return true;}
       if(this.kind==='surfaces'&&el('surface-eyedropper').checked){const s=this.editor.current.terrainInfo.scene.segments[hit.sector],ref=this.editor.current.terrainDraft.surfaces.find(r=>r.sector===hit.sector&&r.cell===hit.cell),face=ref?this.editor.current.terrainInfo.scene.segments[ref.sourceSector].faces[ref.sourceCell]:s.faces[hit.cell];this.preset=this.presets.find(p=>this.editor.current.terrainInfo.scene.segments[p.sector].faces[p.cell].textureRecord===face.textureRecord)??null;el('surface-eyedropper').checked=false;this.filterPalette();return true;}
       const options=this.options(hit);this.stroke={draft:structuredClone(this.editor.current.terrainDraft),height:options.height,last:hit.position.slice(),sector:hit.sector};this.stamp(hit,options);this.editor.canvas.focus();this.editor.canvas.setPointerCapture(event.pointerId);
     }catch(error){text('terrain-status',error.message);this.cancel(false);}return true;
@@ -26446,11 +26966,15 @@ class TerrainEditorUI {
   stamp(hit,options){this.stroke.draft=stampTerrain(this.editor.current.terrainInfo,this.stroke.draft,hit,options);this.updateOverlay(hit,this.stroke.draft,options.radius);text('terrain-status','Release to apply the shaded terrain. Esc cancels this stroke.');}
   pointerMove(event){
     if(!this.editor.terrainEditing)return false;const hit=this.hit(event);if(!hit)return Boolean(this.stroke);
-    try{const options=this.options(hit);if(this.stroke){const last=this.stroke.last,delta=hit.position.map((n,i)=>n-last[i]),distance=Math.hypot(...delta),step=Math.max(1,options.radius/4);if(distance>=step){const samples=Math.min(128,Math.floor(distance/step));for(let i=1;i<=samples;i++)this.stamp({...hit,position:last.map((n,j)=>n+delta[j]*i*step/distance)},options);this.stroke.last=last.map((n,j)=>n+delta[j]*samples*step/distance);}}
+    try{if(this.patternMode){this.updatePatternOverlay(hit);return false;}const options=this.options(hit);if(this.stroke){const last=this.stroke.last,delta=hit.position.map((n,i)=>n-last[i]),distance=Math.hypot(...delta),step=Math.max(1,options.radius/4);if(distance>=step){const samples=Math.min(128,Math.floor(distance/step));for(let i=1;i<=samples;i++)this.stamp({...hit,position:last.map((n,j)=>n+delta[j]*i*step/distance)},options);this.stroke.last=last.map((n,j)=>n+delta[j]*samples*step/distance);}}
       else this.updateOverlay(hit,this.editor.current.terrainDraft,options.radius);
     }catch(error){text('terrain-status',error.message);this.cancel(false);}return Boolean(this.stroke);
   }
   pointerUp(){if(!this.stroke)return false;const draft=this.stroke.draft;this.stroke=null;this.editor.perform(()=>{this.editor.commitTerrain(draft);text('terrain-status','Terrain applied to LOW + HIGH. Objects and race paths keep their saved positions.');});return true;}
+  updatePatternOverlay(hit){
+    const info=this.editor.current?.terrainInfo;if(!info)return;const placement=this.patternPlacement(hit),cells=speedPadFootprint(info.scene,placement,this.pattern()),s=info.scene.segments[hit.sector],heights=new Map(this.editor.current.terrainDraft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),lines=[];
+    const point=i=>{const v=s.vertices[i];return [v[0],-(heights.get(`${s.index}:${i}`)??v[1])-1,-v[2]];};for(const c of cells){const ids=[0,1,3,2].map(i=>s.faces[c.cell].gridIndices[i]);for(let i=0;i<4;i++)lines.push(...point(ids[i]),...point(ids[(i+1)%4]));}this.overlay.set({groups:[{active:true,lines,normals:[]}]});text('terrain-selection',`${cells.length}-cell arrow · ${placement.rotation*90}° · click to place whole pattern`);
+  }
   updateOverlay(hit,draft,radius){
     const info=this.editor.current?.terrainInfo;if(!info)return;const selected=terrainBrushSelection(info,draft,hit,radius),heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),lines=[],cells=new Set();
     const point=(s,i)=>{const v=s.vertices[i];return [v[0],-(heights.get(`${s.index}:${i}`)??v[1]),-v[2]];};
@@ -26462,11 +26986,12 @@ class TerrainEditorUI {
   cancel(clear=true){this.stroke=null;if(clear)this.overlay.clear();}
   refresh(){
     const base=this.editor.current,available=Boolean(base),active=available&&this.editor.terrainEditing&&!this.editor.busy;
-    for(const id of ['terrain-operation','terrain-radius','terrain-strength','terrain-height','terrain-wireframe','surface-search','surface-eyedropper'])el(id).disabled=!active;
-    el('terrain-undo').disabled=!active||!base?.terrainUndo?.length;el('terrain-redo').disabled=!active||!base?.terrainRedo?.length;el('terrain-reset').disabled=!active||!(base?.terrainDraft?.heights.length||base?.terrainDraft?.surfaces.length);
+    for(const id of ['terrain-operation','terrain-radius','terrain-strength','terrain-height','terrain-wireframe','surface-search','surface-eyedropper','surface-mode','surface-rotation'])el(id).disabled=!active;
+    el('terrain-undo').disabled=!active||!base?.terrainUndo?.length;el('terrain-redo').disabled=!active||!base?.terrainRedo?.length;el('terrain-reset').disabled=!active||!(base?.terrainDraft?.heights.length||base?.terrainDraft?.surfaces.length||base?.terrainDraft?.patterns?.length);
+    el('surface-rotation-label').hidden=!this.patternMode;el('surface-eyedropper').disabled=!active||this.patternMode;
     el('terrain-height-tools').hidden=this.kind==='surfaces';el('terrain-surface-tools').hidden=this.kind!=='surfaces';
     el('terrain-height-label').hidden=el('terrain-operation').value!=='set';
-    text('terrain-count',base?`${base.terrainDraft?.heights.length??0} height edits · ${base.terrainDraft?.surfaces.length??0} surface edits · LOW + HIGH`:'Load verified Rollcage archives.');
+    text('terrain-count',base?`${base.terrainDraft?.heights.length??0} height edits · ${base.terrainDraft?.surfaces.length??0} surface edits · ${base.terrainDraft?.patterns?.length??0} arrows · LOW + HIGH`:'Load verified Rollcage archives.');
   }
 }
 
@@ -26477,6 +27002,7 @@ Object.assign(module.exports, {inspectTerrain,validateTerrainDraft,compileTerrai
 const {parseScene} = require("src/scene.mjs");
 const {parseCollisionGrid} = require("src/collision-grid.mjs");
 const {buildTerrainCandidates} = require("src/terrain-candidates.mjs");
+const {compileSpeedPadPatterns,speedPadPatterns} = require("src/speed-pad-patterns.mjs");
 
 const emptyTerrainDraft=()=>({heights:[],surfaces:[]});
 const key=(s,v)=>`${s}:${v}`;
@@ -26513,7 +27039,7 @@ function inspectTerrain(data) {
 }
 
 function validateTerrainDraft(data,draft=emptyTerrainDraft(),info=inspectTerrain(data)) {
-  if(!fields(draft,['heights','surfaces'])||!Array.isArray(draft.heights)||!Array.isArray(draft.surfaces))throw Error('Invalid terrain draft.');
+  if((!fields(draft,['heights','surfaces'])&&!fields(draft,['heights','surfaces','patterns']))||!Array.isArray(draft.heights)||!Array.isArray(draft.surfaces)||draft.patterns!==undefined&&!Array.isArray(draft.patterns))throw Error('Invalid terrain draft.');
   const heights=[],surfaces=[],seen=new Set(),sourceSeen=new Map();
   for(const row of draft.heights){
     if(!fields(row,['sector','vertex','height'])||!Number.isInteger(row.sector)||!Number.isInteger(row.vertex)||!Number.isInteger(row.height)||row.height< -32768||row.height>32767)throw Error('Terrain height requires a valid vertex and signed 16-bit value.');
@@ -26533,7 +27059,7 @@ function validateTerrainDraft(data,draft=emptyTerrainDraft(),info=inspectTerrain
     if(info.locked.has(row.sourceSector)||(source.pageWord&~0x7f))throw Error('Animated or packed surface preset is unsupported.');
     surfaces.push({...row});
   }
-  return {heights:heights.sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:surfaces.sort((a,b)=>a.sector-b.sector||a.cell-b.cell)};
+  return {heights:heights.sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:surfaces.sort((a,b)=>a.sector-b.sector||a.cell-b.cell),...(draft.patterns?{patterns:structuredClone(draft.patterns)}:{})};
 }
 
 function packedNormal(points,old) {
@@ -26574,15 +27100,16 @@ function extendHeightCoverage(data,grid,changed) {
   return data;
 }
 
-function compileTerrainEdits(source,draft=emptyTerrainDraft(),{validateContacts=true}={}) {
+function compileTerrainEdits(source,draft=emptyTerrainDraft(),{validateContacts=true,originalGeometry=source,patterns}={}) {
   if(fields(draft,['heights','surfaces'])&&Array.isArray(draft.heights)&&Array.isArray(draft.surfaces)&&!draft.heights.length&&!draft.surfaces.length)return Buffer.from(source);
   const info=inspectTerrain(source),checked=validateTerrainDraft(source,draft,info);
   const heights=checked.heights.filter(r=>info.vertices.get(key(r.sector,r.vertex)).position[1]!==r.height),surfaces=checked.surfaces.filter(r=>info.scene.segments[r.sector].faces[r.cell].textureRecord!==info.scene.segments[r.sourceSector].faces[r.sourceCell].textureRecord);
-  if(!heights.length&&!surfaces.length)return Buffer.from(source);
+  const finish=data=>compileSpeedPadPatterns(data,checked.patterns??[],{originalGeometry,patterns:patterns??speedPadPatterns(originalGeometry,originalGeometry),locked:info.locked});
+  if(!heights.length&&!surfaces.length)return finish(Buffer.from(source));
   let data=Buffer.from(source);const changed=new Map(),changedVertices=new Set();
   for(const row of heights){const v=info.vertices.get(key(row.sector,row.vertex));data.writeInt16LE(row.height,v.offset+2);changedVertices.add(v.offset);changed.set(row.sector,Math.max(changed.get(row.sector)??0,Math.abs(row.height-v.position[1])));}
   for(const row of surfaces){const sector=info.scene.segments[row.sector],preset=info.scene.segments[row.sourceSector].faces[row.sourceCell];data.writeUInt32LE(preset.textureRecord,sector.packetsOffset+row.cell*8+4);}
-  if(!heights.length)return data;
+  if(!heights.length)return finish(data);
   const grid=parseCollisionGrid(source);if(!grid.available)throw Error('Terrain height editing requires collision spatial data.');
   const edited=parseScene(data),normalWords=grid.normals.map(n=>n.packed),pairs=new Map(),touched=[];
   const pair=(a,b)=>{const id=`${a}:${b}`;if(pairs.has(id))return pairs.get(id);const index=normalWords.length;if(index+1>65534)throw Error('Terrain edit exceeds native normal-index capacity.');normalWords.push(a,b);pairs.set(id,index);return index;};
@@ -26609,7 +27136,7 @@ function compileTerrainEdits(source,draft=emptyTerrainDraft(),{validateContacts=
     const body={flags:3,position:center.map((v,i)=>Math.round((v+normal[i]/8)*65536)),linearVelocity:normal.map(n=>-n*32768)},candidates=buildTerrainCandidates(result,body,{radiusQ8:64*256});
     if(candidates.candidates.length>=64||!candidates.candidates.some(v=>v.sector===sector&&v.row===c.row&&v.column===c.column))throw Error('Edited terrain cannot be reached safely within the native collision candidate limits. Reduce the edited area or height change.');
   }}
-  return data;
+  return finish(data);
 }
 
 function terrainSurfacePresets(low,high) {
@@ -26624,10 +27151,83 @@ function terrainSurfacePresets(low,high) {
 
 Object.assign(module.exports, {emptyTerrainDraft,inspectTerrain,validateTerrainDraft,compileTerrainEdits,terrainSurfacePresets});
 },
+"src/speed-pad-patterns.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {speedPadPatterns,speedPadFootprint,compileSpeedPadPatterns});
+const {parseScene} = require("src/scene.mjs");
+const {parseCollisionGrid} = require("src/collision-grid.mjs");
+
+const corners=[[0,0],[1,0],[0,1],[1,1]];
+const uvOffsets=[0,4,8,10];
+const cornerOrder=face=>face.vertexFlags&4?[0,1,2,3]:[1,3,0,2];
+const physicalUV=face=>{const result=[];cornerOrder(face).forEach((corner,i)=>result[corner]=face.uv[i]);return result;};
+const material=(data,scene,face)=>data.readUInt32LE(scene.uvTable+face.textureRecord*16+12)&255;
+const animatedSectors=(data,scene)=>{
+  const locked=new Set(scene.segments.filter(s=>data[s.offset+6]&63).map(s=>s.index)),count=data[0xfc],base=data.readUInt32LE(0x100);
+  if(count&&base+count*4>data.length)throw Error('Animated surface references exceed resource bounds.');
+  for(let i=0;i<count;i++)locked.add(data[base+i*4+2]);return locked;
+};
+
+// The acceleration surface is category 1 (48d680), not a fixed atlas page.
+// Recognize original two-cell mirrored arrows; never manufacture an atlas crop.
+function speedPadPatterns(low,high) {
+  const a=parseScene(low),b=parseScene(high),patterns=[],seen=new Set(),lockedLow=animatedSectors(low,a),lockedHigh=animatedSectors(high,b);
+  for(const s of a.segments)for(const face of s.faces){
+    const col=face.index%s.columns,row=Math.floor(face.index/s.columns);
+    if(col+1>=s.columns||lockedLow.has(s.index)||lockedHigh.has(s.index)||material(low,a,face)!==1)continue;
+    const right=s.faces[face.index+1],other=b.segments[s.index];
+    if(material(low,a,right)!==1||right.page!==face.page||!other)continue;
+    const leftUV=physicalUV(face),rightUV=physicalUV(right);
+    if(!leftUV.every((uv,i)=>uv.every((n,j)=>n===rightUV[i^1][j])))continue;
+    const cells=[face,right];if(cells.some(c=>!other.faces[c.index]||material(high,b,other.faces[c.index])!==1||(c.pageWord&~0x7f)||(other.faces[c.index].pageWord&~0x7f)))continue;
+    const signature=cells.map(c=>low.subarray(a.uvTable+c.textureRecord*16,a.uvTable+c.textureRecord*16+16).toString('hex')+high.subarray(b.uvTable+other.faces[c.index].textureRecord*16,b.uvTable+other.faces[c.index].textureRecord*16+16).toString('hex')).join(':');
+    if(seen.has(signature))continue;seen.add(signature);
+    patterns.push({sector:s.index,cell:face.index,width:2,height:1,cells:[{x:0,y:0,cell:face.index},{x:1,y:0,cell:right.index}],page:face.page,uv:face.uv,label:`Arrow ${patterns.length+1} · 2 cells · P${face.page} · acceleration`,row,col});
+  }
+  return patterns;
+}
+
+function speedPadFootprint(scene,placement,pattern) {
+  const s=scene.segments[placement.sector];
+  if(!s||!Number.isInteger(placement.cell)||placement.cell<0||placement.cell>=s.faces.length||!Number.isInteger(placement.rotation)||placement.rotation<0||placement.rotation>3)throw Error('Invalid speed-pad placement.');
+  const rotate=(x,y)=>{for(let i=0;i<placement.rotation;i++)[x,y]=[-y,x];return [x,y];};
+  const positions=pattern.cells.map(c=>({...c,xy:rotate(c.x,c.y)})),minX=Math.min(...positions.map(c=>c.xy[0])),minY=Math.min(...positions.map(c=>c.xy[1]));
+  const col=placement.cell%s.columns,row=Math.floor(placement.cell/s.columns);
+  return positions.map(c=>{const x=col+c.xy[0]-minX,y=row+c.xy[1]-minY;if(x>=s.columns||y>=s.rows)throw Error('The complete arrow must fit inside one terrain sector.');return {sourceCell:c.cell,cell:y*s.columns+x};});
+}
+
+function compileSpeedPadPatterns(source,placements=[],{originalGeometry=source,patterns=speedPadPatterns(originalGeometry,originalGeometry),locked=new Set()}={}) {
+  if(!Array.isArray(placements))throw Error('Invalid speed-pad pattern list.');
+  if(!placements.length)return Buffer.from(source);
+  const scene=parseScene(source),original=parseScene(originalGeometry),writes=new Map(),grid=parseCollisionGrid(source);
+  for(const placement of placements){
+    if(!placement||Object.keys(placement).sort().join(',')!=='cell,rotation,sector,sourceCell,sourceSector'||Object.values(placement).some(n=>!Number.isInteger(n)||n<0))throw Error('Invalid speed-pad pattern reference.');
+    const pattern=patterns.find(p=>p.sector===placement.sourceSector&&p.cell===placement.sourceCell);
+    if(!pattern)throw Error('This original arrow pattern is unavailable.');
+    if(locked.has(placement.sector)||locked.has(pattern.sector))throw Error('Animated terrain cannot receive arrow patterns.');
+    for(const row of speedPadFootprint(scene,placement,pattern)){
+      if(!grid.available||!grid.sectors[placement.sector]?.cells[row.cell]?.covered)throw Error('The complete arrow requires terrain collision coverage for every cell.');
+      const from=original.segments[pattern.sector].faces[row.sourceCell],to=scene.segments[placement.sector].faces[row.cell],raw=Buffer.from(originalGeometry.subarray(original.uvTable+from.textureRecord*16,original.uvTable+from.textureRecord*16+16));
+      const sourceUV=physicalUV(from),rotated=[];
+      corners.forEach(([x,y],i)=>{for(let q=0;q<placement.rotation;q++)[x,y]=[1-y,x];rotated[y*2+x]=sourceUV[i];});
+      cornerOrder(to).forEach((corner,i)=>{raw[uvOffsets[i]]=rotated[corner][0];raw[uvOffsets[i]+1]=rotated[corner][1];});
+      writes.set(`${placement.sector}:${row.cell}`,{sector:placement.sector,cell:row.cell,raw});
+    }
+  }
+  // Preserve all existing table-relative references, including opaque ones.
+  const retained=Math.ceil((source.length-scene.uvTable)/16)*16,table=Buffer.alloc(retained+writes.size*16);table.set(source.subarray(scene.uvTable));
+  const start=Math.ceil(source.length/4)*4;if(start+table.length>128*1024*1024)throw Error('Arrow pattern edit exceeds resource capacity.');
+  const data=Buffer.alloc(start+table.length);data.set(source);let i=0;
+  for(const row of writes.values()){const record=retained/16+i++;table.set(row.raw,record*16);data.writeUInt32LE(record,scene.segments[row.sector].packetsOffset+row.cell*8+4);}
+  data.set(table,start);data.writeUInt32LE(start,0x110);return data;
+}
+
+Object.assign(module.exports, {speedPadPatterns,speedPadFootprint,compileSpeedPadPatterns});
+},
 "tools/track-viewer/terrain-brush.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {terrainBrushSelection,stampTerrain});
 // Pure brush operations. Distances follow connected grid edges and matched
 // seams, so another road sharing XZ coordinates is never selected implicitly.
+const {speedPadFootprint} = require("src/speed-pad-patterns.mjs");
 function terrainBrushSelection(info,draft,hit,radius) {
   const sector=info.scene.segments[hit.sector],face=sector?.faces[hit.cell];if(!face||!Number.isFinite(radius)||radius<=0)return [];
   const heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,r.height])),position=id=>{const v=info.vertices.get(id);return [v.position[0],heights.get(id)??v.position[1],v.position[2]];};
@@ -26646,12 +27246,13 @@ function terrainBrushSelection(info,draft,hit,radius) {
 
 function stampTerrain(info,draft,hit,{mode='raise',radius=128,strength=8,height=0,preset}={}) {
   const selected=terrainBrushSelection(info,draft,hit,radius),heights=new Map(draft.heights.map(r=>[`${r.sector}:${r.vertex}`,{...r}])),surfaces=new Map(draft.surfaces.map(r=>[`${r.sector}:${r.cell}`,{...r}]));
+  const painted=new Set();
   if(mode==='paint'){
     if(!preset)throw Error('Choose a surface preset first.');
     const cells=new Set();for(const v of selected){const s=info.scene.segments[v.sector],row=Math.floor(v.vertex/(s.columns+1)),col=v.vertex%(s.columns+1);for(const r of [row-1,row])for(const c of [col-1,col])if(r>=0&&r<s.rows&&c>=0&&c<s.columns)cells.add(`${s.index}:${r*s.columns+c}`);}
     cells.add(`${hit.sector}:${hit.cell}`);
     for(const id of cells){const [sector,cell]=id.split(':').map(Number);if(info.locked.has(sector))continue;const s=info.scene.segments[sector],face=s.faces[cell],center=[0,1,2].map(i=>face.gridIndices.reduce((sum,v)=>sum+s.vertices[v][i],0)/4),point=[hit.position[0],-hit.position[1],-hit.position[2]];if(id!==`${hit.sector}:${hit.cell}`&&Math.hypot(...center.map((n,i)=>n-point[i]))>radius)continue;
-      const row={sector,cell,sourceSector:preset.sector,sourceCell:preset.cell};if(face.textureRecord===info.scene.segments[preset.sector].faces[preset.cell].textureRecord)surfaces.delete(id);else surfaces.set(id,row);
+      painted.add(id);const row={sector,cell,sourceSector:preset.sector,sourceCell:preset.cell};if(face.textureRecord===info.scene.segments[preset.sector].faces[preset.cell].textureRecord)surfaces.delete(id);else surfaces.set(id,row);
     }
   }else{
     const pending=new Map();
@@ -26665,7 +27266,8 @@ function stampTerrain(info,draft,hit,{mode='raise',radius=128,strength=8,height=
     }
     for(const [id,y]of pending){if(y< -32768||y>32767)throw Error('Brush exceeds the signed 16-bit terrain height limit.');const v=info.vertices.get(id);if(y===v.position[1])heights.delete(id);else heights.set(id,{sector:v.sector,vertex:v.vertex,height:y});}
   }
-  return {heights:[...heights.values()].sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:[...surfaces.values()].sort((a,b)=>a.sector-b.sector||a.cell-b.cell)};
+  const patterns=draft.patterns?.filter(p=>!speedPadFootprint(info.scene,p,{cells:[{x:0,y:0,cell:p.sourceCell},{x:1,y:0,cell:p.sourceCell+1}]}).some(c=>painted.has(`${p.sector}:${c.cell}`)));
+  return {heights:[...heights.values()].sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:[...surfaces.values()].sort((a,b)=>a.sector-b.sector||a.cell-b.cell),...(patterns?{patterns}:{} )};
 }
 
 Object.assign(module.exports, {terrainBrushSelection,stampTerrain});
@@ -27149,7 +27751,9 @@ const {parseSpatialIndex} = require("src/spatial-index.mjs");
 const {parseStaticModelLinks} = require("src/model-links.mjs");
 const {sceneryLinkedIndices,sceneryAttachmentTargets,validateSceneryTransforms,transformSceneryAttachments} = require("src/scenery-transforms.mjs");
 const {inspectScriptedScenery,scriptedSceneryPreview,compileScriptedSceneryTransforms} = require("src/scripted-scenery-editor.mjs");
+const {inspectSceneryAssemblies,validateSceneryAssemblies,compileSceneryAssemblies} = require("src/scenery-assemblies.mjs");
 Object.assign(module.exports, Object.fromEntries([["applySceneryTransform"]].map(([source, target = source]) => [target, require("src/scenery-transforms.mjs")[source]])));
+Object.assign(module.exports, Object.fromEntries([["instantiateSceneryAssembly"],["validateSceneryAssemblies"]].map(([source, target = source]) => [target, require("src/scenery-assemblies.mjs")[source]])));
 
 const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1));
 // Leave half the recovered 512-body registry for vehicles, pickups and effects.
@@ -27167,7 +27771,7 @@ const join = (a,b) => {const out = Buffer.alloc(a.length+b.length); out.set(a); 
 // Existing special objects keep their authored behavior and identities. Import,
 // duplication and deletion remain narrower than original-object transforms.
 function inspectScenery(data,texture) {
-  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models), linked=sceneryLinkedIndices(placements),scripted=inspectScriptedScenery(data,placements),adjacency=new Map(),attachmentOwners=new Map();
+  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models), linked=sceneryLinkedIndices(placements),assemblies=inspectSceneryAssemblies(data,texture,{gfxm,placements,linked}),scripted=inspectScriptedScenery(data,placements),adjacency=new Map(),attachmentOwners=new Map();
   for(const p of placements.records.filter(p=>p.type===0||p.type===24))for(let slot=0;slot<5;slot++){const handle=p.raw.readUInt16LE(46+slot*2),type=handle>>>12;if(!type)break;if([1,3,4].includes(type)){const key=`${type}:${handle&4095}`;if(!attachmentOwners.has(key))attachmentOwners.set(key,[]);attachmentOwners.get(key).push(p.index);}}
   for(const members of [...linked.values(),...scripted.linked.values(),...attachmentOwners.values()])for(const index of members){if(!adjacency.has(index))adjacency.set(index,new Set());for(const other of members)adjacency.get(index).add(other);}
   const connected=index=>{const queue=[index],found=new Set();while(queue.length){const n=queue.pop();if(found.has(n))continue;found.add(n);for(const other of adjacency.get(n)??[])queue.push(other);}return [...found].sort((a,b)=>typeof a==='number'&&typeof b==='number'?a-b:String(a).localeCompare(String(b)));};
@@ -27206,7 +27810,7 @@ function inspectScenery(data,texture) {
     else if(packed)importReason='Packed texture mode cannot be duplicated or imported.';
     const importable=!importReason,linkedIndices=connected(p.index),scriptLinked=scripted.uses.some(use=>linkedIndices.includes(use.owner))||linkedIndices.some(index=>typeof index!=='number'),yawEditable=!p.angles[0]&&!p.angles[2]&&!scriptLinked;
     const sharedLightIds=linkedIndices.filter(n=>typeof n==='string'&&n.startsWith('light-')).map(n=>Number(n.slice(6)));
-    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable,duplicable:importable,removable:importable,yawEditable,importReason,linkedIndices:linkedIndices.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:!importable,animated,class:p.raw[31],kind:'ordinary'};
+    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable,duplicable:importable,removable:importable,yawEditable,importReason,linkedIndices:linkedIndices.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:!importable,animated,class:p.raw[31],kind:'ordinary',...assemblies.get(p.index)};
   });
 }
 
@@ -27322,8 +27926,8 @@ function rebuildLinks(data,texture,changed,deleted) {
   return output;
 }
 
-function compileSceneryEdits(source,rows,{level,quality='LOW',donors=new Map()}={}) {
-  return compileScenery(source,rows,{level,quality,donors},true);
+function compileSceneryEdits(source,rows,{level,quality='LOW',donors=new Map(),assemblies=[]}={}) {
+  return compileScenery(source,rows,{level,quality,donors,assemblies},true);
 }
 
 // Validate placement-independent asset/reference limits before offering a ghost.
@@ -27332,9 +27936,10 @@ function validateSceneryImport(source,rows,options) {
   compileScenery(source,rows,options,false);
 }
 
-function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},withSpatial) {
-  const draft=validateSceneryRows(rows), original=createSceneryDraft(source.geometry,source.texture,level);
-  if (same(draft,original)) return {geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture),indices:Object.fromEntries(original.map(p=>[p.id,p.templateIndex]))};
+function compileScenery(source,rows,{level,quality='LOW',donors=new Map(),assemblies=[]}={},withSpatial) {
+  const draft=validateSceneryRows(rows), assemblyDraft=validateSceneryAssemblies(assemblies), original=createSceneryDraft(source.geometry,source.texture,level);
+  if (same(draft,original)&&!assemblyDraft.length) return {geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture),indices:Object.fromEntries(original.map(p=>[p.id,p.templateIndex])),assemblies:[]};
+  const memberIds=new Set(draft.map(r=>r.id));for(const command of assemblyDraft){if(memberIds.has(command.id))throw Error('Assembly and model identities must be distinct.');memberIds.add(command.id);}
   const info=inspectScenery(source.geometry,source.texture), byId=new Map(draft.map(p=>[p.id,p]));
   validateSceneryTransforms(original,draft,info);
   for (const p of original) {
@@ -27407,10 +28012,14 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   if (records.length>SCENERY_PLACEMENT_LIMIT) throw Error('Track exceeds the conservative authored placement editor limit (256).');
   data=transformSceneryAttachments(source.geometry,data,placements,original,draft);
   data=compileScriptedSceneryTransforms(source.geometry,data,placements,original,draft);
+  const assembled=compileSceneryAssemblies(source,assemblyDraft,{level,geometry:data,configurations,firstIndex:records.length});data=assembled.geometry;configurations=assembled.configurations;
+  for(const [id,index]of Object.entries(assembled.indices)){if(memberIds.has(id))throw Error('Assembly member identity conflicts with another model or assembly.');memberIds.add(id);indices[id]=index;changed.add(index);}records.push(...assembled.records);
+  if(records.length>SCENERY_PLACEMENT_LIMIT)throw Error('Track exceeds the conservative authored placement editor limit (256).');
   if (imported.size) {
     for(const [offset,bytes] of [[0xcc,uv],[0xd8,materials],[0x88,configurations],[0x1c,geometry]]) {const added=append(data,bytes);data=added.data;data.writeUInt32LE(added.offset,offset);}
     const models=Buffer.alloc(modelOffsets.length*4);modelOffsets.forEach((p,i)=>models.writeUInt32LE(p,i*4));const added=append(data,models);data=added.data;data.writeUInt32LE(added.offset,0x18);data.writeUInt16LE(modelOffsets.length,0x2c);
   }
+  else if(assemblyDraft.length){const added=append(data,configurations);data=added.data;data.writeUInt32LE(added.offset,0x88);}
   const bytes=Buffer.alloc(records.length*56); records.forEach((raw,i)=>bytes.set(raw,i*56));const added=append(texture,bytes);texture=added.data;texture.writeUInt32LE(added.offset,0x28);texture.writeUInt32LE(records.length,0x14);
   // Remove deleted references before parsing the new placement table: tombstones
   // retain indices of every special/linked original object and dispatch as skip
@@ -27419,7 +28028,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   if(withSpatial&&(changed.size||deleted.size))data=rebuildSceneryLinks(data,texture,changed,deleted);
   const parsed=parsePlacements(texture,parseGFXM(data).models);
   if(withSpatial)parseStaticModelLinks(data,parseSpatialIndex(data),parsed);
-  return {geometry:data,texture,indices};
+  return {geometry:data,texture,indices,assemblies:assembled.assemblies};
 }
 
 function rebuildSceneryLinks(data,texture,changed,deleted) {
@@ -27689,6 +28298,147 @@ function compileScriptedSceneryTransforms(source,data,placements,original,draft,
 
 Object.assign(module.exports, {scriptedSceneryKind,inspectSceneryScript,inspectScriptedScenery,scriptedSceneryPreview,buildScriptedEditorMeshes,compileScriptedSceneryTransforms});
 },
+"src/scenery-assemblies.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {inspectSceneryAssemblies,validateSceneryAssemblies,instantiateSceneryAssembly,compileSceneryAssemblies});
+const {parseGFXM} = require("src/gfxm.mjs");
+const {parsePlacements} = require("src/placements.mjs");
+const {parseModelCollision,readPlacementCollision} = require("src/model-collision.mjs");
+const {sceneryLinkedIndices,sceneryAttachmentTargets,updateSceneryLightRanges} = require("src/scenery-transforms.mjs");
+const {placementMatrix,transformPlacedVertex} = require("src/fixed-math.mjs");
+
+const range=(data,p,n,label)=>{if(!Number.isSafeInteger(p)||p<0x120||!Number.isSafeInteger(n)||n<0||p+n>data.length)throw Error(`${label} exceeds resource bounds.`);};
+const short=(n,label)=>{if(!Number.isInteger(n)||n< -32768||n>32767)throw Error(`${label} exceeds signed 16-bit values.`);return n;};
+const word=(n,label)=>{if(!Number.isInteger(n)||n<0||n>65535)throw Error(`${label} exceeds unsigned 16-bit values.`);return n;};
+const append=(data,bytes)=>{const offset=(data.length+3)&~3;if(offset+bytes.length>128*1024*1024)throw Error('Edited resource exceeds the 128 MB resource limit.');const output=Buffer.alloc(offset+bytes.length);output.set(data);output.set(bytes,offset);return {geometry:output,offset};};
+const concat=parts=>{const output=Buffer.alloc(parts.reduce((sum,p)=>sum+p.length,0));let offset=0;for(const part of parts){output.set(part,offset);offset+=part.length;}return output;};
+const table=(data,a,b,stride,label)=>{const start=data.readUInt32LE(a),end=data.readUInt32LE(b);range(data,start,end-start,label);if((end-start)%stride)throw Error(`Unsupported ${label} extent.`);return Buffer.from(data.subarray(start,end));};
+const handles=p=>Array.from({length:5},(_,slot)=>({slot,handle:p.raw.readUInt16LE(46+slot*2)})).filter(h=>h.handle>>>12);
+const difference=(a,b)=>((a-b+2048)%4096+4096)%4096-2048;
+const moved=(point,from,to)=>transformPlacedVertex(point.map((n,i)=>n-from.position[i]),placementMatrix([0,difference(to.yaw,from.yaw),0]),[0,0,0]).map((n,i)=>short(Math.round(n)+to.position[i],'Assembly transform'));
+
+function context(geometry,texture,provided={}) {
+  const gfxm=provided.gfxm??parseGFXM(geometry),placements=provided.placements??parsePlacements(texture,gfxm.models),linked=provided.linked??sceneryLinkedIndices(placements),owners=new Map();
+  for(const p of placements.records.filter(p=>[0,24].includes(p.type)))for(const {handle}of handles(p)){const type=handle>>>12;if(![1,3,4].includes(type))continue;const key=`${type}:${handle&4095}`;if(!owners.has(key))owners.set(key,[]);owners.get(key).push(p.index);}
+  return {gfxm,placements,linked,owners};
+}
+
+function dependencyPlan(geometry,index,c) {
+  const pending=[index],members=new Set(),attachments=new Map();
+  while(pending.length){const n=pending.pop();if(members.has(n))continue;const p=c.placements.records[n];if(!p)throw Error('Assembly template is missing.');members.add(n);
+    for(const other of c.linked.get(n)??[n])if(!members.has(other))pending.push(other);
+    for(const {handle}of handles(p)){const type=handle>>>12,id=handle&4095;if([1,3,4].includes(type))for(const owner of c.owners.get(`${type}:${id}`)??[])if(!members.has(owner))pending.push(owner);}
+  }
+  const indices=[...members].sort((a,b)=>a-b),groups=new Set();let yawEditable=true;
+  for(const n of indices){const p=c.placements.records[n];
+    if(p.type!==0||p.flags!==0x400||![0,1,2,7].includes(p.raw[31]))throw Error('This assembly includes a scripted, moving, or unsupported object class.');
+    if(p.raw[38]||p.raw[39])throw Error('This assembly owns an unsupported scripted behavior.');
+    if(p.angles[0]||p.angles[2])yawEditable=false;
+    const group=p.raw.readUInt16LE(6);if(group!==65535){range(geometry,geometry.readUInt32LE(0x80)+group*16,16,'Assembly destruction configuration');groups.add(group);}
+    else if(p.raw[22])throw Error('Ungrouped assembly has inconsistent linkage metadata.');
+    const model=c.gfxm.models[p.modelIndex],collision=parseModelCollision(geometry,model);if(!collision.available)throw Error('Assembly collision representation is unsupported.');readPlacementCollision(geometry,p,collision);
+    let ended=false;for(let slot=0;slot<5;slot++){const type=p.raw.readUInt16LE(46+slot*2)>>>12;if(!type)ended=true;else if(ended)throw Error('Assembly has noncontiguous attachment handles.');}
+    sceneryAttachmentTargets(geometry,p);
+    for(const h of handles(p)){const type=h.handle>>>12,id=h.handle&4095;
+      if(![1,2,3,4].includes(type))throw Error('Script-trigger attachments cannot be duplicated.');
+      if(type===2){const point=model.offset+geometry.readUInt16LE(model.offset+0x4c)+h.slot*8;range(geometry,point,8,'Assembly local attachment point');range(geometry,geometry.readUInt32LE(0xd0)+geometry[point+7]*8,8,'Assembly local effect definition');}
+      else {const target=sceneryAttachmentTargets(geometry,p).find(t=>t.type===type&&t.id===id);if(type===1&&target.scripted)throw Error('Scripted light paths cannot be duplicated.');attachments.set(`${type}:${id}`,{type,id});}
+    }
+    for(const id of [p.raw[28],p.raw[29]])if(id){if(id>=geometry[0x79])throw Error('Assembly route blocker references a missing group.');range(geometry,geometry.readUInt32LE(0x8c)+id*12,12,'Assembly route blocker');}
+  }
+  if(!groups.size)throw Error('This object has no destruction or linkage group; use ordinary model duplication.');
+  return {memberIndices:indices,groupIds:[...groups].sort((a,b)=>a-b),attachments:[...attachments.values()],localEffectCount:indices.reduce((sum,n)=>sum+handles(c.placements.records[n]).filter(h=>h.handle>>>12===2).length,0),yawEditable};
+}
+
+// The ownership closure follows native +22 placement chains, not equal group
+// configuration IDs. World-space effects add all their owners to the closure.
+function inspectSceneryAssemblies(geometry,texture,provided={}) {
+  const c=context(geometry,texture,provided),result=new Map(),cache=new Map();
+  for(const p of c.placements.records.filter(p=>p.type===0&&(p.flags&0x400))){
+    try{let plan=cache.get(p.index);if(!plan){plan=dependencyPlan(geometry,p.index,c);for(const index of plan.memberIndices)cache.set(index,plan);}
+      result.set(p.index,{assemblyDuplicable:true,assemblyReason:'',assemblyMemberIndices:[...plan.memberIndices],assemblyYawEditable:plan.yawEditable,assemblyDependencyPlan:plan});
+    }catch(error){result.set(p.index,{assemblyDuplicable:false,assemblyReason:error.message,assemblyMemberIndices:[p.index],assemblyYawEditable:false});}
+  }
+  return result;
+}
+
+function validateSceneryAssemblies(commands=[]) {
+  if(!Array.isArray(commands)||commands.length>256)throw Error('Assembly draft exceeds the 256 command limit.');const ids=new Set();
+  return Array.from(commands,row=>{
+    if(!row||Object.keys(row).sort().join(',')!=='id,position,sourceLevel,templateIndex,yaw')throw Error('Invalid assembly fields.');
+    if(typeof row.id!=='string'||!/^[A-Za-z0-9_-]{1,55}$/.test(row.id)||row.id.startsWith('original-')||ids.has(row.id))throw Error('Invalid or duplicate assembly identity.');ids.add(row.id);
+    if(!Number.isInteger(row.sourceLevel)||row.sourceLevel<1||row.sourceLevel>20||!Number.isInteger(row.templateIndex)||row.templateIndex<0||row.templateIndex>65535)throw Error('Invalid assembly source reference.');
+    if(!Array.isArray(row.position)||row.position.length!==3)throw Error('Invalid assembly position.');return {...row,position:row.position.map(n=>short(n,'Assembly position')),yaw:short(row.yaw,'Assembly yaw')};
+  });
+}
+
+// Rows are a preview convenience, never additional project model rows. Saving
+// one command makes partial group deletion or incoherent member edits impossible.
+function instantiateSceneryAssembly(source,selectedIndex,{id,level,position,yaw}={}) {
+  const c=context(source.geometry,source.texture),plan=dependencyPlan(source.geometry,selectedIndex,c),selected=c.placements.records[selectedIndex],command=validateSceneryAssemblies([{id,sourceLevel:level,templateIndex:selectedIndex,position:position??selected.position,yaw:yaw??selected.angles[1]}])[0];
+  if(!plan.yawEditable&&difference(command.yaw,selected.angles[1]))throw Error('This tilted assembly supports translation only.');
+  const from={position:selected.position,yaw:selected.angles[1]},members=plan.memberIndices.map(index=>{const p=c.placements.records[index];return {id:`${id}-member-${index}`,sourceLevel:level,templateIndex:index,position:moved(p.position,from,command),yaw:short(p.angles[1]+difference(command.yaw,from.yaw),'Assembly member yaw')};});
+  return {command,members,dependencyPlan:plan};
+}
+
+// Internal compiler stage. Original models/UVs are immutable definitions; the
+// +194 shape states, authored emitters and light rows are independent copies.
+// 44ccbc resets chain ownership at +22=0. 44ee60 allocates every type2 particle
+// and rewrites its low12 handle bits from the track-local allocation counter.
+function compileSceneryAssemblies(source,commands,{level,geometry=source.geometry,configurations,firstIndex}={}) {
+  const validated=validateSceneryAssemblies(commands);if(!validated.length)return {geometry,configurations,records:[],indices:{},assemblies:[]};
+  let data=Buffer.from(geometry),configs=Buffer.from(configurations),groupTable=table(source.geometry,0x80,0x7c,16,'destruction group table'),lightTable=null,emitters=new Map();
+  const c=context(source.geometry,source.texture),records=[],indices=Object.create(null),assemblies=[],changedLights=new Map(),blockers=new Map();
+  const copyTable=(type)=>{const bytes=type===1?source.geometry.readUInt32LE(0x48)*32:table(source.geometry,type===3?0x108:0x10c,type===3?0xd0:0x108,12,'attachment emitter table').length,start=data.readUInt32LE(type===1?0x44:type===3?0x108:0x10c);range(data,start,bytes,'Current assembly attachment table');return Buffer.from(data.subarray(start,start+bytes));};
+  for(const command of validated){if(command.sourceLevel!==level)throw Error('Destructible assemblies support same-track duplication only.');const instance=instantiateSceneryAssembly(source,command.templateIndex,{...command,level}),groupMap=new Map(),attachmentMap=new Map(),sourceAnchor=c.placements.records[command.templateIndex],from={position:sourceAnchor.position,yaw:sourceAnchor.angles[1]};
+    for(const id of instance.dependencyPlan.groupIds){const start=source.geometry.readUInt32LE(0x80)+id*16;range(source.geometry,start,16,'Destruction group clone');const next=groupTable.length/16;if(next>=65535)throw Error('Destruction group configuration limit reached.');groupMap.set(id,next);groupTable=concat([groupTable,source.geometry.subarray(start,start+16)]);}
+    for(const attachment of instance.dependencyPlan.attachments){const {type,id}=attachment;let bytes=type===1?(lightTable??=copyTable(type)):(emitters.get(type)??copyTable(type)),stride=type===1?32:12,next=bytes.length/stride;if(next>=4096||(type===1&&next>=70))throw Error('Assembly attachment identity capacity reached (70 authored lights or 4096 emitter handles).');
+      const offset=source.geometry.readUInt32LE(type===1?0x44:type===3?0x108:0x10c)+id*stride;range(source.geometry,offset,stride,'Assembly attachment');const cloned=Buffer.from(source.geometry.subarray(offset,offset+stride)),p=type===1?6:0,position=moved([0,2,4].map(a=>cloned.readInt16LE(p+a)),from,command);position.forEach((n,i)=>cloned.writeInt16LE(n,p+i*2));bytes=concat([bytes,cloned]);if(type===1){lightTable=bytes;changedLights.set(next,position);}else emitters.set(type,bytes);attachmentMap.set(`${type}:${id}`,next);
+    }
+    const memberIndices=[];
+    for(const row of instance.members){const p=c.placements.records[row.templateIndex],raw=Buffer.from(p.raw),collision=parseModelCollision(source.geometry,c.gfxm.models[p.modelIndex]),settings=readPlacementCollision(source.geometry,p,collision);raw.writeUInt16LE(word(configs.length/4,'Assembly collision configuration index'),20);configs=concat([configs,...settings.configurations.map(s=>s.raw)]);
+      const group=raw.readUInt16LE(6);if(group!==65535)raw.writeUInt16LE(groupMap.get(group),6);
+      row.position.forEach((n,i)=>raw.writeInt16LE(n,8+i*2));raw.writeInt16LE(row.yaw,16);
+      for(const {slot,handle}of handles(p)){const type=handle>>>12,id=handle&4095;if(type!==2)raw.writeUInt16LE((type<<12)|attachmentMap.get(`${type}:${id}`),46+slot*2);}
+      const index=firstIndex+records.length;indices[row.id]=index;memberIndices.push(index);records.push(raw);for(const id of [raw[28],raw[29]])if(id)blockers.set(id,(blockers.get(id)??0)+1);
+    }
+    assemblies.push({id:command.id,memberIds:instance.members.map(r=>r.id),memberIndices,sourceMemberIndices:instance.dependencyPlan.memberIndices,groupMapping:Object.fromEntries(groupMap),attachmentMapping:Object.fromEntries(attachmentMap),localEffectCount:instance.dependencyPlan.localEffectCount});
+  }
+  const added=append(data,groupTable);data=added.geometry;data.writeUInt32LE(added.offset,0x80);
+  if(lightTable){const added=append(data,lightTable);data=added.geometry;data.writeUInt32LE(added.offset,0x44);data.writeUInt32LE(lightTable.length/32,0x48);data=updateSceneryLightRanges(data,changedLights);}
+  for(const [type,bytes]of emitters){const added=append(data,bytes);data=added.geometry;data.writeUInt32LE(added.offset,type===3?0x108:0x10c);}
+  for(const [id,count]of blockers){const address=data.readUInt32LE(0x8c)+id*12+3,next=data[address]+count;if(next>255)throw Error('Assembly route blocker count exceeds the native byte limit.');data[address]=next;}
+  // 48ab50 writes one20-byte runtime row per destructible polygon on each
+  // active chain tail. Allocate its full capacity away from neighboring data;
+  // the table has no serialized count field and is filled at runtime.
+  const all=[...c.placements.records.map(p=>p.raw),...records],tailCount=all.reduce((sum,raw)=>{if((raw.readUInt16LE(0)&1023)!==0||raw.readUInt16LE(6)===65535)return sum;const group=data.readUInt32LE(0x80)+raw.readUInt16LE(6)*16;if(!data[group+7])return sum;const model=c.gfxm.models[raw[3]],count=source.geometry[model.offset+0x27],base=raw.readUInt16LE(20)*4;return sum+Array.from({length:count},(_,i)=>configs[base+i*4+3]&15).filter(t=>t===4).length;},0);
+  const oldRegistry=data.readUInt32LE(0xec),oldRegistryEnd=source.geometry.readUInt32LE(0x10c),oldBytes=oldRegistryEnd>=oldRegistry?Buffer.from(data.subarray(oldRegistry,oldRegistryEnd)):Buffer.alloc(0),registry=Buffer.alloc(Math.max(oldBytes.length,tailCount*20));registry.set(oldBytes);const registryAdded=append(data,registry);data=registryAdded.geometry;data.writeUInt32LE(registryAdded.offset,0xec);
+  const localEffects=all.reduce((sum,raw)=>sum+((raw.readUInt16LE(0)&1023)===13?1:0)+([0,24].includes(raw.readUInt16LE(0)&1023)?Array.from({length:5},(_,i)=>raw.readUInt16LE(46+i*2)>>>12).filter(t=>t===2).length:0),0);if(localEffects>512)throw Error('Assembly local effects exceed the conservative 512-particle handle limit.');
+  if(all.filter(raw=>(raw.readUInt16LE(0)&1023)===0&&raw[31]===2).length>51)throw Error('Assembly class2 lights exceed the native 51-row light registry.');
+  return {geometry:data,configurations:configs,records,indices,assemblies};
+}
+
+Object.assign(module.exports, {inspectSceneryAssemblies,validateSceneryAssemblies,instantiateSceneryAssembly,compileSceneryAssemblies});
+},
+"src/scenery-assembly-preview.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {buildSceneryAssemblyPreview});
+const {instantiateSceneryAssembly} = require("src/scenery-assemblies.mjs");
+const {parseGFXM} = require("src/gfxm.mjs");
+const {parsePlacements} = require("src/placements.mjs");
+const {placementMatrix} = require("src/fixed-math.mjs");
+const {buildPlacedMeshes} = require("src/placed-meshes.mjs");
+const {parseBTP,decodeBTPTexture} = require("src/btp.mjs");
+const {buildSceneExport} = require("src/scene-export.mjs");
+
+// One local textured preview for the complete ownership closure. The selected
+// member is the origin and yaw0; the viewer applies its world transform once.
+function buildSceneryAssemblyPreview(source,selectedIndex) {
+  const gfxm=parseGFXM(source.geometry),placements=parsePlacements(source.texture,gfxm.models),baseline=instantiateSceneryAssembly(source,selectedIndex,{id:'assembly-preview',level:1,position:[0,0,0]}),worldOrientation=!baseline.dependencyPlan.yawEditable,instance=worldOrientation?baseline:instantiateSceneryAssembly(source,selectedIndex,{id:'assembly-preview',level:1,position:[0,0,0],yaw:0}),records=instance.members.map(row=>{const p=placements.records[row.templateIndex],angles=[...p.angles];angles[1]=row.yaw;return {...p,position:row.position,angles,matrix:placementMatrix(angles)};}),meshes=buildPlacedMeshes(source.geometry,gfxm,{records}),textures=new Map(),btp=parseBTP(source.texture);
+  for(const face of meshes.flatMap(m=>m.faces))if(!textures.has(face.page))textures.set(face.page,decodeBTPTexture(btp,face.page));
+  return {...buildSceneExport({segments:[]},textures,meshes),textures,meshes,instances:meshes.length,assembly:instance.dependencyPlan,worldOrientation};
+}
+
+Object.assign(module.exports, {buildSceneryAssemblyPreview});
+},
 "src/scenery-collision-info.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {summarizeSceneryCollision,inspectSceneryCollisions});
 const {parseGFXM} = require("src/gfxm.mjs");
@@ -27816,6 +28566,9 @@ const {SCENERY_LEVELS, validateSceneryRows, compileSceneryEdits, createSceneryDr
 const {validatePickupDraft, compilePickupEdits} = require("src/pickup-editor.mjs");
 const {compileTerrainEdits,emptyTerrainDraft} = require("src/terrain-editor.mjs");
 const {compileRaceLayoutEdits,emptyRaceLayoutDraft} = require("src/race-layout-editor.mjs");
+const {compileRaceRouteTopology} = require("src/race-route-topology.mjs");
+const {compileCheckpointTopology} = require("src/checkpoint-topology.mjs");
+const {speedPadPatterns} = require("src/speed-pad-patterns.mjs");
 
 const hash = value => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
 function fields(value,keys,label) {
@@ -27824,7 +28577,7 @@ function fields(value,keys,label) {
 function parseTrackProject(value) {
   const project=typeof value==='string'?JSON.parse(value):value;
   fields(project,['schemaVersion','game','indexSha256','sources','levels'],'track project');
-  if(![2,3,4].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
+  if(![2,3,4,5].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
   if(!Array.isArray(project.sources)||project.sources.length>SCENERY_LEVELS.length||!Array.isArray(project.levels)||project.levels.length>SCENERY_LEVELS.length) throw Error('Invalid project level list.');
   const seen=new Set(), sources=project.sources.map(source=>{
     fields(source,['level','hashes'],'source');
@@ -27835,7 +28588,7 @@ function parseTrackProject(value) {
   });
   seen.clear();
   const levels=project.levels.map(row=>{
-    fields(row,project.schemaVersion===4?['level','pickups','models','terrain','layout']:project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
+    fields(row,project.schemaVersion===5?['level','pickups','models','terrain','layout','routeTopology','checkpointTopology','assemblies']:project.schemaVersion===4?['level','pickups','models','terrain','layout']:project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
     if(!SCENERY_LEVELS.includes(row.level)||seen.has(row.level)||!sources.some(s=>s.level===row.level)) throw Error('Unsupported, duplicate or missing project source.');seen.add(row.level);
     // Template existence and locked objects are validated against original bytes
     // at compile time. Never accept raw patches or caller-supplied model bytes.
@@ -27843,13 +28596,14 @@ function parseTrackProject(value) {
     const models=validateSceneryRows(row.models);
     if(models.some(m=>!sources.some(s=>s.level===m.sourceLevel)))throw Error('Missing donor source hash.');
     let terrain;if(project.schemaVersion>=3){
-      fields(row.terrain,['heights','surfaces'],'terrain');
+      fields(row.terrain,project.schemaVersion===5&&row.terrain.patterns!==undefined?['heights','surfaces','patterns']:['heights','surfaces'],'terrain');
       if(!Array.isArray(row.terrain.heights)||!Array.isArray(row.terrain.surfaces)||row.terrain.heights.length>1000000||row.terrain.surfaces.length>1000000)throw Error('Invalid terrain edit list.');
       for(const r of row.terrain.heights){fields(r,['sector','vertex','height'],'height');if(Object.values(r).some(n=>!Number.isInteger(n))||r.sector<0||r.vertex<0||r.height< -32768||r.height>32767)throw Error('Invalid terrain height.');}
       for(const r of row.terrain.surfaces){fields(r,['sector','cell','sourceSector','sourceCell'],'surface');if(Object.values(r).some(n=>!Number.isInteger(n)||n<0))throw Error('Invalid surface edit.');}
+      if(row.terrain.patterns!==undefined){if(!Array.isArray(row.terrain.patterns)||row.terrain.patterns.length>100000)throw Error('Invalid arrow pattern list.');for(const r of row.terrain.patterns){fields(r,['sector','cell','sourceSector','sourceCell','rotation'],'arrow pattern');if(Object.values(r).some(n=>!Number.isInteger(n)||n<0)||r.rotation>3)throw Error('Invalid arrow pattern reference.');}}
       terrain=structuredClone(row.terrain);
     }
-    let layout;if(project.schemaVersion===4){
+    let layout;if(project.schemaVersion>=4){
       fields(row.layout,['routes','checkpoints','starts'],'race layout');
       const vector=v=>Array.isArray(v)&&v.length===3&&v.every(n=>Number.isInteger(n)&&n>=-32768&&n<=32767);
       for(const kind of ['routes','checkpoints','starts']){
@@ -27864,23 +28618,33 @@ function parseTrackProject(value) {
       }
       layout=structuredClone(row.layout);
     }
-    return {level:row.level,pickups:structuredClone(row.pickups),models,...(terrain?{terrain}:{}),...(layout?{layout}:{})};
+    let topology={};if(project.schemaVersion===5){
+      if(!row.routeTopology||!row.checkpointTopology||!Array.isArray(row.assemblies)||row.assemblies.length>255)throw Error('Invalid topology or assembly draft.');
+      if(row.layout.routes.length||row.layout.checkpoints.length)throw Error('Version 5 uses stable route/checkpoint topology, not duplicate sparse edits.');
+      const ids=new Set(models.map(m=>m.id));for(const a of row.assemblies){fields(a,['id','sourceLevel','templateIndex','position','yaw'],'assembly');if(ids.has(a.id)||typeof a.id!=='string'||!a.id||a.sourceLevel!==row.level||!Number.isInteger(a.templateIndex)||a.templateIndex<0||!Array.isArray(a.position)||a.position.length!==3||a.position.some(n=>!Number.isInteger(n)||n< -32768||n>32767)||!Number.isInteger(a.yaw)||a.yaw<0||a.yaw>4095)throw Error('Invalid assembly command.');ids.add(a.id);}
+      topology=structuredClone({routeTopology:row.routeTopology,checkpointTopology:row.checkpointTopology,assemblies:row.assemblies});
+    }
+    return {level:row.level,pickups:structuredClone(row.pickups),models,...(terrain?{terrain}:{}),...(layout?{layout}:{}),...topology};
   });
   return {schemaVersion:project.schemaVersion,game:'rollcage',indexSha256:project.indexSha256,sources,levels};
 }
 
-function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft(),layout=emptyRaceLayoutDraft()},donors) {
+function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft(),layout=emptyRaceLayoutDraft(),routeTopology,checkpointTopology,assemblies=[]},donors,{requireConnected=true}={}) {
   const result={};
+  const patterns=terrain.patterns?.length?speedPadPatterns(pair.LOW.originalGeometry??pair.LOW.geometry,pair.HIGH.originalGeometry??pair.HIGH.geometry):undefined;
   for(const quality of ['LOW','HIGH']) {
     validatePickupDraft(pair[quality].geometry,pickups);
-    const geometry=compileTerrainEdits(pair[quality].geometry,terrain);
-    const compiled=compileSceneryEdits({...pair[quality],geometry},models,{level,quality,donors});
-    result[quality]={...compiled,geometry:compileRaceLayoutEdits(compilePickupEdits(compiled.geometry,pickups),layout)};
+    const geometry=compileTerrainEdits(pair[quality].geometry,terrain,{originalGeometry:pair[quality].originalGeometry??pair[quality].geometry,patterns});
+    const compiled=compileSceneryEdits({...pair[quality],geometry},models,{level,quality,donors,assemblies});
+    let data=compileRaceLayoutEdits(compilePickupEdits(compiled.geometry,pickups),layout);
+    if(routeTopology)data=compileRaceRouteTopology(data,routeTopology,{requireConnected}).data;
+    if(checkpointTopology)data=compileCheckpointTopology(data,checkpointTopology,{level}).data;
+    result[quality]={...compiled,geometry:data};
   }
   return result;
 }
 
-function validateTrackProject(value,{indexSha256,sources,hashes}) {
+function validateTrackProject(value,{indexSha256,sources,hashes,requireConnected=false}) {
   const project=parseTrackProject(value);
   if(project.indexSha256!==indexSha256)throw Error('Project archive index hash mismatch.');
   for(const source of project.sources)for(const quality of ['LOW','HIGH'])for(const kind of ['geometry','texture'])if(source.hashes[quality][kind]!==hashes.get(source.level)?.[quality]?.[kind])throw Error('Project source geometry/texture hash mismatch.');
@@ -27895,7 +28659,7 @@ function validateTrackProject(value,{indexSha256,sources,hashes}) {
       const isOriginal=p=>p.sourceLevel===row.level&&p.id===`original-${p.templateIndex}`;
       row.models=[...row.models.filter(isOriginal).sort((a,b)=>a.templateIndex-b.templateIndex),...row.models.filter(p=>!isOriginal(p))];
     }
-    compiled.set(row.level,compileTrackDraft(pair,row,sources));
+    compiled.set(row.level,compileTrackDraft(pair,row,sources,{requireConnected}));
   }
   return {project,compiled};
 }

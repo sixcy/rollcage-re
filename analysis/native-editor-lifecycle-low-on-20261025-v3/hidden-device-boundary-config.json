@@ -1,0 +1,179 @@
+{
+  "schemaVersion": 1,
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 15000,
+  "maxEvents": 100000,
+  "maxSnapshots": 20,
+  "showWindow": false,
+  "ranges": [
+    {
+      "id": "gravity",
+      "length": 4,
+      "rva": "0x1eb5e0"
+    },
+    {
+      "id": "clock",
+      "length": 4,
+      "rva": "0x50a548"
+    }
+  ],
+  "breakpoints": [
+    {
+      "id": "launcher-policy",
+      "rva": "0x42890",
+      "ranges": [
+        {
+          "id": "launcher-skip",
+          "rva": "0x2e66ec",
+          "length": 4
+        },
+        {
+          "id": "launcher-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "graphics-policy",
+      "rva": "0x35be",
+      "ranges": [
+        {
+          "id": "graphics-mode",
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28
+        }
+      ]
+    },
+    {
+      "id": "before-device-creation",
+      "rva": "0x112a30",
+      "stopAfterHits": 1,
+      "ranges": [
+        {
+          "id": "presentation",
+          "baseRegister": "ecx",
+          "offset": "0x378",
+          "length": 56
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    }
+  ],
+  "phaseActions": [
+    {
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e66ec",
+          "bytesHex": "01000000",
+          "expectedAnyBytesHex": [
+            "00000000",
+            "01000000"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xa",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xe",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x3c",
+          "bytesHex": "00",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "writes": [
+        {
+          "baseRegister": "ecx",
+          "offset": "0x398",
+          "bytesHex": "01000000",
+          "expectedBytesHex": "01000000"
+        },
+        {
+          "baseRegister": "ecx",
+          "offset": "0x3a8",
+          "bytesHex": "00000000",
+          "expectedBytesHex": "00000000"
+        }
+      ]
+    }
+  ],
+  "denyPlayerMailslot": true,
+  "hideOwnedWindows": true,
+  "foregroundWindowSource": {
+    "id": "owned-application-hwnd",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0"
+    ],
+    "offset": "4",
+    "length": 4
+  },
+  "captureThreadsOnStop": true,
+  "stopThreadStackBytes": 128,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v3\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v3\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v3\\hidden-device-boundary-capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v3\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v3\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v3\\temp"
+}

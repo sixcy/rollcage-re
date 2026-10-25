@@ -1,0 +1,492 @@
+{
+  "schemaVersion": 1,
+  "arguments": [
+    "/windowed",
+    "/width",
+    "800",
+    "/height",
+    "600"
+  ],
+  "expectedSha256": "c0582271862ec373f00d01545c2a95aef0abb10a32513ec585271d08b10c6cf5",
+  "denyRegistryWrites": true,
+  "denyChildProcesses": true,
+  "maxDurationMs": 45000,
+  "maxEvents": 100000,
+  "maxSnapshots": 500,
+  "showWindow": false,
+  "ranges": [
+    {
+      "id": "gravity",
+      "length": 4,
+      "rva": "0x1eb5e0"
+    },
+    {
+      "id": "clock",
+      "length": 4,
+      "rva": "0x50a548"
+    }
+  ],
+  "breakpoints": [
+    {
+      "id": "launcher-policy",
+      "rva": "0x42890",
+      "ranges": [
+        {
+          "id": "launcher-skip",
+          "rva": "0x2e66ec",
+          "length": 4
+        },
+        {
+          "id": "launcher-config",
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x42c",
+          "length": 10
+        }
+      ]
+    },
+    {
+      "id": "graphics-policy",
+      "rva": "0x35be",
+      "ranges": [
+        {
+          "id": "graphics-mode",
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x24",
+          "length": 28
+        }
+      ]
+    },
+    {
+      "id": "before-device-creation",
+      "rva": "0x112a30",
+      "stopAfterHits": 0,
+      "ranges": [
+        {
+          "id": "presentation",
+          "baseRegister": "ecx",
+          "offset": "0x378",
+          "length": 56
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    },
+    {
+      "id": "frontend-race-launch",
+      "rva": "0x3dfe0",
+      "ranges": [
+        {
+          "id": "config-selection",
+          "rva": "0x1ecefc",
+          "length": 16,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10"
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "rva": "0x1ecb1c",
+          "length": 48,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0"
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "game-rng",
+          "rva": "0x1ec958",
+          "length": 4
+        },
+        {
+          "id": "frontend-rng",
+          "rva": "0x2e6624",
+          "length": 4
+        },
+        {
+          "id": "entry-stack",
+          "baseRegister": "esp",
+          "length": 32
+        }
+      ]
+    },
+    {
+      "id": "session-construction-entry",
+      "rva": "0x3e280",
+      "ranges": [
+        {
+          "id": "config-selection",
+          "rva": "0x1ecefc",
+          "length": 16,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10"
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "rva": "0x1ecb1c",
+          "length": 48,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0"
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "game-rng",
+          "rva": "0x1ec958",
+          "length": 4
+        },
+        {
+          "id": "frontend-rng",
+          "rva": "0x2e6624",
+          "length": 4
+        }
+      ]
+    },
+    {
+      "id": "race-gravity-entry",
+      "rva": "0x412c0",
+      "ranges": [
+        {
+          "id": "config-selection",
+          "rva": "0x1ecefc",
+          "length": 16,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10"
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "rva": "0x1ecb1c",
+          "length": 48,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0"
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "game-rng",
+          "rva": "0x1ec958",
+          "length": 4
+        },
+        {
+          "id": "frontend-rng",
+          "rva": "0x2e6624",
+          "length": 4
+        }
+      ]
+    },
+    {
+      "id": "race-startup-entry",
+      "rva": "0x7ea40",
+      "ranges": [
+        {
+          "id": "config-selection",
+          "rva": "0x1ecefc",
+          "length": 16,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10"
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "rva": "0x1ecb1c",
+          "length": 48,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0"
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "game-rng",
+          "rva": "0x1ec958",
+          "length": 4
+        },
+        {
+          "id": "frontend-rng",
+          "rva": "0x2e6624",
+          "length": 4
+        }
+      ]
+    },
+    {
+      "id": "race-update-entry",
+      "rva": "0x50e50",
+      "ranges": [
+        {
+          "id": "config-selection",
+          "rva": "0x1ecefc",
+          "length": 16,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10"
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "rva": "0x1ecb1c",
+          "length": 48,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0"
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "game-rng",
+          "rva": "0x1ec958",
+          "length": 4
+        },
+        {
+          "id": "frontend-rng",
+          "rva": "0x2e6624",
+          "length": 4
+        },
+        {
+          "id": "racer-records",
+          "rva": "0x509300",
+          "length": 780
+        }
+      ]
+    },
+    {
+      "id": "physics-frame-entry",
+      "rva": "0x749e0",
+      "stopAfterHits": 1,
+      "ranges": [
+        {
+          "id": "config-selection",
+          "rva": "0x1ecefc",
+          "length": 16,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x10"
+        },
+        {
+          "id": "session-settings",
+          "rva": "0x1ecb1c",
+          "length": 208,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x54d"
+        },
+        {
+          "id": "participant-modes-and-types",
+          "rva": "0x1ecb1c",
+          "length": 48,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0"
+        },
+        {
+          "id": "track-filename",
+          "rva": "0x2e6660",
+          "length": 64
+        },
+        {
+          "id": "game-rng",
+          "rva": "0x1ec958",
+          "length": 4
+        },
+        {
+          "id": "frontend-rng",
+          "rva": "0x2e6624",
+          "length": 4
+        },
+        {
+          "id": "racer-records",
+          "rva": "0x509300",
+          "length": 780
+        },
+        {
+          "id": "body0",
+          "rva": "0x509300",
+          "length": 15992,
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x0"
+        }
+      ]
+    }
+  ],
+  "phaseActions": [
+    {
+      "breakpointId": "launcher-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e66ec",
+          "bytesHex": "01000000",
+          "expectedAnyBytesHex": [
+            "00000000",
+            "01000000"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xa",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        },
+        {
+          "rva": "0x1ecefc",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0xe",
+          "bytesHex": "01",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "graphics-policy",
+      "hit": 1,
+      "writes": [
+        {
+          "rva": "0x2e64a4",
+          "dereferenceOffsets": [
+            "0"
+          ],
+          "offset": "0x3c",
+          "bytesHex": "00",
+          "expectedAnyBytesHex": [
+            "00",
+            "01"
+          ]
+        }
+      ]
+    },
+    {
+      "breakpointId": "before-device-creation",
+      "hit": 1,
+      "writes": [
+        {
+          "baseRegister": "ecx",
+          "offset": "0x398",
+          "bytesHex": "01000000",
+          "expectedBytesHex": "01000000"
+        },
+        {
+          "baseRegister": "ecx",
+          "offset": "0x3a8",
+          "bytesHex": "00000000",
+          "expectedBytesHex": "00000000"
+        }
+      ]
+    }
+  ],
+  "denyPlayerMailslot": true,
+  "hideOwnedWindows": true,
+  "foregroundWindowSource": {
+    "id": "owned-application-hwnd",
+    "rva": "0x2efb38",
+    "dereferenceOffsets": [
+      "0"
+    ],
+    "offset": "4",
+    "length": 4
+  },
+  "captureThreadsOnStop": true,
+  "stopThreadStackBytes": 128,
+  "executablePath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v1\\installation\\Direct3D\\Rollcage Redux.exe",
+  "workingDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v1\\installation\\Direct3D",
+  "outputDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v1\\hidden-idle-capture",
+  "redirectedDocumentsPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v1\\documents",
+  "redirectedShellFolderPath": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v1\\documents",
+  "temporaryDirectory": "C:\\Users\\Cyril\\Documents\\Rollcage RE\\analysis\\native-editor-lifecycle-low-on-20261025-v1\\temp"
+}

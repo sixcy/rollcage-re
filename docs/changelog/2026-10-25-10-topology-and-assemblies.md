@@ -1,0 +1,10 @@
+# Routes, checkpoints, assemblies and complete arrows
+
+- Route points: clone an existing group, insert before/after a point and explicitly connect either outgoing slot. Cloned groups show their missing entry/exit connections; unfinished drafts can be saved, while Test changes and game export require valid connections.
+- Route speeds: readable native thresholds, a separate Full throttle target and advanced raw bytes. Minimum is an AI candidate threshold; target controls throttle/braking and is not a hard speed cap.
+- Checkpoints: add/remove logical checkpoints, choose finish and toggle timing feedback independently. Finish rotation changes starting-grid heading; the slot positions remain. At least two checkpoints are required. LEV12/13 keep topology locked because native code hardcodes checkpoint stages; their plane transforms and timing flags remain editable.
+- Scenery: supported same-track destructible assemblies can be duplicated as a complete linked group, including LEV1 original-31 / original-32. Placement previews all parts and one undo removes the copy. Unsupported scripted dependencies remain locked.
+- Surfaces: choose Single tiles / brush or Complete speed-pad arrows. Original mirrored arrow patterns support 90° rotations and one atomic placement, with UV corners corrected for the destination terrain. Tracks without a recognized original arrow have no pattern palette.
+- Version 5 projects retain stable route/checkpoint identities, assembly commands and arrow references. Earlier project versions remain readable. Changes compile to LOW and HIGH together.
+
+Validation covers all 40 track resources and browser editing/save/load/export workflows. Original-game LEV1 LOW/HIGH checks confirm rebuilt data and separate assembly construction; LOW runtime checks confirm finish/lap advancement with timing markers off/on, added-arrow acceleration, independent clone damage and attachment cleanup. This is selected compatibility evidence; Racing test and track editing remain experimental.

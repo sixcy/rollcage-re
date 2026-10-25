@@ -1,6 +1,7 @@
 import {parseScene} from './scene.mjs';
 import {parseCollisionGrid} from './collision-grid.mjs';
 import {buildTerrainCandidates} from './terrain-candidates.mjs';
+import {compileSpeedPadPatterns,speedPadPatterns} from './speed-pad-patterns.mjs';
 
 export const emptyTerrainDraft=()=>({heights:[],surfaces:[]});
 const key=(s,v)=>`${s}:${v}`;
@@ -37,7 +38,7 @@ export function inspectTerrain(data) {
 }
 
 export function validateTerrainDraft(data,draft=emptyTerrainDraft(),info=inspectTerrain(data)) {
-  if(!fields(draft,['heights','surfaces'])||!Array.isArray(draft.heights)||!Array.isArray(draft.surfaces))throw Error('Invalid terrain draft.');
+  if((!fields(draft,['heights','surfaces'])&&!fields(draft,['heights','surfaces','patterns']))||!Array.isArray(draft.heights)||!Array.isArray(draft.surfaces)||draft.patterns!==undefined&&!Array.isArray(draft.patterns))throw Error('Invalid terrain draft.');
   const heights=[],surfaces=[],seen=new Set(),sourceSeen=new Map();
   for(const row of draft.heights){
     if(!fields(row,['sector','vertex','height'])||!Number.isInteger(row.sector)||!Number.isInteger(row.vertex)||!Number.isInteger(row.height)||row.height< -32768||row.height>32767)throw Error('Terrain height requires a valid vertex and signed 16-bit value.');
@@ -57,7 +58,7 @@ export function validateTerrainDraft(data,draft=emptyTerrainDraft(),info=inspect
     if(info.locked.has(row.sourceSector)||(source.pageWord&~0x7f))throw Error('Animated or packed surface preset is unsupported.');
     surfaces.push({...row});
   }
-  return {heights:heights.sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:surfaces.sort((a,b)=>a.sector-b.sector||a.cell-b.cell)};
+  return {heights:heights.sort((a,b)=>a.sector-b.sector||a.vertex-b.vertex),surfaces:surfaces.sort((a,b)=>a.sector-b.sector||a.cell-b.cell),...(draft.patterns?{patterns:structuredClone(draft.patterns)}:{})};
 }
 
 function packedNormal(points,old) {
@@ -98,15 +99,16 @@ function extendHeightCoverage(data,grid,changed) {
   return data;
 }
 
-export function compileTerrainEdits(source,draft=emptyTerrainDraft(),{validateContacts=true}={}) {
+export function compileTerrainEdits(source,draft=emptyTerrainDraft(),{validateContacts=true,originalGeometry=source,patterns}={}) {
   if(fields(draft,['heights','surfaces'])&&Array.isArray(draft.heights)&&Array.isArray(draft.surfaces)&&!draft.heights.length&&!draft.surfaces.length)return Buffer.from(source);
   const info=inspectTerrain(source),checked=validateTerrainDraft(source,draft,info);
   const heights=checked.heights.filter(r=>info.vertices.get(key(r.sector,r.vertex)).position[1]!==r.height),surfaces=checked.surfaces.filter(r=>info.scene.segments[r.sector].faces[r.cell].textureRecord!==info.scene.segments[r.sourceSector].faces[r.sourceCell].textureRecord);
-  if(!heights.length&&!surfaces.length)return Buffer.from(source);
+  const finish=data=>compileSpeedPadPatterns(data,checked.patterns??[],{originalGeometry,patterns:patterns??speedPadPatterns(originalGeometry,originalGeometry),locked:info.locked});
+  if(!heights.length&&!surfaces.length)return finish(Buffer.from(source));
   let data=Buffer.from(source);const changed=new Map(),changedVertices=new Set();
   for(const row of heights){const v=info.vertices.get(key(row.sector,row.vertex));data.writeInt16LE(row.height,v.offset+2);changedVertices.add(v.offset);changed.set(row.sector,Math.max(changed.get(row.sector)??0,Math.abs(row.height-v.position[1])));}
   for(const row of surfaces){const sector=info.scene.segments[row.sector],preset=info.scene.segments[row.sourceSector].faces[row.sourceCell];data.writeUInt32LE(preset.textureRecord,sector.packetsOffset+row.cell*8+4);}
-  if(!heights.length)return data;
+  if(!heights.length)return finish(data);
   const grid=parseCollisionGrid(source);if(!grid.available)throw Error('Terrain height editing requires collision spatial data.');
   const edited=parseScene(data),normalWords=grid.normals.map(n=>n.packed),pairs=new Map(),touched=[];
   const pair=(a,b)=>{const id=`${a}:${b}`;if(pairs.has(id))return pairs.get(id);const index=normalWords.length;if(index+1>65534)throw Error('Terrain edit exceeds native normal-index capacity.');normalWords.push(a,b);pairs.set(id,index);return index;};
@@ -133,7 +135,7 @@ export function compileTerrainEdits(source,draft=emptyTerrainDraft(),{validateCo
     const body={flags:3,position:center.map((v,i)=>Math.round((v+normal[i]/8)*65536)),linearVelocity:normal.map(n=>-n*32768)},candidates=buildTerrainCandidates(result,body,{radiusQ8:64*256});
     if(candidates.candidates.length>=64||!candidates.candidates.some(v=>v.sector===sector&&v.row===c.row&&v.column===c.column))throw Error('Edited terrain cannot be reached safely within the native collision candidate limits. Reduce the edited area or height change.');
   }}
-  return data;
+  return finish(data);
 }
 
 export function terrainSurfacePresets(low,high) {

@@ -7,7 +7,9 @@ import {parseSpatialIndex} from './spatial-index.mjs';
 import {parseStaticModelLinks} from './model-links.mjs';
 import {sceneryLinkedIndices,sceneryAttachmentTargets,validateSceneryTransforms,transformSceneryAttachments} from './scenery-transforms.mjs';
 import {inspectScriptedScenery,scriptedSceneryPreview,compileScriptedSceneryTransforms} from './scripted-scenery-editor.mjs';
+import {inspectSceneryAssemblies,validateSceneryAssemblies,compileSceneryAssemblies} from './scenery-assemblies.mjs';
 export {applySceneryTransform} from './scenery-transforms.mjs';
+export {instantiateSceneryAssembly,validateSceneryAssemblies} from './scenery-assemblies.mjs';
 
 export const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1));
 // Leave half the recovered 512-body registry for vehicles, pickups and effects.
@@ -25,7 +27,7 @@ const join = (a,b) => {const out = Buffer.alloc(a.length+b.length); out.set(a); 
 // Existing special objects keep their authored behavior and identities. Import,
 // duplication and deletion remain narrower than original-object transforms.
 export function inspectScenery(data,texture) {
-  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models), linked=sceneryLinkedIndices(placements),scripted=inspectScriptedScenery(data,placements),adjacency=new Map(),attachmentOwners=new Map();
+  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models), linked=sceneryLinkedIndices(placements),assemblies=inspectSceneryAssemblies(data,texture,{gfxm,placements,linked}),scripted=inspectScriptedScenery(data,placements),adjacency=new Map(),attachmentOwners=new Map();
   for(const p of placements.records.filter(p=>p.type===0||p.type===24))for(let slot=0;slot<5;slot++){const handle=p.raw.readUInt16LE(46+slot*2),type=handle>>>12;if(!type)break;if([1,3,4].includes(type)){const key=`${type}:${handle&4095}`;if(!attachmentOwners.has(key))attachmentOwners.set(key,[]);attachmentOwners.get(key).push(p.index);}}
   for(const members of [...linked.values(),...scripted.linked.values(),...attachmentOwners.values()])for(const index of members){if(!adjacency.has(index))adjacency.set(index,new Set());for(const other of members)adjacency.get(index).add(other);}
   const connected=index=>{const queue=[index],found=new Set();while(queue.length){const n=queue.pop();if(found.has(n))continue;found.add(n);for(const other of adjacency.get(n)??[])queue.push(other);}return [...found].sort((a,b)=>typeof a==='number'&&typeof b==='number'?a-b:String(a).localeCompare(String(b)));};
@@ -64,7 +66,7 @@ export function inspectScenery(data,texture) {
     else if(packed)importReason='Packed texture mode cannot be duplicated or imported.';
     const importable=!importReason,linkedIndices=connected(p.index),scriptLinked=scripted.uses.some(use=>linkedIndices.includes(use.owner))||linkedIndices.some(index=>typeof index!=='number'),yawEditable=!p.angles[0]&&!p.angles[2]&&!scriptLinked;
     const sharedLightIds=linkedIndices.filter(n=>typeof n==='string'&&n.startsWith('light-')).map(n=>Number(n.slice(6)));
-    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable,duplicable:importable,removable:importable,yawEditable,importReason,linkedIndices:linkedIndices.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:!importable,animated,class:p.raw[31],kind:'ordinary'};
+    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable,duplicable:importable,removable:importable,yawEditable,importReason,linkedIndices:linkedIndices.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:!importable,animated,class:p.raw[31],kind:'ordinary',...assemblies.get(p.index)};
   });
 }
 
@@ -180,8 +182,8 @@ function rebuildLinks(data,texture,changed,deleted) {
   return output;
 }
 
-export function compileSceneryEdits(source,rows,{level,quality='LOW',donors=new Map()}={}) {
-  return compileScenery(source,rows,{level,quality,donors},true);
+export function compileSceneryEdits(source,rows,{level,quality='LOW',donors=new Map(),assemblies=[]}={}) {
+  return compileScenery(source,rows,{level,quality,donors,assemblies},true);
 }
 
 // Validate placement-independent asset/reference limits before offering a ghost.
@@ -190,9 +192,10 @@ export function validateSceneryImport(source,rows,options) {
   compileScenery(source,rows,options,false);
 }
 
-function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},withSpatial) {
-  const draft=validateSceneryRows(rows), original=createSceneryDraft(source.geometry,source.texture,level);
-  if (same(draft,original)) return {geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture),indices:Object.fromEntries(original.map(p=>[p.id,p.templateIndex]))};
+function compileScenery(source,rows,{level,quality='LOW',donors=new Map(),assemblies=[]}={},withSpatial) {
+  const draft=validateSceneryRows(rows), assemblyDraft=validateSceneryAssemblies(assemblies), original=createSceneryDraft(source.geometry,source.texture,level);
+  if (same(draft,original)&&!assemblyDraft.length) return {geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture),indices:Object.fromEntries(original.map(p=>[p.id,p.templateIndex])),assemblies:[]};
+  const memberIds=new Set(draft.map(r=>r.id));for(const command of assemblyDraft){if(memberIds.has(command.id))throw Error('Assembly and model identities must be distinct.');memberIds.add(command.id);}
   const info=inspectScenery(source.geometry,source.texture), byId=new Map(draft.map(p=>[p.id,p]));
   validateSceneryTransforms(original,draft,info);
   for (const p of original) {
@@ -265,10 +268,14 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   if (records.length>SCENERY_PLACEMENT_LIMIT) throw Error('Track exceeds the conservative authored placement editor limit (256).');
   data=transformSceneryAttachments(source.geometry,data,placements,original,draft);
   data=compileScriptedSceneryTransforms(source.geometry,data,placements,original,draft);
+  const assembled=compileSceneryAssemblies(source,assemblyDraft,{level,geometry:data,configurations,firstIndex:records.length});data=assembled.geometry;configurations=assembled.configurations;
+  for(const [id,index]of Object.entries(assembled.indices)){if(memberIds.has(id))throw Error('Assembly member identity conflicts with another model or assembly.');memberIds.add(id);indices[id]=index;changed.add(index);}records.push(...assembled.records);
+  if(records.length>SCENERY_PLACEMENT_LIMIT)throw Error('Track exceeds the conservative authored placement editor limit (256).');
   if (imported.size) {
     for(const [offset,bytes] of [[0xcc,uv],[0xd8,materials],[0x88,configurations],[0x1c,geometry]]) {const added=append(data,bytes);data=added.data;data.writeUInt32LE(added.offset,offset);}
     const models=Buffer.alloc(modelOffsets.length*4);modelOffsets.forEach((p,i)=>models.writeUInt32LE(p,i*4));const added=append(data,models);data=added.data;data.writeUInt32LE(added.offset,0x18);data.writeUInt16LE(modelOffsets.length,0x2c);
   }
+  else if(assemblyDraft.length){const added=append(data,configurations);data=added.data;data.writeUInt32LE(added.offset,0x88);}
   const bytes=Buffer.alloc(records.length*56); records.forEach((raw,i)=>bytes.set(raw,i*56));const added=append(texture,bytes);texture=added.data;texture.writeUInt32LE(added.offset,0x28);texture.writeUInt32LE(records.length,0x14);
   // Remove deleted references before parsing the new placement table: tombstones
   // retain indices of every special/linked original object and dispatch as skip
@@ -277,7 +284,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   if(withSpatial&&(changed.size||deleted.size))data=rebuildSceneryLinks(data,texture,changed,deleted);
   const parsed=parsePlacements(texture,parseGFXM(data).models);
   if(withSpatial)parseStaticModelLinks(data,parseSpatialIndex(data),parsed);
-  return {geometry:data,texture,indices};
+  return {geometry:data,texture,indices,assemblies:assembled.assemblies};
 }
 
 function rebuildSceneryLinks(data,texture,changed,deleted) {

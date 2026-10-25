@@ -1,6 +1,7 @@
 // Buffer operations required by the readers and recovered solo runtime.
 export class ByteBuffer extends Uint8Array {
   static isBuffer(value) { return value instanceof ByteBuffer; }
+  equals(other) { return other instanceof Uint8Array && this.length===other.length && this.every((value,index)=>value===other[index]); }
   static alloc(length, fill = 0) {
     if (!Number.isInteger(length) || length < 0) throw new RangeError('Invalid buffer length.');
     return new ByteBuffer(length).fill(fill);

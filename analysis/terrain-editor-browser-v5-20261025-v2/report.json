@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "case": "A real terrain click changes paired heights and collision compilation succeeds",
+      "pixel": [
+        710,
+        420
+      ],
+      "heights": 1
+    },
+    {
+      "case": "Undo/redo and cancelled strokes preserve committed terrain"
+    },
+    {
+      "case": "Surface thumbnails select complete native presets and a real click paints cells",
+      "surfaces": 2
+    },
+    {
+      "case": "Real browser ZIP has valid CRCs, unchanged IMG prefix and precisely the independently compiled LOW/HIGH resources",
+      "changed": [
+        30,
+        70
+      ]
+    },
+    {
+      "case": "Project v5 round-trips and Test changes starts a race from compiled terrain"
+    }
+  ],
+  "errors": [],
+  "scope": "Headless browser/source runtime. No original game launch."
+}

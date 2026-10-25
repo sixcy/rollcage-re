@@ -9,7 +9,7 @@ import {createHash} from 'node:crypto';
 import {RollcageArchive} from '../src/archive.mjs';
 import {parseIndex} from '../src/archive-index.mjs';
 import {validateTrackProject,compileTrackDraft} from '../src/track-editor-project.mjs';
-import {createSceneryDraft} from '../src/scenery-editor.mjs';
+import {createSceneryDraft,inspectScenery} from '../src/scenery-editor.mjs';
 import {readTrackZIP} from './lib/check-track-download.mjs';
 import {getGame} from '../src/track-games.mjs';
 import {Navigation} from './track-viewer/navigation.mjs';
@@ -34,7 +34,7 @@ try{
   const target=await page.locator('#track option').evaluateAll(options=>options.find(o=>o.textContent.endsWith('LOW / LEV10')).value);
   await page.selectOption('#track',target);await page.waitForFunction(()=>window.rollcageViewer.inspect().track==='LOW/LEV10.BLP'&&!window.rollcageViewer.inspect().loading);
   await selectViewerWorkspace(page,'editor','models');await page.locator('#models-enable').check();
-  const editableId=await page.locator('#models-selection option').evaluateAll(options=>options.find(o=>o.value&&!o.textContent.includes('locked')&&!o.textContent.includes('transform only')).value);
+  archive=await RollcageArchive.open(installation);const plainInfo={};for(const q of ['LOW','HIGH']){const t=getGame('rollcage').tracks.find(t=>t.name===`${q}/LEV10.BLP`);plainInfo[q]=inspectScenery((await archive.readResource(t.index)).data,(await archive.readResource(t.textureIndex)).data);}const plain=plainInfo.LOW.find(p=>[p,plainInfo.HIGH.find(h=>h.index===p.index)].every(p=>p?.removable&&p.duplicable&&p.yawEditable));assert.ok(plain);const editableId=`original-${plain.index}`;
   await page.selectOption('#models-selection',editableId);
   let state=await inspect(),original=state.editor.models;
   stage='move-yaw';
@@ -67,7 +67,7 @@ try{
   checks.push('Placeable-only filtering is opt-in, combines with search, retains eligible selection, hides locked models, handles empty libraries and persists across library changes');
   stage='cross-library';
   await page.selectOption('#model-library-entry',entry);assert.equal(await page.locator('#model-library-place').isDisabled(),false);await page.screenshot({path:path.join(output,'model-library.png'),fullPage:true});await click('model-library-place');
-  archive=await RollcageArchive.open(installation);const track=getGame('rollcage').tracks.find(t=>t.name==='LOW/LEV18.BLP');const source={geometry:(await archive.readResource(track.index)).data,texture:(await archive.readResource(track.textureIndex)).data},scene=getGame('rollcage').decodeTrack(source.geometry,source.texture);
+  archive??=await RollcageArchive.open(installation);const track=getGame('rollcage').tracks.find(t=>t.name==='LOW/LEV18.BLP');const source={geometry:(await archive.readResource(track.index)).data,texture:(await archive.readResource(track.textureIndex)).data},scene=getGame('rollcage').decodeTrack(source.geometry,source.texture);
   state=await inspect();const nav=new Navigation();nav.reset(scene.bounds);Object.assign(nav,{mode:state.mode,eye:state.eye,target:state.target,yaw:state.yaw,pitch:state.pitch,distance:state.distance});
   const box=await page.locator('#canvas').boundingBox(),rect={left:box.x,top:box.y,width:box.width,height:box.height};
   const candidates=Array.from({length:100},(_,i)=>[450+i%10*90,100+Math.floor(i/10)*85]).filter(([x,y])=>intersectTerrain(scene,cameraRay(nav,rect,x,y)));
@@ -95,7 +95,7 @@ try{
   await click('models-focus');point=await dragPoint();assert.ok(point);const beforeCancel=(await inspect()).editor;await page.mouse.move(...point);await page.mouse.down();await page.mouse.move(point[0]+5,point[1]+2,{steps:4});await page.keyboard.press('Escape');await page.mouse.up();await idle();state=await inspect();assert.deepEqual(state.editor.models,beforeCancel.models);assert.equal(state.editor.modelUndo,beforeCancel.modelUndo);checks.push('A real multi-move pointer drag commits one undo step; Escape rolls a drag back without changing history');
   stage='combined-project';
   await selectViewerWorkspace(page,'editor','pickups');await page.locator('#editor-enable').check();assert.equal((await inspect()).editor.modelsEditing,false);const pickup=(await inspect()).editor.pickups[0];await page.selectOption('#editor-pickup',pickup.id);const px=Number(await page.locator('#editor-x').inputValue());await page.locator('#editor-x').fill(String(px+1));await page.locator('#editor-x').press('Tab');await idle();
-  const downloadPromise=page.waitForEvent('download');await click('editor-save');const download=await downloadPromise,projectPath=path.join(output,'track-project.json');await download.saveAs(projectPath);const project=JSON.parse(await readFile(projectPath,'utf8'));assert.equal(project.schemaVersion,4);assert.ok(project.levels.find(l=>l.level===18).models.some(m=>m.id===added.id));
+  const downloadPromise=page.waitForEvent('download');await click('editor-save');const download=await downloadPromise,projectPath=path.join(output,'track-project.json');await download.saveAs(projectPath);const project=JSON.parse(await readFile(projectPath,'utf8'));assert.equal(project.schemaVersion,5);assert.ok(project.levels.find(l=>l.level===18).models.some(m=>m.id===added.id));
   await selectViewerWorkspace(page,'editor','models');await page.locator('#models-enable').check();await click('models-reset');await selectViewerWorkspace(page,'editor');await page.locator('#editor-load').setInputFiles(projectPath);await idle();state=await inspect();assert.ok(state.editor.models.some(p=>p.id===added.id));assert.equal(state.editor.pickups[0].position[0],pickup.position[0]+1);checks.push('One project round-trips scenery, donor hashes and pickup edits without losing either feature');
   stage='bad-project';const invalid=structuredClone(project);invalid.sources[0].hashes.HIGH.texture='0'.repeat(64);const invalidPath=path.join(output,'wrong-source-project.json');await writeFile(invalidPath,JSON.stringify(invalid),{flag:'wx'});await selectViewerWorkspace(page,'editor');await page.locator('#editor-load').setInputFiles(invalidPath);await idle();assert.deepEqual((await inspect()).editor.models,state.editor.models);assert.match(await page.locator('#editor-error').textContent(),/hash mismatch/);await selectViewerWorkspace(page,'editor');await page.locator('#editor-load').setInputFiles(projectPath);await idle();checks.push('A wrong donor texture fingerprint rejects the entire project without changing the draft');
   stage='export';

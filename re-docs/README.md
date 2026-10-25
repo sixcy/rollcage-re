@@ -6,6 +6,7 @@ Start with [current reconstruction status](reconstruction-status.md). Historical
 | --- | --- |
 | Asset readers and other games | [Asset formats](asset-formats.md), [Stage II](stage2-formats.md), [Firebugs](firebugs-formats.md) |
 | Existing-track editor | [Implementation checklist](existing-track-editor-plan.md), [Race layout](race-layout-editor.md), [Special objects](special-scenery-editor.md), [Terrain and surfaces](terrain-editor.md), [Scenery/compiler](scenery-editor.md), [pickups](pickup-editor.md), [native pickup acceptance](pickup-editor-native-validation.md) |
+| Variable topology and assemblies | [Delivery checklist](editor-topology-delivery-plan.md), [Acceptance matrix](editor-topology-validation-matrix.md), [Routes](route-topology-editor.md), [Checkpoints](checkpoint-topology-editor.md), [Project v5 integration](editor-v5-integration-validation.md), [Assembly duplication](scenery-assembly-duplication.md), [Complete arrows](speed-pad-pattern-editor.md) |
 | Viewer and exports | [Object Viewer](object-viewer.md), [Racing test](solo-practice.md), [release history](../docs/changelog/index.html) |
 | Physics and native comparisons | [Acceptance ledger](physics-fidelity.md), [complete-update checkpoint](native-parent-final-tick-checkpoint.md), [capture operation](native-physics-capture.md) |
 | Collision and terrain | [Spatial/collision data](collision-data.md), [model collision](model-collision.md), [terrain deformation](track-deformation.md) |
