@@ -15,13 +15,13 @@ export async function buildPickupGameDownload(archive, replacements, project, op
     '4. Enable weapons/pickups when testing pickup changes. Edits apply to LOW and HIGH.', '',
     'To continue editing, reopen the same starting archives used for this project and load track-project.json.',
     'Keep those starting files with the project. The IMG/IDX in this ZIP contain the exported edits and form a new starting point.',
-    'This export contains pickup, supported scenery and terrain edits together.',
+    'This export contains terrain, surfaces, scenery, pickups and existing race-layout edits together.',
     'Scenery collision uses preserved native shapes and rebuilt conservative spatial candidate lists.',
-    'Scenery exports have parser/browser validation; original-process game compatibility is not yet established.',
+    'Selected LOW/HIGH scenery exports passed native move/yaw/add/delete initialization and actual added-model geometry contacts. See the viewer changelog for scope.',
     'Terrain height edits rebuild collision planes and conservative spatial coverage; surfaces copy complete native presets.',
-    'Terrain exports are experimental. Selected LEV1 LOW/HIGH wheel contacts and LEV16/17 loading are documented in the viewer changelog; this is not whole-track acceptance.',
+    'Terrain exports are experimental. Selected LEV1 LOW/HIGH wheel contacts and LEV16/17 loading are documented in the viewer changelog; this is not whole-track acceptance. Existing route relocation uses an editor-built fallback map, and checkpoint planes update their sector references.',
     'LEV16/17 editing is supported; AI Racing test is not verified on those levels.',
-    'Special/destructible/animated object editing and Blender import remain unsupported.', '',
+    'Existing special, scripted and particle objects support preserved-behavior transforms; rotation/copy/removal depend on the object. Blender import and new topology remain unsupported.', '',
     `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
   ].join('\n') : [
     'Rollcage pickup editor — local game export', '',

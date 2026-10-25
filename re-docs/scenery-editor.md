@@ -1,4 +1,6 @@
-# Static scenery editor
+# Scenery editor
+
+Updated 2026-10-25: [existing special-object transforms](special-scenery-editor.md) now preserve native constructor classes, linked chains and attachment positions. Transform capability is separate from duplication/import/removal. The earlier plain-model implementation and its retained evidence are documented below. [Race layout controls](race-layout-editor.md) share version-4 projects.
 
 The Track Viewer now has **Edit static models** alongside pickup editing.
 Both modes pause Racing test and keep Orbit/Fly-in camera navigation available.

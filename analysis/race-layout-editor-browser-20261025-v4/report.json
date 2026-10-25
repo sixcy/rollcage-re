@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "Route speed byte editing, undo and redo preserve original graph links and other drafts",
+    "A complete numeric coordinate edit moves an existing route across native cells and rebuilds fallback references",
+    "Checkpoint/start coordinates compile; out-of-area changes reject atomically",
+    "Cancelled pointer drag preserves committed positions and the Camera menu remains stable",
+    "Version-4 projects round-trip and real downloaded LOW/HIGH resources match independent compilation",
+    "Test changes starts a fresh reconstructed race using edited starts/routes/checkpoints; browser and Node snapshots match"
+  ],
+  "errors": [],
+  "scope": "Browser/source/export validation only; no original game launch."
+}

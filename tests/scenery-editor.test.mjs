@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {sceneryFixture} from './lib/scenery-fixture.mjs';
-import {createSceneryDraft, inspectScenery, compileSceneryEdits, validateSceneryRows, validateSceneryImport} from '../src/scenery-editor.mjs';
+import {createSceneryDraft, inspectScenery, compileSceneryEdits, validateSceneryRows, validateSceneryImport,applySceneryTransform} from '../src/scenery-editor.mjs';
 import {parseGFXM} from '../src/gfxm.mjs';
 import {parsePlacements} from '../src/placements.mjs';
 import {parseSpatialIndex} from '../src/spatial-index.mjs';
@@ -13,9 +13,9 @@ import {queryPlacedModelSphere} from '../src/placed-model-sphere-query.mjs';
 const placements=c=>parsePlacements(c.texture,parseGFXM(c.geometry).models);
 const links=c=>parseStaticModelLinks(c.geometry,parseSpatialIndex(c.geometry),placements(c));
 
-test('plain scenery eligibility locks destruction, groups, effects and animation',()=>{
-  const source=sceneryFixture();assert.deepEqual(inspectScenery(source.geometry,source.texture).map(p=>p.editable),[true,false]);
-  for(const change of [s=>s.texture.writeUInt16LE(0,0x506),s=>s.texture[0x500+46]=2,s=>s.texture.writeInt16LE(16,0x50e),s=>s.geometry.writeUInt16LE(0,0x1412),s=>s.geometry.writeUInt16LE(0x80,0x1416)]){const s=sceneryFixture();change(s);assert.equal(inspectScenery(s.geometry,s.texture)[0].editable,false);}
+test('transform capabilities are separate from plain scenery duplication/import eligibility',()=>{
+  const source=sceneryFixture(),info=inspectScenery(source.geometry,source.texture);assert.deepEqual(info.map(p=>p.editable),[true,true]);assert.deepEqual(info.map(p=>p.importable),[true,false]);
+  for(const change of [s=>s.texture.writeUInt16LE(0,0x506),s=>s.texture[0x500+46]=2,s=>s.texture.writeInt16LE(16,0x50e),s=>s.geometry.writeUInt16LE(0,0x1412),s=>s.geometry.writeUInt16LE(0x80,0x1416)]){const s=sceneryFixture();change(s);assert.equal(inspectScenery(s.geometry,s.texture)[0].importable,false);}
 });
 test('no edits preserve bytes; moving and rotating preserves model and locked placement',()=>{
   const source=sceneryFixture(),before=structuredClone(source),draft=createSceneryDraft(source.geometry,source.texture,1);
@@ -44,9 +44,9 @@ test('cross-library import preserves collision/LOD closure and remaps palette/te
   assert.deepEqual(decodeBTPTexture(btp,0).rgba,decodeBTPTexture(parseBTP(source.texture),0).rgba);assert.ok(links(c).nodes[0].placementIndices.includes(2));
 });
 test('locked edits, invalid donors, coordinates, identities and sparse rows are rejected',()=>{
-  const source=sceneryFixture(),original=createSceneryDraft(source.geometry,source.texture,1);
+  const source=sceneryFixture();source.texture[0x500+56+31]=99;const original=createSceneryDraft(source.geometry,source.texture,1);
   const changed=structuredClone(original);changed[1].position[0]++;assert.throws(()=>compileSceneryEdits(source,changed,{level:1}),/locked/);
-  assert.throws(()=>compileSceneryEdits(source,original.slice(0,1),{level:1}),/locked/);
+  assert.throws(()=>compileSceneryEdits(source,original.slice(0,1),{level:1}),/cannot be removed|locked/);
   for(const row of [{...original[0],position:[0,0,32768]},{...original[0],yaw:NaN},{...original[0],raw:[]},{...original[0],sourceLevel:21}])assert.throws(()=>validateSceneryRows([row]));
   assert.throws(()=>validateSceneryRows(new Array(1)));assert.throws(()=>validateSceneryRows([original[0],original[0]]),/duplicate/);
 });

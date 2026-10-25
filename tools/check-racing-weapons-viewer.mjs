@@ -1,3 +1,4 @@
+import {selectViewerWorkspace} from './lib/check-viewer-workspace.mjs';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {mkdir,writeFile} from 'node:fs/promises';
@@ -20,6 +21,7 @@ try{
   await page.locator('#image').setInputFiles(path.join(installation,'IDXData/Rollcage.img'));
   await page.locator('#index').setInputFiles(path.join(installation,'IDXData/Rollcage.idx'));
   await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='ready');
+  await selectViewerWorkspace(page,'racing');
   assert.equal(await page.locator('#practice-ai-count').inputValue(),'3');
   assert.equal((await page.evaluate(()=>window.rollcageViewer.inspect())).practice.cars.length,3);
   await page.locator('#practice-ai-count').press('End');

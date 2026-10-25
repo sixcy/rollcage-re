@@ -1,0 +1,85 @@
+{
+  "passed": true,
+  "checks": [
+    "Three different LEV3 models (27, 19, 29) are placed through actual terrain clicks, with Test changes and a running race after each addition",
+    "Undo, redo, delete and restoration each restart Racing test with the expected model count",
+    "The edited HIGH/LEV3 race completes 600 additional source-runtime steps without a buffer error"
+  ],
+  "races": [
+    {
+      "label": "race-after-model-27",
+      "models": 1,
+      "ticks": 31
+    },
+    {
+      "label": "race-after-model-19",
+      "models": 2,
+      "ticks": 31
+    },
+    {
+      "label": "race-after-model-29",
+      "models": 3,
+      "ticks": 31
+    },
+    {
+      "label": "undo-restart",
+      "models": 2,
+      "ticks": 31
+    },
+    {
+      "label": "redo-restart",
+      "models": 3,
+      "ticks": 31
+    },
+    {
+      "label": "delete-restart",
+      "models": 2,
+      "ticks": 31
+    },
+    {
+      "label": "restore-delete-restart",
+      "models": 3,
+      "ticks": 31
+    }
+  ],
+  "placed": [
+    {
+      "model": 27,
+      "position": [
+        -11106.41558661793,
+        612.6661848917502,
+        -2039.4941906306085
+      ],
+      "pixel": [
+        540,
+        335
+      ]
+    },
+    {
+      "model": 19,
+      "position": [
+        -7445.8422632770835,
+        857.7763248031624,
+        -3280.1392308903196
+      ],
+      "pixel": [
+        630,
+        335
+      ]
+    },
+    {
+      "model": 29,
+      "position": [
+        -4060.2982922144874,
+        604.0717251282913,
+        -5029.310174832823
+      ],
+      "pixel": [
+        720,
+        335
+      ]
+    }
+  ],
+  "errors": [],
+  "scope": "Headless Edge/source runtime with read-only installed archives; no original game process or full native physics parity claim."
+}

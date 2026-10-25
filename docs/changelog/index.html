@@ -1,4 +1,71 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track Viewer changelog</title><style>body{background:#0c121d;color:#e6edf7;font:15px/1.6 system-ui;max-width:900px;margin:32px auto;padding:20px}a{color:#91dce4}article{border-top:1px solid #344457;padding:16px 0}.change{margin:5px 0}h2{font-size:21px}h3{font-size:16px}</style><a href="../track-viewer.html">← Track Viewer</a><h1>Track Viewer changelog</h1><article id="2026-10-25-05-native-terrain-acceptance"><h2>2026-10-25 · Native terrain checks and editor polish</h2>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Track Viewer changelog</title><style>body{background:#0c121d;color:#e6edf7;font:15px/1.6 system-ui;max-width:900px;margin:32px auto;padding:20px}a{color:#91dce4}article{border-top:1px solid #344457;padding:16px 0}.change{margin:5px 0}h2{font-size:21px}h3{font-size:16px}</style><a href="../track-viewer.html">← Track Viewer</a><h1>Track Viewer changelog</h1><article id="2026-10-25-10-existing-editor-plan-complete"><h2>2026-10-25 · Existing-track editor delivery complete</h2>
+
+<h3>Available now</h3>
+<p class="change">• All 20 Rollcage levels have combined terrain, surface, pickup, existing race-layout and scenery/effect authoring workflows.</p>
+<p class="change">• Version-4 projects save these edits together and load older project versions without losing unchanged special objects.</p>
+<p class="change">• Camera controls remain stable while editing, linked drag previews reset correctly, and Focus synchronizes the camera menu.</p>
+<p class="change">• The implementation checklist and evidence matrix are linked from the research index.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Focused editor regressions, all forty LOW/HIGH source variants, wide route relocation and combined authoring checks pass.</p>
+<p class="change">• Browser checks cover real controls, old projects, archive export/reopen, all AI counts and selected special-object paths/lights.</p>
+<p class="change">• Six additional native LOW/HIGH cases passed: scenery move/yaw/add/delete initialization, real added-model contacts, and combined special-object/race-layout initialization with all six car spawns.</p>
+<p class="change">• Native initialization and selected contacts are bounded evidence. Complete destruction effects, every scripted trajectory, full-track behavior and continuous race parity remain unproved.</p>
+<p class="change">• Existing topology and graph counts stay authored; Blender imports and arbitrary new sectors remain future work. Special-object rotation/copy/removal depend on supported ownership rules. LEV16/17 AI racing remains disabled.</p>
+</article>
+<article id="2026-10-25-09-scripted-particles-native-scenery"><h2>2026-10-25 · Scripted scenery, effects and native collision acceptance</h2>
+
+<h3>Available now</h3>
+<p class="change">• Original scripted models translate with their full absolute paths and restart points; relative velocity, timing and action data stay intact.</p>
+<p class="change">• Original particle emitters and shared-light owners can move with their dependencies. The viewer shows scripted initial poses, selected paths and explicit capability limits.</p>
+<p class="change">• Version-4 projects include race layout and all original scenery/effect rows; older projects restore unchanged special rows in native order.</p>
+<p class="change">• Dragging a linked group back to its starting point now clears the preview transform immediately.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• All 3846 original dispatched records across forty LOW/HIGH variants are transformable in the checked corpus, with operation-specific and native capacity limits. Scripted objects support translation; copying/removal remain limited to compatible plain models.</p>
+<p class="change">• Native LOW/HIGH checks passed move/yaw/add/delete construction and exact relocated static links. Separate actual car queries hit an added solid model, matching independent geometry replay.</p>
+<p class="change">• Browser checks cover special-object history, linked parts, scripted paths, particle focus, shared lights, old projects and zero idle menu mutations.</p>
+<p class="change">• These are selected original-game cases, not full destruction, animation or continuous-race equivalence. Terrain validation remains documented in earlier entries.</p>
+</article>
+<article id="2026-10-25-08-route-relocation-checkpoint-planes"><h2>2026-10-25 · Wider route relocation and checkpoint planes</h2>
+
+<h3>Available now</h3>
+<p class="change">• Existing route points can move between supported terrain cells. The editor rebuilds route fallback references while preserving each original route group and collision-model lists.</p>
+<p class="change">• Checkpoints are edited as planes. Wire markers show their intersections with the road, and sector references follow supported intersections.</p>
+<p class="change">• Starting slots can move over supported terrain; their facing follows the authored checkpoint direction.</p>
+<p class="change">• Apply coordinates commits X, Height and Z together, avoiding invalid intermediate diagonal moves.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• All forty variants pass wider relocation checks, including 854 original checkpoint-plane checks and 30 sector reassignment cases.</p>
+<p class="change">• Separate combined checks cover terrain, surfaces, scenery, pickups and race layout together. The 36 racing variants run 90 reconstructed three-car Expert/weapon ticks.</p>
+<p class="change">• The fallback rebuild is an offline editor policy. Native point counts, graph links, checkpoint order and lap flags remain unchanged.</p>
+</article>
+<article id="2026-10-25-07-original-special-objects"><h2>2026-10-25 · Original special scenery transforms</h2>
+
+<h3>Available now</h3>
+<p class="change">• Existing ordinary destructible and attached objects can move while preserving their native class, configuration and opaque metadata.</p>
+<p class="change">• Linked destruction-chain parts move and rotate together; attached static lights and emitters follow the transform.</p>
+<p class="change">• The viewer distinguishes transform-only objects from plain models that can also be duplicated, imported or removed.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• Forty LOW/HIGH variants pass no-edit identity and representative special-class transform checks. Focused tests exercise linked groups, attachment ownership and native light range updates.</p>
+<p class="change">• Authored tilt supports translation; unsupported yaw operations are disabled. Shared attachments require a coherent transform of their owners.</p>
+<p class="change">• Scripted moving objects are being implemented separately. Native scenery initialization/contact acceptance remains in progress.</p>
+</article>
+<article id="2026-10-25-06-race-layout-controls"><h2>2026-10-25 · Existing race layout controls</h2>
+
+<h3>Available now</h3>
+<p class="change">• Track editor has Route points, Checkpoints and Starting grid tools with selectable wire markers and numeric controls.</p>
+<p class="change">• Existing positions, route speed bytes and checkpoint direction can be edited with undo/redo, focus, cancellation and paired LOW/HIGH validation.</p>
+<p class="change">• New version-4 projects save race layout together with terrain, surfaces, scenery and pickups. Earlier project versions remain readable.</p>
+
+<h3>Validation and limits</h3>
+<p class="change">• All forty source variants pass existing-record round trips and representative edits. Browser checks cover controls, project reload, export and edited race startup.</p>
+<p class="change">• Movement currently stays in the original native spatial cell/layer; checkpoints also stay in the original sector. Wider relocation is being investigated.</p>
+<p class="change">• Graph links, point counts, checkpoint order/progress and lap markers remain preserved. This does not add new racing paths.</p>
+<p class="change">• LEV16/17 editing includes their stored records; AI racing remains disabled pending separate verification.</p>
+</article>
+<article id="2026-10-25-05-native-terrain-acceptance"><h2>2026-10-25 · Native terrain checks and editor polish</h2>
 
 <h3>Available now</h3>
 <p class="change">• The updated viewer includes terrain heights and surface painting, with projects and game-file export on all 20 levels.</p>

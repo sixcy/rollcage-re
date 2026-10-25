@@ -1,3 +1,4 @@
+import {selectViewerWorkspace} from './check-viewer-workspace.mjs';
 import assert from 'node:assert/strict';
 import {writeFile} from 'node:fs/promises';
 import path from 'node:path';
@@ -6,6 +7,7 @@ import {createSession} from '../../src/solo-session.mjs';
 import {buildViewerBundle} from './track-viewer-bundle.mjs';
 
 export async function checkSoloPractice(page, installation) {
+  await selectViewerWorkspace(page,'racing');
   const inspect = () => page.evaluate(() => window.rollcageViewer.inspect());
   assert.equal(await page.locator('fieldset').filter({has: page.locator('#practice-start')}).locator('legend').textContent(), 'Racing test');
   assert.match(await page.locator('#racing-warning').textContent(), /Super experimental/);

@@ -1,3 +1,4 @@
+import {selectViewerWorkspace} from './lib/check-viewer-workspace.mjs';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import {mkdir, writeFile} from 'node:fs/promises';
@@ -23,6 +24,7 @@ try {
   const inspect = () => page.evaluate(() => window.rollcageViewer.inspect());
   const inspectAfterFrame = () => page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => resolve(window.rollcageViewer.inspect()))));
   await page.waitForFunction(() => window.rollcageViewer.inspect().practice?.state === 'ready');
+  await selectViewerWorkspace(page,'racing');
   await page.locator('#practice-weapons').uncheck();
   await page.waitForFunction(() => window.rollcageViewer.inspect().practice?.state === 'ready' && !window.rollcageViewer.inspect().practice?.weapons?.enabled);
   await page.locator('#practice-ai-count').press('End');

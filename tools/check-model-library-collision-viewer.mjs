@@ -1,3 +1,4 @@
+import {selectViewerWorkspace} from './lib/check-viewer-workspace.mjs';
 // Browser metadata checks only; installed archives stay read-only, no game launch.
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
@@ -17,7 +18,7 @@ async function track(name){
   const value=await page.locator('#track option').evaluateAll((os,n)=>os.find(o=>o.textContent.endsWith(n)).value,name);
   await page.selectOption('#track',value);
   await page.waitForFunction(n=>window.rollcageViewer.inspect().track===n+'.BLP'&&!window.rollcageViewer.inspect().loading,name.replaceAll(' / ','/'));
-  await idle();await page.locator('#models-enable').check();await page.locator('#models-add').click();await idle();
+  await idle();await selectViewerWorkspace(page,'editor','models');await page.locator('#models-enable').check();await page.locator('#models-add').click();await idle();
 }
 async function model(number){
   const value=await page.locator('#model-library-entry option').evaluateAll((os,n)=>os.find(o=>o.textContent.startsWith(`Model ${n} /`))?.value,number);

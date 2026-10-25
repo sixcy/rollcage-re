@@ -15,7 +15,7 @@ try{
  await page.goto(pathToFileURL(path.resolve('docs/track-viewer.html')).href);
  await page.locator('#image').setInputFiles(path.join(installation,'IDXData/Rollcage.img'));await page.locator('#index').setInputFiles(path.join(installation,'IDXData/Rollcage.idx'));await page.waitForFunction(()=>window.rollcageViewer.inspect().verified&&!window.rollcageViewer.inspect().loading);await idle();
  assert.equal((await inspect()).workspace,'explore');assert.equal(await page.locator('#racing-panel').isHidden(),true);assert.equal(await page.locator('#source-files').getAttribute('open'),null);
- await page.locator('#viewer-changelog').evaluate(el=>el.open=true);assert.match(await page.locator('#viewer-changelog').textContent(),/Terrain|terrain/);await page.locator('#viewer-changelog').evaluate(el=>el.open=false);
+ await page.locator('#viewer-changelog').evaluate(el=>el.open=true);assert.match(await page.locator('#viewer-changelog').textContent(),/\d{4}-\d{2}-\d{2}/);await page.locator('#viewer-changelog').evaluate(el=>el.open=false);
  stage='all-levels';await page.locator('#workspace-editor').click();
  const variants=[];for(const level of Array.from({length:20},(_,i)=>i+1))for(const quality of ['LOW','HIGH']){
   await track(`${quality}/LEV${level}`);const s=await inspect();assert.ok(s.editor.models.length,`${quality}/LEV${level}`);assert.equal(await page.locator('#editor-error').textContent(),'');variants.push(`${quality}/LEV${level}`);

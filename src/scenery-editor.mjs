@@ -5,6 +5,9 @@ import {readModelMaterials} from './model-materials.mjs';
 import {parseBTP} from './btp.mjs';
 import {parseSpatialIndex} from './spatial-index.mjs';
 import {parseStaticModelLinks} from './model-links.mjs';
+import {sceneryLinkedIndices,sceneryAttachmentTargets,validateSceneryTransforms,transformSceneryAttachments} from './scenery-transforms.mjs';
+import {inspectScriptedScenery,scriptedSceneryPreview,compileScriptedSceneryTransforms} from './scripted-scenery-editor.mjs';
+export {applySceneryTransform} from './scenery-transforms.mjs';
 
 export const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1));
 // Leave half the recovered 512-body registry for vehicles, pickups and effects.
@@ -18,29 +21,50 @@ const checkedWord = (n,label) => {if (!Number.isInteger(n) || n < 0 || n > 65535
 const append = (data,extra) => {const offset = Math.ceil(data.length/4)*4, out = Buffer.alloc(offset+extra.length); if (out.length > 128*1024*1024) throw Error('Edited resource exceeds the 128 MB resource limit.'); out.set(data); out.set(extra,offset); return {data:out,offset};};
 const join = (a,b) => {const out = Buffer.alloc(a.length+b.length); out.set(a); out.set(b,a.length); return out;};
 
-// 44c2b0 / 48ee80: class 7 with no group or attachments is the plain,
-// non-destructible constructor path. Class 0 alone does NOT mean static scenery.
+// 44c2b0 constructs ordinary classes through one position/quaternion producer.
+// Existing special objects keep their authored behavior and identities. Import,
+// duplication and deletion remain narrower than original-object transforms.
 export function inspectScenery(data,texture) {
-  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models);
-  return placements.records.filter(p => p.type === 0 && (p.flags & 0x400)).map(p => {
-    let reason = '';
+  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models), linked=sceneryLinkedIndices(placements),scripted=inspectScriptedScenery(data,placements),adjacency=new Map(),attachmentOwners=new Map();
+  for(const p of placements.records.filter(p=>p.type===0||p.type===24))for(let slot=0;slot<5;slot++){const handle=p.raw.readUInt16LE(46+slot*2),type=handle>>>12;if(!type)break;if([1,3,4].includes(type)){const key=`${type}:${handle&4095}`;if(!attachmentOwners.has(key))attachmentOwners.set(key,[]);attachmentOwners.get(key).push(p.index);}}
+  for(const members of [...linked.values(),...scripted.linked.values(),...attachmentOwners.values()])for(const index of members){if(!adjacency.has(index))adjacency.set(index,new Set());for(const other of members)adjacency.get(index).add(other);}
+  const connected=index=>{const queue=[index],found=new Set();while(queue.length){const n=queue.pop();if(found.has(n))continue;found.add(n);for(const other of adjacency.get(n)??[])queue.push(other);}return [...found].sort((a,b)=>typeof a==='number'&&typeof b==='number'?a-b:String(a).localeCompare(String(b)));};
+  return placements.records.filter(p => (p.type === 0 && (p.flags & 0x400))||[2,13,24].includes(p.type)).map(p => {
+    if(p.type===2||p.type===13)return {index:p.index,modelIndex:null,position:[...p.position],yaw:p.angles[1],editable:true,reason:'',importable:false,duplicable:false,removable:false,yawEditable:false,importReason:'Original particle emitters support translation only; preserve shared attachment numbering.',linkedIndices:[p.index],special:true,animated:false,class:null,kind:'particle',bodyType:p.type,preview:{modelIndex:null,position:[...p.position],angles:[...p.angles],uvStarts:null,bodyType:p.type},script:null};
+    if(p.type===24){
+      const info=scripted.rows.get(p.index),members=connected(p.index);let reason=info?.reason??'';
+      try{sceneryAttachmentTargets(data,p);}catch(error){reason=error.message;}
+      if(info?.modelIndex!==null&&!gfxm.models[info?.modelIndex])reason='Animated object references a missing model.';
+      const sharedLightIds=members.filter(n=>typeof n==='string'&&n.startsWith('light-')).map(n=>Number(n.slice(6)));
+      return {index:p.index,modelIndex:info?.modelIndex??null,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable:false,duplicable:false,removable:false,yawEditable:false,importReason:'Animated objects preserve original script ownership; duplication/import/removal is unsupported.',linkedIndices:members.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:true,animated:true,class:p.raw[31],kind:info?.kind??'animated',bodyType:info?.bodyType,preview:info?scriptedSceneryPreview(data,p,info):null,script:info?.script?{index:p.raw[38],spawn:p.raw[39],commands:info.script.commands.map(c=>({...c})),path:info.script.coordinates.map(o=>[0,4,8].map(a=>data.readInt32LE(o+a)/65536))}:null};
+    }
+    let reason = '',importReason='',animated=false,packed=false;
     try {
-      if (p.raw[31] !== 7) throw Error('Destructible or special object class; editing is locked.');
-      if (p.raw.readUInt16LE(6) !== 65535 || p.raw[22] || p.raw[23]) throw Error('Linked object group; editing is locked.');
-      if (p.flags !== 0x400 || p.raw[28] || p.raw[29] || p.raw[38] || p.raw.subarray(46).some(n => n)) throw Error('Attached effects or special flags; editing is locked.');
-      if (p.angles[0] || p.angles[2]) throw Error('Authored tilt requires an unsupported rotation path.');
+      if (![0,1,2,3,4,7].includes(p.raw[31])) throw Error('Unrecognized authored object class; editing is locked.');
+      if (p.flags !== 0x400) throw Error('Unsupported ordinary object flags; editing is locked.');
+      const group=p.raw.readUInt16LE(6);if(group!==65535){const base=data.readUInt32LE(0x80);if(base<0x120)throw Error('Destruction group table is unavailable.');range(data,base+group*16,16,'Destruction group configuration');}
+      sceneryAttachmentTargets(data,p);
       const model = gfxm.models[p.modelIndex], collision = parseModelCollision(data,model);
       if (!collision.available) throw Error('Collision representation is not supported for editing.');
       readPlacementCollision(data,p,collision);
       for (const [slot,part] of modelParts(data,model).entries()) {
         const materials = readModelMaterials(data,part,p.uvStarts[slot]);
-        if (materials.some(face => face.animation)) throw Error('Animated materials; editing is locked.');
+        if (materials.some(face => face.animation)) animated=true;
         // 44c2b0 also ORs bit 6 into texture packet words. Retain that
         // native marker; other packed effects need separate reconstruction.
-        if(materials.some(face=>face.pageWord&~0x7f))throw Error('Unsupported packed texture mode; editing is locked.');
+        if(materials.some(face=>face.pageWord&~0x7f))packed=true;
       }
     } catch (error) {reason = error.message;}
-    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason};
+    if(reason)importReason=reason;
+    else if(p.raw[31]!==7)importReason='Special or destructible objects can be transformed in place; duplication/import/removal is unsupported.';
+    else if(p.raw.readUInt16LE(6)!==65535||p.raw[22]||p.raw[23])importReason='Linked object metadata cannot be duplicated or imported.';
+    else if(p.raw[28]||p.raw[29]||p.raw[38]||p.raw.subarray(46).some(n=>n))importReason='Attached effects cannot be duplicated or imported.';
+    else if(p.angles[0]||p.angles[2])importReason='Authored tilt cannot be duplicated or imported.';
+    else if(animated)importReason='Animated materials cannot be duplicated or imported.';
+    else if(packed)importReason='Packed texture mode cannot be duplicated or imported.';
+    const importable=!importReason,linkedIndices=connected(p.index),scriptLinked=scripted.uses.some(use=>linkedIndices.includes(use.owner))||linkedIndices.some(index=>typeof index!=='number'),yawEditable=!p.angles[0]&&!p.angles[2]&&!scriptLinked;
+    const sharedLightIds=linkedIndices.filter(n=>typeof n==='string'&&n.startsWith('light-')).map(n=>Number(n.slice(6)));
+    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable,duplicable:importable,removable:importable,yawEditable,importReason,linkedIndices:linkedIndices.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:!importable,animated,class:p.raw[31],kind:'ordinary'};
   });
 }
 
@@ -170,6 +194,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   const draft=validateSceneryRows(rows), original=createSceneryDraft(source.geometry,source.texture,level);
   if (same(draft,original)) return {geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture),indices:Object.fromEntries(original.map(p=>[p.id,p.templateIndex]))};
   const info=inspectScenery(source.geometry,source.texture), byId=new Map(draft.map(p=>[p.id,p]));
+  validateSceneryTransforms(original,draft,info);
   for (const p of original) {
     const edited=byId.get(p.id);
     if (!info.find(i=>i.index===p.templateIndex).editable && !same(p,edited)) throw Error('A locked placement cannot be changed or removed.');
@@ -191,6 +216,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
     const donorModels=parseGFXM(donor.geometry), placement=parsePlacements(donor.texture,donorModels.models).records[row.templateIndex];
     const eligibility=inspectScenery(donor.geometry,donor.texture).find(p=>p.index===row.templateIndex);
     if (!eligibility?.editable) throw Error(eligibility?.reason??'Unsupported scenery template.');
+    if(!existing&&!eligibility.importable)throw Error(eligibility.importReason||'Special object cannot be duplicated or imported.');
     const raw=Buffer.from(placement.raw); let modelIndex=placement.modelIndex;
     if (row.sourceLevel!==level) {
       const key=`${row.sourceLevel}:${row.templateIndex}`;
@@ -234,9 +260,11 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
     }
     row.position.forEach((n,i)=>raw.writeInt16LE(n,8+i*2)); raw.writeInt16LE(row.yaw,16);
     const index=existing?existing.templateIndex:records.length; if (!existing) records.push(raw); else records[index]=raw;
-    changed.add(index); indices[row.id]=index;
+    if(placement.type===0)changed.add(index); indices[row.id]=index;
   }
   if (records.length>SCENERY_PLACEMENT_LIMIT) throw Error('Track exceeds the conservative authored placement editor limit (256).');
+  data=transformSceneryAttachments(source.geometry,data,placements,original,draft);
+  data=compileScriptedSceneryTransforms(source.geometry,data,placements,original,draft);
   if (imported.size) {
     for(const [offset,bytes] of [[0xcc,uv],[0xd8,materials],[0x88,configurations],[0x1c,geometry]]) {const added=append(data,bytes);data=added.data;data.writeUInt32LE(added.offset,offset);}
     const models=Buffer.alloc(modelOffsets.length*4);modelOffsets.forEach((p,i)=>models.writeUInt32LE(p,i*4));const added=append(data,models);data=added.data;data.writeUInt32LE(added.offset,0x18);data.writeUInt16LE(modelOffsets.length,0x2c);
@@ -246,7 +274,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   // retain indices of every special/linked original object and dispatch as skip
   // (>24) in 44c2b0. No unrelated authored reference is renumbered.
   // rebuildLinks reads original valid lists and filters tombstoned indices itself.
-  if(withSpatial)data=rebuildSceneryLinks(data,texture,changed,deleted);
+  if(withSpatial&&(changed.size||deleted.size))data=rebuildSceneryLinks(data,texture,changed,deleted);
   const parsed=parsePlacements(texture,parseGFXM(data).models);
   if(withSpatial)parseStaticModelLinks(data,parseSpatialIndex(data),parsed);
   return {geometry:data,texture,indices};

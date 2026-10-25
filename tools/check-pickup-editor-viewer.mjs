@@ -1,3 +1,4 @@
+import {selectViewerWorkspace} from './lib/check-viewer-workspace.mjs';
 //Headless DOM/source/export regression only. Uses installed Playwright/Edge;
 //the installed archives stay read-only and no original game is launched.
 import assert from 'node:assert/strict';
@@ -32,7 +33,7 @@ try {
   page.on('dialog',dialog=>dialog.accept());
   const inspect=()=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>resolve(window.rollcageViewer.inspect()))));
   const idle=()=>page.waitForFunction(()=>window.rollcageViewer.inspect().editor&&!window.rollcageViewer.inspect().editor.busy);
-  const click=async id=>{await page.locator(`#${id}`).click();await idle();};
+  const click=async id=>{if(id.startsWith('practice-'))await selectViewerWorkspace(page,'racing');else if(id.startsWith('editor-')||id.startsWith('models-'))await selectViewerWorkspace(page,'editor',id.startsWith('models-')?'models':undefined);await page.locator(`#${id}`).click();await idle();};
   const selectTrack=async name=>{
     await page.selectOption('#track',String(trackFor(name).index));
     await page.waitForFunction(name=>{const s=window.rollcageViewer.inspect();return s.track===name&&!s.loading&&s.editor?.level===Number(/LEV(\d+)/.exec(name)[1]);},name);
@@ -62,7 +63,7 @@ try {
   const low1=trackFor('LOW/LEV1.BLP'),high1=trackFor('HIGH/LEV1.BLP'),low2=trackFor('LOW/LEV2.BLP');
   const {data:base1}=await archive.readResource(low1.index),{data:texture1}=await archive.readResource(low1.textureIndex),scene1=getGame('rollcage').decodeTrack(base1,texture1),originalDraft=createPickupDraft(base1);
   assert.deepEqual((await inspect()).editor.pickups,originalDraft);assert.equal((await inspect()).editor.editing,false);
-  await page.locator('#editor-enable').check();await idle();assert.equal((await inspect()).mode,'orbit');
+  await selectViewerWorkspace(page,'editor','pickups');await page.locator('#editor-enable').check();await idle();assert.equal((await inspect()).mode,'orbit');
 
   stage='numeric-undo-redo-focus';await page.selectOption('#editor-pickup',originalDraft[0].id);
   for(const [i,axis]of ['x','y','z'].entries())assert.equal(Number(await page.locator(`#editor-${axis}`).inputValue()),sourceToDisplay(originalDraft[0].position)[i]);
@@ -107,18 +108,18 @@ try {
   const edited2=(await inspect()).editor.pickups,saved=await saveProject('pickup-project-first.json');
   assert.deepEqual(saved.project.levels.map(row=>row.level),[1,2]);
   assert.deepEqual(saved.project.levels[0].pickups,final1);assert.deepEqual(saved.project.levels[1].pickups,edited2);
-  await click('editor-reset-level');await page.locator('#editor-load').setInputFiles(saved.target);await idle();
+  await click('editor-reset-level');await selectViewerWorkspace(page,'editor');await page.locator('#editor-load').setInputFiles(saved.target);await idle();
   assert.deepEqual((await inspect()).editor.pickups,edited2);
   const invalid=structuredClone(saved.project);invalid.indexSha256='0'.repeat(64);
-  await page.locator('#editor-load').setInputFiles({name:'invalid-project.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(invalid))});await idle();
+  await selectViewerWorkspace(page,'editor');await page.locator('#editor-load').setInputFiles({name:'invalid-project.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(invalid))});await idle();
   assert.match(await page.locator('#editor-error').textContent(),/same starting files/);assert.deepEqual((await inspect()).editor.pickups,edited2);
-  await page.locator('#editor-load').setInputFiles(saved.target);await idle();assert.equal(await page.locator('#editor-error').textContent(),'');
+  await selectViewerWorkspace(page,'editor');await page.locator('#editor-load').setInputFiles(saved.target);await idle();assert.equal(await page.locator('#editor-error').textContent(),'');
   checks.push('LOW/HIGH shared draft, multiple levels, project save/load and atomic rejection');
 
   const {data:base2}=await archive.readResource(low2.index),{data:texture2}=await archive.readResource(low2.textureIndex);
   const comparePreview=async(track,data,textures,draft)=>{
     stage=`edited-source-preview-${track.name}`;await click('editor-test');
-    await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='running');await page.locator('#practice-start').click();
+    await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='running');await selectViewerWorkspace(page,'racing');await page.locator('#practice-start').click();
     const state=await inspect();assert.equal(state.editor.editing,false);assert.equal(state.practice.state,'paused');assert.equal(state.practice.weapons.enabled,true);assert.equal(state.practice.cars.length,3);
     session=createSession(compilePickupEdits(data,draft),textures,{vehicleTypes:[0,1,2],aiDifficulty:2,weaponsEnabled:true});
     const row={track:track.name,aiCars:3,manualFrames:700,batchSize:10,snapshotComparisons:0,startTick:state.practice.ticks,collections:0,respawns:0,inventoryAcquisitions:0,projectileActivations:0,pickupStateTransitions:[]};previewReports.push(row);
@@ -152,7 +153,7 @@ try {
   assert.ok(previewReports.some(row=>row.collections+row.respawns>0),'An edited enabled session must naturally collect or respawn a pickup within700frames; no item grants or vehicle repositioning are supplied.');
   checks.push('edited native resource source/Edge full snapshot parity through700manualframes in10framebatches, with natural pickup state transitions');
 
-  stage='mobile';await page.locator('#editor-enable').check();await idle();
+  stage='mobile';await selectViewerWorkspace(page,'editor','pickups');await page.locator('#editor-enable').check();await idle();
   await page.setViewportSize({width:390,height:844});await page.locator('#editor-controls').scrollIntoViewIfNeeded();
   assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));
   await page.screenshot({path:path.join(output,'pickup-editor-mobile.png'),fullPage:true});await page.setViewportSize({width:1440,height:1000});checks.push('responsive mobile editor');
@@ -178,10 +179,10 @@ try {
   checks.push('cancel export retains drafts; full ZIP independent CRC/nativeIDX/nativeGFXM validation');
 
   stage='fresh-project-reload';await page.reload();await page.locator('#image').setInputFiles(path.join(installation,'IDXData/Rollcage.img'));await page.locator('#index').setInputFiles(path.join(installation,'IDXData/Rollcage.idx'));
-  await page.waitForFunction(()=>window.rollcageViewer.inspect().editor?.available);await page.locator('#editor-load').setInputFiles(saved.target);await idle();
+  await page.waitForFunction(()=>window.rollcageViewer.inspect().editor?.available);await selectViewerWorkspace(page,'editor');await page.locator('#editor-load').setInputFiles(saved.target);await idle();
   assert.deepEqual((await inspect()).editor.pickups,final1);await selectTrack(low2.name);assert.deepEqual((await inspect()).editor.pickups,edited2);checks.push('fresh page/original archive/project reload');
   stage='excluded-track';await page.selectOption('#track',String(trackFor('LOW/LEV16.BLP').index));await page.waitForFunction(()=>window.rollcageViewer.inspect().track==='LOW/LEV16.BLP'&&!window.rollcageViewer.inspect().loading);
-  assert.equal((await inspect()).editor.available,false);assert.equal(await page.locator('#editor-enable').isDisabled(),true);
+  assert.equal((await inspect()).editor.available,true);assert.equal(await page.locator('#editor-enable').isDisabled(),false);assert.equal((await inspect()).practice,null);checks.push('LEV16 supports editing without enabling AI Racing test');
   assert.deepEqual(errors,[]);assert.deepEqual(requests,[]);
   const webglError=await page.evaluate(()=>document.getElementById('canvas').getContext('webgl').getError());assert.equal(webglError,0);
   assert.equal(hash(await readFile(path.join(installation,'IDXData/Rollcage.img'))),sourceHashes.image);assert.equal(hash(await readFile(path.join(installation,'IDXData/Rollcage.idx'))),sourceHashes.index);

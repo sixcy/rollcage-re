@@ -1,3 +1,4 @@
+import {selectViewerWorkspace} from './lib/check-viewer-workspace.mjs';
 // Genuine camera/menu regression after terrain placement; no native game launch.
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
@@ -23,9 +24,9 @@ try {
   await page.locator('#image').setInputFiles(path.join(installation, 'IDXData/Rollcage.img'));
   await page.locator('#index').setInputFiles(path.join(installation, 'IDXData/Rollcage.idx'));
   await page.waitForFunction(() => {const s = window.rollcageViewer.inspect(); return s.editor?.available && !s.loading;});
-  await page.locator('#practice-start').click();
+  await selectViewerWorkspace(page,'racing');await page.locator('#practice-start').click();
   await page.waitForFunction(() => window.rollcageViewer.inspect().practice.state === 'running');
-  await page.locator('#editor-enable').check();
+  await selectViewerWorkspace(page,'editor','pickups');await page.locator('#editor-enable').check();
   archive = await RollcageArchive.open(installation);
   const game = getGame('rollcage'), track = game.tracks.find(row => row.name === 'LOW/LEV1.BLP');
   const {data} = await archive.readResource(track.index), {data: texture} = await archive.readResource(track.textureIndex);

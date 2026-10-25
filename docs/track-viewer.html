@@ -22,46 +22,47 @@
 <main id="stage" aria-busy="false"><canvas id="canvas" tabindex="0" aria-label="Track view. Camera controls are described in the viewer panel."></canvas></main>
 <aside aria-label="Track viewer controls">
 <h1>Rollcage, Stage II &amp; Firebugs track viewer</h1>
-<details id="viewer-changelog"><summary>What’s new</summary><div class="note"><article><h2>2026-10-25 · Native terrain checks and editor polish</h2>
+<details id="viewer-changelog"><summary>What’s new</summary><div class="note"><article><h2>2026-10-25 · Existing-track editor delivery complete</h2>
 
 <h3>Available now</h3>
-<p class="change">• The updated viewer includes terrain heights and surface painting, with projects and game-file export on all 20 levels.</p>
-<p class="change">• Workspace tabs and editor actions remain accessible while scrolling; export help is collapsible.</p>
-<p class="change">• Project loading keeps the selected tool active. Surface thumbnails use original LOW textures even while editing HIGH.</p>
+<p class="change">• All 20 Rollcage levels have combined terrain, surface, pickup, existing race-layout and scenery/effect authoring workflows.</p>
+<p class="change">• Version-4 projects save these edits together and load older project versions without losing unchanged special objects.</p>
+<p class="change">• Camera controls remain stable while editing, linked drag previews reset correctly, and Focus synchronizes the camera menu.</p>
+<p class="change">• The implementation checklist and evidence matrix are linked from the research index.</p>
 
 <h3>Validation and limits</h3>
-<p class="change">• Original Rollcage Redux loaded edited LEV16 and LEV17 resources in both LOW and HIGH, confirmed by native loader names and matching in-memory terrain bytes.</p>
-<p class="change">• Separate LEV1 LOW/HIGH captures recorded actual wheel contact with an edited cell. The native point lies on the exported plane and the returned normal matches.</p>
-<p class="change">• Browser checks cover all 40 variants, terrain and surface clicks, undo/redo, cancellation, project reload and independently checked game-file ZIP contents.</p>
-<p class="change">• LEV16/17 AI Racing test remains disabled. Loading acceptance does not establish usable paths or AI races there.</p>
-<p class="change">• These are selected native cases. Full-track contacts, continuous races, all grip behavior and native scenery export remain unverified.</p>
+<p class="change">• Focused editor regressions, all forty LOW/HIGH source variants, wide route relocation and combined authoring checks pass.</p>
+<p class="change">• Browser checks cover real controls, old projects, archive export/reopen, all AI counts and selected special-object paths/lights.</p>
+<p class="change">• Six additional native LOW/HIGH cases passed: scenery move/yaw/add/delete initialization, real added-model contacts, and combined special-object/race-layout initialization with all six car spawns.</p>
+<p class="change">• Native initialization and selected contacts are bounded evidence. Complete destruction effects, every scripted trajectory, full-track behavior and continuous race parity remain unproved.</p>
+<p class="change">• Existing topology and graph counts stay authored; Blender imports and arbitrary new sectors remain future work. Special-object rotation/copy/removal depend on supported ownership rules. LEV16/17 AI racing remains disabled.</p>
 </article>
-<article><h2>2026-10-25 · Surface painting and terrain projects</h2>
+<article><h2>2026-10-25 · Scripted scenery, effects and native collision acceptance</h2>
 
 <h3>Available now</h3>
-<p class="change">• The Surfaces tool offers searchable thumbnails and an eyedropper for existing static surface presets.</p>
-<p class="change">• Painting copies a full native texture/UV/category/grip preset without changing shared descriptors or inventing collision on decorative cells.</p>
-<p class="change">• Version-3 projects save sparse height and surface edits together with pickups and scenery; version-1/2 projects remain readable.</p>
-<p class="change">• Test changes starts a race from the compiled terrain on racing levels; LEV16/17 offer Preview changes.</p>
+<p class="change">• Original scripted models translate with their full absolute paths and restart points; relative velocity, timing and action data stay intact.</p>
+<p class="change">• Original particle emitters and shared-light owners can move with their dependencies. The viewer shows scripted initial poses, selected paths and explicit capability limits.</p>
+<p class="change">• Version-4 projects include race layout and all original scenery/effect rows; older projects restore unchanged special rows in native order.</p>
+<p class="change">• Dragging a linked group back to its starting point now clears the preview transform immediately.</p>
 
 <h3>Validation and limits</h3>
-<p class="change">• Headless Edge checks real brush and paint clicks, undo/redo, cancellation, project round-trip and an edited race restart.</p>
-<p class="change">• Sources remain read-only. Game export produces a new archive pair for a separate installation.</p>
-<p class="change">• New textures, Blender imports, new sectors and route editing remain future work.</p>
+<p class="change">• All 3846 original dispatched records across forty LOW/HIGH variants are transformable in the checked corpus, with operation-specific and native capacity limits. Scripted objects support translation; copying/removal remain limited to compatible plain models.</p>
+<p class="change">• Native LOW/HIGH checks passed move/yaw/add/delete construction and exact relocated static links. Separate actual car queries hit an added solid model, matching independent geometry replay.</p>
+<p class="change">• Browser checks cover special-object history, linked parts, scripted paths, particle focus, shared lights, old projects and zero idle menu mutations.</p>
+<p class="change">• These are selected original-game cases, not full destruction, animation or continuous-race equivalence. Terrain validation remains documented in earlier entries.</p>
 </article>
-<article><h2>2026-10-25 · Terrain height tools</h2>
+<article><h2>2026-10-25 · Wider route relocation and checkpoint planes</h2>
 
 <h3>Available now</h3>
-<p class="change">• Track editor has Raise, Lower, Smooth, Flatten and Set height brushes.</p>
-<p class="change">• Brushes follow connected grids and matched sector seams, with a live wire preview, cancellation and undo/redo.</p>
-<p class="change">• Height edits update LOW/HIGH together and regenerate touched collision planes and spatial coverage.</p>
-<p class="change">• Animated sectors and point-animated regions are visibly locked; unsupported/capacity-breaking edits are rejected before changing the project.</p>
+<p class="change">• Existing route points can move between supported terrain cells. The editor rebuilds route fallback references while preserving each original route group and collision-model lists.</p>
+<p class="change">• Checkpoints are edited as planes. Wire markers show their intersections with the road, and sector references follow supported intersections.</p>
+<p class="change">• Starting slots can move over supported terrain; their facing follows the authored checkpoint direction.</p>
+<p class="change">• Apply coordinates commits X, Height and Z together, avoiding invalid intermediate diagonal moves.</p>
 
 <h3>Validation and limits</h3>
-<p class="change">• All 20 LOW/HIGH source pairs pass no-edit byte identity and representative edited-resource checks.</p>
-<p class="change">• Edited source simulations run on the 18 racing levels. LEV16/17 use static preview.</p>
-<p class="change">• Pickups, scenery, starting grids and routes retain their saved positions; substantial terrain changes may require manual adjustment.</p>
-<p class="change">• These checks are not original-game terrain-export acceptance. Native acceptance is a separate delivery.</p>
+<p class="change">• All forty variants pass wider relocation checks, including 854 original checkpoint-plane checks and 30 sector reassignment cases.</p>
+<p class="change">• Separate combined checks cover terrain, surfaces, scenery, pickups and race layout together. The 36 racing variants run 90 reconstructed three-car Expert/weapon ticks.</p>
+<p class="change">• The fallback rebuild is an offline editor policy. Native point counts, graph links, checkpoint order and lap flags remain unchanged.</p>
 </article></div><p><a href="changelog/index.html">Full changelog</a></p></details>
 <details id="source-files" open><summary>Game files</summary><p class="note">Select <strong>ROLLCAGE.IMG</strong> and <strong>ROLLCAGE.IDX</strong> for Rollcage or Stage II, or a <strong>Firebugs PS1 disc ZIP</strong> containing its CUE and data BIN.</p>
 <div class="row"><label for="game">Game</label><select id="game"><option value="auto">Automatic</option><option value="rollcage">Rollcage</option><option value="stage2">Rollcage Stage II</option><option value="firebugs">Firebugs</option></select></div>
@@ -103,8 +104,19 @@
 <details id="practice-progress" class="racing-progress"><summary>Physics progress</summary><p class="note">Racing test now has physical cameras and animated terrain, including LEV8's moving terrain points. Surface acceleration uses the recovered decay and limits.</p><p class="note">Original-game checks now match one complete recorded six-car update, including AI, physics, attachment movement, recovery checks, drive feedback, wheel and animation updates, cameras, weather/world effects, and the final return and clock increments. This check uses recorded external clock and runtime-library results. Other checks cover selected car-to-car, car-wall and camera-border collisions, force responses and controlled respawn placement. Separate instruction checks now cover the clock calculations and step scheduling. Continuous race parity, active combat, full respawn effects and native timing validation remain under work. This remains a super experimental reconstruction.</p></details>
 </fieldset>
 <fieldset data-workspace-panel="editor" role="tabpanel" hidden id="pickup-editor" style="border:1px solid #344457;border-radius:5px;margin-top:12px"><legend>Track editor · experimental</legend>
-<div class="tool-heading"><label for="editor-tool">Tool</label><select id="editor-tool"><option value="terrain">Terrain heights</option><option value="surfaces">Surfaces</option><option value="models">Models</option><option value="pickups">Pickups</option></select></div>
-<section data-editor-tool="terrain" id="terrain-panel"><p class="note" id="terrain-count"></p>
+<div class="tool-heading"><label for="editor-tool">Tool</label><select id="editor-tool"><option value="terrain">Terrain heights</option><option value="surfaces">Surfaces</option><option value="routes">Route points</option><option value="checkpoints">Checkpoints</option><option value="starts">Starting grid</option><option value="models">Scenery &amp; effects</option><option value="pickups">Pickups</option></select></div>
+<section data-editor-tool="layout" id="layout-panel" hidden>
+<p id="layout-count" class="note"></p>
+<label id="layout-group-label">Stored group <select id="layout-group"></select></label>
+<label style="display:block" for="layout-selection">Marker</label><select id="layout-selection" aria-label="Race layout marker"></select>
+<div class="row"><label>X <input id="layout-x" type="number" step="1"></label><label>Height <input id="layout-y" type="number" step="1"></label><label>Z <input id="layout-z" type="number" step="1"></label></div>
+<button id="layout-apply" type="button">Apply coordinates</button>
+<div id="layout-speeds" class="row"><label>Min speed byte <input id="layout-min-speed" type="number" min="0" max="255" step="1"></label><label>Target speed byte <input id="layout-target-speed" type="number" min="0" max="255" step="1"></label></div>
+<div id="layout-direction"><p class="note">Checkpoint direction · native Q14 units</p><div class="row"><label>X <input id="layout-dx" type="number" step="1"></label><label>Y <input id="layout-dy" type="number" step="1"></label><label>Z <input id="layout-dz" type="number" step="1"></label></div></div>
+<p id="layout-details" class="note"></p><label><input id="layout-show" type="checkbox" checked> Show markers and stored segments</label>
+<div class="row"><button id="layout-focus" type="button">Focus marker</button><button id="layout-undo" type="button">Undo</button><button id="layout-redo" type="button">Redo</button><button id="layout-reset" type="button">Reset race layout</button></div>
+<p id="layout-status" class="note" role="status"></p><p class="note">Select a marker, then drag to change X/Z while keeping its height, or enter all coordinates and choose Apply coordinates. Right/Shift drag moves the camera; Esc cancels. Moves require supported existing terrain and a populated native height layer. Route relocation rebuilds the route fallback map; checkpoints update their sector. Stored graph links, checkpoint order and lap markers are preserved. Segments connect stored points for display.</p>
+</section><section data-editor-tool="terrain" id="terrain-panel"><p class="note" id="terrain-count"></p>
 <div id="terrain-height-tools"><label for="terrain-operation">Brush</label><select id="terrain-operation"><option value="raise">Raise</option><option value="lower">Lower</option><option value="smooth">Smooth</option><option value="flatten">Flatten to first click</option><option value="set">Set height</option></select><label id="terrain-height-label" hidden>Target height <input id="terrain-height" type="number" value="0" step="1"></label></div>
 <div class="row"><label>Radius <input id="terrain-radius" type="number" min="1" max="4096" value="128"></label><label>Strength <input id="terrain-strength" type="number" min="1" max="128" value="8"></label></div>
 <label><input id="terrain-wireframe" type="checkbox" checked> Show brush wireframe</label>
@@ -123,8 +135,8 @@
 <p class="note">Select or drag a marker. Add pickup, then click the terrain to place it. Adjust Height for clearance. Empty-space drag rotates the camera; right-drag pans. Esc cancels placement.</p>
 </div>
 </section><section data-editor-tool="models">
-<label><input id="models-enable" type="checkbox" disabled>Edit static models</label>
-<p id="models-note" class="note">Move, rotate, add or remove plain scenery. Special and destructible objects are locked.</p>
+<label><input id="models-enable" type="checkbox" disabled>Edit scenery</label>
+<p id="models-note" class="note">Transform existing scenery with its behavior preserved. Compatible plain models can also be added, duplicated and removed.</p>
 <div id="models-controls" hidden>
 <div class="row"><button id="models-add" type="button">Model library…</button><button id="models-duplicate" type="button" disabled>Duplicate</button><button id="models-delete" type="button" disabled>Delete</button></div>
 <label for="models-selection">Placed model</label><select id="models-selection" aria-label="Model to edit"></select>
@@ -132,13 +144,13 @@
 <div class="row" id="models-transform"><label>X <input id="models-x" type="number" step="1" style="width:85px"></label><label>Height <input id="models-y" type="number" step="1" style="width:85px"></label><label>Z <input id="models-z" type="number" step="1" style="width:85px"></label><label>Yaw ° <input id="models-yaw" type="number" step="1.40625" style="width:95px"></label></div>
 <div class="row"><button id="models-focus" type="button">Focus selection</button><button id="models-cancel" type="button" hidden>Cancel placement</button></div>
 <div class="row"><button id="models-undo" type="button" disabled>Undo</button><button id="models-redo" type="button" disabled>Redo</button><button id="models-reset" type="button" disabled>Reset models</button></div>
-<p class="note">Click a model to select it; drag to move it over terrain. Adjust Height and Yaw above. Right-drag or Shift-drag controls the camera. Esc cancels. Rotation uses native 1.40625° steps.</p>
+<p class="note">Click a model to select it; drag to move it over terrain. Linked parts move together. Adjust Height and Yaw above. Right-drag or Shift-drag controls the camera. Esc cancels. Rotation uses native 1.40625° steps. Scripted models show their initial pose while editing; translation moves their complete path.</p>
 </div>
 </section><div id="editor-actions"><button id="editor-test" type="button" disabled>Test changes</button>
 <div class="row"><button id="editor-save" type="button" disabled>Save project</button><label class="note" for="editor-load">Load project<input id="editor-load" type="file" accept=".json,application/json" style="display:block;max-width:170px" disabled></label></div>
 <button id="editor-export" type="button" disabled>Export game files</button><button id="editor-cancel-export" type="button" hidden>Cancel export</button>
 
-</div><details><summary>Saving and exporting</summary><p class="note">Save project keeps your edits for later. Keep that project with its starting IMG/IDX pair. Export game files creates a new edited pair for a separate game copy. Scenery export is experimental and has not yet been validated in a running game. Your selected files stay unchanged.</p></details><p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
+</div><details><summary>Saving and exporting</summary><p class="note">Save project keeps your edits for later. Keep that project with its starting IMG/IDX pair. Export game files creates a new edited pair for a separate game copy. Export is experimental. Selected scenery initialization and added-model collision queries have passed in the original game; broader behavior remains unverified. Your selected files stay unchanged.</p></details><p id="editor-status" class="note" role="status"></p><p id="editor-error" class="note" role="alert" style="color:#ffb4ac;overflow-wrap:anywhere"></p>
 </fieldset>
 <details><summary>View options</summary><label for="sector">Terrain</label> <select id="sector"><option value="-1">All terrain sectors</option></select>
 <div class="checks"><label><input type="checkbox" id="textures" checked>Textures</label><label><input type="checkbox" id="lighting" checked>Preview light</label><label><input type="checkbox" id="filter">Smooth</label><label><input type="checkbox" id="objects" checked>Objects</label></div>
@@ -148,7 +160,7 @@
 <p class="note"><span id="path-color" aria-hidden="true" hidden>● </span><span id="path-counts"></span></p>
 <p id="path-note" class="note" role="status">Load a track to inspect stored paths.</p>
 </fieldset>
-<details><summary>About this reconstruction</summary><p class="note">Rollcage LOW and HIGH PC BLP tracks, Stage II environments and Firebugs PS1 track resources are supported. Tracks use recovered names or archive identifiers. Stage II support targets the supplied installation with Rollcage Extreme; Firebugs targets the supplied Europe disc. Unknown releases require an explicit game selection and remain unverified. Racing test is super experimental and connects recovered AI, physics, collisions, checkpoints and recovery on Rollcage tracks except LEV16 and LEV17. The car and wheels use original archive models. The test uses recovered nominal pacing and a viewer follow camera. Optional weapons use original pickup locations, award tables, AI decisions and projectile models. Continuous weapons parity is unproved; unsupported branches stop explicitly. Scenery destruction is incomplete; audio and many visual effects are omitted. Stage II and Firebugs remain static previews. Stored paths connect consecutive points; Firebugs point interpretation is experimental. Runtime overlays, special objects and BL6 textures remain outside this viewer. Fly-in has no collision. Export manifests describe static export limits.</p></details>
+<details><summary>About this reconstruction</summary><p class="note">Rollcage LOW and HIGH PC BLP tracks, Stage II environments and Firebugs PS1 track resources are supported. Tracks use recovered names or archive identifiers. Stage II support targets the supplied installation with Rollcage Extreme; Firebugs targets the supplied Europe disc. Unknown releases require an explicit game selection and remain unverified. Racing test is super experimental and connects recovered AI, physics, collisions, checkpoints and recovery on Rollcage tracks except LEV16 and LEV17. The car and wheels use original archive models. The test uses recovered nominal pacing and a viewer follow camera. Optional weapons use original pickup locations, award tables, AI decisions and projectile models. Continuous weapons parity is unproved; unsupported branches stop explicitly. Scenery destruction is incomplete; audio and many visual effects are omitted. Stage II and Firebugs remain static previews. Stored paths connect consecutive points; Firebugs point interpretation is experimental. Full runtime effects, unsupported special rendering and BL6 textures remain outside this viewer. Fly-in has no collision. Export manifests describe static export limits.</p></details>
 </aside>
 <section id="physics-hud" class="physics-hud" aria-labelledby="physics-hud-title" hidden>
 <div class="physics-heading"><strong id="physics-hud-title">Racing test</strong><small>Super experimental</small></div>
@@ -312,8 +324,9 @@ function refreshEditorScene() {
   if (!editor?.current?.modelDraft || !selectedTrack || game?.id !== 'rollcage') return;
   const base = editor.current, quality = selectedTrack.name.startsWith('HIGH/') ? 'HIGH' : 'LOW';
   const resources = editor.resourcesFor(selectedTrack,base[quality].geometry,base[quality].texture);
-  const decoded = game.decodeTrack(resources.geometry,resources.texture);
-  renderer.setScene(decoded); scene = decoded; editor.scene = decoded;
+  const decoded = editor.decodeScene(resources.geometry,resources.texture);
+  decoded.editorScripted=Boolean(editor.modelsEditing);renderer.setScene(decoded); scene = decoded; editor.scene = decoded;
+  if(practice&&!practiceDirty)renderer.setCar(practice.session.assets);
   editor.modelPicks.clear(); editor.refresh();
   setText('counts', `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`);
 }
@@ -579,7 +592,7 @@ function frame(time) {
     paths: element('paths').checked, pathPoints: element('path-points').checked,
     pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.active?null:renderedPractice
   });
-  editor?.terrain?.render(navigation);
+  editor?.terrain?.render(navigation);editor?.layout?.render(navigation);editor?.renderEditorOverlay(navigation);
   if (practice) updatePractice();
   if (navigation.mode === 'fly') setText('speed', `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`);
   requestAnimationFrame(frame);
@@ -611,14 +624,14 @@ function downloadEditorFile({filename,blob}) {
 try {
   renderer = new Renderer(canvas);
   editor = new TrackEditor({canvas,navigation,renderer,releaseMouse, onDownload:downloadEditorFile,
-    onModeChange(editing,{testing=false}={}){practice?.pause();if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
+    onModeChange(editing,{testing=false}={}){practice?.pause();if(editor&&scene&&Boolean(scene.editorScripted)!==Boolean(editor.modelsEditing)){refreshEditorScene();}if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
     onChange(){practice?.pause();practiceDirty=true;refreshEditorScene();updatePractice();},
     onTest(){if(!practiceInputs){refreshEditorScene();editor.say('Preview updated. AI Racing test is not verified for this level.');return;}workspaces.select('racing');element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();editor.say(practice?'Testing edited track. Weapons are enabled; the race has restarted.':'Racing test could not start. See the Racing test error.');}
   });
   const chooseTool=()=>{
     const tool=element('editor-tool').value;
-    for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==tool&&!(tool==='surfaces'&&panel.id==='terrain-panel');
-    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else editor.perform(()=>editor.setTerrainEditing(tool));
+    for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==tool&&!(tool==='surfaces'&&panel.id==='terrain-panel')&&!(['routes','checkpoints','starts'].includes(tool)&&panel.id==='layout-panel');
+    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))editor.perform(()=>editor.setLayoutEditing(tool));else editor.perform(()=>editor.setTerrainEditing(tool));
   };
   workspaces=new Workspaces(value=>{
     releaseMouse();
@@ -25335,6 +25348,8 @@ Object.assign(module.exports, {pickupLabel});
 },
 "tools/track-viewer/track-editor-ui.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
+const {RaceLayoutEditorUI} = require("tools/track-viewer/race-layout-editor-ui.mjs");
+const {emptyRaceLayoutDraft} = require("src/race-layout-editor.mjs");
 const {TerrainEditorUI} = require("tools/track-viewer/terrain-editor-ui.mjs");
 const {emptyTerrainDraft} = require("src/terrain-editor.mjs");
 const {PickupEditor} = require("tools/track-viewer/pickup-editor-ui.mjs");
@@ -25342,7 +25357,7 @@ const {getGame} = require("src/track-games.mjs");
 const {parseGFXM} = require("src/gfxm.mjs");
 const {parsePlacements} = require("src/placements.mjs");
 const {placementMatrix, transformPlacedVertex} = require("src/fixed-math.mjs");
-const {SCENERY_LEVELS, inspectScenery, createSceneryDraft, validateSceneryImport} = require("src/scenery-editor.mjs");
+const {SCENERY_LEVELS, inspectScenery, createSceneryDraft, validateSceneryImport, applySceneryTransform} = require("src/scenery-editor.mjs");
 const {inspectSceneryCollisions} = require("src/scenery-collision-info.mjs");
 const {collisionLabel,collisionDescription} = require("tools/track-viewer/collision-label.mjs");
 const {parseModelCollision,readPlacementCollision} = require("src/model-collision.mjs");
@@ -25355,6 +25370,8 @@ const {cameraRay, intersectTerrain, sourceToDisplay, displayToSource, prepareTer
 const {Renderer} = require("tools/track-viewer/renderer.mjs");
 const {Navigation} = require("tools/track-viewer/navigation.mjs");
 const {carDisplayMatrix} = require("tools/track-viewer/solo-presentation.mjs");
+const {buildPlacedMeshes} = require("src/placed-meshes.mjs");
+const {buildScriptedEditorMeshes} = require("src/scripted-scenery-editor.mjs");
 
 const el=id=>document.getElementById(id), copy=value=>structuredClone(value), same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const equal=(a,b)=>a.length===b.length&&a.every((n,i)=>n===b[i]);
@@ -25368,10 +25385,10 @@ class TrackEditor extends PickupEditor {
   constructor(options) {
     super(options);
     this.modelsEditing=false;this.modelSelected=null;this.modelPending=null;this.modelDrag=null;this.modelSerial=0;this.libraryToken=0;
-    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.terrainEditing=false;this.terrain=new TerrainEditorUI(this);this.refresh();
+    this.modelPicks=new Map();this.importChecks=new Map();this.bindModels();this.terrainEditing=false;this.terrain=new TerrainEditorUI(this);this.layoutEditing=false;this.layout=new RaceLayoutEditorUI(this);this.modelOverlay=new CollisionOverlay(this.renderer);this.refresh();
   }
-  get active(){return this.editing||this.modelsEditing||this.terrainEditing;}
-  get hasEdits(){return [...this.levels.values()].some(base=>!same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length));}
+  get active(){return this.editing||this.modelsEditing||this.terrainEditing||this.layoutEditing;}
+  get hasEdits(){return [...this.levels.values()].some(base=>!same(base.draft,base.original)||!same(base.modelDraft,base.modelOriginal)||Boolean(base.terrainDraft?.heights.length||base.terrainDraft?.surfaces.length||Object.values(base.layoutDraft??{}).some(rows=>rows.length)));}
   async readLevel(level,source) {
     const base=await super.readLevel(level,source);
     // Pickup loading has finished, but the shared level must not become visible
@@ -25388,51 +25405,65 @@ class TrackEditor extends PickupEditor {
       if(!same(base.modelOriginal,high))throw Error('LOW/HIGH scenery placements differ.');
       base.highInfo=inspectScenery(base.HIGH.geometry,base.HIGH.texture);
       base.collisions={LOW:inspectSceneryCollisions(base.LOW.geometry,base.LOW.texture),HIGH:inspectSceneryCollisions(base.HIGH.geometry,base.HIGH.texture)};
-      base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];
+      base.modelDraft=copy(base.modelOriginal);base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.layoutDraft=emptyRaceLayoutDraft();base.layoutUndo=[];base.layoutRedo=[];
       base.hashes={};for(const quality of ['LOW','HIGH'])base.hashes[quality]={geometry:base.sourceHashes[quality],texture:await pickupSha256(base[quality].texture)};
       if(this.archive!==source)throw Error('Archive changed while checking scenery.');
       this.levels.set(level,base);
       return base;
     } catch(error){if(this.levels.get(level)===base)this.levels.delete(level);throw error;}
   }
-  async setSource(...args){this.terrain?.cancel();this.terrainEditing=false;this.terrain&&(this.terrain.paletteBase=null);this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
-  clearTrack(){this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
+  async setSource(...args){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.terrain&&(this.terrain.paletteBase=null);this.cancelModels();this.importChecks?.clear();this.modelsEditing=false;this.modelSelected=null;this.libraryToken++;el('model-library').close();await super.setSource(...args);}
+  clearTrack(){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.libraryToken++;el('model-library').close();this.modelSelected=null;this.modelsEditing=false;this.modelPicks?.clear();super.clearTrack();}
   async setTrack(track,scene){this.track=track;await super.setTrack(track,scene);this.refresh();}
-  setEditing(enabled,options){this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
+  setEditing(enabled,options){this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;this.cancelModels();this.modelsEditing=false;super.setEditing(enabled,options);}
   setModelsEditing(enabled){
-    this.terrain?.cancel();this.terrainEditing=false;
+    this.layout?.cancel();this.layoutEditing=false;this.terrain?.cancel();this.terrainEditing=false;
     this.releaseMouse();this.cancelModels();this.editing=false;this.adding=false;this.modelsEditing=Boolean(enabled&&this.current?.modelDraft);
     if(this.modelsEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');el('objects').checked=true;}
     this.onModeChange(this.active);this.refresh();
   }
   setTerrainEditing(kind){
-    this.releaseMouse();this.cancelModels();this.editing=false;this.modelsEditing=false;this.adding=false;this.terrainEditing=Boolean(kind&&this.current);
+    this.layout?.cancel();this.layoutEditing=false;this.releaseMouse();this.cancelModels();this.editing=false;this.modelsEditing=false;this.adding=false;this.terrainEditing=Boolean(kind&&this.current);
     if(this.terrainEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');this.terrain.setKind(kind);}
     this.onModeChange(this.active);this.refresh();
   }
+  setLayoutEditing(kind){
+    this.releaseMouse();this.cancelModels();this.terrain.cancel();this.terrainEditing=false;this.editing=false;this.modelsEditing=false;this.adding=false;this.layoutEditing=Boolean(kind&&this.current);
+    if(this.layoutEditing){if(this.navigation.mode==='follow')this.navigation.setMode('orbit');this.layout.setKind(kind);}
+    this.onModeChange(this.active);this.refresh();
+  }
+  commitLayout(draft){
+    const base=this.current;if(same(draft,base.layoutDraft))return;
+    const compiled=this.compile(base,base.modelDraft,base.draft,base.terrainDraft,draft);base.layoutUndo.push(copy(base.layoutDraft));if(base.layoutUndo.length>100)base.layoutUndo.shift();base.layoutRedo=[];base.layoutDraft=copy(draft);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
+  }
+  layoutHistory(from,to){
+    this.layout.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,base.terrainDraft,next);base[to].push(copy(base.layoutDraft));base.layoutDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
+  }
+  signature(base){return JSON.stringify([base.modelDraft,base.draft,base.terrainDraft,base.layoutDraft]);}
   commitTerrain(draft){
     const base=this.current;if(same(draft,base.terrainDraft))return;
-    const compiled=this.compile(base,base.modelDraft,base.draft,draft);base.terrainUndo.push(copy(base.terrainDraft));if(base.terrainUndo.length>100)base.terrainUndo.shift();base.terrainRedo=[];base.terrainDraft=copy(draft);base.compiled=compiled;base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
+    const compiled=this.compile(base,base.modelDraft,base.draft,draft);base.terrainUndo.push(copy(base.terrainDraft));if(base.terrainUndo.length>100)base.terrainUndo.shift();base.terrainRedo=[];base.terrainDraft=copy(draft);base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
   }
   terrainHistory(from,to){
-    this.terrain.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,next);base[to].push(copy(base.terrainDraft));base.terrainDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);this.revision++;this.onChange();this.refresh();
+    this.terrain.cancel();const base=this.current;if(!base?.[from]?.length)return;const next=base[from].at(-1),compiled=this.compile(base,base.modelDraft,base.draft,next);base[to].push(copy(base.terrainDraft));base.terrainDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=this.signature(base);this.revision++;this.onChange();this.refresh();
   }
   sources(){return new Map([...this.levels].filter(([,base])=>base.modelDraft).map(([level,base])=>[level,{LOW:base.LOW,HIGH:base.HIGH}]));}
-  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft()){
-    const signature=JSON.stringify([models,pickups,terrain]);
+  compile(base=this.current,models=base.modelDraft,pickups=base.draft,terrain=base.terrainDraft??emptyTerrainDraft(),layout=base.layoutDraft??emptyRaceLayoutDraft()){
+    const signature=JSON.stringify([models,pickups,terrain,layout]);
     if(base.compiledSignature===signature)return base.compiled;
-    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain},this.sources());
+    const result=compileTrackDraft({LOW:base.LOW,HIGH:base.HIGH},{level:base.level,pickups,models,terrain,layout},this.sources());
     // Cache only committed state; rejected previews never replace it.
-    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft){base.compiledSignature=signature;base.compiled=result;}
+    if(models===base.modelDraft&&pickups===base.draft&&terrain===base.terrainDraft&&layout===base.layoutDraft){base.compiledSignature=signature;base.compiled=result;}
     return result;
   }
   resourcesFor(track,geometry,texture){const base=this.levels.get(levelOf(track));return base?.modelDraft?this.compile(base)[qualityOf(track)]:{geometry,texture};}
+  decodeScene(geometry,texture){return getGame('rollcage').decodeTrack(geometry,texture,this.modelsEditing?{buildPlacedMeshes:(data,gfxm,placements)=>[...buildPlacedMeshes(data,gfxm,placements),...buildScriptedEditorMeshes(data,gfxm,placements)]}:{});}
   geometryFor(track,original){return this.resourcesFor(track,original,null).geometry;}
   async project(){
     if(!this.archive||!this.indexSha256)throw Error('Load original verified Rollcage archives first.');
-    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&(!same(b.draft,b.original)||!same(b.modelDraft,b.modelOriginal)||b.terrainDraft.heights.length||b.terrainDraft.surfaces.length)).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft)}));
+    const levels=[...this.levels.values()].filter(b=>b.modelDraft&&(!same(b.draft,b.original)||!same(b.modelDraft,b.modelOriginal)||b.terrainDraft.heights.length||b.terrainDraft.surfaces.length||Object.values(b.layoutDraft).some(rows=>rows.length))).sort((a,b)=>a.level-b.level).map(b=>({level:b.level,pickups:copy(b.draft),models:copy(b.modelDraft),terrain:copy(b.terrainDraft),layout:copy(b.layoutDraft)}));
     const required=new Set(levels.flatMap(row=>[row.level,...row.models.map(m=>m.sourceLevel)]));
-    return parseTrackProject({schemaVersion:3,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
+    return parseTrackProject({schemaVersion:4,game:'rollcage',indexSha256:this.indexSha256,sources:[...required].sort((a,b)=>a-b).map(level=>({level,hashes:copy(this.levels.get(level).hashes)})),levels});
   }
   async restoreProject(value){
     let levels,compiled;
@@ -25447,40 +25478,39 @@ class TrackEditor extends PickupEditor {
       const project=parseTrackProject(value);
       if(project.indexSha256!==this.indexSha256)throw Error('This project was saved with a different IMG/IDX pair. Select the same starting files used to create it, then load the project again.');
       await Promise.all(project.sources.map(row=>this.loadLevel(row.level)));
-      ({compiled}=validateTrackProject(project,{indexSha256:this.indexSha256,sources:this.sources(),hashes:new Map([...this.levels].map(([n,b])=>[n,b.hashes]))})); levels=project.levels;
+      const validated=validateTrackProject(project,{indexSha256:this.indexSha256,sources:this.sources(),hashes:new Map([...this.levels].map(([n,b])=>[n,b.hashes]))});compiled=validated.compiled;levels=validated.project.levels;
     }
     // All resources, source hashes and both quality compilers passed before any
     // visible draft is changed, including when loading an old pickup project.
     this.cancelModels();this.cancelDrag();
-    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.compiledSignature=null;}
-    for(const row of levels){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain??emptyTerrainDraft());base.compiled=compiled.get(row.level);base.compiledSignature=JSON.stringify([base.modelDraft,base.draft,base.terrainDraft]);}
+    for(const base of this.levels.values())if(base.modelOriginal){base.draft=copy(base.original);base.modelDraft=copy(base.modelOriginal);base.undo=[];base.redo=[];base.modelUndo=[];base.modelRedo=[];base.terrainDraft=emptyTerrainDraft();base.terrainUndo=[];base.terrainRedo=[];base.layoutDraft=emptyRaceLayoutDraft();base.layoutUndo=[];base.layoutRedo=[];base.compiledSignature=null;}
+    for(const row of levels){const base=this.levels.get(row.level);base.draft=copy(row.pickups);base.modelDraft=copy(row.models);base.terrainDraft=copy(row.terrain??emptyTerrainDraft());base.layoutDraft=copy(row.layout??emptyRaceLayoutDraft());base.compiled=compiled.get(row.level);base.compiledSignature=this.signature(base);}
     this.revision++;this.savedRevision=this.revision;this.modelSelected=null;this.selected=null;this.onChange();
-    const tool=el('editor-tool').value;if(tool==='models')this.setModelsEditing(true);else if(tool==='pickups')this.setEditing(true);else this.setTerrainEditing(tool);
+    const tool=el('editor-tool').value;if(tool==='models')this.setModelsEditing(true);else if(tool==='pickups')this.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))this.setLayoutEditing(tool);else this.setTerrainEditing(tool);
     this.say('Track project loaded. Edits apply to LOW + HIGH.');
   }
   async exportReplacements(){
     const replacements=new Map();
-    for(const base of this.levels.values())if(base.modelDraft&&(!same(base.modelDraft,base.modelOriginal)||!same(base.draft,base.original)||base.terrainDraft.heights.length||base.terrainDraft.surfaces.length)){const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
+    for(const base of this.levels.values())if(base.modelDraft&&(!same(base.modelDraft,base.modelOriginal)||!same(base.draft,base.original)||base.terrainDraft.heights.length||base.terrainDraft.surfaces.length||Object.values(base.layoutDraft).some(rows=>rows.length))){const compiled=this.compile(base);for(const quality of ['LOW','HIGH']){for(const[key,indexKey]of[['geometry','index'],['texture','textureIndex']])if(!equal(compiled[quality][key],base[quality][key]))replacements.set(base[quality][indexKey],compiled[quality][key]);}}
     return replacements;
   }
   bindModels(){
     const action=(id,fn)=>el(id).addEventListener('click',()=>this.perform(fn));
     el('models-enable').addEventListener('change',()=>this.setModelsEditing(el('models-enable').checked));
     action('models-add',()=>this.openLibrary());
-    action('models-delete',()=>{if(this.modelEditable(this.modelRow()))this.commitModels(this.current.modelDraft.filter(row=>row.id!==this.modelSelected));});
-    action('models-duplicate',async()=>{const row=this.modelRow();if(row&&this.modelEditable(row))await this.beginPlacement(row.sourceLevel,row.templateIndex,row.yaw);});
+    action('models-delete',()=>{if(this.modelCapability(this.modelRow(),'removable'))this.commitModels(this.current.modelDraft.filter(row=>row.id!==this.modelSelected));});
+    action('models-duplicate',async()=>{const row=this.modelRow();if(row&&this.modelCapability(row,'duplicable'))await this.beginPlacement(row.sourceLevel,row.templateIndex,row.yaw);});
     action('models-undo',()=>this.modelHistory('modelUndo','modelRedo'));
     action('models-redo',()=>this.modelHistory('modelRedo','modelUndo'));
     action('models-reset',()=>this.commitModels(copy(this.current.modelOriginal)));
     action('models-cancel',()=>this.cancelModels());
-    action('models-focus',()=>{const row=this.modelRow();if(row)this.navigation.reset(this.modelBounds(row));});
+    action('models-focus',()=>{const row=this.modelRow();if(row){this.navigation.reset(this.modelBounds(row));this.onModeChange(this.active);}});
     el('models-selection').addEventListener('change',()=>{this.cancelModels();this.modelSelected=el('models-selection').value||null;this.refresh();});
     for(const axis of ['x','y','z','yaw'])el(`models-${axis}`).addEventListener('change',()=>{
       const values=['x','y','z','yaw'].map(k=>el(`models-${k}`).value);
       this.perform(()=>{const row=this.modelRow();if(!row||!this.modelEditable(row))return;if(values.some(v=>v.trim()===''||!Number.isFinite(Number(v))))throw Error('Enter finite position and yaw values.');
-        const draft=copy(this.current.modelDraft),item=draft.find(p=>p.id===row.id);item.position=displayToSource(values.slice(0,3).map(Number)).map(Math.round);
-        if(axis==='yaw')item.yaw=((Math.round(Number(values[3])/360*256)%256+256)%256)*16;
-        this.commitModels(draft);
+        const position=displayToSource(values.slice(0,3).map(Number)).map(Math.round),yaw=axis==='yaw'?((Math.round(Number(values[3])/360*256)%256+256)%256)*16:row.yaw;
+        this.commitModels(applySceneryTransform(this.current.modelDraft,{id:row.id,position,yaw},this.levels.get(row.sourceLevel).modelInfo));
       });
     });
     el('model-library-level').replaceChildren(...SCENERY_LEVELS.map(n=>new Option(`Rollcage / LEV${n}`,String(n))));
@@ -25500,18 +25530,21 @@ class TrackEditor extends PickupEditor {
     });
   }
   modelRow(){return this.current?.modelDraft?.find(row=>row.id===this.modelSelected)??null;}
-  modelEditable(row){if(!row)return false;const base=this.levels.get(row.sourceLevel);return base?.modelInfo.find(p=>p.index===row.templateIndex)?.editable&&base.highInfo.find(p=>p.index===row.templateIndex)?.editable;}
-  modelReason(row){
+  modelCapability(row,capability='editable'){if(!row)return false;const base=this.levels.get(row.sourceLevel);return Boolean(base?.modelInfo.find(p=>p.index===row.templateIndex)?.[capability]&&base.highInfo.find(p=>p.index===row.templateIndex)?.[capability]);}
+  modelEditable(row){return this.modelCapability(row);}
+  modelReason(row,capability='editable'){
     const base=this.levels.get(row?.sourceLevel);if(!base)return 'Original model library is unavailable.';
-    for(const [quality,info]of[['LOW',base.modelInfo],['HIGH',base.highInfo]]){const p=info?.find(p=>p.index===row.templateIndex);if(!p?.editable)return `${quality}: ${p?.reason||'Unsupported model template.'}`;}
+    for(const [quality,info]of[['LOW',base.modelInfo],['HIGH',base.highInfo]]){const p=info?.find(p=>p.index===row.templateIndex);if(!p?.[capability])return `${quality}: ${p?.reason||p?.importReason||'Unsupported model operation.'}`;}
     return '';
   }
   modelBounds(row){
-    const base=this.levels.get(row.sourceLevel),modelIndex=base.modelInfo.find(p=>p.index===row.templateIndex).modelIndex;
+    const base=this.levels.get(row.sourceLevel),info=base.modelInfo.find(p=>p.index===row.templateIndex),modelIndex=info.modelIndex;
+    const position=info.preview?.position?info.preview.position.map((n,i)=>n+row.position[i]-info.position[i]):row.position;
+    if(modelIndex===null||modelIndex===undefined)return sourceToDisplay(position).map(n=>[n-24,n+24]);
     base.models??=parseGFXM(base.LOW.geometry).models;
     base.placements??=parsePlacements(base.LOW.texture,base.models).records;
-    const angles=[...base.placements[row.templateIndex].angles];angles[1]=row.yaw;
-    const points=base.models[modelIndex].vertices.map(v=>sourceToDisplay(transformPlacedVertex(v,placementMatrix(angles),row.position)));
+    const angles=[...(info.preview?.angles??base.placements[row.templateIndex].angles)];angles[1]=row.yaw;
+    const points=base.models[modelIndex].vertices.map(v=>sourceToDisplay(transformPlacedVertex(v,placementMatrix(angles),position)));
     if(!points.length)return sourceToDisplay(row.position).map(n=>[n-1,n+1]);
     return [0,1,2].map(axis=>[Math.min(...points.map(p=>p[axis])),Math.max(...points.map(p=>p[axis]))]);
   }
@@ -25519,19 +25552,19 @@ class TrackEditor extends PickupEditor {
     if(same(draft,this.current.modelDraft))return;
     const compiled=this.compile(this.current,draft); // both variants, before history/draft mutation
     this.current.modelUndo.push(copy(this.current.modelDraft));if(this.current.modelUndo.length>100)this.current.modelUndo.shift();this.current.modelRedo=[];this.current.modelDraft=copy(draft);
-    this.current.compiled=compiled;this.current.compiledSignature=JSON.stringify([this.current.modelDraft,this.current.draft,this.current.terrainDraft]);
+    this.current.compiled=compiled;this.current.compiledSignature=this.signature(this.current);
     this.revision++;this.modelPicks.clear();this.cancelModels();this.onChange();this.refresh();
   }
   modelHistory(from,to){
     this.cancelModels();const base=this.current;if(!base?.[from].length)return;
-    const next=base[from].at(-1),compiled=this.compile(base,next);base[to].push(copy(base.modelDraft));base.modelDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=JSON.stringify([base.modelDraft,base.draft]);
+    const next=base[from].at(-1),compiled=this.compile(base,next);base[to].push(copy(base.modelDraft));base.modelDraft=base[from].pop();base.compiled=compiled;base.compiledSignature=this.signature(base);
     this.revision++;this.modelPicks.clear();this.onChange();this.refresh();
   }
   cancelModels(){
     this.modelPending=null;this.modelDrag=null;this.placementMessage='';this.placementFailed=false;this.renderer?.setEditorGhost(null);this.renderer?.editorTransforms.clear();
     this.renderer?.setEditorBounds(null);
   }
-  cancelDrag(){this.terrain?.cancel();super.cancelDrag();if(this.modelDrag){this.modelDrag=null;this.renderer.editorTransforms.clear();this.refresh();}}
+  cancelDrag(){this.layout?.cancel();this.terrain?.cancel();super.cancelDrag();if(this.modelDrag){this.modelDrag=null;this.renderer.editorTransforms.clear();this.refresh();}}
   async openLibrary(){
     this.cancelModels();this.releaseMouse();el('model-library-level').value=String(this.current.level);el('model-library').showModal();
     this.previewRenderer??=new Renderer(el('model-library-canvas'));this.previewNavigation??=new Navigation();
@@ -25559,7 +25592,7 @@ class TrackEditor extends PickupEditor {
     if(entries.some(e=>e.id===previous))el('model-library-entry').value=previous;
     this.previewLibrary();
   }
-  templateFor(entry){return this.libraryBase?.modelInfo.find(p=>entry?.placementIndices.includes(p.index)&&p.editable&&this.libraryBase.highInfo.find(h=>h.index===p.index)?.editable);}
+  templateFor(entry){return this.libraryBase?.modelInfo.find(p=>entry?.placementIndices.includes(p.index)&&p.importable&&this.libraryBase.highInfo.find(h=>h.index===p.index)?.importable);}
   libraryCollision(entry){
     const index=this.templateFor(entry)?.index??entry.placementIndices[0],low=this.libraryBase?.collisions?.LOW.get(index),high=this.libraryBase?.collisions?.HIGH.get(index);
     return {low,high,label:collisionLabel(low,high)};
@@ -25571,7 +25604,7 @@ class TrackEditor extends PickupEditor {
     const base=this.levels.get(sourceLevel),template=base?.modelInfo.find(p=>p.index===templateIndex);
     let reason='';
     try{
-      if(!template?.editable||!base.highInfo.find(p=>p.index===templateIndex)?.editable)throw Error(this.modelReason({sourceLevel,templateIndex}));
+      if(!template?.importable||!base.highInfo.find(p=>p.index===templateIndex)?.importable)throw Error(this.modelReason({sourceLevel,templateIndex},'importable'));
       let serial=0,id;do{id=`import-check-${serial++}`;}while(this.current.modelDraft.some(p=>p.id===id));
       const rows=[...this.current.modelDraft,{id,sourceLevel,templateIndex,position:[...template.position],yaw:template.yaw}];
       for(const quality of ['LOW','HIGH'])try{validateSceneryImport(this.current[quality],rows,{level:this.current.level,quality,donors:this.sources()});}catch(error){throw Error(`${quality}: ${error.message}`);}
@@ -25581,7 +25614,7 @@ class TrackEditor extends PickupEditor {
   libraryCompatibility(entry){
     if(entry.status!=='supported')return {reason:entry.reason||'Unsupported textured preview.'};
     const template=this.templateFor(entry);
-    if(!template)return {reason:this.modelReason({sourceLevel:this.libraryBase.level,templateIndex:entry.placementIndices[0]})};
+    if(!template)return {reason:this.modelReason({sourceLevel:this.libraryBase.level,templateIndex:entry.placementIndices[0]},'importable')};
     const reason=this.checkImport(this.libraryBase.level,template.index);return reason?{reason}:{template,reason:''};
   }
   libraryChoice(){const entry=this.libraryCollection?.entries.find(e=>e.id===el('model-library-entry').value);return entry?{entry,...this.libraryCompatibility(entry),scene:this.libraryScene}:null;}
@@ -25603,12 +25636,13 @@ class TrackEditor extends PickupEditor {
   }
   async beginPlacement(sourceLevel,templateIndex,yaw,scene){
     const base=await this.loadLevel(sourceLevel),template=base.modelInfo.find(p=>p.index===templateIndex);
-    if(!template?.editable||!base.highInfo.find(p=>p.index===templateIndex)?.editable)throw Error(template?.reason||'Unsupported model template.');
+    if(!template?.importable||!base.highInfo.find(p=>p.index===templateIndex)?.importable)throw Error(template?.reason||template?.importReason||'Unsupported model template.');
     const incompatibility=this.checkImport(sourceLevel,templateIndex);if(incompatibility)throw Error(incompatibility);
     if(!scene){const collection=decodeObjectCollection(base.LOW.geometry,base.LOW.texture,{game:'rollcage'}),entry=collection.entries.find(e=>e.kind==='scenery'&&e.placementIndices.includes(templateIndex));scene=collection.load(entry);}
     this.cancelModels();this.modelPending={sourceLevel,templateIndex,yaw,position:null,clearance:Math.max(0,-scene.bounds[1][0])};this.placementMessage='Left-click terrain to place this model. Esc cancels.';this.renderer.setEditorGhost(scene);this.say('Click terrain to place the model. Esc cancels without adding anything.');this.refresh();
   }
   pointerDown(event){
+    if(this.layoutEditing)return this.layout.pointerDown(event);
     if(this.terrainEditing)return this.terrain.pointerDown(event);
     if(!this.modelsEditing)return super.pointerDown(event);
     if(this.busy||event.button!==0||event.shiftKey||!this.current)return false;
@@ -25636,6 +25670,7 @@ class TrackEditor extends PickupEditor {
     return true;
   }
   pointerMove(event){
+    if(this.layoutEditing)return this.layout.pointerMove(event);
     if(this.terrainEditing)return this.terrain.pointerMove(event);
     if(!this.modelsEditing)return super.pointerMove(event);
     if(!this.modelPending&&!this.modelDrag)return false;
@@ -25645,35 +25680,719 @@ class TrackEditor extends PickupEditor {
     if(Math.hypot(event.clientX-drag.x,event.clientY-drag.y)<3&&!drag.moved)return true;
     drag.moved=true;drag.position=displayToSource(hit.position.map((n,i)=>n+drag.offset[i])).map(Math.round);
     const delta=sourceToDisplay(drag.position.map((n,i)=>n-drag.row.position[i])),matrix=new Float32Array([1,0,0,0,0,1,0,0,0,0,1,0,...delta,1]);
-    this.renderer.editorTransforms.set(this.compile()[qualityOf(this.track)].indices[drag.row.id],matrix);this.renderer.setEditorBounds(this.modelBounds({...drag.row,position:drag.position}));return true;
+    const preview=applySceneryTransform(this.current.modelDraft,{id:drag.row.id,position:drag.position,yaw:drag.row.yaw},this.levels.get(drag.row.sourceLevel).modelInfo),indices=this.compile()[qualityOf(this.track)].indices;
+    this.renderer.editorTransforms.clear();
+    for(const row of preview){const original=this.current.modelDraft.find(r=>r.id===row.id);if(row.position.some((n,i)=>n!==original.position[i]))this.renderer.editorTransforms.set(indices[row.id],matrix);}this.renderer.setEditorBounds(this.modelBounds({...drag.row,position:drag.position}));return true;
   }
   pointerUp(){
+    if(this.layoutEditing)return this.layout.pointerUp();
     if(this.terrainEditing)return this.terrain.pointerUp();
     if(!this.modelDrag)return super.pointerUp();const drag=this.modelDrag;this.modelDrag=null;this.renderer.editorTransforms.clear();
-    if(drag.moved)this.perform(()=>{const draft=copy(this.current.modelDraft);draft.find(p=>p.id===drag.row.id).position=drag.position;this.commitModels(draft);});else this.refresh();return true;
+    if(drag.moved)this.perform(()=>this.commitModels(applySceneryTransform(this.current.modelDraft,{id:drag.row.id,position:drag.position,yaw:drag.row.yaw},this.levels.get(drag.row.sourceLevel).modelInfo)));else this.refresh();return true;
   }
   refresh(){
-    super.refresh();this.terrain?.refresh();
+    super.refresh();this.terrain?.refresh();this.layout?.refresh();
     hidden('model-placement-feedback',!this.modelPending);text('model-placement-title',this.placementFailed?'Cannot place model here':'Place model');text('model-placement-message',this.placementMessage||'');
     const base=this.current,available=Boolean(base?.modelDraft),active=available&&this.modelsEditing&&!this.busy,row=this.modelRow(),editable=active&&this.modelEditable(row);
     disabled('models-enable',!available||this.busy);if(el('models-enable').checked!==Boolean(this.modelsEditing))el('models-enable').checked=Boolean(this.modelsEditing);hidden('models-controls',!this.modelsEditing);
-    for(const id of ['models-delete','models-duplicate','models-x','models-y','models-z','models-yaw'])disabled(id,!editable);
+    for(const id of ['models-x','models-y','models-z'])disabled(id,!editable);disabled('models-yaw',!editable||!this.modelCapability(row,'yawEditable'));disabled('models-delete',!active||!this.modelCapability(row,'removable'));disabled('models-duplicate',!active||!this.modelCapability(row,'duplicable'));
     disabled('models-focus',!active||!row);disabled('models-add',!active);disabled('models-selection',!active);
     disabled('models-undo',!active||!base?.modelUndo.length);disabled('models-redo',!active||!base?.modelRedo.length);disabled('models-reset',!active||same(base?.modelDraft,base?.modelOriginal));hidden('models-cancel',!this.modelPending);
     const selector=el('models-selection'),signature=JSON.stringify(base?.modelDraft?.map(p=>[p.id,p.sourceLevel,p.templateIndex])??[]);
-    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a model',''),...(base?.modelDraft??[]).map(p=>new Option(`${p.id} · LEV${p.sourceLevel} / model ${this.levels.get(p.sourceLevel)?.modelInfo.find(i=>i.index===p.templateIndex)?.modelIndex}${this.modelEditable(p)?'':' · locked'}`,p.id)));selector.dataset.signature=signature;}
+    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a model',''),...(base?.modelDraft??[]).map(p=>new Option(`${p.id} · LEV${p.sourceLevel} / ${(()=>{const info=this.levels.get(p.sourceLevel)?.modelInfo.find(i=>i.index===p.templateIndex);return info?.modelIndex===null?info.kind==='particle'?'particle emitter':'effect':`model ${info?.modelIndex}`;})()}${this.modelEditable(p)?this.modelCapability(p,'duplicable')?'':' · transform only':' · locked'}`,p.id)));selector.dataset.signature=signature;}
     if(selector.value!==(row?.id??''))selector.value=row?.id??'';
     const values=row?[...sourceToDisplay(row.position),Number((((row.yaw%4096+4096)%4096)/4096*360).toFixed(6))]:['','','',''];
     ['x','y','z','yaw'].forEach((key,i)=>{const input=el(`models-${key}`),value=String(values[i]);if(document.activeElement!==input&&input.value!==value)input.value=value;});
-    text('models-reason',row?(this.modelEditable(row)?'Plain scenery · edits update its collision lookup.':this.modelReason(row)):'Select a model in the view or list.');
+    const capabilities=row?this.levels.get(row.sourceLevel)?.modelInfo.find(p=>p.index===row.templateIndex):null;
+    text('models-reason',row?(this.modelEditable(row)?`${capabilities?.special?'Original special object · behavior preserved.':'Plain scenery.'} ${capabilities?.linkedIndices?.length>1?`${capabilities.linkedIndices.length} linked parts ${this.modelCapability(row,'yawEditable')?'move/rotate':'move'} together. `:''}${!this.modelCapability(row,'duplicable')?'Duplicate/remove unavailable for this object. ':''}${capabilities?.kind==='animated'?'The complete script path moves; its control polygon is shown.':capabilities?.modelIndex===null?'Emitter position is retained.':'Collision lookup follows edits.'}${capabilities?.operationNotice?' '+capabilities.operationNotice:''}`:this.modelReason(row)):'Select a model in the view or list.');
     if(this.modelsEditing&&!this.modelDrag)this.renderer.setEditorBounds(row?this.modelBounds(row):null);
     disabled('editor-test',!base||this.busy);text('editor-test',[16,17].includes(base?.level)?'Preview changes':'Test changes');
     text('models-note',available?`${base.modelDraft.length} placed models · ${base.modelDraft.filter(p=>this.modelEditable(p)).length} editable · LOW + HIGH`:'Requires verified Rollcage archives.');
+    this.refreshModelOverlay?.();
   }
-  inspect(){return {...super.inspect(),active:this.active,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),modelSelected:this.modelSelected,placingModel:Boolean(this.modelPending),modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
+  refreshModelOverlay(){
+    if(!this.modelOverlay)return;const row=this.modelRow(),info=row?this.levels.get(row.sourceLevel)?.modelInfo.find(p=>p.index===row.templateIndex):null,signature=JSON.stringify([this.current?.level,this.modelsEditing,row,info?.script?.path]);
+    if(signature===this.modelOverlaySignature)return;this.modelOverlaySignature=signature;const lines=[],normals=[];
+    if(this.modelsEditing&&row&&info){
+      const delta=row.position.map((n,i)=>n-info.position[i]),point=p=>sourceToDisplay(p.map((n,i)=>n+delta[i])),path=info.script?.path??[],radius=Math.max(5,Math.min(25,this.navigation.radius*0.004));
+      for(let i=1;i<path.length;i++)lines.push(...point(path[i-1]),...point(path[i]));
+      for(const p of [info.preview?.position??info.position,...path]){const center=point(p);for(let axis=0;axis<3;axis++){const a=center.slice(),b=center.slice();a[axis]-=radius;b[axis]+=radius;normals.push(...a,...b);}}
+    }
+    this.modelOverlay.set({groups:[{active:true,lines,normals}]});
+  }
+  renderEditorOverlay(navigation){this.modelOverlay?.render(navigation,{show:Boolean(this.modelsEditing),disabled:false,normals:true});}
+  inspect(){return {...super.inspect(),active:this.active,layoutEditing:Boolean(this.layoutEditing),layoutKind:this.layout?.kind,layout:copy(this.current?.layoutDraft??emptyRaceLayoutDraft()),layoutRows:copy(this.layout?.rows()??[]),layoutSelected:this.layout?.selected??null,terrainEditing:this.terrainEditing,terrain:copy(this.current?.terrainDraft??emptyTerrainDraft()),terrainStroke:Boolean(this.terrain?.stroke),modelsEditing:this.modelsEditing,models:copy(this.current?.modelDraft??[]),modelSelected:this.modelSelected,modelPreviewTransforms:this.renderer.editorTransforms.size,modelCapabilities:copy(this.modelRow()?this.levels.get(this.modelRow().sourceLevel)?.modelInfo.find(p=>p.index===this.modelRow().templateIndex):null),placingModel:Boolean(this.modelPending),modelUndo:this.current?.modelUndo.length??0,modelRedo:this.current?.modelRedo.length??0,collisionPreview:{groups:this.previewOverlay?.groups.length??0,drawnSegments:this.previewOverlay?.draws??0}};}
 }
 
 Object.assign(module.exports, {TrackEditor});
+},
+"tools/track-viewer/race-layout-editor-ui.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
+const {inspectRaceLayout,emptyRaceLayoutDraft,raceLayoutCheckpointConstraint} = require("src/race-layout-editor.mjs");
+const {cameraRay,intersectTerrain,pickPickup,sourceToDisplay,displayToSource} = require("tools/track-viewer/pickup-picking.mjs");
+const {CollisionOverlay} = require("tools/track-viewer/collision-overlay.mjs");
+
+const el=id=>document.getElementById(`layout-${id}`);
+const text=(id,value)=>{if(el(id).textContent!==value)el(id).textContent=value;};
+const identity=(kind,row)=>kind==='routes'?`${row.group}:${row.point}`:String(kind==='checkpoints'?row.id:row.index);
+const copy=value=>structuredClone(value);
+
+// Authoring controls only: overlays never enter the simulation. Every commit
+// runs the paired resource compiler before changing the visible project.
+class RaceLayoutEditorUI {
+  constructor(editor){
+    this.editor=editor;this.kind='routes';this.selected=null;this.drag=null;this.overlay=new CollisionOverlay(editor.renderer);
+    el('selection').addEventListener('change',()=>{this.cancel();this.selected=el('selection').value||null;this.refresh();});
+    el('group').addEventListener('change',()=>{this.cancel();this.selected=null;this.refresh();});
+    el('show').addEventListener('change',()=>this.refreshOverlay(true));
+    el('focus').addEventListener('click',()=>{const row=this.row();if(row){const p=sourceToDisplay(row.markerPosition??row.position);editor.navigation.reset(p.map(n=>[n-100,n+100]));editor.onModeChange(editor.active);}});
+    const applyFields=()=>{
+      const position=['x','y','z'].map(id=>el(id).value),direction=['dx','dy','dz'].map(id=>el(id).value),speeds=['min-speed','target-speed'].map(id=>el(id).value);
+      editor.perform(()=>{
+        const row=this.row();if(!row)return;
+        const values=[...position,...(this.kind==='checkpoints'?direction:this.kind==='routes'?speeds:[])];
+        if(values.some(v=>v.trim()===''||!Number.isFinite(Number(v))))throw Error('Enter finite race-layout coordinates and parameters.');
+        const next={...row,position:displayToSource(position.map(Number)).map(Math.round)};
+        if(this.kind==='checkpoints')next.direction=displayToSource(direction.map(Number)).map(Math.round);
+        if(this.kind==='routes'){next.minSpeed=Number(speeds[0]);next.targetSpeed=Number(speeds[1]);}
+        editor.commitLayout(this.patch(next));
+        text('status','Race layout updated in LOW + HIGH.');
+      });
+    };
+    for(const axis of ['dx','dy','dz','min-speed','target-speed'])el(axis).addEventListener('change',applyFields);
+    el('apply').addEventListener('click',applyFields);
+    for(const axis of ['x','y','z'])el(axis).addEventListener('keydown',event=>{if(event.code==='Enter'){event.preventDefault();applyFields();}});
+    for(const name of ['undo','redo','reset'])el(name).addEventListener('click',()=>editor.perform(()=>name==='reset'?editor.commitLayout(emptyRaceLayoutDraft()):editor.layoutHistory(name==='undo'?'layoutUndo':'layoutRedo',name==='undo'?'layoutRedo':'layoutUndo')));
+    window.addEventListener('keydown',event=>{
+      if(!editor.layoutEditing||editor.busy||/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement?.tagName))return;
+      if(event.code==='Escape'){this.cancel();this.refresh();}
+      if((event.ctrlKey||event.metaKey)&&event.code==='KeyZ'){event.preventDefault();editor.perform(()=>editor.layoutHistory(event.shiftKey?'layoutRedo':'layoutUndo',event.shiftKey?'layoutUndo':'layoutRedo'));}
+    });
+  }
+  ensure(){const base=this.editor.current;if(!base)return;base.layoutInfo??=inspectRaceLayout(base.LOW.geometry);}
+  setKind(kind){this.cancel();this.kind=kind;this.selected=null;this.ensure();this.refresh();}
+  rows(){
+    const base=this.editor.current;if(!base?.layoutInfo)return [];
+    const patches=new Map((base.layoutDraft?.[this.kind]??[]).map(row=>[identity(this.kind,row),row]));
+    let rows=base.layoutInfo[this.kind].map(row=>({...row,...patches.get(identity(this.kind,row))}));
+    if(this.kind==='checkpoints'){
+      const geometry=this.editor.compile().LOW.geometry;
+      if(this.compiledGeometry!==geometry){this.compiledInfo=inspectRaceLayout(geometry);this.compiledGeometry=geometry;}
+      rows=rows.map(row=>{const current=this.compiledInfo.checkpoints.find(p=>p.id===row.id),constraint=raceLayoutCheckpointConstraint(this.compiledInfo,current,current);return {...row,sector:current.sector,markerPosition:constraint.intersectionPoint??row.position,planeSegments:constraint.intersectionSegments};});
+    }
+    return rows.filter(row=>this.kind!=='routes'||el('group').value===''||row.group===Number(el('group').value));
+  }
+  row(){return this.rows().find(row=>identity(this.kind,row)===this.selected)??null;}
+  patch(row){
+    const draft=copy(this.editor.current.layoutDraft),id=identity(this.kind,row);
+    const original=this.editor.current.layoutInfo[this.kind].find(r=>identity(this.kind,r)===id);
+    let next;if(this.kind==='routes')next={group:row.group,point:row.point,position:[...row.position],minSpeed:row.minSpeed,targetSpeed:row.targetSpeed};
+    else if(this.kind==='checkpoints')next={id:row.id,position:[...row.position],direction:[...row.direction]};
+    else next={index:row.index,position:[...row.position]};
+    const matches=next.position.every((n,i)=>n===original.position[i])&&(this.kind!=='routes'||next.minSpeed===original.minSpeed&&next.targetSpeed===original.targetSpeed)&&(this.kind!=='checkpoints'||next.direction.every((n,i)=>n===original.direction[i]));
+    draft[this.kind]=draft[this.kind].filter(r=>identity(this.kind,r)!==id);if(!matches)draft[this.kind].push(next);
+    return draft;
+  }
+  pointerDown(event){
+    const e=this.editor;if(!e.layoutEditing||e.busy||event.button!==0||event.shiftKey)return false;
+    const rows=this.rows(),index=pickPickup(rows.map(row=>sourceToDisplay(row.markerPosition??row.position)),e.navigation,e.canvas.getBoundingClientRect(),event.clientX,event.clientY,{radiusPx:13});
+    if(index===null)return false;const row=rows[index];this.selected=identity(this.kind,row);
+    this.drag={row:copy(row),x:event.clientX,y:event.clientY,position:null};e.canvas.focus();e.canvas.setPointerCapture(event.pointerId);this.refresh();return true;
+  }
+  pointerMove(event){
+    if(!this.drag)return false;const e=this.editor,hit=intersectTerrain(e.scene,cameraRay(e.navigation,e.canvas.getBoundingClientRect(),event.clientX,event.clientY));
+    if(hit&&Math.hypot(event.clientX-this.drag.x,event.clientY-this.drag.y)>3){
+      // Preserve authored height while dragging in XZ. Height is edited explicitly
+      // so elevated/stacked routes are not silently snapped to another road.
+      const target=displayToSource(hit.position),anchor=this.drag.row.markerPosition??this.drag.row.position;
+      this.drag.position=this.drag.row.position.map((n,i)=>i===1?n:Math.round(n+target[i]-anchor[i]));this.refreshOverlay(true);
+      text('status','Release to validate this move. Height is preserved; adjust Height explicitly. Esc cancels.');
+    }return true;
+  }
+  pointerUp(){if(!this.drag)return false;const drag=this.drag;this.drag=null;if(drag.position)this.editor.perform(()=>{try{this.editor.commitLayout(this.patch({...drag.row,position:drag.position}));text('status','Move applied to LOW + HIGH.');}catch(error){text('status','Move rejected. The committed layout is unchanged.');throw error;}});this.refreshOverlay(true);return true;}
+  cancel(){const dragging=Boolean(this.drag);this.drag=null;this.overlaySignature=null;if(dragging){text('status','Move cancelled. The committed layout is unchanged.');this.refreshOverlay(true);}}
+  refreshOverlay(force=false){
+    const e=this.editor,rows=this.rows(),selected=this.selected,signature=JSON.stringify([e.current?.level,this.kind,e.current?.layoutDraft,selected,this.drag?.position,el('show').checked]);
+    if(!force&&signature===this.overlaySignature)return;this.overlaySignature=signature;const lines=[],normals=[],marks=[],radius=Math.max(4,Math.min(30,e.navigation.radius*0.005));
+    let previous;
+    for(const row of rows){
+      const isSelected=identity(this.kind,row)===selected,target=isSelected?normals:marks;
+      let marker=row.markerPosition??row.position,segments=row.planeSegments??[];
+      if(isSelected&&this.drag?.position){if(this.kind==='checkpoints'){const constraint=raceLayoutCheckpointConstraint(this.compiledInfo,row,{...row,position:this.drag.position});marker=constraint.intersectionPoint??this.drag.position;segments=constraint.intersectionSegments??[];}else marker=this.drag.position;}
+      const p=sourceToDisplay(marker);for(const segment of segments)target.push(...sourceToDisplay(segment[0]),...sourceToDisplay(segment[1]));
+      for(let axis=0;axis<3;axis++){const a=p.slice(),b=p.slice();a[axis]-=radius;b[axis]+=radius;target.push(...a,...b);}
+      if(this.kind==='routes'&&previous?.group===row.group)lines.push(...previous.position,...p);previous={group:row.group,position:p};
+      if(this.kind==='checkpoints'){const d=sourceToDisplay(row.direction),length=Math.hypot(...d);if(length)target.push(...p,...p.map((v,i)=>v+d[i]/length*radius*5));}
+    }
+    this.overlay.set({groups:[{active:true,lines:[...lines,...marks],normals}]});
+  }
+  render(navigation){this.overlay.render(navigation,{show:Boolean(this.editor.layoutEditing&&el('show').checked),disabled:false,normals:true});}
+  refresh(){
+    const e=this.editor,base=e.current,active=Boolean(base&&e.layoutEditing&&!e.busy);if(e.layoutEditing)this.ensure();
+    const groups=base?.layoutInfo?.groups??[],groupSignature=JSON.stringify([base?.level,groups.map(g=>[g.index,g.count])]);
+    if(el('group').dataset.signature!==groupSignature){el('group').replaceChildren(new Option('All stored groups',''),...groups.filter(g=>g.count).map(g=>new Option(`Group ${g.index} · ${g.count} points`,String(g.index))));el('group').dataset.signature=groupSignature;}
+    el('group-label').hidden=this.kind!=='routes';el('speeds').hidden=this.kind!=='routes';el('direction').hidden=this.kind!=='checkpoints';
+    const rows=this.rows(),selector=el('selection'),signature=JSON.stringify([base?.level,this.kind,rows.map(r=>identity(this.kind,r))]);
+    if(selector.dataset.signature!==signature){selector.replaceChildren(new Option('Select a marker',''),...rows.map(row=>new Option(this.kind==='routes'?`Group ${row.group} / point ${row.point}`:this.kind==='checkpoints'?`Checkpoint ${row.id}${row.lapMarker?' · lap marker':''}`:`Starting slot ${row.index+1}`,identity(this.kind,row))));selector.dataset.signature=signature;}
+    if(this.selected&&!rows.some(r=>identity(this.kind,r)===this.selected))this.selected=null;if(selector.value!==(this.selected??''))selector.value=this.selected??'';
+    const row=this.row(),p=row?sourceToDisplay(row.position):['','',''],d=row?.direction?sourceToDisplay(row.direction):['','',''];
+    for(const [id,value]of [...['x','y','z'].map((id,i)=>[id,p[i]]),...['dx','dy','dz'].map((id,i)=>[id,d[i]]),['min-speed',row?.minSpeed??''],['target-speed',row?.targetSpeed??'']]){const input=el(id);input.disabled=!active||!row;if(document.activeElement!==input&&input.value!==String(value))input.value=String(value);}
+    for(const id of ['selection','group','show'])el(id).disabled=!active;el('focus').disabled=!active||!row;el('apply').disabled=!active||!row;
+    el('undo').disabled=!active||!base?.layoutUndo?.length;el('redo').disabled=!active||!base?.layoutRedo?.length;el('reset').disabled=!active||!base||!Object.values(base.layoutDraft).some(rows=>rows.length);
+    text('count',`${rows.length} ${this.kind==='routes'?'stored route points':this.kind==='checkpoints'?'checkpoint markers':'starting slots'} · LOW + HIGH`);
+    text('details',row?this.kind==='routes'?`Stored flags and links are preserved. Speed bytes ${row.minSpeed}/${row.targetSpeed} are doubled by the native AI.`:this.kind==='checkpoints'?`Sector ${row.sector} · order ${row.order} · progress ${row.progress}. Sector follows supported terrain; order and lap fields are preserved.`:'Facing follows the original checkpoint direction; no per-slot yaw is stored.':'Select a marker in the view or list. Existing records only.');
+    this.refreshOverlay();
+  }
+}
+
+Object.assign(module.exports, {RaceLayoutEditorUI});
+},
+"src/race-layout-editor.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {inspectRaceLayout,createRaceLayoutDraft,raceLayoutMoveConstraint,raceLayoutCheckpointConstraint,validateRaceLayoutDraft,compileRaceLayoutEdits});
+const {parseRespawnRoutes} = require("src/respawn-routes.mjs");
+const {parseCheckpointProgression} = require("src/respawn-progress.mjs");
+const {parseSpatialIndex} = require("src/spatial-index.mjs");
+const {parseScene} = require("src/scene.mjs");
+const {parseCollisionGrid} = require("src/collision-grid.mjs");
+const {findRaceLayoutTerrainSupport, findRaceLayoutCheckpointSector, inspectRaceLayoutFallback, rebuildRaceLayoutFallback} = require("src/race-layout-spatial.mjs");
+
+// Existing-record editor, not the original offline route-map builder. Native
+// anchors: 44c2b0 relocation, 41dbb0 starts, 449d40 checkpoint planes, 431750
+// target speed, 421430 minimum-speed screening and 48da10 spatial fallback.
+const emptyRaceLayoutDraft = () => ({routes: [], checkpoints: [], starts: []});
+const exact = (value, keys) => value && typeof value === 'object' && !Array.isArray(value)
+  && Object.keys(value).sort().join(',') === [...keys].sort().join(',');
+const vector = value => Array.isArray(value) && value.length === 3
+  && value.every(n => Number.isInteger(n) && n >= -32768 && n <= 32767);
+const equal = (a, b) => a.length === b.length && a.every((n, i) => n === b[i]);
+const empty = draft => exact(draft, ['routes', 'checkpoints', 'starts'])
+  && ['routes', 'checkpoints', 'starts'].every(k => Array.isArray(draft[k]) && !draft[k].length);
+const coordinates = (data, offset) => [0, 2, 4].map(n => data.readInt16LE(offset + n));
+const byte = value => Number.isInteger(value) && value >= 0 && value <= 255;
+
+function inspectRaceLayout(data) {
+  if (!Buffer.isBuffer(data) || data.length < 0x120 || data.toString('ascii', 0, 4) !== 'GFXM') throw Error('Invalid GFXM race-layout header.');
+  const parsedRoutes = parseRespawnRoutes(data), parsedCheckpoints = parseCheckpointProgression(data);
+  const spatial = parseSpatialIndex(data), scene = parseScene(data), startsOffset = data.readUInt32LE(0x74), startCount = data[0x78];
+  if (startsOffset + startCount * 8 > data.length) throw Error('Race starting-grid table exceeds resource bounds.');
+  const routes = [], groups = parsedRoutes.groups.map(group => {
+    const points = group.points.map((point, index) => {
+      const row = {group: group.index, point: index, offset: point.offset, position: [...point.position],
+        minSpeed: data[point.offset + 6], targetSpeed: data[point.offset + 7],
+        flags: data.readUInt32LE(point.offset + 8), links: data.readUInt32LE(point.offset + 12)};
+      routes.push(row); return row;
+    });
+    return {index: group.index, count: group.count, offset: group.offset, reverse: Boolean(group.reverseByte2),
+      cyclic: Boolean(data[group.offset + 4]), points};
+  });
+  const ids = [...new Set([...parsedCheckpoints.checkpointIds90].filter(id => id !== 255))].sort((a, b) => a - b);
+  const checkpoints = ids.map(id => {
+    const offset = parsedCheckpoints.checkpointsOffset + id * 20;
+    return {id, offset, sector: data[offset], order: data[offset + 1], progress: data.readUInt16LE(offset + 2),
+      position: coordinates(data, offset + 4), direction: coordinates(data, offset + 12), lapMarker: Boolean(data[offset + 18] & 1)};
+  });
+  const starts = Array.from({length: startCount}, (_, index) => {
+    const offset = startsOffset + index * 8;
+    return {index, offset, position: coordinates(data, offset)};
+  });
+  const grid = parseCollisionGrid(data), fallback = inspectRaceLayoutFallback(data, spatial, groups);
+  return {groups, routes, checkpoints, starts, spatial, scene, grid, fallback, checkpointCount: parsedCheckpoints.checkpointCount44,
+    checkpointIds: [...parsedCheckpoints.checkpointIds90], startsOffset,
+    limits: ['Existing records only; route order, graph links and checkpoint IDs stay unchanged.',
+      'Position edits require populated spatial coverage and nearby covered terrain. Route movement rebuilds native fallback references with an explicit offline editor policy.',
+      'Checkpoint anchors define infinite planes; sectors follow covered plane intersections. Start orientation comes from the first checkpoint, not a per-start yaw.']};
+}
+
+function createRaceLayoutDraft(data) {
+  const info = inspectRaceLayout(data);
+  return {routes: info.routes.map(({group, point, position, minSpeed, targetSpeed}) => ({group, point, position: [...position], minSpeed, targetSpeed})),
+    checkpoints: info.checkpoints.map(({id, position, direction}) => ({id, position: [...position], direction: [...direction]})),
+    starts: info.starts.map(({index, position}) => ({index, position: [...position]}))};
+}
+
+function raceLayoutMoveConstraint(info, originalPosition, position) {
+  if (!vector(originalPosition) || !vector(position)) return {allowed: false, reason: 'Positions require three signed 16-bit integer coordinates.'};
+  if (equal(originalPosition, position)) return {allowed: true, unchanged: true};
+  if (!info.spatial.available) return {allowed: false, reason: 'Position editing requires a populated native spatial map.'};
+  const original = info.spatial.lookup(originalPosition.map(n => n * 65536)), destination = info.spatial.lookup(position.map(n => n * 65536));
+  const reference = value => value.found ? {node: value.node.index, row: value.selected.row, column: value.selected.column, outside: value.outside} : null;
+  const details = {originalBucket: reference(original), destinationBucket: reference(destination)};
+  if (!destination.found || destination.outside) return {allowed: false, ...details, reason: 'Destination has no populated native spatial cell. Place the marker over existing supported terrain.'};
+  if (!info.fallback.nodes[destination.node.index]) return {allowed: false, ...details, reason: 'Destination has no readable authored route fallback.'};
+  const support = findRaceLayoutTerrainSupport(info, position, destination), prior = findRaceLayoutTerrainSupport(info, originalPosition, original);
+  // Preserve unusually elevated original checkpoint/route clearance while
+  // rejecting arbitrarily distant or buried destinations. This is editor
+  // geometry policy, not a native vehicle collision/radius constant.
+  const maximumDistance = Math.max(256, prior ? Math.sqrt(prior.distanceSquared) + 64 : 256);
+  if (!support || support.distanceSquared > maximumDistance * maximumDistance) return {allowed: false, ...details, reason: 'Destination is too far from covered terrain in its native height layer. Keep the marker near an existing road surface.'};
+  return {allowed: true, ...details, supportSector: support.sector, supportCell: support.cell, terrainDistance: Math.sqrt(support.distanceSquared), maximumDistance};
+}
+
+function raceLayoutCheckpointConstraint(info, original, next) {
+  if (!vector(next.position) || !vector(next.direction) || next.direction.every(n => n === 0)) return {allowed: false, reason: 'Checkpoint planes require signed 16-bit coordinates and a nonzero signed 16-bit direction.'};
+  const unchanged = equal(original.position, next.position) && equal(original.direction, next.direction);
+  const support = findRaceLayoutCheckpointSector(info, original.sector, next.position, next.direction);
+  if (!support) return unchanged ? {allowed: true, unchanged: true, supportSector: original.sector, intersectionPoint: null, intersectionSegments: []}
+    : {allowed: false, reason: 'Checkpoint plane does not intersect covered terrain. Move or rotate the plane so it crosses an existing road.'};
+  return {allowed: true, unchanged, supportSector: support.sector, supportCell: support.cell, intersectionPoint: support.point,
+    intersectionSegments: support.segments, anchorDistance: Math.sqrt(support.distanceSquared)};
+}
+
+function validateRaceLayoutDraft(data, draft = emptyRaceLayoutDraft(), info = inspectRaceLayout(data)) {
+  if (!exact(draft, ['routes', 'checkpoints', 'starts']) || !['routes', 'checkpoints', 'starts'].every(k => Array.isArray(draft[k]))) throw Error('Invalid race-layout draft.');
+  const routes = new Map(info.routes.map(row => [`${row.group}:${row.point}`, row])), checkpoints = new Map(info.checkpoints.map(row => [row.id, row])), starts = new Map(info.starts.map(row => [row.index, row]));
+  const checked = emptyRaceLayoutDraft(), seen = new Set();
+  const movement = (original, row) => {
+    const constraint = raceLayoutMoveConstraint(info, original.position, row.position);
+    if (!constraint.allowed) throw Error(constraint.reason);
+  };
+  for (const row of draft.routes) {
+    if (!exact(row, ['group', 'point', 'position', 'minSpeed', 'targetSpeed']) || !Number.isInteger(row.group) || !Number.isInteger(row.point)
+      || !vector(row.position) || !byte(row.minSpeed) || !byte(row.targetSpeed)) throw Error('Route edits require an existing point, signed 16-bit XYZ and unsigned byte speeds.');
+    const id = `${row.group}:${row.point}`, original = routes.get(id);
+    if (!original || seen.has(id)) throw Error('Missing or duplicate route point.'); seen.add(id); movement(original, row);
+    checked.routes.push({...row, position: [...row.position]});
+  }
+  seen.clear();
+  for (const row of draft.checkpoints) {
+    if (!exact(row, ['id', 'position', 'direction']) || !Number.isInteger(row.id) || !vector(row.position) || !vector(row.direction) || row.direction.every(n => n === 0)) throw Error('Checkpoint edits require an existing ID, signed 16-bit XYZ and a nonzero signed 16-bit direction.');
+    const original = checkpoints.get(row.id);
+    if (!original || seen.has(row.id)) throw Error('Missing or duplicate checkpoint.'); seen.add(row.id);
+    const constraint = raceLayoutCheckpointConstraint(info, original, row); if (!constraint.allowed) throw Error(constraint.reason);
+    checked.checkpoints.push({...row, position: [...row.position], direction: [...row.direction]});
+  }
+  seen.clear();
+  for (const row of draft.starts) {
+    if (!exact(row, ['index', 'position']) || !Number.isInteger(row.index) || !vector(row.position)) throw Error('Start edits require an existing grid slot and signed 16-bit XYZ.');
+    const original = starts.get(row.index);
+    if (!original || seen.has(row.index)) throw Error('Missing or duplicate starting-grid slot.'); seen.add(row.index); movement(original, row);
+    checked.starts.push({...row, position: [...row.position]});
+  }
+  // New coincident adjacent route points can make 491d80/4915e0 normalize a
+  // zero direction. Existing authored duplicates, if any, remain readable.
+  const edited = new Map(checked.routes.map(row => [`${row.group}:${row.point}`, row]));
+  for (const group of info.groups) for (let i = 0; i < group.count; i++) {
+    const next = i + 1 < group.count ? i + 1 : group.cyclic && group.count > 1 ? 0 : null;
+    if (next === null) continue;
+    const a = edited.get(`${group.index}:${i}`) ?? group.points[i], b = edited.get(`${group.index}:${next}`) ?? group.points[next];
+    if (equal(a.position, b.position) && !equal(group.points[i].position, group.points[next].position)) throw Error('Route edit creates coincident adjacent points with no usable direction.');
+  }
+  checked.routes.sort((a, b) => a.group - b.group || a.point - b.point);
+  checked.checkpoints.sort((a, b) => a.id - b.id); checked.starts.sort((a, b) => a.index - b.index);
+  return checked;
+}
+
+function compileRaceLayoutEdits(source, draft = emptyRaceLayoutDraft()) {
+  if (empty(draft)) return Buffer.from(source);
+  const info = inspectRaceLayout(source), checked = validateRaceLayoutDraft(source, draft, info), writes = new Map();
+  const put = (offset, bytes) => {
+    for (let i = 0; i < bytes.length; i++) {
+      if (writes.has(offset + i) && writes.get(offset + i) !== bytes[i]) throw Error('Aliased race-layout records have conflicting edits.');
+      writes.set(offset + i, bytes[i]);
+    }
+  };
+  const xyz = position => {const bytes = Buffer.alloc(6); position.forEach((n, i) => bytes.writeInt16LE(n, i * 2)); return bytes;};
+  for (const row of checked.routes) {
+    const original = info.groups[row.group].points[row.point];
+    put(original.offset, xyz(row.position)); put(original.offset + 6, Buffer.from([row.minSpeed, row.targetSpeed]));
+  }
+  for (const row of checked.checkpoints) {
+    const original = info.checkpoints.find(c => c.id === row.id);
+    put(original.offset + 4, xyz(row.position)); put(original.offset + 12, xyz(row.direction));
+    if (!equal(original.position, row.position) || !equal(original.direction, row.direction)) put(original.offset, Buffer.from([raceLayoutCheckpointConstraint(info, original, row).supportSector]));
+  }
+  for (const row of checked.starts) put(info.starts[row.index].offset, xyz(row.position));
+  const out = Buffer.from(source); for (const [offset, value] of writes) out[offset] = value;
+  return rebuildRaceLayoutFallback(source, out, info).data;
+}
+
+Object.assign(module.exports, {emptyRaceLayoutDraft,inspectRaceLayout,createRaceLayoutDraft,raceLayoutMoveConstraint,raceLayoutCheckpointConstraint,validateRaceLayoutDraft,compileRaceLayoutEdits});
+},
+"src/race-layout-spatial.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {findRaceLayoutTerrainSupport,findRaceLayoutCheckpointSector,inspectRaceLayoutFallback,rebuildRaceLayoutFallback});
+// Editor-side geometry and route-map maintenance. These algorithms are not a
+// reconstruction of the original authoring tool. The serialized consumers are
+// native 48da10 (first route word) and 429360 (following model words).
+const dot = (a, b) => a.reduce((sum, n, i) => sum + n * b[i], 0);
+const sub = (a, b) => a.map((n, i) => n - b[i]);
+const add = (a, b, scale) => a.map((n, i) => n + b[i] * scale);
+const squared = (a, b) => dot(sub(a, b), sub(a, b));
+const same = (a, b) => a.every((n, i) => n === b[i]);
+
+function closestSegment(point, a, b) {
+  const d = sub(b, a), length = dot(d, d), t = length ? Math.max(0, Math.min(1, dot(sub(point, a), d) / length)) : 0;
+  return add(a, d, t);
+}
+
+function closestTriangle(point, a, b, c) {
+  const ab = sub(b, a), ac = sub(c, a), ap = sub(point, a), d1 = dot(ab, ap), d2 = dot(ac, ap);
+  if (d1 <= 0 && d2 <= 0) return a;
+  const bp = sub(point, b), d3 = dot(ab, bp), d4 = dot(ac, bp);
+  if (d3 >= 0 && d4 <= d3) return b;
+  const vc = d1 * d4 - d3 * d2;
+  if (vc <= 0 && d1 >= 0 && d3 <= 0) return add(a, ab, d1 / (d1 - d3));
+  const cp = sub(point, c), d5 = dot(ab, cp), d6 = dot(ac, cp);
+  if (d6 >= 0 && d5 <= d6) return c;
+  const vb = d5 * d2 - d1 * d6;
+  if (vb <= 0 && d2 >= 0 && d6 <= 0) return add(a, ac, d2 / (d2 - d6));
+  const va = d3 * d6 - d5 * d4;
+  if (va <= 0 && d4 - d3 >= 0 && d5 - d6 >= 0) return add(b, sub(c, b), (d4 - d3) / ((d4 - d3) + (d5 - d6)));
+  const sum = va + vb + vc;
+  if (!sum) return [closestSegment(point, a, b), closestSegment(point, b, c), closestSegment(point, c, a)].sort((p, q) => squared(point, p) - squared(point, q))[0];
+  return add(add(a, ab, vb / sum), ac, vc / sum);
+}
+
+function findRaceLayoutTerrainSupport(info, position, lookup = info.spatial.lookup(position.map(n => n * 65536))) {
+  if (!info.grid.available || !lookup.found || lookup.outside) return null;
+  info.supportCells ??= new Map();
+  let cells = info.supportCells.get(lookup.node.zone);
+  if (!cells) {
+    const zone = info.grid.zones.find(z => z.root === lookup.node.zone), ids = new Set(); cells = [];
+    for (const id of zone?.regions ?? []) {
+      const region = info.grid.regions.find(r => r.index === id), sector = info.grid.sectors[region.sector];
+      for (let row = region.row; row < region.row + region.rows; row++) for (let column = region.column; column < region.column + region.columns; column++) {
+        const index = row * sector.columns + column, key = `${sector.index}:${index}`; if (ids.has(key)) continue; ids.add(key);
+        const face = info.scene.segments[sector.index].faces[index];
+        if (sector.cells[index].covered) cells.push({sector: sector.index, cell: index, face, vertices: sector.vertices});
+      }
+    }
+    info.supportCells.set(lookup.node.zone, cells);
+  }
+  let best = null;
+  for (const cell of cells) {
+    const [tl, tr, bl, br] = cell.face.gridIndices.map(i => cell.vertices[i].slice(0, 3));
+    const triangles = cell.face.vertexFlags & 4 ? [[tl, tr, bl], [tr, br, bl]] : [[tl, tr, br], [tl, br, bl]];
+    for (const triangle of triangles) {
+      const point = closestTriangle(position, ...triangle), distanceSquared = squared(position, point);
+      if (!best || distanceSquared < best.distanceSquared) best = {sector: cell.sector, cell: cell.cell, point, distanceSquared};
+    }
+  }
+  return best;
+}
+
+function findRaceLayoutCheckpointSector(info, originalSector, position, direction) {
+  if (!info.grid.available) return null;
+  info.checkpointPlanes ??= new Map();
+  const cacheKey = `${originalSector}:${position.join(',')}:${direction.join(',')}`;
+  if (info.checkpointPlanes.has(cacheKey)) return info.checkpointPlanes.get(cacheKey);
+  const retain = result => {info.checkpointPlanes.set(cacheKey, result); if (info.checkpointPlanes.size > 128) info.checkpointPlanes.delete(info.checkpointPlanes.keys().next().value); return result;};
+  const projection = vertex => direction.reduce((sum, n, axis) => (sum + (Math.imul(n, vertex[axis] - position[axis]) >> 6)) | 0, 0);
+  const inSector = sector => {
+    let best = null; const segments = [];
+    for (const cell of sector.cells) {
+      if (!cell.covered) continue;
+      const face = info.scene.segments[sector.index].faces[cell.index], [tl, tr, bl, br] = face.gridIndices.map(i => sector.vertices[i].slice(0, 3));
+      const triangles = face.vertexFlags & 4 ? [[tl, tr, bl], [tr, br, bl]] : [[tl, tr, br], [tl, br, bl]];
+      for (const triangle of triangles) {
+        const values = triangle.map(projection); if (Math.min(...values) > 0 || Math.max(...values) < 0) continue;
+        const points = [];
+        for (let i = 0; i < 3; i++) {
+          const next = (i + 1) % 3, a = values[i], b = values[next];
+          if (!a) points.push(triangle[i]);
+          if (a < 0 && b > 0 || a > 0 && b < 0) points.push(add(triangle[i], sub(triangle[next], triangle[i]), a / (a - b)));
+        }
+        const candidates = values.every(n => n === 0) ? [closestTriangle(position, ...triangle)] : points.length === 1 ? points
+          : points.flatMap((a, i) => points.slice(i + 1).map(b => closestSegment(position, a, b)));
+        if (values.every(n => n === 0)) for (let i = 0; i < 3; i++) segments.push([triangle[i], triangle[(i + 1) % 3]]);
+        else if (points.length === 1) segments.push([points[0], points[0]]);
+        else if (points.length > 1) {
+          let ends = [points[0], points[1]], length = squared(...ends);
+          for (let i = 0; i < points.length; i++) for (let j = i + 1; j < points.length; j++) if (squared(points[i], points[j]) > length) {ends = [points[i], points[j]]; length = squared(...ends);}
+          segments.push(ends);
+        }
+        for (const point of candidates) {
+          const distanceSquared = squared(position, point);
+          if (!best || distanceSquared < best.distanceSquared) best = {sector: sector.index, cell: cell.index, point, distanceSquared};
+        }
+      }
+    }
+    return best ? {...best, segments} : null;
+  };
+  // 449d40 uses an infinite plane. The anchor can lie outside populated road
+  // cells. Preserve its authored sector whenever that plane still cuts covered
+  // terrain there, instead of treating the anchor as a point to snap to ground.
+  const original = info.grid.sectors[originalSector]; if (original) {const found = inSector(original); if (found) return retain(found);}
+  let best = null;
+  for (const sector of info.grid.sectors) {
+    if (sector.index === originalSector || sector.index > 255) continue;
+    const found = inSector(sector); if (found && (!best || found.distanceSquared < best.distanceSquared)) best = found;
+  }
+  return retain(best);
+}
+
+function inspectRaceLayoutFallback(data, spatial, groups) {
+  if (!spatial.available || !groups.some(g => g.count)) return {available: false, table: 0, count: 0, entries: [], nodes: []};
+  const table = data.readUInt32LE(0xac), count = data.readUInt16LE(0x96);
+  if (table + count * 4 > data.length) throw Error('Race fallback/model-link table exceeds resource bounds.');
+  const entries = Array.from({length: count}, (_, i) => data.readUInt32LE(table + i * 4));
+  const nodes = spatial.nodes.map(node => {
+    const start = node.boundsWord >>> 22, length = node.boundsWord >>> 19 & 7;
+    if (start + length >= count) throw Error('Race fallback/model-link group exceeds resource bounds.');
+    const word = entries[start], group = word >>> 16, point = word & 65535;
+    if (!groups[group]?.points[point]) throw Error('Race fallback references a missing authored route point.');
+    return {node: node.index, start, length, word, group, point, models: entries.slice(start + 1, start + length + 1)};
+  });
+  return {available: true, table, count, entries, nodes};
+}
+
+function nodeFootprints(data, spatial) {
+  const result = spatial.nodes.map(() => []), intervalCache = new Map();
+  const intervals = (lower, upper) => {
+    const key = `${lower}:${upper}`; if (intervalCache.has(key)) return intervalCache.get(key);
+    const ranges = [];
+    // 4286e0 maps signed Q16 coordinates to 256-unit Y bins, with a +32
+    // unsigned-word bias. Preserve that wrap for the editor's layer domains.
+    for (let k = -128; k < 128; k++) {
+      const bin = (k + 32) & 65535; if (bin <= lower || bin > upper) continue;
+      const a = k * 256, b = k * 256 + 255;
+      if (ranges.length && ranges.at(-1)[1] + 1 === a) ranges.at(-1)[1] = b; else ranges.push([a, b]);
+    }
+    intervalCache.set(key, ranges); return ranges;
+  };
+  for (const row of spatial.rows) for (const range of row.ranges) for (let column = range.start; column <= range.end; column++) {
+    let index = data.readUInt16LE(row.mapPointer + (range.cellStart + column - range.start) * 2) / 12, upper = 65535;
+    for (;;) {
+      const node = spatial.nodes[index], lower = node.continues ? spatial.nodes[index + 1].heightThreshold : -1;
+      result[index].push({x0: (column - 128) * 256, x1: (column - 128) * 256 + 255,
+        z0: (row.index - 128) * 256, z1: (row.index - 128) * 256 + 255, intervals: intervals(lower, upper)});
+      if (!node.continues) break; upper = Math.min(upper, lower); index++;
+    }
+  }
+  return result;
+}
+
+const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+function closestHeight(value, intervals) {
+  let best = null;
+  for (const [a, b] of intervals) {const y = clamp(value, a, b); if (best === null || Math.abs(value - y) < Math.abs(value - best)) best = y;}
+  return best;
+}
+function footprintScore(point, footprints, anchorY) {
+  let maximum = 0, total = 0;
+  for (const cell of footprints) {
+    const y = closestHeight(point[1], cell.intervals), centerY = closestHeight(anchorY, cell.intervals);
+    if (y === null || centerY === null) continue;
+    const nearest = [clamp(point[0], cell.x0, cell.x1), y, clamp(point[2], cell.z0, cell.z1)], distance = squared(point, nearest);
+    maximum = Math.max(maximum, distance); total += squared(point, [(cell.x0 + cell.x1) / 2, centerY, (cell.z0 + cell.z1) / 2]);
+  }
+  return [maximum, total];
+}
+const better = (a, b) => a[0] < b[0] || a[0] === b[0] && a[1] < b[1];
+
+function rebuildRaceLayoutFallback(source, edited, info) {
+  const moved = new Map(), current = new Map();
+  for (const route of info.routes) {
+    const position = [0, 2, 4].map(n => edited.readInt16LE(route.offset + n)); current.set(`${route.group}:${route.point}`, position);
+    if (!same(position, route.position)) {if (!moved.has(route.group)) moved.set(route.group, new Set()); moved.get(route.group).add(route.point);}
+  }
+  if (!moved.size) return {data: edited, changedNodes: [], tableWords: info.fallback.count};
+  if (!info.fallback.available) throw Error('Route movement requires the native spatial fallback map.');
+  const footprints = nodeFootprints(source, info.spatial), replacements = new Map(), changes = [];
+  for (const row of info.fallback.nodes) {
+    if (!moved.has(row.group) || !footprints[row.node].length) continue;
+    const group = info.groups[row.group], anchorY = group.points[row.point].position[1];
+    let selected = row.point, score = footprintScore(current.get(`${row.group}:${selected}`), footprints[row.node], anchorY);
+    // Preserve authored group choice. If its chosen point moved, reconsider all
+    // existing points of that group. Otherwise only an improved moved point may
+    // displace the authored choice; unrelated authored nearest-map policy stays.
+    const candidates = moved.get(row.group).has(row.point) ? group.points.map(p => p.point) : [...moved.get(row.group)];
+    for (const index of candidates) {
+      const candidate = footprintScore(current.get(`${row.group}:${index}`), footprints[row.node], anchorY);
+      if (!moved.get(row.group).has(row.point)) {
+        const prior = footprintScore(group.points[index].position, footprints[row.node], anchorY);
+        if (!better(candidate, prior)) continue;
+      }
+      if (better(candidate, score)) {selected = index; score = candidate;}
+    }
+    if (selected !== row.point) {
+      const word = (row.group * 65536 + selected) >>> 0; replacements.set(row.node, word);
+      changes.push({node: row.node, group: row.group, previousPoint: row.point, point: selected, aliasedCells: footprints[row.node].length});
+    }
+  }
+  if (!changes.length) return {data: edited, changedNodes: [], tableWords: info.fallback.count};
+  const words = [], groups = new Map(), starts = [];
+  for (const row of info.fallback.nodes) {
+    const values = [replacements.get(row.node) ?? row.word, ...row.models], signature = values.join(','); let start = groups.get(signature);
+    if (start === undefined) {start = words.length; groups.set(signature, start); words.push(...values);}
+    if (start > 1023 || words.length > 65535) throw Error('Route fallback rebuild exceeds the native shared model-link table capacity. Reduce the changed route area.');
+    starts.push(start);
+  }
+  const offset = Math.ceil(edited.length / 4) * 4, out = Buffer.alloc(offset + words.length * 4);
+  if (out.length > 128 * 1024 * 1024) throw Error('Race-layout resource exceeds 128 MiB.');
+  out.set(edited); words.forEach((word, i) => out.writeUInt32LE(word, offset + i * 4)); out.writeUInt32LE(offset, 0xac); out.writeUInt16LE(words.length, 0x96);
+  for (const [index, start] of starts.entries()) out.writeUInt32LE(((info.spatial.nodes[index].boundsWord & 0x3fffff) | start << 22) >>> 0, info.spatial.nodes[index].offset);
+  return {data: out, changedNodes: changes, tableWords: words.length};
+}
+
+Object.assign(module.exports, {findRaceLayoutTerrainSupport,findRaceLayoutCheckpointSector,inspectRaceLayoutFallback,rebuildRaceLayoutFallback});
+},
+"tools/track-viewer/pickup-picking.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
+//CPU editor picking uses the exact static display mesh and view/projection.
+//It never writes game data or a running simulation. Scene identity owns the
+//cached terrain BVH; changing tracks releases it through the WeakMap.
+const terrainCache = new WeakMap();
+const vector = value => value?.length === 3 && Array.from(value).every(Number.isFinite);
+const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
+const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
+const normalize = value => {const length=Math.hypot(...value);return length>0?value.map(n=>n/length):null;};
+
+const sourceToDisplay = ([x,y,z]) => [x,y===0?0:-y,z===0?0:-z];
+const displayToSource = sourceToDisplay;
+
+function rectangle(rect) {
+  if(!rect||![rect.left,rect.top,rect.width,rect.height].every(Number.isFinite)||rect.width<=0||rect.height<=0)return null;
+  return rect;
+}
+function transform(matrix,x,y,z,w) {
+  return [0,1,2,3].map(row=>matrix[row]*x+matrix[4+row]*y+matrix[8+row]*z+matrix[12+row]*w);
+}
+//Gauss-Jordan on doubles, retaining the column-major WebGL convention.
+function inverse(matrix) {
+  if(matrix?.length!==16||!Array.from(matrix).every(Number.isFinite))return null;
+  const rows=Array.from({length:4},(_,r)=>[...Array.from({length:4},(_,c)=>matrix[c*4+r]),...Array.from({length:4},(_,c)=>Number(r===c))]);
+  for(let column=0;column<4;column++) {
+    let pivot=column;for(let r=column+1;r<4;r++)if(Math.abs(rows[r][column])>Math.abs(rows[pivot][column]))pivot=r;
+    if(Math.abs(rows[pivot][column])<1e-15)return null;
+    [rows[column],rows[pivot]]=[rows[pivot],rows[column]];
+    const scale=rows[column][column];for(let c=0;c<8;c++)rows[column][c]/=scale;
+    for(let r=0;r<4;r++)if(r!==column){const amount=rows[r][column];for(let c=0;c<8;c++)rows[r][c]-=rows[column][c]*amount;}
+  }
+  return Array.from({length:16},(_,i)=>rows[i%4][4+Math.floor(i/4)]);
+}
+function unproject(matrix,x,y,z) {
+  const point=transform(matrix,x,y,z,1);if(!Number.isFinite(point[3])||Math.abs(point[3])<1e-15)return null;
+  return point.slice(0,3).map(n=>n/point[3]);
+}
+
+function cameraRay(navigation,canvasRect,clientX,clientY) {
+  const rect=rectangle(canvasRect);
+  if(!rect||![clientX,clientY].every(Number.isFinite)||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
+  const matrix=inverse(navigation.matrix(rect.width/rect.height));if(!matrix)return null;
+  const x=(clientX-rect.left)/rect.width*2-1,y=1-(clientY-rect.top)/rect.height*2;
+  const near=unproject(matrix,x,y,-1),far=unproject(matrix,x,y,1);if(!near||!far)return null;
+  const direction=normalize(far.map((n,i)=>n-near[i]));if(!direction)return null;
+  //Navigation owns the camera position; this keeps hit distances in scene
+  //units from the eye, rather than from the perspective near plane.
+  const origin=navigation.position();if(!vector(origin))return null;
+  return {origin:[...origin],direction};
+}
+
+function bytesOf(value) {
+  if(typeof value==='string')return Uint8Array.from(atob(value),letter=>letter.charCodeAt(0));
+  if(value instanceof ArrayBuffer)return new Uint8Array(value);
+  if(ArrayBuffer.isView(value))return new Uint8Array(value.buffer,value.byteOffset,value.byteLength);
+  throw Error('Terrain picking requires decoded mesh bytes.');
+}
+function buildTerrain(scene) {
+  if(!scene||!Array.isArray(scene.groups))throw Error('Terrain picking requires decoded scene groups.');
+  const groups=scene.groups.filter(group=>group.kind==='terrain');
+  let count=0;for(const group of groups){if(!Number.isSafeInteger(group.vertices)||group.vertices<0||group.vertices%3)throw Error('Terrain picking requires triangle-list vertices.');count+=group.vertices/3;}
+  const positions=new Float64Array(count*9),identities=[];let cursor=0;
+  for(const group of groups) {
+    for(let triangle=0;triangle<group.vertices/3;triangle++)identities.push({sector:group.segment,cell:group.triangleCells?.[triangle]??null});
+    const bytes=bytesOf(group.buffer),stride=group.colored?44:32;
+    if(group.vertices*stride>bytes.byteLength)throw Error('Terrain picking mesh exceeds its decoded buffer.');
+    const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+    for(let vertex=0;vertex<group.vertices;vertex++)for(let axis=0;axis<3;axis++){
+      const value=view.getFloat32(vertex*stride+axis*4,true);if(!Number.isFinite(value))throw Error('Terrain picking mesh has a nonfinite position.');positions[cursor++]=value;
+    }
+  }
+  const order=Array.from({length:count},(_,i)=>i);let nodes=0;
+  function build(start,end) {
+    nodes++;const minimum=[Infinity,Infinity,Infinity],maximum=[-Infinity,-Infinity,-Infinity];
+    for(let i=start;i<end;i++)for(let vertex=0;vertex<3;vertex++)for(let axis=0;axis<3;axis++){
+      const value=positions[order[i]*9+vertex*3+axis];minimum[axis]=Math.min(minimum[axis],value);maximum[axis]=Math.max(maximum[axis],value);
+    }
+    const node={minimum,maximum,start,end};
+    if(end-start>12){let axis=0;for(let a=1;a<3;a++)if(maximum[a]-minimum[a]>maximum[axis]-minimum[axis])axis=a;
+      const center=i=>positions[i*9+axis]+positions[i*9+3+axis]+positions[i*9+6+axis];
+      const sorted=order.slice(start,end).sort((a,b)=>center(a)-center(b)||a-b);for(let i=0;i<sorted.length;i++)order[start+i]=sorted[i];
+      const middle=(start+end)>>>1;node.left=build(start,middle);node.right=build(middle,end);
+    }
+    return node;
+  }
+  const root=count?build(0,count):null;
+  return {positions,order,root,identities,stats:Object.freeze({triangles:count,nodes,builds:1})};
+}
+function terrain(scene) {let cached=terrainCache.get(scene);if(!cached){cached=buildTerrain(scene);terrainCache.set(scene,cached);}return cached;}
+function prepareTerrainPicking(scene) {return terrain(scene).stats;}
+
+function boxDistance(node,origin,direction,limit) {
+  let near=0,far=limit;
+  for(let axis=0;axis<3;axis++){
+    if(Math.abs(direction[axis])<1e-15){if(origin[axis]<node.minimum[axis]||origin[axis]>node.maximum[axis])return null;continue;}
+    let a=(node.minimum[axis]-origin[axis])/direction[axis],b=(node.maximum[axis]-origin[axis])/direction[axis];if(a>b)[a,b]=[b,a];
+    near=Math.max(near,a);far=Math.min(far,b);if(near>far)return null;
+  }
+  return near;
+}
+function triangleDistance(positions,index,origin,direction) {
+  const p=index*9,a=[positions[p],positions[p+1],positions[p+2]],e1=[0,1,2].map(i=>positions[p+3+i]-a[i]),e2=[0,1,2].map(i=>positions[p+6+i]-a[i]);
+  const h=cross(direction,e2),det=dot(e1,h);if(Math.abs(det)<1e-10)return null;
+  const inverseDet=1/det,s=origin.map((n,i)=>n-a[i]),u=dot(s,h)*inverseDet;if(u<-1e-9||u>1+1e-9)return null;
+  const q=cross(s,e1),v=dot(direction,q)*inverseDet;if(v<-1e-9||u+v>1+1e-9)return null;
+  const t=dot(e2,q)*inverseDet;return t>=-1e-9?Math.max(0,t):null;
+}
+function intersectTerrain(scene,ray) {
+  if(!ray||!vector(ray.origin)||!vector(ray.direction))return null;
+  const direction=normalize(Array.from(ray.direction));if(!direction)return null;
+  const cached=terrain(scene);if(!cached.root)return null;
+  let distance=Infinity,selected=null;const stack=[cached.root];
+  while(stack.length){const node=stack.pop();if(boxDistance(node,ray.origin,direction,distance)===null)continue;
+    if(node.left){const a=boxDistance(node.left,ray.origin,direction,distance),b=boxDistance(node.right,ray.origin,direction,distance);
+      if(a!==null&&b!==null){if(a<b)stack.push(node.right,node.left);else stack.push(node.left,node.right);}else if(a!==null)stack.push(node.left);else if(b!==null)stack.push(node.right);
+    }else for(let i=node.start;i<node.end;i++){const hit=triangleDistance(cached.positions,cached.order[i],ray.origin,direction);if(hit!==null&&hit<distance){distance=hit;selected=cached.identities[cached.order[i]];}}
+  }
+  return Number.isFinite(distance)?{position:Array.from(ray.origin,(n,i)=>n+direction[i]*distance),distance,...selected}:null;
+}
+
+function pickPickup(pointsDisplay,navigation,canvasRect,clientX,clientY,{radiusPx=10}={}) {
+  const rect=rectangle(canvasRect);
+  if(!rect||![clientX,clientY,radiusPx].every(Number.isFinite)||radiusPx<0||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
+  const matrix=navigation.matrix(rect.width/rect.height);let selected=null,best=radiusPx*radiusPx,bestDepth=Infinity;
+  for(let index=0;index<pointsDisplay.length;index++){
+    const point=pointsDisplay[index];if(!vector(point))continue;
+    const clip=transform(matrix,...point,1);if(clip[3]<=0)continue;
+    const [x,y,z]=clip.slice(0,3).map(n=>n/clip[3]);if(x<-1||x>1||y<-1||y>1||z<-1||z>1)continue;
+    const px=rect.left+(x+1)*rect.width/2,py=rect.top+(1-y)*rect.height/2,d=(px-clientX)**2+(py-clientY)**2;
+    if(d<best||d===best&&z<bestDepth){selected=index;best=d;bestDepth=z;}
+  }
+  return selected;
+}
+
+Object.assign(module.exports, {sourceToDisplay,displayToSource,cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
+},
+"tools/track-viewer/collision-overlay.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {});
+// A preview-only wire overlay, sharing the renderer's line shader and camera.
+// No collision geometry/settings enter the simulation from this component.
+class CollisionOverlay {
+  constructor(renderer){this.renderer=renderer;this.groups=[];this.draws=0;}
+  clear(){for(const group of this.groups)this.renderer.gl.deleteBuffer(group.buffer);this.groups=[];this.draws=0;}
+  set(preview){
+    this.clear();const gl=this.renderer.gl;
+    for(const group of preview.groups)for(const key of ['lines','normals'])if(group[key].length){
+      const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(group[key]),gl.STATIC_DRAW);
+      this.groups.push({buffer,count:group[key].length/3,active:group.active,normals:key==='normals'});
+    }
+  }
+  render(navigation,{show,disabled,normals}){
+    this.draws=0;if(!show||!this.groups.length)return;
+    const r=this.renderer,gl=r.gl;gl.useProgram(r.pathProgram);
+    for(const attribute of Object.values(r.attributes))gl.disableVertexAttribArray(attribute);
+    gl.enableVertexAttribArray(r.pathPosition);gl.uniformMatrix4fv(r.pathUniforms.mvp,false,navigation.matrix(r.canvas.width/r.canvas.height));
+    gl.depthMask(false);gl.disable(gl.DEPTH_TEST);
+    try{for(const group of this.groups){
+      if((!group.active&&!disabled)||(group.normals&&!normals))continue;
+      gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);gl.vertexAttribPointer(r.pathPosition,3,gl.FLOAT,false,12,0);
+      gl.uniform3fv(r.pathUniforms.color,!group.active?[0.55,0.58,0.64]:group.normals?[1,0.72,0.25]:[0.15,1,1]);
+      gl.drawArrays(gl.LINES,0,group.count);this.draws+=group.count/2;
+    }}finally{gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.disableVertexAttribArray(r.pathPosition);gl.useProgram(r.program);}
+  }
+}
+
+Object.assign(module.exports, {CollisionOverlay});
 },
 "tools/track-viewer/terrain-editor-ui.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
@@ -25950,174 +26669,6 @@ function stampTerrain(info,draft,hit,{mode='raise',radius=128,strength=8,height=
 }
 
 Object.assign(module.exports, {terrainBrushSelection,stampTerrain});
-},
-"tools/track-viewer/pickup-picking.mjs": function(require, module, Buffer) {
-Object.assign(module.exports, {cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
-//CPU editor picking uses the exact static display mesh and view/projection.
-//It never writes game data or a running simulation. Scene identity owns the
-//cached terrain BVH; changing tracks releases it through the WeakMap.
-const terrainCache = new WeakMap();
-const vector = value => value?.length === 3 && Array.from(value).every(Number.isFinite);
-const dot = (a,b) => a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
-const cross = (a,b) => [a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
-const normalize = value => {const length=Math.hypot(...value);return length>0?value.map(n=>n/length):null;};
-
-const sourceToDisplay = ([x,y,z]) => [x,y===0?0:-y,z===0?0:-z];
-const displayToSource = sourceToDisplay;
-
-function rectangle(rect) {
-  if(!rect||![rect.left,rect.top,rect.width,rect.height].every(Number.isFinite)||rect.width<=0||rect.height<=0)return null;
-  return rect;
-}
-function transform(matrix,x,y,z,w) {
-  return [0,1,2,3].map(row=>matrix[row]*x+matrix[4+row]*y+matrix[8+row]*z+matrix[12+row]*w);
-}
-//Gauss-Jordan on doubles, retaining the column-major WebGL convention.
-function inverse(matrix) {
-  if(matrix?.length!==16||!Array.from(matrix).every(Number.isFinite))return null;
-  const rows=Array.from({length:4},(_,r)=>[...Array.from({length:4},(_,c)=>matrix[c*4+r]),...Array.from({length:4},(_,c)=>Number(r===c))]);
-  for(let column=0;column<4;column++) {
-    let pivot=column;for(let r=column+1;r<4;r++)if(Math.abs(rows[r][column])>Math.abs(rows[pivot][column]))pivot=r;
-    if(Math.abs(rows[pivot][column])<1e-15)return null;
-    [rows[column],rows[pivot]]=[rows[pivot],rows[column]];
-    const scale=rows[column][column];for(let c=0;c<8;c++)rows[column][c]/=scale;
-    for(let r=0;r<4;r++)if(r!==column){const amount=rows[r][column];for(let c=0;c<8;c++)rows[r][c]-=rows[column][c]*amount;}
-  }
-  return Array.from({length:16},(_,i)=>rows[i%4][4+Math.floor(i/4)]);
-}
-function unproject(matrix,x,y,z) {
-  const point=transform(matrix,x,y,z,1);if(!Number.isFinite(point[3])||Math.abs(point[3])<1e-15)return null;
-  return point.slice(0,3).map(n=>n/point[3]);
-}
-
-function cameraRay(navigation,canvasRect,clientX,clientY) {
-  const rect=rectangle(canvasRect);
-  if(!rect||![clientX,clientY].every(Number.isFinite)||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
-  const matrix=inverse(navigation.matrix(rect.width/rect.height));if(!matrix)return null;
-  const x=(clientX-rect.left)/rect.width*2-1,y=1-(clientY-rect.top)/rect.height*2;
-  const near=unproject(matrix,x,y,-1),far=unproject(matrix,x,y,1);if(!near||!far)return null;
-  const direction=normalize(far.map((n,i)=>n-near[i]));if(!direction)return null;
-  //Navigation owns the camera position; this keeps hit distances in scene
-  //units from the eye, rather than from the perspective near plane.
-  const origin=navigation.position();if(!vector(origin))return null;
-  return {origin:[...origin],direction};
-}
-
-function bytesOf(value) {
-  if(typeof value==='string')return Uint8Array.from(atob(value),letter=>letter.charCodeAt(0));
-  if(value instanceof ArrayBuffer)return new Uint8Array(value);
-  if(ArrayBuffer.isView(value))return new Uint8Array(value.buffer,value.byteOffset,value.byteLength);
-  throw Error('Terrain picking requires decoded mesh bytes.');
-}
-function buildTerrain(scene) {
-  if(!scene||!Array.isArray(scene.groups))throw Error('Terrain picking requires decoded scene groups.');
-  const groups=scene.groups.filter(group=>group.kind==='terrain');
-  let count=0;for(const group of groups){if(!Number.isSafeInteger(group.vertices)||group.vertices<0||group.vertices%3)throw Error('Terrain picking requires triangle-list vertices.');count+=group.vertices/3;}
-  const positions=new Float64Array(count*9),identities=[];let cursor=0;
-  for(const group of groups) {
-    for(let triangle=0;triangle<group.vertices/3;triangle++)identities.push({sector:group.segment,cell:group.triangleCells?.[triangle]??null});
-    const bytes=bytesOf(group.buffer),stride=group.colored?44:32;
-    if(group.vertices*stride>bytes.byteLength)throw Error('Terrain picking mesh exceeds its decoded buffer.');
-    const view=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
-    for(let vertex=0;vertex<group.vertices;vertex++)for(let axis=0;axis<3;axis++){
-      const value=view.getFloat32(vertex*stride+axis*4,true);if(!Number.isFinite(value))throw Error('Terrain picking mesh has a nonfinite position.');positions[cursor++]=value;
-    }
-  }
-  const order=Array.from({length:count},(_,i)=>i);let nodes=0;
-  function build(start,end) {
-    nodes++;const minimum=[Infinity,Infinity,Infinity],maximum=[-Infinity,-Infinity,-Infinity];
-    for(let i=start;i<end;i++)for(let vertex=0;vertex<3;vertex++)for(let axis=0;axis<3;axis++){
-      const value=positions[order[i]*9+vertex*3+axis];minimum[axis]=Math.min(minimum[axis],value);maximum[axis]=Math.max(maximum[axis],value);
-    }
-    const node={minimum,maximum,start,end};
-    if(end-start>12){let axis=0;for(let a=1;a<3;a++)if(maximum[a]-minimum[a]>maximum[axis]-minimum[axis])axis=a;
-      const center=i=>positions[i*9+axis]+positions[i*9+3+axis]+positions[i*9+6+axis];
-      const sorted=order.slice(start,end).sort((a,b)=>center(a)-center(b)||a-b);for(let i=0;i<sorted.length;i++)order[start+i]=sorted[i];
-      const middle=(start+end)>>>1;node.left=build(start,middle);node.right=build(middle,end);
-    }
-    return node;
-  }
-  const root=count?build(0,count):null;
-  return {positions,order,root,identities,stats:Object.freeze({triangles:count,nodes,builds:1})};
-}
-function terrain(scene) {let cached=terrainCache.get(scene);if(!cached){cached=buildTerrain(scene);terrainCache.set(scene,cached);}return cached;}
-function prepareTerrainPicking(scene) {return terrain(scene).stats;}
-
-function boxDistance(node,origin,direction,limit) {
-  let near=0,far=limit;
-  for(let axis=0;axis<3;axis++){
-    if(Math.abs(direction[axis])<1e-15){if(origin[axis]<node.minimum[axis]||origin[axis]>node.maximum[axis])return null;continue;}
-    let a=(node.minimum[axis]-origin[axis])/direction[axis],b=(node.maximum[axis]-origin[axis])/direction[axis];if(a>b)[a,b]=[b,a];
-    near=Math.max(near,a);far=Math.min(far,b);if(near>far)return null;
-  }
-  return near;
-}
-function triangleDistance(positions,index,origin,direction) {
-  const p=index*9,a=[positions[p],positions[p+1],positions[p+2]],e1=[0,1,2].map(i=>positions[p+3+i]-a[i]),e2=[0,1,2].map(i=>positions[p+6+i]-a[i]);
-  const h=cross(direction,e2),det=dot(e1,h);if(Math.abs(det)<1e-10)return null;
-  const inverseDet=1/det,s=origin.map((n,i)=>n-a[i]),u=dot(s,h)*inverseDet;if(u<-1e-9||u>1+1e-9)return null;
-  const q=cross(s,e1),v=dot(direction,q)*inverseDet;if(v<-1e-9||u+v>1+1e-9)return null;
-  const t=dot(e2,q)*inverseDet;return t>=-1e-9?Math.max(0,t):null;
-}
-function intersectTerrain(scene,ray) {
-  if(!ray||!vector(ray.origin)||!vector(ray.direction))return null;
-  const direction=normalize(Array.from(ray.direction));if(!direction)return null;
-  const cached=terrain(scene);if(!cached.root)return null;
-  let distance=Infinity,selected=null;const stack=[cached.root];
-  while(stack.length){const node=stack.pop();if(boxDistance(node,ray.origin,direction,distance)===null)continue;
-    if(node.left){const a=boxDistance(node.left,ray.origin,direction,distance),b=boxDistance(node.right,ray.origin,direction,distance);
-      if(a!==null&&b!==null){if(a<b)stack.push(node.right,node.left);else stack.push(node.left,node.right);}else if(a!==null)stack.push(node.left);else if(b!==null)stack.push(node.right);
-    }else for(let i=node.start;i<node.end;i++){const hit=triangleDistance(cached.positions,cached.order[i],ray.origin,direction);if(hit!==null&&hit<distance){distance=hit;selected=cached.identities[cached.order[i]];}}
-  }
-  return Number.isFinite(distance)?{position:Array.from(ray.origin,(n,i)=>n+direction[i]*distance),distance,...selected}:null;
-}
-
-function pickPickup(pointsDisplay,navigation,canvasRect,clientX,clientY,{radiusPx=10}={}) {
-  const rect=rectangle(canvasRect);
-  if(!rect||![clientX,clientY,radiusPx].every(Number.isFinite)||radiusPx<0||clientX<rect.left||clientX>rect.left+rect.width||clientY<rect.top||clientY>rect.top+rect.height)return null;
-  const matrix=navigation.matrix(rect.width/rect.height);let selected=null,best=radiusPx*radiusPx,bestDepth=Infinity;
-  for(let index=0;index<pointsDisplay.length;index++){
-    const point=pointsDisplay[index];if(!vector(point))continue;
-    const clip=transform(matrix,...point,1);if(clip[3]<=0)continue;
-    const [x,y,z]=clip.slice(0,3).map(n=>n/clip[3]);if(x<-1||x>1||y<-1||y>1||z<-1||z>1)continue;
-    const px=rect.left+(x+1)*rect.width/2,py=rect.top+(1-y)*rect.height/2,d=(px-clientX)**2+(py-clientY)**2;
-    if(d<best||d===best&&z<bestDepth){selected=index;best=d;bestDepth=z;}
-  }
-  return selected;
-}
-
-Object.assign(module.exports, {sourceToDisplay,displayToSource,cameraRay,prepareTerrainPicking,intersectTerrain,pickPickup});
-},
-"tools/track-viewer/collision-overlay.mjs": function(require, module, Buffer) {
-Object.assign(module.exports, {});
-// A preview-only wire overlay, sharing the renderer's line shader and camera.
-// No collision geometry/settings enter the simulation from this component.
-class CollisionOverlay {
-  constructor(renderer){this.renderer=renderer;this.groups=[];this.draws=0;}
-  clear(){for(const group of this.groups)this.renderer.gl.deleteBuffer(group.buffer);this.groups=[];this.draws=0;}
-  set(preview){
-    this.clear();const gl=this.renderer.gl;
-    for(const group of preview.groups)for(const key of ['lines','normals'])if(group[key].length){
-      const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(group[key]),gl.STATIC_DRAW);
-      this.groups.push({buffer,count:group[key].length/3,active:group.active,normals:key==='normals'});
-    }
-  }
-  render(navigation,{show,disabled,normals}){
-    this.draws=0;if(!show||!this.groups.length)return;
-    const r=this.renderer,gl=r.gl;gl.useProgram(r.pathProgram);
-    for(const attribute of Object.values(r.attributes))gl.disableVertexAttribArray(attribute);
-    gl.enableVertexAttribArray(r.pathPosition);gl.uniformMatrix4fv(r.pathUniforms.mvp,false,navigation.matrix(r.canvas.width/r.canvas.height));
-    gl.depthMask(false);gl.disable(gl.DEPTH_TEST);
-    try{for(const group of this.groups){
-      if((!group.active&&!disabled)||(group.normals&&!normals))continue;
-      gl.bindBuffer(gl.ARRAY_BUFFER,group.buffer);gl.vertexAttribPointer(r.pathPosition,3,gl.FLOAT,false,12,0);
-      gl.uniform3fv(r.pathUniforms.color,!group.active?[0.55,0.58,0.64]:group.normals?[1,0.72,0.25]:[0.15,1,1]);
-      gl.drawArrays(gl.LINES,0,group.count);this.draws+=group.count/2;
-    }}finally{gl.depthMask(true);gl.enable(gl.DEPTH_TEST);gl.disableVertexAttribArray(r.pathPosition);gl.useProgram(r.program);}
-  }
-}
-
-Object.assign(module.exports, {CollisionOverlay});
 },
 "tools/track-viewer/pickup-editor-ui.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {});
@@ -26526,13 +27077,13 @@ async function buildPickupGameDownload(archive, replacements, project, options =
     '4. Enable weapons/pickups when testing pickup changes. Edits apply to LOW and HIGH.', '',
     'To continue editing, reopen the same starting archives used for this project and load track-project.json.',
     'Keep those starting files with the project. The IMG/IDX in this ZIP contain the exported edits and form a new starting point.',
-    'This export contains pickup, supported scenery and terrain edits together.',
+    'This export contains terrain, surfaces, scenery, pickups and existing race-layout edits together.',
     'Scenery collision uses preserved native shapes and rebuilt conservative spatial candidate lists.',
-    'Scenery exports have parser/browser validation; original-process game compatibility is not yet established.',
+    'Selected LOW/HIGH scenery exports passed native move/yaw/add/delete initialization and actual added-model geometry contacts. See the viewer changelog for scope.',
     'Terrain height edits rebuild collision planes and conservative spatial coverage; surfaces copy complete native presets.',
-    'Terrain exports are experimental. Selected LEV1 LOW/HIGH wheel contacts and LEV16/17 loading are documented in the viewer changelog; this is not whole-track acceptance.',
+    'Terrain exports are experimental. Selected LEV1 LOW/HIGH wheel contacts and LEV16/17 loading are documented in the viewer changelog; this is not whole-track acceptance. Existing route relocation uses an editor-built fallback map, and checkpoint planes update their sector references.',
     'LEV16/17 editing is supported; AI Racing test is not verified on those levels.',
-    'Special/destructible/animated object editing and Blender import remain unsupported.', '',
+    'Existing special, scripted and particle objects support preserved-behavior transforms; rotation/copy/removal depend on the object. Blender import and new topology remain unsupported.', '',
     `Edited archive entries: ${plan.changes.map(change => typeof change === 'number' ? change : change.resourceIndex).join(', ')}`
   ].join('\n') : [
     'Rollcage pickup editor — local game export', '',
@@ -26596,6 +27147,9 @@ const {readModelMaterials} = require("src/model-materials.mjs");
 const {parseBTP} = require("src/btp.mjs");
 const {parseSpatialIndex} = require("src/spatial-index.mjs");
 const {parseStaticModelLinks} = require("src/model-links.mjs");
+const {sceneryLinkedIndices,sceneryAttachmentTargets,validateSceneryTransforms,transformSceneryAttachments} = require("src/scenery-transforms.mjs");
+const {inspectScriptedScenery,scriptedSceneryPreview,compileScriptedSceneryTransforms} = require("src/scripted-scenery-editor.mjs");
+Object.assign(module.exports, Object.fromEntries([["applySceneryTransform"]].map(([source, target = source]) => [target, require("src/scenery-transforms.mjs")[source]])));
 
 const SCENERY_LEVELS = Object.freeze(Array.from({length:20}, (_, i) => i + 1));
 // Leave half the recovered 512-body registry for vehicles, pickups and effects.
@@ -26609,29 +27163,50 @@ const checkedWord = (n,label) => {if (!Number.isInteger(n) || n < 0 || n > 65535
 const append = (data,extra) => {const offset = Math.ceil(data.length/4)*4, out = Buffer.alloc(offset+extra.length); if (out.length > 128*1024*1024) throw Error('Edited resource exceeds the 128 MB resource limit.'); out.set(data); out.set(extra,offset); return {data:out,offset};};
 const join = (a,b) => {const out = Buffer.alloc(a.length+b.length); out.set(a); out.set(b,a.length); return out;};
 
-// 44c2b0 / 48ee80: class 7 with no group or attachments is the plain,
-// non-destructible constructor path. Class 0 alone does NOT mean static scenery.
+// 44c2b0 constructs ordinary classes through one position/quaternion producer.
+// Existing special objects keep their authored behavior and identities. Import,
+// duplication and deletion remain narrower than original-object transforms.
 function inspectScenery(data,texture) {
-  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models);
-  return placements.records.filter(p => p.type === 0 && (p.flags & 0x400)).map(p => {
-    let reason = '';
+  const gfxm = parseGFXM(data), placements = parsePlacements(texture,gfxm.models), linked=sceneryLinkedIndices(placements),scripted=inspectScriptedScenery(data,placements),adjacency=new Map(),attachmentOwners=new Map();
+  for(const p of placements.records.filter(p=>p.type===0||p.type===24))for(let slot=0;slot<5;slot++){const handle=p.raw.readUInt16LE(46+slot*2),type=handle>>>12;if(!type)break;if([1,3,4].includes(type)){const key=`${type}:${handle&4095}`;if(!attachmentOwners.has(key))attachmentOwners.set(key,[]);attachmentOwners.get(key).push(p.index);}}
+  for(const members of [...linked.values(),...scripted.linked.values(),...attachmentOwners.values()])for(const index of members){if(!adjacency.has(index))adjacency.set(index,new Set());for(const other of members)adjacency.get(index).add(other);}
+  const connected=index=>{const queue=[index],found=new Set();while(queue.length){const n=queue.pop();if(found.has(n))continue;found.add(n);for(const other of adjacency.get(n)??[])queue.push(other);}return [...found].sort((a,b)=>typeof a==='number'&&typeof b==='number'?a-b:String(a).localeCompare(String(b)));};
+  return placements.records.filter(p => (p.type === 0 && (p.flags & 0x400))||[2,13,24].includes(p.type)).map(p => {
+    if(p.type===2||p.type===13)return {index:p.index,modelIndex:null,position:[...p.position],yaw:p.angles[1],editable:true,reason:'',importable:false,duplicable:false,removable:false,yawEditable:false,importReason:'Original particle emitters support translation only; preserve shared attachment numbering.',linkedIndices:[p.index],special:true,animated:false,class:null,kind:'particle',bodyType:p.type,preview:{modelIndex:null,position:[...p.position],angles:[...p.angles],uvStarts:null,bodyType:p.type},script:null};
+    if(p.type===24){
+      const info=scripted.rows.get(p.index),members=connected(p.index);let reason=info?.reason??'';
+      try{sceneryAttachmentTargets(data,p);}catch(error){reason=error.message;}
+      if(info?.modelIndex!==null&&!gfxm.models[info?.modelIndex])reason='Animated object references a missing model.';
+      const sharedLightIds=members.filter(n=>typeof n==='string'&&n.startsWith('light-')).map(n=>Number(n.slice(6)));
+      return {index:p.index,modelIndex:info?.modelIndex??null,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable:false,duplicable:false,removable:false,yawEditable:false,importReason:'Animated objects preserve original script ownership; duplication/import/removal is unsupported.',linkedIndices:members.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:true,animated:true,class:p.raw[31],kind:info?.kind??'animated',bodyType:info?.bodyType,preview:info?scriptedSceneryPreview(data,p,info):null,script:info?.script?{index:p.raw[38],spawn:p.raw[39],commands:info.script.commands.map(c=>({...c})),path:info.script.coordinates.map(o=>[0,4,8].map(a=>data.readInt32LE(o+a)/65536))}:null};
+    }
+    let reason = '',importReason='',animated=false,packed=false;
     try {
-      if (p.raw[31] !== 7) throw Error('Destructible or special object class; editing is locked.');
-      if (p.raw.readUInt16LE(6) !== 65535 || p.raw[22] || p.raw[23]) throw Error('Linked object group; editing is locked.');
-      if (p.flags !== 0x400 || p.raw[28] || p.raw[29] || p.raw[38] || p.raw.subarray(46).some(n => n)) throw Error('Attached effects or special flags; editing is locked.');
-      if (p.angles[0] || p.angles[2]) throw Error('Authored tilt requires an unsupported rotation path.');
+      if (![0,1,2,3,4,7].includes(p.raw[31])) throw Error('Unrecognized authored object class; editing is locked.');
+      if (p.flags !== 0x400) throw Error('Unsupported ordinary object flags; editing is locked.');
+      const group=p.raw.readUInt16LE(6);if(group!==65535){const base=data.readUInt32LE(0x80);if(base<0x120)throw Error('Destruction group table is unavailable.');range(data,base+group*16,16,'Destruction group configuration');}
+      sceneryAttachmentTargets(data,p);
       const model = gfxm.models[p.modelIndex], collision = parseModelCollision(data,model);
       if (!collision.available) throw Error('Collision representation is not supported for editing.');
       readPlacementCollision(data,p,collision);
       for (const [slot,part] of modelParts(data,model).entries()) {
         const materials = readModelMaterials(data,part,p.uvStarts[slot]);
-        if (materials.some(face => face.animation)) throw Error('Animated materials; editing is locked.');
+        if (materials.some(face => face.animation)) animated=true;
         // 44c2b0 also ORs bit 6 into texture packet words. Retain that
         // native marker; other packed effects need separate reconstruction.
-        if(materials.some(face=>face.pageWord&~0x7f))throw Error('Unsupported packed texture mode; editing is locked.');
+        if(materials.some(face=>face.pageWord&~0x7f))packed=true;
       }
     } catch (error) {reason = error.message;}
-    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason};
+    if(reason)importReason=reason;
+    else if(p.raw[31]!==7)importReason='Special or destructible objects can be transformed in place; duplication/import/removal is unsupported.';
+    else if(p.raw.readUInt16LE(6)!==65535||p.raw[22]||p.raw[23])importReason='Linked object metadata cannot be duplicated or imported.';
+    else if(p.raw[28]||p.raw[29]||p.raw[38]||p.raw.subarray(46).some(n=>n))importReason='Attached effects cannot be duplicated or imported.';
+    else if(p.angles[0]||p.angles[2])importReason='Authored tilt cannot be duplicated or imported.';
+    else if(animated)importReason='Animated materials cannot be duplicated or imported.';
+    else if(packed)importReason='Packed texture mode cannot be duplicated or imported.';
+    const importable=!importReason,linkedIndices=connected(p.index),scriptLinked=scripted.uses.some(use=>linkedIndices.includes(use.owner))||linkedIndices.some(index=>typeof index!=='number'),yawEditable=!p.angles[0]&&!p.angles[2]&&!scriptLinked;
+    const sharedLightIds=linkedIndices.filter(n=>typeof n==='string'&&n.startsWith('light-')).map(n=>Number(n.slice(6)));
+    return {index:p.index,modelIndex:p.modelIndex,position:[...p.position],yaw:p.angles[1],editable:!reason,reason,importable,duplicable:importable,removable:importable,yawEditable,importReason,linkedIndices:linkedIndices.filter(n=>typeof n==='number'),sharedLightIds,operationNotice:sharedLightIds.length?'Shared standalone light paths and coverage move with this object.':'',special:!importable,animated,class:p.raw[31],kind:'ordinary'};
   });
 }
 
@@ -26761,6 +27336,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   const draft=validateSceneryRows(rows), original=createSceneryDraft(source.geometry,source.texture,level);
   if (same(draft,original)) return {geometry:Buffer.from(source.geometry),texture:Buffer.from(source.texture),indices:Object.fromEntries(original.map(p=>[p.id,p.templateIndex]))};
   const info=inspectScenery(source.geometry,source.texture), byId=new Map(draft.map(p=>[p.id,p]));
+  validateSceneryTransforms(original,draft,info);
   for (const p of original) {
     const edited=byId.get(p.id);
     if (!info.find(i=>i.index===p.templateIndex).editable && !same(p,edited)) throw Error('A locked placement cannot be changed or removed.');
@@ -26782,6 +27358,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
     const donorModels=parseGFXM(donor.geometry), placement=parsePlacements(donor.texture,donorModels.models).records[row.templateIndex];
     const eligibility=inspectScenery(donor.geometry,donor.texture).find(p=>p.index===row.templateIndex);
     if (!eligibility?.editable) throw Error(eligibility?.reason??'Unsupported scenery template.');
+    if(!existing&&!eligibility.importable)throw Error(eligibility.importReason||'Special object cannot be duplicated or imported.');
     const raw=Buffer.from(placement.raw); let modelIndex=placement.modelIndex;
     if (row.sourceLevel!==level) {
       const key=`${row.sourceLevel}:${row.templateIndex}`;
@@ -26825,9 +27402,11 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
     }
     row.position.forEach((n,i)=>raw.writeInt16LE(n,8+i*2)); raw.writeInt16LE(row.yaw,16);
     const index=existing?existing.templateIndex:records.length; if (!existing) records.push(raw); else records[index]=raw;
-    changed.add(index); indices[row.id]=index;
+    if(placement.type===0)changed.add(index); indices[row.id]=index;
   }
   if (records.length>SCENERY_PLACEMENT_LIMIT) throw Error('Track exceeds the conservative authored placement editor limit (256).');
+  data=transformSceneryAttachments(source.geometry,data,placements,original,draft);
+  data=compileScriptedSceneryTransforms(source.geometry,data,placements,original,draft);
   if (imported.size) {
     for(const [offset,bytes] of [[0xcc,uv],[0xd8,materials],[0x88,configurations],[0x1c,geometry]]) {const added=append(data,bytes);data=added.data;data.writeUInt32LE(added.offset,offset);}
     const models=Buffer.alloc(modelOffsets.length*4);modelOffsets.forEach((p,i)=>models.writeUInt32LE(p,i*4));const added=append(data,models);data=added.data;data.writeUInt32LE(added.offset,0x18);data.writeUInt16LE(modelOffsets.length,0x2c);
@@ -26837,7 +27416,7 @@ function compileScenery(source,rows,{level,quality='LOW',donors=new Map()}={},wi
   // retain indices of every special/linked original object and dispatch as skip
   // (>24) in 44c2b0. No unrelated authored reference is renumbered.
   // rebuildLinks reads original valid lists and filters tombstoned indices itself.
-  if(withSpatial)data=rebuildSceneryLinks(data,texture,changed,deleted);
+  if(withSpatial&&(changed.size||deleted.size))data=rebuildSceneryLinks(data,texture,changed,deleted);
   const parsed=parsePlacements(texture,parseGFXM(data).models);
   if(withSpatial)parseStaticModelLinks(data,parseSpatialIndex(data),parsed);
   return {geometry:data,texture,indices};
@@ -26852,6 +27431,263 @@ function rebuildSceneryLinks(data,texture,changed,deleted) {
 }
 
 Object.assign(module.exports, {SCENERY_LEVELS,SCENERY_PLACEMENT_LIMIT,inspectScenery,createSceneryDraft,validateSceneryRows,compileSceneryEdits,validateSceneryImport});
+},
+"src/scenery-transforms.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {sceneryLinkedIndices,sceneryAttachmentTargets,applySceneryTransform,validateSceneryTransforms,transformSceneryAttachments,updateSceneryLightRanges});
+const {placementMatrix,transformPlacedVertex} = require("src/fixed-math.mjs");
+const {parseSpatialIndex} = require("src/spatial-index.mjs");
+const {expandRawTerrainRanges} = require("src/body-retirement-effects.mjs");
+
+const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
+const range=(data,p,n,label)=>{if(!Number.isSafeInteger(p)||p<0x120||!Number.isSafeInteger(n)||n<0||p+n>data.length)throw Error(`${label} exceeds resource bounds.`);};
+const short=(n,label)=>{if(!Number.isInteger(n)||n< -32768||n>32767)throw Error(`${label} exceeds signed 16-bit coordinates.`);return n;};
+const yawDifference=(a,b)=>((a-b+2048)%4096+4096)%4096-2048;
+const rotate=(point,angle)=>transformPlacedVertex(point,placementMatrix([0,angle,0]),[0,0,0]).map(Math.round);
+const apply=(point,from,to)=>rotate(point.map((n,i)=>n-from.position[i]),yawDifference(to.yaw,from.yaw)).map((n,i)=>short(n+to.position[i],'Scenery attachment transform'));
+
+// 44ccbc/44cd4f: +22 chains to the previous grouped ordinary placement,
+// regardless of the shared group configuration number. Repeated group IDs
+// with +22=0 are independent objects, not one destruction chain.
+function sceneryLinkedIndices(placements) {
+  const groups=new Map(),byIndex=new Map();let previous=null;
+  for(const p of placements.records.filter(p=>p.type===0)){
+    if(p.raw.readUInt16LE(6)===65535){byIndex.set(p.index,[p.index]);continue;}
+    if(p.raw[22]){
+      if(previous===null)throw Error('Destruction chain has no preceding grouped object.');
+      const group=byIndex.get(previous);group.push(p.index);byIndex.set(p.index,group);
+    }else{const group=[p.index];groups.set(p.index,group);byIndex.set(p.index,group);}
+    previous=p.index;
+  }
+  return byIndex;
+}
+
+// These authored locations are read by 44e220 and 44f3a0. Type2 lights use
+// local model points at construction; type5 handles trigger scripts on release
+// and carry no authored world position to move here.
+function sceneryAttachmentTargets(data,placement) {
+  const result=[];
+  for(let i=0;i<5;i++){
+    const handle=placement.raw.readUInt16LE(46+i*2),type=handle>>>12,id=handle&4095;if(!type)break;
+    if(![1,2,3,4,5].includes(type))throw Error('Unknown scenery attachment type.');
+    if(type===1){
+      if(id>=data.readUInt32LE(0x48))throw Error('Attached light index is unavailable.');
+      const offset=data.readUInt32LE(0x44)+id*32;range(data,offset,32,'Attached light');
+      const scripted=Boolean(data[offset+14]),positionOffset=scripted?data.readUInt32LE(0xa8)+data[offset+15]*8:offset+6;range(data,positionOffset,6,'Attached light origin');
+      result.push({type,id,offset,scripted,positionOffset,position:[0,2,4].map(o=>data.readInt16LE(positionOffset+o))});
+    }else if(type===3||type===4){
+      const offset=data.readUInt32LE(type===3?0x108:0x10c)+id*12;range(data,offset,12,'Attached emitter');
+      result.push({type,id,offset,positionOffset:offset,position:[0,2,4].map(o=>data.readInt16LE(offset+o))});
+    }
+  }
+  return result;
+}
+
+// Editor operation, not a recovered engine helper. Native quantized yaw matrix
+// rotates the whole linked object around the selected placement's origin.
+function applySceneryTransform(rows,{id,position,yaw},info=[]) {
+  const selected=rows.find(r=>r.id===id);if(!selected)throw Error('Select a scenery placement first.');
+  const eligibility=info.find(p=>p.index===selected.templateIndex),indices=id.startsWith('original-')?(eligibility?.linkedIndices??[selected.templateIndex]):[selected.templateIndex];
+  const members=new Set(id.startsWith('original-')?indices.map(index=>`original-${index}`):[id]);
+  const target={position:position??selected.position,yaw:yaw??selected.yaw},anchor=id.startsWith('original-')&&eligibility?eligibility:selected,delta=yawDifference(target.yaw,anchor.yaw);
+  if(delta&&eligibility?.yawEditable===false)throw Error('This object supports translation only; preserve its authored orientation and complete path.');
+  return rows.map(row=>{
+    if(!members.has(row.id))return {...row,position:[...row.position]};
+    const source=row.id.startsWith('original-')?info.find(p=>p.index===row.templateIndex)??row:row;
+    const newPosition=apply(source.position,anchor,target),newYaw=short(source.yaw+delta,'Linked scenery yaw');
+    return {...row,position:newPosition,yaw:newYaw};
+  });
+}
+
+function validateSceneryTransforms(original,draft,info) {
+  const byId=new Map(draft.map(r=>[r.id,r])),visited=new Set();
+  for(const p of original){
+    const capability=info.find(i=>i.index===p.templateIndex),current=byId.get(p.id);
+    if(!current){if(!capability.removable)throw Error('This special placement cannot be removed independently.');continue;}
+    if(!capability.editable&&!same(p,current))throw Error('A locked placement cannot be changed or removed.');
+    if(capability.yawEditable===false&&current.yaw!==p.yaw)throw Error('This object supports translation only; preserve its authored orientation and complete path.');
+    const chain=capability.linkedIndices;if(chain.length<2||visited.has(chain[0]))continue;visited.add(chain[0]);
+    const wanted=applySceneryTransform(original,{id:p.id,position:current.position,yaw:current.yaw},info);
+    for(const index of chain){const id=`original-${index}`,expected=wanted.find(r=>r.id===id);if(!same(byId.get(id),expected))throw Error('Linked scenery objects must be transformed together.');}
+  }
+}
+
+function lightRangeContext(data){
+  // Reuse the recovered 44d230 range expansion over an isolated authored image;
+  // only its three explicit table roots and sector pointer entries are relocated.
+  const base=0x1000000,output=0x920000,memory=Buffer.alloc(base+data.length+16);data.copy(memory,base);
+  memory.writeUInt32LE(base+data.readUInt32LE(0x28),0x9092c0);memory.writeUInt32LE(base+data.readUInt32LE(0x20),0x90924c);
+  const table=data.readUInt32LE(0x14),count=data.readUInt32LE(0x10);range(data,table,count*4,'Light sector table');memory.writeUInt32LE(base+table,0x909240);
+  for(let i=0;i<count;i++){const sector=data.readUInt32LE(table+i*4);range(data,sector,0x60,'Light sector');memory.writeUInt32LE(base+sector,base+table+i*4);}
+  const spatial=parseSpatialIndex(data);
+  return {ranges(position,mode){const found=spatial.lookup(position.map(n=>n*65536));if(!found.found)throw Error('Attached light has no spatial registration.');expandRawTerrainRanges(base+found.node.offset,output,mode,{memory});return Buffer.from(memory.subarray(output,output+16));}};
+}
+
+function transformSceneryAttachments(source,data,placements,original,draft){
+  const oldById=new Map(original.map(r=>[r.id,r])),newById=new Map(draft.map(r=>[r.id,r])),requests=new Map();
+  for(const p of placements.records.filter(p=>(p.type===0&&(p.flags&0x400))||p.type===24)){
+    const id=`original-${p.index}`,from=oldById.get(id),to=newById.get(id);if(!from||!to)continue;
+    for(const target of sceneryAttachmentTargets(source,p)){
+      const key=`${target.type}:${target.id}`,position=apply(target.position,from,to),previous=requests.get(key);
+      if(previous&&!same(position,previous.position))throw Error('Shared attached lights or emitters must be transformed with every owning object.');
+      requests.set(key,{...target,position});
+    }
+  }
+  const changedLights=new Map();
+  for(const target of requests.values()){
+    if(target.position.every((n,i)=>n===source.readInt16LE(target.positionOffset+i*2)))continue;
+    target.position.forEach((n,i)=>data.writeInt16LE(n,target.positionOffset+i*2));
+    if(target.type===1)changedLights.set(target.id,target.position);
+  }
+  return updateSceneryLightRanges(data,changedLights);
+}
+
+function updateSceneryLightRanges(data,changedLights){
+  if(changedLights.size){
+    const context=lightRangeContext(data),lightBase=data.readUInt32LE(0x44);
+    for(const [id,position]of changedLights){const offset=lightBase+id*32;range(data,offset,32,'Moved light row');context.ranges(position,data[offset+12]).copy(data,offset+16);}
+    const count=data.readUInt32LE(0x48),start=data.readUInt32LE(0x44),bands=new Map();range(data,start,count*32,'Authored light rows');
+    for(let id=0;id<count;id++)for(let i=0;i<4;i++){
+      const packed=data.readUInt32LE(start+id*32+16+i*4);if(!packed)break;const sector=packed&255,first=(packed>>>8)&4095,last=packed>>>20;
+      for(let band=first>>>4;band<=last>>>4;band++){const key=`${sector}:${band}`;if(!bands.has(key))bands.set(key,[]);bands.get(key).push(id);}
+    }
+    for(const ids of bands.values())if(ids.length>8&&ids.some(id=>changedLights.has(id)))throw Error('Moving this attached light exceeds the native eight-light terrain-band limit.');
+  }
+  return data;
+}
+
+Object.assign(module.exports, {sceneryLinkedIndices,sceneryAttachmentTargets,applySceneryTransform,validateSceneryTransforms,transformSceneryAttachments,updateSceneryLightRanges});
+},
+"src/scripted-scenery-editor.mjs": function(require, module, Buffer) {
+Object.assign(module.exports, {scriptedSceneryKind,inspectSceneryScript,inspectScriptedScenery,scriptedSceneryPreview,buildScriptedEditorMeshes,compileScriptedSceneryTransforms});
+const objectTables = require("src/race-object-startup-tables.json");
+const {readDefaultModelMaterials} = require("src/model-materials.mjs");
+const {placementMatrix,transformPlacedVertex} = require("src/fixed-math.mjs");
+const {updateSceneryLightRanges} = require("src/scenery-transforms.mjs");
+const dispatch=Buffer.from(objectTables.find(t=>Number(t.address)===0x429d30).bytesHex,'hex');
+const kinds=new Map([[0x429cb2,25],[0x429cc6,29],[0x429cd5,31],[0x429ce9,20],[0x429cfd,32],[0x429d0c,35],[0x429d20,24]]);
+const range=(data,p,n,label)=>{if(!Number.isSafeInteger(p)||p<0x120||!Number.isSafeInteger(n)||n<0||p+n>data.length)throw Error(`${label} exceeds resource bounds.`);};
+const delta=(a,b)=>a.map((n,i)=>n-b[i]);
+const unchanged=values=>values.every(n=>n===0);
+const same=(a,b)=>a.every((n,i)=>n===b[i]);
+
+// 429c90 maps authored subtype to its original constructor. Empty type32 has
+// no model pointer, whereas the optional-route fallback is native type24.
+function scriptedSceneryKind(placement){
+  const selected=(placement.raw[31]-3)>>>0,target=selected<=8?dispatch.readUInt32LE(selected*4):0x429d20;
+  const kind=kinds.get(target);if(kind===undefined)throw Error('Unknown authored object constructor.');return kind;
+}
+
+// Decode only the linear command progression used by 476550. Stop/restart
+// opcodes keep their exact native semantics; unknown command words are not
+// guessed as lengths. Coordinate offsets identify authored absolute Q16 words.
+function inspectSceneryScript(data,index){
+  const table=data.readUInt32LE(0xa4);range(data,table+index*2,2,'Script index');const start=table+data.readUInt16LE(table+index*2),coordinates=[],commands=[];let offset=start;
+  for(let count=0;count<1024;count++){
+    range(data,offset,2,'Script command');const opcode=data.readInt16LE(offset);let length;
+    if(opcode===0)length=8;
+    else if(opcode===1)length=12;
+    else if(opcode===2){length=16;coordinates.push(offset+4);}
+    else if(opcode===3||opcode===7){range(data,offset,4,'Curve command');const segments=data.readInt16LE(offset+2);if(segments<0||segments>255)throw Error('Unsupported scenery curve segment count.');length=segments*16+52;for(let i=0;i<segments+3;i++)coordinates.push(offset+8+i*16);}
+    else if(opcode===6)length=8;
+    else if([4,5,8].includes(opcode)){commands.push({offset,opcode,length:2});return {index,start,end:offset+2,coordinates,commands,restarts:opcode===4};}
+    else throw Error('Unknown scenery script opcode; path transform is locked.');
+    range(data,offset,length,'Script command');commands.push({offset,opcode,length});offset+=length;
+  }
+  throw Error('Scenery script exceeds the bounded decoder.');
+}
+
+// Each use remains distinct even when script indices or inline tails alias.
+// Dynamic lights without an owning BTP attachment are explicit external owners
+// and prevent moving a shared path through an unrelated model control.
+function inspectScriptedScenery(data,placements){
+  const rows=new Map(),uses=[],owners=new Map(),scriptCache=new Map(),lightOwners=new Map();
+  const script=index=>{if(!scriptCache.has(index))scriptCache.set(index,inspectSceneryScript(data,index));return scriptCache.get(index);};
+  const addUse=(owner,index,spawn,startsAtSpawn=false)=>{
+    const info=script(index),use={owner,index,spawn,startsAtSpawn,info};uses.push(use);
+    const keys=info.coordinates.map(offset=>`script:${offset}`);if(info.restarts||startsAtSpawn)keys.push(`spawn:${spawn}`);
+    for(const key of keys){if(!owners.has(key))owners.set(key,new Set());owners.get(key).add(owner);}return info;
+  };
+  for(const p of placements.records.filter(p=>p.type===0||p.type===24))for(let slot=0;slot<5;slot++){
+    const handle=p.raw.readUInt16LE(46+slot*2),type=handle>>>12;if(!type)break;
+    if(type===1){const id=handle&4095;if(!lightOwners.has(id))lightOwners.set(id,[]);lightOwners.get(id).push(p.index);}
+  }
+  for(const p of placements.records.filter(p=>p.type===24)){
+    let reason='',bodyType=null,scriptInfo=null;
+    try{bodyType=scriptedSceneryKind(p);if(bodyType!==32&&(bodyType!==24||p.raw[38]))scriptInfo=addUse(p.index,p.raw[38],p.raw[39]);}
+    catch(error){reason=error.message;}
+    rows.set(p.index,{index:p.index,bodyType,modelIndex:bodyType===32?null:p.raw[3],kind:bodyType===32?'emitter':'animated',script:scriptInfo,reason});
+  }
+  const lightCount=data.readUInt32LE(0x48),lightBase=data.readUInt32LE(0x44);
+  if(lightCount)range(data,lightBase,lightCount*32,'Authored light rows');
+  for(let id=0;id<lightCount;id++)if(data[lightBase+id*32+14]){
+    const p=lightBase+id*32,indices=lightOwners.get(id)??[`light-${id}`];
+    for(const owner of indices){try{addUse(owner,data[p+14],data[p+15],true);}catch(error){const row=rows.get(owner);if(row)row.reason=error.message;else rows.set(owner,{index:owner,reason:error.message,kind:'light'});}}
+  }
+  const adjacency=new Map();for(const group of owners.values())for(const a of group){if(!adjacency.has(a))adjacency.set(a,new Set());for(const b of group)adjacency.get(a).add(b);}
+  const linked=new Map();for(const index of adjacency.keys()){
+    const found=new Set(),queue=[index];while(queue.length){const n=queue.pop();if(found.has(n))continue;found.add(n);for(const other of adjacency.get(n)??[])queue.push(other);}linked.set(index,[...found]);
+  }
+  return {rows,uses,linked};
+}
+
+function scriptedSceneryPreview(data,placement,info){
+  let position=[...placement.position];
+  // 476550 executes immediate op2 before the first velocity/curve update. This
+  // editor preview represents that initial pose; the saved row keeps its real
+  // BTP origin so a UI translation moves both representations by the same delta.
+  for(const command of info?.script?.commands??[]){
+    if(command.opcode===2)position=[0,4,8].map(o=>data.readInt32LE(command.offset+4+o)/65536);
+    else if(command.opcode!==6)break;
+  }
+  return {modelIndex:info.modelIndex,position,angles:[...placement.angles],uvStarts:null,bodyType:info.bodyType};
+}
+
+function buildScriptedEditorMeshes(data,gfxm,placements){
+  const inspected=inspectScriptedScenery(data,placements),meshes=[];
+  for(const p of placements.records.filter(p=>p.type===24)){
+    const info=inspected.rows.get(p.index);if(info?.modelIndex===null||info?.modelIndex===undefined)continue;
+    const model=gfxm.models[info.modelIndex];if(!model)throw Error('Scripted editor preview references a missing model.');
+    const preview=scriptedSceneryPreview(data,p,info),matrix=placementMatrix(preview.angles);
+    meshes.push({index:p.index,modelIndex:info.modelIndex,vertices:model.vertices.map(v=>transformPlacedVertex(v,matrix,preview.position)),faces:readDefaultModelMaterials(data,model).map(face=>({...face,uv:face.uv.slice(0,face.indices.length)}))});
+  }
+  return meshes;
+}
+
+function compileScriptedSceneryTransforms(source,data,placements,original,draft,inspection=inspectScriptedScenery(source,placements)){
+  const old=new Map(original.map(r=>[r.templateIndex,r])),next=new Map(draft.filter(r=>r.id.startsWith('original-')).map(r=>[r.templateIndex,r])),requests=new Map();
+  const ownerDelta=owner=>{const a=old.get(owner),b=next.get(owner);return a&&b?delta(b.position,a.position):[0,0,0];},externalLights=new Map();
+  for(const [owner,component]of inspection.linked)if(typeof owner==='string'&&owner.startsWith('light-')){
+    const numeric=component.filter(n=>typeof n==='number');let translation=null;
+    for(const index of numeric){const current=ownerDelta(index);if(translation&&!same(current,translation))throw Error('A shared standalone light requires every linked object to translate together.');translation??=current;}
+    externalLights.set(owner,translation??[0,0,0]);
+  }
+  const request=(offset,position,owner,format='q16')=>{
+    const previous=requests.get(offset);if(previous&&(previous.format!==format||!same(previous.position,position)))throw Error('Shared scenery scripts or restart points require every owner to translate together.');requests.set(offset,{position,owner,format});
+  };
+  for(const use of inspection.uses){
+    const a=old.get(use.owner),b=next.get(use.owner),translation=externalLights.get(use.owner)??ownerDelta(use.owner);
+    if(a&&b&&a.yaw!==b.yaw)throw Error('Scripted objects support complete-path translation only.');
+    for(const offset of use.info.coordinates){range(source,offset,12,'Script point');const position=[0,4,8].map((o,i)=>source.readInt32LE(offset+o)+translation[i]*65536);if(position.some(n=>!Number.isInteger(n)||n< -2147483648||n>2147483647))throw Error('Scripted scenery point exceeds signed Q16 storage.');request(offset,position,use.owner);}
+    if(use.info.restarts||use.startsAtSpawn){const offset=source.readUInt32LE(0xa8)+use.spawn*8;range(source,offset,8,'Script restart point');const position=[0,2,4].map((o,i)=>source.readInt16LE(offset+o)+translation[i]);if(position.some(n=>n< -32768||n>32767))throw Error('Scripted scenery restart point exceeds signed 16-bit storage.');request(offset,position.map(n=>n*65536),use.owner,'short');}
+  }
+  const writes=new Map(),put=(offset,bytes)=>{for(let i=0;i<bytes.length;i++){const p=offset+i;if(writes.has(p)&&writes.get(p)!==bytes[i])throw Error('Aliased scenery script, restart or control bytes have conflicting edits.');writes.set(p,bytes[i]);}};
+  for(const [offset,{position,format}]of requests){const bytes=Buffer.alloc(format==='short'?6:12);position.forEach((n,i)=>format==='short'?bytes.writeInt16LE(n/65536,i*2):bytes.writeInt32LE(n,i*4));put(offset,bytes);}
+  for(const use of inspection.uses){
+    const coordinates=new Set(use.info.coordinates.flatMap(offset=>Array.from({length:12},(_,i)=>offset+i)));
+    for(const command of use.info.commands)for(let i=0;i<command.length;i++){const p=command.offset+i;if(!coordinates.has(p))put(p,source.subarray(p,p+1));}
+  }
+  for(const [offset,value]of writes)if(data[offset]!==source[offset]&&data[offset]!==value)throw Error('Authored attachment data aliases scenery script/control bytes.');
+  for(const [offset,value]of writes)data[offset]=value;
+  const lightPositions=new Map();
+  for(const [owner,translation]of externalLights)if(!unchanged(translation)){
+    const id=Number(owner.slice(6)),offset=source.readUInt32LE(0x44)+id*32;range(source,offset,32,'Shared standalone light');
+    for(let i=0;i<3;i++){const value=source.readInt16LE(offset+6+i*2)+translation[i];if(value< -32768||value>32767)throw Error('Standalone light origin exceeds signed 16-bit storage.');data.writeInt16LE(value,offset+6+i*2);}
+    const spawn=source.readUInt32LE(0xa8)+source[offset+15]*8;range(source,spawn,8,'Shared standalone light spawn');lightPositions.set(id,[0,2,4].map(o=>data.readInt16LE(spawn+o)));
+  }
+  return updateSceneryLightRanges(data,lightPositions);
+}
+
+Object.assign(module.exports, {scriptedSceneryKind,inspectSceneryScript,inspectScriptedScenery,scriptedSceneryPreview,buildScriptedEditorMeshes,compileScriptedSceneryTransforms});
 },
 "src/scenery-collision-info.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {summarizeSceneryCollision,inspectSceneryCollisions});
@@ -26976,9 +27812,10 @@ Object.assign(module.exports, {collisionLabel,collisionDescription});
 },
 "src/track-editor-project.mjs": function(require, module, Buffer) {
 Object.assign(module.exports, {parseTrackProject,compileTrackDraft,validateTrackProject});
-const {SCENERY_LEVELS, validateSceneryRows, compileSceneryEdits} = require("src/scenery-editor.mjs");
+const {SCENERY_LEVELS, validateSceneryRows, compileSceneryEdits, createSceneryDraft, inspectScenery} = require("src/scenery-editor.mjs");
 const {validatePickupDraft, compilePickupEdits} = require("src/pickup-editor.mjs");
 const {compileTerrainEdits,emptyTerrainDraft} = require("src/terrain-editor.mjs");
+const {compileRaceLayoutEdits,emptyRaceLayoutDraft} = require("src/race-layout-editor.mjs");
 
 const hash = value => typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
 function fields(value,keys,label) {
@@ -26987,7 +27824,7 @@ function fields(value,keys,label) {
 function parseTrackProject(value) {
   const project=typeof value==='string'?JSON.parse(value):value;
   fields(project,['schemaVersion','game','indexSha256','sources','levels'],'track project');
-  if(![2,3].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
+  if(![2,3,4].includes(project.schemaVersion) || project.game!=='rollcage' || !hash(project.indexSha256)) throw Error('Unsupported track project or archive hash.');
   if(!Array.isArray(project.sources)||project.sources.length>SCENERY_LEVELS.length||!Array.isArray(project.levels)||project.levels.length>SCENERY_LEVELS.length) throw Error('Invalid project level list.');
   const seen=new Set(), sources=project.sources.map(source=>{
     fields(source,['level','hashes'],'source');
@@ -26998,32 +27835,47 @@ function parseTrackProject(value) {
   });
   seen.clear();
   const levels=project.levels.map(row=>{
-    fields(row,project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
+    fields(row,project.schemaVersion===4?['level','pickups','models','terrain','layout']:project.schemaVersion===3?['level','pickups','models','terrain']:['level','pickups','models'],'edited level');
     if(!SCENERY_LEVELS.includes(row.level)||seen.has(row.level)||!sources.some(s=>s.level===row.level)) throw Error('Unsupported, duplicate or missing project source.');seen.add(row.level);
     // Template existence and locked objects are validated against original bytes
     // at compile time. Never accept raw patches or caller-supplied model bytes.
     if(!Array.isArray(row.pickups)||row.pickups.length>16)throw Error('Invalid pickup draft.');
     const models=validateSceneryRows(row.models);
     if(models.some(m=>!sources.some(s=>s.level===m.sourceLevel)))throw Error('Missing donor source hash.');
-    let terrain;if(project.schemaVersion===3){
+    let terrain;if(project.schemaVersion>=3){
       fields(row.terrain,['heights','surfaces'],'terrain');
       if(!Array.isArray(row.terrain.heights)||!Array.isArray(row.terrain.surfaces)||row.terrain.heights.length>1000000||row.terrain.surfaces.length>1000000)throw Error('Invalid terrain edit list.');
       for(const r of row.terrain.heights){fields(r,['sector','vertex','height'],'height');if(Object.values(r).some(n=>!Number.isInteger(n))||r.sector<0||r.vertex<0||r.height< -32768||r.height>32767)throw Error('Invalid terrain height.');}
       for(const r of row.terrain.surfaces){fields(r,['sector','cell','sourceSector','sourceCell'],'surface');if(Object.values(r).some(n=>!Number.isInteger(n)||n<0))throw Error('Invalid surface edit.');}
       terrain=structuredClone(row.terrain);
     }
-    return {level:row.level,pickups:structuredClone(row.pickups),models,...(terrain?{terrain}:{})};
+    let layout;if(project.schemaVersion===4){
+      fields(row.layout,['routes','checkpoints','starts'],'race layout');
+      const vector=v=>Array.isArray(v)&&v.length===3&&v.every(n=>Number.isInteger(n)&&n>=-32768&&n<=32767);
+      for(const kind of ['routes','checkpoints','starts']){
+        const entries=row.layout[kind];if(!Array.isArray(entries)||entries.length>1000000)throw Error('Invalid race-layout edit list.');
+        const seen=new Set();for(const r of entries){
+          fields(r,kind==='routes'?['group','point','position','minSpeed','targetSpeed']:kind==='checkpoints'?['id','position','direction']:['index','position'],'race layout row');
+          if(!vector(r.position)||kind==='checkpoints'&&(!vector(r.direction)||r.direction.every(n=>n===0)))throw Error('Invalid race-layout coordinates.');
+          const ids=kind==='routes'?[r.group,r.point]:[kind==='checkpoints'?r.id:r.index],id=ids.join(':');
+          if(ids.some(n=>!Number.isInteger(n)||n<0)||seen.has(id))throw Error('Missing or duplicate race-layout identity.');seen.add(id);
+          if(kind==='routes'&&[r.minSpeed,r.targetSpeed].some(n=>!Number.isInteger(n)||n<0||n>255))throw Error('Route speeds require unsigned bytes.');
+        }
+      }
+      layout=structuredClone(row.layout);
+    }
+    return {level:row.level,pickups:structuredClone(row.pickups),models,...(terrain?{terrain}:{}),...(layout?{layout}:{})};
   });
   return {schemaVersion:project.schemaVersion,game:'rollcage',indexSha256:project.indexSha256,sources,levels};
 }
 
-function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft()},donors) {
+function compileTrackDraft(pair,{level,pickups,models,terrain=emptyTerrainDraft(),layout=emptyRaceLayoutDraft()},donors) {
   const result={};
   for(const quality of ['LOW','HIGH']) {
     validatePickupDraft(pair[quality].geometry,pickups);
     const geometry=compileTerrainEdits(pair[quality].geometry,terrain);
     const compiled=compileSceneryEdits({...pair[quality],geometry},models,{level,quality,donors});
-    result[quality]={...compiled,geometry:compilePickupEdits(compiled.geometry,pickups)};
+    result[quality]={...compiled,geometry:compileRaceLayoutEdits(compilePickupEdits(compiled.geometry,pickups),layout)};
   }
   return result;
 }
@@ -27035,6 +27887,14 @@ function validateTrackProject(value,{indexSha256,sources,hashes}) {
   const compiled=new Map();
   for(const row of project.levels) {
     const pair=sources.get(row.level);if(!pair)throw Error('Missing original project source.');
+    // Earlier versions inventoried ordinary type-zero models only. Their
+    // absent script-owned rows mean "unchanged", never deletion of those bodies.
+    if(project.schemaVersion<=3){
+      const info=inspectScenery(pair.LOW.geometry,pair.LOW.texture),extra=new Set(info.filter(p=>p.kind&&p.kind!=='ordinary').map(p=>p.index));
+      for(const original of createSceneryDraft(pair.LOW.geometry,pair.LOW.texture,row.level))if(extra.has(original.templateIndex)&&!row.models.some(p=>p.id===original.id))row.models.push(original);
+      const isOriginal=p=>p.sourceLevel===row.level&&p.id===`original-${p.templateIndex}`;
+      row.models=[...row.models.filter(isOriginal).sort((a,b)=>a.templateIndex-b.templateIndex),...row.models.filter(p=>!isOriginal(p))];
+    }
     compiled.set(row.level,compileTrackDraft(pair,row,sources));
   }
   return {project,compiled};

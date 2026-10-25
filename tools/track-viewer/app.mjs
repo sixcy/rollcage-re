@@ -129,8 +129,9 @@ function refreshEditorScene() {
   if (!editor?.current?.modelDraft || !selectedTrack || game?.id !== 'rollcage') return;
   const base = editor.current, quality = selectedTrack.name.startsWith('HIGH/') ? 'HIGH' : 'LOW';
   const resources = editor.resourcesFor(selectedTrack,base[quality].geometry,base[quality].texture);
-  const decoded = game.decodeTrack(resources.geometry,resources.texture);
-  renderer.setScene(decoded); scene = decoded; editor.scene = decoded;
+  const decoded = editor.decodeScene(resources.geometry,resources.texture);
+  decoded.editorScripted=Boolean(editor.modelsEditing);renderer.setScene(decoded); scene = decoded; editor.scene = decoded;
+  if(practice&&!practiceDirty)renderer.setCar(practice.session.assets);
   editor.modelPicks.clear(); editor.refresh();
   setText('counts', `${scene.segments} sectors · ${scene.instances} objects · ${scene.triangles.toLocaleString()} triangles · ${scene.textures.size} texture pages`);
 }
@@ -396,7 +397,7 @@ function frame(time) {
     paths: element('paths').checked, pathPoints: element('path-points').checked,
     pathThrough: element('path-through').checked, pathGroup: Number(element('path-group').value), car: editor?.active?null:renderedPractice
   });
-  editor?.terrain?.render(navigation);
+  editor?.terrain?.render(navigation);editor?.layout?.render(navigation);editor?.renderEditorOverlay(navigation);
   if (practice) updatePractice();
   if (navigation.mode === 'fly') setText('speed', `Speed: ${Math.round(navigation.speed).toLocaleString()} units/s`);
   requestAnimationFrame(frame);
@@ -428,14 +429,14 @@ function downloadEditorFile({filename,blob}) {
 try {
   renderer = new Renderer(canvas);
   editor = new TrackEditor({canvas,navigation,renderer,releaseMouse, onDownload:downloadEditorFile,
-    onModeChange(editing,{testing=false}={}){practice?.pause();if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
+    onModeChange(editing,{testing=false}={}){practice?.pause();if(editor&&scene&&Boolean(scene.editorScripted)!==Boolean(editor.modelsEditing)){refreshEditorScene();}if(!editing&&practiceDirty&&!testing)restartPractice();if(editing)element('practice-follow').checked=false;help();updatePractice();},
     onChange(){practice?.pause();practiceDirty=true;refreshEditorScene();updatePractice();},
     onTest(){if(!practiceInputs){refreshEditorScene();editor.say('Preview updated. AI Racing test is not verified for this level.');return;}workspaces.select('racing');element('practice-weapons').checked=true;restartPractice();practice?.start();lastFrame=0;updatePractice();editor.say(practice?'Testing edited track. Weapons are enabled; the race has restarted.':'Racing test could not start. See the Racing test error.');}
   });
   const chooseTool=()=>{
     const tool=element('editor-tool').value;
-    for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==tool&&!(tool==='surfaces'&&panel.id==='terrain-panel');
-    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else editor.perform(()=>editor.setTerrainEditing(tool));
+    for(const panel of document.querySelectorAll('[data-editor-tool]'))panel.hidden=panel.dataset.editorTool!==tool&&!(tool==='surfaces'&&panel.id==='terrain-panel')&&!(['routes','checkpoints','starts'].includes(tool)&&panel.id==='layout-panel');
+    if(tool==='models')editor.setModelsEditing(true);else if(tool==='pickups')editor.setEditing(true);else if(['routes','checkpoints','starts'].includes(tool))editor.perform(()=>editor.setLayoutEditing(tool));else editor.perform(()=>editor.setTerrainEditing(tool));
   };
   workspaces=new Workspaces(value=>{
     releaseMouse();

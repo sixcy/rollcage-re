@@ -1,0 +1,28 @@
+# Existing-track editor validation matrix
+
+Completed delivery: 2026-10-25. This ledger links usable features to the type of evidence actually collected. Original installed files stay read-only; native experiments use verified isolated copies. Raw process blobs, private installations and full archive ZIP downloads stay local.
+
+| Capability | Source and browser evidence | Original-process evidence | Limits |
+| --- | --- | --- | --- |
+| Terrain height/surfaces | Forty variants; [combined edits](../analysis/editor-combined-matrix-20261025-v2.json); [real brush/export UI](../analysis/editor-terrain-comprehensive-20261025-v1/report.json) | Selected LEV1 LOW/HIGH wheel contacts; LEV16/17 LOW/HIGH edited loading; [notes](terrain-editor.md) | Fixed X/Z topology, animation locks and native width/capacity bounds |
+| Route/checkpoint/start editing | [Wide relocation](../analysis/race-layout-relocation-matrix-20261025-v1.json), 854 checkpoint-plane checks; [browser/export](../analysis/race-layout-editor-browser-final-20261025-v1/report.json) | Combined LEV1 LOW/HIGH source spans, exact car constructor spawns; [native notes](scenery-editor-native-validation.md) | Existing graph/count/order/lap flags; editor-built fallback policy; no full-lap parity claim |
+| Ordinary special/scripted/particle transforms | [Forty-variant corpus](../analysis/special-scenery-editor-corpus-20261025-v8.json), all3846 original dispatched rows; [special UI](../analysis/editor-special-comprehensive-final-20261025-v1/report.json) | Selected class2, type24 and particle constructor results and first-tick identities in both qualities | Scripted translation, coherent shared ownership; special cloning/removal/rotation remain operation-specific |
+| Plain model add/import/delete/yaw | Focused tests, [scenery workflow](../analysis/editor-scenery-current-workspaces-20261025-v3/report.json), [repeated race restarts](../analysis/editor-race-restarts-comprehensive-20261025-v1/report.json) | LEV10 LOW/HIGH exact constructed objects, deleted-slot absence,472 links; actual added-model query through final native return | Native texture/model/collision capacities and original shape defects remain enforced |
+| Pickup authoring | [Browser/export/reload](../analysis/editor-pickup-comprehensive-20261025-v1/report.json) | Earlier six-case native pickup acceptance remains retained | LEV15 has no authored pickup template/controller; no fabricated pickup system |
+| Projects and exported archives | v1/v2/v3 migration tests; v4 round-trips; independent ZIP CRC, IDX and resource comparison; [edited-archive reopen](../analysis/editor-reopened-archive-comprehensive-20261025-v1/report.json) | Selected prepared exported resources are the ones loaded in native cases | Keep projects with their matching starting IMG/IDX pair |
+| Viewer stability | [Forty targets/workspaces](../analysis/editor-workspaces-comprehensive-20261025-v1/report.json), real Camera placement regression, collision library, linked-drag-return checks | Not a native rendering claim | Fly-in remains collision-free; editing uses an authored static snapshot |
+| Racing controls | [All AI counts](../analysis/editor-racing-workspaces-20261025-v1/report.json), [pristine700-step weapons fixture](../analysis/editor-weapons-pristine-comprehensive-20261025-v1/report.json) | Existing selected physics evidence stays separate | Super experimental, default3 Expert cars, LEV16/17 racing disabled |
+
+## Final native cases
+
+The six positive reports are ordinary move/yaw/delete/add LOW/HIGH (216 span comparisons and472 relocated links each), actual added-model contact LOW/HIGH (208 comparisons plus accepted-to-final-return chain each), and combined original-special/race-layout LOW/HIGH (532 comparisons,708 relocated links, script/particle constructors and all six exact car spawns each). [Native evidence and retained failed-observer diagnoses](scenery-editor-native-validation.md) provide direct report links.
+
+The combined native cases modify an existing class2 object, a full scripted object path and its origin, a particle emitter, route coordinates/speed, checkpoint position/direction and a starting slot. Both observed first-car constructors use edited slot0 at native [-4007,-40,1759]. They do not prove every later scripted trajectory, destruction effect, checkpoint transition or complete race.
+
+## Regression and fixture boundaries
+
+The focused editor group passed113 tests in [the retained run](../analysis/editor-comprehensive-regressions-20261025-v2/report.json), with separate current generated-page checks and [pure observer-policy checks](../analysis/editor-comprehensive-policy-20261025-v1/report.json). The historical broad suite had52 failures in unrelated/native-replay areas; no whole-repository green claim is made.
+
+The old weapons fixture includes exact expected inventories at specific ticks and requires pristine original archives. Its first run against the user's already edited archives reached equal Node/browser snapshots but failed the historical tick350 inventory expectation; [that failure is retained](../analysis/editor-weapons-comprehensive-20261025-v1/failure.json). Running the same unchanged fixture against the verified pristine baseline passes all700 steps and the required observed effects. This was a fixture boundary, with no simulation code changed to make it pass.
+
+New source/browser/native reports are exclusive outputs. The machine-readable final acceptance summary validates every listed positive report and each native owned-process cleanup record. The frozen native helper/wrapper identities and original171-file source hashes remain part of the native provenance.

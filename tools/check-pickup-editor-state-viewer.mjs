@@ -1,3 +1,4 @@
+import {selectViewerWorkspace} from './lib/check-viewer-workspace.mjs';
 // Narrow genuine DOM regressions; no original game launch or archive writes.
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
@@ -14,14 +15,14 @@ const page=await browser.newPage({viewport:{width:1440,height:1000}}),errors=[],
 page.on('pageerror',error=>errors.push(error.message));
 const inspect=()=>page.evaluate(()=>window.rollcageViewer.inspect());
 const idle=()=>page.waitForFunction(()=>!window.rollcageViewer.inspect().editor?.busy);
-const click=async id=>{await page.locator(`#${id}`).click();await idle();};
+const click=async id=>{if(id.startsWith('practice-'))await selectViewerWorkspace(page,'racing');await page.locator(`#${id}`).click();await idle();};
 let stage='load',report;
 try {
   await page.goto(pathToFileURL(path.resolve('docs/track-viewer.html')).href);
   await page.locator('#image').setInputFiles(path.join(installation,'IDXData/Rollcage.img'));
   await page.locator('#index').setInputFiles(path.join(installation,'IDXData/Rollcage.idx'));
   await page.waitForFunction(()=>{const s=window.rollcageViewer.inspect();return s.editor?.available&&!s.loading;});
-  await page.locator('#editor-enable').check();await idle();
+  await selectViewerWorkspace(page,'editor','pickups');await page.locator('#editor-enable').check();await idle();
   const original=(await inspect()).editor.pickups;
   await page.selectOption('#editor-pickup',original[0].id);
   stage='reset-pending-duplicate';await click('editor-duplicate');
@@ -44,7 +45,7 @@ try {
   await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='running');await click('practice-start');
   await page.evaluate(()=>{for(let i=0;i<100;i++)document.getElementById('practice-step').click();});
   const previous=await inspect();assert.equal(previous.practice.state,'paused');assert.ok(previous.practice.ticks>=100);
-  await page.locator('#editor-enable').check();await idle();
+  await selectViewerWorkspace(page,'editor','pickups');await page.locator('#editor-enable').check();await idle();
   assert.deepEqual((await inspect()).editor.pickups,original);
   await click('editor-test');await page.waitForFunction(()=>window.rollcageViewer.inspect().practice?.state==='running');await click('practice-start');
   state=await inspect();assert.equal(state.practice.state,'paused');assert.ok(state.practice.ticks<20,`Fresh test should restart, got ${state.practice.ticks} after ${previous.practice.ticks}`);

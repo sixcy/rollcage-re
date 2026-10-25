@@ -1,0 +1,52 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "case": "Original special object moves with class/metadata preserved; duplicate/remove disabled; undo/redo works",
+      "placement": 1
+    },
+    {
+      "case": "Linked destruction parts move together through one numeric edit",
+      "placements": [
+        28,
+        29
+      ]
+    },
+    {
+      "case": "Animated object translates its full path; yaw/deletion disabled; textured static preview and focus remain usable",
+      "placement": 77,
+      "pathPoints": 7
+    },
+    {
+      "case": "Particle-only original remains editable through marker focus and translation",
+      "placement": 40
+    },
+    {
+      "case": "Twenty idle frames do not mutate the UI; Camera selector remains usable",
+      "mutations": 0
+    },
+    {
+      "case": "Invalid partial group and scripted yaw projects reject atomically"
+    },
+    {
+      "case": "v4 round-trip and legacy v3 hydration preserve all original nonordinary objects"
+    },
+    {
+      "case": "Test changes starts a fresh three-car race with edited special objects",
+      "ticks": 30
+    },
+    {
+      "case": "LEV10 shared standalone light movement is explicit and preserves coherent path/spawn/control data",
+      "placement": 43,
+      "lights": [
+        8
+      ]
+    }
+  ],
+  "errors": [],
+  "sourceHashes": {
+    "geometry": "af294caaa34a09746a8878945173e8ee2d0a10c47892ba83e6081fc04f6d7509",
+    "texture": "225f08e8e03700090b3841304befbc337cdb07315b8f2dc0770a965686b06732"
+  },
+  "scope": "Headless Edge/source/export behavior using read-only installed archives. No original game or native special-object parity claim."
+}
