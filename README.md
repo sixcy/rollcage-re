@@ -2,7 +2,7 @@
 
 ## Links
 
-- The track editor can be found here: https://sixcy.github.io/rollcage-re/track-viewer.htmlviewer.html
+- The track editor can be found here: https://sixcy.github.io/rollcage-re/track-viewer.html
 - There is also a 3D model viewer: https://sixcy.github.io/rollcage-re/object-viewer.html
 
 ## Foreword (this section is written by me, a human)
